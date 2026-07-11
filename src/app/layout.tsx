@@ -29,11 +29,13 @@ export const metadata: Metadata = {
     siteName: "SmartLink",
     locale: "ar_LY",
     type: "website",
+    images: [{ url: "/logo.png", width: 512, height: 512 }],
   },
   twitter: {
     card: "summary_large_image",
     title: "SmartLink — منصة رقمية متكاملة",
     description: "حلول ذكية للأعمال: المنيو الرقمي، البوت الذكي، والمزيد",
+    images: ["/logo.png"],
   },
   robots: { index: true, follow: true },
 }
@@ -46,8 +48,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <meta name="mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <meta name="apple-mobile-web-app-title" content="SmartLink" />
-        <link rel="icon" type="image/svg+xml" href="/icon.svg" />
-        <link rel="alternate icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" href="/logo.png" />
+        <link rel="shortcut icon" href="/logo.png" />
+        <link rel="apple-touch-icon" href="/logo.png" />
       </head>
       <body className="min-h-screen flex flex-col antialiased overflow-x-hidden bg-[var(--background-radial),var(--background)]">
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>

@@ -6,235 +6,445 @@
   <title>SmartLink — منصة رقمية متكاملة</title>
   <meta name="description" content="SmartLink منصة رقمية متكاملة تقدم حلولاً ذكية للأعمال: المنيو الرقمي للمطاعم، البوت الذكي لفيسبوك، والمزيد"/>
   <meta name="theme-color" content="#0a0a0f"/>
-  <link rel="stylesheet" href="css/style.css"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=Noto+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth;scroll-padding-top:5rem}
+    body{background:#0a0a0f;color:oklch(0.95 0.003 30);font-family:'Cairo',system-ui,sans-serif;font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;min-height:100vh}
+    ::selection{background:oklch(0.58 0.195 45);color:#fff}
+    a{color:inherit;text-decoration:none}
+    img{max-width:100%;display:block}
+    ul{list-style:none}
+    .skip-link{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
+    .skip-link:focus{position:fixed;top:.5rem;right:.5rem;z-index:10000;width:auto;height:auto;padding:.75rem 1.5rem;background:oklch(0.58 0.195 45);color:#fff;font-size:.875rem;font-weight:700;border-radius:8px;clip:auto;overflow:visible}
+    :focus-visible{outline:2px solid oklch(0.58 0.195 45);outline-offset:2px;border-radius:8px}
+    ::-webkit-scrollbar{width:5px;height:5px}
+    ::-webkit-scrollbar-track{background:transparent}
+    ::-webkit-scrollbar-thumb{background:oklch(0.18 0.006 30);border-radius:999px}
+    .container{max-width:1200px;margin-left:auto;margin-right:auto;padding-left:1.5rem;padding-right:1.5rem}
+    .section{padding-block:5rem}
+
+    /* Noise */
+    .noise{position:fixed;inset:0;pointer-events:none;z-index:9999;opacity:.02;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+    /* Nav */
+    .nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(10,10,15,.7);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-bottom:1px solid oklch(0.18 0.006 30)}
+    .nav-inner{display:flex;align-items:center;justify-content:space-between;height:64px}
+    .nav-logo{display:flex;align-items:center;gap:.6rem;font-weight:800;font-size:1.25rem}
+    .nav-logo span{color:oklch(0.58 0.195 45)}
+    .nav-logo-icon{width:36px;height:36px;border-radius:8px;background:linear-gradient(135deg,oklch(0.58 0.195 45),oklch(0.68 0.19 45));display:grid;place-items:center;font-weight:900;font-size:.85rem;color:#fff}
+    .nav-links{display:flex;align-items:center;gap:.25rem}
+    .nav-links a{padding:.5rem 1rem;font-size:.875rem;font-weight:500;color:oklch(0.62 0.015 30);border-radius:8px;transition:color .2s,background .2s}
+    .nav-links a:hover,.nav-links a.active{color:oklch(0.95 0.003 30);background:oklch(0.58 0.195 45/.12)}
+    .nav-toggle{display:none;background:none;border:none;color:oklch(0.95 0.003 30);padding:.5rem;cursor:pointer;border-radius:8px}
+    .nav-toggle:hover{background:oklch(0.58 0.195 45/.12)}
+    .nav-toggle svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:2}
+    .mobile-menu{display:none;padding:.75rem;border-radius:12px;margin:0 .75rem .75rem;background:oklch(0.12 0.005 30/.55);backdrop-filter:blur(24px);border:1px solid oklch(0.58 0.195 45/.08)}
+    .mobile-menu.open{display:block}
+    .mobile-menu a{display:block;padding:.75rem 1rem;font-size:.9rem;color:oklch(0.62 0.015 30);border-radius:8px;transition:background .2s,color .2s}
+    .mobile-menu a:hover{background:oklch(0.58 0.195 45/.12);color:oklch(0.95 0.003 30)}
+    @media(max-width:768px){.nav-links{display:none}.nav-toggle{display:block}}
+
+    /* Hero */
+    .hero{min-height:100dvh;display:flex;align-items:center;padding-block:6rem 3rem;position:relative;overflow:hidden;background:radial-gradient(ellipse 80% 50% at 50% -8%,oklch(0.58 0.195 45/.08),transparent 70%),#0a0a0f}
+    .hero-blob{position:absolute;border-radius:50%;pointer-events:none;filter:blur(180px)}
+    .hero-blob-1{width:600px;height:600px;left:-15%;top:-20%;background:oklch(0.58 0.195 45);opacity:.12}
+    .hero-blob-2{width:450px;height:450px;right:-10%;top:25%;background:oklch(0.45 0.15 260);opacity:.08}
+    .hero-blob-3{width:500px;height:500px;left:40%;bottom:-20%;background:oklch(0.58 0.195 45);opacity:.06}
+    .hero-grid{position:absolute;inset:0;pointer-events:none;opacity:.03;background-image:linear-gradient(oklch(0.18 0.006 30)1px,transparent 1px),linear-gradient(90deg,oklch(0.18 0.006 30)1px,transparent 1px);background-size:60px 60px}
+    .hero-content{position:relative;text-align:center;max-width:900px;margin:0 auto}
+    .hero-badge{display:inline-flex;align-items:center;gap:.4rem;padding:.4rem 1.1rem;border-radius:999px;background:oklch(0.085 0.004 30/.35);border:1px solid oklch(0.58 0.195 45/.08);backdrop-filter:blur(8px);font-size:.8rem;font-weight:600;color:oklch(0.58 0.195 45);margin-bottom:2rem;animation:fu .5s cubic-bezier(.16,1,.3,1) both}
+    .hero h1{font-weight:900;font-size:clamp(2.5rem,6vw,5rem);line-height:.92;letter-spacing:-.02em;margin-bottom:1.5rem;animation:fu .6s .1s cubic-bezier(.16,1,.3,1) both}
+    .hero h1 .g{background:linear-gradient(135deg,oklch(0.58 0.195 45),oklch(0.68 0.19 45),oklch(0.75 0.18 50));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;display:block}
+    .hero h1 .sub{display:block;color:oklch(0.95 0.003 30);font-weight:800}
+    .hero h1 .dim{display:block;color:oklch(0.62 0.015 30);font-weight:600;font-size:.65em;margin-top:.15em}
+    .hero p{font-size:clamp(.95rem,1.3vw,1.125rem);color:oklch(0.62 0.015 30);max-width:600px;margin:0 auto 2.5rem;line-height:1.7;animation:fu .6s .2s cubic-bezier(.16,1,.3,1) both}
+    .hero-actions{display:flex;align-items:center;justify-content:center;gap:1rem;flex-wrap:wrap;animation:fu .6s .3s cubic-bezier(.16,1,.3,1) both}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;padding:.75rem 1.75rem;border-radius:12px;font-weight:700;font-size:.875rem;border:none;cursor:pointer;transition:color .2s,background .2s,border-color .2s,box-shadow .2s,transform .2s;color:oklch(0.95 0.003 30);white-space:nowrap}
+    .btn svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:transform .2s cubic-bezier(.16,1,.3,1)}
+    .btn-primary{background:oklch(0.58 0.195 45);color:#fff;box-shadow:0 0 30px oklch(0.58 0.195 45/.2)}
+    .btn-primary:hover{filter:brightness(1.1);box-shadow:0 0 40px oklch(0.58 0.195 45/.3);transform:translateY(-1px)}
+    .btn-primary:active{transform:scale(.97)}
+    .btn-primary:hover svg:last-child{transform:translateX(-3px)}
+    .btn-secondary{background:oklch(0.085 0.004 30/.35);border:1px solid oklch(0.58 0.195 45/.08);backdrop-filter:blur(8px)}
+    .btn-secondary:hover{background:oklch(0.58 0.195 45/.12)}
+    .hero-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:.75rem;max-width:600px;margin:3rem auto 0;animation:fu .6s .4s cubic-bezier(.16,1,.3,1) both}
+    .hero-stat{padding:.75rem .5rem;border-radius:12px;background:oklch(0.085 0.004 30/.35);border:1px solid oklch(0.58 0.195 45/.08);backdrop-filter:blur(8px);text-align:center}
+    .hero-stat-value{font-weight:800;font-size:1.25rem}
+    .hero-stat-label{font-size:.7rem;color:oklch(0.62 0.015 30);margin-top:.15rem}
+    @media(max-width:500px){.hero-stats{grid-template-columns:repeat(2,1fr)}.hero h1{font-size:clamp(2rem,10vw,2.5rem)}}
+
+    /* Section Header */
+    .section-header{text-align:center;margin-bottom:3.5rem}
+    .section-header h2{font-weight:800;font-size:clamp(1.75rem,3.5vw,2.5rem);letter-spacing:-.01em;margin-bottom:.75rem}
+    .section-header p{color:oklch(0.62 0.015 30);max-width:540px;margin:0 auto;font-size:.95rem}
+
+    /* Glass Card */
+    .glass{background:oklch(0.085 0.004 30/.35);backdrop-filter:blur(20px);border:1px solid oklch(0.58 0.195 45/.08);box-shadow:0 8px 32px oklch(0 0 0/.45),inset 0 1px 0 oklch(1 1 0/.04)}
+
+    /* Service Cards */
+    .card-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:1.5rem}
+    .service-card{border-radius:28px;padding:2.5rem;background:oklch(0.085 0.004 30/.35);backdrop-filter:blur(20px);border:1px solid oklch(0.58 0.195 45/.08);box-shadow:0 8px 32px oklch(0 0 0/.45),inset 0 1px 0 oklch(1 1 0/.04);transition:border-color .2s cubic-bezier(.16,1,.3,1),transform .2s cubic-bezier(.16,1,.3,1),box-shadow .2s cubic-bezier(.16,1,.3,1);position:relative;overflow:hidden}
+    .service-card::after{content:'';position:absolute;inset:0;border-radius:28px;opacity:0;background:radial-gradient(600px circle at var(--mx,50%) var(--my,50%),oklch(0.58 0.195 45/.06),transparent 60%);transition:opacity .4s;pointer-events:none}
+    .service-card:hover::after{opacity:1}
+    .service-card:hover{border-color:oklch(0.58 0.195 45/.2);transform:translateY(-4px);box-shadow:0 12px 48px oklch(0 0 0/.5),inset 0 1px 0 oklch(1 1 0/.06)}
+    .service-card-icon{width:52px;height:52px;border-radius:12px;display:grid;place-items:center;margin-bottom:1.25rem}
+    .service-card-icon.menu{background:oklch(0.7 0.19 60/.15);color:oklch(0.7 0.19 60)}
+    .service-card-icon.bot{background:oklch(0.55 0.15 280/.15);color:oklch(0.55 0.15 280)}
+    .service-card h3{font-weight:800;font-size:1.35rem;margin-bottom:.75rem}
+    .service-card h3 span{color:oklch(0.58 0.195 45)}
+    .service-card p{color:oklch(0.62 0.015 30);font-size:.9rem;line-height:1.7;margin-bottom:1.5rem}
+    .service-card ul{display:flex;flex-direction:column;gap:.6rem}
+    .service-card ul li{display:flex;align-items:center;gap:.5rem;font-size:.85rem;color:oklch(0.62 0.015 30)}
+    .service-card ul li::before{content:'';width:6px;height:6px;border-radius:50%;background:oklch(0.58 0.195 45);flex-shrink:0}
+    .service-card .btn{margin-top:1.5rem}
+    @media(max-width:400px){.card-grid{grid-template-columns:1fr}.service-card{padding:1.5rem}}
+
+    /* Features */
+    .features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.25rem}
+    .feature-card{padding:1.75rem;border-radius:20px;background:oklch(0.085 0.004 30/.35);backdrop-filter:blur(12px);border:1px solid oklch(0.58 0.195 45/.08);transition:border-color .2s cubic-bezier(.16,1,.3,1),transform .2s cubic-bezier(.16,1,.3,1),background .2s cubic-bezier(.16,1,.3,1);position:relative;overflow:hidden}
+    .feature-card::after{content:'';position:absolute;inset:0;border-radius:20px;opacity:0;background:radial-gradient(400px circle at var(--mx,50%) var(--my,50%),oklch(0.58 0.195 45/.05),transparent 60%);transition:opacity .4s;pointer-events:none}
+    .feature-card:hover::after{opacity:1}
+    .feature-card:hover{border-color:oklch(0.58 0.195 45/.15);transform:translateY(-2px)}
+    .feature-card svg{width:24px;height:24px;stroke:oklch(0.58 0.195 45);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;margin-bottom:1rem}
+    .feature-card h4{font-weight:700;font-size:1.05rem;margin-bottom:.4rem}
+    .feature-card p{color:oklch(0.62 0.015 30);font-size:.85rem;line-height:1.6}
+
+    /* Stats */
+    .stats-banner{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;padding:2.5rem;border-radius:28px;background:oklch(0.58 0.195 45/.06);border:1px solid oklch(0.58 0.195 45/.12);text-align:center}
+    .stat-number{font-weight:900;font-size:clamp(1.5rem,2.5vw,2.25rem);background:linear-gradient(135deg,oklch(0.58 0.195 45),oklch(0.68 0.19 45));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .stat-label{font-size:.8rem;color:oklch(0.62 0.015 30);margin-top:.15rem}
+    @media(max-width:600px){.stats-banner{grid-template-columns:repeat(2,1fr);padding:1.5rem}}
+
+    /* Testimonials */
+    .testimonial-card{padding:2rem;border-radius:20px;background:oklch(0.085 0.004 30/.35);border:1px solid oklch(0.58 0.195 45/.08);position:relative}
+    .testimonial-card::before{content:'"';position:absolute;top:.75rem;right:1.25rem;font-size:4rem;line-height:1;color:oklch(0.58 0.195 45/.15);font-weight:900}
+    .testimonial-card p{color:oklch(0.62 0.015 30);font-size:.9rem;line-height:1.7;margin-bottom:1rem}
+    .testimonial-author{display:flex;align-items:center;gap:.75rem}
+    .testimonial-avatar{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,oklch(0.58 0.195 45),oklch(0.68 0.19 45));display:grid;place-items:center;font-weight:700;font-size:.8rem;color:#fff;flex-shrink:0}
+    .testimonial-name{font-weight:600;font-size:.85rem}
+    .testimonial-role{font-size:.75rem;color:oklch(0.62 0.015 30)}
+    .testimonials-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.25rem}
+
+    /* FAQ */
+    .faq-list{max-width:700px;margin:0 auto;display:flex;flex-direction:column;gap:.75rem}
+    .faq-item{border-radius:16px;background:oklch(0.085 0.004 30/.35);border:1px solid oklch(0.58 0.195 45/.08);overflow:hidden;transition:border-color .2s}
+    .faq-item:hover{border-color:oklch(0.58 0.195 45/.15)}
+    .faq-q{display:flex;align-items:center;justify-content:space-between;gap:.5rem;padding:1.25rem 1.5rem;cursor:pointer;font-weight:600;font-size:.95rem;background:none;border:none;color:inherit;width:100%;text-align:right;font-family:inherit}
+    .faq-q svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;transition:transform .2s;flex-shrink:0}
+    .faq-item.open .faq-q svg{transform:rotate(180deg)}
+    .faq-a{padding:0 1.5rem 1.25rem;color:oklch(0.62 0.015 30);font-size:.875rem;line-height:1.7;display:none}
+    .faq-item.open .faq-a{display:block}
+
+    /* CTA */
+    .cta-box{text-align:center;padding:5rem 2rem;border-radius:28px;background:linear-gradient(135deg,oklch(0.58 0.195 45/.08),transparent);border:1px solid oklch(0.58 0.195 45/.1)}
+    .cta-box h2{font-weight:800;font-size:clamp(1.5rem,3vw,2.25rem);margin-bottom:.75rem}
+    .cta-box p{color:oklch(0.62 0.015 30);max-width:500px;margin:0 auto 2rem;font-size:.95rem}
+
+    /* Footer */
+    .footer{border-top:1px solid oklch(0.18 0.006 30);padding-block:3rem 1.5rem;margin-top:4rem}
+    .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:2rem;margin-bottom:2rem}
+    .footer-brand p{color:oklch(0.62 0.015 30);font-size:.85rem;margin-top:.75rem;line-height:1.6;max-width:280px}
+    .footer h5{font-weight:700;font-size:.9rem;margin-bottom:.75rem}
+    .footer-links{display:flex;flex-direction:column;gap:.5rem}
+    .footer-links a{color:oklch(0.62 0.015 30);font-size:.85rem;transition:color .2s}
+    .footer-links a:hover{color:oklch(0.58 0.195 45)}
+    .footer-bottom{padding-top:1.5rem;border-top:1px solid oklch(0.18 0.006 30);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem;font-size:.8rem;color:oklch(0.62 0.015 30)}
+    @media(max-width:768px){.footer-grid{grid-template-columns:1fr 1fr}}
+    @media(max-width:500px){.footer-grid{grid-template-columns:1fr}.footer-bottom{flex-direction:column;text-align:center}}
+
+    /* Animations */
+    @keyframes fu{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes fi{from{opacity:0}to{opacity:1}}
+    @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-16px)}}
+    .reveal{opacity:0;transform:translateY(24px);transition:opacity .6s cubic-bezier(.16,1,.3,1),transform .6s cubic-bezier(.16,1,.3,1)}
+    .reveal.visible{opacity:1;transform:translateY(0)}
+    @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+
+    /* Responsive */
+    @media(max-width:400px){.container{padding-inline:1rem}.section{padding-block:3rem}}
+
+    /* Floating glow CTA */
+    .float-cta{position:fixed;bottom:2rem;left:2rem;z-index:50;background:oklch(0.58 0.195 45);color:#fff;padding:.75rem 1.5rem;border-radius:999px;font-weight:700;font-size:.85rem;box-shadow:0 0 40px oklch(0.58 0.195 45/.3);transition:transform .2s,box-shadow .2s;display:flex;align-items:center;gap:.5rem}
+    .float-cta:hover{transform:translateY(-2px);box-shadow:0 0 60px oklch(0.58 0.195 45/.4)}
+    @media(min-width:900px){.float-cta{display:none}}
+  </style>
 </head>
 <body>
-  <a href="#main" class="skip-link">تخطى إلى المحتوى الرئيسي</a>
-  <div class="noise" aria-hidden="true"></div>
+<a href="#main" class="skip-link">تخطى إلى المحتوى الرئيسي</a>
+<div class="noise" aria-hidden="true"></div>
 
-  <!-- Nav -->
-  <nav class="nav" data-od-id="nav" role="navigation" aria-label="القائمة الرئيسية">
-    <div class="container nav-inner">
-      <a href="/" class="nav-logo" data-od-id="nav-logo">
-        <div class="nav-logo-icon">SL</div>
-        Smart<span>Link</span>
-      </a>
-      <div class="nav-links">
-        <a href="/" class="active">الرئيسية</a>
-        <a href="services.html">خدماتنا</a>
-        <a href="about.html">عن SmartLink</a>
-        <a href="contact.html">اتصل بنا</a>
-      </div>
-      <button class="nav-toggle" id="nav-toggle" aria-label="فتح القائمة" aria-expanded="false" data-od-id="nav-toggle">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-      </button>
+<!-- Nav -->
+<nav class="nav" data-od-id="nav" role="navigation" aria-label="القائمة الرئيسية">
+  <div class="container nav-inner">
+    <a href="/" class="nav-logo" data-od-id="nav-logo">
+      <div class="nav-logo-icon">SL</div>
+      Smart<span>Link</span>
+    </a>
+    <div class="nav-links">
+      <a href="/" class="active">الرئيسية</a>
+      <a href="services.html">خدماتنا</a>
+      <a href="about.html">عن SmartLink</a>
+      <a href="contact.html">اتصل بنا</a>
     </div>
-    <div class="mobile-menu glass-strong" id="mobile-menu" role="menu">
-      <a href="/" role="menuitem">الرئيسية</a>
-      <a href="services.html" role="menuitem">خدماتنا</a>
-      <a href="about.html" role="menuitem">عن SmartLink</a>
-      <a href="contact.html" role="menuitem">اتصل بنا</a>
-    </div>
-  </nav>
+    <button class="nav-toggle" id="nav-toggle" aria-label="فتح القائمة" aria-expanded="false" data-od-id="nav-toggle">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+  </div>
+  <div class="mobile-menu" id="mobile-menu" role="menu">
+    <a href="/" role="menuitem">الرئيسية</a>
+    <a href="services.html" role="menuitem">خدماتنا</a>
+    <a href="about.html" role="menuitem">عن SmartLink</a>
+    <a href="contact.html" role="menuitem">اتصل بنا</a>
+  </div>
+</nav>
 
-  <main id="main">
-    <!-- Hero -->
-    <section class="hero" data-od-id="hero">
-      <div class="hero-blob hero-blob-1" aria-hidden="true"></div>
-      <div class="hero-blob hero-blob-2" aria-hidden="true"></div>
-      <div class="hero-blob hero-blob-3" aria-hidden="true"></div>
-      <div class="hero-grid" aria-hidden="true"></div>
-
-      <div class="container hero-content">
-        <div class="badge" style="margin-bottom:2rem">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-          منصة رقمية متكاملة
-        </div>
-
-        <h1>
-          <span class="gradient-text">SmartLink</span>
-          <span class="sub">منصة رقمية</span>
-          <span class="dim">لخدمات ذكية</span>
-        </h1>
-
-        <p>منصة موحدة تجمع حلولنا الرقمية المبتكرة — من المنيو الرقمي للمطاعم إلى البوت الذكي لفيسبوك — كل ما تحتاجه لتنمية أعمالك في مكان واحد</p>
-
-        <div class="hero-actions">
-          <a href="services.html" class="btn btn-primary" data-od-id="cta-discover">
-            اكتشف خدماتنا
-            <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
-          </a>
-          <a href="about.html" class="btn btn-secondary" data-od-id="cta-about">
-            تعرف علينا
-          </a>
-        </div>
-
-        <div class="hero-stats reveal" data-od-id="hero-stats">
-          <div class="hero-stat"><div class="hero-stat-value" data-count="500">0</div><div class="hero-stat-label">عميل نشط</div></div>
-          <div class="hero-stat"><div class="hero-stat-value" data-count="10000">0</div><div class="hero-stat-label">منيو رقمي</div></div>
-          <div class="hero-stat"><div class="hero-stat-value" data-count="50000">0</div><div class="hero-stat-label">ردود آلية</div></div>
-          <div class="hero-stat"><div class="hero-stat-value" data-count="99">0<small>%</small></div><div class="hero-stat-label">رضا العملاء</div></div>
-        </div>
+<main id="main">
+  <!-- Hero -->
+  <section class="hero" data-od-id="hero">
+    <div class="hero-blob hero-blob-1" aria-hidden="true"></div>
+    <div class="hero-blob hero-blob-2" aria-hidden="true"></div>
+    <div class="hero-blob hero-blob-3" aria-hidden="true"></div>
+    <div class="hero-grid" aria-hidden="true"></div>
+    <div class="container hero-content">
+      <div class="hero-badge">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        منصة رقمية متكاملة
       </div>
-    </section>
-
-    <!-- Services Overview -->
-    <section class="container section" id="services" data-od-id="services-section">
-      <div class="section-header reveal">
-        <h2>خدماتنا</h2>
-        <p>حلول رقمية مبتكرة صممت خصيصاً لتطوير أعمالك وزيادة وصولك للعملاء</p>
+      <h1>
+        <span class="g">SmartLink</span>
+        <span class="sub">منصة رقمية</span>
+        <span class="dim">لخدمات ذكية</span>
+      </h1>
+      <p>منصة موحدة تجمع حلولنا الرقمية المبتكرة — من المنيو الرقمي للمطاعم إلى البوت الذكي لفيسبوك — كل ما تحتاجه لتنمية أعمالك في مكان واحد</p>
+      <div class="hero-actions">
+        <a href="services.html" class="btn btn-primary" data-od-id="cta-discover">
+          اكتشف خدماتنا
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+        </a>
+        <a href="about.html" class="btn btn-secondary" data-od-id="cta-about">تعرف علينا</a>
       </div>
-
-      <div class="card-grid">
-        <article class="service-card reveal" data-od-id="service-menu">
-          <div class="service-card-icon menu">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="16" y2="10"/><line x1="8" y1="14" x2="12" y2="14"/></svg>
-          </div>
-          <h3>Smart <span>Menu</span></h3>
-          <p>المنيو الرقمي الذكي للمطاعم والمقاهي — استقبل الطلبات عبر واتساب دون أي تعقيدات</p>
-          <ul>
-            <li>منيو رقمي تفاعلي متكامل</li>
-            <li>استقبال الطلبات عبر واتساب</li>
-            <li>تحديث المنيو في لحظات</li>
-            <li>تقارير وإحصائيات مبيعات</li>
-            <li>دعم كامل للغة العربية</li>
-          </ul>
-          <a href="https://menu.smart-link.ly" target="_blank" rel="noopener" class="btn btn-secondary">
-            جرب الآن
-            <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
-          </a>
-        </article>
-
-        <article class="service-card reveal" data-od-id="service-bot">
-          <div class="service-card-icon bot">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/><line x1="8" y1="16" x2="8" y2="16"/><line x1="16" y1="16" x2="16" y2="16"/></svg>
-          </div>
-          <h3>Smart <span>Bot</span></h3>
-          <p>البوت الذكي لإدارة صفحات فيسبوك — أتمتة كاملة للردود وإدارة المحتوى بذكاء</p>
-          <ul>
-            <li>ردود تلقائية ذكية على المنشورات</li>
-            <li>إدارة المحادثات والتعليقات</li>
-            <li>جدولة المنشورات بشكل احترافي</li>
-            <li>تحليلات أداء الصفحة</li>
-            <li>لوحة تحكم متكاملة</li>
-          </ul>
-          <a href="https://bot.smart-link.ly" target="_blank" rel="noopener" class="btn btn-secondary">
-            جرب الآن
-            <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
-          </a>
-        </article>
-      </div>
-    </section>
-
-    <!-- Features -->
-    <section class="container section" id="features" data-od-id="features-section">
-      <div class="section-header reveal">
-        <h2>لماذا SmartLink؟</h2>
-        <p>نحن نؤمن بالتكنولوجيا التي تعمل لأجلك — لا تعقيدات، لا منحنى تعلم طويل</p>
-      </div>
-
-      <div class="features-grid">
-        <div class="feature-card reveal" data-od-id="feature-speed">
-          <svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-          <h4>سرعة وأداء</h4>
-          <p>حلولنا مصممة بأحدث التقنيات لتوفير أسرع تجربة ممكنة لعملائك</p>
-        </div>
-        <div class="feature-card reveal" data-od-id="feature-simple">
-          <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-          <h4>سهولة الاستخدام</h4>
-          <p>واجهة بسيطة وعملية — لا تحتاج خبرة تقنية لبدء استخدام خدماتنا</p>
-        </div>
-        <div class="feature-card reveal" data-od-id="feature-integration">
-          <svg viewBox="0 0 24 24"><line x1="12" y1="2" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"/><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"/><line x1="2" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="22" y2="12"/><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"/><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"/></svg>
-          <h4>تكامل سلس</h4>
-          <p>كل خدماتنا تعمل معاً بتناغام — من المنيو إلى البوت إلى منصتك</p>
-        </div>
-        <div class="feature-card reveal" data-od-id="feature-local">
-          <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-          <h4>عربي محلي</h4>
-          <p>صممنا خصيصاً للسوق العربي وليبيا — واجهة كاملة بالعربية ودعم فني محلي</p>
-        </div>
-        <div class="feature-card reveal" data-od-id="feature-support">
-          <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M8 10h.01"/><path d="M12 10h.01"/><path d="M16 10h.01"/></svg>
-          <h4>دعم فني متواصل</h4>
-          <p>فريق دعم متواجد دائماً لمساعدتك — عبر واتساب، البريد، أو الهاتف</p>
-        </div>
-        <div class="feature-card reveal" data-od-id="feature-smart">
-          <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10h-10V2z"/><path d="M14 2a10 10 0 0 1 8 8h-8V2z"/></svg>
-          <h4>تحليلات ذكية</h4>
-          <p>تقارير دقيقة ومؤشرات أداء تساعدك على اتخاذ قرارات أفضل لأعمالك</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Stats -->
-    <section class="container section reveal" data-od-id="stats-section">
-      <div class="stats-banner">
-        <div><div class="stat-number">+500</div><div class="stat-label">مطعم وعميل</div></div>
-        <div><div class="stat-number">+50K</div><div class="stat-label">طلب عبر المنصة</div></div>
-        <div><div class="stat-number">+15</div><div class="stat-label">مدينة ومحافظة</div></div>
-        <div><div class="stat-number">99%</div><div class="stat-label">رضا العملاء</div></div>
-      </div>
-    </section>
-
-    <!-- CTA -->
-    <section class="container section" data-od-id="cta-section">
-      <div class="cta-box reveal">
-        <h2>استعد لانطلاقة رقمية</h2>
-        <p>تواصل معنا الآن وابدأ رحلة التحول الرقمي لأعمالك مع حلول SmartLink المتكاملة</p>
-        <div class="hero-actions">
-          <a href="https://wa.me/218910089975" target="_blank" rel="noopener" class="btn btn-primary" data-od-id="cta-whatsapp">
-            <svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
-            تواصل معنا على واتساب
-          </a>
-          <a href="services.html" class="btn btn-secondary">تصفح الخدمات</a>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <!-- Footer -->
-  <footer class="footer" data-od-id="footer">
-    <div class="container">
-      <div class="footer-grid">
-        <div class="footer-brand">
-          <a href="/" class="nav-logo">
-            <div class="nav-logo-icon">SL</div>
-            Smart<span>Link</span>
-          </a>
-          <p>منصة رقمية متكاملة تقدم حلولاً ذكية للأعمال — المنيو الرقمي للمطاعم، البوت الذكي لفيسبوك، والمزيد.</p>
-        </div>
-        <div>
-          <h5>روابط سريعة</h5>
-          <div class="footer-links">
-            <a href="/">الرئيسية</a>
-            <a href="services.html">خدماتنا</a>
-            <a href="about.html">عن SmartLink</a>
-            <a href="contact.html">اتصل بنا</a>
-          </div>
-        </div>
-        <div>
-          <h5>خدماتنا</h5>
-          <div class="footer-links">
-            <a href="https://menu.smart-link.ly" target="_blank" rel="noopener">Smart Menu</a>
-            <a href="https://bot.smart-link.ly" target="_blank" rel="noopener">Smart Bot</a>
-          </div>
-        </div>
-        <div>
-          <h5>اتصل بنا</h5>
-          <div class="footer-links">
-            <a href="https://wa.me/218910089975" target="_blank" rel="noopener">واتساب: 218910089975+</a>
-            <a href="mailto:info@smart-link.ly">info@smart-link.ly</a>
-          </div>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <span>&copy; 2026 SmartLink — جميع الحقوق محفوظة</span>
-        <span><a href="privacy.html">سياسة الخصوصية</a> · <a href="terms.html">الشروط والأحكام</a></span>
+      <div class="hero-stats reveal" data-od-id="hero-stats">
+        <div class="hero-stat"><div class="hero-stat-value" data-count="500">0</div><div class="hero-stat-label">عميل نشط</div></div>
+        <div class="hero-stat"><div class="hero-stat-value" data-count="10000">0</div><div class="hero-stat-label">منيو رقمي</div></div>
+        <div class="hero-stat"><div class="hero-stat-value" data-count="50000">0</div><div class="hero-stat-label">ردود آلية</div></div>
+        <div class="hero-stat"><div class="hero-stat-value" data-count="99">0<small style="font-size:.6em">%</small></div><div class="hero-stat-label">رضا العملاء</div></div>
       </div>
     </div>
-  </footer>
+  </section>
 
-  <script src="js/main.js"></script>
+  <!-- Services -->
+  <section class="container section" data-od-id="services-section">
+    <div class="section-header reveal">
+      <h2>خدماتنا</h2>
+      <p>حلول رقمية مبتكرة صممت خصيصاً لتطوير أعمالك وزيادة وصولك للعملاء</p>
+    </div>
+    <div class="card-grid">
+      <article class="service-card reveal" data-od-id="service-menu">
+        <div class="service-card-icon menu">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="16" y2="10"/><line x1="8" y1="14" x2="12" y2="14"/></svg>
+        </div>
+        <h3>Smart <span>Menu</span></h3>
+        <p>المنيو الرقمي الذكي للمطاعم والمقاهي — استقبل الطلبات عبر واتساب دون أي تعقيدات</p>
+        <ul>
+          <li>منيو رقمي تفاعلي متكامل</li>
+          <li>استقبال الطلبات عبر واتساب</li>
+          <li>تحديث المنيو في لحظات</li>
+          <li>تقارير وإحصائيات مبيعات</li>
+          <li>دعم كامل للغة العربية</li>
+        </ul>
+        <a href="https://menu.smart-link.ly" target="_blank" rel="noopener" class="btn btn-secondary">جرب الآن<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg></a>
+      </article>
+      <article class="service-card reveal" data-od-id="service-bot">
+        <div class="service-card-icon bot">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/><line x1="8" y1="16" x2="8" y2="16"/><line x1="16" y1="16" x2="16" y2="16"/></svg>
+        </div>
+        <h3>Smart <span>Bot</span></h3>
+        <p>البوت الذكي لإدارة صفحات فيسبوك — أتمتة كاملة للردود وإدارة المحتوى بذكاء</p>
+        <ul>
+          <li>ردود تلقائية ذكية على المنشورات</li>
+          <li>إدارة المحادثات والتعليقات</li>
+          <li>جدولة المنشورات بشكل احترافي</li>
+          <li>تحليلات أداء الصفحة</li>
+          <li>لوحة تحكم متكاملة</li>
+        </ul>
+        <a href="https://bot.smart-link.ly" target="_blank" rel="noopener" class="btn btn-secondary">جرب الآن<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg></a>
+      </article>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section class="container section reveal" data-od-id="features-section">
+    <div class="section-header">
+      <h2>لماذا SmartLink؟</h2>
+      <p>نحن نؤمن بالتكنولوجيا التي تعمل لأجلك — لا تعقيدات، لا منحنى تعلم طويل</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card" data-od-id="feature-speed">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+        <h4>سرعة وأداء</h4>
+        <p>حلولنا مصممة بأحدث التقنيات لتوفير أسرع تجربة ممكنة لعملائك</p>
+      </div>
+      <div class="feature-card" data-od-id="feature-simple">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+        <h4>سهولة الاستخدام</h4>
+        <p>واجهة بسيطة وعملية — لا تحتاج خبرة تقنية لبدء استخدام خدماتنا</p>
+      </div>
+      <div class="feature-card" data-od-id="feature-integration">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><line x1="12" y1="2" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"/><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"/></svg>
+        <h4>تكامل سلس</h4>
+        <p>كل خدماتنا تعمل معاً بتناغام — من المنيو إلى البوت إلى منصتك</p>
+      </div>
+      <div class="feature-card" data-od-id="feature-local">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        <h4>عربي محلي</h4>
+        <p>صممنا خصيصاً للسوق العربي وليبيا — واجهة كاملة بالعربية ودعم فني محلي</p>
+      </div>
+      <div class="feature-card" data-od-id="feature-support">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M8 10h.01"/><path d="M12 10h.01"/><path d="M16 10h.01"/></svg>
+        <h4>دعم فني متواصل</h4>
+        <p>فريق دعم متواجد دائماً لمساعدتك — عبر واتساب، البريد، أو الهاتف</p>
+      </div>
+      <div class="feature-card" data-od-id="feature-smart">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 1 0 10 10h-10V2z"/><path d="M14 2a10 10 0 0 1 8 8h-8V2z"/></svg>
+        <h4>تحليلات ذكية</h4>
+        <p>تقارير دقيقة ومؤشرات أداء تساعدك على اتخاذ قرارات أفضل لأعمالك</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="container section reveal" data-od-id="testimonials-section">
+    <div class="section-header">
+      <h2>ماذا يقول عملاؤنا</h2>
+      <p>ثقة عملائنا هي أكبر دليل على جودة خدماتنا</p>
+    </div>
+    <div class="testimonials-grid">
+      <div class="testimonial-card">
+        <p>منيو Smart Menu غيّر طريقة عمل مطعمي تماماً. استقبال الطلبات عبر واتساب سهّل كل شيء والزبائن صاروا يطلبون أسرع.</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">م.ع</div>
+          <div><div class="testimonial-name">محمد العبدلي</div><div class="testimonial-role">صاحب مطعم، طرابلس</div></div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <p>Smart Bot وفّر عليا وقت وجهد كبيرين في إدارة صفحة الفيسبوك. الردود التلقائية شغالة بشكل ممتاز والتقارير واضحة.</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">س.م</div>
+          <div><div class="testimonial-name">سارة المقرحي</div><div class="testimonial-role">مديرة صفحة، بنغازي</div></div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <p>منصة متكاملة بمعنى الكلمة. المنيو الرقمي والبوت الذكي اشتغلو مع بعض بدون أي مشاكل. أنصح بالتعامل مع SmartLink.</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">أ.خ</div>
+          <div><div class="testimonial-name">أحمد خليفة</div><div class="testimonial-role">رائد أعمال، مصراتة</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats -->
+  <section class="container section reveal" data-od-id="stats-section">
+    <div class="stats-banner">
+      <div><div class="stat-number">+500</div><div class="stat-label">مطعم وعميل</div></div>
+      <div><div class="stat-number">+50K</div><div class="stat-label">طلب عبر المنصة</div></div>
+      <div><div class="stat-number">+15</div><div class="stat-label">مدينة ومحافظة</div></div>
+      <div><div class="stat-number">99%</div><div class="stat-label">رضا العملاء</div></div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="container section reveal" data-od-id="faq-section">
+    <div class="section-header">
+      <h2>الأسئلة الشائعة</h2>
+      <p>أجوبة سريعة على أكثر الأسئلة تكراراً</p>
+    </div>
+    <div class="faq-list" id="faq-list">
+      <div class="faq-item open">
+        <button class="faq-q">ما هي خدمة Smart Menu؟<svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg></button>
+        <div class="faq-a">Smart Menu هو منيو رقمي تفاعلي للمطاعم والمقاهي يمكن عملاءك من تصفح المنيو واختيار الطلبات وإرسالها عبر واتساب مباشرة — بدون تطبيق ولا اشتراكات معقدة.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">ما هي خدمة Smart Bot؟<svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg></button>
+        <div class="faq-a">Smart Bot هو بوت ذكي لإدارة صفحات فيسبوك يقوم بالرد التلقائي على التعليقات والرسائل وجدولة المنشورات وتحليل أداء الصفحة — كل شيء من لوحة تحكم واحدة.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">هل أحتاج خبرة تقنية لاستخدام الخدمات؟<svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg></button>
+        <div class="faq-a">لا على الإطلاق. الخدمات صممت لتكون سهلة وبسيطة — فقط سجل واتبع الخطوات، وفريق الدعم متواجد لمساعدتك في أي وقت.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">هل الخدمات متوفرة في كل ليبيا؟<svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg></button>
+        <div class="faq-a">نعم، خدماتنا متوفرة في جميع المدن الليبية ومنطقة الشرق الأوسط. نغطي أكثر من 15 مدينة ونعمل على التوسع لمزيد من المناطق.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="container section" data-od-id="cta-section">
+    <div class="cta-box reveal">
+      <h2>استعد لانطلاقة رقمية</h2>
+      <p>تواصل معنا الآن وابدأ رحلة التحول الرقمي لأعمالك مع حلول SmartLink المتكاملة</p>
+      <div class="hero-actions">
+        <a href="https://wa.me/218910089975" target="_blank" rel="noopener" class="btn btn-primary" data-od-id="cta-whatsapp">
+          <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+          تواصل معنا على واتساب
+        </a>
+        <a href="services.html" class="btn btn-secondary">تصفح الخدمات</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- Float CTA mobile -->
+<a href="https://wa.me/218910089975" target="_blank" rel="noopener" class="float-cta" data-od-id="float-cta">
+  <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+  واتساب
+</a>
+
+<!-- Footer -->
+<footer class="footer" data-od-id="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="/" class="nav-logo"><div class="nav-logo-icon">SL</div>Smart<span>Link</span></a>
+        <p>منصة رقمية متكاملة تقدم حلولاً ذكية للأعمال — المنيو الرقمي للمطاعم، البوت الذكي لفيسبوك، والمزيد.</p>
+      </div>
+      <div><h5>روابط سريعة</h5><div class="footer-links"><a href="/">الرئيسية</a><a href="services.html">خدماتنا</a><a href="about.html">عن SmartLink</a><a href="contact.html">اتصل بنا</a></div></div>
+      <div><h5>خدماتنا</h5><div class="footer-links"><a href="https://menu.smart-link.ly" target="_blank" rel="noopener">Smart Menu</a><a href="https://bot.smart-link.ly" target="_blank" rel="noopener">Smart Bot</a></div></div>
+      <div><h5>اتصل بنا</h5><div class="footer-links"><a href="https://wa.me/218910089975" target="_blank" rel="noopener">واتساب: 218910089975+</a><a href="mailto:info@smart-link.ly">info@smart-link.ly</a></div></div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2026 SmartLink — جميع الحقوق محفوظة</span>
+      <span><a href="privacy.html">سياسة الخصوصية</a> · <a href="terms.html">الشروط والأحكام</a></span>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  // Nav toggle
+  var t=document.getElementById('nav-toggle'),m=document.getElementById('mobile-menu');
+  if(t&&m){t.addEventListener('click',function(){var o=m.classList.toggle('open');t.setAttribute('aria-expanded',o)});m.querySelectorAll('a').forEach(function(l){l.addEventListener('click',function(){m.classList.remove('open');t.setAttribute('aria-expanded','false')})})}
+
+  // Reveal
+  var rv=Array.prototype.slice.call(document.querySelectorAll('.reveal'));
+  if('IntersectionObserver'in window){var ob=new IntersectionObserver(function(e){e.forEach(function(e){if(e.isIntersecting){e.target.classList.add('visible');ob.unobserve(e.target)}})},{threshold:.1,rootMargin:'0px 0px -40px 0px'});rv.forEach(function(e){ob.observe(e)})}else rv.forEach(function(e){e.classList.add('visible')})
+
+  // Counters
+  var ct=Array.prototype.slice.call(document.querySelectorAll('[data-count]'));
+  if(ct.length){var co=new IntersectionObserver(function(e){e.forEach(function(e){if(!e.isIntersecting)return;var el=e.target;co.unobserve(el);var t=parseInt(el.getAttribute('data-count'),10);if(isNaN(t))return;var c=0,d=1800,s=16,i=t/(d/s),tm=setInterval(function(){c+=i;if(c>=t){el.textContent=t;clearInterval(tm)}else el.textContent=Math.round(c)},s)})},{threshold:.3});ct.forEach(function(e){co.observe(e)})}
+
+  // FAQ accordion
+  var fqs=Array.prototype.slice.call(document.querySelectorAll('.faq-q'));
+  fqs.forEach(function(q){q.addEventListener('click',function(){var p=this.closest('.faq-item');if(p){var o=p.classList.contains('open');if(!o){fqs.forEach(function(x){x.closest('.faq-item')&&x.closest('.faq-item').classList.remove('open')})}p.classList.toggle('open')}})})
+
+  // Mouse parallax on service cards
+  var scs=Array.prototype.slice.call(document.querySelectorAll('.service-card,.feature-card'));
+  scs.forEach(function(c){c.addEventListener('mousemove',function(e){var r=c.getBoundingClientRect();c.style.setProperty('--mx',((e.clientX-r.left)/r.width*100)+'%');c.style.setProperty('--my',((e.clientY-r.top)/r.height*100)+'%')})})
+})();
+</script>
 </body>
 </html>

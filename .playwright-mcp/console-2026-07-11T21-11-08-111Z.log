@@ -1,0 +1,4 @@
+[      67ms] [WARNING] Manifest: Enctype should be set to either application/x-www-form-urlencoded or multipart/form-data. It currently defaults to application/x-www-form-urlencoded @ http://localhost:3000/manifest.json:0
+[     305ms] [WARNING] No token found in localStorage, user-join event not emitted @ http://localhost:3000/_app/immutable/nodes/0.CGk2MTM6.js:1
+[    5999ms] [ERROR] WebSocket connection to 'ws://localhost:3000/ws/socket.io/?EIO=4&transport=websocket' failed:  @ http://localhost:3000/_app/immutable/chunks/dm1FmSOd.js:0
+[    6774ms] [WARNING] No token found in localStorage, user-join event not emitted @ http://localhost:3000/_app/immutable/nodes/0.CGk2MTM6.js:1

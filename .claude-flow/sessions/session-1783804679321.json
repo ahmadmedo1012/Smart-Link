@@ -1,0 +1,14 @@
+{
+  "id": "session-1783804679321",
+  "startedAt": "2026-07-11T21:17:59.321Z",
+  "cwd": "/home/ahmed/Downloads/SmartLink",
+  "context": {},
+  "metrics": {
+    "edits": 40,
+    "commands": 0,
+    "tasks": 0,
+    "errors": 0
+  },
+  "endedAt": "2026-07-11T21:57:45.568Z",
+  "duration": 2386247
+}

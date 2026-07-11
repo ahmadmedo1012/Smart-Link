@@ -10,25 +10,23 @@ export function Footer() {
           <div>
             <div className="flex items-center gap-2.5 mb-4">
               <Image src="/logo.png" alt="SmartLink" width={32} height={32} className="w-8 h-8 object-contain" />
-              <span className="text-base font-bold">Smart<span className="text-[var(--primary)]">Link</span></span>
+              <span className="text-base font-bold">Smart<span className="text-primary">Link</span></span>
             </div>
-            <p className="text-sm text-[var(--muted-foreground)] leading-relaxed">
+            <p className="text-sm text-muted-foreground leading-relaxed">
               منصة رقمية متكاملة تقدم حلولاً ذكية للأعمال. نُمكنك من رقمنة خدماتك وزيادة مبيعاتك بأحدث التقنيات.
             </p>
           </div>
 
           <div>
-            <h4 className="text-sm font-bold mb-4">روابط سريعة</h4>
+            <h4 className="text-sm font-bold text-foreground mb-4">روابط سريعة</h4>
             <ul className="space-y-2.5">
               {[
                 { label: "الرئيسية", href: "/" },
                 { label: "عن SmartLink", href: "/about" },
                 { label: "اتصل بنا", href: "/contact" },
-                { label: "سياسة الخصوصية", href: "/privacy" },
-                { label: "شروط الاستخدام", href: "/terms" },
               ].map((l) => (
                 <li key={l.label}>
-                  <Link href={l.href} className="text-sm text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors">
+                  <Link href={l.href} className="text-sm text-muted-foreground hover:text-foreground transition-colors">
                     {l.label}
                   </Link>
                 </li>
@@ -37,7 +35,7 @@ export function Footer() {
           </div>
 
           <div>
-            <h4 className="text-sm font-bold mb-4">خدماتنا</h4>
+            <h4 className="text-sm font-bold text-foreground mb-4">خدماتنا</h4>
             <ul className="space-y-2.5">
               {[
                 { label: "Smart Menu — المنيو الرقمي", href: "https://menu.smart-link.ly", icon: Smartphone },
@@ -49,9 +47,9 @@ export function Footer() {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={`${l.label} — رابط خارجي`}
-                    className="flex items-center gap-2 text-sm text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors group"
+                    className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors group"
                   >
-                    <l.icon className="w-3.5 h-3.5 text-[var(--primary)] group-hover:scale-110 transition-transform" />
+                    <l.icon className="w-3.5 h-3.5 text-primary group-hover:scale-110 transition-transform" />
                     {l.label}
                   </a>
                 </li>
@@ -60,14 +58,14 @@ export function Footer() {
           </div>
 
           <div>
-            <h4 className="text-sm font-bold mb-4">اتصل بنا</h4>
+            <h4 className="text-sm font-bold text-foreground mb-4">اتصل بنا</h4>
             <ul className="space-y-3">
-              <li className="flex items-center gap-2 text-sm text-[var(--muted-foreground)]">
-                <Mail className="w-3.5 h-3.5 text-[var(--primary)] shrink-0" />
+              <li className="flex items-center gap-2 text-sm text-muted-foreground">
+                <Mail className="w-3.5 h-3.5 text-primary shrink-0" />
                 support@smart-link.ly
               </li>
-              <li className="flex items-center gap-2 text-sm text-[var(--muted-foreground)]">
-                <MapPin className="w-3.5 h-3.5 text-[var(--primary)] shrink-0" />
+              <li className="flex items-center gap-2 text-sm text-muted-foreground">
+                <MapPin className="w-3.5 h-3.5 text-primary shrink-0" />
                 ليبيا
               </li>
             </ul>
@@ -77,10 +75,10 @@ export function Footer() {
 
       <div className="border-t border-[var(--border)] py-5">
         <div className="container-base flex flex-col md:flex-row items-center justify-between gap-3">
-          <p className="text-xs text-[var(--muted-foreground)]">© {new Date().getFullYear()} SmartLink. جميع الحقوق محفوظة.</p>
+          <p className="text-xs text-muted-foreground">© {new Date().getFullYear()} SmartLink. جميع الحقوق محفوظة</p>
           <div className="flex items-center gap-4">
-            <Link href="/privacy" className="text-xs text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors">سياسة الخصوصية</Link>
-            <Link href="/terms" className="text-xs text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors">شروط الاستخدام</Link>
+            <Link href="/privacy" className="text-xs text-muted-foreground hover:text-foreground transition-colors">سياسة الخصوصية</Link>
+            <Link href="/terms" className="text-xs text-muted-foreground hover:text-foreground transition-colors">شروط الاستخدام</Link>
           </div>
         </div>
       </div>

@@ -20,22 +20,28 @@ function FaqItem({ faq, index, open, onToggle }: { faq: typeof faqs[number]; ind
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 16 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.4, delay: index * 0.06 }}
-      className="glass rounded-xl overflow-hidden transition-colors duration-300"
+      transition={{ duration: 0.35, delay: index * 0.04, ease: [0.16, 1, 0.3, 1] }}
+      className="glass rounded-2xl overflow-hidden transition-colors duration-300"
     >
       <button
         onClick={onToggle}
         aria-expanded={open}
-        id={`faq-panel-${index}`}
-        className="flex items-center justify-between w-full px-5 py-4 text-sm font-medium text-[var(--foreground)] hover:bg-[var(--accent)] focus-visible:bg-[var(--accent)] transition-colors text-start"
+        id={`faq-trigger-${index}`}
+        className="flex items-center justify-between w-full px-6 py-4 text-sm font-medium text-foreground hover:bg-[var(--accent)] focus-visible:bg-[var(--accent)] transition-colors text-start"
       >
         <span>{faq.q}</span>
-        <ChevronDown className={cn("w-4 h-4 text-[var(--muted-foreground)] transition-transform duration-300 shrink-0", open && "rotate-180")} />
+        <ChevronDown className={cn("w-4 h-4 text-muted-foreground transition-transform duration-300 shrink-0", open && "rotate-180")} />
       </button>
-      <div role="region" aria-labelledby={`faq-panel-${index}`} className={cn("overflow-hidden transition-all duration-300", open ? "max-h-96" : "max-h-0")}>
-        <p className="px-5 pb-4 text-sm text-[var(--muted-foreground)] leading-relaxed">{faq.a}</p>
+      <div
+        role="region"
+        aria-labelledby={`faq-trigger-${index}`}
+        className={cn("grid transition-all duration-300", open ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0")}
+      >
+        <div className="overflow-hidden">
+          <p className="px-6 pb-4 text-sm text-muted-foreground leading-relaxed">{faq.a}</p>
+        </div>
       </div>
     </motion.div>
   )
@@ -54,10 +60,10 @@ export function FaqSection() {
           initial={{ opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.5 }}
-          className="text-center mb-10"
+          className="text-center mb-12"
         >
-          <h2 className="text-3xl md:text-4xl font-extrabold text-[var(--foreground)] mb-4">الأسئلة الشائعة</h2>
-          <p className="text-[var(--muted-foreground)]">إجابات لأكثر الأسئلة شيوعاً عن منصتنا</p>
+          <h2 className="text-4xl md:text-5xl font-extrabold text-foreground mb-4 tracking-tight">الأسئلة الشائعة</h2>
+          <p className="text-muted-foreground text-base">إجابات لأكثر الأسئلة شيوعاً عن منصتنا</p>
         </motion.div>
         <div className="space-y-3">
           {faqs.map((faq, i) => (

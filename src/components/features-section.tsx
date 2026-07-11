@@ -23,7 +23,7 @@ function FeatureCard({ feature, index }: { feature: typeof features[number]; ind
       initial={{ opacity: 0, y: 30 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.4, delay: index * 0.08 }}
-      className="glass rounded-xl p-6 hover:border-[var(--primary)]/30 transition-all duration-300 group"
+      className="glass rounded-xl p-6 hover:border-[var(--primary)]/30 transition-colors duration-300 group"
     >
       <div className="w-10 h-10 rounded-lg bg-[var(--orange-muted)] flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
         <Icon className="w-5 h-5 text-[var(--primary)]" />
@@ -39,7 +39,7 @@ export function FeaturesSection() {
   const inView = useInView(ref, { once: true, margin: "-60px" })
 
   return (
-    <section className="section-padding relative">
+    <section id="features" className="section-padding relative">
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[var(--primary)]/[0.02] to-transparent pointer-events-none" />
       <div className="container-base">
         <motion.div

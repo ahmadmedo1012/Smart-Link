@@ -23,16 +23,18 @@ function FaqItem({ faq, index, open, onToggle }: { faq: typeof faqs[number]; ind
       initial={{ opacity: 0, y: 20 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.4, delay: index * 0.06 }}
-      className="glass rounded-xl overflow-hidden transition-all duration-300"
+      className="glass rounded-xl overflow-hidden transition-colors duration-300"
     >
       <button
         onClick={onToggle}
-        className="flex items-center justify-between w-full px-5 py-4 text-sm font-medium text-[var(--foreground)] hover:bg-[var(--accent)] transition-colors text-left"
+        aria-expanded={open}
+        id={`faq-panel-${index}`}
+        className="flex items-center justify-between w-full px-5 py-4 text-sm font-medium text-[var(--foreground)] hover:bg-[var(--accent)] focus-visible:bg-[var(--accent)] transition-colors text-start"
       >
         <span>{faq.q}</span>
         <ChevronDown className={cn("w-4 h-4 text-[var(--muted-foreground)] transition-transform duration-300 shrink-0", open && "rotate-180")} />
       </button>
-      <div className={cn("overflow-hidden transition-all duration-300", open ? "max-h-96" : "max-h-0")}>
+      <div role="region" aria-labelledby={`faq-panel-${index}`} className={cn("overflow-hidden transition-all duration-300", open ? "max-h-96" : "max-h-0")}>
         <p className="px-5 pb-4 text-sm text-[var(--muted-foreground)] leading-relaxed">{faq.a}</p>
       </div>
     </motion.div>
@@ -45,7 +47,7 @@ export function FaqSection() {
   const inView = useInView(ref, { once: true, margin: "-60px" })
 
   return (
-    <section className="section-padding relative">
+    <section id="faq" className="section-padding relative">
       <div className="container-base max-w-2xl">
         <motion.div
           ref={ref}

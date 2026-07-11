@@ -11,7 +11,7 @@ const services = [
     href: "https://menu.smart-link.ly",
     icon: Smartphone,
     features: ["منيو رقمي تفاعلي", "طلبات عبر واتساب", "برنامج ولاء وإحالات", "إحصائيات وتحليلات", "QR كود مخصص", "لوحة تحكم عربية"],
-    color: "from-orange-500/20 to-amber-500/10",
+    gradient: "gradient-smart-menu",
   },
   {
     title: "SmartBot",
@@ -20,7 +20,7 @@ const services = [
     href: "https://bot.smart-link.ly",
     icon: Bot,
     features: ["ردود تلقائية ذكية", "تصنيف النوايا", "لوحة تحكم متكاملة", "تقارير وتحليلات", "بث جماعي", "إدارة الصفحات"],
-    color: "from-violet-500/20 to-purple-500/10",
+    gradient: "gradient-smart-bot",
   },
   {
     title: "قريباً",
@@ -29,7 +29,7 @@ const services = [
     href: "#",
     icon: Sparkles,
     features: ["متجر إلكتروني", "حجوزات مواعيد", "منصة تسويق", "مساعد ذكي", "فواتير إلكترونية", "تطبيق موبايل"],
-    color: "from-emerald-500/20 to-teal-500/10",
+    gradient: "gradient-coming-soon",
     comingSoon: true,
   },
 ]
@@ -45,9 +45,9 @@ function ServiceCard({ service, index }: { service: typeof services[number]; ind
       initial={{ opacity: 0, y: 40 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.5, delay: index * 0.15 }}
-      className="group relative rounded-2xl border border-[var(--border)] bg-[var(--card)] overflow-hidden hover:border-[var(--primary)]/30 transition-all duration-500 hover:shadow-[0_0_40px_var(--orange-muted)]"
+      className="group relative rounded-2xl border border-[var(--border)] bg-[var(--card)] overflow-hidden hover:border-[var(--primary)]/30 transition-[border-color,box-shadow] duration-500 hover:shadow-[0_0_40px_var(--orange-muted)]"
     >
-      <div className={`absolute inset-0 bg-gradient-to-br ${service.color} opacity-50 group-hover:opacity-80 transition-opacity duration-500`} />
+      <div className="absolute inset-0 opacity-50 group-hover:opacity-80 transition-opacity duration-500" style={{ background: `var(--${service.gradient})` }} />
       <div className="relative p-6 md:p-8">
         <div className="w-12 h-12 rounded-xl bg-[var(--orange-muted)] flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
           <Icon className="w-6 h-6 text-[var(--primary)]" />
@@ -72,7 +72,7 @@ function ServiceCard({ service, index }: { service: typeof services[number]; ind
             href={service.href}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-[var(--primary)] text-white text-sm font-semibold hover:brightness-110 transition-all duration-300"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-[var(--primary)] text-white text-sm font-semibold hover:brightness-110 transition-[background-color,opacity] duration-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ring)]"
           >
             زيارة الخدمة
           </a>

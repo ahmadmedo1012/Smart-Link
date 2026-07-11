@@ -9,7 +9,7 @@ export function CTASection() {
   const inView = useInView(ref, { once: true, margin: "-80px" })
 
   return (
-    <section className="section-padding relative">
+    <section id="cta" className="section-padding relative">
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] rounded-full bg-[var(--primary)]/5 blur-[150px]" />
         <div className="absolute top-0 right-0 w-64 h-64 rounded-full bg-[var(--primary)]/8 blur-[100px]" />
@@ -32,13 +32,13 @@ export function CTASection() {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link
               href="https://menu.smart-link.ly"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[var(--primary)] text-white font-semibold text-sm hover:brightness-110 transition-all duration-300 shadow-[0_0_25px_var(--orange-muted)] animate-[pulse-glow_3s_ease-in-out_infinite]"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[var(--primary)] text-white font-semibold text-sm hover:brightness-110 transition-[background-color,opacity] duration-300 shadow-[0_0_25px_var(--orange-muted)] animate-[pulse-glow_3s_ease-in-out_infinite] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ring)]"
             >
-              ابدأ مجاناً <ArrowLeft className="w-4 h-4" />
+              ابدأ مجاناً <ArrowLeft className="w-4 h-4 rtl:scale-x-[-1]" />
             </Link>
             <Link
               href="/contact"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl glass text-[var(--foreground)] font-semibold text-sm hover:bg-[var(--accent)] transition-all duration-300"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl glass text-[var(--foreground)] font-semibold text-sm hover:bg-[var(--accent)] transition-colors duration-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ring)]"
             >
               تواصل معنا
             </Link>

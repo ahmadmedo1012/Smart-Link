@@ -39,7 +39,7 @@ export function HowItWorksSection() {
   const inView = useInView(ref, { once: true, margin: "-60px" })
 
   return (
-    <section className="section-padding relative">
+    <section id="how-it-works" className="section-padding relative">
       <div className="container-base">
         <motion.div
           ref={ref}

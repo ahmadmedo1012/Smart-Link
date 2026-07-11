@@ -29,7 +29,7 @@ function AnimatedStat({ value, label, icon: Icon, delay = 0 }: { value: string; 
       }
     }, step)
     return () => clearInterval(timer)
-  }, [inView])
+  }, [inView, target, prefix, suffix])
 
   return (
     <motion.div
@@ -37,7 +37,7 @@ function AnimatedStat({ value, label, icon: Icon, delay = 0 }: { value: string; 
       initial={{ opacity: 0, y: 24 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.5, delay: delay + 0.3 }}
-      className="glass rounded-xl p-4 text-center hover:border-[var(--primary)]/30 transition-all duration-300"
+      className="glass rounded-xl p-4 text-center hover:border-[var(--primary)]/30 transition-colors duration-300"
     >
       <Icon className="w-5 h-5 text-[var(--primary)] mx-auto mb-1.5" />
       <div className="text-lg font-bold text-[var(--foreground)]">{display}</div>
@@ -64,7 +64,7 @@ export function HeroSection() {
 
       {floatingIcons.map((item) => (
         <div
-          key={item.delay}
+          key={item.Icon.name}
           className="absolute hidden lg:block pointer-events-none opacity-[0.15]"
           style={{
             left: item.x, top: item.y,
@@ -118,13 +118,13 @@ export function HeroSection() {
           >
             <Link
               href="#services"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[var(--primary)] text-white font-semibold text-sm hover:brightness-110 transition-all duration-300 shadow-[0_0_25px_var(--orange-muted)]"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[var(--primary)] text-white font-semibold text-sm hover:brightness-110 transition-[background-color,opacity] duration-300 shadow-[0_0_25px_var(--orange-muted)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ring)]"
             >
-              اكتشف خدماتنا <ArrowLeft className="w-4 h-4" />
+              اكتشف خدماتنا <ArrowLeft className="w-4 h-4 rtl:scale-x-[-1]" />
             </Link>
             <Link
               href="/about"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl glass text-[var(--foreground)] font-semibold text-sm hover:bg-[var(--accent)] transition-all duration-300"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl glass text-[var(--foreground)] font-semibold text-sm hover:bg-[var(--accent)] transition-colors duration-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ring)]"
             >
               تعرف علينا
             </Link>

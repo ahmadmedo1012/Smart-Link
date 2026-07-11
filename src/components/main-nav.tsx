@@ -37,10 +37,14 @@ export function MainNav() {
           {navLinks.map((link) =>
             link.children ? (
               <div key={link.label} className="relative group/nav">
-                <button className="flex items-center gap-1 px-4 py-2 text-sm font-medium text-[var(--muted-foreground)] hover:text-[var(--foreground)] rounded-lg hover:bg-[var(--accent)] transition-colors">
+                <button
+                  aria-haspopup="true"
+                  aria-expanded={false}
+                  onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { const next = !servicesOpen; setServicesOpen(next); } }}
+                  className="flex items-center gap-1 px-4 py-2 text-sm font-medium text-[var(--muted-foreground)] hover:text-[var(--foreground)] rounded-lg hover:bg-[var(--accent)] focus-visible:bg-[var(--accent)] transition-colors">
                   {link.label} <ChevronDown className="w-3.5 h-3.5 group-hover/nav:rotate-180 transition-transform" />
                 </button>
-                <div className="absolute top-full right-0 mt-1 w-72 opacity-0 invisible group-hover/nav:opacity-100 group-hover/nav:visible transition-all duration-200 translate-y-1 group-hover/nav:translate-y-0">
+                <div className="absolute top-full right-0 mt-1 w-72 opacity-0 invisible group-hover/nav:opacity-100 group-hover/nav:visible focus-within:opacity-100 focus-within:visible transition-all duration-200 translate-y-1 group-hover/nav:translate-y-0 focus-within:translate-y-0">
                   <div className="glass-strong rounded-xl p-2">
                     {link.children.map((child) => {
                       const Icon = child.icon
@@ -50,7 +54,8 @@ export function MainNav() {
                           href={child.href}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-[var(--accent)] transition-colors group/item"
+                          aria-label={`${child.label} — رابط خارجي`}
+                          className="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-[var(--accent)] focus-visible:bg-[var(--accent)] transition-colors group/item"
                         >
                           <div className="w-9 h-9 rounded-lg bg-[var(--orange-muted)] flex items-center justify-center text-[var(--primary)] group-hover/item:scale-110 transition-transform">
                             {Icon && <Icon className="w-4.5 h-4.5" />}
@@ -76,7 +81,11 @@ export function MainNav() {
           )}
         </nav>
 
-        <button onClick={() => setMobileOpen(!mobileOpen)} className="md:hidden p-2 rounded-lg hover:bg-[var(--accent)] transition-colors">
+        <button
+          onClick={() => { setMobileOpen(!mobileOpen); if (mobileOpen) setServicesOpen(false); }}
+          aria-label={mobileOpen ? "إغلاق القائمة" : "فتح القائمة"}
+          aria-expanded={mobileOpen}
+          className="md:hidden p-3 rounded-lg hover:bg-[var(--accent)] transition-colors">
           {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
         </button>
       </div>
@@ -96,11 +105,12 @@ export function MainNav() {
                   <div className="mr-3 space-y-1 pb-1">
                     {link.children.map((child) => (
                       <a
-                        key={child.label}
-                        href={child.href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center gap-2 px-3 py-2 text-sm text-[var(--muted-foreground)] hover:text-[var(--foreground)] rounded-lg hover:bg-[var(--accent)] transition-colors"
+            key={child.label}
+            href={child.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`${child.label} — رابط خارجي`}
+            className="flex items-center gap-2 px-3 py-2 text-sm text-[var(--muted-foreground)] hover:text-[var(--foreground)] rounded-lg hover:bg-[var(--accent)] transition-colors"
                       >
                         {child.icon && <child.icon className="w-4 h-4" />}
                         {child.label}

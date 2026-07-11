@@ -48,6 +48,7 @@ export function Footer() {
                     href={l.href}
                     target="_blank"
                     rel="noopener noreferrer"
+                    aria-label={`${l.label} — رابط خارجي`}
                     className="flex items-center gap-2 text-sm text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors group"
                   >
                     <l.icon className="w-3.5 h-3.5 text-[var(--primary)] group-hover:scale-110 transition-transform" />

@@ -1,6 +1,7 @@
 "use client"
 import { useState } from "react"
 import Link from "next/link"
+import Image from "next/image"
 import { Menu, X, Smartphone, Bot, ChevronDown } from "lucide-react"
 import { cn } from "@/lib/utils"
 
@@ -26,9 +27,7 @@ export function MainNav() {
       <div className="absolute inset-0 bg-[var(--background)]/80 backdrop-blur-xl border-b border-[var(--border)]" />
       <div className="relative container-base flex items-center justify-between h-16">
         <Link href="/" className="flex items-center gap-2.5 group">
-          <div className="w-9 h-9 rounded-xl bg-[var(--primary)] flex items-center justify-center text-white font-extrabold text-sm group-hover:shadow-[0_0_20px_var(--orange-muted)] transition-shadow duration-300">
-            S
-          </div>
+          <Image src="/logo.png" alt="SmartLink" width={36} height={36} className="w-9 h-9 object-contain" />
           <span className="text-lg font-bold tracking-tight text-[var(--foreground)]">
             Smart<span className="text-[var(--primary)]">Link</span>
           </span>

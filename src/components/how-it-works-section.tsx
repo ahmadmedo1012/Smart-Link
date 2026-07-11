@@ -1,4 +1,6 @@
 "use client"
+import { motion, useInView } from "framer-motion"
+import { useRef } from "react"
 import { UserPlus, Palette, Share2 } from "lucide-react"
 
 const steps = [
@@ -7,26 +9,51 @@ const steps = [
   { icon: Share2, title: "انطلق وابدأ", description: "شارك الرابط مع عملائك وابدأ في استقبال الطلبات والردود بشكل آلي." },
 ]
 
+function StepCard({ step, index }: { step: typeof steps[number]; index: number }) {
+  const ref = useRef<HTMLDivElement>(null)
+  const inView = useInView(ref, { once: true, margin: "-60px" })
+  const Icon = step.icon
+
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 40 }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.5, delay: index * 0.15 }}
+      className="relative text-center group"
+    >
+      <div className="w-16 h-16 rounded-2xl bg-[var(--orange-muted)] flex items-center justify-center mx-auto mb-5 group-hover:scale-110 transition-transform duration-300">
+        <Icon className="w-8 h-8 text-[var(--primary)]" />
+      </div>
+      <div className="absolute -top-2 -right-2 w-7 h-7 rounded-full bg-[var(--primary)] text-white text-xs font-bold flex items-center justify-center">
+        {index + 1}
+      </div>
+      <h3 className="text-lg font-bold text-[var(--foreground)] mb-2">{step.title}</h3>
+      <p className="text-sm text-[var(--muted-foreground)] leading-relaxed max-w-xs mx-auto">{step.description}</p>
+    </motion.div>
+  )
+}
+
 export function HowItWorksSection() {
+  const ref = useRef<HTMLDivElement>(null)
+  const inView = useInView(ref, { once: true, margin: "-60px" })
+
   return (
     <section className="section-padding relative">
       <div className="container-base">
-        <div className="text-center mb-14">
+        <motion.div
+          ref={ref}
+          initial={{ opacity: 0, y: 20 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.5 }}
+          className="text-center mb-14"
+        >
           <h2 className="text-3xl md:text-4xl font-extrabold text-[var(--foreground)] mb-4">كيف تعمل المنصة؟</h2>
           <p className="text-[var(--muted-foreground)] max-w-xl mx-auto">ثلاث خطوات بسيطة لتبدأ رحلتك الرقمية</p>
-        </div>
+        </motion.div>
         <div className="grid md:grid-cols-3 gap-8 relative">
           {steps.map((step, i) => (
-            <div key={step.title} className="relative text-center group">
-              <div className="w-16 h-16 rounded-2xl bg-[var(--orange-muted)] flex items-center justify-center mx-auto mb-5 group-hover:scale-110 transition-transform duration-300">
-                <step.icon className="w-8 h-8 text-[var(--primary)]" />
-              </div>
-              <div className="absolute -top-2 -right-2 w-7 h-7 rounded-full bg-[var(--primary)] text-white text-xs font-bold flex items-center justify-center">
-                {i + 1}
-              </div>
-              <h3 className="text-lg font-bold text-[var(--foreground)] mb-2">{step.title}</h3>
-              <p className="text-sm text-[var(--muted-foreground)] leading-relaxed max-w-xs mx-auto">{step.description}</p>
-            </div>
+            <StepCard key={step.title} step={step} index={i} />
           ))}
         </div>
       </div>

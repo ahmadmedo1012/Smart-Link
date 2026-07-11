@@ -1,4 +1,5 @@
 import Link from "next/link"
+import Image from "next/image"
 import { Smartphone, Bot, Mail, MapPin } from "lucide-react"
 
 export function Footer() {
@@ -8,7 +9,7 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
           <div>
             <div className="flex items-center gap-2.5 mb-4">
-              <div className="w-8 h-8 rounded-xl bg-[var(--primary)] flex items-center justify-center text-white font-extrabold text-xs">S</div>
+              <Image src="/logo.png" alt="SmartLink" width={32} height={32} className="w-8 h-8 object-contain" />
               <span className="text-base font-bold">Smart<span className="text-[var(--primary)]">Link</span></span>
             </div>
             <p className="text-sm text-[var(--muted-foreground)] leading-relaxed">

@@ -1,5 +1,6 @@
 "use client"
-import { useState } from "react"
+import { motion, useInView } from "framer-motion"
+import { useRef, useState } from "react"
 import { ChevronDown } from "lucide-react"
 import { cn } from "@/lib/utils"
 
@@ -12,30 +13,53 @@ const faqs = [
   { q: "ما هي طرق الدعم المتاحة؟", a: "نقدم دعماً فنياً عبر واتساب، البريد الإلكتروني، وفريق متخصص لمساعدتك في أي استفسار أو مشكلة تقنية." },
 ]
 
+function FaqItem({ faq, index, open, onToggle }: { faq: typeof faqs[number]; index: number; open: boolean; onToggle: () => void }) {
+  const ref = useRef<HTMLDivElement>(null)
+  const inView = useInView(ref, { once: true, margin: "-40px" })
+
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 20 }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.4, delay: index * 0.06 }}
+      className="glass rounded-xl overflow-hidden transition-all duration-300"
+    >
+      <button
+        onClick={onToggle}
+        className="flex items-center justify-between w-full px-5 py-4 text-sm font-medium text-[var(--foreground)] hover:bg-[var(--accent)] transition-colors text-left"
+      >
+        <span>{faq.q}</span>
+        <ChevronDown className={cn("w-4 h-4 text-[var(--muted-foreground)] transition-transform duration-300 shrink-0", open && "rotate-180")} />
+      </button>
+      <div className={cn("overflow-hidden transition-all duration-300", open ? "max-h-96" : "max-h-0")}>
+        <p className="px-5 pb-4 text-sm text-[var(--muted-foreground)] leading-relaxed">{faq.a}</p>
+      </div>
+    </motion.div>
+  )
+}
+
 export function FaqSection() {
   const [open, setOpen] = useState<number | null>(null)
+  const ref = useRef<HTMLDivElement>(null)
+  const inView = useInView(ref, { once: true, margin: "-60px" })
 
   return (
     <section className="section-padding relative">
       <div className="container-base max-w-2xl">
-        <div className="text-center mb-10">
+        <motion.div
+          ref={ref}
+          initial={{ opacity: 0, y: 20 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.5 }}
+          className="text-center mb-10"
+        >
           <h2 className="text-3xl md:text-4xl font-extrabold text-[var(--foreground)] mb-4">الأسئلة الشائعة</h2>
           <p className="text-[var(--muted-foreground)]">إجابات لأكثر الأسئلة شيوعاً عن منصتنا</p>
-        </div>
+        </motion.div>
         <div className="space-y-3">
           {faqs.map((faq, i) => (
-            <div key={i} className="glass rounded-xl overflow-hidden transition-all duration-300">
-              <button
-                onClick={() => setOpen(open === i ? null : i)}
-                className="flex items-center justify-between w-full px-5 py-4 text-sm font-medium text-[var(--foreground)] hover:bg-[var(--accent)] transition-colors text-left"
-              >
-                <span>{faq.q}</span>
-                <ChevronDown className={cn("w-4 h-4 text-[var(--muted-foreground)] transition-transform duration-300 shrink-0", open === i && "rotate-180")} />
-              </button>
-              <div className={cn("overflow-hidden transition-all duration-300", open === i ? "max-h-96" : "max-h-0")}>
-                <p className="px-5 pb-4 text-sm text-[var(--muted-foreground)] leading-relaxed">{faq.a}</p>
-              </div>
-            </div>
+            <FaqItem key={i} faq={faq} index={i} open={open === i} onToggle={() => setOpen(open === i ? null : i)} />
           ))}
         </div>
       </div>

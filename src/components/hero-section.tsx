@@ -1,6 +1,57 @@
 "use client"
+import { motion, useInView } from "framer-motion"
+import { useEffect, useRef, useState } from "react"
 import Link from "next/link"
-import { ArrowLeft, Smartphone, Bot, Users, TrendingUp, Star } from "lucide-react"
+import { ArrowLeft, Smartphone, Bot, Users, TrendingUp, Star, Sparkles } from "lucide-react"
+
+function AnimatedStat({ value, label, icon: Icon, delay = 0 }: { value: string; label: string; icon: React.ComponentType<{ className?: string }>; delay?: number }) {
+  const ref = useRef<HTMLDivElement>(null)
+  const inView = useInView(ref, { once: true })
+  const [display, setDisplay] = useState("0")
+  const target = parseFloat(value.replace(/[+%]/g, ""))
+  const prefix = value.startsWith("+") ? "+" : ""
+  const suffix = value.endsWith("%") ? "%" : ""
+
+  useEffect(() => {
+    if (!inView) return
+    let start = 0
+    const duration = 1800
+    const step = 16
+    const totalSteps = duration / step
+    const increment = target / totalSteps
+    const timer = setInterval(() => {
+      start += increment
+      if (start >= target) {
+        setDisplay(prefix + Math.round(target) + suffix)
+        clearInterval(timer)
+      } else {
+        setDisplay(prefix + Math.round(start) + suffix)
+      }
+    }, step)
+    return () => clearInterval(timer)
+  }, [inView])
+
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 24 }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.5, delay: delay + 0.3 }}
+      className="glass rounded-xl p-4 text-center hover:border-[var(--primary)]/30 transition-all duration-300"
+    >
+      <Icon className="w-5 h-5 text-[var(--primary)] mx-auto mb-1.5" />
+      <div className="text-lg font-bold text-[var(--foreground)]">{display}</div>
+      <div className="text-xs text-[var(--muted-foreground)]">{label}</div>
+    </motion.div>
+  )
+}
+
+const floatingIcons = [
+  { Icon: Smartphone, delay: 0, x: "12%", y: "25%" },
+  { Icon: Bot, delay: 0.5, x: "82%", y: "35%" },
+  { Icon: Sparkles, delay: 1, x: "8%", y: "65%" },
+  { Icon: Star, delay: 0.3, x: "86%", y: "70%" },
+]
 
 export function HeroSection() {
   return (
@@ -11,27 +62,60 @@ export function HeroSection() {
         <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[400px] h-[400px] rounded-full bg-[var(--primary)]/5 blur-[100px]" />
       </div>
 
+      {floatingIcons.map((item) => (
+        <div
+          key={item.delay}
+          className="absolute hidden lg:block pointer-events-none opacity-[0.15]"
+          style={{
+            left: item.x, top: item.y,
+            animation: `float 4s ease-in-out ${item.delay}s infinite`,
+          }}
+        >
+          <item.Icon className="w-8 h-8 text-[var(--primary)]" />
+        </div>
+      ))}
+
       <div className="container-base relative">
         <div className="max-w-3xl mx-auto text-center">
-          <div className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full glass text-sm text-[var(--primary)] font-medium mb-6 animate-[fade-in_0.5s_ease-out]">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full glass text-sm text-[var(--primary)] font-medium mb-6"
+          >
             <Star className="w-3.5 h-3.5" />
             <span>منصة رقمية متكاملة</span>
-          </div>
+          </motion.div>
 
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[1.1] mb-6">
+          <motion.h1
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="text-4xl md:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[1.1] mb-6"
+          >
             <span className="gradient-text">SmartLink</span>
             <br />
             <span className="text-[var(--foreground)]">منصة رقمية</span>
             <br />
             <span className="text-[var(--foreground)]">لخدمات ذكية</span>
-          </h1>
+          </motion.h1>
 
-          <p className="text-lg md:text-xl text-[var(--muted-foreground)] max-w-2xl mx-auto mb-10 leading-relaxed">
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="text-lg md:text-xl text-[var(--muted-foreground)] max-w-2xl mx-auto mb-10 leading-relaxed"
+          >
             منصة موحدة تجمع حلولنا الرقمية المبتكرة — من المنيو الرقمي للمطاعم إلى البوت الذكي لفيسبوك —
             <span className="text-[var(--foreground)] font-medium"> كل ما تحتاجه لتنمية أعمالك في مكان واحد</span>
-          </p>
+          </motion.p>
 
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+            className="flex flex-col sm:flex-row items-center justify-center gap-4"
+          >
             <Link
               href="#services"
               className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[var(--primary)] text-white font-semibold text-sm hover:brightness-110 transition-all duration-300 shadow-[0_0_25px_var(--orange-muted)]"
@@ -44,7 +128,7 @@ export function HeroSection() {
             >
               تعرف علينا
             </Link>
-          </div>
+          </motion.div>
         </div>
 
         <div className="mt-14 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-2xl mx-auto">
@@ -54,15 +138,7 @@ export function HeroSection() {
             { label: "ردود آلية", value: "+50K", icon: Bot },
             { label: "نمو مستمر", value: "99.9%", icon: TrendingUp },
           ].map((stat, i) => (
-            <div
-              key={stat.label}
-              className="glass rounded-xl p-4 text-center hover:border-[var(--primary)]/30 transition-all duration-300 animate-[fade-in_0.5s_ease-out]"
-              style={{ animationDelay: `${i * 0.1}s` }}
-            >
-              <stat.icon className="w-5 h-5 text-[var(--primary)] mx-auto mb-1.5" />
-              <div className="text-lg font-bold text-[var(--foreground)]">{stat.value}</div>
-              <div className="text-xs text-[var(--muted-foreground)]">{stat.label}</div>
-            </div>
+            <AnimatedStat key={stat.label} {...stat} delay={i * 0.15} />
           ))}
         </div>
       </div>

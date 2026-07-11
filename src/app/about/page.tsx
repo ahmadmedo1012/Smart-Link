@@ -1,56 +1,74 @@
-import type { Metadata } from "next"
-import { Bot, Smartphone, Globe, Layers, Sparkles } from "lucide-react"
-
-export const metadata: Metadata = {
-  title: "عن SmartLink",
-  description: "تعرف على قصتنا ورؤيتنا في SmartLink — المنصة الرقمية المتكاملة",
-}
+"use client"
+import { Sparkles, Bot, Smartphone, Globe, Layers, ArrowLeft } from "lucide-react"
+import Link from "next/link"
+import { motion } from "framer-motion"
 
 const values = [
   { icon: Bot, title: "الذكاء والابتكار", desc: "نستخدم أحدث تقنيات الذكاء الاصطناعي لتقديم حلول ذكية تلقائياً." },
   { icon: Smartphone, title: "سهولة الاستخدام", desc: "واجهات عربية سهلة وبسيطة، صممت خصيصاً للمستخدم العربي." },
-  { icon: Globe, title: "دعم عربي كامل", desc: "المنصة بالكامل بالعربية مع دعم اللهجات المحلية." },
-  { icon: Layers, title: "منصة متكاملة", desc: "كل ما تحتاجه لإدارة أعمالك رقمياً في مكان واحد." },
+  { icon: Globe, title: "دعم عربي كامل", desc: "المنصة بالكامل بالعربية مع دعم اللهجات المحلية وثقافة السوق." },
+  { icon: Layers, title: "منصة متكاملة", desc: "كل ما تحتاجه لإدارة أعمالك رقمياً — خدمات تعمل معاً بتناغام." },
 ]
+
+const _ease = [0.16, 1, 0.3, 1] as [number, number, number, number]
+const fadeUp = (delay = 0) => ({
+  initial: { opacity: 0, y: 24 },
+  animate: { opacity: 1, y: 0 },
+  transition: { duration: 0.5, delay, ease: _ease },
+})
 
 export default function AboutPage() {
   return (
     <div className="pt-28 pb-16">
       <div className="container-base">
-        <div className="max-w-3xl mx-auto text-center mb-14">
+        <motion.div className="max-w-3xl mx-auto text-center mb-14" {...fadeUp()}>
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[var(--glass-border)] bg-[var(--glass-bg)] backdrop-blur-sm text-xs text-primary font-medium mb-6">
             <Sparkles className="w-3 h-3" />
             <span>عن المنصة</span>
           </div>
-          <h1 className="text-5xl md:text-6xl font-extrabold tracking-tight text-foreground mb-4">عن SmartLink</h1>
+          <h1 className="text-5xl md:text-6xl font-extrabold tracking-tight text-foreground mb-4">
+            عن <span className="gradient-text">SmartLink</span>
+          </h1>
           <p className="text-lg text-muted-foreground leading-relaxed">
-            SmartLink هي منصة رقمية متكاملة تهدف إلى توفير حلول ذكية للأعمال في العالم العربي.
+            SmartLink منصة رقمية متكاملة تهدف إلى توفير حلول ذكية للأعمال في العالم العربي.
             نؤمن بأن التكنولوجيا يجب أن تكون سهلة، متاحة، وفعالة للجميع.
           </p>
-        </div>
+        </motion.div>
 
         <div className="grid md:grid-cols-2 gap-5 max-w-3xl mx-auto mb-14">
-          {values.map((item) => (
-            <div key={item.title} className="glass rounded-2xl p-6 hover:border-[var(--ring)]/30 transition-colors">
-              <item.icon className="w-8 h-8 text-primary mb-3" />
+          {values.map((item, i) => (
+            <motion.div
+              key={item.title}
+              {...fadeUp(0.1 + i * 0.08)}
+              className="glass rounded-2xl p-6 hover:border-[var(--ring)]/30 transition-colors group"
+            >
+              <div className="w-10 h-10 rounded-xl bg-[var(--accent)] flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                <item.icon className="w-5 h-5 text-primary" />
+              </div>
               <h3 className="font-bold text-foreground text-lg mb-1">{item.title}</h3>
               <p className="text-sm text-muted-foreground leading-relaxed">{item.desc}</p>
-            </div>
+            </motion.div>
           ))}
         </div>
 
-        <div className="max-w-3xl mx-auto">
+        <motion.div className="max-w-3xl mx-auto" {...fadeUp(0.3)}>
           <h2 className="text-3xl font-bold text-foreground mb-4 tracking-tight">قصتنا</h2>
           <p className="text-muted-foreground leading-relaxed mb-4">
             انطلقت SmartLink من رؤية واضحة: تقديم حلول رقمية متكاملة تلبي احتياجات السوق العربي،
             بدءاً من المطاعم والمقاهي التي تحتاج لمنيو رقمي احترافي، إلى أصحاب الصفحات على فيسبوك
             الذين يبحثون عن أتمتة ذكية لردودهم.
           </p>
-          <p className="text-muted-foreground leading-relaxed mb-8">
+          <p className="text-muted-foreground leading-relaxed mb-6">
             اليوم، نحن منصة متنامية تضم أكثر من 500 عميل نشط، ونعمل باستمرار على تطوير خدماتنا
             وإضافة المزيد من الحلول المبتكرة. رؤيتنا هي أن نكون المنصة الرقمية الأولى للأعمال في العالم العربي.
           </p>
-        </div>
+          <Link
+            href="/contact"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-primary text-white font-semibold text-sm hover:brightness-110 transition-all"
+          >
+            <ArrowLeft className="w-4 h-4" /> تواصل معنا
+          </Link>
+        </motion.div>
       </div>
     </div>
   )

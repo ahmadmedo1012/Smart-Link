@@ -1,16 +1,24 @@
-import type { Metadata } from "next"
-
-export const metadata: Metadata = {
-  title: "سياسة الخصوصية",
-  description: "سياسة الخصوصية لمنصة SmartLink",
-}
+"use client"
+import { motion } from "framer-motion"
 
 export default function PrivacyPage() {
   return (
     <div className="pt-28 pb-16">
       <div className="container-base max-w-3xl mx-auto">
-        <h1 className="text-5xl md:text-6xl font-extrabold tracking-tight text-foreground mb-8">سياسة الخصوصية</h1>
-        <div className="space-y-6 text-muted-foreground leading-relaxed">
+        <motion.h1
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] }}
+          className="text-5xl md:text-6xl font-extrabold tracking-tight text-foreground mb-8"
+        >
+          سياسة <span className="gradient-text">الخصوصية</span>
+        </motion.h1>
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.1, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] }}
+          className="space-y-6 text-muted-foreground leading-relaxed"
+        >
           <p className="text-sm">آخر تحديث: 2026</p>
           <section>
             <h2 className="text-xl font-bold text-foreground mt-6 mb-2">المقدمة</h2>
@@ -32,7 +40,7 @@ export default function PrivacyPage() {
             <h2 className="text-xl font-bold text-foreground mt-6 mb-2">اتصل بنا</h2>
             <p>لأي استفسارات بخصوص سياسة الخصوصية، يرجى التواصل معنا على support@smart-link.ly</p>
           </section>
-        </div>
+        </motion.div>
       </div>
     </div>
   )

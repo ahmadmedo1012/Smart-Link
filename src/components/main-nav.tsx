@@ -1,8 +1,9 @@
 "use client"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Link from "next/link"
 import Image from "next/image"
-import { Menu, X, Smartphone, Bot, ChevronDown } from "lucide-react"
+import { Menu, X, Smartphone, Bot, ChevronDown, Sun, Moon } from "lucide-react"
+import { useTheme } from "next-themes"
 import { cn } from "@/lib/utils"
 
 const navLinks = [
@@ -21,6 +22,10 @@ const navLinks = [
 export function MainNav() {
   const [mobileOpen, setMobileOpen] = useState(false)
   const [servicesOpen, setServicesOpen] = useState(false)
+  const { theme, setTheme } = useTheme()
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => setMounted(true), [])
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50">
@@ -80,14 +85,27 @@ export function MainNav() {
           )}
         </nav>
 
-        <button
-          onClick={() => { setMobileOpen(!mobileOpen); if (mobileOpen) setServicesOpen(false); }}
-          aria-label={mobileOpen ? "إغلاق القائمة" : "فتح القائمة"}
-          aria-expanded={mobileOpen}
-          className="md:hidden p-3 rounded-lg hover:bg-[var(--accent)] transition-colors"
-        >
-          {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-        </button>
+        <div className="flex items-center gap-2">
+          {/* Theme toggle */}
+          {mounted && (
+            <button
+              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+              aria-label={theme === "dark" ? "تفعيل الثيم الفاتح" : "تفعيل الثيم الداكن"}
+              className="p-2.5 rounded-lg hover:bg-[var(--accent)] text-muted-foreground hover:text-foreground transition-colors"
+            >
+              {theme === "dark" ? <Sun className="w-4.5 h-4.5" /> : <Moon className="w-4.5 h-4.5" />}
+            </button>
+          )}
+
+          <button
+            onClick={() => { setMobileOpen(!mobileOpen); if (mobileOpen) setServicesOpen(false); }}
+            aria-label={mobileOpen ? "إغلاق القائمة" : "فتح القائمة"}
+            aria-expanded={mobileOpen}
+            className="md:hidden p-2.5 rounded-lg hover:bg-[var(--accent)] transition-colors"
+          >
+            {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+          </button>
+        </div>
       </div>
 
       {mobileOpen && (

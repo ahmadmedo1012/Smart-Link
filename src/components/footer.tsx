@@ -1,0 +1,87 @@
+import Link from "next/link"
+import { Smartphone, Bot, Mail, MapPin } from "lucide-react"
+
+export function Footer() {
+  return (
+    <footer className="border-t border-[var(--border)] bg-[var(--surface-sunken)]">
+      <div className="container-base py-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+          <div>
+            <div className="flex items-center gap-2.5 mb-4">
+              <div className="w-8 h-8 rounded-xl bg-[var(--primary)] flex items-center justify-center text-white font-extrabold text-xs">S</div>
+              <span className="text-base font-bold">Smart<span className="text-[var(--primary)]">Link</span></span>
+            </div>
+            <p className="text-sm text-[var(--muted-foreground)] leading-relaxed">
+              منصة رقمية متكاملة تقدم حلولاً ذكية للأعمال. نُمكنك من رقمنة خدماتك وزيادة مبيعاتك بأحدث التقنيات.
+            </p>
+          </div>
+
+          <div>
+            <h4 className="text-sm font-bold mb-4">روابط سريعة</h4>
+            <ul className="space-y-2.5">
+              {[
+                { label: "الرئيسية", href: "/" },
+                { label: "عن SmartLink", href: "/about" },
+                { label: "اتصل بنا", href: "/contact" },
+                { label: "سياسة الخصوصية", href: "/privacy" },
+                { label: "شروط الاستخدام", href: "/terms" },
+              ].map((l) => (
+                <li key={l.label}>
+                  <Link href={l.href} className="text-sm text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors">
+                    {l.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <h4 className="text-sm font-bold mb-4">خدماتنا</h4>
+            <ul className="space-y-2.5">
+              {[
+                { label: "Smart Menu — المنيو الرقمي", href: "https://menu.smart-link.ly", icon: Smartphone },
+                { label: "SmartBot — البوت الذكي", href: "https://bot.smart-link.ly", icon: Bot },
+              ].map((l) => (
+                <li key={l.label}>
+                  <a
+                    href={l.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 text-sm text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors group"
+                  >
+                    <l.icon className="w-3.5 h-3.5 text-[var(--primary)] group-hover:scale-110 transition-transform" />
+                    {l.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <h4 className="text-sm font-bold mb-4">اتصل بنا</h4>
+            <ul className="space-y-3">
+              <li className="flex items-center gap-2 text-sm text-[var(--muted-foreground)]">
+                <Mail className="w-3.5 h-3.5 text-[var(--primary)] shrink-0" />
+                support@smart-link.ly
+              </li>
+              <li className="flex items-center gap-2 text-sm text-[var(--muted-foreground)]">
+                <MapPin className="w-3.5 h-3.5 text-[var(--primary)] shrink-0" />
+                ليبيا
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div className="border-t border-[var(--border)] py-5">
+        <div className="container-base flex flex-col md:flex-row items-center justify-between gap-3">
+          <p className="text-xs text-[var(--muted-foreground)]">© {new Date().getFullYear()} SmartLink. جميع الحقوق محفوظة.</p>
+          <div className="flex items-center gap-4">
+            <Link href="/privacy" className="text-xs text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors">سياسة الخصوصية</Link>
+            <Link href="/terms" className="text-xs text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors">شروط الاستخدام</Link>
+          </div>
+        </div>
+      </div>
+    </footer>
+  )
+}

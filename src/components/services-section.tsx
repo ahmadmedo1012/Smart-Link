@@ -1,0 +1,92 @@
+"use client"
+import { Smartphone, Bot, Sparkles } from "lucide-react"
+
+const services = [
+  {
+    title: "Smart Menu",
+    subtitle: "المنيو الرقمي للمطاعم",
+    description: "حول منيو مطعمك إلى تجربة رقمية تفاعلية. طلبات تصل مباشرة على واتساب مع لوحة تحكم عربية كاملة.",
+    href: "https://menu.smart-link.ly",
+    icon: Smartphone,
+    features: ["منيو رقمي تفاعلي", "طلبات عبر واتساب", "برنامج ولاء وإحالات", "إحصائيات وتحليلات", "QR كود مخصص", "لوحة تحكم عربية"],
+    color: "from-orange-500/20 to-amber-500/10",
+  },
+  {
+    title: "SmartBot",
+    subtitle: "البوت الذكي لفيسبوك",
+    description: "أتمتة الردود على صفحات فيسبوك بذكاء. ردود تلقائية، تصنيف نوايا، وإدارة متكاملة للمحادثات.",
+    href: "https://bot.smart-link.ly",
+    icon: Bot,
+    features: ["ردود تلقائية ذكية", "تصنيف النوايا", "لوحة تحكم متكاملة", "تقارير وتحليلات", "بث جماعي", "إدارة الصفحات"],
+    color: "from-violet-500/20 to-purple-500/10",
+  },
+  {
+    title: "قريباً",
+    subtitle: "خدمات قادمة",
+    description: "نعمل على إطلاق خدمات جديدة ومبتكرة لتوسيع منظومتنا الرقمية. ترقبوا المزيد قريباً.",
+    href: "#",
+    icon: Sparkles,
+    features: ["متجر إلكتروني", "حجوزات مواعيد", "منصة تسويق", "مساعد ذكي", "فواتير إلكترونية", "تطبيق موبايل"],
+    color: "from-emerald-500/20 to-teal-500/10",
+    comingSoon: true,
+  },
+]
+
+export function ServicesSection() {
+  return (
+    <section id="services" className="section-padding relative">
+      <div className="container-base">
+        <div className="text-center mb-14">
+          <h2 className="text-3xl md:text-4xl font-extrabold text-[var(--foreground)] mb-4">خدماتنا</h2>
+          <p className="text-[var(--muted-foreground)] max-w-xl mx-auto">
+            منظومة متكاملة من الخدمات الرقمية المصممة لتطوير أعمالك وزيادة مبيعاتك
+          </p>
+        </div>
+
+        <div className="grid md:grid-cols-3 gap-6">
+          {services.map((service) => {
+            const Icon = service.icon
+            return (
+              <div
+                key={service.title}
+                className="group relative rounded-2xl border border-[var(--border)] bg-[var(--card)] overflow-hidden hover:border-[var(--primary)]/30 transition-all duration-500 hover:shadow-[0_0_40px_var(--orange-muted)]"
+              >
+                <div className={`absolute inset-0 bg-gradient-to-br ${service.color} opacity-50 group-hover:opacity-80 transition-opacity duration-500`} />
+                <div className="relative p-6 md:p-8">
+                  <div className="w-12 h-12 rounded-xl bg-[var(--orange-muted)] flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+                    <Icon className="w-6 h-6 text-[var(--primary)]" />
+                  </div>
+                  <h3 className="text-xl font-bold text-[var(--foreground)] mb-1">{service.title}</h3>
+                  <p className="text-sm text-[var(--primary)] font-medium mb-3">{service.subtitle}</p>
+                  <p className="text-sm text-[var(--muted-foreground)] leading-relaxed mb-5">{service.description}</p>
+                  <ul className="space-y-2 mb-6">
+                    {service.features.map((f) => (
+                      <li key={f} className="flex items-center gap-2 text-sm text-[var(--muted-foreground)]">
+                        <div className="w-1.5 h-1.5 rounded-full bg-[var(--primary)] shrink-0" />
+                        {f}
+                      </li>
+                    ))}
+                  </ul>
+                  {service.comingSoon ? (
+                    <span className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg glass text-sm text-[var(--muted-foreground)] font-medium">
+                      <Sparkles className="w-3.5 h-3.5" /> قريباً
+                    </span>
+                  ) : (
+                    <a
+                      href={service.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-[var(--primary)] text-white text-sm font-semibold hover:brightness-110 transition-all duration-300"
+                    >
+                      زيارة الخدمة
+                    </a>
+                  )}
+                </div>
+              </div>
+            )
+          })}
+        </div>
+      </div>
+    </section>
+  )
+}

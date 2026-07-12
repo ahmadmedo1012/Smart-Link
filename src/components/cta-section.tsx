@@ -10,27 +10,19 @@ export function CTASection() {
 
   return (
     <section id="cta" className="section-padding relative overflow-hidden">
-      {/* Ambient glow */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
-        <motion.div
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[450px] rounded-full"
-          style={{ background: "var(--primary)", opacity: 0.08, filter: "blur(150px)" }}
-          animate={{ scale: [1, 1.1, 1], opacity: [0.08, 0.12, 0.08] }}
-          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-        />
-        <div className="absolute top-0 right-0 w-64 h-64 rounded-full" style={{ background: "var(--primary)", opacity: 0.1, filter: "blur(100px)" }} />
-        <div className="absolute bottom-0 left-0 w-64 h-64 rounded-full" style={{ background: "var(--primary)", opacity: 0.1, filter: "blur(100px)" }} />
-      </div>
-
-      {/* Decorative dots */}
       <div
-        className="absolute inset-0 pointer-events-none opacity-[0.02]"
+        className="absolute inset-0 overflow-hidden pointer-events-none"
         aria-hidden="true"
-        style={{
-          backgroundImage: "radial-gradient(circle, var(--primary) 1px, transparent 1px)",
-          backgroundSize: "30px 30px",
-        }}
-      />
+      >
+        <div
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[450px] rounded-full"
+          style={{
+            background: "var(--primary)",
+            opacity: 0.06,
+            filter: "blur(150px)",
+          }}
+        />
+      </div>
 
       <motion.div
         ref={ref}
@@ -44,20 +36,16 @@ export function CTASection() {
             جهز أعمالك للانطلاق <span className="gradient-text">الرقمي</span>
           </h2>
           <p className="text-muted-foreground text-base mb-8 max-w-lg mx-auto leading-relaxed">
-            انضم إلى أكثر من 500 عميل يثقون في منصتنا. ابدأ مجاناً وطور أعمالك مع SmartLink.
+            أكثر من 500 عميل يثقون بنا. انضم إليهم وابدأ رحلتك الرقمية مع SmartLink.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <a
               href="https://menu.smart-link.ly"
               target="_blank"
               rel="noopener noreferrer"
-              className="group inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-primary text-white font-semibold text-sm hover:brightness-110 transition-all duration-200 shadow-glow focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring active:scale-[0.97]"
-              style={{
-                animation: "pulse-glow 4s ease-in-out infinite",
-                boxShadow: "0 0 20px rgba(var(--primary), 0.15)"
-              }}
+              className="group inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-primary text-white font-semibold text-sm hover:brightness-110 transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring active:scale-[0.97]"
             >
-              ابدأ مجاناً <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
+              ابدأ التجربة <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
             </a>
             <Link
               href="/contact"
@@ -66,14 +54,6 @@ export function CTASection() {
               تواصل معنا
             </Link>
           </div>
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={inView ? { opacity: 1 } : {}}
-            transition={{ delay: 0.3 }}
-            className="text-xs text-muted-foreground mt-6"
-          >
-            مجاناً بدون بطاقة ائتمان · إلغاء في أي وقت · دعم فني متكامل
-          </motion.p>
         </div>
       </motion.div>
     </section>

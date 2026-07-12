@@ -7,10 +7,21 @@ import { Smartphone, Bot, Mail, MapPin, Globe, MessageCircle, Share2, ArrowUp } 
 export function Footer() {
   const [showScrollTop, setShowScrollTop] = useState(false)
 
+  // IntersectionObserver for scroll-to-top visibility — no style recalc per frame
   useEffect(() => {
-    const onScroll = () => setShowScrollTop(window.scrollY > 400)
-    window.addEventListener("scroll", onScroll, { passive: true })
-    return () => window.removeEventListener("scroll", onScroll)
+    const sentinel = document.createElement("div")
+    sentinel.style.position = "absolute"
+    sentinel.style.top = "401px"
+    sentinel.style.height = "1px"
+    sentinel.style.width = "1px"
+    sentinel.style.pointerEvents = "none"
+    document.body.prepend(sentinel)
+    const obs = new IntersectionObserver(
+      ([e]) => setShowScrollTop(e.isIntersecting),
+      { rootMargin: "0px 0px 0px 0px" }
+    )
+    obs.observe(sentinel)
+    return () => { obs.disconnect(); sentinel.remove() }
   }, [])
 
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" })

@@ -51,7 +51,7 @@ function ServiceCard({ service, index }: { service: typeof services[number]; ind
       ref={ref}
       initial={{ opacity: 0, y: 60, scale: 0.95 }}
       animate={inView ? { opacity: 1, y: 0, scale: 1 } : {}}
-      transition={{ duration: 0.6, delay: index * 0.15, ease: [0.16, 1, 0.3, 1] }}
+      transition={{ duration: 0.4, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
       className="group relative rounded-[20px] border border-[var(--border)] bg-[var(--card)] overflow-hidden hover:border-[var(--ring)]/40 hover:shadow-[0_0_60px_var(--shadow-glow)] transition-all duration-500 flex flex-col h-full"
       style={{ perspective: "800px" }}
     >

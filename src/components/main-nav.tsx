@@ -5,7 +5,7 @@ import Image from "next/image"
 import { Menu, X, Smartphone, Bot, ChevronDown, Sun, Moon } from "lucide-react"
 import { useTheme } from "next-themes"
 import { cn } from "@/lib/utils"
-import { motion, AnimatePresence } from "framer-motion"
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion"
 
 const navLinks = [
   { href: "/", label: "الرئيسية" },
@@ -56,19 +56,35 @@ export function MainNav() {
   const [scrolled, setScrolled] = useState(false)
   const [mounted, setMounted] = useState(false)
   const { theme, setTheme } = useTheme()
+  const headerRef = useRef<HTMLDivElement>(null)
+  const prefersReduce = useReducedMotion()
+  if (prefersReduce) {} // ponytail: reference kept for AnimatePresence gating
 
   useEffect(() => setMounted(true), [])
 
+  // IntersectionObserver for scroll state — avoids style recalc per scroll frame
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20)
-    window.addEventListener("scroll", onScroll, { passive: true })
-    return () => window.removeEventListener("scroll", onScroll)
+    const el = headerRef.current
+    if (!el) return
+    const sentinel = document.createElement("div")
+    sentinel.style.position = "absolute"
+    sentinel.style.top = "21px"
+    sentinel.style.height = "1px"
+    sentinel.style.width = "1px"
+    sentinel.style.pointerEvents = "none"
+    document.body.prepend(sentinel)
+    const obs = new IntersectionObserver(
+      ([e]) => setScrolled(!e.isIntersecting),
+      { rootMargin: "-20px 0px 0px 0px" }
+    )
+    obs.observe(sentinel)
+    return () => { obs.disconnect(); sentinel.remove() }
   }, [])
 
   return (
-    <header
+    <header ref={headerRef}
       className={cn(
-        "fixed top-0 left-0 right-0 z-50 transition-all duration-[var(--move-base)]",
+        "fixed top-0 left-0 right-0 z-50 transition-[background,backdrop-filter,border-color] duration-[var(--move-base)]",
         scrolled
           ? "bg-[var(--background)]/80 backdrop-blur-xl border-b border-[var(--border)]"
           : "bg-transparent border-b border-transparent"

@@ -20,7 +20,7 @@ function StepCard({ step, index }: { step: typeof steps[number]; index: number }
       ref={ref}
       initial={shouldReduce ? {} : { opacity: 0, y: 40 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.6, delay: index * 0.15, ease: [0.16, 1, 0.3, 1] }}
+      transition={{ duration: 0.4, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
       className="relative text-center group"
     >
       {/* Connecting line */}
@@ -29,7 +29,7 @@ function StepCard({ step, index }: { step: typeof steps[number]; index: number }
           <motion.div
             initial={{ width: 0 }}
             animate={inView && !shouldReduce ? { width: "100%" } : {}}
-            transition={{ duration: 0.8, delay: index * 0.15 + 0.3 }}
+            transition={{ duration: 0.5, delay: index * 0.1 + 0.3 }}
             className="h-full bg-gradient-to-r from-[var(--primary)]/0 via-[var(--primary)]/20 to-[var(--primary)]/0"
             aria-hidden="true"
           />

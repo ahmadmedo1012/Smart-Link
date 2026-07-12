@@ -14,21 +14,21 @@ function AnimatedStat({ value, label, icon: Icon, delay = 0 }: { value: string; 
 
   useEffect(() => {
     if (!inView) return
-    let start = 0
-    const duration = 2000
-    const step = 16
-    const totalSteps = duration / step
-    const increment = target / totalSteps
-    const timer = setInterval(() => {
-      start += increment
-      if (start >= target) {
-        setDisplay(prefix + Math.round(target) + suffix)
-        clearInterval(timer)
-      } else {
-        setDisplay(prefix + Math.round(start) + suffix)
-      }
-    }, step)
-    return () => clearInterval(timer)
+    const duration = 1200
+    const startTime = performance.now()
+    let raf: number
+    function tick(now: number) {
+      const elapsed = now - startTime
+      const progress = Math.min(elapsed / duration, 1)
+      // ease-out-quart deceleration
+      const eased = 1 - Math.pow(1 - progress, 3)
+      const current = Math.round(eased * target)
+      setDisplay(prefix + current + suffix)
+      if (progress < 1) { raf = requestAnimationFrame(tick) }
+      else { setDisplay(prefix + Math.round(target) + suffix) }
+    }
+    raf = requestAnimationFrame(tick)
+    return () => cancelAnimationFrame(raf)
   }, [inView, target, prefix, suffix])
 
   return (
@@ -36,7 +36,7 @@ function AnimatedStat({ value, label, icon: Icon, delay = 0 }: { value: string; 
       ref={ref}
       initial={{ opacity: 0, y: 24, scale: 0.95 }}
       animate={inView ? { opacity: 1, y: 0, scale: 1 } : {}}
-      transition={{ duration: 0.6, delay: delay + 0.3, ease: [0.16, 1, 0.3, 1] }}
+      transition={{ duration: 0.4, delay: delay + 0.3, ease: [0.16, 1, 0.3, 1] }}
       className="glass-card rounded-xl p-4 text-center group"
     >
       <div className="w-8 h-8 rounded-lg bg-[var(--card)] flex items-center justify-center mx-auto mb-2 group-hover:scale-110 transition-transform duration-200">
@@ -132,6 +132,7 @@ export function HeroSection() {
       <motion.div
         className="container-base relative z-10 w-full"
         style={{ scale: heroScale, opacity: heroOpacity }}
+        // ponytail: scroll-linked scale/opacity; degraded by prefers-reduced-motion CSS on outer section
       >
         <div className="max-w-4xl mx-auto text-center">
           {/* Eyebrow */}
@@ -151,7 +152,7 @@ export function HeroSection() {
                 key={word}
                 initial={{ opacity: 0, y: 40, filter: "blur(12px)" }}
                 animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                transition={{ duration: 0.7, delay: 0.1 + i * 0.15, ease: [0.16, 1, 0.3, 1] }}
+                transition={{ duration: 0.45, delay: 0.1 + i * 0.15, ease: [0.16, 1, 0.3, 1] }}
                 className="block"
               >
                 {i === 0 ? (
@@ -210,7 +211,7 @@ export function HeroSection() {
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.7, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 0.4, delay: 0.7, ease: [0.16, 1, 0.3, 1] }}
           className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-2xl mx-auto"
         >
           {[

@@ -1,0 +1,6 @@
+[     856ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://bot.smart-link.ly/static/manifest.json:0
+[     961ms] [ERROR] Manifest fetch from https://bot.smart-link.ly/static/manifest.json failed, code 404 @ https://bot.smart-link.ly/:0
+[    1169ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://bot.smart-link.ly/static/manifest.json:0
+[    1229ms] [ERROR] Failed to load resource: the server responded with a status of 401 () @ https://bot.smart-link.ly/api/me:0
+[    1268ms] [ERROR] Manifest fetch from https://bot.smart-link.ly/static/manifest.json failed, code 404 @ https://bot.smart-link.ly/:0
+[    1268ms] [WARNING] <meta name="apple-mobile-web-app-capable" content="yes"> is deprecated. Please include <meta name="mobile-web-app-capable" content="yes"> @ https://bot.smart-link.ly/:0

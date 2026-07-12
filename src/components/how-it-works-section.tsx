@@ -39,7 +39,7 @@ function StepCard({ step, index }: { step: typeof steps[number]; index: number }
       {/* Step badge with glow */}
       <div className="relative inline-flex mb-5">
         <motion.div
-          className="w-16 h-16 rounded-2xl bg-[var(--accent)] flex items-center justify-center"
+          className="w-16 h-16 rounded-2xl bg-[var(--card)] border border-[var(--border)] flex items-center justify-center"
           whileHover={{ scale: 1.12, y: -4 }}
           transition={{ type: "spring", stiffness: 300, damping: 15 }}
         >

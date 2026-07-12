@@ -39,7 +39,7 @@ function AnimatedStat({ value, label, icon: Icon, delay = 0 }: { value: string; 
       transition={{ duration: 0.6, delay: delay + 0.3, ease: [0.16, 1, 0.3, 1] }}
       className="glass-card rounded-xl p-4 text-center group"
     >
-      <div className="w-8 h-8 rounded-lg bg-[var(--accent)] flex items-center justify-center mx-auto mb-2 group-hover:scale-110 group-hover:-translate-y-0.5 transition-[transform] duration-200">
+      <div className="w-8 h-8 rounded-lg bg-[var(--card)] flex items-center justify-center mx-auto mb-2 group-hover:scale-110 transition-transform duration-200">
         <Icon className="w-4 h-4 text-[var(--primary)]" />
       </div>
       <div className="text-xl font-bold text-[var(--foreground)] tabular-nums tracking-tight">{display}</div>

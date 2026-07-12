@@ -1,10 +1,73 @@
 "use client"
 import { motion } from "framer-motion"
+import { useMemo } from "react"
+
+function mulberry32(s: number) {
+  return function () {
+    s |= 0; s = s + 0x6d2b79f5 | 0;
+    var t = Math.imul(s ^ s >>> 15, 1 | s);
+    t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+    return ((t ^ t >>> 14) >>> 0) / 4294967296;
+  };
+}
+
+function GenArtBackground({ seed = 99 }: { seed?: number }) {
+  const paths = useMemo(() => {
+    const rng = mulberry32(seed);
+    const lines: string[] = [];
+    const accent = "oklch(0.58 0.195 45)";
+    const accentDim = "oklch(0.58 0.195 45 / 0.05)";
+    const accentMid = "oklch(0.58 0.195 45 / 0.025)";
+
+    // wave bands
+    for (let band = 0; band < 6; band++) {
+      const cy = 20 + band * 12 + rng() * 4;
+      const amp = 4 + rng() * 6;
+      const freq = 0.08 + rng() * 0.04;
+      const phase = rng() * 360;
+      const d: string[] = [];
+      for (let x = 0; x <= 100; x += 2) {
+        const y = cy + Math.sin((x * freq + phase) * (Math.PI / 180)) * amp;
+        d.push(`${x === 0 ? "M" : "L"}${x.toFixed(1)} ${y.toFixed(1)}`);
+      }
+      const opacity = 0.03 + band * 0.004;
+      lines.push(`<path d="${d.join(" ")}" fill="none" stroke="${accent}" stroke-width="0.4" opacity="${opacity}" />`);
+
+      // filled band below
+      if (band % 2 === 0) {
+        const fd = [...d, `L100 ${cy + 10}`, `L0 ${cy + 10}`, "Z"];
+        lines.push(`<path d="${fd.join(" ")}" fill="${accentDim}" stroke="none" />`);
+      }
+    }
+
+    // dots
+    for (let i = 0; i < 40; i++) {
+      const x = rng() * 100;
+      const y = rng() * 100;
+      const sz = 0.4 + rng() * 1.2;
+      const op = 0.015 + rng() * 0.035;
+      lines.push(`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${sz.toFixed(2)}" fill="${accent}" opacity="${op}" />`);
+    }
+
+    return lines.join("\n");
+  }, [seed]);
+
+  return (
+    <svg
+      className="absolute inset-0 w-full h-full pointer-events-none"
+      viewBox="0 0 100 100"
+      preserveAspectRatio="xMidYMid slice"
+      aria-hidden="true"
+      dangerouslySetInnerHTML={{ __html: paths }}
+    />
+  );
+}
 
 export default function PrivacyPage() {
   return (
-    <div className="pt-28 pb-16">
-      <div className="container-base max-w-3xl mx-auto">
+    <div className="pt-28 pb-16 relative overflow-hidden">
+      <GenArtBackground seed={99} />
+      <div className="container-base max-w-3xl mx-auto relative">
         <motion.h1
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}

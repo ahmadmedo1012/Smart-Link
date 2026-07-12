@@ -86,7 +86,7 @@ export function MainNav() {
                           className="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-[var(--accent)] focus-visible:bg-[var(--accent)] transition-[background-color] group/item focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--ring)]"
                         >
                           <div className="w-9 h-9 rounded-lg bg-[var(--accent)] flex items-center justify-center group-hover/item:scale-110 transition-transform">
-                            {Icon && <Icon className="w-4.5 h-4.5 text-primary" />}
+                            {Icon && <Icon className="w-4 h-4 text-primary" />}
                           </div>
                           <div className="text-sm font-medium text-foreground">{child.label}</div>
                         </a>
@@ -114,8 +114,8 @@ export function MainNav() {
               aria-label={theme === "dark" ? "تفعيل الثيم الفاتح" : "تفعيل الثيم الداكن"}
               className="p-3 rounded-lg hover:bg-[var(--accent)] text-muted-foreground hover:text-foreground transition-[color,background-color] focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--ring)]"
             >
-              <span className="block transition-transform duration-500 ease-[var(--ease-spring)]">
-                {theme === "dark" ? <Sun className="w-4.5 h-4.5" /> : <Moon className="w-4.5 h-4.5" />}
+              <span className={cn("block transition-all duration-500 ease-[var(--ease-spring)]", mounted && (theme === "dark" ? "" : "rotate-180"))}>
+                {theme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
               </span>
             </button>
           )}

@@ -71,8 +71,8 @@ function FloatingIcon({ Icon, delay, x, y, index }: { Icon: React.ComponentType<
       className="absolute hidden lg:block pointer-events-none"
       style={{ left: x, top: y }}
       initial={{ opacity: 0, scale: 0.5 }}
-      animate={shouldReduceMotion ? {} : { opacity: [0.08, 0.15, 0.08], y: [0, -20, 0], x: [0, 10, 0] }}
-      transition={{ duration: 5 + index * 0.5, repeat: Infinity, delay, ease: "easeInOut" }}
+      animate={shouldReduceMotion ? {} : { opacity: 0.12, y: [0, -12, 0], x: [0, 6, 0] }}
+      transition={{ duration: 4 + index * 0.4, repeat: 5, repeatDelay: 8, delay, ease: "easeInOut" }}
     >
       <Icon className="w-7 h-7 text-[var(--primary)]" />
     </motion.div>
@@ -95,8 +95,8 @@ export function HeroSection() {
             width: b.size, height: b.size, left: b.x, top: b.y,
             background: b.color, filter: `blur(${b.blur})`, opacity: b.opacity,
           }}
-          animate={shouldReduceMotion ? {} : { opacity: [b.opacity, b.opacity * 1.3, b.opacity] }}
-          transition={{ duration: 4 + i * 1.5, repeat: Infinity, ease: "easeInOut" }}
+          animate={shouldReduceMotion ? {} : { opacity: [b.opacity, b.opacity * 1.2, b.opacity] }}
+          transition={{ duration: 3 + i * 1, repeat: 3, repeatDelay: 10, ease: "easeInOut" }}
         />
       ))}
 
@@ -151,9 +151,9 @@ export function HeroSection() {
 
           {/* Description */}
           <motion.p
-            initial={{ opacity: 0, y: 16 }}
+            initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.4, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
             className="text-base md:text-lg text-[var(--muted-foreground)] max-w-2xl mx-auto mb-10 leading-[1.7]"
           >
             منصة موحدة تجمع حلولنا الرقمية المبتكرة — من المنيو الرقمي للمطاعم إلى البوت الذكي لفيسبوك —

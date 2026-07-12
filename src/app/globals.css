@@ -78,22 +78,22 @@
 
   /* ── Core palette ── */
   --background: oklch(0.018 0.003 30);
-  --background-radial: radial-gradient(ellipse 80% 50% at 50% -8%, oklch(0.55 0.08 45 / 0.06), transparent 70%);
+  --background-radial: radial-gradient(ellipse 80% 50% at 50% -8%, oklch(0.68 0.19 45 / 0.1), transparent 70%);
   --foreground: oklch(0.95 0.003 30);
   --card: oklch(0.085 0.004 30);
   --card-foreground: oklch(0.95 0.003 30);
-  --primary: oklch(0.55 0.08 45);
+  --primary: oklch(0.58 0.195 45);
   --primary-foreground: oklch(0.98 0 0);
   --secondary: oklch(0.12 0.005 30);
   --secondary-foreground: oklch(0.75 0.008 30);
   --muted: oklch(0.1 0.004 30);
   --muted-foreground: oklch(0.62 0.015 30);
-  --accent: oklch(0.55 0.08 45 / 0.12);
-  --accent-foreground: oklch(0.55 0.08 45);
+  --accent: oklch(0.58 0.195 45 / 0.12);
+  --accent-foreground: oklch(0.58 0.195 45);
   --destructive: oklch(0.6 0.22 25);
   --border: oklch(0.18 0.006 30);
   --input: oklch(0.18 0.006 30);
-  --ring: oklch(0.55 0.08 45);
+  --ring: oklch(0.58 0.195 45);
   --success: oklch(0.62 0.18 145);
   --warning: oklch(0.72 0.16 80);
   --info: oklch(0.55 0.14 240);
@@ -106,7 +106,7 @@
   /* ── Glass variants ── */
   --glass-bg: oklch(0.085 0.004 30 / 0.35);
   --glass-bg-strong: oklch(0.12 0.005 30 / 0.55);
-  --glass-border: oklch(0.55 0.08 45 / 0.08);
+  --glass-border: oklch(0.58 0.195 45 / 0.08);
   --glass-shadow: 0 8px 32px oklch(0 0 0 / 0.45), inset 0 1px 0 oklch(1 1 0 / 0.04);
   --glass-shadow-lg: 0 12px 48px oklch(0 0 0 / 0.5), inset 0 1px 0 oklch(1 1 0 / 0.06);
 
@@ -115,18 +115,18 @@
   --shadow-md: 0 4px 16px oklch(0 0 0 / 0.4), 0 2px 4px oklch(0 0 0 / 0.3);
   --shadow-lg: 0 12px 40px oklch(0 0 0 / 0.45), 0 4px 8px oklch(0 0 0 / 0.35);
   --shadow-xl: 0 24px 60px oklch(0 0 0 / 0.5), 0 8px 16px oklch(0 0 0 / 0.4);
-  --shadow-glow: 0 0 30px oklch(0.55 0.08 45 / 0.25);
+  --shadow-glow: 0 0 30px oklch(0.58 0.195 45 / 0.25);
 
   /* ── Service gradients ── */
-  --gradient-smart-menu: linear-gradient(135deg, oklch(0.55 0.08 60 / 0.25), oklch(0.55 0.08 50 / 0.1));
+  --gradient-smart-menu: linear-gradient(135deg, oklch(0.7 0.19 60 / 0.25), oklch(0.7 0.15 50 / 0.1));
   --gradient-smart-bot: linear-gradient(135deg, oklch(0.55 0.15 280 / 0.25), oklch(0.5 0.12 280 / 0.1));
   --gradient-coming-soon: linear-gradient(135deg, oklch(0.6 0.18 160 / 0.25), oklch(0.55 0.15 160 / 0.1));
   --gradient-shine: linear-gradient(90deg, transparent 0%, oklch(1 0 0 / 0.05) 50%, transparent 100%);
 
   /* ── Grid pattern ── */
-  --grid-line: oklch(0.55 0.08 45 / 0.08);
-  --grid-fill: oklch(0.55 0.08 45 / 0.03);
-  --grid-square: oklch(0.55 0.08 45 / 0.08);
+  --grid-line: oklch(0.58 0.195 45 / 0.1);
+  --grid-fill: oklch(0.58 0.195 45 / 0.04);
+  --grid-square: oklch(0.58 0.195 45 / 0.1);
 
   /* ── Motion ── */
   --move-fast: 150ms;
@@ -136,22 +136,22 @@
 
 .light {
   --background: oklch(0.985 0 0);
-  --background-radial: radial-gradient(ellipse 80% 50% at 50% -8%, oklch(0.45 0.06 45 / 0.04), transparent 70%);
+  --background-radial: radial-gradient(ellipse 80% 50% at 50% -8%, oklch(0.58 0.195 45 / 0.04), transparent 70%);
   --foreground: oklch(0.12 0.004 30);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.12 0.004 30);
-  --primary: oklch(0.45 0.06 45);
+  --primary: oklch(0.48 0.19 45);
   --primary-foreground: oklch(0.98 0 0);
   --secondary: oklch(0.92 0.005 30);
   --secondary-foreground: oklch(0.25 0.008 30);
   --muted: oklch(0.95 0.003 30);
   --muted-foreground: oklch(0.55 0.01 30);
-  --accent: oklch(0.45 0.06 45 / 0.1);
-  --accent-foreground: oklch(0.45 0.06 45);
+  --accent: oklch(0.48 0.19 45 / 0.1);
+  --accent-foreground: oklch(0.48 0.19 45);
   --destructive: oklch(0.58 0.2 25);
   --border: oklch(0.88 0.006 30);
   --input: oklch(0.88 0.006 30);
-  --ring: oklch(0.45 0.06 45);
+  --ring: oklch(0.48 0.19 45);
   --success: oklch(0.62 0.18 145);
   --warning: oklch(0.72 0.16 80);
   --info: oklch(0.55 0.14 240);
@@ -162,7 +162,7 @@
 
   --glass-bg: oklch(1 0 0 / 0.3);
   --glass-bg-strong: oklch(1 0 0 / 0.5);
-  --glass-border: oklch(0.45 0.06 45 / 0.1);
+  --glass-border: oklch(0.48 0.19 45 / 0.1);
   --glass-shadow: 0 8px 32px oklch(0 0 0 / 0.06), inset 0 1px 0 oklch(1 1 0 / 0.6);
   --glass-shadow-lg: 0 12px 48px oklch(0 0 0 / 0.08), inset 0 1px 0 oklch(1 1 0 / 0.6);
 
@@ -170,16 +170,16 @@
   --shadow-md: 0 4px 12px oklch(0 0 0 / 0.06);
   --shadow-lg: 0 12px 40px oklch(0 0 0 / 0.08);
   --shadow-xl: 0 24px 60px oklch(0 0 0 / 0.1);
-  --shadow-glow: 0 0 30px oklch(0.45 0.06 45 / 0.12);
+  --shadow-glow: 0 0 30px oklch(0.48 0.19 45 / 0.12);
 
-  --gradient-smart-menu: linear-gradient(135deg, oklch(0.55 0.08 60 / 0.15), oklch(0.55 0.08 50 / 0.06));
+  --gradient-smart-menu: linear-gradient(135deg, oklch(0.7 0.19 60 / 0.15), oklch(0.7 0.15 50 / 0.06));
   --gradient-smart-bot: linear-gradient(135deg, oklch(0.55 0.15 280 / 0.15), oklch(0.5 0.12 280 / 0.06));
   --gradient-coming-soon: linear-gradient(135deg, oklch(0.6 0.18 160 / 0.15), oklch(0.55 0.15 160 / 0.06));
   --gradient-shine: linear-gradient(90deg, transparent 0%, oklch(0 0 0 / 0.03) 50%, transparent 100%);
 
-  --grid-line: oklch(0.45 0.06 45 / 0.06);
-  --grid-fill: oklch(0.45 0.06 45 / 0.03);
-  --grid-square: oklch(0.45 0.06 45 / 0.06);
+  --grid-line: oklch(0.48 0.19 45 / 0.06);
+  --grid-fill: oklch(0.48 0.19 45 / 0.03);
+  --grid-square: oklch(0.48 0.19 45 / 0.06);
 }
 
 @layer base {
@@ -228,14 +228,14 @@
 
 @utility gradient-text {
   color: var(--primary);
-  background: linear-gradient(135deg, var(--primary), oklch(0.6 0.12 45), oklch(0.7 0.1 50));
+  background: linear-gradient(135deg, var(--primary), oklch(0.68 0.19 45), oklch(0.75 0.18 50));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
 @utility gradient-text-opaque {
-  background: linear-gradient(135deg, var(--primary), oklch(0.6 0.12 45), oklch(0.7 0.1 50));
+  background: linear-gradient(135deg, var(--primary), oklch(0.68 0.19 45), oklch(0.75 0.18 50));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -278,8 +278,8 @@
 }
 
 @keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 20px oklch(0.55 0.08 45 / 0.12); }
-  50% { box-shadow: 0 0 40px oklch(0.55 0.08 45 / 0.25); }
+  0%, 100% { box-shadow: 0 0 20px oklch(0.58 0.195 45 / 0.15); }
+  50% { box-shadow: 0 0 40px oklch(0.58 0.195 45 / 0.35); }
 }
 
 @keyframes shine {

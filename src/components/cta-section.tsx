@@ -10,16 +10,17 @@ export function CTASection() {
 
   return (
     <section id="cta" className="section-padding relative overflow-hidden">
+      {/* Large ambient glow — subtle, no hard orange block */}
       <div
         className="absolute inset-0 overflow-hidden pointer-events-none"
         aria-hidden="true"
       >
         <div
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[450px] rounded-full"
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] rounded-full"
           style={{
             background: "var(--primary)",
-            opacity: 0.06,
-            filter: "blur(150px)",
+            opacity: 0.03,
+            filter: "blur(180px)",
           }}
         />
       </div>

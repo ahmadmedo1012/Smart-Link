@@ -249,8 +249,20 @@
 }
 
 @utility section-padding {
-  padding-top: 6rem;
-  padding-bottom: 6rem;
+  padding-top: 7rem;
+  padding-bottom: 7rem;
+}
+
+@utility section-padding-sm {
+  padding-top: 4rem;
+  padding-bottom: 4rem;
+}
+
+@media (width <= 768px) {
+  .section-padding {
+    padding-top: 4.5rem;
+    padding-bottom: 4.5rem;
+  }
 }
 
 /* ── Animations ── */
@@ -365,6 +377,14 @@
   transition: transform var(--duration-base) var(--ease-smooth),
               border-color var(--duration-base) var(--ease-smooth),
               box-shadow var(--duration-base) var(--ease-smooth);
+}
+
+@utility glass-card-hover {
+  &:hover {
+    transform: translateY(-2px);
+    border-color: var(--ring);
+    box-shadow: var(--glass-shadow-lg), 0 0 30px var(--shadow-glow);
+  }
 }
 
 @utility noise-overlay {

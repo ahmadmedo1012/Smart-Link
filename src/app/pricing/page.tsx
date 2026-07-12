@@ -143,7 +143,7 @@ export default function PricingPage() {
                 {...fadeUp(0.1 + i * 0.1)}
                 className="group relative rounded-[20px] border border-[var(--border)] bg-[var(--card)] overflow-hidden hover:border-[var(--ring)]/30 hover:shadow-[0_0_50px_var(--shadow-glow)] flex flex-col"
               >
-                <div className="absolute inset-0 opacity-30 group-hover:opacity-60 transition-opacity duration-500" style={{ background: `linear-gradient(135deg, ${plan.gradient})` }} aria-hidden="true" />
+                <div className="absolute inset-0 opacity-10 group-hover:opacity-20 transition-opacity duration-500" style={{ background: `linear-gradient(135deg, ${plan.gradient})` }} aria-hidden="true" />
                 <div className="relative p-7 md:p-8 flex flex-col flex-1">
                   <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${plan.iconBg} flex items-center justify-center mb-5`}>
                     <Icon className="w-6 h-6 text-[var(--primary)]" />

@@ -49,9 +49,9 @@ function AnimatedStat({ value, label, icon: Icon, delay = 0 }: { value: string; 
 }
 
 const ambientBlobs = [
-  { size: 300, x: "-10%", y: "-10%", blur: "120px", color: "oklch(0.55 0.25 250 / 0.06)", opacity: 0.04 },
-  { size: 250, x: "75%", y: "20%", blur: "100px", color: "oklch(0.55 0.25 250 / 0.04)", opacity: 0.03 },
-  { size: 200, x: "50%", y: "60%", blur: "80px", color: "oklch(0.55 0.25 340 / 0.03)", opacity: 0.02 },
+  { size: 280, x: "-5%", y: "-5%", blur: "100px", color: "oklch(0.5 0.15 250 / 0.04)", opacity: 0.02 },
+  { size: 200, x: "70%", y: "25%", blur: "80px", color: "oklch(0.5 0.15 250 / 0.03)", opacity: 0.015 },
+  { size: 180, x: "40%", y: "55%", blur: "60px", color: "oklch(0.5 0.15 300 / 0.02)", opacity: 0.01 },
 ]
 
 const floatingIcons = [
@@ -136,8 +136,8 @@ export function HeroSection() {
             {headingWords.map((word, i) => (
               <motion.span
                 key={word}
-                initial={{ opacity: 0, y: 40, filter: "blur(8px)" }}
-                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                initial={{ opacity: 0, y: 40 }}
+                animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.7, delay: 0.1 + i * 0.15, ease: [0.16, 1, 0.3, 1] }}
                 className="block"
               >

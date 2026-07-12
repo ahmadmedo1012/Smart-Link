@@ -99,15 +99,32 @@ function ServiceCard({ service, index }: { service: typeof services[number]; ind
               <Sparkles className="w-3.5 h-3.5" /> قريباً
             </span>
           ) : (
-            <a
-              href={service.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={`${service.title} — رابط خارجي`}
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-[var(--primary)] text-white text-sm font-semibold hover:brightness-110 transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ring)] active:scale-[0.97] w-fit"
-            >
-              زيارة الخدمة <ChevronLeft className="w-3.5 h-3.5" />
-            </a>
+            <div className="space-y-3">
+              <a
+                href={service.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`${service.title} — رابط خارجي`}
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-[var(--primary)] text-white text-sm font-semibold hover:brightness-110 transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ring)] active:scale-[0.97] w-fit"
+              >
+                زيارة الخدمة <ChevronLeft className="w-3.5 h-3.5" />
+              </a>
+              {/* ponytail: screenshot thumbnails, replace with lightbox when gallery is built */}
+              {service.title === "Smart Menu" && (
+                <div className="flex gap-2">
+                  <a href="/images/smart-menu.jpg" target="_blank" rel="noopener noreferrer" className="block w-20 h-14 rounded-lg overflow-hidden border border-[var(--border)] hover:border-[var(--ring)]/40 transition-colors">
+                    <img src="/images/smart-menu.jpg" alt="Smart Menu لقطة شاشة" className="w-full h-full object-cover" loading="lazy" />
+                  </a>
+                </div>
+              )}
+              {service.title === "SmartBot" && (
+                <div className="flex gap-2">
+                  <a href="/images/smart-bot.jpg" target="_blank" rel="noopener noreferrer" className="block w-20 h-14 rounded-lg overflow-hidden border border-[var(--border)] hover:border-[var(--ring)]/40 transition-colors">
+                    <img src="/images/smart-bot.jpg" alt="SmartBot لقطة شاشة" className="w-full h-full object-cover" loading="lazy" />
+                  </a>
+                </div>
+              )}
+            </div>
           )}
         </div>
       </motion.div>

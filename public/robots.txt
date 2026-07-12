@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://smart-link.ly/sitemap.xml

@@ -10,7 +10,7 @@ import "./globals.css"
 
 const cairo = Cairo({
   subsets: ["arabic", "latin"],
-  weight: ["400", "600", "700", "800"],
+  weight: ["400", "700"],
   variable: "--font-cairo",
   display: "swap",
 })
@@ -52,6 +52,36 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <meta name="apple-mobile-web-app-title" content="SmartLink" />
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              name: "SmartLink",
+              url: "https://smart-link.ly",
+              logo: "https://smart-link.ly/favicon-32.png",
+              contactPoint: {
+                "@type": "ContactPoint",
+                email: "ahmadmedo1012@gmail.com",
+                contactType: "customer service",
+              },
+              sameAs: ["https://wa.me/218910089975"],
+            }),
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebSite",
+              name: "SmartLink",
+              url: "https://smart-link.ly",
+              inLanguage: "ar",
+            }),
+          }}
+        />
       </head>
       <body className="min-h-dvh flex flex-col antialiased overflow-x-hidden bg-[var(--background-radial),var(--background)]">
         <a href="#main-content" className="pointer-events-auto fixed opacity-0 focus:opacity-100 focus:fixed focus:top-4 focus:right-4 focus:z-[100] focus:px-4 focus:py-2 focus:rounded-xl focus:bg-[var(--primary)] focus:text-white focus:text-sm focus:font-semibold focus:shadow-lg focus:outline-none transition-opacity duration-200">

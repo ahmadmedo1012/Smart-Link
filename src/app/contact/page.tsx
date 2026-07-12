@@ -1,7 +1,7 @@
 "use client"
 import { useState, useMemo } from "react"
 import { motion } from "framer-motion"
-import { Mail, MessageCircle, MapPin, Clock, Send, Check } from "lucide-react"
+import { Mail, MessageCircle, MapPin, Clock, Send, Check, Loader2 } from "lucide-react"
 
 function mulberry32(s: number) {
   return function () {
@@ -77,18 +77,37 @@ const fadeUp = (delay = 0) => ({
 
 export default function ContactPage() {
   const [sent, setSent] = useState(false)
+  const [sending, setSending] = useState(false)
+  const [error, setError] = useState("")
 
-  const handleSubmit = (e: React.SyntheticEvent) => {
+  const handleSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault()
+    setSending(true)
+    setError("")
     const form = e.currentTarget as HTMLFormElement
-    const name = (form.elements.namedItem("name") as HTMLInputElement).value
-    const email = (form.elements.namedItem("email") as HTMLInputElement).value
-    const subject = (form.elements.namedItem("subject") as HTMLSelectElement).value
-    const message = (form.elements.namedItem("message") as HTMLTextAreaElement).value
-    const mailtoLink = `mailto:ahmedmedo1012@gmail.com?subject=${encodeURIComponent(`[SmartLink] ${subject} — ${name}`)}&body=${encodeURIComponent(`الاسم: ${name}\nالبريد: ${email}\n\nالرسالة:\n${message}`)}`
-    window.location.href = mailtoLink
-    setSent(true)
-    setTimeout(() => setSent(false), 4000)
+    const data = {
+      name: (form.elements.namedItem("name") as HTMLInputElement).value,
+      email: (form.elements.namedItem("email") as HTMLInputElement).value,
+      subject: (form.elements.namedItem("subject") as HTMLSelectElement).value,
+      message: (form.elements.namedItem("message") as HTMLTextAreaElement).value,
+    }
+
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      })
+      const json = await res.json()
+      if (!res.ok) throw new Error(json.error)
+      setSent(true)
+      form.reset()
+      setTimeout(() => setSent(false), 4000)
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "حدث خطأ")
+    } finally {
+      setSending(false)
+    }
   }
 
   return (
@@ -154,11 +173,17 @@ export default function ContactPage() {
                 <label htmlFor="message" className="block text-sm font-medium text-foreground mb-1.5">الرسالة</label>
                 <textarea id="message" name="message" rows={4} required autoComplete="off" className="w-full px-4 py-2.5 rounded-xl bg-[var(--card)] border border-[var(--border)] text-foreground text-sm focus:outline-none focus:border-[var(--ring)] focus:ring-2 focus:ring-[var(--accent)] transition-colors placeholder:text-muted-foreground/50 resize-none" placeholder="اكتب رسالتك هنا…" />
               </div>
+              {error && (
+                <div className="text-sm text-red-500 bg-red-500/10 rounded-xl px-4 py-3 text-center" role="alert">{error}</div>
+              )}
               <button
                 type="submit"
-                className="flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-primary text-white font-semibold text-sm hover:brightness-110 transition-all duration-300 active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+                disabled={sending}
+                className="flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-primary text-white font-semibold text-sm hover:brightness-110 transition-all duration-300 active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:opacity-60 disabled:cursor-not-allowed"
               >
-                {sent ? (
+                {sending ? (
+                  <><Loader2 className="w-4 h-4 animate-spin" /> جاري الإرسال…</>
+                ) : sent ? (
                   <><Check className="w-4 h-4" /> تم الإرسال ✓</>
                 ) : (
                   <><Send className="w-4 h-4" /> إرسال الرسالة</>

@@ -65,7 +65,7 @@ export function FaqSection() {
           transition={{ duration: 0.5 }}
           className="text-center mb-12"
         >
-          <h2 className="text-4xl md:text-5xl font-extrabold text-foreground mb-4 tracking-tight">الأسئلة الشائعة</h2>
+          <h2 className="text-3xl md:text-5xl font-extrabold text-foreground mb-4 tracking-[-0.01em]">الأسئلة الشائعة</h2>
           <p className="text-muted-foreground text-base">إجابات لأكثر الأسئلة شيوعاً عن منصتنا</p>
         </motion.div>
         <div className="space-y-3">

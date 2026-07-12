@@ -25,7 +25,7 @@ function FeatureCard({ feature, index }: { feature: typeof features[number]; ind
       transition={{ duration: 0.5, delay: index * 0.06, ease: [0.16, 1, 0.3, 1] }}
       className="glass-card rounded-[16px] p-6 group"
     >
-      <div className="w-11 h-11 rounded-xl bg-[var(--accent)] flex items-center justify-center mb-4 group-hover:scale-110 group-hover:-translate-y-0.5 transition-[transform] duration-200">
+      <div className="w-11 h-11 rounded-xl bg-[var(--accent)] flex items-center justify-center mb-4 group-hover:scale-110 group-hover:-translate-y-0.5 transition-all duration-200">
         <Icon className="w-5.5 h-5.5 text-[var(--primary)]" />
       </div>
       <h3 className="font-bold text-[var(--foreground)] mb-1.5">{feature.title}</h3>
@@ -54,7 +54,7 @@ export function FeaturesSection() {
             منصة متكاملة تجمع القوة والتقنية والسهولة في مكان واحد
           </p>
         </motion.div>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-5">
           {features.map((f, i) => (
             <FeatureCard key={f.title} feature={f} index={i} />
           ))}

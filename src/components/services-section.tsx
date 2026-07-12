@@ -77,7 +77,7 @@ function ServiceCard({ service, index }: { service: typeof services[number]; ind
           <p className="text-sm text-[var(--muted-foreground)] leading-relaxed mb-6">{service.description}</p>
 
           {/* Feature list */}
-          <ul className="space-y-2.5 mb-6 flex-1">
+          <ul className="space-y-3 mb-8 flex-1">
             {service.features.map((f, fi) => (
               <motion.li
                 key={f}

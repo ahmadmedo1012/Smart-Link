@@ -1,5 +1,5 @@
 "use client"
-import { motion, useInView } from "framer-motion"
+import { motion, useInView, useReducedMotion } from "framer-motion"
 import { useRef } from "react"
 import { UserPlus, Palette, Share2 } from "lucide-react"
 
@@ -12,12 +12,13 @@ const steps = [
 function StepCard({ step, index }: { step: typeof steps[number]; index: number }) {
   const ref = useRef<HTMLDivElement>(null)
   const inView = useInView(ref, { once: true, margin: "-60px" })
+  const shouldReduce = useReducedMotion()
   const Icon = step.icon
 
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 40 }}
+      initial={shouldReduce ? {} : { opacity: 0, y: 40 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.6, delay: index * 0.15, ease: [0.16, 1, 0.3, 1] }}
       className="relative text-center group"
@@ -27,7 +28,7 @@ function StepCard({ step, index }: { step: typeof steps[number]; index: number }
         <div className="hidden md:block absolute top-8 left-[calc(50%+3rem)] w-[calc(100%-6rem)] h-[1px]">
           <motion.div
             initial={{ width: 0 }}
-            animate={inView ? { width: "100%" } : {}}
+            animate={inView && !shouldReduce ? { width: "100%" } : {}}
             transition={{ duration: 0.8, delay: index * 0.15 + 0.3 }}
             className="h-full bg-gradient-to-r from-[var(--primary)]/0 via-[var(--primary)]/20 to-[var(--primary)]/0"
             aria-hidden="true"

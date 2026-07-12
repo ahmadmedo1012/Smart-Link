@@ -13,6 +13,7 @@ const services = [
     features: ["منيو رقمي تفاعلي", "طلبات عبر واتساب", "برنامج ولاء وإحالات", "إحصائيات وتحليلات", "QR كود مخصص", "لوحة تحكم عربية"],
     gradient: "gradient-smart-menu",
     iconBg: "from-amber-400/20 to-orange-500/20",
+    color: "oklch(0.7 0.19 60)",
   },
   {
     title: "SmartBot",
@@ -23,6 +24,7 @@ const services = [
     features: ["ردود تلقائية ذكية", "تصنيف النوايا", "لوحة تحكم متكاملة", "تقارير وتحليلات", "بث جماعي", "إدارة الصفحات"],
     gradient: "gradient-smart-bot",
     iconBg: "from-violet-400/20 to-purple-500/20",
+    color: "oklch(0.55 0.15 280)",
   },
   {
     title: "قريباً",
@@ -33,6 +35,7 @@ const services = [
     features: ["متجر إلكتروني", "حجوزات مواعيد", "منصة تسويق", "مساعد ذكي", "فواتير إلكترونية", "تطبيق موبايل"],
     gradient: "gradient-coming-soon",
     iconBg: "from-emerald-400/20 to-teal-500/20",
+    color: "oklch(0.6 0.18 160)",
     comingSoon: true,
   },
 ]
@@ -48,22 +51,22 @@ function ServiceCard({ service, index }: { service: typeof services[number]; ind
       initial={{ opacity: 0, y: 60, scale: 0.95 }}
       animate={inView ? { opacity: 1, y: 0, scale: 1 } : {}}
       transition={{ duration: 0.6, delay: index * 0.15, ease: [0.16, 1, 0.3, 1] }}
-      className="group relative rounded-[20px] border border-[var(--border)] bg-[var(--card)] overflow-hidden hover:border-[var(--ring)]/30 flex flex-col h-full"
-      style={{ perspective: "1000px" }}
+      className="group relative rounded-[20px] border border-[var(--border)] bg-[var(--card)] overflow-hidden hover:border-[var(--ring)]/40 hover:shadow-[0_0_60px_var(--shadow-glow)] transition-all duration-500 flex flex-col h-full"
+      style={{ perspective: "800px" }}
     >
+      {/* Top accent gradient line */}
+      <div className="absolute top-0 left-0 right-0 h-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{ background: `linear-gradient(90deg, transparent, ${service.color}, transparent)` }} aria-hidden="true" />
+
       <motion.div
         className="relative flex-1"
         whileHover={{ rotateY: 2, rotateX: -2 }}
         transition={{ type: "spring", stiffness: 200, damping: 20 }}
       >
-        {/* Gradient overlay — removed, was obscuring text */}
-
-
         <div className="relative p-7 md:p-8 flex flex-col flex-1">
-          {/* Icon */}
+          {/* Icon with scale pulse */}
           <motion.div
             className={`w-12 h-12 rounded-xl bg-gradient-to-br ${service.iconBg} flex items-center justify-center mb-5`}
-            whileHover={{ scale: 1.15, y: -4 }}
+            whileHover={{ scale: 1.2, y: -4 }}
             transition={{ type: "spring", stiffness: 300, damping: 15 }}
           >
             <Icon className="w-6 h-6 text-[var(--primary)]" />
@@ -92,7 +95,7 @@ function ServiceCard({ service, index }: { service: typeof services[number]; ind
 
           {/* CTA */}
           {service.comingSoon ? (
-            <span className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg border border-[var(--glass-border)] bg-[var(--glass-bg)] text-sm text-[var(--muted-foreground)] font-medium w-fit">
+            <span className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-[var(--glass-border)] bg-[var(--glass-bg)] text-sm text-[var(--muted-foreground)] font-medium w-fit backdrop-blur-sm">
               <Sparkles className="w-3.5 h-3.5" /> قريباً
             </span>
           ) : (
@@ -102,21 +105,20 @@ function ServiceCard({ service, index }: { service: typeof services[number]; ind
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={`${service.title} — رابط خارجي`}
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-[var(--primary)] text-white text-sm font-semibold hover:brightness-110 transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ring)] active:scale-[0.97] w-fit"
+                className="group/btn inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[var(--primary)] text-white text-sm font-semibold hover:brightness-110 transition-all duration-200 active:scale-[0.97] w-fit"
               >
-                زيارة الخدمة <ChevronLeft className="w-3.5 h-3.5" />
+                زيارة الخدمة <ChevronLeft className="w-3.5 h-3.5 transition-transform group-hover/btn:-translate-x-0.5" />
               </a>
-              {/* ponytail: screenshot thumbnails, replace with lightbox when gallery is built */}
               {service.title === "Smart Menu" && (
                 <div className="flex gap-2">
-                  <a href="/images/smart-menu.jpg" target="_blank" rel="noopener noreferrer" className="block w-20 h-14 rounded-lg overflow-hidden border border-[var(--border)] hover:border-[var(--ring)]/40 transition-colors">
+                  <a href="/images/smart-menu.jpg" target="_blank" rel="noopener noreferrer" className="block w-20 h-14 rounded-lg overflow-hidden border border-[var(--border)] hover:border-[var(--ring)]/40 transition-all duration-200 hover:scale-105">
                     <img src="/images/smart-menu.jpg" alt="Smart Menu لقطة شاشة" className="w-full h-full object-cover" loading="lazy" />
                   </a>
                 </div>
               )}
               {service.title === "SmartBot" && (
                 <div className="flex gap-2">
-                  <a href="/images/smart-bot.jpg" target="_blank" rel="noopener noreferrer" className="block w-20 h-14 rounded-lg overflow-hidden border border-[var(--border)] hover:border-[var(--ring)]/40 transition-colors">
+                  <a href="/images/smart-bot.jpg" target="_blank" rel="noopener noreferrer" className="block w-20 h-14 rounded-lg overflow-hidden border border-[var(--border)] hover:border-[var(--ring)]/40 transition-all duration-200 hover:scale-105">
                     <img src="/images/smart-bot.jpg" alt="SmartBot لقطة شاشة" className="w-full h-full object-cover" loading="lazy" />
                   </a>
                 </div>
@@ -135,6 +137,8 @@ export function ServicesSection() {
 
   return (
     <section id="services" className="section-padding relative overflow-hidden">
+      {/* Section ambient glow */}
+      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[600px] h-[300px] rounded-full bg-[var(--primary)]/5 blur-[150px] pointer-events-none" aria-hidden="true" />
       <div className="container-base">
         <motion.div
           ref={ref}
@@ -143,7 +147,11 @@ export function ServicesSection() {
           transition={{ duration: 0.5 }}
           className="text-center mb-14"
         >
-          <h2 className="text-4xl md:text-5xl font-extrabold text-[var(--foreground)] mb-4 tracking-tight">خدماتنا</h2>
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[var(--glass-border)] bg-[var(--glass-bg)] backdrop-blur-sm text-xs text-primary font-medium mb-5">
+            <Sparkles className="w-3 h-3" />
+            <span>خدماتنا</span>
+          </div>
+          <h2 className="text-4xl md:text-5xl font-extrabold text-[var(--foreground)] mb-4 tracking-tight">منظومة <span className="gradient-text">متكاملة</span></h2>
           <p className="text-[var(--muted-foreground)] max-w-xl mx-auto text-base leading-relaxed">
             منظومة متكاملة من الخدمات الرقمية المصممة لتطوير أعمالك وزيادة مبيعاتك
           </p>

@@ -1,7 +1,7 @@
 "use client"
 import { motion, useInView } from "framer-motion"
 import { useRef, useState } from "react"
-import { ChevronDown } from "lucide-react"
+import { ChevronDown, Sparkles } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 const faqs = [
@@ -24,24 +24,23 @@ function FaqItem({ faq, index, open, onToggle }: { faq: typeof faqs[number]; ind
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.35, delay: index * 0.04, ease: [0.16, 1, 0.3, 1] }}
       className={cn(
-        "glass rounded-2xl overflow-hidden transition-[background-color] duration-200",
-        open && "bg-[var(--surface-raised)]"
+        "glass rounded-2xl overflow-hidden transition-all duration-300",
+        open && "bg-[var(--surface-raised)] border-[var(--ring)]/20"
       )}
     >
       <button
         onClick={onToggle}
         aria-expanded={open}
         id={`faq-trigger-${index}`}
-        className="flex items-center justify-between w-full px-6 py-4 text-sm font-medium text-foreground hover:bg-[var(--accent)] focus-visible:bg-[var(--accent)] transition-[background-color] text-start focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--ring)]"
+        className="flex items-center justify-between w-full px-6 py-4 text-sm font-medium text-foreground hover:bg-[var(--accent)] transition-all duration-200 text-start"
       >
         <span>{faq.q}</span>
-        <ChevronDown className={cn("w-4 h-4 text-muted-foreground transition-[transform] duration-[var(--move-base)] shrink-0", open && "rotate-180")} />
+        <ChevronDown className={cn("w-4 h-4 text-muted-foreground shrink-0 transition-all duration-300", open && "rotate-180 text-primary")} />
       </button>
-      {/* FAQ expand — max-height avoids layout thrashing of grid-template-rows */}
       <div
         role="region"
         aria-labelledby={`faq-trigger-${index}`}
-        className="overflow-hidden transition-[max-height,opacity] duration-[var(--move-base)] ease-[var(--ease-smooth)]"
+        className="overflow-hidden transition-all duration-[var(--move-base)] ease-[var(--ease-smooth)]"
         style={{ maxHeight: open ? "200px" : "0", opacity: open ? 1 : 0 }}
       >
         <p className="px-6 pb-4 text-sm text-muted-foreground leading-relaxed">{faq.a}</p>
@@ -65,7 +64,11 @@ export function FaqSection() {
           transition={{ duration: 0.5 }}
           className="text-center mb-12"
         >
-          <h2 className="text-3xl md:text-5xl font-extrabold text-foreground mb-4 tracking-[-0.01em]">الأسئلة الشائعة</h2>
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[var(--glass-border)] bg-[var(--glass-bg)] backdrop-blur-sm text-xs text-primary font-medium mb-5">
+            <Sparkles className="w-3 h-3" />
+            <span>الأسئلة الشائعة</span>
+          </div>
+          <h2 className="text-3xl md:text-5xl font-extrabold text-foreground mb-4 tracking-[-0.01em]">الأسئلة <span className="gradient-text">الشائعة</span></h2>
           <p className="text-muted-foreground text-base">إجابات لأكثر الأسئلة شيوعاً عن منصتنا</p>
         </motion.div>
         <div className="space-y-3">

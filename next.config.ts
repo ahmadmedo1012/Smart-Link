@@ -7,10 +7,12 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "plus.unsplash.com" },
     ],
     formats: ["image/avif", "image/webp"],
+    minimumCacheTTL: 60 * 60 * 24 * 30,
   },
   poweredByHeader: false,
   reactStrictMode: true,
   compress: true,
+  onDemandEntries: { maxInactiveAge: 60 * 60 * 1000 },
   async headers() {
     return [
       {

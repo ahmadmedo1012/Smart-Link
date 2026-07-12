@@ -1,6 +1,6 @@
 "use client"
 import { useState, useMemo } from "react"
-import { motion } from "framer-motion"
+import { motion, AnimatePresence } from "framer-motion"
 import { Check, Smartphone, Bot, ChevronLeft, Sparkles } from "lucide-react"
 
 function mulberry32(s: number) {
@@ -18,7 +18,6 @@ function GenArtBackground({ seed = 77 }: { seed?: number }) {
     const lines: string[] = [];
     const accent = "oklch(0.55 0.01 260)";
     const accentDim = "oklch(0.55 0.01 260 / 0.04)";
-
     for (let band = 0; band < 8; band++) {
       const cx = 30 + rng() * 40;
       const cy = 30 + rng() * 40;
@@ -41,7 +40,6 @@ function GenArtBackground({ seed = 77 }: { seed?: number }) {
         lines.push(`<path d="${fd.join(" ")}" fill="${accentDim}" stroke="none" />`);
       }
     }
-
     for (let i = 0; i < 60; i++) {
       const x = rng() * 100;
       const y = rng() * 100;
@@ -49,18 +47,11 @@ function GenArtBackground({ seed = 77 }: { seed?: number }) {
       const op = 0.01 + rng() * 0.03;
       lines.push(`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${sz.toFixed(2)}" fill="${accent}" opacity="${op}" />`);
     }
-
     return lines.join("\n");
   }, [seed]);
 
   return (
-    <svg
-      className="absolute inset-0 w-full h-full pointer-events-none"
-      viewBox="0 0 100 100"
-      preserveAspectRatio="xMidYMid slice"
-      aria-hidden="true"
-      dangerouslySetInnerHTML={{ __html: paths }}
-    />
+    <svg className="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true" dangerouslySetInnerHTML={{ __html: paths }} />
   );
 }
 
@@ -81,6 +72,7 @@ const plans = [
       "إحصائيات أساسية",
       "دعم فني عبر البريد",
     ],
+    color: "oklch(0.7 0.19 60)",
   },
   {
     title: "SmartBot",
@@ -98,6 +90,7 @@ const plans = [
       "إدارة صفحة واحدة",
       "دعم فني عبر البريد",
     ],
+    color: "oklch(0.55 0.15 280)",
   },
 ]
 
@@ -123,8 +116,11 @@ export default function PricingPage() {
     <div className="pt-28 pb-16 relative overflow-hidden">
       <GenArtBackground seed={77} />
       <div className="container-base relative">
-        {/* Hero */}
         <motion.div className="max-w-3xl mx-auto text-center mb-14" {...fadeUp()}>
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[var(--glass-border)] bg-[var(--glass-bg)] backdrop-blur-sm text-xs text-primary font-medium mb-6">
+            <Sparkles className="w-3 h-3" />
+            <span>الأسعار</span>
+          </div>
           <h1 className="text-5xl md:text-6xl font-extrabold tracking-tight text-foreground mb-4">
             الخطط <span className="gradient-text">والأسعار</span>
           </h1>
@@ -141,8 +137,10 @@ export default function PricingPage() {
               <motion.div
                 key={plan.title}
                 {...fadeUp(0.1 + i * 0.1)}
-                className="group relative rounded-[20px] border border-[var(--border)] bg-[var(--card)] overflow-hidden hover:border-[var(--ring)]/30 hover:shadow-[0_0_50px_var(--shadow-glow)] flex flex-col"
+                className="group relative rounded-[20px] border border-[var(--border)] bg-[var(--card)] overflow-hidden hover:border-[var(--ring)]/40 hover:shadow-[0_0_60px_var(--shadow-glow)] transition-all duration-500 flex flex-col"
               >
+                {/* Top accent line */}
+                <div className="absolute top-0 left-0 right-0 h-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{ background: `linear-gradient(90deg, transparent, ${plan.color}, transparent)` }} aria-hidden="true" />
                 <div className="absolute inset-0 opacity-10 group-hover:opacity-20 transition-opacity duration-500" style={{ background: `linear-gradient(135deg, ${plan.gradient})` }} aria-hidden="true" />
                 <div className="relative p-7 md:p-8 flex flex-col flex-1">
                   <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${plan.iconBg} flex items-center justify-center mb-5`}>
@@ -166,9 +164,9 @@ export default function PricingPage() {
                   </ul>
                   <a
                     href="/contact"
-                    className="inline-flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-primary text-white font-semibold text-sm hover:brightness-110 transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring active:scale-[0.97]"
+                    className="group inline-flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-primary text-white font-semibold text-sm hover:brightness-110 transition-all duration-200 active:scale-[0.97]"
                   >
-                    ابدأ الآن <ChevronLeft className="w-3.5 h-3.5" />
+                    ابدأ الآن <ChevronLeft className="w-3.5 h-3.5 transition-transform group-hover:-translate-x-0.5" />
                   </a>
                 </div>
               </motion.div>
@@ -178,7 +176,7 @@ export default function PricingPage() {
 
         {/* Coming soon */}
         <motion.div className="max-w-2xl mx-auto mb-16" {...fadeUp(0.4)}>
-          <div className="glass rounded-2xl p-8 text-center border border-dashed border-[var(--glass-border)]">
+          <div className="glass rounded-2xl p-8 text-center border border-dashed border-[var(--glass-border)] hover:border-[var(--ring)]/30 transition-all duration-300">
             <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-400/20 to-teal-500/20 flex items-center justify-center mx-auto mb-4">
               <Sparkles className="w-7 h-7 text-[var(--primary)]" />
             </div>
@@ -188,9 +186,9 @@ export default function PricingPage() {
             </p>
             <a
               href="/contact"
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-[var(--primary)] text-white text-sm font-semibold hover:brightness-110 transition-all duration-200"
+              className="group inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[var(--primary)] text-white text-sm font-semibold hover:brightness-110 transition-all duration-200 active:scale-[0.97]"
             >
-              تواصل معنا لمعرفة المزيد <ChevronLeft className="w-3.5 h-3.5" />
+              تواصل معنا لمعرفة المزيد <ChevronLeft className="w-3.5 h-3.5 transition-transform group-hover:-translate-x-0.5" />
             </a>
           </div>
         </motion.div>
@@ -200,23 +198,27 @@ export default function PricingPage() {
           <h2 className="text-2xl font-bold text-foreground text-center mb-8">أسئلة شائعة</h2>
           <div className="space-y-3">
             {faqs.map((faq, i) => (
-              <div key={i} className="glass rounded-xl overflow-hidden">
+              <div key={i} className="glass rounded-xl overflow-hidden transition-all duration-300 hover:border-[var(--ring)]/20">
                 <button
                   onClick={() => setOpenFaq(openFaq === i ? null : i)}
                   className="w-full px-5 py-4 flex items-center justify-between text-right text-sm font-medium text-foreground hover:bg-[var(--accent)]/30 transition-colors"
                   aria-expanded={openFaq === i}
                 >
                   {faq.q}
-                  <ChevronLeft className={`w-4 h-4 shrink-0 transition-transform duration-300 ${openFaq === i ? "rotate-180" : ""}`} />
+                  <ChevronLeft className={`w-4 h-4 shrink-0 transition-all duration-300 ${openFaq === i ? "rotate-180 text-primary" : ""}`} />
                 </button>
-                <motion.div
-                  initial={false}
-                  animate={{ height: openFaq === i ? "auto" : 0, opacity: openFaq === i ? 1 : 0 }}
-                  transition={{ duration: 0.3, ease: _ease }}
-                  className="overflow-hidden"
-                >
-                  <p className="px-5 pb-4 text-sm text-muted-foreground">{faq.a}</p>
-                </motion.div>
+                <AnimatePresence>
+                  {openFaq === i && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.3, ease: _ease }}
+                    >
+                      <p className="px-5 pb-4 text-sm text-muted-foreground">{faq.a}</p>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
             ))}
           </div>

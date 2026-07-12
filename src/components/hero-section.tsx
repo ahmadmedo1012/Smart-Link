@@ -1,8 +1,8 @@
 "use client"
-import { motion, useInView } from "framer-motion"
+import { motion, useInView, useScroll, useTransform } from "framer-motion"
 import { useEffect, useRef, useState } from "react"
 import Link from "next/link"
-import { ArrowLeft, Smartphone, Bot, Users, TrendingUp, Star, Sparkles, Hexagon, Zap } from "lucide-react"
+import { ArrowLeft, Smartphone, Bot, Users, TrendingUp, Star, Sparkles, Hexagon, Zap, MousePointer2 } from "lucide-react"
 
 function AnimatedStat({ value, label, icon: Icon, delay = 0 }: { value: string; label: string; icon: React.ComponentType<{ className?: string }>; delay?: number }) {
   const ref = useRef<HTMLDivElement>(null)
@@ -49,28 +49,31 @@ function AnimatedStat({ value, label, icon: Icon, delay = 0 }: { value: string; 
 }
 
 const ambientBlobs = [
-  { size: 280, x: "-5%", y: "-5%", blur: "100px", color: "oklch(0.5 0.15 250 / 0.04)", opacity: 0.02 },
-  { size: 200, x: "70%", y: "25%", blur: "80px", color: "oklch(0.5 0.15 250 / 0.03)", opacity: 0.015 },
-  { size: 180, x: "40%", y: "55%", blur: "60px", color: "oklch(0.5 0.15 300 / 0.02)", opacity: 0.01 },
+  { size: 320, x: "-5%", y: "-8%", blur: "120px", color: "oklch(0.65 0.18 250 / 0.05)", opacity: 0.03 },
+  { size: 240, x: "72%", y: "20%", blur: "100px", color: "oklch(0.6 0.15 45 / 0.04)", opacity: 0.02 },
+  { size: 200, x: "35%", y: "55%", blur: "80px", color: "oklch(0.55 0.14 300 / 0.025)", opacity: 0.015 },
+  { size: 180, x: "12%", y: "70%", blur: "70px", color: "oklch(0.6 0.12 200 / 0.02)", opacity: 0.012 },
 ]
 
 const floatingIcons = [
   { Icon: Smartphone, x: "10%", y: "22%" },
   { Icon: Bot, x: "84%", y: "32%" },
   { Icon: Sparkles, x: "7%", y: "60%" },
-  { Icon: Hexagon, x: "88%", y: "65%" },
-  { Icon: Zap, x: "50%", y: "15%" },
-  { Icon: Star, x: "92%", y: "20%" },
+  { Icon: Hexagon, x: "88%", y: "68%" },
+  { Icon: Zap, x: "50%", y: "12%" },
+  { Icon: Star, x: "92%", y: "18%" },
+  { Icon: MousePointer2, x: "3%", y: "42%" },
+  { Icon: TrendingUp, x: "94%", y: "50%" },
 ]
 
 function FloatingIcon({ Icon, x, y, index }: { Icon: React.ComponentType<{ className?: string }>; x: string; y: string; index: number }) {
   return (
     <div
-      className={`absolute hidden lg:block pointer-events-none floating-icon-${index}`}
+      className={`absolute hidden lg:block pointer-events-none floating-icon-${index % 6}`}
       style={{ left: x, top: y }}
       aria-hidden="true"
     >
-      <Icon className="w-7 h-7 text-[var(--primary)] opacity-[0.10]" />
+      <Icon className="w-6 h-6 text-[var(--primary)] opacity-[0.10]" />
     </div>
   )
 }
@@ -78,9 +81,17 @@ function FloatingIcon({ Icon, x, y, index }: { Icon: React.ComponentType<{ class
 const headingWords = ["SmartLink", "منصة رقمية", "لخدمات ذكية"]
 
 export function HeroSection() {
+  const sectionRef = useRef<HTMLDivElement>(null)
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start start", "end start"],
+  })
+  const heroScale = useTransform(scrollYProgress, [0, 1], [1, 0.95])
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0.5])
+
   return (
-    <section className="relative min-h-[90dvh] flex items-center pt-24 pb-16 overflow-hidden" aria-label="Hero section">
-      {/* Ambient blobs — pure CSS animation, no JS tween overhead */}
+    <section ref={sectionRef} className="relative min-h-[90dvh] flex items-center pt-24 pb-16 overflow-hidden" aria-label="Hero section">
+      {/* Ambient blobs */}
       <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden" aria-hidden="true">
         {ambientBlobs.map((b, i) => (
           <div
@@ -94,7 +105,7 @@ export function HeroSection() {
         ))}
       </div>
 
-      {/* Grid pattern */}
+      {/* Animated grid pattern */}
       <div
         className="absolute inset-0 z-0 pointer-events-none opacity-[0.03]"
         aria-hidden="true"
@@ -102,35 +113,46 @@ export function HeroSection() {
           backgroundImage: `linear-gradient(var(--grid-line) 1px, transparent 1px), linear-gradient(90deg, var(--grid-line) 1px, transparent 1px)`,
           backgroundSize: "60px 60px",
         }}
-      />
+      >
+        <motion.div
+          className="absolute inset-0"
+          style={{ background: "transparent" }}
+          animate={{ backgroundPosition: ["0px 0px", "-60px -60px"] }}
+          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+        />
+      </div>
 
-      {/* Floating animated icons — behind content */}
+      {/* Floating animated icons */}
       <div className="absolute inset-0 z-0 pointer-events-none">
         {floatingIcons.map((item, i) => (
           <FloatingIcon key={`hero-icon-${i}`} {...item} index={i} />
         ))}
       </div>
 
-      <div className="container-base relative z-10">
+      <motion.div
+        className="container-base relative z-10 w-full"
+        style={{ scale: heroScale, opacity: heroOpacity }}
+      >
         <div className="max-w-4xl mx-auto text-center">
-          {/* Badge */}
+          {/* Badge with border glow */}
           <motion.div
             initial={{ opacity: 0, y: 16, scale: 0.96 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
             className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[var(--glass-border)] bg-[var(--glass-bg)] backdrop-blur-sm text-xs text-[var(--primary)] font-medium mb-10"
+            style={{ animation: "border-glow-pulse 3s ease-in-out infinite" }}
           >
-            <Star className="w-3 h-3" />
+            <Sparkles className="w-3 h-3" />
             <span>منصة رقمية متكاملة</span>
           </motion.div>
 
-          {/* Animated heading - staggered lines */}
+          {/* Animated heading */}
           <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-[-0.01em] sm:tracking-[-0.02em] leading-[1.25] mb-7">
             {headingWords.map((word, i) => (
               <motion.span
                 key={word}
-                initial={{ opacity: 0, y: 40 }}
-                animate={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, y: 40, filter: "blur(12px)" }}
+                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
                 transition={{ duration: 0.7, delay: 0.1 + i * 0.15, ease: [0.16, 1, 0.3, 1] }}
                 className="block"
               >
@@ -153,7 +175,7 @@ export function HeroSection() {
             className="text-base md:text-lg text-[var(--muted-foreground)] max-w-2xl mx-auto mb-10 leading-[1.7]"
           >
             منصة موحدة تجمع حلولنا الرقمية المبتكرة — من المنيو الرقمي للمطاعم إلى البوت الذكي لفيسبوك —
-            <span className="text-[var(--foreground)] font-medium"> كل ما تحتاجه لتنمية أعمالك في مكان واحد</span>
+            <span className="text-[var(--foreground)] font-semibold"> كل ما تحتاجه لتنمية أعمالك في مكان واحد</span>
           </motion.p>
 
           {/* CTAs */}
@@ -165,13 +187,21 @@ export function HeroSection() {
           >
             <Link
               href="#services"
-              className="group relative inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-[var(--primary)] text-white font-semibold text-sm transition-[background-color,color,box-shadow,transform] duration-200 shadow-glow focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ring)] active:scale-[0.97]"
+              className="group relative inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-[var(--primary)] text-white font-semibold text-sm transition-all duration-300 shadow-glow hover:shadow-glow-strong active:scale-[0.97] overflow-hidden"
             >
-              اكتشف خدماتنا <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
+              <span className="relative z-10 flex items-center gap-2">
+                اكتشف خدماتنا <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
+              </span>
+              <motion.div
+                className="absolute inset-0 bg-white/10"
+                initial={{ x: "-100%" }}
+                whileHover={{ x: "100%" }}
+                transition={{ duration: 0.5 }}
+              />
             </Link>
             <Link
               href="/about"
-              className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl glass text-[var(--foreground)] font-semibold text-sm hover:bg-[var(--accent)] transition-[background-color] duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ring)] active:scale-[0.97]"
+              className="group inline-flex items-center gap-2 px-7 py-3.5 rounded-xl glass text-[var(--foreground)] font-semibold text-sm hover:bg-[var(--accent)] transition-all duration-200 active:scale-[0.97]"
             >
               تعرف علينا
             </Link>
@@ -194,7 +224,7 @@ export function HeroSection() {
             <AnimatedStat key={stat.label} {...stat} delay={i * 0.12} />
           ))}
         </motion.div>
-      </div>
+      </motion.div>
 
       {/* Bottom gradient fade */}
       <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[var(--background)] to-transparent pointer-events-none" aria-hidden="true" />

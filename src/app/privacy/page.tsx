@@ -1,24 +1,34 @@
 "use client"
 import { motion } from "framer-motion"
+import { Sparkles } from "lucide-react"
 
-
+const _ease = [0.16, 1, 0.3, 1] as [number, number, number, number]
 
 export default function PrivacyPage() {
   return (
     <div className="pt-28 pb-16 relative overflow-hidden">
+      <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
+        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[400px] rounded-full bg-[var(--primary)]/5 blur-[150px]" />
+      </div>
       <div className="container-base max-w-3xl mx-auto relative">
-        <motion.h1
+        <motion.div
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] }}
-          className="text-5xl md:text-6xl font-extrabold tracking-tight text-foreground mb-8"
+          transition={{ duration: 0.5, ease: _ease }}
+          className="text-center mb-10"
         >
-          سياسة <span className="gradient-text">الخصوصية</span>
-        </motion.h1>
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[var(--glass-border)] bg-[var(--glass-bg)] backdrop-blur-sm text-xs text-primary font-medium mb-5">
+            <Sparkles className="w-3 h-3" />
+            <span>الخصوصية</span>
+          </div>
+          <h1 className="text-5xl md:text-6xl font-extrabold tracking-tight text-foreground">
+            سياسة <span className="gradient-text">الخصوصية</span>
+          </h1>
+        </motion.div>
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.1, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] }}
+          transition={{ duration: 0.5, delay: 0.1, ease: _ease }}
           className="space-y-6 text-muted-foreground leading-relaxed"
         >
           <p className="text-sm">آخر تحديث: يوليو 2026</p>

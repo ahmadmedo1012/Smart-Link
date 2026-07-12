@@ -1,5 +1,5 @@
 "use client"
-import { Sparkles, Bot, Smartphone, Globe, Layers, ArrowLeft, User } from "lucide-react"
+import { Sparkles, Bot, Smartphone, Globe, Layers, ArrowLeft, User, Quote } from "lucide-react"
 import Link from "next/link"
 import { motion } from "framer-motion"
 import { useMemo } from "react"
@@ -28,7 +28,6 @@ function GenArtBackground({ seed = 42 }: { seed?: number }) {
         `<polygon points="${xOff},${y1} ${100 + xOff},${y1 - 4} ${100 + xOff},${y2 + 4} ${xOff},${y2}" fill="${accent}" opacity="${op}" />`
       );
     }
-
     for (let i = 0; i < 60; i++) {
       const x = rng() * 100;
       const y = rng() * 100;
@@ -36,18 +35,11 @@ function GenArtBackground({ seed = 42 }: { seed?: number }) {
       const op = 0.01 + rng() * 0.03;
       lines.push(`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${sz.toFixed(2)}" fill="${accent}" opacity="${op}" />`);
     }
-
     return lines.join("\n");
   }, [seed]);
 
   return (
-    <svg
-      className="absolute inset-0 w-full h-full pointer-events-none"
-      viewBox="0 0 100 100"
-      preserveAspectRatio="xMidYMid slice"
-      aria-hidden="true"
-      dangerouslySetInnerHTML={{ __html: paths }}
-    />
+    <svg className="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true" dangerouslySetInnerHTML={{ __html: paths }} />
   );
 }
 
@@ -55,7 +47,7 @@ const values = [
   { icon: Bot, title: "الذكاء والابتكار", desc: "نستخدم أحدث تقنيات الذكاء الاصطناعي لتقديم حلول ذكية تلقائياً." },
   { icon: Smartphone, title: "سهولة الاستخدام", desc: "واجهات عربية سهلة وبسيطة، صممت خصيصاً للمستخدم العربي." },
   { icon: Globe, title: "دعم عربي كامل", desc: "المنصة بالكامل بالعربية مع دعم اللهجات المحلية وثقافة السوق." },
-  { icon: Layers, title: "منصة متكاملة", desc: "كل ما تحتاجه لإدارة أعمالك رقمياً — خدمات تعمل معاً بتناغام." },
+  { icon: Layers, title: "منصة متكاملة", desc: "كل ما تحتاجه لإدارة أعمالك رقمياً — خدمات تعمل معاً بتناغم." },
 ]
 
 const _ease = [0.16, 1, 0.3, 1] as [number, number, number, number]
@@ -78,7 +70,7 @@ export default function AboutPage() {
           <h1 className="text-5xl md:text-6xl font-extrabold tracking-tight text-foreground mb-4">
             عن <span className="gradient-text">SmartLink</span>
           </h1>
-          <p className="text-lg text-muted-foreground leading-relaxed">
+          <p className="text-lg text-muted-foreground leading-relaxed max-w-2xl mx-auto">
             SmartLink منصة رقمية ليبية متكاملة تهدف إلى توفير حلول ذكية للأعمال في العالم العربي.
             نؤمن بأن التكنولوجيا يجب أن تكون سهلة، متاحة، وفعالة للجميع.
           </p>
@@ -89,12 +81,12 @@ export default function AboutPage() {
             <motion.div
               key={item.title}
               {...fadeUp(0.1 + i * 0.08)}
-              className="glass rounded-2xl p-6 hover:border-[var(--ring)]/30 transition-colors group"
+              className="glass rounded-2xl p-6 hover:border-[var(--ring)]/30 transition-all duration-300 group"
             >
-              <div className="w-10 h-10 rounded-xl bg-[var(--accent)] flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+              <div className="w-10 h-10 rounded-xl bg-[var(--accent)] flex items-center justify-center mb-3 group-hover:scale-110 transition-transform duration-300">
                 <item.icon className="w-5 h-5 text-primary" />
               </div>
-              <h3 className="font-bold text-foreground text-lg mb-1">{item.title}</h3>
+              <h3 className="font-bold text-foreground text-lg mb-1 group-hover:text-primary transition-colors">{item.title}</h3>
               <p className="text-sm text-muted-foreground leading-relaxed">{item.desc}</p>
             </motion.div>
           ))}
@@ -102,8 +94,8 @@ export default function AboutPage() {
 
         {/* Founder */}
         <motion.div className="max-w-3xl mx-auto mb-10" {...fadeUp(0.25)}>
-          <div className="glass rounded-2xl p-6 md:p-8 flex flex-col md:flex-row items-start md:items-center gap-5">
-            <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-amber-400/20 to-orange-500/20 flex items-center justify-center shrink-0">
+          <div className="glass rounded-2xl p-6 md:p-8 flex flex-col md:flex-row items-start md:items-center gap-5 group hover:border-[var(--ring)]/30 transition-all duration-300">
+            <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-amber-400/20 to-orange-500/20 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform duration-300">
               <User className="w-8 h-8 text-primary" />
             </div>
             <div>
@@ -126,6 +118,15 @@ export default function AboutPage() {
             بصفتنا <strong>أول منصة ليبية</strong> متخصصة في إنشاء المنيو الإلكتروني التفاعلي، نسعى لتكون SmartLink
             المنصة الرقمية الأولى للأعمال في ليبيا والعالم العربي.
           </p>
+
+          {/* Pull quote */}
+          <div className="relative my-8 p-6 rounded-2xl bg-[var(--card)] border border-[var(--border)]">
+            <Quote className="w-6 h-6 text-primary/30 absolute top-4 right-4" aria-hidden="true" />
+            <p className="text-base md:text-lg text-foreground/80 italic font-medium leading-relaxed mr-8">
+              &ldquo;التكنولوجيا الحقيقية هي التي تخدم الناس، لا التي تبهرهم. في SmartLink، نبني حلولاً تعيش مع الناس وتفهم احتياجاتهم.&rdquo;
+            </p>
+          </div>
+
           <p className="text-muted-foreground leading-relaxed mb-6">
             اليوم، نحن منصة متنامية تضم أكثر من 500 عميل نشط، ونعمل باستمرار على تطوير خدماتنا
             وإضافة المزيد من الحلول المبتكرة — من البوت الذكي لفيسبوك إلى خدمات قادمة تطمح لتغيير
@@ -133,9 +134,9 @@ export default function AboutPage() {
           </p>
           <Link
             href="/contact"
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-primary text-white font-semibold text-sm hover:brightness-110 transition-all focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+            className="group inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-primary text-white font-semibold text-sm hover:brightness-110 transition-all duration-200 active:scale-[0.97]"
           >
-            <ArrowLeft className="w-4 h-4" /> تواصل معنا
+            <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" /> تواصل معنا
           </Link>
         </motion.div>
       </div>

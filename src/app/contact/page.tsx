@@ -1,7 +1,7 @@
 "use client"
 import { useState, useMemo } from "react"
 import { motion } from "framer-motion"
-import { Mail, MessageCircle, MapPin, Clock, Send, Check, Loader2 } from "lucide-react"
+import { Mail, MessageCircle, MapPin, Clock, Send, Check, Loader2, Sparkles } from "lucide-react"
 
 function mulberry32(s: number) {
   return function () {
@@ -17,8 +17,6 @@ function GenArtBackground({ seed = 303 }: { seed?: number }) {
     const rng = mulberry32(seed);
     const lines: string[] = [];
     const accent = "oklch(0.55 0.01 260)";
-
-    // Concentric circles with irregular radii
     for (let ring = 0; ring < 6; ring++) {
       const cx = 30 + rng() * 40;
       const cy = 30 + rng() * 40;
@@ -37,8 +35,6 @@ function GenArtBackground({ seed = 303 }: { seed?: number }) {
       d.push("Z");
       lines.push(`<path d="${d.join(" ")}" fill="none" stroke="${accent}" stroke-width="0.4" opacity="${op}" />`);
     }
-
-    // Scatter dots
     for (let i = 0; i < 50; i++) {
       const x = rng() * 100;
       const y = rng() * 100;
@@ -46,18 +42,11 @@ function GenArtBackground({ seed = 303 }: { seed?: number }) {
       const op = 0.01 + rng() * 0.03;
       lines.push(`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${sz.toFixed(2)}" fill="${accent}" opacity="${op}" />`);
     }
-
     return lines.join("\n");
   }, [seed]);
 
   return (
-    <svg
-      className="absolute inset-0 w-full h-full pointer-events-none"
-      viewBox="0 0 100 100"
-      preserveAspectRatio="xMidYMid slice"
-      aria-hidden="true"
-      dangerouslySetInnerHTML={{ __html: paths }}
-    />
+    <svg className="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true" dangerouslySetInnerHTML={{ __html: paths }} />
   );
 }
 
@@ -115,6 +104,10 @@ export default function ContactPage() {
       <GenArtBackground seed={303} />
       <div className="container-base relative">
         <motion.div className="max-w-3xl mx-auto text-center mb-14" {...fadeUp()}>
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[var(--glass-border)] bg-[var(--glass-bg)] backdrop-blur-sm text-xs text-primary font-medium mb-6">
+            <Sparkles className="w-3 h-3" />
+            <span>تواصل</span>
+          </div>
           <h1 className="text-5xl md:text-6xl font-extrabold tracking-tight text-foreground mb-4">
             اتصل <span className="gradient-text">بنا</span>
           </h1>
@@ -129,14 +122,14 @@ export default function ContactPage() {
             <motion.div
               key={item.title}
               {...fadeUp(0.1 + i * 0.06)}
-              className="glass rounded-2xl p-5 text-center hover:border-[var(--ring)]/30 transition-colors"
+              className="glass rounded-2xl p-5 text-center hover:border-[var(--ring)]/30 transition-all duration-300 group"
             >
-              <div className="w-9 h-9 rounded-xl bg-[var(--accent)] flex items-center justify-center mx-auto mb-2.5">
+              <div className="w-9 h-9 rounded-xl bg-[var(--accent)] flex items-center justify-center mx-auto mb-2.5 group-hover:scale-110 transition-transform duration-300">
                 <item.icon className="w-4.5 h-4.5 text-primary" />
               </div>
               <h2 className="font-bold text-foreground text-sm mb-1">{item.title}</h2>
               {item.href ? (
-                <a href={item.href} className="text-xs text-primary hover:underline underline-offset-2 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-ring rounded">{item.desc}</a>
+                <a href={item.href} className="text-xs text-primary hover:underline underline-offset-2 rounded">{item.desc}</a>
               ) : (
                 <p className="text-xs text-muted-foreground">{item.desc}</p>
               )}
@@ -152,16 +145,16 @@ export default function ContactPage() {
               <div className="grid sm:grid-cols-2 gap-4">
                 <div>
                   <label htmlFor="name" className="block text-sm font-medium text-foreground mb-1.5">الاسم</label>
-                  <input id="name" name="name" type="text" required autoComplete="name" className="w-full px-4 py-2.5 rounded-xl bg-[var(--card)] border border-[var(--border)] text-foreground text-sm focus:outline-none focus:border-[var(--ring)] focus:ring-2 focus:ring-[var(--accent)] transition-colors placeholder:text-muted-foreground/50" placeholder="اسمك" />
+                  <input id="name" name="name" type="text" required autoComplete="name" className="w-full px-4 py-2.5 rounded-xl bg-[var(--card)] border border-[var(--border)] text-foreground text-sm focus:outline-none focus:border-[var(--ring)] focus:ring-2 focus:ring-[var(--accent)] transition-all placeholder:text-muted-foreground/50" placeholder="اسمك" />
                 </div>
                 <div>
                   <label htmlFor="email" className="block text-sm font-medium text-foreground mb-1.5">البريد</label>
-                  <input id="email" name="email" type="email" required autoComplete="email" className="w-full px-4 py-2.5 rounded-xl bg-[var(--card)] border border-[var(--border)] text-foreground text-sm focus:outline-none focus:border-[var(--ring)] focus:ring-2 focus:ring-[var(--accent)] transition-colors placeholder:text-muted-foreground/50" placeholder="بريدك الإلكتروني" />
+                  <input id="email" name="email" type="email" required autoComplete="email" className="w-full px-4 py-2.5 rounded-xl bg-[var(--card)] border border-[var(--border)] text-foreground text-sm focus:outline-none focus:border-[var(--ring)] focus:ring-2 focus:ring-[var(--accent)] transition-all placeholder:text-muted-foreground/50" placeholder="بريدك الإلكتروني" />
                 </div>
               </div>
               <div>
                 <label htmlFor="subject" className="block text-sm font-medium text-foreground mb-1.5">الموضوع</label>
-                <select id="subject" name="subject" autoComplete="off" className="w-full px-4 py-2.5 rounded-xl bg-[var(--card)] border border-[var(--border)] text-foreground text-sm focus:outline-none focus:border-[var(--ring)] focus:ring-2 focus:ring-[var(--accent)] transition-colors">
+                <select id="subject" name="subject" className="w-full px-4 py-2.5 rounded-xl bg-[var(--card)] border border-[var(--border)] text-foreground text-sm focus:outline-none focus:border-[var(--ring)] focus:ring-2 focus:ring-[var(--accent)] transition-all">
                   <option value="">اختر الموضوع</option>
                   <option value="menu">استفسار عن Smart Menu</option>
                   <option value="bot">استفسار عن Smart Bot</option>
@@ -171,7 +164,7 @@ export default function ContactPage() {
               </div>
               <div>
                 <label htmlFor="message" className="block text-sm font-medium text-foreground mb-1.5">الرسالة</label>
-                <textarea id="message" name="message" rows={4} required autoComplete="off" className="w-full px-4 py-2.5 rounded-xl bg-[var(--card)] border border-[var(--border)] text-foreground text-sm focus:outline-none focus:border-[var(--ring)] focus:ring-2 focus:ring-[var(--accent)] transition-colors placeholder:text-muted-foreground/50 resize-none" placeholder="اكتب رسالتك هنا…" />
+                <textarea id="message" name="message" rows={4} required className="w-full px-4 py-2.5 rounded-xl bg-[var(--card)] border border-[var(--border)] text-foreground text-sm focus:outline-none focus:border-[var(--ring)] focus:ring-2 focus:ring-[var(--accent)] transition-all placeholder:text-muted-foreground/50 resize-none" placeholder="اكتب رسالتك هنا…" />
               </div>
               {error && (
                 <div className="text-sm text-red-500 bg-red-500/10 rounded-xl px-4 py-3 text-center" role="alert">{error}</div>
@@ -179,7 +172,7 @@ export default function ContactPage() {
               <button
                 type="submit"
                 disabled={sending}
-                className="flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-primary text-white font-semibold text-sm hover:brightness-110 transition-all duration-300 active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:opacity-60 disabled:cursor-not-allowed"
+                className="flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-primary text-white font-semibold text-sm hover:brightness-110 transition-all duration-300 active:scale-[0.98] disabled:opacity-60 disabled:cursor-not-allowed"
               >
                 {sending ? (
                   <><Loader2 className="w-4 h-4 animate-spin" /> جاري الإرسال…</>

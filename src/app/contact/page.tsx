@@ -16,7 +16,7 @@ function GenArtBackground({ seed = 303 }: { seed?: number }) {
   const paths = useMemo(() => {
     const rng = mulberry32(seed);
     const lines: string[] = [];
-    const accent = "oklch(0.58 0.195 45)";
+    const accent = "oklch(0.55 0.01 260)";
 
     // Concentric circles with irregular radii
     for (let ring = 0; ring < 6; ring++) {

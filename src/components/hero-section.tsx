@@ -49,10 +49,9 @@ function AnimatedStat({ value, label, icon: Icon, delay = 0 }: { value: string; 
 }
 
 const ambientBlobs = [
-  { size: 600, x: "-20%", y: "-15%", blur: "180px", color: "var(--primary)", opacity: 0.08 },
-  { size: 450, x: "65%", y: "10%", blur: "150px", color: "var(--primary)", opacity: 0.06 },
-  { size: 350, x: "40%", y: "50%", blur: "120px", color: "oklch(0.45 0.15 260)", opacity: 0.04 },
-  { size: 500, x: "80%", y: "60%", blur: "140px", color: "var(--primary)", opacity: 0.05 },
+  { size: 300, x: "-10%", y: "-10%", blur: "120px", color: "oklch(0.55 0.25 250 / 0.06)", opacity: 0.04 },
+  { size: 250, x: "75%", y: "20%", blur: "100px", color: "oklch(0.55 0.25 250 / 0.04)", opacity: 0.03 },
+  { size: 200, x: "50%", y: "60%", blur: "80px", color: "oklch(0.55 0.25 340 / 0.03)", opacity: 0.02 },
 ]
 
 const floatingIcons = [

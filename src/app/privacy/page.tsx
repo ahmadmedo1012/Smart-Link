@@ -15,8 +15,8 @@ function GenArtBackground({ seed = 99 }: { seed?: number }) {
   const paths = useMemo(() => {
     const rng = mulberry32(seed);
     const lines: string[] = [];
-    const accent = "oklch(0.58 0.195 45)";
-    const accentDim = "oklch(0.58 0.195 45 / 0.05)";
+    const accent = "oklch(0.55 0.01 260)";
+    const accentDim = "oklch(0.55 0.01 260 / 0.05)";
 
     for (let band = 0; band < 6; band++) {
       const cy = 20 + band * 12 + rng() * 4;

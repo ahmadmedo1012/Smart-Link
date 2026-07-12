@@ -7,6 +7,7 @@ import { MotionConfig } from "framer-motion"
 import { MainNav } from "@/components/main-nav"
 import { Footer } from "@/components/footer"
 import { PageTransition } from "@/components/page-transition"
+import { ScrollProgress } from "@/components/scroll-progress"
 import "./globals.css"
 
 const cairo = Cairo({
@@ -89,6 +90,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           تخطى إلى المحتوى الرئيسي
         </a>
         <div className="noise-overlay" />
+        <ScrollProgress />
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
           <MotionConfig reducedMotion="user">
             <MainNav />

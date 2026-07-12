@@ -39,7 +39,7 @@ function AnimatedStat({ value, label, icon: Icon, delay = 0 }: { value: string; 
       transition={{ duration: 0.6, delay: delay + 0.3, ease: [0.16, 1, 0.3, 1] }}
       className="glass-card rounded-xl p-4 text-center group"
     >
-      <div className="w-8 h-8 rounded-lg bg-[var(--accent)] flex items-center justify-center mx-auto mb-2 group-hover:scale-110 group-hover:-translate-y-0.5 transition-[transform] duration-300">
+      <div className="w-8 h-8 rounded-lg bg-[var(--accent)] flex items-center justify-center mx-auto mb-2 group-hover:scale-110 group-hover:-translate-y-0.5 transition-[transform] duration-200">
         <Icon className="w-4 h-4 text-[var(--primary)]" />
       </div>
       <div className="text-xl font-bold text-[var(--foreground)] tabular-nums tracking-tight">{display}</div>
@@ -169,13 +169,13 @@ export function HeroSection() {
           >
             <Link
               href="#services"
-              className="group relative inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-[var(--primary)] text-white font-semibold text-sm hover:brightness-110 transition-all duration-300 shadow-glow hover:shadow-[0_0_35px_var(--shadow-glow)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ring)] active:scale-[0.97]"
+              className="group relative inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-[var(--primary)] text-white font-semibold text-sm hover:brightness-110 transition-all duration-200 shadow-glow hover:shadow-[0_0_35px_var(--shadow-glow)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ring)] active:scale-[0.97]"
             >
               اكتشف خدماتنا <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
             </Link>
             <Link
               href="/about"
-              className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl glass text-[var(--foreground)] font-semibold text-sm hover:bg-[var(--accent)] transition-[background-color] duration-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ring)] active:scale-[0.97]"
+              className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl glass text-[var(--foreground)] font-semibold text-sm hover:bg-[var(--accent)] transition-[background-color] duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ring)] active:scale-[0.97]"
             >
               تعرف علينا
             </Link>

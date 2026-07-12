@@ -85,7 +85,7 @@ function ServiceCard({ service, index }: { service: typeof services[number]; ind
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: fi * 0.05 }}
-                className="flex items-center gap-2.5 text-sm text-[var(--muted-foreground)] group-hover:text-[var(--foreground)] transition-colors duration-300"
+                className="flex items-center gap-2.5 text-sm text-[var(--muted-foreground)] group-hover:text-[var(--foreground)] transition-colors duration-200"
               >
                 <div className="w-1.5 h-1.5 rounded-full bg-[var(--primary)] shrink-0" />
                 <span>{f}</span>
@@ -104,7 +104,7 @@ function ServiceCard({ service, index }: { service: typeof services[number]; ind
               target="_blank"
               rel="noopener noreferrer"
               aria-label={`${service.title} — رابط خارجي`}
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-[var(--primary)] text-white text-sm font-semibold hover:brightness-110 transition-all duration-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ring)] active:scale-[0.97] w-fit"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-[var(--primary)] text-white text-sm font-semibold hover:brightness-110 transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ring)] active:scale-[0.97] w-fit"
             >
               زيارة الخدمة <ChevronLeft className="w-3.5 h-3.5" />
             </a>

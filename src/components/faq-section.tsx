@@ -24,7 +24,7 @@ function FaqItem({ faq, index, open, onToggle }: { faq: typeof faqs[number]; ind
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.35, delay: index * 0.04, ease: [0.16, 1, 0.3, 1] }}
       className={cn(
-        "glass rounded-2xl overflow-hidden transition-[background-color] duration-300",
+        "glass rounded-2xl overflow-hidden transition-[background-color] duration-200",
         open && "bg-[var(--surface-raised)]"
       )}
     >

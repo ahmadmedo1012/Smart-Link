@@ -70,7 +70,7 @@ export function MainNav() {
                   className="flex items-center gap-1 px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground rounded-lg hover:bg-[var(--accent)] focus-visible:bg-[var(--accent)] transition-[color,background-color] focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--ring)]"
                 >
                   {link.label}
-                  <ChevronDown className="w-3.5 h-3.5 transition-transform duration-300 group-hover/nav:rotate-180" />
+                  <ChevronDown className="w-3.5 h-3.5 transition-transform duration-200 group-hover/nav:rotate-180" />
                 </button>
                 <div className="absolute top-full right-0 mt-1 w-72 opacity-0 invisible group-hover/nav:opacity-100 group-hover/nav:visible focus-within:opacity-100 focus-within:visible transition-all duration-200 translate-y-1 group-hover/nav:translate-y-0 focus-within:translate-y-0">
                   <div className="glass-strong rounded-xl p-2">
@@ -146,7 +146,7 @@ export function MainNav() {
                   className="flex items-center justify-between w-full px-3 py-2.5 text-sm font-medium text-foreground rounded-lg hover:bg-[var(--accent)] transition-[background-color] focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--ring)]"
                 >
                   {link.label}
-                  <ChevronDown className={cn("w-3.5 h-3.5 transition-transform duration-300", servicesOpen && "rotate-180")} />
+                  <ChevronDown className={cn("w-3.5 h-3.5 transition-transform duration-200", servicesOpen && "rotate-180")} />
                 </button>
                 {servicesOpen && (
                   <div className="mr-3 space-y-1 pb-1" style={{ animation: "fade-in-up 0.15s ease-out" }}>

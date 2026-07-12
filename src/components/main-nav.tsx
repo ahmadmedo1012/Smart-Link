@@ -36,6 +36,10 @@ export function MainNav() {
   }, [])
 
   return (
+    <>
+      <style jsx>{`
+        @keyframes nav-shine { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+      `}</style>
     <header
       className={cn(
         "fixed top-0 left-0 right-0 z-50 transition-[background,backdrop-filter,border-color] duration-[var(--move-base)]",
@@ -180,5 +184,6 @@ export function MainNav() {
         </div>
       )}
     </header>
+    </>
   )
 }

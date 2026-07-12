@@ -84,24 +84,26 @@ export function HeroSection() {
   const shouldReduceMotion = useReducedMotion()
   return (
     <section className="relative min-h-[90dvh] flex items-center pt-24 pb-16 overflow-hidden" aria-label="Hero section">
-      {/* Ambient blobs with drift */}
-      {ambientBlobs.map((b, i) => (
-        <motion.div
-          key={i}
-          className="absolute pointer-events-none rounded-full"
-          aria-hidden="true"
-          style={{
-            width: b.size, height: b.size, left: b.x, top: b.y,
-            background: b.color, filter: `blur(${b.blur})`, opacity: b.opacity,
-          }}
-          animate={shouldReduceMotion ? {} : { opacity: [b.opacity, b.opacity * 1.2, b.opacity] }}
-          transition={{ duration: 3 + i * 1, repeat: 3, repeatDelay: 10, ease: "easeInOut" }}
-        />
-      ))}
+      {/* Ambient blobs with drift — behind content */}
+      <div className="absolute inset-0 z-0 pointer-events-none">
+        {ambientBlobs.map((b, i) => (
+          <motion.div
+            key={i}
+            className="absolute rounded-full"
+            aria-hidden="true"
+            style={{
+              width: b.size, height: b.size, left: b.x, top: b.y,
+              background: b.color, filter: `blur(${b.blur})`, opacity: b.opacity,
+            }}
+            animate={shouldReduceMotion ? {} : { opacity: [b.opacity, b.opacity * 1.2, b.opacity] }}
+            transition={{ duration: 3 + i * 1, repeat: 3, repeatDelay: 10, ease: "easeInOut" }}
+          />
+        ))}
+      </div>
 
       {/* Grid pattern */}
       <div
-        className="absolute inset-0 pointer-events-none opacity-[0.03]"
+        className="absolute inset-0 z-0 pointer-events-none opacity-[0.03]"
         aria-hidden="true"
         style={{
           backgroundImage: `linear-gradient(var(--grid-line) 1px, transparent 1px), linear-gradient(90deg, var(--grid-line) 1px, transparent 1px)`,
@@ -109,12 +111,14 @@ export function HeroSection() {
         }}
       />
 
-      {/* Floating animated icons */}
-      {floatingIcons.map((item, i) => (
-        <FloatingIcon key={`hero-icon-${i}`} {...item} index={i} />
-      ))}
+      {/* Floating animated icons — behind content */}
+      <div className="absolute inset-0 z-0 pointer-events-none">
+        {floatingIcons.map((item, i) => (
+          <FloatingIcon key={`hero-icon-${i}`} {...item} index={i} />
+        ))}
+      </div>
 
-      <div className="container-base relative">
+      <div className="container-base relative z-10">
         <div className="max-w-4xl mx-auto text-center">
           {/* Badge */}
           <motion.div

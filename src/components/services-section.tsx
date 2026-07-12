@@ -56,11 +56,8 @@ function ServiceCard({ service, index }: { service: typeof services[number]; ind
         whileHover={{ rotateY: 2, rotateX: -2 }}
         transition={{ type: "spring", stiffness: 200, damping: 20 }}
       >
-        {/* Gradient overlay */}
-        <div className="absolute inset-0 opacity-40 group-hover:opacity-70 transition-opacity duration-500" style={{ background: `var(--${service.gradient})` }} aria-hidden="true" />
+        {/* Gradient overlay — removed, was obscuring text */}
 
-        {/* Shine effect on hover */}
-        <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" style={{ background: "var(--gradient-shine)" }} aria-hidden="true" />
 
         <div className="relative p-7 md:p-8 flex flex-col flex-1">
           {/* Icon */}

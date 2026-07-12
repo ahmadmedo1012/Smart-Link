@@ -22,10 +22,10 @@ function FeatureCard({ feature, index }: { feature: typeof features[number]; ind
       ref={ref}
       initial={{ opacity: 0, y: 30 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.4, delay: index * 0.06, ease: [0.16, 1, 0.3, 1] }}
-      className="glass rounded-[16px] p-6 hover:border-[var(--ring)]/30 transition-colors duration-300 group"
+      transition={{ duration: 0.5, delay: index * 0.06, ease: [0.16, 1, 0.3, 1] }}
+      className="glass-card rounded-[16px] p-6 group"
     >
-      <div className="w-11 h-11 rounded-xl bg-[var(--accent)] flex items-center justify-center mb-4 group-hover:scale-110 group-hover:-translate-y-0.5 transition-all duration-300">
+      <div className="w-11 h-11 rounded-xl bg-[var(--accent)] flex items-center justify-center mb-4 group-hover:scale-110 group-hover:-translate-y-0.5 transition-[transform] duration-300">
         <Icon className="w-5.5 h-5.5 text-[var(--primary)]" />
       </div>
       <h3 className="font-bold text-[var(--foreground)] mb-1.5">{feature.title}</h3>

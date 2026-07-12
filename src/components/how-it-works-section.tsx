@@ -19,20 +19,34 @@ function StepCard({ step, index }: { step: typeof steps[number]; index: number }
       ref={ref}
       initial={{ opacity: 0, y: 40 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.5, delay: index * 0.15, ease: [0.16, 1, 0.3, 1] }}
+      transition={{ duration: 0.6, delay: index * 0.15, ease: [0.16, 1, 0.3, 1] }}
       className="relative text-center group"
     >
-      {/* Connecting line */}
+      {/* Connecting line with draw animation */}
       {index < steps.length - 1 && (
-        <div className="hidden md:block absolute top-8 left-[calc(50%+3rem)] w-[calc(100%-6rem)] h-[1px] bg-gradient-to-r from-[var(--primary)]/0 via-[var(--primary)]/20 to-[var(--primary)]/0" />
+        <div className="hidden md:block absolute top-8 left-[calc(50%+3rem)] w-[calc(100%-6rem)] h-[1px]">
+          <motion.div
+            initial={{ width: 0 }}
+            animate={inView ? { width: "100%" } : {}}
+            transition={{ duration: 0.8, delay: index * 0.15 + 0.3 }}
+            className="h-full bg-gradient-to-r from-[var(--primary)]/0 via-[var(--primary)]/20 to-[var(--primary)]/0"
+          />
+        </div>
       )}
 
-      {/* Step number */}
+      {/* Step badge with glow */}
       <div className="relative inline-flex mb-5">
-        <div className="w-16 h-16 rounded-2xl bg-[var(--accent)] flex items-center justify-center group-hover:scale-110 group-hover:-translate-y-0.5 transition-all duration-300">
+        <motion.div
+          className="w-16 h-16 rounded-2xl bg-[var(--accent)] flex items-center justify-center"
+          whileHover={{ scale: 1.12, y: -4 }}
+          transition={{ type: "spring", stiffness: 300, damping: 15 }}
+        >
           <Icon className="w-8 h-8 text-[var(--primary)]" />
-        </div>
-        <div className="absolute -top-1.5 -right-1.5 w-7 h-7 rounded-full bg-[var(--primary)] text-white text-xs font-bold flex items-center justify-center shadow-[0_0_12px_var(--shadow-glow)]">
+        </motion.div>
+        <div
+          className="absolute -top-1.5 -right-1.5 w-7 h-7 rounded-full bg-[var(--primary)] text-white text-xs font-bold flex items-center justify-center"
+          style={{ boxShadow: "0 0 12px var(--primary)" }}
+        >
           {index + 1}
         </div>
       </div>

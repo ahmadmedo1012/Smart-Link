@@ -23,21 +23,24 @@ function FaqItem({ faq, index, open, onToggle }: { faq: typeof faqs[number]; ind
       initial={{ opacity: 0, y: 16 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.35, delay: index * 0.04, ease: [0.16, 1, 0.3, 1] }}
-      className="glass rounded-2xl overflow-hidden transition-colors duration-300"
+      className={cn(
+        "glass rounded-2xl overflow-hidden transition-[background-color] duration-300",
+        open && "bg-[var(--surface-raised)]"
+      )}
     >
       <button
         onClick={onToggle}
         aria-expanded={open}
         id={`faq-trigger-${index}`}
-        className="flex items-center justify-between w-full px-6 py-4 text-sm font-medium text-foreground hover:bg-[var(--accent)] focus-visible:bg-[var(--accent)] transition-colors text-start"
+        className="flex items-center justify-between w-full px-6 py-4 text-sm font-medium text-foreground hover:bg-[var(--accent)] focus-visible:bg-[var(--accent)] transition-[background-color] text-start focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--ring)]"
       >
         <span>{faq.q}</span>
-        <ChevronDown className={cn("w-4 h-4 text-muted-foreground transition-transform duration-300 shrink-0", open && "rotate-180")} />
+        <ChevronDown className={cn("w-4 h-4 text-muted-foreground transition-[transform] duration-[var(--move-base)] shrink-0", open && "rotate-180")} />
       </button>
       <div
         role="region"
         aria-labelledby={`faq-trigger-${index}`}
-        className={cn("grid transition-all duration-300", open ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0")}
+        className={cn("grid transition-[grid-template-rows,opacity] duration-[var(--move-base)] ease-[var(--ease-smooth)]", open ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0")}
       >
         <div className="overflow-hidden">
           <p className="px-6 pb-4 text-sm text-muted-foreground leading-relaxed">{faq.a}</p>

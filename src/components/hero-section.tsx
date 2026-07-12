@@ -15,7 +15,7 @@ function AnimatedStat({ value, label, icon: Icon, delay = 0 }: { value: string; 
   useEffect(() => {
     if (!inView) return
     let start = 0
-    const duration = 1800
+    const duration = 2000
     const step = 16
     const totalSteps = duration / step
     const increment = target / totalSteps
@@ -36,10 +36,10 @@ function AnimatedStat({ value, label, icon: Icon, delay = 0 }: { value: string; 
       ref={ref}
       initial={{ opacity: 0, y: 24, scale: 0.95 }}
       animate={inView ? { opacity: 1, y: 0, scale: 1 } : {}}
-      transition={{ duration: 0.5, delay: delay + 0.3, ease: [0.16, 1, 0.3, 1] }}
-      className="glass rounded-xl p-4 text-center hover:border-[var(--primary)]/30 transition-colors duration-300"
+      transition={{ duration: 0.6, delay: delay + 0.3, ease: [0.16, 1, 0.3, 1] }}
+      className="glass-card rounded-xl p-4 text-center group"
     >
-      <div className="w-8 h-8 rounded-lg bg-[var(--accent)] flex items-center justify-center mx-auto mb-2">
+      <div className="w-8 h-8 rounded-lg bg-[var(--accent)] flex items-center justify-center mx-auto mb-2 group-hover:scale-110 group-hover:-translate-y-0.5 transition-[transform] duration-300">
         <Icon className="w-4 h-4 text-[var(--primary)]" />
       </div>
       <div className="text-xl font-bold text-[var(--foreground)] tabular-nums tracking-tight">{display}</div>
@@ -64,18 +64,36 @@ const floatingIcons = [
   { Icon: Star, delay: 0.4, x: "92%", y: "20%" },
 ]
 
+function FloatingIcon({ Icon, delay, x, y, index }: { Icon: React.ComponentType<{ className?: string }>; delay: number; x: string; y: string; index: number }) {
+  return (
+    <motion.div
+      className="absolute hidden lg:block pointer-events-none"
+      style={{ left: x, top: y }}
+      initial={{ opacity: 0, scale: 0.5 }}
+      animate={{ opacity: [0.08, 0.15, 0.08], y: [0, -20, 0], x: [0, 10, 0] }}
+      transition={{ duration: 5 + index * 0.5, repeat: Infinity, delay, ease: "easeInOut" }}
+    >
+      <Icon className="w-7 h-7 text-[var(--primary)]" />
+    </motion.div>
+  )
+}
+
+const headingWords = ["SmartLink", "منصة رقمية", "لخدمات ذكية"]
+
 export function HeroSection() {
   return (
-    <section className="relative min-h-[90dvh] flex items-center pt-24 pb-16 overflow-hidden">
-      {/* Ambient blobs */}
+    <section className="relative min-h-[90dvh] flex items-center pt-24 pb-16 overflow-hidden" aria-label="Hero section">
+      {/* Ambient blobs with drift */}
       {ambientBlobs.map((b, i) => (
-        <div
+        <motion.div
           key={i}
           className="absolute pointer-events-none rounded-full"
           style={{
             width: b.size, height: b.size, left: b.x, top: b.y,
             background: b.color, filter: `blur(${b.blur})`, opacity: b.opacity,
           }}
+          animate={{ x: [0, 30 * (i % 2 === 0 ? 1 : -1), 0], y: [0, -20 * (i % 2 === 0 ? -1 : 1), 0] }}
+          transition={{ duration: 8 + i * 2, repeat: Infinity, ease: "easeInOut" }}
         />
       ))}
 
@@ -88,22 +106,14 @@ export function HeroSection() {
         }}
       />
 
-      {/* Floating icons */}
+      {/* Floating animated icons */}
       {floatingIcons.map((item, i) => (
-        <div
-          key={item.Icon.name || i}
-          className="absolute hidden lg:block pointer-events-none opacity-[0.12]"
-          style={{
-            left: item.x, top: item.y,
-            animation: `float ${4 + i * 0.5}s ease-in-out ${item.delay}s infinite`,
-          }}
-        >
-          <item.Icon className="w-7 h-7 text-[var(--primary)]" />
-        </div>
+        <FloatingIcon key={item.Icon.name || i} {...item} index={i} />
       ))}
 
       <div className="container-base relative">
         <div className="max-w-4xl mx-auto text-center">
+          {/* Badge */}
           <motion.div
             initial={{ opacity: 0, y: 16, scale: 0.96 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -114,54 +124,65 @@ export function HeroSection() {
             <span>منصة رقمية متكاملة</span>
           </motion.div>
 
-          <motion.h1
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-            className="text-5xl md:text-7xl lg:text-8xl font-extrabold tracking-tight leading-[0.95] mb-6"
-          >
-            <span className="gradient-text">SmartLink</span>
-            <br />
-            <span className="text-[var(--foreground)]">منصة رقمية</span>
-            <br />
-            <span className="text-[var(--muted-foreground)]">لخدمات ذكية</span>
-          </motion.h1>
+          {/* Animated heading - staggered lines */}
+          <h1 className="text-5xl md:text-7xl lg:text-8xl font-extrabold tracking-tight leading-[0.95] mb-6">
+            {headingWords.map((word, i) => (
+              <motion.span
+                key={word}
+                initial={{ opacity: 0, y: 40, filter: "blur(8px)" }}
+                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                transition={{ duration: 0.7, delay: 0.1 + i * 0.15, ease: [0.16, 1, 0.3, 1] }}
+                className="block"
+              >
+                {i === 0 ? (
+                  <span className="gradient-text">{word}</span>
+                ) : i === 1 ? (
+                  <span className="text-[var(--foreground)]">{word}</span>
+                ) : (
+                  <span className="text-[var(--muted-foreground)]">{word}</span>
+                )}
+              </motion.span>
+            ))}
+          </h1>
 
+          {/* Description */}
           <motion.p
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.5, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
             className="text-base md:text-lg text-[var(--muted-foreground)] max-w-2xl mx-auto mb-10 leading-[1.7]"
           >
             منصة موحدة تجمع حلولنا الرقمية المبتكرة — من المنيو الرقمي للمطاعم إلى البوت الذكي لفيسبوك —
             <span className="text-[var(--foreground)] font-medium"> كل ما تحتاجه لتنمية أعمالك في مكان واحد</span>
           </motion.p>
 
+          {/* CTAs */}
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.5, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
             className="flex flex-col sm:flex-row items-center justify-center gap-4"
           >
             <Link
               href="#services"
-              className="group relative inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-[var(--primary)] text-white font-semibold text-sm hover:brightness-110 transition-all duration-300 shadow-glow hover:shadow-[0_0_35px_var(--shadow-glow)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ring)] active:scale-[0.98]"
+              className="group relative inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-[var(--primary)] text-white font-semibold text-sm hover:brightness-110 transition-all duration-300 shadow-glow hover:shadow-[0_0_35px_var(--shadow-glow)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ring)] active:scale-[0.97]"
             >
               اكتشف خدماتنا <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
             </Link>
             <Link
               href="/about"
-              className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl glass text-[var(--foreground)] font-semibold text-sm hover:bg-[var(--accent)] transition-colors duration-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ring)] active:scale-[0.98]"
+              className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl glass text-[var(--foreground)] font-semibold text-sm hover:bg-[var(--accent)] transition-[background-color] duration-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ring)] active:scale-[0.97]"
             >
               تعرف علينا
             </Link>
           </motion.div>
         </div>
 
+        {/* Stats */}
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 0.6, delay: 0.7, ease: [0.16, 1, 0.3, 1] }}
           className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-3 max-w-2xl mx-auto"
         >
           {[
@@ -174,6 +195,9 @@ export function HeroSection() {
           ))}
         </motion.div>
       </div>
+
+      {/* Bottom gradient fade */}
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[var(--background)] to-transparent pointer-events-none" />
     </section>
   )
 }

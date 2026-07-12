@@ -9,13 +9,28 @@ export function CTASection() {
   const inView = useInView(ref, { once: true, margin: "-80px" })
 
   return (
-    <section id="cta" className="section-padding relative">
+    <section id="cta" className="section-padding relative overflow-hidden">
       {/* Ambient glow */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] rounded-full bg-[var(--primary)]/8 blur-[150px]" />
-        <div className="absolute top-0 right-0 w-64 h-64 rounded-full bg-[var(--primary)]/10 blur-[100px]" />
-        <div className="absolute bottom-0 left-0 w-64 h-64 rounded-full bg-[var(--primary)]/10 blur-[100px]" />
+        <motion.div
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[450px] rounded-full"
+          style={{ background: "var(--primary)", opacity: 0.08, filter: "blur(150px)" }}
+          animate={{ scale: [1, 1.1, 1], opacity: [0.08, 0.12, 0.08] }}
+          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+        />
+        <div className="absolute top-0 right-0 w-64 h-64 rounded-full" style={{ background: "var(--primary)", opacity: 0.1, filter: "blur(100px)" }} />
+        <div className="absolute bottom-0 left-0 w-64 h-64 rounded-full" style={{ background: "var(--primary)", opacity: 0.1, filter: "blur(100px)" }} />
       </div>
+
+      {/* Decorative dots */}
+      <div
+        className="absolute inset-0 pointer-events-none opacity-[0.02]"
+        style={{
+          backgroundImage: "radial-gradient(circle, var(--primary) 1px, transparent 1px)",
+          backgroundSize: "30px 30px",
+        }}
+      />
+
       <motion.div
         ref={ref}
         initial={{ opacity: 0, y: 30 }}
@@ -33,13 +48,17 @@ export function CTASection() {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link
               href="https://menu.smart-link.ly"
-              className="group inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-primary text-white font-semibold text-sm hover:brightness-110 transition-all duration-300 shadow-glow animate-[pulse-glow_4s_ease-in-out_infinite] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring active:scale-[0.98]"
+              className="group inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-primary text-white font-semibold text-sm hover:brightness-110 transition-all duration-300 shadow-glow focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring active:scale-[0.97]"
+              style={{
+                animation: "pulse-glow 4s ease-in-out infinite",
+                boxShadow: "0 0 20px rgba(var(--primary), 0.15)"
+              }}
             >
               ابدأ مجاناً <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
             </Link>
             <Link
               href="/contact"
-              className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl glass text-foreground font-semibold text-sm hover:bg-[var(--accent)] transition-colors duration-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring active:scale-[0.98]"
+              className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl glass text-foreground font-semibold text-sm hover:bg-[var(--accent)] transition-[background-color] duration-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring active:scale-[0.97]"
             >
               تواصل معنا
             </Link>

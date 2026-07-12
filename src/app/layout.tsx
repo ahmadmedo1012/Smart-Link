@@ -30,13 +30,13 @@ export const metadata: Metadata = {
     siteName: "SmartLink",
     locale: "ar_LY",
     type: "website",
-    images: [{ url: "/logo.png", width: 512, height: 512 }],
+    images: [{ url: "/og-smartlink.svg", width: 1200, height: 630 }],
   },
   twitter: {
     card: "summary_large_image",
     title: "SmartLink — منصة رقمية متكاملة",
     description: "حلول ذكية للأعمال: المنيو الرقمي، البوت الذكي، والمزيد",
-    images: ["/logo.png"],
+    images: ["/og-smartlink.svg"],
   },
   robots: { index: true, follow: true },
 }

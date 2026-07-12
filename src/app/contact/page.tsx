@@ -78,7 +78,7 @@ const fadeUp = (delay = 0) => ({
 export default function ContactPage() {
   const [sent, setSent] = useState(false)
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault()
     setSent(true)
     setTimeout(() => setSent(false), 4000)

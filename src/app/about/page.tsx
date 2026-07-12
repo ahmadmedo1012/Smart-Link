@@ -1,5 +1,5 @@
 "use client"
-import { Sparkles, Bot, Smartphone, Globe, Layers, ArrowLeft } from "lucide-react"
+import { Sparkles, Bot, Smartphone, Globe, Layers, ArrowLeft, User } from "lucide-react"
 import Link from "next/link"
 import { motion } from "framer-motion"
 import { useMemo } from "react"
@@ -19,7 +19,6 @@ function GenArtBackground({ seed = 42 }: { seed?: number }) {
     const lines: string[] = [];
     const accent = "oklch(0.58 0.195 45)";
 
-    // Diagonal bands
     for (let i = 0; i < 8; i++) {
       const y1 = i * 14 + rng() * 6;
       const y2 = y1 + 8 + rng() * 4;
@@ -30,7 +29,6 @@ function GenArtBackground({ seed = 42 }: { seed?: number }) {
       );
     }
 
-    // Scatter dots
     for (let i = 0; i < 60; i++) {
       const x = rng() * 100;
       const y = rng() * 100;
@@ -71,7 +69,7 @@ export default function AboutPage() {
   return (
     <div className="pt-28 pb-16 relative overflow-hidden">
       <GenArtBackground seed={2024} />
-      <div className="container-base">
+      <div className="container-base relative">
         <motion.div className="max-w-3xl mx-auto text-center mb-14" {...fadeUp()}>
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[var(--glass-border)] bg-[var(--glass-bg)] backdrop-blur-sm text-xs text-primary font-medium mb-6">
             <Sparkles className="w-3 h-3" />
@@ -81,7 +79,7 @@ export default function AboutPage() {
             عن <span className="gradient-text">SmartLink</span>
           </h1>
           <p className="text-lg text-muted-foreground leading-relaxed">
-            SmartLink منصة رقمية متكاملة تهدف إلى توفير حلول ذكية للأعمال في العالم العربي.
+            SmartLink منصة رقمية ليبية متكاملة تهدف إلى توفير حلول ذكية للأعمال في العالم العربي.
             نؤمن بأن التكنولوجيا يجب أن تكون سهلة، متاحة، وفعالة للجميع.
           </p>
         </motion.div>
@@ -102,16 +100,36 @@ export default function AboutPage() {
           ))}
         </div>
 
-        <motion.div className="max-w-3xl mx-auto" {...fadeUp(0.3)}>
+        {/* Founder */}
+        <motion.div className="max-w-3xl mx-auto mb-10" {...fadeUp(0.25)}>
+          <div className="glass rounded-2xl p-6 md:p-8 flex flex-col md:flex-row items-start md:items-center gap-5">
+            <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-amber-400/20 to-orange-500/20 flex items-center justify-center shrink-0">
+              <User className="w-8 h-8 text-primary" />
+            </div>
+            <div>
+              <h2 className="text-xl font-bold text-foreground mb-1">المؤسس</h2>
+              <p className="text-base text-foreground font-medium">أحمد خيري</p>
+              <p className="text-sm text-muted-foreground">مؤسس ورئيس SmartLink — منصة رقمية ليبية رائدة في المنيو الرقمي وخدمات الأتمتة.</p>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* Story */}
+        <motion.div className="max-w-3xl mx-auto" {...fadeUp(0.35)}>
           <h2 className="text-3xl font-bold text-foreground mb-4 tracking-tight">قصتنا</h2>
           <p className="text-muted-foreground leading-relaxed mb-4">
-            انطلقت SmartLink من رؤية واضحة: تقديم حلول رقمية متكاملة تلبي احتياجات السوق العربي،
+            انطلقت SmartLink في <strong>20 نوفمبر 2025</strong> من رؤية واضحة: تقديم حلول رقمية متكاملة تلبي احتياجات السوق الليبي والعربي،
             بدءاً من المطاعم والمقاهي التي تحتاج لمنيو رقمي احترافي، إلى أصحاب الصفحات على فيسبوك
             الذين يبحثون عن أتمتة ذكية لردودهم.
           </p>
+          <p className="text-muted-foreground leading-relaxed mb-4">
+            بصفتنا <strong>أول منصة ليبية</strong> متخصصة في إنشاء المنيو الإلكتروني التفاعلي، نسعى لتكون SmartLink
+            المنصة الرقمية الأولى للأعمال في ليبيا والعالم العربي.
+          </p>
           <p className="text-muted-foreground leading-relaxed mb-6">
             اليوم، نحن منصة متنامية تضم أكثر من 500 عميل نشط، ونعمل باستمرار على تطوير خدماتنا
-            وإضافة المزيد من الحلول المبتكرة. رؤيتنا هي أن نكون المنصة الرقمية الأولى للأعمال في العالم العربي.
+            وإضافة المزيد من الحلول المبتكرة — من البوت الذكي لفيسبوك إلى خدمات قادمة تطمح لتغيير
+            مشهد الأعمال الرقمية في المنطقة.
           </p>
           <Link
             href="/contact"

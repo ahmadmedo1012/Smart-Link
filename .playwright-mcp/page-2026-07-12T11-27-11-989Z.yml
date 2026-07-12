@@ -1,0 +1,12 @@
+- generic [ref=f1e16]:
+  - generic [ref=f1e19]:
+    - generic [ref=f1e20]:
+      - heading "SmartBot" [level=1] [ref=f1e26]
+      - paragraph [ref=f1e27]: لوحة التحكم الذكية
+    - generic [ref=f1e28]:
+      - textbox "اسم المستخدم أو البريد الإلكتروني" [ref=f1e33]
+      - generic [ref=f1e34]:
+        - textbox "كلمة المرور" [ref=f1e38]
+        - button "إظهار كلمة المرور" [ref=f1e39] [cursor=pointer]
+      - button "تسجيل الدخول" [ref=f1e43] [cursor=pointer]
+  - paragraph [ref=f1e44]: SmartBot v1.0 — منصة إدارة التفاعل الذكية

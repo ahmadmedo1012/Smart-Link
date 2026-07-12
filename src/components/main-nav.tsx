@@ -49,11 +49,8 @@ export function MainNav() {
       )}
     >
       <div className="container-base flex items-center justify-between h-16">
-        <Link href="/" className="flex items-center gap-2.5 group">
-          <Image src="/logo.png" alt="SmartLink" width={36} height={36} className="w-9 h-9 object-contain group-hover:scale-105 transition-transform" />
-          <span className="text-lg font-bold tracking-tight text-foreground">
-            Smart<span className="text-primary">Link</span>
-          </span>
+        <Link href="/" className="flex items-center group">
+          <Image src="/logo.png" alt="SmartLink" width={140} height={36} className="h-8 w-auto object-contain group-hover:scale-105 transition-transform" priority />
         </Link>
 
         {/* Desktop nav */}

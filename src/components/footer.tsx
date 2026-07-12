@@ -16,8 +16,7 @@ export function Footer() {
           {/* Brand */}
           <div>
             <div className="flex items-center gap-2.5 mb-4">
-              <Image src="/logo.png" alt="SmartLink" width={32} height={32} className="w-8 h-8 object-contain" loading="lazy" />
-              <span className="text-base font-bold">Smart<span className="text-primary">Link</span></span>
+              <Image src="/logo.png" alt="SmartLink" width={130} height={32} className="h-7 w-auto object-contain" loading="lazy" />
             </div>
             <p className="text-sm text-muted-foreground leading-relaxed mb-4">
               منصة رقمية متكاملة تقدم حلولاً ذكية للأعمال. نُمكنك من رقمنة خدماتك وزيادة مبيعاتك بأحدث التقنيات.

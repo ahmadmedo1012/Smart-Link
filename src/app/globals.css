@@ -228,21 +228,21 @@
 
 @utility gradient-text {
   color: var(--primary);
-  background: linear-gradient(135deg, var(--primary), oklch(0.68 0.19 45), oklch(0.75 0.18 50));
+  background-image: linear-gradient(135deg, var(--primary), oklch(0.68 0.19 45), oklch(0.75 0.18 50));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
 @utility gradient-text-opaque {
-  background: linear-gradient(135deg, var(--primary), oklch(0.68 0.19 45), oklch(0.75 0.18 50));
+  background-image: linear-gradient(135deg, var(--primary), oklch(0.68 0.19 45), oklch(0.75 0.18 50));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
 @utility gradient-text-muted {
-  background: linear-gradient(135deg, var(--foreground), var(--muted-foreground));
+  background-image: linear-gradient(135deg, var(--foreground), var(--muted-foreground));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;

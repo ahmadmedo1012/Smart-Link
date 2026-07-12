@@ -134,15 +134,13 @@ export function HeroSection() {
         style={{ scale: heroScale, opacity: heroOpacity }}
       >
         <div className="max-w-4xl mx-auto text-center">
-          {/* Badge with border glow */}
+          {/* Eyebrow */}
           <motion.div
             initial={{ opacity: 0, y: 16, scale: 0.96 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
             className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[var(--glass-border)] bg-[var(--glass-bg)] backdrop-blur-sm text-xs text-[var(--primary)] font-medium mb-10"
-            style={{ animation: "border-glow-pulse 3s ease-in-out infinite" }}
           >
-            <Sparkles className="w-3 h-3" />
             <span>منصة رقمية متكاملة</span>
           </motion.div>
 

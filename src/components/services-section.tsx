@@ -2,6 +2,7 @@
 import { motion, useInView } from "framer-motion"
 import { useRef } from "react"
 import { Smartphone, Bot, Sparkles, ChevronLeft } from "lucide-react"
+// ponytail: Sparkles used only for "قريباً" badge — single intentional flourish
 
 const services = [
   {
@@ -148,10 +149,9 @@ export function ServicesSection() {
           className="text-center mb-14"
         >
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[var(--glass-border)] bg-[var(--glass-bg)] backdrop-blur-sm text-xs text-primary font-medium mb-5">
-            <Sparkles className="w-3 h-3" />
             <span>خدماتنا</span>
           </div>
-          <h2 className="text-4xl md:text-5xl font-extrabold text-[var(--foreground)] mb-4 tracking-tight">منظومة <span className="gradient-text">متكاملة</span></h2>
+          <h2 className="text-4xl md:text-5xl font-extrabold text-[var(--foreground)] mb-4 tracking-tight">منظومة متكاملة</h2>
           <p className="text-[var(--muted-foreground)] max-w-xl mx-auto text-base leading-relaxed">
             منظومة متكاملة من الخدمات الرقمية المصممة لتطوير أعمالك وزيادة مبيعاتك
           </p>

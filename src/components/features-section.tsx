@@ -1,7 +1,7 @@
 "use client"
 import { motion, useInView } from "framer-motion"
 import { useRef } from "react"
-import { Layers, Bot, BarChart3, Wallet, HeadphonesIcon, QrCode, Sparkles } from "lucide-react"
+import { Layers, Bot, BarChart3, Wallet, HeadphonesIcon, QrCode } from "lucide-react"
 
 const features = [
   { icon: Layers, title: "منصة موحدة", description: "جميع خدماتك الرقمية في مكان واحد برؤية موحدة وتجربة مستخدم متكاملة." },
@@ -52,11 +52,7 @@ export function FeaturesSection() {
           transition={{ duration: 0.5 }}
           className="text-center mb-14"
         >
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[var(--glass-border)] bg-[var(--glass-bg)] backdrop-blur-sm text-xs text-primary font-medium mb-5">
-            <Sparkles className="w-3 h-3" />
-            <span>المميزات</span>
-          </div>
-          <h2 className="text-4xl md:text-5xl font-extrabold text-[var(--foreground)] mb-4 tracking-tight">لماذا <span className="gradient-text">SmartLink</span>؟</h2>
+          <h2 className="text-4xl md:text-5xl font-extrabold text-[var(--foreground)] mb-4 tracking-tight">لماذا SmartLink؟</h2>
           <p className="text-[var(--muted-foreground)] max-w-xl mx-auto text-base leading-relaxed">
             منصة متكاملة تجمع القوة والتقنية والسهولة في مكان واحد
           </p>

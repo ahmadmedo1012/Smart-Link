@@ -1,7 +1,7 @@
 "use client"
 import { motion, useInView } from "framer-motion"
 import { useRef, useState } from "react"
-import { ChevronDown, Sparkles } from "lucide-react"
+import { ChevronDown } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 const faqs = [
@@ -65,10 +65,9 @@ export function FaqSection() {
           className="text-center mb-12"
         >
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[var(--glass-border)] bg-[var(--glass-bg)] backdrop-blur-sm text-xs text-primary font-medium mb-5">
-            <Sparkles className="w-3 h-3" />
             <span>الأسئلة الشائعة</span>
           </div>
-          <h2 className="text-3xl md:text-5xl font-extrabold text-foreground mb-4 tracking-[-0.01em]">الأسئلة <span className="gradient-text">الشائعة</span></h2>
+          <h2 className="text-3xl md:text-5xl font-extrabold text-foreground mb-4 tracking-[-0.01em]">الأسئلة الشائعة</h2>
           <p className="text-muted-foreground text-base">إجابات لأكثر الأسئلة شيوعاً عن منصتنا</p>
         </motion.div>
         <div className="space-y-3">

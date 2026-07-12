@@ -2,6 +2,7 @@
 import { useState, useMemo } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Check, Smartphone, Bot, ChevronLeft, Sparkles } from "lucide-react"
+// ponytail: Sparkles retained for "coming soon" section — single intentional flourish
 
 function mulberry32(s: number) {
   return function () {
@@ -118,11 +119,10 @@ export default function PricingPage() {
       <div className="container-base relative">
         <motion.div className="max-w-3xl mx-auto text-center mb-14" {...fadeUp()}>
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[var(--glass-border)] bg-[var(--glass-bg)] backdrop-blur-sm text-xs text-primary font-medium mb-6">
-            <Sparkles className="w-3 h-3" />
             <span>الأسعار</span>
           </div>
           <h1 className="text-5xl md:text-6xl font-extrabold tracking-tight text-foreground mb-4">
-            الخطط <span className="gradient-text">والأسعار</span>
+            الخطط والأسعار
           </h1>
           <p className="text-lg text-muted-foreground">
             اختر الخطة المناسبة لعملك — ابدأ مجاناً وطور خدماتك معنا

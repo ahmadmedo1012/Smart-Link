@@ -2,7 +2,7 @@
 import { motion, useInView } from "framer-motion"
 import { useRef } from "react"
 import Link from "next/link"
-import { ArrowLeft, Sparkles } from "lucide-react"
+import { ArrowLeft } from "lucide-react"
 
 export function CTASection() {
   const ref = useRef<HTMLDivElement>(null)
@@ -30,12 +30,8 @@ export function CTASection() {
         className="container-base relative"
       >
         <div className="max-w-2xl mx-auto text-center">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[var(--glass-border)] bg-[var(--glass-bg)] backdrop-blur-sm text-xs text-primary font-medium mb-6">
-            <Sparkles className="w-3 h-3" />
-            <span>انطلق الآن</span>
-          </div>
           <h2 className="text-4xl md:text-5xl font-extrabold text-foreground mb-4 tracking-tight">
-            جهز أعمالك للانطلاق <span className="gradient-text">الرقمي</span>
+            جهز أعمالك للانطلاق الرقمي
           </h2>
           <p className="text-muted-foreground text-base mb-8 max-w-lg mx-auto leading-relaxed">
             أكثر من 500 عميل يثقون بنا. انضم إليهم وابدأ رحلتك الرقمية مع SmartLink.

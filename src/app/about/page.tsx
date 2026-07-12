@@ -1,5 +1,5 @@
 "use client"
-import { Sparkles, Bot, Smartphone, Globe, Layers, ArrowLeft, User, Quote } from "lucide-react"
+import { Bot, Smartphone, Globe, Layers, ArrowLeft, User, Quote } from "lucide-react"
 import Link from "next/link"
 import { motion } from "framer-motion"
 import { useMemo } from "react"
@@ -64,11 +64,10 @@ export default function AboutPage() {
       <div className="container-base relative">
         <motion.div className="max-w-3xl mx-auto text-center mb-14" {...fadeUp()}>
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[var(--glass-border)] bg-[var(--glass-bg)] backdrop-blur-sm text-xs text-primary font-medium mb-6">
-            <Sparkles className="w-3 h-3" />
             <span>عن المنصة</span>
           </div>
           <h1 className="text-5xl md:text-6xl font-extrabold tracking-tight text-foreground mb-4">
-            عن <span className="gradient-text">SmartLink</span>
+            عن SmartLink
           </h1>
           <p className="text-lg text-muted-foreground leading-relaxed max-w-2xl mx-auto">
             SmartLink منصة رقمية ليبية متكاملة تهدف إلى توفير حلول ذكية للأعمال في العالم العربي.

@@ -1,7 +1,5 @@
 "use client"
 import { motion } from "framer-motion"
-import { Sparkles } from "lucide-react"
-
 const _ease = [0.16, 1, 0.3, 1] as [number, number, number, number]
 
 export default function PrivacyPage() {
@@ -18,11 +16,10 @@ export default function PrivacyPage() {
           className="text-center mb-10"
         >
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[var(--glass-border)] bg-[var(--glass-bg)] backdrop-blur-sm text-xs text-primary font-medium mb-5">
-            <Sparkles className="w-3 h-3" />
             <span>الخصوصية</span>
           </div>
           <h1 className="text-5xl md:text-6xl font-extrabold tracking-tight text-foreground">
-            سياسة <span className="gradient-text">الخصوصية</span>
+            سياسة الخصوصية
           </h1>
         </motion.div>
         <motion.div

@@ -1,7 +1,7 @@
 "use client"
 import { useState, useMemo } from "react"
 import { motion } from "framer-motion"
-import { Mail, MessageCircle, MapPin, Clock, Send, Check, Loader2, Sparkles } from "lucide-react"
+import { Mail, MessageCircle, MapPin, Clock, Send, Check, Loader2 } from "lucide-react"
 
 function mulberry32(s: number) {
   return function () {
@@ -105,11 +105,10 @@ export default function ContactPage() {
       <div className="container-base relative">
         <motion.div className="max-w-3xl mx-auto text-center mb-14" {...fadeUp()}>
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[var(--glass-border)] bg-[var(--glass-bg)] backdrop-blur-sm text-xs text-primary font-medium mb-6">
-            <Sparkles className="w-3 h-3" />
             <span>تواصل</span>
           </div>
           <h1 className="text-5xl md:text-6xl font-extrabold tracking-tight text-foreground mb-4">
-            اتصل <span className="gradient-text">بنا</span>
+            اتصل بنا
           </h1>
           <p className="text-lg text-muted-foreground">
             فريقنا جاهز لمساعدتك — تواصل معنا بأي من الطرق التالية

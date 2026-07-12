@@ -1,7 +1,7 @@
 "use client"
 import { motion, useInView, useReducedMotion } from "framer-motion"
 import { useRef } from "react"
-import { UserPlus, Palette, Share2, Sparkles } from "lucide-react"
+import { UserPlus, Palette, Share2 } from "lucide-react"
 
 const steps = [
   { icon: UserPlus, title: "إنشاء حساب مجاني", description: "سجل حسابك مجاناً بدون أي بطاقة ائتمان. ابدأ رحلتك الرقمية في دقائق." },
@@ -80,11 +80,7 @@ export function HowItWorksSection() {
           transition={{ duration: 0.5 }}
           className="text-center mb-14"
         >
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[var(--glass-border)] bg-[var(--glass-bg)] backdrop-blur-sm text-xs text-primary font-medium mb-5">
-            <Sparkles className="w-3 h-3" />
-            <span>كيف تعمل</span>
-          </div>
-          <h2 className="text-4xl md:text-5xl font-extrabold text-[var(--foreground)] mb-4 tracking-tight">كيف تعمل <span className="gradient-text">المنصة</span>؟</h2>
+          <h2 className="text-4xl md:text-5xl font-extrabold text-[var(--foreground)] mb-4 tracking-tight">كيف تعمل المنصة؟</h2>
           <p className="text-[var(--muted-foreground)] max-w-xl mx-auto text-base leading-relaxed">ثلاث خطوات بسيطة لتبدأ رحلتك الرقمية</p>
         </motion.div>
         <div className="grid md:grid-cols-3 gap-10 relative">

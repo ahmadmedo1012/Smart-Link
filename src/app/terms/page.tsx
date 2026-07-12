@@ -1,6 +1,5 @@
 "use client"
 import { motion } from "framer-motion"
-import { Sparkles } from "lucide-react"
 
 const _ease = [0.16, 1, 0.3, 1] as [number, number, number, number]
 
@@ -18,11 +17,10 @@ export default function TermsPage() {
           className="text-center mb-10"
         >
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[var(--glass-border)] bg-[var(--glass-bg)] backdrop-blur-sm text-xs text-primary font-medium mb-5">
-            <Sparkles className="w-3 h-3" />
             <span>الشروط</span>
           </div>
           <h1 className="text-5xl md:text-6xl font-extrabold tracking-tight text-foreground">
-            شروط <span className="gradient-text">الاستخدام</span>
+            شروط الاستخدام
           </h1>
         </motion.div>
         <motion.div

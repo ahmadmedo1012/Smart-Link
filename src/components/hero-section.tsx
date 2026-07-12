@@ -1,5 +1,5 @@
 "use client"
-import { motion, useInView, useReducedMotion } from "framer-motion"
+import { motion, useInView } from "framer-motion"
 import { useEffect, useRef, useState } from "react"
 import Link from "next/link"
 import { ArrowLeft, Smartphone, Bot, Users, TrendingUp, Star, Sparkles, Hexagon, Zap } from "lucide-react"
@@ -55,48 +55,41 @@ const ambientBlobs = [
 ]
 
 const floatingIcons = [
-  { Icon: Smartphone, delay: 0, x: "10%", y: "22%" },
-  { Icon: Bot, delay: 0.6, x: "84%", y: "32%" },
-  { Icon: Sparkles, delay: 1.2, x: "7%", y: "60%" },
-  { Icon: Hexagon, delay: 0.3, x: "88%", y: "65%" },
-  { Icon: Zap, delay: 0.9, x: "50%", y: "15%" },
-  { Icon: Star, delay: 0.4, x: "92%", y: "20%" },
+  { Icon: Smartphone, x: "10%", y: "22%" },
+  { Icon: Bot, x: "84%", y: "32%" },
+  { Icon: Sparkles, x: "7%", y: "60%" },
+  { Icon: Hexagon, x: "88%", y: "65%" },
+  { Icon: Zap, x: "50%", y: "15%" },
+  { Icon: Star, x: "92%", y: "20%" },
 ]
 
-function FloatingIcon({ Icon, delay, x, y, index }: { Icon: React.ComponentType<{ className?: string }>; delay: number; x: string; y: string; index: number }) {
-  const shouldReduceMotion = useReducedMotion()
+function FloatingIcon({ Icon, x, y, index }: { Icon: React.ComponentType<{ className?: string }>; x: string; y: string; index: number }) {
   return (
-    <motion.div
-      className="absolute hidden lg:block pointer-events-none"
+    <div
+      className={`absolute hidden lg:block pointer-events-none floating-icon-${index}`}
       style={{ left: x, top: y }}
-      initial={{ opacity: 0, scale: 0.5 }}
-      animate={shouldReduceMotion ? {} : { opacity: 0.12, y: [0, -12, 0], x: [0, 6, 0] }}
-      transition={{ duration: 4 + index * 0.4, repeat: 5, repeatDelay: 8, delay, ease: "easeInOut" }}
+      aria-hidden="true"
     >
-      <Icon className="w-7 h-7 text-[var(--primary)]" />
-    </motion.div>
+      <Icon className="w-7 h-7 text-[var(--primary)] opacity-[0.10]" />
+    </div>
   )
 }
 
 const headingWords = ["SmartLink", "منصة رقمية", "لخدمات ذكية"]
 
 export function HeroSection() {
-  const shouldReduceMotion = useReducedMotion()
   return (
     <section className="relative min-h-[90dvh] flex items-center pt-24 pb-16 overflow-hidden" aria-label="Hero section">
-      {/* Ambient blobs with drift — behind content */}
-      <div className="absolute inset-0 z-0 pointer-events-none">
+      {/* Ambient blobs — pure CSS animation, no JS tween overhead */}
+      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden" aria-hidden="true">
         {ambientBlobs.map((b, i) => (
-          <motion.div
+          <div
             key={i}
-            className="absolute rounded-full"
-            aria-hidden="true"
+            className={`absolute rounded-full blob-${i}`}
             style={{
               width: b.size, height: b.size, left: b.x, top: b.y,
-              background: b.color, filter: `blur(${b.blur})`, opacity: b.opacity,
+              background: b.color, filter: `blur(${b.blur})`,
             }}
-            animate={shouldReduceMotion ? {} : { opacity: [b.opacity, b.opacity * 1.2, b.opacity] }}
-            transition={{ duration: 3 + i * 1, repeat: 3, repeatDelay: 10, ease: "easeInOut" }}
           />
         ))}
       </div>
@@ -172,7 +165,7 @@ export function HeroSection() {
           >
             <Link
               href="#services"
-              className="group relative inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-[var(--primary)] text-white font-semibold text-sm hover:brightness-110 transition-all duration-200 shadow-glow hover:shadow-[0_0_35px_var(--shadow-glow)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ring)] active:scale-[0.97]"
+              className="group relative inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-[var(--primary)] text-white font-semibold text-sm transition-[background-color,color,box-shadow,transform] duration-200 shadow-glow focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ring)] active:scale-[0.97]"
             >
               اكتشف خدماتنا <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
             </Link>

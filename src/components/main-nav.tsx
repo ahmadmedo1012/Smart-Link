@@ -76,7 +76,7 @@ export function MainNav() {
                   {link.label}
                   <ChevronDown className="w-3.5 h-3.5 transition-transform duration-200 group-hover/nav:rotate-180" />
                 </button>
-                <div className="absolute top-full right-0 mt-1 w-72 opacity-0 invisible group-hover/nav:opacity-100 group-hover/nav:visible focus-within:opacity-100 focus-within:visible transition-all duration-200 translate-y-1 group-hover/nav:translate-y-0 focus-within:translate-y-0">
+                <div className="absolute top-full right-0 mt-1 w-72 opacity-0 invisible group-hover/nav:opacity-100 group-hover/nav:visible focus-within:opacity-100 focus-within:visible transition-[opacity,visibility,transform] duration-200 translate-y-1 group-hover/nav:translate-y-0 focus-within:translate-y-0">
                   <div className="glass-strong rounded-xl p-2">
                     {link.children.map((child) => {
                       const Icon = child.icon
@@ -118,7 +118,7 @@ export function MainNav() {
               aria-label={theme === "dark" ? "تفعيل الثيم الفاتح" : "تفعيل الثيم الداكن"}
               className="p-3 rounded-lg hover:bg-[var(--accent)] text-muted-foreground hover:text-foreground transition-[color,background-color] focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--ring)]"
             >
-              <span className={cn("block transition-all duration-500 ease-[var(--ease-spring)]", mounted && (theme === "dark" ? "" : "rotate-180"))}>
+              <span className={cn("block transition-transform duration-500 ease-[var(--ease-spring)]", mounted && (theme === "dark" ? "" : "rotate-180"))}>
                 {theme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
               </span>
             </button>

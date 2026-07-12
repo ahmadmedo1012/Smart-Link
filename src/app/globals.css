@@ -358,6 +358,39 @@
   100% { background-position: 200% 0; }
 }
 
+/* ── Blob slow pulse (CSS-only, avoids JS tween per blob) ── */
+@keyframes blob-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+.blob-0, .blob-1, .blob-2 {
+  animation: blob-pulse 3s ease-in-out infinite;
+}
+.blob-1 { animation-delay: 1s; }
+.blob-2 { animation-delay: 2s; }
+@media (prefers-reduced-motion: reduce) {
+  .blob-0, .blob-1, .blob-2 { animation: none; }
+}
+
+/* ── Floating icon drift (CSS-only) ── */
+@keyframes float-icon {
+  0%, 100% { transform: translateY(0) translateX(0); }
+  50% { transform: translateY(-12px) translateX(6px); }
+}
+.floating-icon-0, .floating-icon-1, .floating-icon-2,
+.floating-icon-3, .floating-icon-4, .floating-icon-5 {
+  animation: float-icon 4s ease-in-out infinite;
+}
+.floating-icon-1 { animation-delay: 0.6s; }
+.floating-icon-2 { animation-delay: 1.2s; }
+.floating-icon-3 { animation-delay: 0.3s; }
+.floating-icon-4 { animation-delay: 0.9s; }
+.floating-icon-5 { animation-delay: 0.4s; }
+@media (prefers-reduced-motion: reduce) {
+  .floating-icon-0, .floating-icon-1, .floating-icon-2,
+  .floating-icon-3, .floating-icon-4, .floating-icon-5 { animation: none; }
+}
+
 @keyframes border-draw {
   0% { width: 0; }
   100% { width: 100%; }

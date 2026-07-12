@@ -37,14 +37,14 @@ function FaqItem({ faq, index, open, onToggle }: { faq: typeof faqs[number]; ind
         <span>{faq.q}</span>
         <ChevronDown className={cn("w-4 h-4 text-muted-foreground transition-[transform] duration-[var(--move-base)] shrink-0", open && "rotate-180")} />
       </button>
+      {/* FAQ expand — max-height avoids layout thrashing of grid-template-rows */}
       <div
         role="region"
         aria-labelledby={`faq-trigger-${index}`}
-        className={cn("grid transition-[grid-template-rows,opacity] duration-[var(--move-base)] ease-[var(--ease-smooth)]", open ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0")}
+        className="overflow-hidden transition-[max-height,opacity] duration-[var(--move-base)] ease-[var(--ease-smooth)]"
+        style={{ maxHeight: open ? "200px" : "0", opacity: open ? 1 : 0 }}
       >
-        <div className="overflow-hidden">
-          <p className="px-6 pb-4 text-sm text-muted-foreground leading-relaxed">{faq.a}</p>
-        </div>
+        <p className="px-6 pb-4 text-sm text-muted-foreground leading-relaxed">{faq.a}</p>
       </div>
     </motion.div>
   )

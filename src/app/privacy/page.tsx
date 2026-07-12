@@ -17,7 +17,6 @@ function GenArtBackground({ seed = 99 }: { seed?: number }) {
     const lines: string[] = [];
     const accent = "oklch(0.58 0.195 45)";
     const accentDim = "oklch(0.58 0.195 45 / 0.05)";
-    const accentMid = "oklch(0.58 0.195 45 / 0.025)";
 
     // wave bands
     for (let band = 0; band < 6; band++) {

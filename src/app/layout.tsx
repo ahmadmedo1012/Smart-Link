@@ -6,6 +6,7 @@ import { Analytics } from "@vercel/analytics/react"
 import { MotionConfig } from "framer-motion"
 import { MainNav } from "@/components/main-nav"
 import { Footer } from "@/components/footer"
+import { PageTransition } from "@/components/page-transition"
 import "./globals.css"
 
 const cairo = Cairo({
@@ -91,7 +92,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
           <MotionConfig reducedMotion="user">
             <MainNav />
-            <main id="main-content" className="flex-1">{children}</main>
+            <main id="main-content" className="flex-1">
+              <PageTransition>{children}</PageTransition>
+            </main>
             <Footer />
           </MotionConfig>
           <Toaster position="top-center" richColors closeButton />

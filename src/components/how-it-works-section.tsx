@@ -50,7 +50,13 @@ function StepCard({ step, index }: { step: typeof steps[number]; index: number }
           style={{ boxShadow: "0 0 12px var(--primary)" }}
           aria-hidden="true"
         >
-          {index + 1}
+          <motion.span
+            initial={shouldReduce ? {} : { scale: 0 }}
+            animate={inView && !shouldReduce ? { scale: 1 } : {}}
+            transition={{ type: "spring", stiffness: 400, damping: 15, delay: index * 0.15 + 0.5 }}
+          >
+            {index + 1}
+          </motion.span>
         </div>
       </div>
 

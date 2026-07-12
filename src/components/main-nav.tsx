@@ -22,6 +22,7 @@ const navLinks = [
 export function MainNav() {
   const [mobileOpen, setMobileOpen] = useState(false)
   const [servicesOpen, setServicesOpen] = useState(false)
+  const [desktopServicesOpen, setDesktopServicesOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const { theme, setTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
@@ -55,10 +56,17 @@ export function MainNav() {
         <nav className="hidden md:flex items-center gap-1">
           {navLinks.map((link) =>
             link.children ? (
-              <div key={link.label} className="relative group/nav">
+              <div
+                key={link.label}
+                className="relative group/nav"
+                onMouseEnter={() => setDesktopServicesOpen(true)}
+                onMouseLeave={() => setDesktopServicesOpen(false)}
+                onFocus={() => setDesktopServicesOpen(true)}
+                onBlur={() => setDesktopServicesOpen(false)}
+              >
                 <button
                   aria-haspopup="true"
-                  aria-expanded={false}
+                  aria-expanded={desktopServicesOpen}
                   className="flex items-center gap-1 px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground rounded-lg hover:bg-[var(--accent)] focus-visible:bg-[var(--accent)] transition-[color,background-color] focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--ring)]"
                 >
                   {link.label}
@@ -104,7 +112,7 @@ export function MainNav() {
             <button
               onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
               aria-label={theme === "dark" ? "تفعيل الثيم الفاتح" : "تفعيل الثيم الداكن"}
-              className="p-2.5 rounded-lg hover:bg-[var(--accent)] text-muted-foreground hover:text-foreground transition-[color,background-color] focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--ring)]"
+              className="p-3 rounded-lg hover:bg-[var(--accent)] text-muted-foreground hover:text-foreground transition-[color,background-color] focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--ring)]"
             >
               <span className="block transition-transform duration-500 ease-[var(--ease-spring)]">
                 {theme === "dark" ? <Sun className="w-4.5 h-4.5" /> : <Moon className="w-4.5 h-4.5" />}
@@ -116,7 +124,7 @@ export function MainNav() {
             onClick={() => { setMobileOpen(!mobileOpen); if (mobileOpen) setServicesOpen(false) }}
             aria-label={mobileOpen ? "إغلاق القائمة" : "فتح القائمة"}
             aria-expanded={mobileOpen}
-            className="md:hidden p-2.5 rounded-lg hover:bg-[var(--accent)] transition-[background-color] focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--ring)]"
+            className="md:hidden p-3 rounded-lg hover:bg-[var(--accent)] transition-[background-color] focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--ring)]"
           >
             {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
@@ -134,6 +142,7 @@ export function MainNav() {
               <div key={link.label}>
                 <button
                   onClick={() => setServicesOpen(!servicesOpen)}
+                  aria-expanded={servicesOpen}
                   className="flex items-center justify-between w-full px-3 py-2.5 text-sm font-medium text-foreground rounded-lg hover:bg-[var(--accent)] transition-[background-color] focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--ring)]"
                 >
                   {link.label}

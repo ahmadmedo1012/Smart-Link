@@ -49,9 +49,9 @@ export default function ContactPage() {
               <div className="w-9 h-9 rounded-xl bg-[var(--accent)] flex items-center justify-center mx-auto mb-2.5">
                 <item.icon className="w-4.5 h-4.5 text-primary" />
               </div>
-              <h3 className="font-bold text-foreground text-sm mb-1">{item.title}</h3>
+              <h2 className="font-bold text-foreground text-sm mb-1">{item.title}</h2>
               {item.href ? (
-                <a href={item.href} className="text-xs text-primary hover:underline underline-offset-2">{item.desc}</a>
+                <a href={item.href} className="text-xs text-primary hover:underline underline-offset-2 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-ring rounded">{item.desc}</a>
               ) : (
                 <p className="text-xs text-muted-foreground">{item.desc}</p>
               )}
@@ -62,21 +62,21 @@ export default function ContactPage() {
         {/* Form */}
         <motion.div className="max-w-xl mx-auto" {...fadeUp(0.4)}>
           <div className="glass rounded-2xl p-6 md:p-8">
-            <h3 className="font-bold text-foreground text-lg mb-5">أرسل رسالة</h3>
+            <h2 className="font-bold text-foreground text-lg mb-5">أرسل رسالة</h2>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="grid sm:grid-cols-2 gap-4">
                 <div>
                   <label htmlFor="name" className="block text-sm font-medium text-foreground mb-1.5">الاسم</label>
-                  <input id="name" type="text" required className="w-full px-4 py-2.5 rounded-xl bg-[var(--card)] border border-[var(--border)] text-foreground text-sm focus:outline-none focus:border-[var(--ring)] focus:ring-2 focus:ring-[var(--accent)] transition-colors placeholder:text-muted-foreground/50" placeholder="اسمك" />
+                  <input id="name" type="text" required autoComplete="name" className="w-full px-4 py-2.5 rounded-xl bg-[var(--card)] border border-[var(--border)] text-foreground text-sm focus:outline-none focus:border-[var(--ring)] focus:ring-2 focus:ring-[var(--accent)] transition-colors placeholder:text-muted-foreground/50" placeholder="اسمك" />
                 </div>
                 <div>
                   <label htmlFor="email" className="block text-sm font-medium text-foreground mb-1.5">البريد</label>
-                  <input id="email" type="email" required className="w-full px-4 py-2.5 rounded-xl bg-[var(--card)] border border-[var(--border)] text-foreground text-sm focus:outline-none focus:border-[var(--ring)] focus:ring-2 focus:ring-[var(--accent)] transition-colors placeholder:text-muted-foreground/50" placeholder="you@example.com" />
+                  <input id="email" type="email" required autoComplete="email" className="w-full px-4 py-2.5 rounded-xl bg-[var(--card)] border border-[var(--border)] text-foreground text-sm focus:outline-none focus:border-[var(--ring)] focus:ring-2 focus:ring-[var(--accent)] transition-colors placeholder:text-muted-foreground/50" placeholder="you@example.com" />
                 </div>
               </div>
               <div>
                 <label htmlFor="subject" className="block text-sm font-medium text-foreground mb-1.5">الموضوع</label>
-                <select id="subject" className="w-full px-4 py-2.5 rounded-xl bg-[var(--card)] border border-[var(--border)] text-foreground text-sm focus:outline-none focus:border-[var(--ring)] focus:ring-2 focus:ring-[var(--accent)] transition-colors">
+                <select id="subject" autoComplete="off" className="w-full px-4 py-2.5 rounded-xl bg-[var(--card)] border border-[var(--border)] text-foreground text-sm focus:outline-none focus:border-[var(--ring)] focus:ring-2 focus:ring-[var(--accent)] transition-colors">
                   <option value="">اختر الموضوع</option>
                   <option value="menu">استفسار عن Smart Menu</option>
                   <option value="bot">استفسار عن Smart Bot</option>
@@ -86,11 +86,11 @@ export default function ContactPage() {
               </div>
               <div>
                 <label htmlFor="message" className="block text-sm font-medium text-foreground mb-1.5">الرسالة</label>
-                <textarea id="message" rows={4} required className="w-full px-4 py-2.5 rounded-xl bg-[var(--card)] border border-[var(--border)] text-foreground text-sm focus:outline-none focus:border-[var(--ring)] focus:ring-2 focus:ring-[var(--accent)] transition-colors placeholder:text-muted-foreground/50 resize-none" placeholder="اكتب رسالتك هنا…" />
+                <textarea id="message" rows={4} required autoComplete="off" className="w-full px-4 py-2.5 rounded-xl bg-[var(--card)] border border-[var(--border)] text-foreground text-sm focus:outline-none focus:border-[var(--ring)] focus:ring-2 focus:ring-[var(--accent)] transition-colors placeholder:text-muted-foreground/50 resize-none" placeholder="اكتب رسالتك هنا…" />
               </div>
               <button
                 type="submit"
-                className="flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-primary text-white font-semibold text-sm hover:brightness-110 transition-all duration-300 active:scale-[0.98]"
+                className="flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-primary text-white font-semibold text-sm hover:brightness-110 transition-all duration-300 active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
               >
                 {sent ? (
                   <><Check className="w-4 h-4" /> تم الإرسال ✓</>

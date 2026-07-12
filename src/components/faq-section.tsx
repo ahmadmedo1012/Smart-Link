@@ -70,7 +70,7 @@ export function FaqSection() {
         </motion.div>
         <div className="space-y-3">
           {faqs.map((faq, i) => (
-            <FaqItem key={i} faq={faq} index={i} open={open === i} onToggle={() => setOpen(open === i ? null : i)} />
+            <FaqItem key={faq.q} faq={faq} index={i} open={open === i} onToggle={() => setOpen(open === i ? null : i)} />
           ))}
         </div>
       </div>

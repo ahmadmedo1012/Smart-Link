@@ -40,7 +40,7 @@ export function FeaturesSection() {
 
   return (
     <section id="features" className="section-padding relative">
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[var(--primary)]/[0.02] to-transparent pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[var(--primary)]/[0.02] to-transparent pointer-events-none" aria-hidden="true" />
       <div className="container-base">
         <motion.div
           ref={ref}

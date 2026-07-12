@@ -30,6 +30,7 @@ function StepCard({ step, index }: { step: typeof steps[number]; index: number }
             animate={inView ? { width: "100%" } : {}}
             transition={{ duration: 0.8, delay: index * 0.15 + 0.3 }}
             className="h-full bg-gradient-to-r from-[var(--primary)]/0 via-[var(--primary)]/20 to-[var(--primary)]/0"
+            aria-hidden="true"
           />
         </div>
       )}
@@ -46,6 +47,7 @@ function StepCard({ step, index }: { step: typeof steps[number]; index: number }
         <div
           className="absolute -top-1.5 -right-1.5 w-7 h-7 rounded-full bg-[var(--primary)] text-white text-xs font-bold flex items-center justify-center"
           style={{ boxShadow: "0 0 12px var(--primary)" }}
+          aria-hidden="true"
         >
           {index + 1}
         </div>

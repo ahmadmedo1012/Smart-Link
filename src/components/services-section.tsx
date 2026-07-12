@@ -57,10 +57,10 @@ function ServiceCard({ service, index }: { service: typeof services[number]; ind
         transition={{ type: "spring", stiffness: 200, damping: 20 }}
       >
         {/* Gradient overlay */}
-        <div className="absolute inset-0 opacity-40 group-hover:opacity-70 transition-opacity duration-500" style={{ background: `var(--${service.gradient})` }} />
+        <div className="absolute inset-0 opacity-40 group-hover:opacity-70 transition-opacity duration-500" style={{ background: `var(--${service.gradient})` }} aria-hidden="true" />
 
         {/* Shine effect on hover */}
-        <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" style={{ background: "var(--gradient-shine)" }} />
+        <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" style={{ background: "var(--gradient-shine)" }} aria-hidden="true" />
 
         <div className="relative p-7 md:p-8 flex flex-col flex-1">
           {/* Icon */}
@@ -83,6 +83,7 @@ function ServiceCard({ service, index }: { service: typeof services[number]; ind
                 key={f}
                 initial={{ opacity: 0, x: -10 }}
                 whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
                 transition={{ delay: fi * 0.05 }}
                 className="flex items-center gap-2.5 text-sm text-[var(--muted-foreground)] group-hover:text-[var(--foreground)] transition-colors duration-300"
               >

@@ -1,5 +1,5 @@
 "use client"
-import { motion, useInView } from "framer-motion"
+import { motion, useInView, useReducedMotion } from "framer-motion"
 import { useEffect, useRef, useState } from "react"
 import Link from "next/link"
 import { ArrowLeft, Smartphone, Bot, Users, TrendingUp, Star, Sparkles, Hexagon, Zap } from "lucide-react"
@@ -65,12 +65,13 @@ const floatingIcons = [
 ]
 
 function FloatingIcon({ Icon, delay, x, y, index }: { Icon: React.ComponentType<{ className?: string }>; delay: number; x: string; y: string; index: number }) {
+  const shouldReduceMotion = useReducedMotion()
   return (
     <motion.div
       className="absolute hidden lg:block pointer-events-none"
       style={{ left: x, top: y }}
       initial={{ opacity: 0, scale: 0.5 }}
-      animate={{ opacity: [0.08, 0.15, 0.08], y: [0, -20, 0], x: [0, 10, 0] }}
+      animate={shouldReduceMotion ? {} : { opacity: [0.08, 0.15, 0.08], y: [0, -20, 0], x: [0, 10, 0] }}
       transition={{ duration: 5 + index * 0.5, repeat: Infinity, delay, ease: "easeInOut" }}
     >
       <Icon className="w-7 h-7 text-[var(--primary)]" />
@@ -81,6 +82,7 @@ function FloatingIcon({ Icon, delay, x, y, index }: { Icon: React.ComponentType<
 const headingWords = ["SmartLink", "منصة رقمية", "لخدمات ذكية"]
 
 export function HeroSection() {
+  const shouldReduceMotion = useReducedMotion()
   return (
     <section className="relative min-h-[90dvh] flex items-center pt-24 pb-16 overflow-hidden" aria-label="Hero section">
       {/* Ambient blobs with drift */}
@@ -88,18 +90,20 @@ export function HeroSection() {
         <motion.div
           key={i}
           className="absolute pointer-events-none rounded-full"
+          aria-hidden="true"
           style={{
             width: b.size, height: b.size, left: b.x, top: b.y,
             background: b.color, filter: `blur(${b.blur})`, opacity: b.opacity,
           }}
-          animate={{ x: [0, 30 * (i % 2 === 0 ? 1 : -1), 0], y: [0, -20 * (i % 2 === 0 ? -1 : 1), 0] }}
-          transition={{ duration: 8 + i * 2, repeat: Infinity, ease: "easeInOut" }}
+          animate={shouldReduceMotion ? {} : { opacity: [b.opacity, b.opacity * 1.3, b.opacity] }}
+          transition={{ duration: 4 + i * 1.5, repeat: Infinity, ease: "easeInOut" }}
         />
       ))}
 
       {/* Grid pattern */}
       <div
         className="absolute inset-0 pointer-events-none opacity-[0.03]"
+        aria-hidden="true"
         style={{
           backgroundImage: `linear-gradient(var(--grid-line) 1px, transparent 1px), linear-gradient(90deg, var(--grid-line) 1px, transparent 1px)`,
           backgroundSize: "60px 60px",
@@ -108,7 +112,7 @@ export function HeroSection() {
 
       {/* Floating animated icons */}
       {floatingIcons.map((item, i) => (
-        <FloatingIcon key={item.Icon.name || i} {...item} index={i} />
+        <FloatingIcon key={`hero-icon-${i}`} {...item} index={i} />
       ))}
 
       <div className="container-base relative">
@@ -197,7 +201,7 @@ export function HeroSection() {
       </div>
 
       {/* Bottom gradient fade */}
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[var(--background)] to-transparent pointer-events-none" />
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[var(--background)] to-transparent pointer-events-none" aria-hidden="true" />
     </section>
   )
 }

@@ -3,13 +3,14 @@ import { Cairo } from "next/font/google"
 import { ThemeProvider } from "@/components/theme-provider"
 import { Toaster } from "sonner"
 import { Analytics } from "@vercel/analytics/react"
+import { MotionConfig } from "framer-motion"
 import { MainNav } from "@/components/main-nav"
 import { Footer } from "@/components/footer"
 import "./globals.css"
 
 const cairo = Cairo({
   subsets: ["arabic", "latin"],
-  weight: ["400", "500", "600", "700", "800"],
+  weight: ["400", "600", "700", "800"],
   variable: "--font-cairo",
   display: "swap",
 })
@@ -52,15 +53,17 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
       </head>
-      <body className="min-h-screen flex flex-col antialiased overflow-x-hidden bg-[var(--background-radial),var(--background)]">
+      <body className="min-h-dvh flex flex-col antialiased overflow-x-hidden bg-[var(--background-radial),var(--background)]">
         <a href="#main-content" className="pointer-events-auto fixed opacity-0 focus:opacity-100 focus:fixed focus:top-4 focus:right-4 focus:z-[100] focus:px-4 focus:py-2 focus:rounded-xl focus:bg-[var(--primary)] focus:text-white focus:text-sm focus:font-semibold focus:shadow-lg focus:outline-none transition-opacity duration-200">
           تخطى إلى المحتوى الرئيسي
         </a>
         <div className="noise-overlay" />
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
-          <MainNav />
-          <main id="main-content" className="flex-1">{children}</main>
-          <Footer />
+          <MotionConfig reducedMotion="user">
+            <MainNav />
+            <main id="main-content" className="flex-1">{children}</main>
+            <Footer />
+          </MotionConfig>
           <Toaster position="top-center" richColors closeButton />
           <Analytics />
         </ThemeProvider>

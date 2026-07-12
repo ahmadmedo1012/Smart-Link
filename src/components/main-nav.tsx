@@ -52,7 +52,7 @@ export function MainNav() {
         <Link href="/" className="flex items-center gap-2.5 group">
           <Image src="/logo.png" alt="SmartLink" width={36} height={36} className="w-9 h-9 object-contain group-hover:scale-105 transition-transform" />
           <span className="text-lg font-bold tracking-tight text-foreground">
-            Smart<span className="text-primary">Link</span>
+            Smart<span className="text-[var(--foreground)]">Link</span>
           </span>
         </Link>
 

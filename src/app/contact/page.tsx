@@ -62,8 +62,8 @@ function GenArtBackground({ seed = 303 }: { seed?: number }) {
 }
 
 const contacts = [
-  { icon: Mail, title: "البريد الإلكتروني", desc: "support@smart-link.ly", href: "mailto:support@smart-link.ly" },
-  { icon: MessageCircle, title: "واتساب", desc: "دعم فني مباشر", href: "https://wa.me/218910089975" },
+  { icon: Mail, title: "البريد الإلكتروني", desc: "ahmedmedo1012@gmail.com", href: "mailto:ahmedmedo1012@gmail.com" },
+  { icon: MessageCircle, title: "واتساب", desc: "تواصل مباشر مع المؤسس", href: "https://wa.me/218910089975" },
   { icon: MapPin, title: "الموقع", desc: "ليبيا" },
   { icon: Clock, title: "أوقات العمل", desc: "24/7 — الدوام الرسمي: 9ص - 9م" },
 ]
@@ -80,6 +80,13 @@ export default function ContactPage() {
 
   const handleSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault()
+    const form = e.currentTarget as HTMLFormElement
+    const name = (form.elements.namedItem("name") as HTMLInputElement).value
+    const email = (form.elements.namedItem("email") as HTMLInputElement).value
+    const subject = (form.elements.namedItem("subject") as HTMLSelectElement).value
+    const message = (form.elements.namedItem("message") as HTMLTextAreaElement).value
+    const mailtoLink = `mailto:ahmedmedo1012@gmail.com?subject=${encodeURIComponent(`[SmartLink] ${subject} — ${name}`)}&body=${encodeURIComponent(`الاسم: ${name}\nالبريد: ${email}\n\nالرسالة:\n${message}`)}`
+    window.location.href = mailtoLink
     setSent(true)
     setTimeout(() => setSent(false), 4000)
   }
@@ -126,16 +133,16 @@ export default function ContactPage() {
               <div className="grid sm:grid-cols-2 gap-4">
                 <div>
                   <label htmlFor="name" className="block text-sm font-medium text-foreground mb-1.5">الاسم</label>
-                  <input id="name" type="text" required autoComplete="name" className="w-full px-4 py-2.5 rounded-xl bg-[var(--card)] border border-[var(--border)] text-foreground text-sm focus:outline-none focus:border-[var(--ring)] focus:ring-2 focus:ring-[var(--accent)] transition-colors placeholder:text-muted-foreground/50" placeholder="اسمك" />
+                  <input id="name" name="name" type="text" required autoComplete="name" className="w-full px-4 py-2.5 rounded-xl bg-[var(--card)] border border-[var(--border)] text-foreground text-sm focus:outline-none focus:border-[var(--ring)] focus:ring-2 focus:ring-[var(--accent)] transition-colors placeholder:text-muted-foreground/50" placeholder="اسمك" />
                 </div>
                 <div>
                   <label htmlFor="email" className="block text-sm font-medium text-foreground mb-1.5">البريد</label>
-                  <input id="email" type="email" required autoComplete="email" className="w-full px-4 py-2.5 rounded-xl bg-[var(--card)] border border-[var(--border)] text-foreground text-sm focus:outline-none focus:border-[var(--ring)] focus:ring-2 focus:ring-[var(--accent)] transition-colors placeholder:text-muted-foreground/50" placeholder="you@example.com" />
+                  <input id="email" name="email" type="email" required autoComplete="email" className="w-full px-4 py-2.5 rounded-xl bg-[var(--card)] border border-[var(--border)] text-foreground text-sm focus:outline-none focus:border-[var(--ring)] focus:ring-2 focus:ring-[var(--accent)] transition-colors placeholder:text-muted-foreground/50" placeholder="بريدك الإلكتروني" />
                 </div>
               </div>
               <div>
                 <label htmlFor="subject" className="block text-sm font-medium text-foreground mb-1.5">الموضوع</label>
-                <select id="subject" autoComplete="off" className="w-full px-4 py-2.5 rounded-xl bg-[var(--card)] border border-[var(--border)] text-foreground text-sm focus:outline-none focus:border-[var(--ring)] focus:ring-2 focus:ring-[var(--accent)] transition-colors">
+                <select id="subject" name="subject" autoComplete="off" className="w-full px-4 py-2.5 rounded-xl bg-[var(--card)] border border-[var(--border)] text-foreground text-sm focus:outline-none focus:border-[var(--ring)] focus:ring-2 focus:ring-[var(--accent)] transition-colors">
                   <option value="">اختر الموضوع</option>
                   <option value="menu">استفسار عن Smart Menu</option>
                   <option value="bot">استفسار عن Smart Bot</option>
@@ -145,7 +152,7 @@ export default function ContactPage() {
               </div>
               <div>
                 <label htmlFor="message" className="block text-sm font-medium text-foreground mb-1.5">الرسالة</label>
-                <textarea id="message" rows={4} required autoComplete="off" className="w-full px-4 py-2.5 rounded-xl bg-[var(--card)] border border-[var(--border)] text-foreground text-sm focus:outline-none focus:border-[var(--ring)] focus:ring-2 focus:ring-[var(--accent)] transition-colors placeholder:text-muted-foreground/50 resize-none" placeholder="اكتب رسالتك هنا…" />
+                <textarea id="message" name="message" rows={4} required autoComplete="off" className="w-full px-4 py-2.5 rounded-xl bg-[var(--card)] border border-[var(--border)] text-foreground text-sm focus:outline-none focus:border-[var(--ring)] focus:ring-2 focus:ring-[var(--accent)] transition-colors placeholder:text-muted-foreground/50 resize-none" placeholder="اكتب رسالتك هنا…" />
               </div>
               <button
                 type="submit"

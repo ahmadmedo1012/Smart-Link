@@ -100,7 +100,7 @@ export default function PrivacyPage() {
           </section>
           <section>
             <h2 className="text-xl font-bold text-foreground mt-6 mb-2">اتصل بنا</h2>
-            <p>لأي استفسارات بخصوص سياسة الخصوصية، يرجى التواصل معنا على support@smart-link.ly</p>
+            <p>لأي استفسارات بخصوص سياسة الخصوصية، يرجى التواصل معنا على ahmadmedo1012@gmail.com</p>
           </section>
         </motion.div>
       </div>

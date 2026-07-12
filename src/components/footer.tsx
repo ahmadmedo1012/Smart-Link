@@ -25,8 +25,8 @@ export function Footer() {
             {/* Social links */}
             <div className="flex items-center gap-3">
               {[
-                { icon: MessageCircle, href: "#", label: "واتساب" },
-                { icon: Globe, href: "#", label: "فيسبوك" },
+                { icon: MessageCircle, href: "https://wa.me/218910089975", label: "واتساب" },
+                { icon: Globe, href: "https://www.facebook.com/profile.php?id=61591502614404", label: "فيسبوك" },
                 { icon: Share2, href: "#", label: "انستغرام" },
               ].map((s) => (
                 <a
@@ -89,7 +89,7 @@ export function Footer() {
             <ul className="space-y-3">
               <li className="flex items-center gap-2 text-sm text-muted-foreground">
                 <Mail className="w-3.5 h-3.5 text-primary shrink-0" />
-                support@smart-link.ly
+                ahmadmedo1012@gmail.com
               </li>
               <li className="flex items-center gap-2 text-sm text-muted-foreground">
                 <MapPin className="w-3.5 h-3.5 text-primary shrink-0" />

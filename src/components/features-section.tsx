@@ -26,7 +26,7 @@ function FeatureCard({ feature, index }: { feature: typeof features[number]; ind
       className="glass-card rounded-[16px] p-6 group"
     >
       <div className="w-11 h-11 rounded-xl bg-[var(--accent)] flex items-center justify-center mb-4 group-hover:scale-110 group-hover:-translate-y-0.5 transition-all duration-200">
-        <Icon className="w-5.5 h-5.5 text-[var(--primary)]" />
+        <Icon className="w-5 h-5 text-[var(--primary)]" />
       </div>
       <h3 className="font-bold text-[var(--foreground)] mb-1.5">{feature.title}</h3>
       <p className="text-sm text-[var(--muted-foreground)] leading-relaxed">{feature.description}</p>

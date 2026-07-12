@@ -27,7 +27,7 @@ export function Footer() {
               {[
                 { icon: MessageCircle, href: "https://wa.me/218910089975", label: "واتساب" },
                 { icon: Globe, href: "https://www.facebook.com/profile.php?id=61591502614404", label: "فيسبوك" },
-                { icon: Share2, href: "#", label: "انستغرام" },
+                { icon: Share2, href: "https://instagram.com/smart_link.0/", label: "انستغرام" },
               ].map((s) => (
                 <a
                   key={s.label}

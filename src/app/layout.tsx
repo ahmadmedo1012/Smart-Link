@@ -19,14 +19,14 @@ const cairo = Cairo({
 
 export const metadata: Metadata = {
   title: {
-    default: "SmartLink — منصة رقمية متكاملة",
+    default: "SmartLink - منصة رقمية متكاملة",
     template: "%s | SmartLink",
   },
   description: "SmartLink منصة رقمية متكاملة تقدم حلولاً ذكية للأعمال: المنيو الرقمي للمطاعم، البوت الذكي لفيسبوك، والمزيد من الخدمات المبتكرة",
   keywords: ["SmartLink", "منصة رقمية", "الربط الذكي", "منيو رقمي", "بوت فيسبوك", "تسويق إلكتروني"],
   metadataBase: new URL("https://smart-link.ly"),
   openGraph: {
-    title: "SmartLink — منصة رقمية متكاملة",
+    title: "SmartLink - منصة رقمية متكاملة",
     description: "حلول ذكية للأعمال: المنيو الرقمي، البوت الذكي، والمزيد",
     url: "/",
     siteName: "SmartLink",
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "SmartLink — منصة رقمية متكاملة",
+    title: "SmartLink - منصة رقمية متكاملة",
     description: "حلول ذكية للأعمال: المنيو الرقمي، البوت الذكي، والمزيد",
     images: ["/og-smartlink.svg"],
   },

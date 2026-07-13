@@ -47,7 +47,7 @@ const values = [
   { icon: Bot, title: "الذكاء والابتكار", desc: "نستخدم أحدث تقنيات الذكاء الاصطناعي لتقديم حلول ذكية تلقائياً." },
   { icon: Smartphone, title: "سهولة الاستخدام", desc: "واجهات عربية سهلة وبسيطة، صممت خصيصاً للمستخدم العربي." },
   { icon: Globe, title: "دعم عربي كامل", desc: "المنصة بالكامل بالعربية مع دعم اللهجات المحلية وثقافة السوق." },
-  { icon: Layers, title: "منصة متكاملة", desc: "كل ما تحتاجه لإدارة أعمالك رقمياً — خدمات تعمل معاً بتناغم." },
+  { icon: Layers, title: "منصة متكاملة", desc: "كل ما تحتاجه لإدارة أعمالك رقمياً - خدمات تعمل معاً بتناغم." },
 ]
 
 const _ease = [0.16, 1, 0.3, 1] as [number, number, number, number]
@@ -100,7 +100,7 @@ export default function AboutPage() {
             <div>
               <h2 className="text-xl font-bold text-foreground mb-1">المؤسس</h2>
               <p className="text-base text-foreground font-medium">أحمد خيري</p>
-              <p className="text-sm text-muted-foreground">مؤسس ورئيس SmartLink — منصة رقمية ليبية رائدة في المنيو الرقمي وخدمات الأتمتة.</p>
+              <p className="text-sm text-muted-foreground">مؤسس ورئيس SmartLink - منصة رقمية ليبية رائدة في المنيو الرقمي وخدمات الأتمتة.</p>
             </div>
           </div>
         </motion.div>
@@ -128,7 +128,7 @@ export default function AboutPage() {
 
           <p className="text-muted-foreground leading-relaxed mb-6">
             اليوم، نحن منصة متنامية تضم أكثر من 500 عميل نشط، ونعمل باستمرار على تطوير خدماتنا
-            وإضافة المزيد من الحلول المبتكرة — من البوت الذكي لفيسبوك إلى خدمات قادمة تطمح لتغيير
+            وإضافة المزيد من الحلول المبتكرة - من البوت الذكي لفيسبوك إلى خدمات قادمة تطمح لتغيير
             مشهد الأعمال الرقمية في المنطقة.
           </p>
           <Link

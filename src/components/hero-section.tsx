@@ -173,7 +173,7 @@ export function HeroSection() {
             transition={{ duration: 0.4, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
             className="text-base md:text-lg text-[var(--muted-foreground)] max-w-2xl mx-auto mb-10 leading-[1.7]"
           >
-            منصة موحدة تجمع حلولنا الرقمية المبتكرة — من المنيو الرقمي للمطاعم إلى البوت الذكي لفيسبوك —
+            منصة موحدة تجمع حلولنا الرقمية المبتكرة - من المنيو الرقمي للمطاعم إلى البوت الذكي لفيسبوك -
             <span className="text-[var(--foreground)] font-semibold"> كل ما تحتاجه لتنمية أعمالك في مكان واحد</span>
           </motion.p>
 

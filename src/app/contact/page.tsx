@@ -54,7 +54,7 @@ const contacts = [
   { icon: Mail, title: "البريد الإلكتروني", desc: "ahmedmedo1012@gmail.com", href: "mailto:ahmedmedo1012@gmail.com" },
   { icon: MessageCircle, title: "واتساب", desc: "تواصل مباشر مع المؤسس", href: "https://wa.me/218910089975" },
   { icon: MapPin, title: "الموقع", desc: "ليبيا" },
-  { icon: Clock, title: "أوقات العمل", desc: "24/7 — الدوام الرسمي: 9ص - 9م" },
+  { icon: Clock, title: "أوقات العمل", desc: "24/7 - الدوام الرسمي: 9ص - 9م" },
 ]
 
 const _ease = [0.16, 1, 0.3, 1] as [number, number, number, number]
@@ -111,7 +111,7 @@ export default function ContactPage() {
             اتصل بنا
           </h1>
           <p className="text-lg text-muted-foreground">
-            فريقنا جاهز لمساعدتك — تواصل معنا بأي من الطرق التالية
+            فريقنا جاهز لمساعدتك - تواصل معنا بأي من الطرق التالية
           </p>
         </motion.div>
 

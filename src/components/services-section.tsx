@@ -105,7 +105,7 @@ function ServiceCard({ service, index }: { service: typeof services[number]; ind
                 href={service.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label={`${service.title} — رابط خارجي`}
+                aria-label={`${service.title} - رابط خارجي`}
                 className="group/btn inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[var(--primary)] text-white text-sm font-semibold hover:brightness-110 transition-all duration-200 active:scale-[0.97] w-fit"
               >
                 زيارة الخدمة <ChevronLeft className="w-3.5 h-3.5 transition-transform group-hover/btn:-translate-x-0.5" />

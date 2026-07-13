@@ -95,15 +95,15 @@ export function Footer() {
             <h3 className="text-sm font-bold text-foreground mb-4">خدماتنا</h3>
             <ul className="space-y-2.5">
               {[
-                { label: "Smart Menu — المنيو الرقمي", href: "https://menu.smart-link.ly", icon: Smartphone, desc: "حول منيو مطعمك إلى تجربة رقمية" },
-                { label: "SmartBot — البوت الذكي", href: "https://bot.smart-link.ly", icon: Bot, desc: "أتمتة الردود على فيسبوك بذكاء" },
+                { label: "Smart Menu - المنيو الرقمي", href: "https://menu.smart-link.ly", icon: Smartphone, desc: "حول منيو مطعمك إلى تجربة رقمية" },
+                { label: "SmartBot - البوت الذكي", href: "https://bot.smart-link.ly", icon: Bot, desc: "أتمتة الردود على فيسبوك بذكاء" },
               ].map((l) => (
                 <li key={l.label}>
                   <a
                     href={l.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    aria-label={`${l.label} — رابط خارجي`}
+                    aria-label={`${l.label} - رابط خارجي`}
                     className="flex flex-col gap-0.5 text-sm text-muted-foreground hover:text-foreground transition-colors duration-200 group rounded"
                   >
                     <span className="flex items-center gap-2">

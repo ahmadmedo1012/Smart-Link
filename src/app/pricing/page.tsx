@@ -125,7 +125,7 @@ export default function PricingPage() {
             الخطط والأسعار
           </h1>
           <p className="text-lg text-muted-foreground">
-            اختر الخطة المناسبة لعملك — ابدأ مجاناً وطور خدماتك معنا
+            اختر الخطة المناسبة لعملك - ابدأ مجاناً وطور خدماتك معنا
           </p>
         </motion.div>
 
@@ -180,7 +180,7 @@ export default function PricingPage() {
             <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-400/20 to-teal-500/20 flex items-center justify-center mx-auto mb-4">
               <Sparkles className="w-7 h-7 text-[var(--primary)]" />
             </div>
-            <h3 className="text-2xl font-bold text-foreground mb-2">قريباً — خطط مدفوعة</h3>
+            <h3 className="text-2xl font-bold text-foreground mb-2">قريباً - خطط مدفوعة</h3>
             <p className="text-muted-foreground max-w-md mx-auto mb-6">
               نعمل على إطلاق خطط مدفوعة بميزات حصرية: تحليلات متقدمة، دعم فني أولوي، عدد غير محدود من العناصر، وأكثر
             </p>

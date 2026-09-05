@@ -115,8 +115,8 @@ export default function PricingPage() {
     <div className="pt-28 pb-16 relative overflow-hidden">
       <GenArtBackground seed={77} />
       <div className="container-base relative">
-        <motion.div className="max-w-3xl mx-auto text-center mb-14" {...fadeUp()}>
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[var(--glass-border)] bg-[var(--glass-bg)] backdrop-blur-sm text-xs text-primary font-medium mb-6">
+        <div className="max-w-3xl mx-auto text-center mb-14 reveal-up">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[var(--glass-border)] bg-[var(--glass-bg)] backdrop-blur-sm text-xs text-primary-text font-medium mb-6">
             <span>الأسعار</span>
           </div>
           <h1 className="text-5xl md:text-6xl font-extrabold tracking-tight text-foreground mb-4">
@@ -125,7 +125,7 @@ export default function PricingPage() {
           <p className="text-lg text-muted-foreground">
             اختر الخطة المناسبة لعملك - ابدأ مجاناً وطور خدماتك معنا
           </p>
-        </motion.div>
+        </div>
 
         {/* Pricing cards */}
         <div className="grid md:grid-cols-2 gap-6 lg:gap-8 max-w-4xl mx-auto mb-16">
@@ -145,7 +145,7 @@ export default function PricingPage() {
                     <Icon className="w-6 h-6 text-[var(--primary)]" />
                   </div>
                   <h2 className="text-xl font-bold text-foreground mb-1">{plan.title}</h2>
-                  <p className="text-sm text-[var(--primary)] font-medium mb-2">{plan.subtitle}</p>
+                  <p className="text-sm text-[var(--primary-text)] font-medium mb-2">{plan.subtitle}</p>
                   <div className="mb-6">
                     <span className="text-4xl font-extrabold text-foreground">{plan.price}</span>
                     <span className="text-sm text-muted-foreground mr-2">{plan.period}</span>

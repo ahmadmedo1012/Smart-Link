@@ -62,8 +62,8 @@ export default function AboutPage() {
     <div className="pt-28 pb-16 relative overflow-hidden">
       <GenArtBackground seed={2024} />
       <div className="container-base relative">
-        <motion.div className="max-w-3xl mx-auto text-center mb-14" {...fadeUp()}>
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[var(--glass-border)] bg-[var(--glass-bg)] backdrop-blur-sm text-xs text-primary font-medium mb-6">
+        <div className="max-w-3xl mx-auto text-center mb-14 reveal-up">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[var(--glass-border)] bg-[var(--glass-bg)] backdrop-blur-sm text-xs text-primary-text font-medium mb-6">
             <span>عن المنصة</span>
           </div>
           <h1 className="text-5xl md:text-6xl font-extrabold tracking-tight text-foreground mb-4">
@@ -73,7 +73,7 @@ export default function AboutPage() {
             SmartLink منصة رقمية ليبية متكاملة تهدف إلى توفير حلول ذكية للأعمال في العالم العربي.
             نؤمن بأن التكنولوجيا يجب أن تكون سهلة، متاحة، وفعالة للجميع.
           </p>
-        </motion.div>
+        </div>
 
         <div className="grid md:grid-cols-2 gap-5 max-w-3xl mx-auto mb-14">
           {values.map((item, i) => (

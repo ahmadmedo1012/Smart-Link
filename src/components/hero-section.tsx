@@ -145,16 +145,10 @@ export function HeroSection() {
             <span>منصة رقمية متكاملة</span>
           </motion.div>
 
-          {/* Animated heading */}
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-[-0.01em] sm:tracking-[-0.02em] leading-[1.25] mb-7">
+          {/* Animated heading — CSS reveal (pre-JS paint for LCP) */}
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-[-0.01em] sm:tracking-[-0.02em] leading-[1.25] mb-7 reveal-stagger">
             {headingWords.map((word, i) => (
-              <motion.span
-                key={word}
-                initial={{ opacity: 0, y: 40, filter: "blur(12px)" }}
-                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                transition={{ duration: 0.45, delay: 0.1 + i * 0.15, ease: [0.16, 1, 0.2, 1] }}
-                className="block"
-              >
+              <span key={word} className={i === 1 ? "block reveal-up" : "block reveal-up"}>
                 {i === 0 ? (
                   <span className="gradient-text">{word}</span>
                 ) : i === 1 ? (
@@ -162,7 +156,7 @@ export function HeroSection() {
                 ) : (
                   <span className="text-[var(--muted-foreground)]">{word}</span>
                 )}
-              </motion.span>
+              </span>
             ))}
           </h1>
 
@@ -170,7 +164,7 @@ export function HeroSection() {
           <motion.p
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: 0.4, ease: [0.16, 1, 0.2, 1] }}
+            transition={{ duration: 0.35, delay: 0.25, ease: [0.16, 1, 0.2, 1] }}
             className="text-base md:text-lg text-[var(--muted-foreground)] max-w-2xl mx-auto mb-10 leading-[1.7]"
           >
             منصة موحدة تجمع حلولنا الرقمية المبتكرة - من المنيو الرقمي للمطاعم إلى البوت الذكي لفيسبوك -
@@ -181,7 +175,7 @@ export function HeroSection() {
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.6, ease: [0.16, 1, 0.2, 1] }}
+            transition={{ duration: 0.35, delay: 0.4, ease: [0.16, 1, 0.2, 1] }}
             className="flex flex-col sm:flex-row items-center justify-center gap-4"
           >
             <Link
@@ -211,7 +205,7 @@ export function HeroSection() {
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, delay: 0.7, ease: [0.16, 1, 0.2, 1] }}
+          transition={{ duration: 0.4, delay: 0.5, ease: [0.16, 1, 0.2, 1] }}
           className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-2xl mx-auto"
         >
           {[

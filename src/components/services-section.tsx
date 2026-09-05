@@ -72,7 +72,7 @@ function ServiceCard({ service, index }: { service: typeof services[number]; ind
           </motion.div>
 
           <h3 className="text-xl font-bold text-[var(--foreground)] mb-1">{service.title}</h3>
-          <p className="text-sm text-[var(--primary)] font-medium mb-3">{service.subtitle}</p>
+          <p className="text-sm text-[var(--primary-text)] font-medium mb-3">{service.subtitle}</p>
           <p className="text-sm text-[var(--muted-foreground)] leading-relaxed mb-6">{service.description}</p>
 
           {/* Feature list */}
@@ -146,7 +146,7 @@ export function ServicesSection() {
           transition={{ duration: 0.5 }}
           className="text-center mb-14"
         >
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[var(--glass-border)] bg-[var(--glass-bg)] backdrop-blur-sm text-xs text-primary font-medium mb-5">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[var(--glass-border)] bg-[var(--glass-bg)] backdrop-blur-sm text-xs text-primary-text font-medium mb-5">
             <span>خدماتنا</span>
           </div>
           <h2 className="text-4xl md:text-5xl font-extrabold text-[var(--foreground)] mb-4 tracking-tight">منظومة متكاملة</h2>

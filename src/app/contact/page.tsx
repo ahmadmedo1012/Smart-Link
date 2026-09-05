@@ -103,8 +103,8 @@ export default function ContactPage() {
     <div className="pt-28 pb-16 relative overflow-hidden">
       <GenArtBackground seed={303} />
       <div className="container-base relative">
-        <motion.div className="max-w-3xl mx-auto text-center mb-14" {...fadeUp()}>
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[var(--glass-border)] bg-[var(--glass-bg)] backdrop-blur-sm text-xs text-primary font-medium mb-6">
+        <div className="max-w-3xl mx-auto text-center mb-14 reveal-up">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[var(--glass-border)] bg-[var(--glass-bg)] backdrop-blur-sm text-xs text-primary-text font-medium mb-6">
             <span>تواصل</span>
           </div>
           <h1 className="text-5xl md:text-6xl font-extrabold tracking-tight text-foreground mb-4">
@@ -113,7 +113,7 @@ export default function ContactPage() {
           <p className="text-lg text-muted-foreground">
             فريقنا جاهز لمساعدتك - تواصل معنا بأي من الطرق التالية
           </p>
-        </motion.div>
+        </div>
 
         {/* Contact info cards */}
         <div className="grid md:grid-cols-4 gap-4 max-w-3xl mx-auto mb-10">
@@ -128,7 +128,7 @@ export default function ContactPage() {
               </div>
               <h2 className="font-bold text-foreground text-sm mb-1">{item.title}</h2>
               {item.href ? (
-                <a href={item.href} className="text-xs text-primary hover:underline underline-offset-2 rounded">{item.desc}</a>
+                <a href={item.href} className="text-xs text-primary-text hover:underline underline-offset-2 rounded">{item.desc}</a>
               ) : (
                 <p className="text-xs text-muted-foreground">{item.desc}</p>
               )}

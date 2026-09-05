@@ -137,7 +137,7 @@ export function Footer() {
                 <div className="w-8 h-8 rounded-lg bg-[var(--accent)] flex items-center justify-center shrink-0">
                   <MessageCircle className="w-3.5 h-3.5 text-primary" />
                 </div>
-                <a href="https://wa.me/218910089975" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline underline-offset-2 transition-all">
+                <a href="https://wa.me/218910089975" target="_blank" rel="noopener noreferrer" className="text-primary-text hover:underline underline-offset-2 transition-all">
                   واتساب: 218910089975+
                 </a>
               </li>

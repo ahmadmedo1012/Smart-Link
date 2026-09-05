@@ -4,10 +4,11 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --font-sans: "Cairo", "Noto Sans Arabic", system-ui, sans-serif;
+  /* Brand parity with Smart-Menu/SmartBot (source: Smart-Menu globals.css) */
+  --font-sans: var(--font-cairo, "Cairo"), "Cairo", "Noto Sans Arabic", system-ui, sans-serif;
   --font-mono: "Noto Naskh Arabic", "Courier New", monospace;
   --font-arabic: "Noto Naskh Arabic", "Cairo", "Noto Sans Arabic", system-ui, sans-serif;
-  --font-heading: "Cairo", "Readex Pro", "Noto Sans Arabic", system-ui, sans-serif;
+  --font-heading: var(--font-readex-pro, "Readex Pro"), var(--font-cairo, "Cairo"), "Noto Sans Arabic", system-ui, sans-serif;
 
   --text-xs: 0.75rem;
   --text-sm: 0.875rem;
@@ -82,18 +83,18 @@
   --foreground: oklch(0.95 0.003 30);
   --card: oklch(0.085 0.004 30);
   --card-foreground: oklch(0.95 0.003 30);
-  --primary: oklch(0.58 0.195 45);
+  --primary: oklch(0.55 0.19 45);
   --primary-foreground: oklch(0.98 0 0);
   --secondary: oklch(0.12 0.005 30);
   --secondary-foreground: oklch(0.75 0.008 30);
   --muted: oklch(0.1 0.004 30);
   --muted-foreground: oklch(0.62 0.015 30);
-  --accent: oklch(0.58 0.195 45 / 0.12);
-  --accent-foreground: oklch(0.58 0.195 45);
+  --accent: oklch(0.55 0.19 45 / 0.15);
+  --accent-foreground: oklch(0.55 0.19 45);
   --destructive: oklch(0.6 0.22 25);
   --border: oklch(0.18 0.006 30);
   --input: oklch(0.18 0.006 30);
-  --ring: oklch(0.58 0.195 45);
+  --ring: oklch(0.55 0.19 45);
   --success: oklch(0.62 0.18 145);
   --warning: oklch(0.72 0.16 80);
   --info: oklch(0.55 0.14 240);
@@ -107,7 +108,7 @@
   /* ── Glass variants ── */
   --glass-bg: oklch(0.085 0.004 30 / 0.35);
   --glass-bg-strong: oklch(0.12 0.005 30 / 0.55);
-  --glass-border: oklch(0.58 0.195 45 / 0.08);
+  --glass-border: oklch(0.55 0.19 45 / 0.08);
   --glass-shadow: 0 8px 32px oklch(0 0 0 / 0.45), inset 0 1px 0 oklch(1 1 0 / 0.04);
   --glass-shadow-lg: 0 12px 48px oklch(0 0 0 / 0.5), inset 0 1px 0 oklch(1 1 0 / 0.06);
 
@@ -116,8 +117,8 @@
   --shadow-md: 0 4px 16px oklch(0 0 0 / 0.4), 0 2px 4px oklch(0 0 0 / 0.3);
   --shadow-lg: 0 12px 40px oklch(0 0 0 / 0.45), 0 4px 8px oklch(0 0 0 / 0.35);
   --shadow-xl: 0 24px 60px oklch(0 0 0 / 0.5), 0 8px 16px oklch(0 0 0 / 0.4);
-  --shadow-glow: 0 0 30px oklch(0.58 0.195 45 / 0.25);
-  --shadow-glow-strong: 0 0 60px oklch(0.58 0.195 45 / 0.35);
+  --shadow-glow: 0 0 30px oklch(0.55 0.19 45 / 0.25);
+  --shadow-glow-strong: 0 0 60px oklch(0.55 0.19 45 / 0.35);
 
   /* ── Service gradients ── */
   --gradient-smart-menu: linear-gradient(135deg, oklch(0.7 0.19 60 / 0.25), oklch(0.7 0.15 50 / 0.1));
@@ -126,9 +127,9 @@
   --gradient-shine: linear-gradient(90deg, transparent 0%, oklch(1 0 0 / 0.05) 50%, transparent 100%);
 
   /* ── Grid pattern ── */
-  --grid-line: oklch(0.58 0.195 45 / 0.1);
-  --grid-fill: oklch(0.58 0.195 45 / 0.04);
-  --grid-square: oklch(0.58 0.195 45 / 0.1);
+  --grid-line: oklch(0.55 0.19 45 / 0.1);
+  --grid-fill: oklch(0.55 0.19 45 / 0.04);
+  --grid-square: oklch(0.55 0.19 45 / 0.1);
 
   /* ── Motion ── */
   --move-fast: 150ms;
@@ -138,26 +139,28 @@
 }
 
 .light {
+  /* Smart-Menu light-mode parity: darker primary for AA on white (dual-lightness) */
   --background: oklch(0.985 0 0);
-  --background-radial: radial-gradient(ellipse 80% 50% at 50% -8%, oklch(0.58 0.195 45 / 0.04), transparent 70%);
+  --background-radial: radial-gradient(ellipse 80% 50% at 50% -8%, oklch(0.55 0.19 45 / 0.04), transparent 70%);
   --foreground: oklch(0.12 0.004 30);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.12 0.004 30);
-  --primary: oklch(0.48 0.19 45);
+  --primary: oklch(0.4 0.19 45);
   --primary-foreground: oklch(0.98 0 0);
   --secondary: oklch(0.92 0.005 30);
   --secondary-foreground: oklch(0.25 0.008 30);
   --muted: oklch(0.95 0.003 30);
   --muted-foreground: oklch(0.55 0.01 30);
-  --accent: oklch(0.48 0.19 45 / 0.1);
-  --accent-foreground: oklch(0.48 0.19 45);
+  --accent: oklch(0.55 0.19 45 / 0.12);
+  --accent-foreground: oklch(0.55 0.19 45);
   --destructive: oklch(0.58 0.2 25);
   --border: oklch(0.88 0.006 30);
   --input: oklch(0.88 0.006 30);
-  --ring: oklch(0.48 0.19 45);
-  --success: oklch(0.62 0.18 145);
-  --warning: oklch(0.72 0.16 80);
-  --info: oklch(0.55 0.14 240);
+  --ring: oklch(0.55 0.19 45);
+  /* darker in light for AA text on white (dual-lightness like --primary) */
+  --success: oklch(0.48 0.15 150);
+  --warning: oklch(0.52 0.13 60);
+  --info: oklch(0.48 0.13 245);
 
   --surface-raised: oklch(0.96 0.003 30);
   --surface-sunken: oklch(0.98 0.002 30);
@@ -166,7 +169,7 @@
 
   --glass-bg: oklch(1 0 0 / 0.3);
   --glass-bg-strong: oklch(1 0 0 / 0.5);
-  --glass-border: oklch(0.48 0.19 45 / 0.1);
+  --glass-border: oklch(0.55 0.19 45 / 0.1);
   --glass-shadow: 0 8px 32px oklch(0 0 0 / 0.06), inset 0 1px 0 oklch(1 1 0 / 0.6);
   --glass-shadow-lg: 0 12px 48px oklch(0 0 0 / 0.08), inset 0 1px 0 oklch(1 1 0 / 0.6);
 
@@ -174,17 +177,17 @@
   --shadow-md: 0 4px 12px oklch(0 0 0 / 0.06);
   --shadow-lg: 0 12px 40px oklch(0 0 0 / 0.08);
   --shadow-xl: 0 24px 60px oklch(0 0 0 / 0.1);
-  --shadow-glow: 0 0 30px oklch(0.48 0.19 45 / 0.12);
-  --shadow-glow-strong: 0 0 60px oklch(0.48 0.19 45 / 0.2);
+  --shadow-glow: 0 0 30px oklch(0.55 0.19 45 / 0.12);
+  --shadow-glow-strong: 0 0 60px oklch(0.55 0.19 45 / 0.2);
 
   --gradient-smart-menu: linear-gradient(135deg, oklch(0.7 0.19 60 / 0.15), oklch(0.7 0.15 50 / 0.06));
   --gradient-smart-bot: linear-gradient(135deg, oklch(0.55 0.15 280 / 0.15), oklch(0.5 0.12 280 / 0.06));
   --gradient-coming-soon: linear-gradient(135deg, oklch(0.6 0.18 160 / 0.15), oklch(0.55 0.15 160 / 0.06));
   --gradient-shine: linear-gradient(90deg, transparent 0%, oklch(0 0 0 / 0.03) 50%, transparent 100%);
 
-  --grid-line: oklch(0.48 0.19 45 / 0.06);
-  --grid-fill: oklch(0.48 0.19 45 / 0.03);
-  --grid-square: oklch(0.48 0.19 45 / 0.06);
+  --grid-line: oklch(0.55 0.19 45 / 0.06);
+  --grid-fill: oklch(0.55 0.19 45 / 0.03);
+  --grid-square: oklch(0.55 0.19 45 / 0.06);
 }
 
 @layer base {
@@ -197,13 +200,13 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
-  ::selection { background: oklch(0.58 0.195 45 / 0.25); color: var(--foreground); }
+  ::selection { background: oklch(0.55 0.19 45 / 0.25); color: var(--foreground); }
   ::-webkit-scrollbar { width: 5px; height: 5px; }
   ::-webkit-scrollbar-track { background: transparent; }
   ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 999px; }
   ::-webkit-scrollbar-thumb:hover { background: var(--muted-foreground); }
   *:focus-visible { outline: 2px solid var(--ring); outline-offset: 2px; border-radius: var(--radius-sm); }
-  h1, h2, h3, h4 { text-wrap: balance; }
+  h1, h2, h3, h4 { text-wrap: balance; font-family: var(--font-heading); }
   p { text-wrap: pretty; }
 }
 
@@ -283,8 +286,8 @@
 }
 
 @keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 20px oklch(0.58 0.195 45 / 0.15); }
-  50% { box-shadow: 0 0 40px oklch(0.58 0.195 45 / 0.35); }
+  0%, 100% { box-shadow: 0 0 20px oklch(0.55 0.19 45 / 0.15); }
+  50% { box-shadow: 0 0 40px oklch(0.55 0.19 45 / 0.35); }
 }
 
 @keyframes shine {
@@ -371,7 +374,7 @@
 
 @keyframes border-glow-pulse {
   0%, 100% { border-color: var(--glass-border); }
-  50% { border-color: oklch(0.58 0.195 45 / 0.25); }
+  50% { border-color: oklch(0.55 0.19 45 / 0.25); }
 }
 
 @keyframes breathe-glow {
@@ -425,9 +428,9 @@
   inset: 0;
   background: linear-gradient(90deg,
     transparent 0%,
-    oklch(0.58 0.195 45 / 0.3) 20%,
+    oklch(0.55 0.19 45 / 0.3) 20%,
     oklch(0.68 0.19 45 / 0.5) 40%,
-    oklch(0.58 0.195 45 / 0.3) 60%,
+    oklch(0.55 0.19 45 / 0.3) 60%,
     transparent 100%
   );
   animation: nav-shimmer 2s ease-in-out infinite;
@@ -499,9 +502,9 @@
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .reveal-up { animation: reveal-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) both; }
-  .reveal-scale { animation: reveal-scale 0.5s cubic-bezier(0.16, 1, 0.3, 1) both; }
-  .reveal-blur { animation: reveal-blur 0.7s cubic-bezier(0.16, 1, 0.3, 1) both; }
+  .reveal-up { animation: reveal-up 0.6s cubic-bezier(0.16, 1, 0.2, 1) both; }
+  .reveal-scale { animation: reveal-scale 0.5s cubic-bezier(0.16, 1, 0.2, 1) both; }
+  .reveal-blur { animation: reveal-blur 0.7s cubic-bezier(0.16, 1, 0.2, 1) both; }
 
   .reveal-stagger > *:nth-child(1) { animation-delay: 0s; }
   .reveal-stagger > *:nth-child(2) { animation-delay: 0.08s; }

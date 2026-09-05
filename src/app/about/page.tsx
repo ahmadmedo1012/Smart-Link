@@ -50,7 +50,7 @@ const values = [
   { icon: Layers, title: "منصة متكاملة", desc: "كل ما تحتاجه لإدارة أعمالك رقمياً - خدمات تعمل معاً بتناغم." },
 ]
 
-const _ease = [0.16, 1, 0.3, 1] as [number, number, number, number]
+const _ease = [0.16, 1, 0.2, 1] as [number, number, number, number]
 const fadeUp = (delay = 0) => ({
   initial: { opacity: 0, y: 24 },
   animate: { opacity: 1, y: 0 },
@@ -85,7 +85,7 @@ export default function AboutPage() {
               <div className="w-10 h-10 rounded-xl bg-[var(--accent)] flex items-center justify-center mb-3 group-hover:scale-110 transition-transform duration-300">
                 <item.icon className="w-5 h-5 text-primary" />
               </div>
-              <h3 className="font-bold text-foreground text-lg mb-1 group-hover:text-primary transition-colors">{item.title}</h3>
+              <h2 className="font-bold text-foreground text-lg mb-1 group-hover:text-primary transition-colors">{item.title}</h2>
               <p className="text-sm text-muted-foreground leading-relaxed">{item.desc}</p>
             </motion.div>
           ))}
@@ -94,7 +94,7 @@ export default function AboutPage() {
         {/* Founder */}
         <motion.div className="max-w-3xl mx-auto mb-10" {...fadeUp(0.25)}>
           <div className="glass rounded-2xl p-6 md:p-8 flex flex-col md:flex-row items-start md:items-center gap-5 group hover:border-[var(--ring)]/30 transition-all duration-300">
-            <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-amber-400/20 to-orange-500/20 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform duration-300">
+            <div className="w-16 h-16 rounded-2xl flex items-center justify-center shrink-0 border border-[var(--glass-border)] group-hover:scale-110 transition-transform duration-300" style={{ background: "var(--gradient-smart-menu)" }}>
               <User className="w-8 h-8 text-primary" />
             </div>
             <div>

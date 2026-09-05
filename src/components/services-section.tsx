@@ -12,8 +12,7 @@ const services = [
     href: "https://menu.smart-link.ly",
     icon: Smartphone,
     features: ["منيو رقمي تفاعلي", "طلبات عبر واتساب", "برنامج ولاء وإحالات", "إحصائيات وتحليلات", "QR كود مخصص", "لوحة تحكم عربية"],
-    gradient: "gradient-smart-menu",
-    iconBg: "from-amber-400/20 to-orange-500/20",
+    gradientVar: "var(--gradient-smart-menu)",
     color: "oklch(0.7 0.19 60)",
   },
   {
@@ -23,8 +22,7 @@ const services = [
     href: "https://bot.smart-link.ly",
     icon: Bot,
     features: ["ردود تلقائية ذكية", "تصنيف النوايا", "لوحة تحكم متكاملة", "تقارير وتحليلات", "بث جماعي", "إدارة الصفحات"],
-    gradient: "gradient-smart-bot",
-    iconBg: "from-violet-400/20 to-purple-500/20",
+    gradientVar: "var(--gradient-smart-bot)",
     color: "oklch(0.55 0.15 280)",
   },
   {
@@ -34,8 +32,7 @@ const services = [
     href: "#",
     icon: Sparkles,
     features: ["متجر إلكتروني", "حجوزات مواعيد", "منصة تسويق", "مساعد ذكي", "فواتير إلكترونية", "تطبيق موبايل"],
-    gradient: "gradient-coming-soon",
-    iconBg: "from-emerald-400/20 to-teal-500/20",
+    gradientVar: "var(--gradient-coming-soon)",
     color: "oklch(0.6 0.18 160)",
     comingSoon: true,
   },
@@ -51,7 +48,7 @@ function ServiceCard({ service, index }: { service: typeof services[number]; ind
       ref={ref}
       initial={{ opacity: 0, y: 60, scale: 0.95 }}
       animate={inView ? { opacity: 1, y: 0, scale: 1 } : {}}
-      transition={{ duration: 0.4, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
+      transition={{ duration: 0.4, delay: index * 0.1, ease: [0.16, 1, 0.2, 1] }}
       className="group relative rounded-[20px] border border-[var(--border)] bg-[var(--card)] overflow-hidden hover:border-[var(--ring)]/40 hover:shadow-[0_0_60px_var(--shadow-glow)] transition-all duration-500 flex flex-col h-full"
       style={{ perspective: "800px" }}
     >
@@ -66,7 +63,8 @@ function ServiceCard({ service, index }: { service: typeof services[number]; ind
         <div className="relative p-7 md:p-8 flex flex-col flex-1">
           {/* Icon with scale pulse */}
           <motion.div
-            className={`w-12 h-12 rounded-xl bg-gradient-to-br ${service.iconBg} flex items-center justify-center mb-5`}
+            className="w-12 h-12 rounded-xl flex items-center justify-center mb-5 border border-[var(--glass-border)]"
+            style={{ background: service.gradientVar }}
             whileHover={{ scale: 1.2, y: -4 }}
             transition={{ type: "spring", stiffness: 300, damping: 15 }}
           >

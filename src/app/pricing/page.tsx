@@ -63,8 +63,7 @@ const plans = [
     icon: Smartphone,
     price: "مجاني",
     period: "الخطة الأساسية",
-    gradient: "from-amber-500/10 via-orange-500/5 to-transparent",
-    iconBg: "from-amber-400/20 to-orange-500/20",
+    gradientVar: "var(--gradient-smart-menu)",
     features: [
       "منيو رقمي تفاعلي غير محدود العناصر",
       "طلبات عبر واتساب",
@@ -81,8 +80,7 @@ const plans = [
     icon: Bot,
     price: "مجاني",
     period: "الخطة الأساسية",
-    gradient: "from-violet-500/10 via-purple-500/5 to-transparent",
-    iconBg: "from-violet-400/20 to-purple-500/20",
+    gradientVar: "var(--gradient-smart-bot)",
     features: [
       "ردود تلقائية ذكية",
       "تصنيف النوايا الأساسي",
@@ -103,7 +101,7 @@ const faqs = [
   { q: "هل يمكن إلغاء الاشتراك في أي وقت؟", a: "نعم، يمكنك إلغاء حسابك أو إيقاف الخدمة في أي وقت بدون أي رسوم." },
 ]
 
-const _ease = [0.16, 1, 0.3, 1] as [number, number, number, number]
+const _ease = [0.16, 1, 0.2, 1] as [number, number, number, number]
 const fadeUp = (delay = 0) => ({
   initial: { opacity: 0, y: 24 },
   animate: { opacity: 1, y: 0 },
@@ -141,12 +139,12 @@ export default function PricingPage() {
               >
                 {/* Top accent line */}
                 <div className="absolute top-0 left-0 right-0 h-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{ background: `linear-gradient(90deg, transparent, ${plan.color}, transparent)` }} aria-hidden="true" />
-                <div className="absolute inset-0 opacity-10 group-hover:opacity-20 transition-opacity duration-500" style={{ background: `linear-gradient(135deg, ${plan.gradient})` }} aria-hidden="true" />
+                <div className="absolute inset-0 opacity-10 group-hover:opacity-20 transition-opacity duration-500" style={{ background: plan.gradientVar }} aria-hidden="true" />
                 <div className="relative p-7 md:p-8 flex flex-col flex-1">
-                  <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${plan.iconBg} flex items-center justify-center mb-5`}>
+                  <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-5 border border-[var(--glass-border)]" style={{ background: plan.gradientVar }}>
                     <Icon className="w-6 h-6 text-[var(--primary)]" />
                   </div>
-                  <h3 className="text-xl font-bold text-foreground mb-1">{plan.title}</h3>
+                  <h2 className="text-xl font-bold text-foreground mb-1">{plan.title}</h2>
                   <p className="text-sm text-[var(--primary)] font-medium mb-2">{plan.subtitle}</p>
                   <div className="mb-6">
                     <span className="text-4xl font-extrabold text-foreground">{plan.price}</span>
@@ -177,10 +175,10 @@ export default function PricingPage() {
         {/* Coming soon */}
         <motion.div className="max-w-2xl mx-auto mb-16" {...fadeUp(0.4)}>
           <div className="glass rounded-2xl p-8 text-center border border-dashed border-[var(--glass-border)] hover:border-[var(--ring)]/30 transition-all duration-300">
-            <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-400/20 to-teal-500/20 flex items-center justify-center mx-auto mb-4">
+            <div className="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-4 border border-[var(--glass-border)]" style={{ background: "var(--gradient-coming-soon)" }}>
               <Sparkles className="w-7 h-7 text-[var(--primary)]" />
             </div>
-            <h3 className="text-2xl font-bold text-foreground mb-2">قريباً - خطط مدفوعة</h3>
+            <h2 className="text-2xl font-bold text-foreground mb-2">قريباً - خطط مدفوعة</h2>
             <p className="text-muted-foreground max-w-md mx-auto mb-6">
               نعمل على إطلاق خطط مدفوعة بميزات حصرية: تحليلات متقدمة، دعم فني أولوي، عدد غير محدود من العناصر، وأكثر
             </p>

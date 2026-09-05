@@ -57,7 +57,7 @@ const contacts = [
   { icon: Clock, title: "أوقات العمل", desc: "24/7 - الدوام الرسمي: 9ص - 9م" },
 ]
 
-const _ease = [0.16, 1, 0.3, 1] as [number, number, number, number]
+const _ease = [0.16, 1, 0.2, 1] as [number, number, number, number]
 const fadeUp = (delay = 0) => ({
   initial: { opacity: 0, y: 24 },
   animate: { opacity: 1, y: 0 },
@@ -166,7 +166,28 @@ export default function ContactPage() {
                 <textarea id="message" name="message" rows={4} required className="w-full px-4 py-2.5 rounded-xl bg-[var(--card)] border border-[var(--border)] text-foreground text-sm focus:outline-none focus:border-[var(--ring)] focus:ring-2 focus:ring-[var(--accent)] transition-all placeholder:text-muted-foreground/50 resize-none" placeholder="اكتب رسالتك هنا…" />
               </div>
               {error && (
-                <div className="text-sm text-red-500 bg-red-500/10 rounded-xl px-4 py-3 text-center" role="alert">{error}</div>
+                <div
+                  className="text-sm rounded-xl px-4 py-3 text-center border"
+                  style={{
+                    color: "var(--destructive)",
+                    background: "oklch(from var(--destructive) l c h / 0.1)",
+                    borderColor: "oklch(from var(--destructive) l c h / 0.25)",
+                  }}
+                  role="alert"
+                >
+                  <span className="block font-medium">{error}</span>
+                  {(error.includes("واتساب") || error.includes("تعذّر") || error.includes("خطأ") || error.includes("غير مهيأة")) && (
+                    <span className="block mt-2 text-xs" style={{ color: "var(--muted-foreground)" }}>
+                      أو تواصل مباشرة:{" "}
+                      <a href="https://wa.me/218910089975" className="underline underline-offset-2" style={{ color: "var(--primary)" }}>
+                        واتساب 0910089975
+                      </a>{" "}·{" "}
+                      <a href="mailto:ahmedmedo1012@gmail.com" className="underline underline-offset-2" style={{ color: "var(--primary)" }}>
+                        ahmedmedo1012@gmail.com
+                      </a>
+                    </span>
+                  )}
+                </div>
               )}
               <button
                 type="submit"

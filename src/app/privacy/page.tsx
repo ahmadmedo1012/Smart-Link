@@ -1,6 +1,6 @@
 "use client"
 import { motion } from "framer-motion"
-const _ease = [0.16, 1, 0.3, 1] as [number, number, number, number]
+const _ease = [0.16, 1, 0.2, 1] as [number, number, number, number]
 
 export default function PrivacyPage() {
   return (

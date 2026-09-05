@@ -20,7 +20,7 @@ function StepCard({ step, index }: { step: typeof steps[number]; index: number }
       ref={ref}
       initial={shouldReduce ? {} : { opacity: 0, y: 40 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.4, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
+      transition={{ duration: 0.4, delay: index * 0.1, ease: [0.16, 1, 0.2, 1] }}
       className="relative text-center group"
     >
       {/* Connecting line */}

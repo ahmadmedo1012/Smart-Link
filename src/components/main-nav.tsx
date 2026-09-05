@@ -124,7 +124,7 @@ export function MainNav() {
                       initial={{ opacity: 0, y: 8, scale: 0.96 }}
                       animate={{ opacity: 1, y: 0, scale: 1 }}
                       exit={{ opacity: 0, y: 8, scale: 0.96 }}
-                      transition={{ duration: 0.15, ease: [0.16, 1, 0.3, 1] }}
+                      transition={{ duration: 0.15, ease: [0.16, 1, 0.2, 1] }}
                       className="absolute top-full right-0 mt-2 w-80"
                     >
                       <div className="glass-strong rounded-2xl p-2 shadow-xl">
@@ -201,7 +201,7 @@ export function MainNav() {
             initial={{ opacity: 0, y: -8, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -8, scale: 0.98 }}
-            transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.2, ease: [0.16, 1, 0.2, 1] }}
             className="md:hidden mx-2 mb-2"
           >
             <div className="glass-strong rounded-2xl p-2 shadow-xl">

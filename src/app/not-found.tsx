@@ -14,7 +14,7 @@ export default function NotFound() {
         <motion.div
           initial={shouldReduce ? {} : { opacity: 0, scale: 0.92, filter: "blur(8px)" }}
           animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
-          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.2, 1] }}
         >
           <h1 className="text-9xl font-extrabold tracking-tight leading-none mb-2">
             <span className="gradient-text">404</span>
@@ -23,7 +23,7 @@ export default function NotFound() {
         <motion.div
           initial={shouldReduce ? {} : { opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, delay: shouldReduce ? 0 : 0.2, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 0.4, delay: shouldReduce ? 0 : 0.2, ease: [0.16, 1, 0.2, 1] }}
         >
           <h2 className="text-2xl font-bold text-[var(--foreground)] mb-2">الصفحة غير موجودة</h2>
           <p className="text-[var(--muted-foreground)] mb-8 max-w-md mx-auto">

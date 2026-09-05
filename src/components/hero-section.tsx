@@ -36,7 +36,7 @@ function AnimatedStat({ value, label, icon: Icon, delay = 0 }: { value: string; 
       ref={ref}
       initial={{ opacity: 0, y: 24, scale: 0.95 }}
       animate={inView ? { opacity: 1, y: 0, scale: 1 } : {}}
-      transition={{ duration: 0.4, delay: delay + 0.3, ease: [0.16, 1, 0.3, 1] }}
+      transition={{ duration: 0.4, delay: delay + 0.3, ease: [0.16, 1, 0.2, 1] }}
       className="glass-card rounded-xl p-4 text-center group"
     >
       <div className="w-8 h-8 rounded-lg bg-[var(--card)] flex items-center justify-center mx-auto mb-2 group-hover:scale-110 transition-transform duration-200">
@@ -139,7 +139,7 @@ export function HeroSection() {
           <motion.div
             initial={{ opacity: 0, y: 16, scale: 0.96 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.5, ease: [0.16, 1, 0.2, 1] }}
             className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[var(--glass-border)] bg-[var(--glass-bg)] backdrop-blur-sm text-xs text-[var(--primary)] font-medium mb-10"
           >
             <span>منصة رقمية متكاملة</span>
@@ -152,7 +152,7 @@ export function HeroSection() {
                 key={word}
                 initial={{ opacity: 0, y: 40, filter: "blur(12px)" }}
                 animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                transition={{ duration: 0.45, delay: 0.1 + i * 0.15, ease: [0.16, 1, 0.3, 1] }}
+                transition={{ duration: 0.45, delay: 0.1 + i * 0.15, ease: [0.16, 1, 0.2, 1] }}
                 className="block"
               >
                 {i === 0 ? (
@@ -170,7 +170,7 @@ export function HeroSection() {
           <motion.p
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.4, delay: 0.4, ease: [0.16, 1, 0.2, 1] }}
             className="text-base md:text-lg text-[var(--muted-foreground)] max-w-2xl mx-auto mb-10 leading-[1.7]"
           >
             منصة موحدة تجمع حلولنا الرقمية المبتكرة - من المنيو الرقمي للمطاعم إلى البوت الذكي لفيسبوك -
@@ -181,7 +181,7 @@ export function HeroSection() {
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.5, delay: 0.6, ease: [0.16, 1, 0.2, 1] }}
             className="flex flex-col sm:flex-row items-center justify-center gap-4"
           >
             <Link
@@ -211,7 +211,7 @@ export function HeroSection() {
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, delay: 0.7, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 0.4, delay: 0.7, ease: [0.16, 1, 0.2, 1] }}
           className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-2xl mx-auto"
         >
           {[

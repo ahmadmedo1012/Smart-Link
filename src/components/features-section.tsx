@@ -22,7 +22,7 @@ function FeatureCard({ feature, index }: { feature: typeof features[number]; ind
       ref={ref}
       initial={{ opacity: 0, y: 30 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.5, delay: index * 0.06, ease: [0.16, 1, 0.3, 1] }}
+      transition={{ duration: 0.5, delay: index * 0.06, ease: [0.16, 1, 0.2, 1] }}
       className="group relative rounded-[16px] border border-[var(--border)] bg-[var(--card)] p-6 hover:border-[var(--ring)]/30 hover:shadow-glow transition-all duration-500"
     >
       {/* Hover accent bar */}

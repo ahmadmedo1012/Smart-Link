@@ -1,5 +1,5 @@
 import type { Metadata } from "next"
-import { Cairo } from "next/font/google"
+import { Cairo, Readex_Pro } from "next/font/google"
 import { ThemeProvider } from "@/components/theme-provider"
 import { Toaster } from "sonner"
 import { Analytics } from "@vercel/analytics/next"
@@ -14,6 +14,14 @@ const cairo = Cairo({
   subsets: ["arabic", "latin"],
   weight: ["400", "700"],
   variable: "--font-cairo",
+  display: "swap",
+})
+
+/* Brand parity with Smart-Menu/SmartBot: Readex Pro leads --font-heading */
+const readexPro = Readex_Pro({
+  subsets: ["arabic", "latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-readex-pro",
   display: "swap",
 })
 
@@ -45,7 +53,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="ar" dir="rtl" suppressHydrationWarning className={cairo.variable}>
+    <html lang="ar" dir="rtl" suppressHydrationWarning className={`${cairo.variable} ${readexPro.variable}`}>
       <head>
         <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)" />
         <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
@@ -61,14 +69,38 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               "@context": "https://schema.org",
               "@type": "Organization",
               name: "SmartLink",
+              alternateName: "سمارت لينك",
               url: "https://smart-link.ly",
               logo: "https://smart-link.ly/favicon-32.png",
+              description:
+                "منصة رقمية ليبية متكاملة تقدم حلولاً ذكية للأعمال: المنيو الرقمي للمطاعم والبوت الذكي لفيسبوك.",
+              foundingDate: "2025-11-20",
+              founder: { "@type": "Person", name: "أحمد خيري" },
               contactPoint: {
                 "@type": "ContactPoint",
                 email: "ahmadmedo1012@gmail.com",
                 contactType: "customer service",
+                availableLanguage: ["ar", "en"],
               },
-              sameAs: ["https://wa.me/218910089975"],
+              sameAs: [
+                "https://wa.me/218910089975",
+                "https://menu.smart-link.ly",
+                "https://bot.smart-link.ly",
+              ],
+              subOrganization: [
+                {
+                  "@type": "Organization",
+                  name: "Smart Menu",
+                  url: "https://menu.smart-link.ly",
+                  description: "المنيو الرقمي التفاعلي للمطاعم مع طلبات واتساب",
+                },
+                {
+                  "@type": "Organization",
+                  name: "SmartBot",
+                  url: "https://bot.smart-link.ly",
+                  description: "البوت الذكي لأتمتة الردود على صفحات فيسبوك",
+                },
+              ],
             }),
           }}
         />

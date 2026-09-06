@@ -1,13 +1,17 @@
 "use client"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { Smartphone, Bot, Mail, MapPin, Globe, MessageCircle, Share2, ArrowUp } from "lucide-react"
 
 export function Footer() {
   const [showScrollTop, setShowScrollTop] = useState(false)
+  const btnRef = useRef<HTMLButtonElement>(null)
 
-  // IntersectionObserver for scroll-to-top visibility — no style recalc per frame
+  /* r7: the boolean was INVERTED (live-probed: button visible at page top,
+     hidden after scrolling — exactly backwards). The sentinel sits at
+     document y=401; the button must appear when the sentinel has LEFT the
+     viewport, i.e. on !isIntersecting — mirroring main-nav's scrolled logic. */
   useEffect(() => {
     const sentinel = document.createElement("div")
     sentinel.style.position = "absolute"
@@ -17,12 +21,22 @@ export function Footer() {
     sentinel.style.pointerEvents = "none"
     document.body.prepend(sentinel)
     const obs = new IntersectionObserver(
-      ([e]) => setShowScrollTop(e.isIntersecting),
+      ([e]) => setShowScrollTop(!e.isIntersecting),
       { rootMargin: "0px 0px 0px 0px" }
     )
     obs.observe(sentinel)
     return () => { obs.disconnect(); sentinel.remove() }
   }, [])
+
+  /* r7: while hidden (opacity-0) the button stayed in the tab order —
+     keyboard users tabbed into an invisible control (probed: reached at
+     Tab #38). Remove it from the a11y tree + tab order when hidden, and
+     release focus if it was focused when it hid. */
+  useEffect(() => {
+    if (!showScrollTop && btnRef.current && document.activeElement === btnRef.current) {
+      btnRef.current.blur()
+    }
+  }, [showScrollTop])
 
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" })
 
@@ -159,11 +173,17 @@ export function Footer() {
         </div>
       </div>
 
-      {/* Back to top — animated in/out */}
+      {/* Back to top — animated in/out (r7: hidden state is now also
+          aria-hidden + unfocusable, not just visually transparent) */}
       <button
+        ref={btnRef}
         onClick={scrollToTop}
         aria-label="العودة للأعلى"
-        className={`fixed bottom-6 right-6 w-11 h-11 rounded-xl bg-[var(--primary)] text-white flex items-center justify-center shadow-lg hover:shadow-glow transition-all duration-300 z-40 ${showScrollTop ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'}`}
+        /* عند الظهور نحذف الخاصيتين تماماً بدل إصدار aria-hidden="false"
+           الحرفي — DOM أنظف والسلوك واحد */
+        aria-hidden={showScrollTop ? undefined : "true"}
+        tabIndex={showScrollTop ? 0 : -1}
+        className={`fixed bottom-6 right-6 w-11 h-11 rounded-xl bg-[var(--primary)] text-white flex items-center justify-center shadow-lg hover:shadow-glow transition-all duration-300 z-40 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white ${showScrollTop ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'}`}
       >
         <ArrowUp className="w-4 h-4" />
       </button>

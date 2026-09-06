@@ -1,0 +1,48 @@
+import { test, expect, PAGES } from "./fixtures"
+
+/**
+ * فحوص الدخان: كل صفحة تُخدم بنجاح، RTL عربية، عنوان h1، عنوان تبويب
+ * صحيح، وصفر أخطاء console/JS — في الوضع الافتراضي (داكن).
+ */
+test.describe("الدخان — الصفحات الست", () => {
+  for (const p of PAGES) {
+    test(`صفحة ${p.path} — 200 + RTL + h1 + عنوان التبويب`, async ({ page, consoleErrors }) => {
+      const res = await page.goto(p.path, { waitUntil: "networkidle" })
+      expect(res?.status()).toBe(200)
+
+      // RTL عربية على مستوى html
+      await expect(page.locator("html")).toHaveAttribute("dir", "rtl")
+      await expect(page.locator("html")).toHaveAttribute("lang", "ar")
+
+      // h1 واحد على الأقل يحمل عنوان الصفحة
+      await expect(page.locator("h1").first()).toHaveText(p.h1)
+
+      // عنوان التبويب
+      await expect(page).toHaveTitle(p.title)
+
+      // صفر أخطاء console (الموارد الخارجية مُسكَتة — الباقي علينا)
+      expect(
+        consoleErrors,
+        `console errors on ${p.path}:\n${consoleErrors.join("\n")}`
+      ).toEqual([])
+    })
+  }
+
+  test("404 — حالة 404 + صفحة عربية بعنوان تبويب خاص", async ({ page, consoleErrors }) => {
+    const res = await page.goto("/صفحة-غير-موجودة-r7", { waitUntil: "networkidle" })
+    expect(res?.status()).toBe(404)
+    await expect(page.locator("h1")).toContainText("404")
+    await expect(page).toHaveTitle(/الصفحة غير موجودة \| SmartLink/)
+    // طلب المستند نفسه يسجّل "Failed to load resource: 404" — سلوك متوقع
+    // للمسار الميت؛ نستثنيه ونفحص أن لا شيء آخر انكسر
+    expect(consoleErrors.filter((e) => !e.includes("404"))).toEqual([])
+  })
+
+  test("الرئيسية — عدّادات الإحصائيات تعدّ حتى قيمها (انحدار r5)", async ({ page }) => {
+    await page.goto("/", { waitUntil: "networkidle" })
+    // مرّر الإحصائيات إلى مجال الرؤية ليطلق IntersectionObserver
+    await page.locator("text=خدمة نشطة").scrollIntoViewIfNeeded()
+    // العدّاد يبدأ من 0 وينتهي عند +500 خلال 1.2s
+    await expect(page.locator("text=+500").first()).toBeVisible({ timeout: 6000 })
+  })
+})

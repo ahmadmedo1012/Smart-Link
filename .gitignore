@@ -46,3 +46,9 @@ next-env.d.ts
 .claude/
 .playwright-mcp/
 screenshots/
+
+# playwright e2e artifacts
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/

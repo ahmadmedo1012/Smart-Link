@@ -29,3 +29,12 @@ Next.js 16 App Router, RTL Arabic, Tailwind CSS v4.
 - Above-the-fold content must render pre-JS (CSS reveal, never `initial={{opacity:0}}` wrappers)
 - `next/image` for all raster content images
 - Legal pages (privacy/terms) must stay pure Server Components
+
+## Testing guardrails (r7 — do not regress)
+- E2E suite lives in `e2e/` (Playwright + axe-core, 64 tests): run `npm run build && npm run test:e2e` — all 64 must pass; CI (`.github/workflows/ci.yml`) enforces this on every push to main
+- **Every new page/route must get a PAGES entry in `e2e/fixtures.ts`** (smoke + SEO + axe scan in both themes come free from the loop) — plus a JSON-LD check if it emits structured data
+- Every behavioral fix becomes a regression test (existing ones: back-to-top visibility logic, counters +K/decimals, FAQ un-clipped answers, JSON-LD email, og:image on subpages, rate-limit 429, honeypot, fail-loud 503)
+- axe must report **zero WCAG 2 AA violations in BOTH dark and light themes** — theme toggling is part of the scan loop
+- The contact UI test fulfills `**/api/contact` with a mocked 503 (network-level) to stay independent of the in-memory rate limiter; the real backend contract is covered by the direct API tests in the same file — keep that layering
+- UI labels that change with state (e.g. burger `فتح القائمة` → `إغلاق القائمة`) must be located with a regex matching BOTH states
+- `playwright.config.ts` webServer runs `next start` — never point tests at `next dev`

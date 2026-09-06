@@ -31,6 +31,11 @@ export const metadata: Metadata = {
   description: "SmartLink منصة رقمية متكاملة تقدم حلولاً ذكية للأعمال: المنيو الرقمي للمطاعم، البوت الذكي لفيسبوك، والمزيد من الخدمات المبتكرة",
   keywords: ["SmartLink", "منصة رقمية", "الربط الذكي", "منيو رقمي", "بوت فيسبوك", "تسويق إلكتروني"],
   metadataBase: new URL("https://smart-link.ly"),
+  /* r7: home was the ONLY route without a canonical link — the five
+     subpages stamp one via pageMetadata(), but the root layout never
+     defined alternates, so search engines got no self-reference for
+     the most-linked URL of the site (live-verified missing). */
+  alternates: { canonical: "/" },
   openGraph: {
     title: "SmartLink - منصة رقمية متكاملة",
     description: "حلول ذكية للأعمال: المنيو الرقمي، البوت الذكي، والمزيد",

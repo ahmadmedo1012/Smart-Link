@@ -1,0 +1,50 @@
+name: CI
+
+# r7: جودة المستودع تصبح ذاتية التحقق — كل دفعة أو PR تجتاز
+# lint ← build ← E2E (Playwright + axe-core) قبل أن تصل إلى main.
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  quality:
+    name: lint + build + e2e
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Node 22 + cache
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint (ESLint صفر أخطاء)
+        run: npm run lint
+
+      - name: Playwright browser
+        run: npx playwright install --with-deps chromium
+
+      - name: Build (يضم tsc صارماً)
+        run: npm run build
+
+      # بلا RESEND_API_KEY في CI → عقد الـ API يختبر مسار الفشل
+      # الصريح (503) بشكل حتمي — لا بريد يُرسل ولا نجاح كاذب.
+      - name: E2E — Playwright + axe-core
+        run: npx playwright test
+
+      - name: Upload test artifacts (عند الفشل فقط)
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-artifacts
+          path: |
+            test-results/
+            playwright-report/
+          retention-days: 7

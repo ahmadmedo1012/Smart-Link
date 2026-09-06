@@ -1,15 +1,17 @@
 import { HeroSection } from "@/components/hero-section"
-import dynamic from "next/dynamic"
+import { ServicesSection } from "@/components/services-section"
+import { ProductShowcase } from "@/components/product-showcase"
+import { FeaturesSection } from "@/components/features-section"
+import { HowItWorksSection } from "@/components/how-it-works-section"
+import { FaqSection } from "@/components/faq-section"
+import { CTASection } from "@/components/cta-section"
 
-const loadingPlaceholder = <div className="h-96 rounded-2xl bg-[var(--card)] animate-pulse" />
-
-const ServicesSection = dynamic(() => import("@/components/services-section").then(m => m.ServicesSection), { loading: () => loadingPlaceholder })
-const ProductShowcase = dynamic(() => import("@/components/product-showcase").then(m => m.ProductShowcase), { loading: () => loadingPlaceholder })
-const FeaturesSection = dynamic(() => import("@/components/features-section").then(m => m.FeaturesSection), { loading: () => loadingPlaceholder })
-const HowItWorksSection = dynamic(() => import("@/components/how-it-works-section").then(m => m.HowItWorksSection), { loading: () => loadingPlaceholder })
-const FaqSection = dynamic(() => import("@/components/faq-section").then(m => m.FaqSection), { loading: () => loadingPlaceholder })
-const CTASection = dynamic(() => import("@/components/cta-section").then(m => m.CTASection), { loading: () => loadingPlaceholder })
-
+/* Round 2: services/showcase/features/how-it-works/CTA are now pure server
+   components (CSS scroll-driven animations, zero JS) — direct imports beat
+   dynamic() wrappers. FAQ keeps client interactivity and loads as its own
+   chunk automatically. The old dynamic() + pulse placeholders actually
+   forced every "lazy" section into the initial payload AND shipped
+   framer-motion in the critical path. */
 export default function Home() {
   return (
     <>

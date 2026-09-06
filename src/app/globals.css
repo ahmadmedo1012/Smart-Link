@@ -538,6 +538,143 @@
   .page-enter { animation: none; }
 }
 
+/* ── CSS-only menu pop (replaces framer-motion in main-nav critical path) ── */
+@keyframes menu-pop {
+  from { opacity: 0; transform: translateY(-8px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+.menu-pop {
+  animation: menu-pop 0.2s cubic-bezier(0.16, 1, 0.2, 1) both;
+}
+.menu-pop-fast { animation-duration: 0.15s; }
+
+/* Height accordion without JS: grid-rows 0fr→1fr (mobile nav sub-menu) */
+.acc {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.2s cubic-bezier(0.16, 1, 0.2, 1);
+}
+.acc > * { overflow: hidden; min-height: 0; }
+.acc.open { grid-template-rows: 1fr; }
+@media (prefers-reduced-motion: reduce) {
+  .menu-pop, .menu-pop-fast { animation: none; }
+  .acc { transition: none; }
+}
+
+/* ── CTA shine sweep (replaces framer-motion whileHover) ── */
+.cta-shine {
+  position: absolute;
+  inset: 0;
+  background: rgb(255 255 255 / 0.1);
+  transform: translateX(-100%);
+  pointer-events: none;
+}
+.group:hover .cta-shine {
+  animation: cta-shine 0.5s cubic-bezier(0.16, 1, 0.2, 1);
+}
+@keyframes cta-shine {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(100%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .group:hover .cta-shine { animation: none; }
+}
+
+/* ── Grid pattern drift (CSS keyframes — the old framer-motion version
+     animated a transparent child, so the drift never actually rendered) ── */
+@keyframes grid-drift {
+  from { background-position: 0 0; }
+  to { background-position: -60px -60px; }
+}
+.grid-drift {
+  animation: grid-drift 20s linear infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .grid-drift { animation: none; }
+}
+
+/* ══ Scroll-driven animations (pure CSS — replaces framer-motion
+     whileInView/useScroll in every below-fold section).
+     Chrome 115+/Safari 17.2+: animated; Firefox/older: static-visible
+     fallback via @supports. animation-delay is ignored with view()
+     timelines, so staggering uses shifted animation-range offsets. ══ */
+@keyframes reveal-up-strong {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes tilt-x {
+  0% { rotate: 8deg; }
+  50% { rotate: 0deg; }
+  100% { rotate: -8deg; }
+}
+@keyframes parallax-y {
+  from { transform: translateY(60px); }
+  to { transform: translateY(-60px); }
+}
+/* Exact JS-parity shift: 100cqh = frame height (size container),
+   100% = image height → translate = -(image − frame), fully responsive. */
+@keyframes phone-shift {
+  from { transform: translateY(0); }
+  to { transform: translateY(calc(100cqh - 100%)); }
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .reveal-scroll {
+      animation: reveal-up 0.6s cubic-bezier(0.16, 1, 0.2, 1) both;
+      animation-timeline: view();
+      animation-range: entry 10% entry 80%;
+    }
+    .reveal-scroll-strong {
+      animation: reveal-up-strong 0.7s cubic-bezier(0.16, 1, 0.2, 1) both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 90%;
+    }
+    .reveal-scroll-stagger > * {
+      animation: reveal-up 0.5s cubic-bezier(0.16, 1, 0.2, 1) both;
+      animation-timeline: view();
+    }
+    .reveal-scroll-stagger > *:nth-child(1) { animation-range: entry 0%  entry 55%; }
+    .reveal-scroll-stagger > *:nth-child(2) { animation-range: entry 10% entry 65%; }
+    .reveal-scroll-stagger > *:nth-child(3) { animation-range: entry 20% entry 75%; }
+    .reveal-scroll-stagger > *:nth-child(4) { animation-range: entry 30% entry 85%; }
+    .reveal-scroll-stagger > *:nth-child(5) { animation-range: entry 40% entry 95%; }
+    .reveal-scroll-stagger > *:nth-child(6) { animation-range: entry 50% cover 60%; }
+
+    /* Section-scoped timelines for the product showcase (each section
+       names its own --showcase; the name is visible to descendants). */
+    .showcase-tl { view-timeline-name: --showcase; }
+    .phone-frame { container-type: size; }
+    .phone-shift {
+      animation: phone-shift both linear;
+      animation-timeline: --showcase;
+      animation-range: cover 10% cover 85%;
+    }
+    .phone-tilt {
+      animation: tilt-x both linear;
+      animation-timeline: --showcase;
+      animation-range: cover 0% cover 100%;
+    }
+    .browser-parallax {
+      animation: parallax-y both linear;
+      animation-timeline: --showcase;
+      animation-range: cover 0% cover 100%;
+    }
+    /* how-it-works: connecting line draw + step badge pop */
+    .line-draw-scroll {
+      animation: border-draw 0.5s cubic-bezier(0.16, 1, 0.2, 1) both;
+      animation-timeline: view();
+      animation-range: entry 20% entry 80%;
+    }
+    .badge-pop {
+      animation: reveal-scale 0.4s cubic-bezier(0.16, 1, 0.2, 1) both;
+      animation-timeline: view();
+      animation-range: entry 20% entry 70%;
+      display: inline-flex;
+    }
+  }
+}
+
 /* ── Shiny text effect ── */
 .shiny-text {
   background-size: 200% auto;

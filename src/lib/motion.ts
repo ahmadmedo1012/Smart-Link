@@ -1,5 +1,12 @@
 import { type Variants } from "framer-motion"
 
+/* Reduced-motion guard (replaces the layout-level MotionConfig that pulled
+ * framer-motion into the critical 122 KB initial chunk): evaluated once per
+ * lazy chunk load; SSR renders the animated branch so markup is stable. */
+const prefersReduced =
+  typeof window !== "undefined" &&
+  window.matchMedia("(prefers-reduced-motion: reduce)").matches
+
 /* Smart-Menu parity (world-class launch plan v3 §6): identical spring values
  * to Smart-Menu's lib/motion — softer, weightier motion language.
  * (was: 350/25, 500/30, 180/22 — 1.5-3x stiffer than Smart-Menu) */
@@ -13,10 +20,12 @@ export const springBouncy = { type: "spring" as const, stiffness: 500, damping: 
 /* Hover/frequent micro-interactions: fastest settle */
 export const springHover = { type: "spring" as const, stiffness: 600, damping: 35 }
 
-export const fadeUp = {
-  initial: { opacity: 0, y: 24 },
-  animate: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.165, 0.84, 0.44, 1] as const } },
-} as const
+export const fadeUp = prefersReduced
+  ? ({ initial: undefined, animate: undefined } as const)
+  : ({
+      initial: { opacity: 0, y: 24 },
+      animate: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.165, 0.84, 0.44, 1] as const } },
+    } as const)
 export const stagger = { animate: { transition: { staggerChildren: 0.05, delayChildren: 0.08 } } } as const
 
 export const pageVariants: Variants = {
@@ -25,10 +34,13 @@ export const pageVariants: Variants = {
   exit: { opacity: 0, y: -3, transition: { duration: 0.1 } },
 }
 
-export const fadeUpSpring = (delay = 0): Variants => ({
-  hidden: { opacity: 0, y: 30 },
-  visible: { opacity: 1, y: 0, transition: { ...springGentle, delay } },
-})
+export const fadeUpSpring = (delay = 0): Variants =>
+  prefersReduced
+    ? { visible: { opacity: 1, y: 0, transition: { duration: 0 } } }
+    : {
+        hidden: { opacity: 0, y: 30 },
+        visible: { opacity: 1, y: 0, transition: { ...springGentle, delay } },
+      }
 
 export const staggerContainer: Variants = {
   hidden: {},

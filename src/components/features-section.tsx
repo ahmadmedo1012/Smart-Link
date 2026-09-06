@@ -1,6 +1,3 @@
-"use client"
-import { motion, useInView } from "framer-motion"
-import { useRef } from "react"
 import { Layers, Bot, BarChart3, Wallet, HeadphonesIcon, QrCode } from "lucide-react"
 
 const features = [
@@ -12,18 +9,12 @@ const features = [
   { icon: QrCode, title: "تقنيات حديثة", description: "أحدث التقنيات في الواجهات التفاعلية، QR كود، والربط مع واتساب وفيسبوك." },
 ]
 
-function FeatureCard({ feature, index }: { feature: typeof features[number]; index: number }) {
-  const ref = useRef<HTMLDivElement>(null)
-  const inView = useInView(ref, { once: true, margin: "-60px" })
+function FeatureCard({ feature }: { feature: typeof features[number] }) {
   const Icon = feature.icon
 
   return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 30 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.5, delay: index * 0.06, ease: [0.16, 1, 0.2, 1] }}
-      className="group relative rounded-[16px] border border-[var(--border)] bg-[var(--card)] p-6 hover:border-[var(--ring)]/30 hover:shadow-glow transition-all duration-500"
+    <div
+      className="reveal-scroll group relative rounded-[16px] border border-[var(--border)] bg-[var(--card)] p-6 hover:border-[var(--ring)]/30 hover:shadow-glow transition-all duration-500"
     >
       {/* Hover accent bar */}
       <div className="absolute top-0 left-4 right-4 h-[2px] rounded-full bg-[var(--primary)] scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-right" aria-hidden="true" />
@@ -33,33 +24,24 @@ function FeatureCard({ feature, index }: { feature: typeof features[number]; ind
       </div>
       <h3 className="font-bold text-[var(--foreground)] mb-1.5 group-hover:text-primary transition-colors duration-300">{feature.title}</h3>
       <p className="text-sm text-[var(--muted-foreground)] leading-relaxed">{feature.description}</p>
-    </motion.div>
+    </div>
   )
 }
 
 export function FeaturesSection() {
-  const ref = useRef<HTMLDivElement>(null)
-  const inView = useInView(ref, { once: true, margin: "-60px" })
-
   return (
     <section id="features" className="section-padding relative">
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[var(--primary)]/[0.02] to-transparent pointer-events-none" aria-hidden="true" />
       <div className="container-base">
-        <motion.div
-          ref={ref}
-          initial={{ opacity: 0, y: 20 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.5 }}
-          className="text-center mb-14"
-        >
+        <div className="reveal-scroll text-center mb-14">
           <h2 className="text-4xl md:text-5xl font-extrabold text-[var(--foreground)] mb-4 tracking-tight">لماذا SmartLink؟</h2>
           <p className="text-[var(--muted-foreground)] max-w-xl mx-auto text-base leading-relaxed">
             منصة متكاملة تجمع القوة والتقنية والسهولة في مكان واحد
           </p>
-        </motion.div>
+        </div>
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-5">
-          {features.map((f, i) => (
-            <FeatureCard key={f.title} feature={f} index={i} />
+          {features.map((f) => (
+            <FeatureCard key={f.title} feature={f} />
           ))}
         </div>
       </div>

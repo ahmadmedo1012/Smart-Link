@@ -1,6 +1,5 @@
 "use client"
-import { motion, useInView } from "framer-motion"
-import { useRef, useState } from "react"
+import { useState } from "react"
 import { ChevronDown } from "lucide-react"
 import { cn } from "@/lib/utils"
 
@@ -14,15 +13,8 @@ const faqs = [
 ]
 
 function FaqItem({ faq, index, open, onToggle }: { faq: typeof faqs[number]; index: number; open: boolean; onToggle: () => void }) {
-  const ref = useRef<HTMLDivElement>(null)
-  const inView = useInView(ref, { once: true, margin: "-40px" })
-
   return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 16 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.35, delay: index * 0.04, ease: [0.16, 1, 0.2, 1] }}
+    <div
       className={cn(
         "glass rounded-2xl overflow-hidden transition-all duration-300",
         open && "bg-[var(--surface-raised)] border-[var(--ring)]/20"
@@ -45,32 +37,24 @@ function FaqItem({ faq, index, open, onToggle }: { faq: typeof faqs[number]; ind
       >
         <p className="px-6 pb-4 text-sm text-muted-foreground leading-relaxed">{faq.a}</p>
       </div>
-    </motion.div>
+    </div>
   )
 }
 
 export function FaqSection() {
   const [open, setOpen] = useState<number | null>(null)
-  const ref = useRef<HTMLDivElement>(null)
-  const inView = useInView(ref, { once: true, margin: "-60px" })
 
   return (
     <section id="faq" className="section-padding relative">
       <div className="container-base max-w-2xl">
-        <motion.div
-          ref={ref}
-          initial={{ opacity: 0, y: 20 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.5 }}
-          className="text-center mb-12"
-        >
+        <div className="reveal-scroll text-center mb-12">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[var(--glass-border)] bg-[var(--glass-bg)] backdrop-blur-sm text-xs text-primary-text font-medium mb-5">
             <span>الأسئلة الشائعة</span>
           </div>
           <h2 className="text-3xl md:text-5xl font-extrabold text-foreground mb-4 tracking-[-0.01em]">الأسئلة الشائعة</h2>
           <p className="text-muted-foreground text-base">إجابات لأكثر الأسئلة شيوعاً عن منصتنا</p>
-        </motion.div>
-        <div className="space-y-3">
+        </div>
+        <div className="reveal-scroll-stagger space-y-3">
           {faqs.map((faq, i) => (
             <FaqItem key={faq.q} faq={faq} index={i} open={open === i} onToggle={() => setOpen(open === i ? null : i)} />
           ))}

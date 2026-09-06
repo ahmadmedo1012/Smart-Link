@@ -1,16 +1,30 @@
 "use client"
-import { motion, useInView, useScroll, useTransform } from "framer-motion"
 import { useEffect, useRef, useState } from "react"
 import Link from "next/link"
 import { ArrowLeft, Smartphone, Bot, Users, TrendingUp, Star, Sparkles, Hexagon, Zap, MousePointer2 } from "lucide-react"
 
+/* framer-motion removed from the hero (critical path, 122 KB vendor chunk):
+   counters → IntersectionObserver, parallax → rAF scroll listener,
+   shine/grid → CSS keyframes. Visual behavior is preserved. */
+
 function AnimatedStat({ value, label, icon: Icon, delay = 0 }: { value: string; label: string; icon: React.ComponentType<{ className?: string }>; delay?: number }) {
   const ref = useRef<HTMLDivElement>(null)
-  const inView = useInView(ref, { once: true })
+  const [inView, setInView] = useState(false)
   const [display, setDisplay] = useState("0")
   const target = parseFloat(value.replace(/[+%]/g, ""))
   const prefix = value.startsWith("+") ? "+" : ""
   const suffix = value.endsWith("%") ? "%" : ""
+
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+    const obs = new IntersectionObserver(
+      ([e]) => { if (e.isIntersecting) { setInView(true); obs.disconnect() } },
+      { rootMargin: "0px 0px -10% 0px" }
+    )
+    obs.observe(el)
+    return () => obs.disconnect()
+  }, [])
 
   useEffect(() => {
     if (!inView) return
@@ -32,19 +46,17 @@ function AnimatedStat({ value, label, icon: Icon, delay = 0 }: { value: string; 
   }, [inView, target, prefix, suffix])
 
   return (
-    <motion.div
+    <div
       ref={ref}
-      initial={{ opacity: 0, y: 24, scale: 0.95 }}
-      animate={inView ? { opacity: 1, y: 0, scale: 1 } : {}}
-      transition={{ duration: 0.4, delay: delay + 0.3, ease: [0.16, 1, 0.2, 1] }}
-      className="glass-card rounded-xl p-4 text-center group"
+      style={{ transitionDelay: `${delay}s` }}
+      className="glass-card rounded-xl p-4 text-center group transition-all duration-400 ease-[cubic-bezier(0.16,1,0.2,1)]"
     >
       <div className="w-8 h-8 rounded-lg bg-[var(--card)] flex items-center justify-center mx-auto mb-2 group-hover:scale-110 transition-transform duration-200">
-        <Icon className="w-4 h-4 text-[var(--primary)]" />
+        <Icon className="w-4 h-4 text-primary-text" />
       </div>
       <div className="text-xl font-bold text-[var(--foreground)] tabular-nums tracking-tight">{display}</div>
       <div className="text-xs text-[var(--muted-foreground)] mt-0.5">{label}</div>
-    </motion.div>
+    </div>
   )
 }
 
@@ -82,12 +94,36 @@ const headingWords = ["SmartLink", "منصة رقمية", "لخدمات ذكية
 
 export function HeroSection() {
   const sectionRef = useRef<HTMLDivElement>(null)
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start start", "end start"],
-  })
-  const heroScale = useTransform(scrollYProgress, [0, 1], [1, 0.95])
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0.5])
+  const contentRef = useRef<HTMLDivElement>(null)
+
+  // Scroll-linked parallax (replaces framer-motion useScroll/useTransform):
+  // rAF-gated, passive, and disabled entirely for prefers-reduced-motion.
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return
+    const section = sectionRef.current
+    const content = contentRef.current
+    if (!section || !content) return
+    let raf = 0
+    const update = () => {
+      const rect = section.getBoundingClientRect()
+      // progress 0 → 1 as the hero scrolls out of view
+      const progress = Math.min(Math.max(-rect.top / rect.height, 0), 1)
+      const scale = 1 - progress * 0.05
+      const opacity = 1 - Math.min(progress / 0.5, 1) * 0.5
+      content.style.transform = `scale(${scale})`
+      content.style.opacity = String(opacity)
+    }
+    const onScroll = () => {
+      cancelAnimationFrame(raf)
+      raf = requestAnimationFrame(update)
+    }
+    update()
+    window.addEventListener("scroll", onScroll, { passive: true })
+    return () => {
+      window.removeEventListener("scroll", onScroll)
+      cancelAnimationFrame(raf)
+    }
+  }, [])
 
   return (
     <section ref={sectionRef} className="relative min-h-[90dvh] flex items-center pt-24 pb-16 overflow-hidden" aria-label="Hero section">
@@ -105,22 +141,16 @@ export function HeroSection() {
         ))}
       </div>
 
-      {/* Animated grid pattern */}
+      {/* Animated grid pattern — CSS drift (fixed: the old motion.div animated
+          a transparent child, so the drift never actually rendered) */}
       <div
-        className="absolute inset-0 z-0 pointer-events-none opacity-[0.03]"
+        className="grid-drift absolute inset-0 z-0 pointer-events-none opacity-[0.03]"
         aria-hidden="true"
         style={{
           backgroundImage: `linear-gradient(var(--grid-line) 1px, transparent 1px), linear-gradient(90deg, var(--grid-line) 1px, transparent 1px)`,
           backgroundSize: "60px 60px",
         }}
-      >
-        <motion.div
-          className="absolute inset-0"
-          style={{ background: "transparent" }}
-          animate={{ backgroundPosition: ["0px 0px", "-60px -60px"] }}
-          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-        />
-      </div>
+      />
 
       {/* Floating animated icons */}
       <div className="absolute inset-0 z-0 pointer-events-none">
@@ -129,10 +159,9 @@ export function HeroSection() {
         ))}
       </div>
 
-      <motion.div
-        className="container-base relative z-10 w-full"
-        style={{ scale: heroScale, opacity: heroOpacity }}
-        // ponytail: scroll-linked scale/opacity; degraded by prefers-reduced-motion CSS on outer section
+      <div
+        ref={contentRef}
+        className="container-base relative z-10 w-full will-change-[transform,opacity]"
       >
         <div className="max-w-4xl mx-auto text-center">
           {/* Eyebrow — CSS reveal (paints pre-JS, critical for LCP) */}
@@ -176,12 +205,7 @@ export function HeroSection() {
               <span className="relative z-10 flex items-center gap-2">
                 اكتشف خدماتنا <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
               </span>
-              <motion.div
-                className="absolute inset-0 bg-white/10"
-                initial={{ x: "-100%" }}
-                whileHover={{ x: "100%" }}
-                transition={{ duration: 0.5 }}
-              />
+              <span className="cta-shine" aria-hidden="true" />
             </Link>
             <Link
               href="/about"
@@ -206,7 +230,7 @@ export function HeroSection() {
             <AnimatedStat key={stat.label} {...stat} delay={i * 0.12} />
           ))}
         </div>
-      </motion.div>
+      </div>
 
       {/* Bottom gradient fade */}
       <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[var(--background)] to-transparent pointer-events-none" aria-hidden="true" />

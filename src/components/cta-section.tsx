@@ -1,13 +1,7 @@
-"use client"
-import { motion, useInView } from "framer-motion"
-import { useRef } from "react"
 import Link from "next/link"
 import { ArrowLeft } from "lucide-react"
 
 export function CTASection() {
-  const ref = useRef<HTMLDivElement>(null)
-  const inView = useInView(ref, { once: true, margin: "-80px" })
-
   return (
     <section id="cta" className="section-padding relative overflow-hidden">
       {/* Ambient glow */}
@@ -22,13 +16,7 @@ export function CTASection() {
         />
       </div>
 
-      <motion.div
-        ref={ref}
-        initial={{ opacity: 0, y: 30 }}
-        animate={inView ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.4, ease: [0.16, 1, 0.2, 1] }}
-        className="container-base relative"
-      >
+      <div className="reveal-scroll container-base relative">
         <div className="max-w-2xl mx-auto text-center">
           <h2 className="text-4xl md:text-5xl font-extrabold text-foreground mb-4 tracking-tight">
             جهز أعمالك للانطلاق الرقمي
@@ -46,12 +34,7 @@ export function CTASection() {
               <span className="relative z-10 flex items-center gap-2">
                 ابدأ التجربة <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
               </span>
-              <motion.div
-                className="absolute inset-0 bg-white/10"
-                initial={{ x: "-100%" }}
-                whileHover={{ x: "100%" }}
-                transition={{ duration: 0.5 }}
-              />
+              <span className="cta-shine" aria-hidden="true" />
             </a>
             <Link
               href="/contact"
@@ -61,7 +44,7 @@ export function CTASection() {
             </Link>
           </div>
         </div>
-      </motion.div>
+      </div>
     </section>
   )
 }

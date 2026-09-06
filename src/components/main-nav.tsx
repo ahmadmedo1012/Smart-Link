@@ -5,7 +5,8 @@ import Image from "next/image"
 import { Menu, X, Smartphone, Bot, ChevronDown, Sun, Moon } from "lucide-react"
 import { useTheme } from "next-themes"
 import { cn } from "@/lib/utils"
-import { motion, AnimatePresence, useReducedMotion } from "framer-motion"
+// NOTE: framer-motion removed from the critical path (122 KB initial chunk,
+// ~1.5 s script evaluation). Menu/dropdown animations are now CSS-only.
 
 const navLinks = [
   { href: "/", label: "الرئيسية" },
@@ -57,8 +58,6 @@ export function MainNav() {
   const [mounted, setMounted] = useState(false)
   const { theme, setTheme } = useTheme()
   const headerRef = useRef<HTMLDivElement>(null)
-  const prefersReduce = useReducedMotion()
-  if (prefersReduce) {} // ponytail: reference kept for AnimatePresence gating
 
   useEffect(() => setMounted(true), [])
 
@@ -118,16 +117,9 @@ export function MainNav() {
                   {link.label}
                   <ChevronDown className="w-3.5 h-3.5 transition-transform duration-200 group-hover/nav:rotate-180" style={{ transform: desktopServicesOpen ? "rotate(180deg)" : undefined }} />
                 </button>
-                <AnimatePresence>
-                  {desktopServicesOpen && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 8, scale: 0.96 }}
-                      animate={{ opacity: 1, y: 0, scale: 1 }}
-                      exit={{ opacity: 0, y: 8, scale: 0.96 }}
-                      transition={{ duration: 0.15, ease: [0.16, 1, 0.2, 1] }}
-                      className="absolute top-full right-0 mt-2 w-80"
-                    >
-                      <div className="glass-strong rounded-2xl p-2 shadow-xl">
+                {desktopServicesOpen && (
+                <div className="menu-pop menu-pop-fast absolute top-full right-0 mt-2 w-80">
+                    <div className="glass-strong rounded-2xl p-2 shadow-xl">
                         {link.children.map((child) => {
                           const Icon = child.icon
                           return (
@@ -150,9 +142,8 @@ export function MainNav() {
                           )
                         })}
                       </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+                </div>
+                )}
               </div>
             ) : (
               <Link
@@ -194,16 +185,9 @@ export function MainNav() {
         </div>
       </div>
 
-      {/* Mobile menu */}
-      <AnimatePresence>
-        {mobileOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: -8, scale: 0.98 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: -8, scale: 0.98 }}
-            transition={{ duration: 0.2, ease: [0.16, 1, 0.2, 1] }}
-            className="md:hidden mx-2 mb-2"
-          >
+      {/* Mobile menu — CSS menu-pop; sub-menu uses the grid-rows accordion */}
+      {mobileOpen && (
+          <div className="menu-pop md:hidden mx-2 mb-2">
             <div className="glass-strong rounded-2xl p-2 shadow-xl">
               {navLinks.map((link) =>
                 link.children ? (
@@ -216,15 +200,7 @@ export function MainNav() {
                       {link.label}
                       <ChevronDown className={cn("w-4 h-4 transition-transform duration-200", servicesOpen && "rotate-180")} />
                     </button>
-                    <AnimatePresence>
-                      {servicesOpen && (
-                        <motion.div
-                          initial={{ height: 0, opacity: 0 }}
-                          animate={{ height: "auto", opacity: 1 }}
-                          exit={{ height: 0, opacity: 0 }}
-                          transition={{ duration: 0.2 }}
-                          className="overflow-hidden mr-3"
-                        >
+                    <div className={cn("acc mr-3", servicesOpen && "open")}>
                           <div className="space-y-1 pb-1 pt-1">
                             {link.children.map((child) => (
                               <a
@@ -243,9 +219,7 @@ export function MainNav() {
                               </a>
                             ))}
                           </div>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
+                    </div>
                   </div>
                 ) : (
                   <Link
@@ -259,9 +233,8 @@ export function MainNav() {
                 )
               )}
             </div>
-          </motion.div>
+          </div>
         )}
-      </AnimatePresence>
     </header>
   )
 }

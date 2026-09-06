@@ -3,7 +3,6 @@ import { Cairo, Readex_Pro } from "next/font/google"
 import { ThemeProvider } from "@/components/theme-provider"
 import { Toaster } from "sonner"
 import { Analytics } from "@vercel/analytics/next"
-import { MotionConfig } from "framer-motion"
 import { MainNav } from "@/components/main-nav"
 import { Footer } from "@/components/footer"
 import { PageTransition } from "@/components/page-transition"
@@ -124,13 +123,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <div className="noise-overlay" />
         <ScrollProgress />
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
-          <MotionConfig reducedMotion="user">
-            <MainNav />
-            <main id="main-content" className="flex-1">
-              <PageTransition>{children}</PageTransition>
-            </main>
-            <Footer />
-          </MotionConfig>
+          <MainNav />
+          <main id="main-content" className="flex-1">
+            <PageTransition>{children}</PageTransition>
+          </main>
+          <Footer />
           <Toaster position="top-center" richColors closeButton />
           <Analytics />
         </ThemeProvider>

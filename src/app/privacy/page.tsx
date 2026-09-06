@@ -1,5 +1,14 @@
 // Server Component: legal text needs zero client JS (removes ~800ms script
 // evaluation that was the #1 TBT source on this page).
+import type { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "سياسة الخصوصية",
+  description:
+    "سياسة خصوصية SmartLink — كيف نجمع بياناتك ونحميها عند استخدام المنيو الرقمي والبوت الذكي، وفق أفضل الممارسات الرقمية.",
+  alternates: { canonical: "/privacy" },
+  robots: { index: true, follow: true },
+}
 
 export default function PrivacyPage() {
   return (

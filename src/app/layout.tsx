@@ -39,13 +39,19 @@ export const metadata: Metadata = {
     siteName: "SmartLink",
     locale: "ar_LY",
     type: "website",
-    images: [{ url: "/og-smartlink.svg", width: 1200, height: 630 }],
+    images: [{
+      url: "/og-smartlink.jpg",
+      width: 1200,
+      height: 630,
+      alt: "SmartLink — منصة رقمية متكاملة: المنيو الرقمي والبوت الذكي",
+      type: "image/jpeg",
+    }],
   },
   twitter: {
     card: "summary_large_image",
     title: "SmartLink - منصة رقمية متكاملة",
     description: "حلول ذكية للأعمال: المنيو الرقمي، البوت الذكي، والمزيد",
-    images: ["/og-smartlink.svg"],
+    images: ["/og-smartlink.jpg"],
   },
   robots: { index: true, follow: true },
 }
@@ -61,6 +67,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <meta name="apple-mobile-web-app-title" content="SmartLink" />
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+        <link rel="manifest" href="/manifest.webmanifest" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -70,7 +77,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               name: "SmartLink",
               alternateName: "سمارت لينك",
               url: "https://smart-link.ly",
-              logo: "https://smart-link.ly/favicon-32.png",
+              logo: {
+                "@type": "ImageObject",
+                url: "https://smart-link.ly/logo.png",
+                width: 600,
+                height: 409,
+              },
               description:
                 "منصة رقمية ليبية متكاملة تقدم حلولاً ذكية للأعمال: المنيو الرقمي للمطاعم والبوت الذكي لفيسبوك.",
               foundingDate: "2025-11-20",

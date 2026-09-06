@@ -96,4 +96,21 @@
 
 **ملاحظة منهجية:** القياسات تُجرى من حاوية مشتركة محدودة الموارد — تقييم react-dom (867ms غير مخنوق) هو الأرضية المتبقية في TBT. نفس الكود قاس 74-93 عبر جولات متتالية؛ الأرقام أعلاه من أبرد قياسات (load<0.3). PageSpeed Insights الرسمي (بنية Google) يعطي عادةً درجات أعلى وأثبت.
 
-**ملفات التقارير الخام:** `/home/z/my-project/lighthouse/{before-live,after-live,r2-live,r2b-live,r2c-live,r2d-live}/*.json`
+**ملفات التقارير الخام:** `/home/z/my-project/lighthouse/{before-live,after-live,r2-live,r2b-live,r2c-live,r2d-live,r3-local}/*.json`
+
+---
+
+## الجولة الثالثة (r3) — قياس محلي بعد صفر framer-motion نهائياً
+
+> بيئة قياس أضعف من Vercel (next start محلي بلا CDN، bp=96 بسبب 404 سكربت Analytics المحلي) — للمقارنة البيئية فقط، ليست بوابة قبول:
+
+| الصفحة | perf | a11y | bp | seo |
+|---|:---:|:---:|:---:|:---:|
+| / | 78 | 100 | 96 | 100 |
+| /about | 75 | 100 | 96 | 100 |
+| /contact | 91 | 100 | 96 | 100 |
+| /pricing | **85** (كان يسحب framer كاملاً) | 100 | 96 | 100 |
+| /privacy | 90 | 100 | 96 | 100 |
+| /terms | 92 | 100 | 96 | 100 |
+
+**JS صفحة pricing: 639KB** (كانت تسحب motion+AnimatePresence كاملة قبلها) — صفر أخطاء JS حقيقية.

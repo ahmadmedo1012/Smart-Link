@@ -1,59 +1,21 @@
-"use client"
-import { useState, useMemo } from "react"
-import { motion, AnimatePresence } from "framer-motion"
 import { Check, Smartphone, Bot, ChevronLeft, Sparkles } from "lucide-react"
+import type { Metadata } from "next"
+import { GenArtBackground } from "@/components/gen-art-background"
+import { FaqAccordion } from "@/components/faq-accordion"
+// Server component — the FAQ accordion is the only client island;
+// entrance motion is CSS reveal (paints pre-JS). Zero framer-motion.
 // ponytail: Sparkles retained for "coming soon" section — single intentional flourish
 
-function mulberry32(s: number) {
-  return function () {
-    s |= 0; s = s + 0x6d2b79f5 | 0;
-    var t = Math.imul(s ^ s >>> 15, 1 | s);
-    t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
-    return ((t ^ t >>> 14) >>> 0) / 4294967296;
-  };
-}
-
-function GenArtBackground({ seed = 77 }: { seed?: number }) {
-  const paths = useMemo(() => {
-    const rng = mulberry32(seed);
-    const lines: string[] = [];
-    const accent = "oklch(0.55 0.01 260)";
-    const accentDim = "oklch(0.55 0.01 260 / 0.04)";
-    for (let band = 0; band < 8; band++) {
-      const cx = 30 + rng() * 40;
-      const cy = 30 + rng() * 40;
-      const r = 6 + band * 6 + rng() * 5;
-      const pts = 8 + band * 2;
-      const rot = rng() * 360;
-      const op = 0.02 + band * 0.004;
-      const d: string[] = [];
-      for (let i = 0; i <= pts; i++) {
-        const angle = ((i / pts) * 360 + rot) * (Math.PI / 180);
-        const rad = r + (i % 3 === 0 ? rng() * 4 - 2 : 0);
-        const x = cx + Math.cos(angle) * rad;
-        const y = cy + Math.sin(angle) * rad;
-        d.push(`${i === 0 ? "M" : "L"}${x.toFixed(1)} ${y.toFixed(1)}`);
-      }
-      d.push("Z");
-      lines.push(`<path d="${d.join(" ")}" fill="none" stroke="${accent}" stroke-width="0.4" opacity="${op}" />`);
-      if (band % 3 === 0) {
-        const fd = [...d, "Z"];
-        lines.push(`<path d="${fd.join(" ")}" fill="${accentDim}" stroke="none" />`);
-      }
-    }
-    for (let i = 0; i < 60; i++) {
-      const x = rng() * 100;
-      const y = rng() * 100;
-      const sz = 0.3 + rng() * 1;
-      const op = 0.01 + rng() * 0.03;
-      lines.push(`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${sz.toFixed(2)}" fill="${accent}" opacity="${op}" />`);
-    }
-    return lines.join("\n");
-  }, [seed]);
-
-  return (
-    <svg className="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true" dangerouslySetInnerHTML={{ __html: paths }} />
-  );
+export const metadata: Metadata = {
+  title: "الخطط والأسعار",
+  description:
+    "خطط Smart Menu وSmartBot — ابدأ مجاناً اليوم: منيو رقمي للمطاعم وبوت ذكي لفيسبوك، مع خطط مدفوعة قادمة بميزات حصرية.",
+  alternates: { canonical: "/pricing" },
+  openGraph: {
+    title: "الخطط والأسعار | SmartLink",
+    description: "ابدأ مجاناً — خطط Smart Menu وSmartBot الأساسية مجانية بالكامل",
+    url: "/pricing",
+  },
 }
 
 const plans = [
@@ -101,19 +63,10 @@ const faqs = [
   { q: "هل يمكن إلغاء الاشتراك في أي وقت؟", a: "نعم، يمكنك إلغاء حسابك أو إيقاف الخدمة في أي وقت بدون أي رسوم." },
 ]
 
-const _ease = [0.16, 1, 0.2, 1] as [number, number, number, number]
-const fadeUp = (delay = 0) => ({
-  initial: { opacity: 0, y: 24 },
-  animate: { opacity: 1, y: 0 },
-  transition: { duration: 0.5, delay, ease: _ease },
-})
-
 export default function PricingPage() {
-  const [openFaq, setOpenFaq] = useState<number | null>(null)
-
   return (
     <div className="pt-28 pb-16 relative overflow-hidden">
-      <GenArtBackground seed={77} />
+      <GenArtBackground seed={77} variant="blobs" />
       <div className="container-base relative">
         <div className="max-w-3xl mx-auto text-center mb-14 reveal-up">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[var(--glass-border)] bg-[var(--glass-bg)] backdrop-blur-sm text-xs text-primary-text font-medium mb-6">
@@ -190,35 +143,10 @@ export default function PricingPage() {
           </div>
         </div>
 
-        {/* FAQ */}
+        {/* FAQ — the only client island on this page (CSS accordion) */}
         <div className="max-w-2xl mx-auto">
           <h2 className="text-2xl font-bold text-foreground text-center mb-8">أسئلة شائعة</h2>
-          <div className="space-y-3">
-            {faqs.map((faq, i) => (
-              <div key={i} className="glass rounded-xl overflow-hidden transition-all duration-300 hover:border-[var(--ring)]/20">
-                <button
-                  onClick={() => setOpenFaq(openFaq === i ? null : i)}
-                  className="w-full px-5 py-4 flex items-center justify-between text-right text-sm font-medium text-foreground hover:bg-[var(--accent)]/30 transition-colors"
-                  aria-expanded={openFaq === i}
-                >
-                  {faq.q}
-                  <ChevronLeft className={`w-4 h-4 shrink-0 transition-all duration-300 ${openFaq === i ? "rotate-180 text-primary" : ""}`} />
-                </button>
-                <AnimatePresence>
-                  {openFaq === i && (
-                    <motion.div
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: "auto", opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.3, ease: _ease }}
-                    >
-                      <p className="px-5 pb-4 text-sm text-muted-foreground">{faq.a}</p>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-            ))}
-          </div>
+          <FaqAccordion faqs={faqs} />
         </div>
       </div>
     </div>

@@ -151,3 +151,35 @@ $ grep -rE "(from|via|to|bg|text|border|ring)-(amber|orange|purple|violet|red|gr
 ### ملاحظة عن تباين القياس
 
 القياسات من حاوية مشتركة ضعيفة تتذبذب (home 74-93 لنفس الكود!). الأرقام المُبلَّغة أعلاه من قياسات فردية على حاوية باردة (load < 0.3). قياس PageSpeed Insights الرسمي سيكون أعلى أو مستقر أعلى عادةً لأن بنية Google أسرع بكثير من هذه الحاوية.
+
+---
+
+## 8. الجولة الثالثة — صفر framer-motion إطلاقاً + إغلاق فجوات SEO/مشاركة/PWA
+
+> كوميت واحد شامل (r3) — «تحسين وتنظيم وتطوير + مقارنة المشروعين الأساسيين»
+
+### 8.1 الإصلاحات والتحسينات
+
+| # | البند | التفصيل |
+|---|---|---|
+| 1 | **pricing → مكون خادم** | كانت "use client" كاملة بسبب أكورديون FAQ فقط. استُخرج `faq-accordion.tsx` (جزيرة CSS grid-rows 0fr→1fr) + حُذف `motion/AnimatePresence` — **صفر استيراد framer-motion فعلي في كل src/** (الباقي type-only في lib/motion.ts بلا كلفة). JS الصفحة: 639KB |
+| 2 | **إزالة ازدواجية GenArtBackground** | كان البديل البصري (blobs) مكرراً داخل pricing — صار `variant="bands"/"blobs"` في المكون المشترك |
+| 3 | **صورة OG تعمل فعلياً** | كانت `/og-smartlink.svg` — **SVG غير مدعوم من زواحف فيسبوك/واتساب/X/LinkedIn** (معاينة بلا صورة!). وُلّد `og-smartlink.jpg` 1200×630 (24KB، تدرّج RGBA كامل عبر Chromium) + og:image:type/alt/secure dims. المصدر SVG باقٍ كمرجع تصميمي |
+| 4 | **PWA manifest + أيقونات** | `manifest.webmanifest` (rtl/ar، standalone، ألوان العلامة) + `icon-192/512/512-maskable` مولّدة من logo.png |
+| 5 | **ميتاداتا فريدة لكل صفحة** | لم يكن لأي صفحة `metadata` خاصة (كلها بنفس العنوان!). أُضيف عنوان/وصف/`canonical` لكل من about/pricing/privacy/terms + `contact/layout.tsx` (صفحة عميلة). og لكل صفحة |
+| 6 | **حدود الأخطاء** | `error.tsx` (عربي بتصميم العلامة، إعادة محاولة + تواصل) + `global-error.tsx` (HTML مستقل كامل) |
+| 7 | **JSON-LD logo** | favicon-32 → `logo.png` كـImageObject (600×409) |
+| 8 | **سلسلة --font-arabic** | كانت "Cairo" الحرفي أولاً → الآن `var(--font-cairo, "Cairo")` أولاً (نفس خلل القسم 1 الصامت، أُصلح في السلسلة الثالثة) |
+| 9 | **CLAUDE.md** | حُدّث للعمارة الحقيقية (مكونات خادمة + جزر عميلة) + حواجز عدم التراجع |
+
+### 8.2 التحقق المحلي (r3-local — حاوية ضعيفة بلا CDN)
+
+- أكورديون FAQ: 61.5px مفتوح → 0 مغلق (تفاعل CSS خالص يعمل)
+- GenArt blobs: 66 مسار SVG مولّدة (seed=77 كما كان)
+- صفر أخطاء JS (خطأ Analytics 404 وحيد = artifact محلي — السكربت يُقدَّم من Vercel فقط)
+- a11y 100 + seo 100 في الصفحات الست
+- عناوين/canonical/OG/manifest مُتحقَّقة في SSR HTML لكل صفحة
+
+### 8.3 المقارنة بين المشروعين الأساسيين
+
+تقرير مستقل كامل: **`docs/projects-comparison.md`** — Smart Menu مقابل SmartBot (استراتيجياً، حضوراً تقنياً 7 نقاط لكلٍّ، توازن العرض، الهوية الموحدة، الأثر القياسي على الموقع المظلّ) + ملحقا «محلي مقابل حي» و«مسار الجولات 68→92.2».

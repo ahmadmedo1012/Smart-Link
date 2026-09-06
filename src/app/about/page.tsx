@@ -1,8 +1,21 @@
 import { Bot, Smartphone, Globe, Layers, ArrowLeft, User, Quote } from "lucide-react"
 import Link from "next/link"
+import type { Metadata } from "next"
 import { GenArtBackground } from "@/components/gen-art-background"
 /* Server component — entrance motion is CSS reveal/scroll-driven;
    GenArtBackground is the only client island. */
+
+export const metadata: Metadata = {
+  title: "عن المنصة",
+  description:
+    "قصة SmartLink — منصة رقمية ليبية متكاملة أسسها أحمد خيري لتقديم حلول ذكية للأعمال: المنيو الرقمي للمطاعم وأتمتة صفحات فيسبوك.",
+  alternates: { canonical: "/about" },
+  openGraph: {
+    title: "عن المنصة | SmartLink",
+    description: "منصة رقمية ليبية متكاملة — حلول ذكية للأعمال في العالم العربي",
+    url: "/about",
+  },
+}
 
 const values = [
   { icon: Bot, title: "الذكاء والابتكار", desc: "نستخدم أحدث تقنيات الذكاء الاصطناعي لتقديم حلول ذكية تلقائياً." },

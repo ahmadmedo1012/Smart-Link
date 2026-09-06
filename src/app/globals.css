@@ -7,7 +7,7 @@
   /* Brand parity with Smart-Menu/SmartBot (source: Smart-Menu globals.css) */
   --font-sans: var(--font-cairo, "Cairo"), "Cairo", "Noto Sans Arabic", system-ui, sans-serif;
   --font-mono: "Noto Naskh Arabic", "Courier New", monospace;
-  --font-arabic: "Noto Naskh Arabic", "Cairo", "Noto Sans Arabic", system-ui, sans-serif;
+  --font-arabic: var(--font-cairo, "Cairo"), "Noto Naskh Arabic", "Noto Sans Arabic", system-ui, sans-serif;
   --font-heading: var(--font-readex-pro, "Readex Pro"), var(--font-cairo, "Cairo"), "Noto Sans Arabic", system-ui, sans-serif;
 
   --text-xs: 0.75rem;

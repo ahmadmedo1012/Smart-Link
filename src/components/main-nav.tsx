@@ -28,18 +28,29 @@ function MagneticButton({ children, className }: { children: React.ReactNode; cl
   useEffect(() => {
     const el = ref.current
     if (!el) return
-    // Direct DOM transform — a state update per mousemove re-rendered the
-    // whole header; this path costs zero renders.
+    /* Direct DOM transform — a state update per mousemove re-rendered the
+       whole header; this path costs zero renders. */
+    /* r8: rect is measured ONCE on mouseenter and cached — the old version
+       called getBoundingClientRect() inside every mousemove (60Hz), a
+       forced sync layout each time (Lighthouse: 113.9ms of unattributed
+       reflow during header hover). Cache invalidated on leave. */
+    let rect: DOMRect | null = null
     const onMove = (e: MouseEvent) => {
-      const rect = el.getBoundingClientRect()
+      if (!rect) rect = el.getBoundingClientRect()
       const x = (e.clientX - rect.left - rect.width / 2) * 0.15
       const y = (e.clientY - rect.top - rect.height / 2) * 0.15
       el.style.transform = `translate(${x}px, ${y}px)`
     }
-    const onLeave = () => { el.style.transform = "translate(0px, 0px)" }
+    const onLeave = () => {
+      rect = null
+      el.style.transform = "translate(0px, 0px)"
+    }
+    const onEnter = () => { rect = el.getBoundingClientRect() }
+    el.addEventListener("mouseenter", onEnter)
     el.addEventListener("mousemove", onMove)
     el.addEventListener("mouseleave", onLeave)
     return () => {
+      el.removeEventListener("mouseenter", onEnter)
       el.removeEventListener("mousemove", onMove)
       el.removeEventListener("mouseleave", onLeave)
     }
@@ -124,8 +135,13 @@ export function MainNav() {
       {scrolled && <div className="shimmer-bar" aria-hidden="true" />}
 
       <div className="container-base flex items-center justify-between h-16 md:h-[72px]">
-        <Link href="/" className="flex items-center group relative">
-          <Image src="/logo.png" alt="SmartLink" width={150} height={38} className="h-8 md:h-9 w-auto object-contain transition-transform duration-300 group-hover:scale-105" priority />
+        {/* r8: prefetch={false} — the logo Link was prefetching the CURRENT
+            route on every page (three duplicate RSC prefetches measured on
+            first load). The logo dimensions now match the source ratio
+            (600×409) at a display-appropriate size (was 150×38 — the
+            optimizer was generating a 384w AVIF for a ~53px slot). */}
+        <Link href="/" prefetch={false} className="flex items-center group relative">
+          <Image src="/logo.png" alt="SmartLink" width={120} height={82} className="h-8 md:h-9 w-auto object-contain transition-transform duration-300 group-hover:scale-105" priority />
         </Link>
 
         {/* Desktop nav — r6: named landmark for screen readers */}

@@ -30,6 +30,16 @@ test.describe("الترويسات الأمنية", () => {
     expect(h["x-powered-by"]).toBeUndefined()
   })
 
+  test("r8 — عزل عابر للمناشئ: COOP + CORP + DNS-Prefetch", async ({ request }) => {
+    /* المقارنة الحية r8: menu سبقنا بـ COOP/CORP — المظلة كانت الوحيدة
+       بلا عزل عابر للمناشئ في العائلة. هذا الاختبار يمنع النكوص. */
+    const res = await request.get("/")
+    const h = res.headers()
+    expect(h["cross-origin-opener-policy"]).toBe("same-origin")
+    expect(h["cross-origin-resource-policy"]).toBe("same-origin")
+    expect(h["x-dns-prefetch-control"]).toBe("on")
+  })
+
   test("الأصول العامة — تخزين immutable لسنة كاملة (r4)", async ({ request }) => {
     for (const path of [
       "/og-smartlink.jpg",

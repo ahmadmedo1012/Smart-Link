@@ -11,7 +11,9 @@ export function CTASection() {
           style={{
             background: "var(--primary)",
             opacity: 0.03,
-            filter: "blur(180px)",
+            /* r8: 180 → 90px — imperceptible visually at 3% opacity,
+                half the raster cost (sixth giant blur trimmed). */
+            filter: "blur(90px)",
           }}
         />
       </div>

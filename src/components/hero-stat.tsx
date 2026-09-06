@@ -1,0 +1,100 @@
+"use client"
+import { useEffect, useRef, useState } from "react"
+import { Smartphone, Bot, Users, TrendingUp } from "lucide-react"
+
+/* r8: the hero is a SERVER component now — this stats grid is its only
+   client island (heading/CTAs/blobs ship as static HTML and paint pre-JS).
+
+   r8 LCP fix (the biggest perf lever left on the site): the counter's
+   initial state used to be "0", so the SSR HTML contained four zeros and
+   the LCP text only reached its final value after JS load + hydration +
+   IntersectionObserver + a 1.2s count-up (measured render-delay: 3620ms,
+   89% of the 4.1s local LCP). The initial state is now the FINAL value —
+   "+500/+10K/+50K/99.9%" are in the server-rendered HTML and paint with
+   the first frame. When a card scrolls into view the counter still plays
+   0 → value for the delight effect, and prefers-reduced-motion users
+   simply keep the final value (WCAG-aligned, no flash). */
+
+const stats = [
+  { label: "خدمة نشطة", value: "+500", icon: Users },
+  { label: "منيو رقمي", value: "+10K", icon: Smartphone },
+  { label: "ردود آلية", value: "+50K", icon: Bot },
+  { label: "نمو مستمر", value: "99.9%", icon: TrendingUp },
+] as const
+
+function AnimatedStat({ value, label, icon: Icon, delay = 0 }: { value: string; label: string; icon: React.ComponentType<{ className?: string }>; delay?: number }) {
+  const ref = useRef<HTMLDivElement>(null)
+  const [inView, setInView] = useState(false)
+  /* SSR (and reduced-motion, and no-JS) renders the final value — see
+     the header comment. The count-up only runs when the card enters the
+     viewport AND motion is allowed. */
+  const [display, setDisplay] = useState(value)
+  /* r5 (gstack /review pre-emit gate — bug confirmed in DOM + visually):
+     "+10K"/"+50K" lost their K (parseFloat drops it) and "99.9%" was
+     rounded to 100% by Math.round. Parse explicitly: sign + number +
+     unit suffix, keep decimals when the source value has them. */
+  const match = value.match(/^([+]?)(\d+(?:\.\d+)?)([K%]?)$/)
+  const prefix = match?.[1] ?? ""
+  const target = match ? parseFloat(match[2]) : 0
+  const suffix = match?.[3] ?? ""
+  const decimals = match?.[2]?.includes(".") ? 1 : 0
+
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+    const obs = new IntersectionObserver(
+      ([e]) => { if (e.isIntersecting) { setInView(true); obs.disconnect() } },
+      { rootMargin: "0px 0px -10% 0px" }
+    )
+    obs.observe(el)
+    return () => obs.disconnect()
+  }, [])
+
+  useEffect(() => {
+    if (!inView) return
+    /* Reduced motion: keep the SSR final value — counting digits is
+       motion (r8; the old version animated regardless). */
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return
+    const duration = 1200
+    const startTime = performance.now()
+    let raf: number
+    function tick(now: number) {
+      const elapsed = now - startTime
+      const progress = Math.min(elapsed / duration, 1)
+      // ease-out-quart deceleration
+      const eased = 1 - Math.pow(1 - progress, 3)
+      const current = eased * target
+      setDisplay(prefix + current.toFixed(decimals) + suffix)
+      if (progress < 1) { raf = requestAnimationFrame(tick) }
+      else { setDisplay(prefix + target.toFixed(decimals) + suffix) }
+    }
+    raf = requestAnimationFrame(tick)
+    return () => cancelAnimationFrame(raf)
+  }, [inView, target, prefix, suffix, decimals])
+
+  return (
+    <div
+      ref={ref}
+      style={{ transitionDelay: `${delay}s` }}
+      className="glass-card rounded-xl p-4 text-center group transition-all duration-400 ease-[cubic-bezier(0.16,1,0.2,1)]"
+    >
+      <div className="w-8 h-8 rounded-lg bg-[var(--card)] flex items-center justify-center mx-auto mb-2 group-hover:scale-110 transition-transform duration-200">
+        <Icon className="w-4 h-4 text-primary-text" />
+      </div>
+      <div className="text-xl font-bold text-[var(--foreground)] tabular-nums tracking-tight">{display}</div>
+      <div className="text-xs text-[var(--muted-foreground)] mt-0.5">{label}</div>
+    </div>
+  )
+}
+
+export function HeroStats() {
+  return (
+    <div
+      className="reveal-up reveal-d4 mt-16 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-2xl mx-auto"
+    >
+      {stats.map((stat, i) => (
+        <AnimatedStat key={stat.label} {...stat} delay={i * 0.12} />
+      ))}
+    </div>
+  )
+}

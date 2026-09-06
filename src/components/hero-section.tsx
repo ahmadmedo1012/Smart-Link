@@ -1,76 +1,23 @@
-"use client"
-import { useEffect, useRef, useState } from "react"
 import Link from "next/link"
-import { ArrowLeft, Smartphone, Bot, Users, TrendingUp, Star, Sparkles, Hexagon, Zap, MousePointer2 } from "lucide-react"
+import { ArrowLeft, Smartphone, Bot, Sparkles, Hexagon, Zap, Star, MousePointer2, TrendingUp } from "lucide-react"
+import { HeroStats } from "@/components/hero-stat"
 
-/* framer-motion removed from the hero (critical path, 122 KB vendor chunk):
-   counters → IntersectionObserver, parallax → rAF scroll listener,
-   shine/grid → CSS keyframes. Visual behavior is preserved. */
-
-function AnimatedStat({ value, label, icon: Icon, delay = 0 }: { value: string; label: string; icon: React.ComponentType<{ className?: string }>; delay?: number }) {
-  const ref = useRef<HTMLDivElement>(null)
-  const [inView, setInView] = useState(false)
-  const [display, setDisplay] = useState("0")
-  /* r5 (gstack /review pre-emit gate — bug confirmed in DOM + visually):
-     "+10K"/"+50K" lost their K (parseFloat drops it) and "99.9%" was rounded
-     to 100% by Math.round. Parse explicitly: sign + number + unit suffix,
-     keep decimals when the source value has them. */
-  const match = value.match(/^([+]?)(\d+(?:\.\d+)?)([K%]?)$/)
-  const prefix = match?.[1] ?? ""
-  const target = match ? parseFloat(match[2]) : 0
-  const suffix = match?.[3] ?? ""
-  const decimals = match?.[2]?.includes(".") ? 1 : 0
-
-  useEffect(() => {
-    const el = ref.current
-    if (!el) return
-    const obs = new IntersectionObserver(
-      ([e]) => { if (e.isIntersecting) { setInView(true); obs.disconnect() } },
-      { rootMargin: "0px 0px -10% 0px" }
-    )
-    obs.observe(el)
-    return () => obs.disconnect()
-  }, [])
-
-  useEffect(() => {
-    if (!inView) return
-    const duration = 1200
-    const startTime = performance.now()
-    let raf: number
-    function tick(now: number) {
-      const elapsed = now - startTime
-      const progress = Math.min(elapsed / duration, 1)
-      // ease-out-quart deceleration
-      const eased = 1 - Math.pow(1 - progress, 3)
-      const current = eased * target
-      setDisplay(prefix + current.toFixed(decimals) + suffix)
-      if (progress < 1) { raf = requestAnimationFrame(tick) }
-      else { setDisplay(prefix + target.toFixed(decimals) + suffix) }
-    }
-    raf = requestAnimationFrame(tick)
-    return () => cancelAnimationFrame(raf)
-  }, [inView, target, prefix, suffix, decimals])
-
-  return (
-    <div
-      ref={ref}
-      style={{ transitionDelay: `${delay}s` }}
-      className="glass-card rounded-xl p-4 text-center group transition-all duration-400 ease-[cubic-bezier(0.16,1,0.2,1)]"
-    >
-      <div className="w-8 h-8 rounded-lg bg-[var(--card)] flex items-center justify-center mx-auto mb-2 group-hover:scale-110 transition-transform duration-200">
-        <Icon className="w-4 h-4 text-primary-text" />
-      </div>
-      <div className="text-xl font-bold text-[var(--foreground)] tabular-nums tracking-tight">{display}</div>
-      <div className="text-xs text-[var(--muted-foreground)] mt-0.5">{label}</div>
-    </div>
-  )
-}
+/* r8: the hero is a full SERVER component.
+   - framer-motion was removed in r2 (122 KB vendor chunk out of the
+     critical path); counters moved to an IntersectionObserver island.
+   - r8 goes further: the counters island (hero-stat.tsx) is now the ONLY
+     client JS in the hero, and it SSRs the FINAL values ("+500"…), so
+     the stats paint pre-JS instead of waiting for hydration + count-up.
+   - The scroll parallax is now a CSS scroll-driven animation
+     (view-timeline --hero, see globals.css) — zero JS, zero listeners.
+   Everything else here ships as static HTML: heading, CTAs, blobs,
+   grid drift, floating icons (lucide SVGs render server-side). */
 
 const ambientBlobs = [
-  { size: 320, x: "-5%", y: "-8%", blur: "120px", color: "oklch(0.65 0.18 250 / 0.05)", opacity: 0.03 },
-  { size: 240, x: "72%", y: "20%", blur: "100px", color: "oklch(0.6 0.15 45 / 0.04)", opacity: 0.02 },
-  { size: 200, x: "35%", y: "55%", blur: "80px", color: "oklch(0.55 0.14 300 / 0.025)", opacity: 0.015 },
-  { size: 180, x: "12%", y: "70%", blur: "70px", color: "oklch(0.6 0.12 200 / 0.02)", opacity: 0.012 },
+  { size: 320, x: "-5%", y: "-8%", blur: "60px", color: "oklch(0.65 0.18 250 / 0.05)", opacity: 0.03 },
+  { size: 240, x: "72%", y: "20%", blur: "50px", color: "oklch(0.6 0.15 45 / 0.04)", opacity: 0.02 },
+  { size: 200, x: "35%", y: "55%", blur: "40px", color: "oklch(0.55 0.14 300 / 0.025)", opacity: 0.015 },
+  { size: 180, x: "12%", y: "70%", blur: "35px", color: "oklch(0.6 0.12 200 / 0.02)", opacity: 0.012 },
 ]
 
 const floatingIcons = [
@@ -99,41 +46,14 @@ function FloatingIcon({ Icon, x, y, index }: { Icon: React.ComponentType<{ class
 const headingWords = ["SmartLink", "منصة رقمية", "لخدمات ذكية"]
 
 export function HeroSection() {
-  const sectionRef = useRef<HTMLDivElement>(null)
-  const contentRef = useRef<HTMLDivElement>(null)
-
-  // Scroll-linked parallax (replaces framer-motion useScroll/useTransform):
-  // rAF-gated, passive, and disabled entirely for prefers-reduced-motion.
-  useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return
-    const section = sectionRef.current
-    const content = contentRef.current
-    if (!section || !content) return
-    let raf = 0
-    const update = () => {
-      const rect = section.getBoundingClientRect()
-      // progress 0 → 1 as the hero scrolls out of view
-      const progress = Math.min(Math.max(-rect.top / rect.height, 0), 1)
-      const scale = 1 - progress * 0.05
-      const opacity = 1 - Math.min(progress / 0.5, 1) * 0.5
-      content.style.transform = `scale(${scale})`
-      content.style.opacity = String(opacity)
-    }
-    const onScroll = () => {
-      cancelAnimationFrame(raf)
-      raf = requestAnimationFrame(update)
-    }
-    update()
-    window.addEventListener("scroll", onScroll, { passive: true })
-    return () => {
-      window.removeEventListener("scroll", onScroll)
-      cancelAnimationFrame(raf)
-    }
-  }, [])
-
   return (
-    <section ref={sectionRef} className="relative min-h-[90dvh] flex items-center pt-24 pb-16 overflow-hidden" aria-label="Hero section">
-      {/* Ambient blobs */}
+    /* hero-section / hero-content: CSS view-timeline parallax hooks
+       (globals.css) — replaces the rAF scroll listener. */
+    <section className="hero-section relative min-h-[90dvh] flex items-center pt-24 pb-16 overflow-hidden" aria-label="Hero section">
+      {/* Ambient blobs — r8: blur radii halved (120/100/80/70 → 60/50/40/35).
+          At 2–3% opacity the visual difference is imperceptible while the
+          raster/GPU cost on mobile drops sharply (Lighthouse: 6 giant blurs
+          were among the main-thread paint costs). */}
       <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden" aria-hidden="true">
         {ambientBlobs.map((b, i) => (
           <div
@@ -166,8 +86,7 @@ export function HeroSection() {
       </div>
 
       <div
-        ref={contentRef}
-        className="container-base relative z-10 w-full will-change-[transform,opacity]"
+        className="hero-content container-base relative z-10 w-full"
       >
         <div className="max-w-4xl mx-auto text-center">
           {/* Eyebrow — CSS reveal (paints pre-JS, critical for LCP) */}
@@ -223,19 +142,10 @@ export function HeroSection() {
           </div>
         </div>
 
-        {/* Stats — CSS reveal on the grid; the number counters keep JS inView */}
-        <div
-          className="reveal-up reveal-d4 mt-16 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-2xl mx-auto"
-        >
-          {[
-            { label: "خدمة نشطة", value: "+500", icon: Users },
-            { label: "منيو رقمي", value: "+10K", icon: Smartphone },
-            { label: "ردود آلية", value: "+50K", icon: Bot },
-            { label: "نمو مستمر", value: "99.9%", icon: TrendingUp },
-          ].map((stat, i) => (
-            <AnimatedStat key={stat.label} {...stat} delay={i * 0.12} />
-          ))}
-        </div>
+        {/* Stats — the hero's only client island (hero-stat.tsx): SSRs the
+            final values so the LCP text paints pre-JS, then plays the
+            count-up on scroll-in (reduced-motion keeps the final value). */}
+        <HeroStats />
       </div>
 
       {/* Bottom gradient fade */}

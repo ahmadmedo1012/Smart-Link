@@ -48,7 +48,11 @@ function SmartMenuShowcase() {
                     alt="لقطة شاشة حقيقية من منيو Smart Menu الرقمي"
                     width={800}
                     height={4146}
-                    sizes="320px"
+                    /* r8: the phone frame is max-w-[320px] minus p-3×2 → the
+                       image slot is 296px. "320px" made the optimizer serve
+                       a 640w source for a 296px slot (Lighthouse: 18.7KB
+                       wasted per image). */
+                    sizes="296px"
                     className="w-full h-auto block"
                     priority={false}
                   />
@@ -154,8 +158,9 @@ function SmartBotShowcase() {
                   src="/images/smart-bot.jpg"
                   alt="لقطة شاشة حقيقية من لوحة تحكم SmartBot"
                   width={560}
-                  height={336} /* r5: true 1280:768 aspect — kills the micro
-                                  layout shift from the wrong 350 box */
+                  height={350} /* r8: the file is 1280×800 (ratio 1.6), not
+                                  1280×768 — 560×350 is the true box; 336
+                                  reserved 14px too little. */
                   sizes="(min-width: 1024px) 560px, 100vw"
                   className="w-full h-auto block"
                 />

@@ -4,8 +4,6 @@ import { ThemeProvider } from "@/components/theme-provider"
 import { Analytics } from "@vercel/analytics/next"
 import { MainNav } from "@/components/main-nav"
 import { Footer } from "@/components/footer"
-import { PageTransition } from "@/components/page-transition"
-import { ScrollProgress } from "@/components/scroll-progress"
 import "./globals.css"
 
 const cairo = Cairo({
@@ -13,6 +11,13 @@ const cairo = Cairo({
   weight: ["400", "700"],
   variable: "--font-cairo",
   display: "swap",
+  /* r8 LCP fix: Cairo (64 KB across two subsets) was preloaded at the
+     highest priority — competing with the LCP element (the h1, rendered
+     in Readex Pro). Cairo is the BODY font: body text paints with the
+     metric-adjusted fallback first and swaps in AFTER the LCP, so it
+     doesn't belong in the preload window. Readex (the LCP font) stays
+     preloaded. Verified: CLS stays 0 — the fallback is metric-adjusted. */
+  preload: false,
 })
 
 /* Brand parity with Smart-Menu/SmartBot: Readex Pro leads --font-heading */
@@ -146,11 +151,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           تخطى إلى المحتوى الرئيسي
         </a>
         <div className="noise-overlay" />
-        <ScrollProgress />
+        {/* r8: scroll progress bar is now a pure CSS scroll-driven
+            animation (scroll(root) timeline, see globals.css) — zero JS,
+            zero listeners, zero hydration. Browsers without scroll
+            timelines keep a static (invisible) bar: decorative, safe. */}
+        <div className="scroll-progress" aria-hidden="true" />
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
           <MainNav />
           <main id="main-content" className="flex-1">
-            <PageTransition>{children}</PageTransition>
+            {children}
           </main>
           <Footer />
           <Analytics />

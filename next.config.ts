@@ -53,6 +53,15 @@ const nextConfig: NextConfig = {
           { key: "X-Frame-Options", value: "DENY" },
           { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
           { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=()" },
+          /* r8: cross-origin hardening. Live comparison (r8) showed the
+             sibling site menu.smart-link.ly had already shipped COOP/CORP —
+             the umbrella was no longer the strictest in the family. These
+             restore that lead: COOP cuts cross-origin window.opener
+             attacks, CORP blocks our resources from being embedded by
+             arbitrary origins. */
+          { key: "Cross-Origin-Opener-Policy", value: "same-origin" },
+          { key: "Cross-Origin-Resource-Policy", value: "same-origin" },
+          { key: "X-DNS-Prefetch-Control", value: "on" },
           /* Round 5 (gstack /cso — OWASP A05): static CSP. A nonce-based policy
              needs middleware; this static profile still kills the dangerous
              default: frame-ancestors + base-uri + form-action + object-src are

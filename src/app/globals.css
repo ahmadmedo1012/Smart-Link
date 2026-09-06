@@ -246,20 +246,6 @@
   background-clip: text;
 }
 
-@utility gradient-text-opaque {
-  background-image: linear-gradient(135deg, var(--primary), oklch(0.68 0.19 45), oklch(0.75 0.18 50));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-@utility gradient-text-muted {
-  background-image: linear-gradient(135deg, var(--foreground), var(--muted-foreground));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
 @utility section-padding {
   padding-top: 7rem;
   padding-bottom: 7rem;
@@ -278,97 +264,22 @@
 }
 
 /* ── Pure CSS animations with spring-like cubic-beziers ── */
-@keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-16px); }
-}
 
-@keyframes float-delayed {
-  0%, 100% { transform: translateY(0px); }
-  33% { transform: translateY(-12px); }
-  66% { transform: translateY(-6px); }
-}
 
-@keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 20px oklch(0.55 0.19 45 / 0.15); }
-  50% { box-shadow: 0 0 40px oklch(0.55 0.19 45 / 0.35); }
-}
 
-@keyframes shine {
-  0% { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
-}
 
-@keyframes marquee {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
-}
 
-@keyframes fade-up {
-  0% { opacity: 0; transform: translateY(16px); }
-  100% { opacity: 1; transform: translateY(0); }
-}
 
-@keyframes scale-in {
-  0% { opacity: 0; transform: scale(0.92); }
-  100% { opacity: 1; transform: scale(1); }
-}
 
-@keyframes drift {
-  0% { transform: translate(0, 0) rotate(0deg); }
-  25% { transform: translate(8px, -8px) rotate(2deg); }
-  50% { transform: translate(-4px, 4px) rotate(-1deg); }
-  75% { transform: translate(6px, -2px) rotate(1deg); }
-  100% { transform: translate(0, 0) rotate(0deg); }
-}
 
-@keyframes grid-shift {
-  0% { transform: translateX(0) translateY(0); }
-  100% { transform: translateX(-24px) translateY(-24px); }
-}
 
-@keyframes line-draw {
-  0% { width: 0; }
-  100% { width: 100%; }
-}
 
-@keyframes fade-in-up {
-  0% { opacity: 0; transform: translateY(24px); }
-  100% { opacity: 1; transform: translateY(0); }
-}
 
-@keyframes fade-in-left {
-  0% { opacity: 0; transform: translateX(-24px); }
-  100% { opacity: 1; transform: translateX(0); }
-}
 
-@keyframes fade-in-right {
-  0% { opacity: 0; transform: translateX(24px); }
-  100% { opacity: 1; transform: translateX(0); }
-}
 
-@keyframes scale-in-blur {
-  0% { opacity: 0; transform: scale(0.85); filter: blur(4px); }
-  100% { opacity: 1; transform: scale(1); filter: blur(0); }
-}
 
-@keyframes blob-drift {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  25% { transform: translate(30px, -30px) scale(1.05); }
-  50% { transform: translate(-20px, 20px) scale(0.95); }
-  75% { transform: translate(20px, -10px) scale(1.02); }
-}
 
-@keyframes pulse-ring {
-  0% { box-shadow: 0 0 0 0 var(--ring); }
-  70% { box-shadow: 0 0 0 12px transparent; }
-  100% { box-shadow: 0 0 0 0 transparent; }
-}
 
-@keyframes shimmer {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
-}
 
 /* ── 21st.dev-style animations ── */
 @keyframes nav-shimmer {
@@ -376,45 +287,13 @@
   100% { transform: translateX(200%); }
 }
 
-@keyframes border-glow-pulse {
-  0%, 100% { border-color: var(--glass-border); }
-  50% { border-color: oklch(0.55 0.19 45 / 0.25); }
-}
 
-@keyframes breathe-glow {
-  0%, 100% { opacity: 0.4; transform: scale(1); }
-  50% { opacity: 0.7; transform: scale(1.02); }
-}
 
-@keyframes rotate-gradient {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
 
-@keyframes count-in {
-  0% { opacity: 0; transform: translateY(8px); }
-  100% { opacity: 1; transform: translateY(0); }
-}
 
-@keyframes slide-up-reveal {
-  0% { opacity: 0; transform: translateY(40px) scale(0.96); }
-  100% { opacity: 1; transform: translateY(0) scale(1); }
-}
 
-@keyframes magnetic-hover {
-  0% { transform: translate(0, 0); }
-  100% { transform: translate(var(--mx, 0), var(--my, 0)); }
-}
 
-@keyframes backdrop-blur-in {
-  0% { backdrop-filter: blur(0px); -webkit-backdrop-filter: blur(0px); }
-  100% { backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
-}
 
-@keyframes reveal-card {
-  0% { opacity: 0; transform: translateY(30px) scale(0.97); clip-path: inset(5% 0 10% 0); }
-  100% { opacity: 1; transform: translateY(0) scale(1); clip-path: inset(0 0 0 0); }
-}
 
 /* ── 21st.dev Shimmer Bar — runs once on load ── */
 .shimmer-bar {
@@ -525,19 +404,35 @@
   .reveal-d4 { animation-delay: 0.42s; }
 }
 
-/* ── CSS-only page transition (see components/page-transition.tsx) ──
-   Transform-only: never hides content, so LCP paints at first paint. */
-@keyframes page-enter {
-  from { transform: translateY(12px); }
-  to { transform: translateY(0); }
+/* ── Scroll progress bar (r8) — pure CSS scroll-driven animation ──
+   scroll(root) timeline: document scroll position drives scaleX.
+   Transform-only, fixed, aria-hidden — decorative. RTL: the bar grows
+   from the right edge (reading direction). Browsers without scroll
+   timelines (or reduced-motion) keep it at scaleX(0): invisible, safe.
+   Replaces the JS rAF-listener component (zero JS, zero hydration). */
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--primary);
+  z-index: 60;
+  transform-origin: 100% 50%;
+  transform: scaleX(0);
 }
-.page-enter {
-  animation: page-enter 0.3s cubic-bezier(0.16, 1, 0.2, 1) both;
+@keyframes scroll-progress-fill {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
 }
-@media (prefers-reduced-motion: reduce) {
-  .page-enter { animation: none; }
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .scroll-progress {
+      animation: scroll-progress-fill linear both;
+      animation-timeline: scroll(root);
+    }
+  }
 }
-
 /* ── CSS-only menu pop (replaces framer-motion in main-nav critical path) ── */
 @keyframes menu-pop {
   from { opacity: 0; transform: translateY(-8px) scale(0.98); }
@@ -602,6 +497,10 @@
   from { opacity: 0; transform: translateY(40px); }
   to { opacity: 1; transform: none; }
 }
+@keyframes hero-parallax {
+  from { transform: scale(1); opacity: 1; }
+  to { transform: scale(0.95); opacity: 0.5; }
+}
 @keyframes tilt-x {
   0% { rotate: 8deg; }
   50% { rotate: 0deg; }
@@ -641,6 +540,22 @@
     .reveal-scroll-stagger > *:nth-child(5) { animation-range: entry 40% entry 95%; }
     .reveal-scroll-stagger > *:nth-child(6) { animation-range: entry 50% cover 60%; }
 
+    /* r8: hero parallax — the last piece of hero JS is gone. The section
+       names its own timeline; the content scales 1 → 0.95 and fades to 0.5
+       as the hero scrolls out of view (was a rAF scroll listener in
+       hero-section.tsx). Mirrors the .showcase-tl pattern below. */
+    .hero-section { view-timeline-name: --hero; }
+    .hero-content {
+      animation: hero-parallax linear both;
+      animation-timeline: --hero;
+      /* exit range: progress is 0 while the hero is INSIDE the viewport
+         and only advances as it scrolls OUT — matching the JS version's
+         -rect.top/height mapping. The default cover range put "rest" at
+         ~50% progress (opacity 0.75 at load) — a real color-contrast
+         regression caught by the axe suite. */
+      animation-range: exit 0% cover 100%;
+    }
+
     /* Section-scoped timelines for the product showcase (each section
        names its own --showcase; the name is visible to descendants). */
     .showcase-tl { view-timeline-name: --showcase; }
@@ -675,21 +590,6 @@
   }
 }
 
-/* ── Shiny text effect ── */
-.shiny-text {
-  background-size: 200% auto;
-  background-image: linear-gradient(135deg,
-    var(--primary) 0%,
-    oklch(0.75 0.18 50) 30%,
-    var(--foreground) 50%,
-    oklch(0.75 0.18 50) 70%,
-    var(--primary) 100%
-  );
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  animation: shine 4s linear infinite;
-}
 
 @utility glass-card {
   background: var(--glass-bg);
@@ -702,13 +602,6 @@
               box-shadow var(--duration-base) var(--ease-smooth);
 }
 
-@utility glass-card-hover {
-  &:hover {
-    transform: translateY(-2px);
-    border-color: var(--ring);
-    box-shadow: var(--glass-shadow-lg), 0 0 30px var(--shadow-glow);
-  }
-}
 
 @utility noise-overlay {
   position: relative;

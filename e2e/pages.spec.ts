@@ -45,4 +45,18 @@ test.describe("الدخان — الصفحات الست", () => {
     // العدّاد يبدأ من 0 وينتهي عند +500 خلال 1.2s
     await expect(page.locator("text=+500").first()).toBeVisible({ timeout: 6000 })
   })
+
+  test("r8 — العدّادات تُصيَّر بالقيم النهائية في HTML الخام قبل أي JS (انحدار LCP)", async ({ request }) => {
+    /* إصلاح r8 المركزي: العدّادات كانت تُصيَّر "0" على السيرفر فكان LCP
+       ينتظر الجافاسكريبت. الآن القيم النهائية في HTML الأولي — يُطلب
+       عبر request (بلا تنفيذ JS) لضمان أنه إخراج السيرفر فعلاً. */
+    const res = await request.get("/")
+    const html = await res.text()
+    expect(html).toContain("+500")
+    expect(html).toContain("+10K")
+    expect(html).toContain("+50K")
+    expect(html).toContain("99.9%")
+    // وأيضاً: لم تعد أصفاراً مجردة في البطاقات
+    expect(html).not.toMatch(/tabular-nums tracking-tight">0</)
+  })
 })

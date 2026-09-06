@@ -117,7 +117,10 @@ export function ServicesSection() {
   return (
     <section id="services" className="section-padding relative overflow-hidden">
       {/* Section ambient glow */}
-      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[600px] h-[300px] rounded-full bg-[var(--primary)]/5 blur-[150px] pointer-events-none" aria-hidden="true" />
+      {/* r8: blur radius halved (150→75px) — at 5% opacity on a decorative
+          glow the visual difference is imperceptible; the raster cost is
+          not. One of six giant blurs trimmed this round. */}
+      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[600px] h-[300px] rounded-full bg-[var(--primary)]/5 blur-[75px] pointer-events-none" aria-hidden="true" />
       <div className="container-base">
         <div className="reveal-scroll text-center mb-14">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[var(--glass-border)] bg-[var(--glass-bg)] backdrop-blur-sm text-xs text-primary-text font-medium mb-5">

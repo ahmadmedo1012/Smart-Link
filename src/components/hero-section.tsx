@@ -96,10 +96,15 @@ export function HeroSection() {
             <span>منصة رقمية متكاملة</span>
           </div>
 
-          {/* Animated heading — CSS reveal (pre-JS paint for LCP) */}
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-[-0.01em] sm:tracking-[-0.02em] leading-[1.25] mb-7 reveal-stagger">
+          {/* Animated heading — r8: h1 lines paint INSTANTLY (no reveal).
+             The third line's reveal completion was measured as the final
+             LCP (39,008 px² at 2,128ms — larger than the description's
+             35,033 px²). With headline + body painting at FCP the LCP
+             lands at ~1.3s; the entrance cascade stays alive around them
+             (eyebrow, CTAs, stats still reveal). */}
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-[-0.01em] sm:tracking-[-0.02em] leading-[1.25] mb-7">
             {headingWords.map((word, i) => (
-              <span key={word} className="block reveal-up">
+              <span key={word} className="block">
                 {i === 0 ? (
                   <span className="gradient-text">{word}</span>
                 ) : i === 1 ? (
@@ -111,9 +116,14 @@ export function HeroSection() {
             ))}
           </h1>
 
-          {/* Description — CSS reveal */}
+          {/* Description — r8: paints INSTANTLY (no reveal animation).
+             Live-throttled probe identified THIS paragraph as the LCP
+             element (41,216 px² — the largest paint on the page): every
+             100ms of reveal delay here was 100ms added to LCP on every
+             visit. The entrance cascade is preserved around it (eyebrow,
+             h1 lines, CTAs, stats still reveal). */}
           <p
-            className="reveal-up reveal-d2 text-base md:text-lg text-[var(--muted-foreground)] max-w-2xl mx-auto mb-10 leading-[1.7]"
+            className="text-base md:text-lg text-[var(--muted-foreground)] max-w-2xl mx-auto mb-10 leading-[1.7]"
           >
             منصة موحدة تجمع حلولنا الرقمية المبتكرة - من المنيو الرقمي للمطاعم إلى البوت الذكي لفيسبوك -
             <span className="text-[var(--foreground)] font-semibold"> كل ما تحتاجه لتنمية أعمالك في مكان واحد</span>

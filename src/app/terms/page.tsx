@@ -26,7 +26,7 @@ export default function TermsPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
       />
       <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[400px] rounded-full bg-[var(--primary)]/5 blur-[150px]" />
+        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[400px] rounded-full bg-[var(--primary)]/5 blur-[75px]" />
       </div>
       <div className="container-base max-w-3xl mx-auto relative">
         <div className="text-center mb-10 reveal-up">
@@ -38,7 +38,7 @@ export default function TermsPage() {
           </h1>
         </div>
         <div
-          className="reveal-up reveal-d1 space-y-6 text-muted-foreground leading-relaxed"
+          className="space-y-6 text-muted-foreground leading-relaxed"
         >
           <p className="text-sm">آخر تحديث: يوليو 2026</p>
 

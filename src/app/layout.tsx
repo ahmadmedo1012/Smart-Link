@@ -11,13 +11,16 @@ const cairo = Cairo({
   weight: ["400", "700"],
   variable: "--font-cairo",
   display: "swap",
-  /* r8 LCP fix: Cairo (64 KB across two subsets) was preloaded at the
-     highest priority — competing with the LCP element (the h1, rendered
-     in Readex Pro). Cairo is the BODY font: body text paints with the
-     metric-adjusted fallback first and swaps in AFTER the LCP, so it
-     doesn't belong in the preload window. Readex (the LCP font) stays
-     preloaded. Verified: CLS stays 0 — the fallback is metric-adjusted. */
-  preload: false,
+  /* r8 final: preload is ON after a measured A/B. The hero description —
+     the page's LCP element (26,566 px² on mobile) — is BODY text set in
+     Cairo. With preload:false the text paints in the fallback and swaps,
+     which real throttled probes measured as fine (LCP = FCP = 1.16s) but
+     Lighthouse's Lantern simulation models the non-preloaded font as
+     late-discovered (local LCP 3.5s) — and the acceptance gate is the
+     lab score. With the r8 reveal-animations removed from the h1 and the
+     description, LCP no longer waits on animation end either, so the
+     preloads land as pure win: LCP paints at max(FCP, font arrival). */
+  preload: true,
 })
 
 /* Brand parity with Smart-Menu/SmartBot: Readex Pro leads --font-heading */

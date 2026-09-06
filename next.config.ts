@@ -13,6 +13,12 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
   compress: true,
   onDemandEntries: { maxInactiveAge: 60 * 60 * 1000 },
+  experimental: {
+    /* Round 2: cut duplicate RSC prefetch re-fetches (three identical /about
+       prefetches measured on first load) and tree-shake icon/motion barrels. */
+    staleTimes: { dynamic: 30 },
+    optimizePackageImports: ["lucide-react", "framer-motion"],
+  },
   async headers() {
     return [
       {

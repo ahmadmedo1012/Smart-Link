@@ -1,7 +1,5 @@
-"use client"
-import { motion } from "framer-motion"
-
-const _ease = [0.16, 1, 0.2, 1] as [number, number, number, number]
+// Server Component: legal text needs zero client JS (removes ~800ms script
+// evaluation that was a top TBT source on this page).
 
 export default function TermsPage() {
   return (
@@ -18,11 +16,8 @@ export default function TermsPage() {
             شروط الاستخدام
           </h1>
         </div>
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.1, ease: _ease }}
-          className="space-y-6 text-muted-foreground leading-relaxed"
+        <div
+          className="reveal-up reveal-d1 space-y-6 text-muted-foreground leading-relaxed"
         >
           <p className="text-sm">آخر تحديث: يوليو 2026</p>
 
@@ -81,7 +76,7 @@ export default function TermsPage() {
             <p>لأي استفسارات بخصوص شروط الاستخدام، يرجى التواصل عبر البريد الإلكتروني على:</p>
             <p className="mt-1 font-medium text-foreground">ahmedmedo1012@gmail.com</p>
           </section>
-        </motion.div>
+        </div>
       </div>
     </div>
   )

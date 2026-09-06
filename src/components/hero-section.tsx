@@ -135,15 +135,12 @@ export function HeroSection() {
         // ponytail: scroll-linked scale/opacity; degraded by prefers-reduced-motion CSS on outer section
       >
         <div className="max-w-4xl mx-auto text-center">
-          {/* Eyebrow */}
-          <motion.div
-            initial={{ opacity: 0, y: 16, scale: 0.96 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            transition={{ duration: 0.5, ease: [0.16, 1, 0.2, 1] }}
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[var(--glass-border)] bg-[var(--glass-bg)] backdrop-blur-sm text-xs text-[var(--primary)] font-medium mb-10"
+          {/* Eyebrow — CSS reveal (paints pre-JS, critical for LCP) */}
+          <div
+            className="reveal-up reveal-d1 inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[var(--glass-border)] bg-[var(--glass-bg)] backdrop-blur-sm text-xs text-primary-text font-medium mb-10"
           >
             <span>منصة رقمية متكاملة</span>
-          </motion.div>
+          </div>
 
           {/* Animated heading — CSS reveal (pre-JS paint for LCP) */}
           <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-[-0.01em] sm:tracking-[-0.02em] leading-[1.25] mb-7 reveal-stagger">
@@ -160,23 +157,17 @@ export function HeroSection() {
             ))}
           </h1>
 
-          {/* Description */}
-          <motion.p
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.35, delay: 0.25, ease: [0.16, 1, 0.2, 1] }}
-            className="text-base md:text-lg text-[var(--muted-foreground)] max-w-2xl mx-auto mb-10 leading-[1.7]"
+          {/* Description — CSS reveal */}
+          <p
+            className="reveal-up reveal-d2 text-base md:text-lg text-[var(--muted-foreground)] max-w-2xl mx-auto mb-10 leading-[1.7]"
           >
             منصة موحدة تجمع حلولنا الرقمية المبتكرة - من المنيو الرقمي للمطاعم إلى البوت الذكي لفيسبوك -
             <span className="text-[var(--foreground)] font-semibold"> كل ما تحتاجه لتنمية أعمالك في مكان واحد</span>
-          </motion.p>
+          </p>
 
-          {/* CTAs */}
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.35, delay: 0.4, ease: [0.16, 1, 0.2, 1] }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-4"
+          {/* CTAs — CSS reveal */}
+          <div
+            className="reveal-up reveal-d3 flex flex-col sm:flex-row items-center justify-center gap-4"
           >
             <Link
               href="#services"
@@ -194,19 +185,17 @@ export function HeroSection() {
             </Link>
             <Link
               href="/about"
+              prefetch={false}
               className="group inline-flex items-center gap-2 px-7 py-3.5 rounded-xl glass text-[var(--foreground)] font-semibold text-sm hover:bg-[var(--accent)] transition-all duration-200 active:scale-[0.97]"
             >
               تعرف علينا
             </Link>
-          </motion.div>
+          </div>
         </div>
 
-        {/* Stats */}
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, delay: 0.5, ease: [0.16, 1, 0.2, 1] }}
-          className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-2xl mx-auto"
+        {/* Stats — CSS reveal on the grid; the number counters keep JS inView */}
+        <div
+          className="reveal-up reveal-d4 mt-16 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-2xl mx-auto"
         >
           {[
             { label: "خدمة نشطة", value: "+500", icon: Users },
@@ -216,7 +205,7 @@ export function HeroSection() {
           ].map((stat, i) => (
             <AnimatedStat key={stat.label} {...stat} delay={i * 0.12} />
           ))}
-        </motion.div>
+        </div>
       </motion.div>
 
       {/* Bottom gradient fade */}

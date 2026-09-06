@@ -127,15 +127,14 @@ export default function PricingPage() {
           </p>
         </div>
 
-        {/* Pricing cards */}
+        {/* Pricing cards — CSS reveal (LCP element, paints pre-JS) */}
         <div className="grid md:grid-cols-2 gap-6 lg:gap-8 max-w-4xl mx-auto mb-16">
           {plans.map((plan, i) => {
             const Icon = plan.icon
             return (
-              <motion.div
+              <div
                 key={plan.title}
-                {...fadeUp(0.1 + i * 0.1)}
-                className="group relative rounded-[20px] border border-[var(--border)] bg-[var(--card)] overflow-hidden hover:border-[var(--ring)]/40 hover:shadow-[0_0_60px_var(--shadow-glow)] transition-all duration-500 flex flex-col"
+                className={`reveal-up reveal-d${Math.min(i + 1, 4)} group relative rounded-[20px] border border-[var(--border)] bg-[var(--card)] overflow-hidden hover:border-[var(--ring)]/40 hover:shadow-[0_0_60px_var(--shadow-glow)] transition-all duration-500 flex flex-col`}
               >
                 {/* Top accent line */}
                 <div className="absolute top-0 left-0 right-0 h-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{ background: `linear-gradient(90deg, transparent, ${plan.color}, transparent)` }} aria-hidden="true" />
@@ -167,13 +166,13 @@ export default function PricingPage() {
                     ابدأ الآن <ChevronLeft className="w-3.5 h-3.5 transition-transform group-hover:-translate-x-0.5" />
                   </a>
                 </div>
-              </motion.div>
+              </div>
             )
           })}
         </div>
 
         {/* Coming soon */}
-        <motion.div className="max-w-2xl mx-auto mb-16" {...fadeUp(0.4)}>
+        <div className="max-w-2xl mx-auto mb-16 reveal-up reveal-d4">
           <div className="glass rounded-2xl p-8 text-center border border-dashed border-[var(--glass-border)] hover:border-[var(--ring)]/30 transition-all duration-300">
             <div className="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-4 border border-[var(--glass-border)]" style={{ background: "var(--gradient-coming-soon)" }}>
               <Sparkles className="w-7 h-7 text-[var(--primary)]" />
@@ -189,10 +188,10 @@ export default function PricingPage() {
               تواصل معنا لمعرفة المزيد <ChevronLeft className="w-3.5 h-3.5 transition-transform group-hover:-translate-x-0.5" />
             </a>
           </div>
-        </motion.div>
+        </div>
 
         {/* FAQ */}
-        <motion.div className="max-w-2xl mx-auto" {...fadeUp(0.5)}>
+        <div className="max-w-2xl mx-auto">
           <h2 className="text-2xl font-bold text-foreground text-center mb-8">أسئلة شائعة</h2>
           <div className="space-y-3">
             {faqs.map((faq, i) => (
@@ -220,7 +219,7 @@ export default function PricingPage() {
               </div>
             ))}
           </div>
-        </motion.div>
+        </div>
       </div>
     </div>
   )

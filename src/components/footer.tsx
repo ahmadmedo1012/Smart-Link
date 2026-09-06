@@ -81,7 +81,9 @@ export function Footer() {
                 { label: "الخطط والأسعار", href: "/pricing" },
               ].map((l) => (
                 <li key={l.label}>
-                  <Link href={l.href} className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200 group inline-flex items-center gap-1.5 rounded">
+                  {/* prefetch={false}: footer quick-links were firing duplicate
+                      RSC prefetches that competed with LCP bandwidth. */}
+                  <Link href={l.href} prefetch={false} className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200 group inline-flex items-center gap-1.5 rounded">
                     <span className="w-0 group-hover:w-1.5 h-1.5 rounded-full bg-primary transition-all duration-200" aria-hidden="true" />
                     {l.label}
                   </Link>

@@ -1,6 +1,7 @@
 "use client"
 import { motion, useInView } from "framer-motion"
 import { useRef } from "react"
+import Image from "next/image"
 import { Smartphone, Bot, Sparkles, ChevronLeft } from "lucide-react"
 // ponytail: Sparkles used only for "قريباً" badge — single intentional flourish
 
@@ -110,15 +111,15 @@ function ServiceCard({ service, index }: { service: typeof services[number]; ind
               </a>
               {service.title === "Smart Menu" && (
                 <div className="flex gap-2">
-                  <a href="/images/smart-menu.jpg" target="_blank" rel="noopener noreferrer" className="block w-20 h-14 rounded-lg overflow-hidden border border-[var(--border)] hover:border-[var(--ring)]/40 transition-all duration-200 hover:scale-105">
-                    <img src="/images/smart-menu.jpg" alt="Smart Menu لقطة شاشة" className="w-full h-full object-cover" loading="lazy" />
+                  <a href="/images/smart-menu.jpg" target="_blank" rel="noopener noreferrer" aria-label="Smart Menu لقطة شاشة مكبرة" className="block w-20 h-14 rounded-lg overflow-hidden border border-[var(--border)] hover:border-[var(--ring)]/40 transition-all duration-200 hover:scale-105">
+                    <Image src="/images/smart-menu.jpg" alt="Smart Menu لقطة شاشة" width={160} height={112} sizes="80px" className="w-full h-full object-cover" loading="lazy" />
                   </a>
                 </div>
               )}
               {service.title === "SmartBot" && (
                 <div className="flex gap-2">
-                  <a href="/images/smart-bot.jpg" target="_blank" rel="noopener noreferrer" className="block w-20 h-14 rounded-lg overflow-hidden border border-[var(--border)] hover:border-[var(--ring)]/40 transition-all duration-200 hover:scale-105">
-                    <img src="/images/smart-bot.jpg" alt="SmartBot لقطة شاشة" className="w-full h-full object-cover" loading="lazy" />
+                  <a href="/images/smart-bot.jpg" target="_blank" rel="noopener noreferrer" aria-label="SmartBot لقطة شاشة مكبرة" className="block w-20 h-14 rounded-lg overflow-hidden border border-[var(--border)] hover:border-[var(--ring)]/40 transition-all duration-200 hover:scale-105">
+                    <Image src="/images/smart-bot.jpg" alt="SmartBot لقطة شاشة" width={160} height={112} sizes="80px" className="w-full h-full object-cover" loading="lazy" />
                   </a>
                 </div>
               )}

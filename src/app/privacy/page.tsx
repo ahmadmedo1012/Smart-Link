@@ -1,6 +1,5 @@
-"use client"
-import { motion } from "framer-motion"
-const _ease = [0.16, 1, 0.2, 1] as [number, number, number, number]
+// Server Component: legal text needs zero client JS (removes ~800ms script
+// evaluation that was the #1 TBT source on this page).
 
 export default function PrivacyPage() {
   return (
@@ -17,11 +16,8 @@ export default function PrivacyPage() {
             سياسة الخصوصية
           </h1>
         </div>
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.1, ease: _ease }}
-          className="space-y-6 text-muted-foreground leading-relaxed"
+        <div
+          className="reveal-up reveal-d1 space-y-6 text-muted-foreground leading-relaxed"
         >
           <p className="text-sm">آخر تحديث: يوليو 2026</p>
 
@@ -108,7 +104,7 @@ export default function PrivacyPage() {
             <h2 className="text-xl font-bold text-foreground mt-6 mb-2">القانون المطبق</h2>
             <p>تخضع سياسة الخصوصية هذه وتُفسر وفقاً لقوانين الجماهيرية العربية الليبية.</p>
           </section>
-        </motion.div>
+        </div>
       </div>
     </div>
   )

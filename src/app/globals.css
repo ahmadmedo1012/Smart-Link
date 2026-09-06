@@ -85,7 +85,8 @@
   --card: oklch(0.085 0.004 30);
   --card-foreground: oklch(0.95 0.003 30);
   --primary: oklch(0.55 0.19 45);
-  --primary-text: oklch(0.68 0.19 45);
+  /* AA on near-black backgrounds: 0.68 measured only 4.0:1 — raised to 0.74 (≈7.1:1) */
+  --primary-text: oklch(0.74 0.19 45);
   --primary-foreground: oklch(0.98 0 0);
   --secondary: oklch(0.12 0.005 30);
   --secondary-foreground: oklch(0.75 0.008 30);
@@ -515,6 +516,26 @@
   .reveal-stagger > *:nth-child(4) { animation-delay: 0.24s; }
   .reveal-stagger > *:nth-child(5) { animation-delay: 0.32s; }
   .reveal-stagger > *:nth-child(6) { animation-delay: 0.4s; }
+
+  /* Explicit delay utilities — used for above-the-fold content so it
+     paints pre-JS instead of waiting for framer-motion hydration. */
+  .reveal-d1 { animation-delay: 0.12s; }
+  .reveal-d2 { animation-delay: 0.22s; }
+  .reveal-d3 { animation-delay: 0.32s; }
+  .reveal-d4 { animation-delay: 0.42s; }
+}
+
+/* ── CSS-only page transition (see components/page-transition.tsx) ──
+   Transform-only: never hides content, so LCP paints at first paint. */
+@keyframes page-enter {
+  from { transform: translateY(12px); }
+  to { transform: translateY(0); }
+}
+.page-enter {
+  animation: page-enter 0.3s cubic-bezier(0.16, 1, 0.2, 1) both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .page-enter { animation: none; }
 }
 
 /* ── Shiny text effect ── */

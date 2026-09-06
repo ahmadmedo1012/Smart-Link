@@ -1,6 +1,5 @@
 "use client"
 import { useState, useMemo } from "react"
-import { motion } from "framer-motion"
 import { Mail, MessageCircle, MapPin, Clock, Send, Check, Loader2 } from "lucide-react"
 
 function mulberry32(s: number) {
@@ -57,13 +56,6 @@ const contacts = [
   { icon: Clock, title: "أوقات العمل", desc: "24/7 - الدوام الرسمي: 9ص - 9م" },
 ]
 
-const _ease = [0.16, 1, 0.2, 1] as [number, number, number, number]
-const fadeUp = (delay = 0) => ({
-  initial: { opacity: 0, y: 24 },
-  animate: { opacity: 1, y: 0 },
-  transition: { duration: 0.5, delay, ease: _ease },
-})
-
 export default function ContactPage() {
   const [sent, setSent] = useState(false)
   const [sending, setSending] = useState(false)
@@ -115,13 +107,12 @@ export default function ContactPage() {
           </p>
         </div>
 
-        {/* Contact info cards */}
+        {/* Contact info cards — CSS reveal (paints pre-JS, above fold) */}
         <div className="grid md:grid-cols-4 gap-4 max-w-3xl mx-auto mb-10">
           {contacts.map((item, i) => (
-            <motion.div
+            <div
               key={item.title}
-              {...fadeUp(0.1 + i * 0.06)}
-              className="glass rounded-2xl p-5 text-center hover:border-[var(--ring)]/30 transition-all duration-300 group"
+              className={`reveal-up reveal-d${Math.min(i + 1, 4)} glass rounded-2xl p-5 text-center hover:border-[var(--ring)]/30 transition-all duration-300 group`}
             >
               <div className="w-9 h-9 rounded-xl bg-[var(--accent)] flex items-center justify-center mx-auto mb-2.5 group-hover:scale-110 transition-transform duration-300">
                 <item.icon className="w-4.5 h-4.5 text-primary" />
@@ -132,12 +123,12 @@ export default function ContactPage() {
               ) : (
                 <p className="text-xs text-muted-foreground">{item.desc}</p>
               )}
-            </motion.div>
+            </div>
           ))}
         </div>
 
-        {/* Form */}
-        <motion.div className="max-w-xl mx-auto" {...fadeUp(0.4)}>
+        {/* Form — CSS reveal (LCP element) */}
+        <div className="max-w-xl mx-auto reveal-up reveal-d3">
           <div className="glass rounded-2xl p-6 md:p-8">
             <h2 className="font-bold text-foreground text-lg mb-5">أرسل رسالة</h2>
             <form onSubmit={handleSubmit} className="space-y-4">
@@ -204,7 +195,7 @@ export default function ContactPage() {
               </button>
             </form>
           </div>
-        </motion.div>
+        </div>
       </div>
     </div>
   )

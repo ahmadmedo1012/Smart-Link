@@ -114,3 +114,20 @@
 | /terms | 92 | 100 | 96 | 100 |
 
 **JS صفحة pricing: 639KB** (كانت تسحب motion+AnimatePresence كاملة قبلها) — صفر أخطاء JS حقيقية.
+
+---
+
+## الجولة الرابعة (r4-live) — بعد نشر 9f05fba (Link/JSON-LD/sitemap ديناميكي/honeypot/أصول)
+
+| الصفحة | perf | a11y | bp | seo |
+|---|:---:|:---:|:---:|:---:|
+| / | 87 | 100 | 100 | 100 |
+| /about | 86 | 100 | 100 | 100 |
+| /contact | 94 | 100 | 100 | 100 |
+| /pricing | **93** | 100 | 100 | 100 |
+| /privacy | 92 | 100 | 100 | 100 |
+| /terms | 91 | 100 | 100 | 100 |
+
+**مواجهة المواقع الثلاثة (نفس الحاوية/اللحظة):** المظلة 88 / Smart Menu 67 / SmartBot 93 — تفاصيل كاملة في `docs/projects-comparison.md` 4-bis.
+
+**ملفات خام:** `lighthouse/{r4-live,product-comparison}/*.json`

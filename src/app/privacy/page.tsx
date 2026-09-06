@@ -1,14 +1,13 @@
 // Server Component: legal text needs zero client JS (removes ~800ms script
 // evaluation that was the #1 TBT source on this page).
-import type { Metadata } from "next"
+import { pageMetadata } from "@/lib/seo"
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "سياسة الخصوصية",
   description:
     "سياسة خصوصية SmartLink — كيف نجمع بياناتك ونحميها عند استخدام المنيو الرقمي والبوت الذكي، وفق أفضل الممارسات الرقمية.",
-  alternates: { canonical: "/privacy" },
-  robots: { index: true, follow: true },
-}
+  canonical: "/privacy",
+})
 
 const breadcrumbLd = {
   "@context": "https://schema.org",

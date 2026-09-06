@@ -4,13 +4,22 @@ import { ChevronLeft } from "lucide-react"
 
 /* Client island: FAQ accordion (grid-rows 0fr→1fr CSS height animation).
    Extracted so /pricing can be a server component with zero framer-motion
-   in its initial JS — matches the .acc pattern used by the mobile nav. */
+   in its initial JS — matches the .acc pattern used by the mobile nav.
+   r6: also the home FAQ island (replaced a homegrown fixed-maxHeight
+   variant that clipped long answers); optional className lets the host
+   section attach reveal/stagger utilities. */
 
-export function FaqAccordion({ faqs }: { faqs: { q: string; a: string }[] }) {
+export function FaqAccordion({
+  faqs,
+  className = "space-y-3",
+}: {
+  faqs: { q: string; a: string }[]
+  className?: string
+}) {
   const [open, setOpen] = useState<number | null>(0)
 
   return (
-    <div className="space-y-3">
+    <div className={className}>
       {faqs.map((faq, i) => {
         const isOpen = open === i
         return (

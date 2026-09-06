@@ -1,18 +1,15 @@
-import type { Metadata } from "next"
+import { pageMetadata } from "@/lib/seo"
 
 /* Metadata for the client-component contact page (titles cannot be exported
-   from "use client" files, so a segment layout carries them). */
-export const metadata: Metadata = {
+   from "use client" files, so a segment layout carries them). Full OG shape
+   via pageMetadata — see src/lib/seo.ts. */
+export const metadata = pageMetadata({
   title: "تواصل معنا",
   description:
     "تواصل مع فريق SmartLink — استفسارات، دعم فني، أو طلب خدمة جديدة. واتساب مباشر أو نموذج التواصل ونترد خلال ساعات.",
-  alternates: { canonical: "/contact" },
-  openGraph: {
-    title: "تواصل معنا | SmartLink",
-    description: "استفسارات ودعم فني وطلبات خدمات — واتساب مباشر أو نموذج البريد",
-    url: "/contact",
-  },
-}
+  canonical: "/contact",
+  ogDescription: "استفسارات ودعم فني وطلبات خدمات — واتساب مباشر أو نموذج البريد",
+})
 
 const breadcrumbLd = {
   "@context": "https://schema.org",

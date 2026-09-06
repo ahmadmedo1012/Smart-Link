@@ -64,6 +64,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <meta name="mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <meta name="apple-mobile-web-app-title" content="SmartLink" />
+        {/* r6: iOS Safari otherwise auto-links bare 10+ digit sequences
+            (e.g. the WhatsApp number inside error text) into uncontrolled
+            tel: anchors — numbers we WANT clickable are already wrapped in
+            real <a href> elements. */}
+        <meta name="format-detection" content="telephone=no" />
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
         <link rel="manifest" href="/manifest.webmanifest" />
@@ -88,7 +93,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               founder: { "@type": "Person", name: "أحمد خيري" },
               contactPoint: {
                 "@type": "ContactPoint",
-                email: "ahmadmedo1012@gmail.com",
+                /* r6: was "ahmad..." — every other surface (API owner inbox,
+                   footer, contact page, terms/privacy, the plan doc) uses
+                   "ahmed..." and the GitHub login is ahmadmedo1012 — one
+                   transposed letter was shipping to crawlers via JSON-LD. */
+                email: "ahmedmedo1012@gmail.com",
                 contactType: "customer service",
                 availableLanguage: ["ar", "en"],
               },

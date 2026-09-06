@@ -1,23 +1,19 @@
 import { Check, Smartphone, Bot, ChevronLeft, Sparkles } from "lucide-react"
 import Link from "next/link"
-import type { Metadata } from "next"
 import { GenArtBackground } from "@/components/gen-art-background"
 import { FaqAccordion } from "@/components/faq-accordion"
+import { pageMetadata } from "@/lib/seo"
 // Server component — the FAQ accordion is the only client island;
 // entrance motion is CSS reveal (paints pre-JS). Zero framer-motion.
 // ponytail: Sparkles retained for "coming soon" section — single intentional flourish
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "الخطط والأسعار",
   description:
     "خطط Smart Menu وSmartBot — ابدأ مجاناً اليوم: منيو رقمي للمطاعم وبوت ذكي لفيسبوك، مع خطط مدفوعة قادمة بميزات حصرية.",
-  alternates: { canonical: "/pricing" },
-  openGraph: {
-    title: "الخطط والأسعار | SmartLink",
-    description: "ابدأ مجاناً — خطط Smart Menu وSmartBot الأساسية مجانية بالكامل",
-    url: "/pricing",
-  },
-}
+  canonical: "/pricing",
+  ogDescription: "ابدأ مجاناً — خطط Smart Menu وSmartBot الأساسية مجانية بالكامل",
+})
 
 const plans = [
   {

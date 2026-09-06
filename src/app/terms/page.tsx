@@ -1,14 +1,13 @@
 // Server Component: legal text needs zero client JS (removes ~800ms script
 // evaluation that was a top TBT source on this page).
-import type { Metadata } from "next"
+import { pageMetadata } from "@/lib/seo"
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "شروط الاستخدام",
   description:
     "شروط استخدام منصة SmartLink وخدماتها (Smart Menu وSmartBot) — الحقوق والالتزامات وأحكام التعاقد الرقمي.",
-  alternates: { canonical: "/terms" },
-  robots: { index: true, follow: true },
-}
+  canonical: "/terms",
+})
 
 const breadcrumbLd = {
   "@context": "https://schema.org",

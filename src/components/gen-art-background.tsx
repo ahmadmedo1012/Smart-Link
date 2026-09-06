@@ -5,9 +5,12 @@ import { useMemo } from "react"
    Extracted from about/contact/pricing pages so those pages can be server
    components with zero framer-motion in their critical path.
 
-   Two visual variants (both seeded, deterministic per seed):
-   - "bands"  — horizontal drifting bands + star field (about/contact)
-   - "blobs"  — concentric blob rings + star field (pricing) */
+   Three visual variants (all seeded, deterministic per seed):
+   - "bands"  — horizontal drifting bands + star field (about)
+   - "blobs"  — concentric blob rings + star field (pricing)
+   - "rings"  — wavy concentric rings + star field (contact — r6 moved the
+     page's inline ~50-line copy of this generator into the shared island,
+     one seeded-RNG source of truth instead of two) */
 
 function mulberry32(s: number) {
   return function () {
@@ -74,18 +77,45 @@ function blobsArt(rng: () => number, accent: string, accentDim: string) {
   return lines.join("\n")
 }
 
+function ringsArt(rng: () => number, accent: string) {
+  const lines: string[] = []
+  for (let ring = 0; ring < 6; ring++) {
+    const cx = 30 + rng() * 40
+    const cy = 30 + rng() * 40
+    const r = 10 + ring * 5 + rng() * 6
+    const pts = 16 + ring * 2
+    const rot = rng() * 360
+    const op = 0.015 + ring * 0.005
+    const d: string[] = []
+    for (let i = 0; i <= pts; i++) {
+      const angle = ((i / pts) * 360 + rot) * (Math.PI / 180)
+      const rad = r + (i % 4 === 0 ? rng() * 5 - 2.5 : 0)
+      const x = cx + Math.cos(angle) * rad
+      const y = cy + Math.sin(angle) * rad
+      d.push(`${i === 0 ? "M" : "L"}${x.toFixed(1)} ${y.toFixed(1)}`)
+    }
+    d.push("Z")
+    lines.push(`<path d="${d.join(" ")}" fill="none" stroke="${accent}" stroke-width="0.4" opacity="${op}" />`)
+  }
+  lines.push(...stars(rng, accent))
+  return lines.join("\n")
+}
+
 export function GenArtBackground({
   seed = 42,
   variant = "bands",
 }: {
   seed?: number
-  variant?: "bands" | "blobs"
+  variant?: "bands" | "blobs" | "rings"
 }) {
   const paths = useMemo(() => {
     const rng = mulberry32(seed)
     const accent = "oklch(0.55 0.01 260)"
     if (variant === "blobs") {
       return blobsArt(rng, accent, "oklch(0.55 0.01 260 / 0.04)")
+    }
+    if (variant === "rings") {
+      return ringsArt(rng, accent)
     }
     return bandsArt(rng, accent)
   }, [seed, variant])

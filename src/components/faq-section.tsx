@@ -1,7 +1,13 @@
-"use client"
-import { useState } from "react"
-import { ChevronDown } from "lucide-react"
-import { cn } from "@/lib/utils"
+import { FaqAccordion } from "@/components/faq-accordion"
+
+/* Server component (r6): section chrome + FAQPage structured data render
+   on the server; FaqAccordion is the only client island — identical
+   architecture to /pricing. The previous version was a full client
+   component with its own accordion that animated a FIXED maxHeight of
+   200px: any answer taller than that (small screens, long text wraps)
+   was silently clipped. The shared .acc grid-rows island auto-sizes to
+   content, carries aria-controls/aria-labelledby wiring, and costs the
+   home bundle one island instead of a bespoke implementation. */
 
 const faqs = [
   { q: "ما هي منصة SmartLink؟", a: "SmartLink هي منصة رقمية متكاملة تجمع عدة خدمات ذكية تحت مظلة واحدة. حالياً نقدم خدمة Smart Menu (المنيو الرقمي للمطاعم) و SmartBot (البوت الذكي لفيسبوك)، مع خطط لإطلاق المزيد من الخدمات قريباً." },
@@ -12,40 +18,25 @@ const faqs = [
   { q: "ما هي طرق الدعم المتاحة؟", a: "نقدم دعماً فنياً عبر واتساب، البريد الإلكتروني، وفريق متخصص لمساعدتك في أي استفسار أو مشكلة تقنية." },
 ]
 
-function FaqItem({ faq, index, open, onToggle }: { faq: typeof faqs[number]; index: number; open: boolean; onToggle: () => void }) {
-  return (
-    <div
-      className={cn(
-        "glass rounded-2xl overflow-hidden transition-all duration-300",
-        open && "bg-[var(--surface-raised)] border-[var(--ring)]/20"
-      )}
-    >
-      <button
-        onClick={onToggle}
-        aria-expanded={open}
-        id={`faq-trigger-${index}`}
-        className="flex items-center justify-between w-full px-6 py-4 text-sm font-medium text-foreground hover:bg-[var(--accent)] transition-all duration-200 text-start"
-      >
-        <span>{faq.q}</span>
-        <ChevronDown className={cn("w-4 h-4 text-muted-foreground shrink-0 transition-all duration-300", open && "rotate-180 text-primary")} />
-      </button>
-      <div
-        role="region"
-        aria-labelledby={`faq-trigger-${index}`}
-        className="overflow-hidden transition-all duration-[var(--move-base)] ease-[var(--ease-smooth)]"
-        style={{ maxHeight: open ? "200px" : "0", opacity: open ? 1 : 0 }}
-      >
-        <p className="px-6 pb-4 text-sm text-muted-foreground leading-relaxed">{faq.a}</p>
-      </div>
-    </div>
-  )
+/* Rich results: the homepage's six real Q&As become FAQPage-eligible
+   (parity with /pricing, which already shipped this schema). */
+const faqLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqs.map((f) => ({
+    "@type": "Question",
+    name: f.q,
+    acceptedAnswer: { "@type": "Answer", text: f.a },
+  })),
 }
 
 export function FaqSection() {
-  const [open, setOpen] = useState<number | null>(null)
-
   return (
     <section id="faq" className="section-padding relative">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }}
+      />
       <div className="container-base max-w-2xl">
         <div className="reveal-scroll text-center mb-12">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[var(--glass-border)] bg-[var(--glass-bg)] backdrop-blur-sm text-xs text-primary-text font-medium mb-5">
@@ -54,11 +45,7 @@ export function FaqSection() {
           <h2 className="text-3xl md:text-5xl font-extrabold text-foreground mb-4 tracking-[-0.01em]">الأسئلة الشائعة</h2>
           <p className="text-muted-foreground text-base">إجابات لأكثر الأسئلة شيوعاً عن منصتنا</p>
         </div>
-        <div className="reveal-scroll-stagger space-y-3">
-          {faqs.map((faq, i) => (
-            <FaqItem key={faq.q} faq={faq} index={i} open={open === i} onToggle={() => setOpen(open === i ? null : i)} />
-          ))}
-        </div>
+        <FaqAccordion faqs={faqs} className="reveal-scroll-stagger space-y-3" />
       </div>
     </section>
   )

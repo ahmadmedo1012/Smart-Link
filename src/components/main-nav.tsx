@@ -128,8 +128,8 @@ export function MainNav() {
           <Image src="/logo.png" alt="SmartLink" width={150} height={38} className="h-8 md:h-9 w-auto object-contain transition-transform duration-300 group-hover:scale-105" priority />
         </Link>
 
-        {/* Desktop nav */}
-        <nav className="hidden md:flex items-center gap-1">
+        {/* Desktop nav — r6: named landmark for screen readers */}
+        <nav className="hidden md:flex items-center gap-1" aria-label="التنقل الرئيسي">
           {navLinks.map((link) =>
             link.children ? (
               <div
@@ -146,7 +146,10 @@ export function MainNav() {
                   className="flex items-center gap-1.5 px-4 py-2.5 text-sm font-medium text-muted-foreground hover:text-foreground rounded-xl hover:bg-[var(--accent)] transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--ring)]"
                 >
                   {link.label}
-                  <ChevronDown className="w-3.5 h-3.5 transition-transform duration-200 group-hover/nav:rotate-180" style={{ transform: desktopServicesOpen ? "rotate(180deg)" : undefined }} />
+                  {/* r6: removed dead group-hover/nav:rotate-180 — no parent
+                      carries group/nav, so the class never fired; the inline
+                      style below is what actually rotates the chevron. */}
+                  <ChevronDown className="w-3.5 h-3.5 transition-transform duration-200" style={{ transform: desktopServicesOpen ? "rotate(180deg)" : undefined }} />
                 </button>
                 {desktopServicesOpen && (
                 <div className="menu-pop menu-pop-fast absolute top-full right-0 mt-2 w-80">
@@ -222,9 +225,10 @@ export function MainNav() {
         </div>
       </div>
 
-      {/* Mobile menu — CSS menu-pop; sub-menu uses the grid-rows accordion */}
+      {/* Mobile menu — CSS menu-pop; sub-menu uses the grid-rows accordion.
+          r6: named nav landmark (was a bare div). */}
       {mobileOpen && (
-          <div className="menu-pop md:hidden mx-2 mb-2">
+          <nav className="menu-pop md:hidden mx-2 mb-2" aria-label="قائمة الجوال">
             <div className="glass-strong rounded-2xl p-2 shadow-xl">
               {navLinks.map((link) =>
                 link.children ? (
@@ -276,7 +280,7 @@ export function MainNav() {
                 )
               )}
             </div>
-          </div>
+          </nav>
         )}
     </header>
   )

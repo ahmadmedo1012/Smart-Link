@@ -1,5 +1,12 @@
 import Link from "next/link"
 import { ArrowLeft, Home } from "lucide-react"
+import type { Metadata } from "next"
+
+/* r6: real page title for the 404 route (was falling back to the root
+   default — tab/history showed the home title on a dead URL). */
+export const metadata: Metadata = {
+  title: "الصفحة غير موجودة",
+}
 
 /* Server component — CSS reveal only. This boundary renders in EVERY route's
    chunk graph, so a framer-motion import here would ship the whole 117 KB

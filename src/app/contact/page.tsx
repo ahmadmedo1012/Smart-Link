@@ -5,7 +5,7 @@ import { Mail, MessageCircle, MapPin, Clock, Send, Check, Loader2 } from "lucide
 function mulberry32(s: number) {
   return function () {
     s |= 0; s = s + 0x6d2b79f5 | 0;
-    var t = Math.imul(s ^ s >>> 15, 1 | s);
+    let t = Math.imul(s ^ s >>> 15, 1 | s);
     t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
     return ((t ^ t >>> 14) >>> 0) / 4294967296;
   };
@@ -194,6 +194,7 @@ export default function ContactPage() {
               <button
                 type="submit"
                 disabled={sending}
+                aria-live="polite"
                 className="flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-primary text-white font-semibold text-sm hover:brightness-110 transition-all duration-300 active:scale-[0.98] disabled:opacity-60 disabled:cursor-not-allowed"
               >
                 {sending ? (

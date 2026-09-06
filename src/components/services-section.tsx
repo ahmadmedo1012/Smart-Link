@@ -38,7 +38,7 @@ const services = [
   },
 ]
 
-function ServiceCard({ service, index }: { service: typeof services[number]; index: number }) {
+function ServiceCard({ service }: { service: typeof services[number] }) {
   const Icon = service.icon
 
   return (
@@ -130,8 +130,8 @@ export function ServicesSection() {
         </div>
 
         <div className="grid md:grid-cols-3 gap-6 lg:gap-8">
-          {services.map((service, i) => (
-            <ServiceCard key={service.title} service={service} index={i} />
+          {services.map((service) => (
+            <ServiceCard key={service.title} service={service} />
           ))}
         </div>
       </div>

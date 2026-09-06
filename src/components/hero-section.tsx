@@ -11,9 +11,15 @@ function AnimatedStat({ value, label, icon: Icon, delay = 0 }: { value: string; 
   const ref = useRef<HTMLDivElement>(null)
   const [inView, setInView] = useState(false)
   const [display, setDisplay] = useState("0")
-  const target = parseFloat(value.replace(/[+%]/g, ""))
-  const prefix = value.startsWith("+") ? "+" : ""
-  const suffix = value.endsWith("%") ? "%" : ""
+  /* r5 (gstack /review pre-emit gate — bug confirmed in DOM + visually):
+     "+10K"/"+50K" lost their K (parseFloat drops it) and "99.9%" was rounded
+     to 100% by Math.round. Parse explicitly: sign + number + unit suffix,
+     keep decimals when the source value has them. */
+  const match = value.match(/^([+]?)(\d+(?:\.\d+)?)([K%]?)$/)
+  const prefix = match?.[1] ?? ""
+  const target = match ? parseFloat(match[2]) : 0
+  const suffix = match?.[3] ?? ""
+  const decimals = match?.[2]?.includes(".") ? 1 : 0
 
   useEffect(() => {
     const el = ref.current
@@ -36,14 +42,14 @@ function AnimatedStat({ value, label, icon: Icon, delay = 0 }: { value: string; 
       const progress = Math.min(elapsed / duration, 1)
       // ease-out-quart deceleration
       const eased = 1 - Math.pow(1 - progress, 3)
-      const current = Math.round(eased * target)
-      setDisplay(prefix + current + suffix)
+      const current = eased * target
+      setDisplay(prefix + current.toFixed(decimals) + suffix)
       if (progress < 1) { raf = requestAnimationFrame(tick) }
-      else { setDisplay(prefix + Math.round(target) + suffix) }
+      else { setDisplay(prefix + target.toFixed(decimals) + suffix) }
     }
     raf = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(raf)
-  }, [inView, target, prefix, suffix])
+  }, [inView, target, prefix, suffix, decimals])
 
   return (
     <div
@@ -174,7 +180,7 @@ export function HeroSection() {
           {/* Animated heading — CSS reveal (pre-JS paint for LCP) */}
           <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-[-0.01em] sm:tracking-[-0.02em] leading-[1.25] mb-7 reveal-stagger">
             {headingWords.map((word, i) => (
-              <span key={word} className={i === 1 ? "block reveal-up" : "block reveal-up"}>
+              <span key={word} className="block reveal-up">
                 {i === 0 ? (
                   <span className="gradient-text">{word}</span>
                 ) : i === 1 ? (

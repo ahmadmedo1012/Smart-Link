@@ -1,7 +1,6 @@
 import type { Metadata } from "next"
 import { Cairo, Readex_Pro } from "next/font/google"
 import { ThemeProvider } from "@/components/theme-provider"
-import { Toaster } from "sonner"
 import { Analytics } from "@vercel/analytics/next"
 import { MainNav } from "@/components/main-nav"
 import { Footer } from "@/components/footer"
@@ -61,7 +60,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="ar" dir="rtl" suppressHydrationWarning className={`${cairo.variable} ${readexPro.variable}`}>
       <head>
         <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)" />
-        <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+        <meta name="theme-color" content="#fafafa" media="(prefers-color-scheme: light)" />
         <meta name="mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <meta name="apple-mobile-web-app-title" content="SmartLink" />
@@ -140,7 +139,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <PageTransition>{children}</PageTransition>
           </main>
           <Footer />
-          <Toaster position="top-center" richColors closeButton />
           <Analytics />
         </ThemeProvider>
       </body>

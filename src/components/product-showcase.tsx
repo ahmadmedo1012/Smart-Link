@@ -154,7 +154,8 @@ function SmartBotShowcase() {
                   src="/images/smart-bot.jpg"
                   alt="لقطة شاشة حقيقية من لوحة تحكم SmartBot"
                   width={560}
-                  height={350}
+                  height={336} /* r5: true 1280:768 aspect — kills the micro
+                                  layout shift from the wrong 350 box */
                   sizes="(min-width: 1024px) 560px, 100vw"
                   className="w-full h-auto block"
                 />

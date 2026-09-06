@@ -7,7 +7,7 @@
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
-  "background_color": "#0d0d14",
+  "background_color": "#000000",
   "theme_color": "#000000",
   "categories": ["business", "productivity"],
   "icons": [

@@ -1,6 +1,5 @@
 "use client"
 import { useEffect } from "react"
-import Link from "next/link"
 
 /* Root error boundary — replaces <html> itself, so it ships its own markup
    and full-page dark styling (brand fallback) rather than relying on layout. */
@@ -72,6 +71,11 @@ export default function GlobalError({
             >
               إعادة المحاولة
             </button>
+            {/* Plain <a> (not <Link>) on purpose: this boundary replaces the
+                whole <html> after a catastrophic client failure — a full page
+                reload clears the broken client state; client-side nav would
+                reuse the very runtime that just crashed. */}
+            {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
             <a
               href="/"
               style={{

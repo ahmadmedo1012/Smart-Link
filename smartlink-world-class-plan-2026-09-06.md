@@ -11,7 +11,7 @@
 GitHub repo:  https://github.com/ahmadmedo1012/Smart-Link.git
 Live:         https://smart-link.ly/
 GitHub PAT:   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
-Vercel token: vcp_6DXSGV0cFXxJZmJqsOJ0D9ugy36IEcIxGBJIiv6b3rAFFkpMtl3IAxc2
+Vercel token: [REDACTED:vercel_token — was auto-revoked after exposure, kept out of history going forward]
 ```
 
 ---

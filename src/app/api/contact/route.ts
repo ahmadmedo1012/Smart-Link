@@ -16,11 +16,18 @@ const SUBJECT_LABELS: Record<string, string> = {
   other: "أخرى",
 }
 
-/* Simple in-memory rate limit — 5 submissions per IP per minute */
+/* Simple in-memory rate limit — 5 submissions per IP per minute.
+   r5 (gstack /cso STRIDE-DoS): expired entries are pruned so the map can't
+   grow unboundedly from many forged x-forwarded-for values. */
 const rateMap = new Map<string, { count: number; reset: number }>()
 
 function isRateLimited(ip: string): boolean {
   const now = Date.now()
+  if (rateMap.size > 1000) {
+    for (const [k, v] of rateMap) {
+      if (now > v.reset) rateMap.delete(k)
+    }
+  }
   const entry = rateMap.get(ip)
   if (!entry || now > entry.reset) {
     rateMap.set(ip, { count: 1, reset: now + 60_000 })
@@ -61,8 +68,11 @@ export async function POST(req: Request) {
       )
     }
 
-    // Sanitize inputs to prevent XSS
-    const sanitize = (str: string) => str.replace(/[<>]/g, "").trim()
+    // Sanitize inputs to prevent XSS. r5 (gstack /review — Type Coercion at
+    // Boundaries): callers may omit fields or send non-strings (the UI always
+    // sends strings, but a direct API call with a missing `subject` used to
+    // crash with undefined.replace → 500 instead of a clean 4xx).
+    const sanitize = (str: unknown) => String(str ?? "").replace(/[<>]/g, "").trim()
     const cleanName = sanitize(name)
     const cleanEmail = sanitize(email)
     const cleanSubject = SUBJECT_LABELS[sanitize(subject)] || "استفسار عام"
@@ -138,7 +148,6 @@ export async function POST(req: Request) {
     return NextResponse.json({
       success: true,
       message: "تم استلام رسالتك بنجاح. سنتواصل معك قريباً.",
-      id: notifyData.id,
     })
   } catch (error) {
     console.error("[Contact] Error:", error)

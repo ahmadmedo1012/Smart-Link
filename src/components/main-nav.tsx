@@ -1,5 +1,5 @@
 "use client"
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect, useRef, useSyncExternalStore } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { usePathname } from "next/navigation"
@@ -57,12 +57,40 @@ export function MainNav() {
   const [servicesOpen, setServicesOpen] = useState(false)
   const [desktopServicesOpen, setDesktopServicesOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
-  const [mounted, setMounted] = useState(false)
+  /* r5 (gstack /review — react-hooks/set-state-in-effect): hydration-safe
+     "mounted" without a cascading render — server snapshot false, client
+     snapshot true, evaluated once. */
+  const mounted = useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false
+  )
   const pathname = usePathname()
   const { theme, setTheme } = useTheme()
   const headerRef = useRef<HTMLDivElement>(null)
 
-  useEffect(() => setMounted(true), [])
+  /* r5 (gstack /qa — a11y polish): Escape closes any open menu (always
+     active), and the mobile menu locks body scroll while open. */
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setMobileOpen(false)
+        setServicesOpen(false)
+        setDesktopServicesOpen(false)
+      }
+    }
+    window.addEventListener("keydown", onKey)
+    return () => window.removeEventListener("keydown", onKey)
+  }, [])
+
+  useEffect(() => {
+    if (!mobileOpen) return
+    const prev = document.body.style.overflow
+    document.body.style.overflow = "hidden"
+    return () => {
+      document.body.style.overflow = prev
+    }
+  }, [mobileOpen])
 
   // IntersectionObserver for scroll state — avoids style recalc per scroll frame
   useEffect(() => {

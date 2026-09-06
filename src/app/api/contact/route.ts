@@ -32,7 +32,13 @@ function isRateLimited(ip: string): boolean {
 
 export async function POST(req: Request) {
   try {
-    const { name, email, subject, message } = await req.json()
+    const { name, email, subject, message, company } = await req.json()
+
+    // Honeypot: a field invisible to humans — any content means a spam bot.
+    // Return a fake success so the bot thinks it worked and moves on.
+    if (typeof company === "string" && company.trim() !== "") {
+      return NextResponse.json({ ok: true })
+    }
 
     // Validate
     if (!name || !email || !message) {

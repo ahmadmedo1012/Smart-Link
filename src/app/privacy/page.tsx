@@ -10,9 +10,22 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
 }
 
+const breadcrumbLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "الرئيسية", item: "https://smart-link.ly" },
+    { "@type": "ListItem", position: 2, name: "سياسة الخصوصية", item: "https://smart-link.ly/privacy" },
+  ],
+}
+
 export default function PrivacyPage() {
   return (
     <div className="pt-28 pb-16 relative overflow-hidden">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
+      />
       <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
         <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[400px] rounded-full bg-[var(--primary)]/5 blur-[150px]" />
       </div>

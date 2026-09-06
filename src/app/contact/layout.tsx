@@ -14,6 +14,23 @@ export const metadata: Metadata = {
   },
 }
 
+const breadcrumbLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "الرئيسية", item: "https://smart-link.ly" },
+    { "@type": "ListItem", position: 2, name: "تواصل معنا", item: "https://smart-link.ly/contact" },
+  ],
+}
+
 export default function ContactLayout({ children }: { children: React.ReactNode }) {
-  return children
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
+      />
+      {children}
+    </>
+  )
 }

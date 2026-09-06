@@ -1,4 +1,5 @@
 import { Check, Smartphone, Bot, ChevronLeft, Sparkles } from "lucide-react"
+import Link from "next/link"
 import type { Metadata } from "next"
 import { GenArtBackground } from "@/components/gen-art-background"
 import { FaqAccordion } from "@/components/faq-accordion"
@@ -63,9 +64,34 @@ const faqs = [
   { q: "هل يمكن إلغاء الاشتراك في أي وقت؟", a: "نعم، يمكنك إلغاء حسابك أو إيقاف الخدمة في أي وقت بدون أي رسوم." },
 ]
 
+/* Rich results: FAQPage + BreadcrumbList structured data (Google eligibility) */
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.map((f) => ({
+      "@type": "Question",
+      name: f.q,
+      acceptedAnswer: { "@type": "Answer", text: f.a },
+    })),
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "الرئيسية", item: "https://smart-link.ly" },
+      { "@type": "ListItem", position: 2, name: "الخطط والأسعار", item: "https://smart-link.ly/pricing" },
+    ],
+  },
+]
+
 export default function PricingPage() {
   return (
     <div className="pt-28 pb-16 relative overflow-hidden">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <GenArtBackground seed={77} variant="blobs" />
       <div className="container-base relative">
         <div className="max-w-3xl mx-auto text-center mb-14 reveal-up">
@@ -112,12 +138,12 @@ export default function PricingPage() {
                       </li>
                     ))}
                   </ul>
-                  <a
+                  <Link
                     href="/contact"
                     className="group inline-flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-primary text-white font-semibold text-sm hover:brightness-110 transition-all duration-200 active:scale-[0.97]"
                   >
                     ابدأ الآن <ChevronLeft className="w-3.5 h-3.5 transition-transform group-hover:-translate-x-0.5" />
-                  </a>
+                  </Link>
                 </div>
               </div>
             )
@@ -134,12 +160,12 @@ export default function PricingPage() {
             <p className="text-muted-foreground max-w-md mx-auto mb-6">
               نعمل على إطلاق خطط مدفوعة بميزات حصرية: تحليلات متقدمة، دعم فني أولوي، عدد غير محدود من العناصر، وأكثر
             </p>
-            <a
+            <Link
               href="/contact"
               className="group inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[var(--primary)] text-white text-sm font-semibold hover:brightness-110 transition-all duration-200 active:scale-[0.97]"
             >
               تواصل معنا لمعرفة المزيد <ChevronLeft className="w-3.5 h-3.5 transition-transform group-hover:-translate-x-0.5" />
-            </a>
+            </Link>
           </div>
         </div>
 

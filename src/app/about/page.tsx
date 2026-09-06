@@ -24,9 +24,22 @@ const values = [
   { icon: Layers, title: "منصة متكاملة", desc: "كل ما تحتاجه لإدارة أعمالك رقمياً - خدمات تعمل معاً بتناغم." },
 ]
 
+const breadcrumbLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "الرئيسية", item: "https://smart-link.ly" },
+    { "@type": "ListItem", position: 2, name: "عن المنصة", item: "https://smart-link.ly/about" },
+  ],
+}
+
 export default function AboutPage() {
   return (
     <div className="pt-28 pb-16 relative overflow-hidden">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
+      />
       <GenArtBackground seed={2024} />
       <div className="container-base relative">
         <div className="max-w-3xl mx-auto text-center mb-14 reveal-up">

@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef } from "react"
 import Link from "next/link"
 import Image from "next/image"
+import { usePathname } from "next/navigation"
 import { Menu, X, Smartphone, Bot, ChevronDown, Sun, Moon } from "lucide-react"
 import { useTheme } from "next-themes"
 import { cn } from "@/lib/utils"
@@ -23,18 +24,19 @@ const navLinks = [
 
 function MagneticButton({ children, className }: { children: React.ReactNode; className?: string }) {
   const ref = useRef<HTMLDivElement>(null)
-  const [pos, setPos] = useState({ x: 0, y: 0 })
 
   useEffect(() => {
     const el = ref.current
     if (!el) return
+    // Direct DOM transform — a state update per mousemove re-rendered the
+    // whole header; this path costs zero renders.
     const onMove = (e: MouseEvent) => {
       const rect = el.getBoundingClientRect()
       const x = (e.clientX - rect.left - rect.width / 2) * 0.15
       const y = (e.clientY - rect.top - rect.height / 2) * 0.15
-      setPos({ x, y })
+      el.style.transform = `translate(${x}px, ${y}px)`
     }
-    const onLeave = () => setPos({ x: 0, y: 0 })
+    const onLeave = () => { el.style.transform = "translate(0px, 0px)" }
     el.addEventListener("mousemove", onMove)
     el.addEventListener("mouseleave", onLeave)
     return () => {
@@ -44,7 +46,7 @@ function MagneticButton({ children, className }: { children: React.ReactNode; cl
   }, [])
 
   return (
-    <div ref={ref} className={cn("magnetic-btn", className)} style={{ transform: `translate(${pos.x}px, ${pos.y}px)` }}>
+    <div ref={ref} className={cn("magnetic-btn", className)}>
       {children}
     </div>
   )
@@ -56,6 +58,7 @@ export function MainNav() {
   const [desktopServicesOpen, setDesktopServicesOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const [mounted, setMounted] = useState(false)
+  const pathname = usePathname()
   const { theme, setTheme } = useTheme()
   const headerRef = useRef<HTMLDivElement>(null)
 
@@ -149,7 +152,13 @@ export function MainNav() {
               <Link
                 key={link.label}
                 href={link.href}
-                className="px-4 py-2.5 text-sm font-medium text-muted-foreground hover:text-foreground rounded-xl hover:bg-[var(--accent)] transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--ring)]"
+                aria-current={pathname === link.href ? "page" : undefined}
+                className={cn(
+                  "px-4 py-2.5 text-sm rounded-xl transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--ring)]",
+                  pathname === link.href
+                    ? "text-foreground bg-[var(--accent)] font-semibold"
+                    : "font-medium text-muted-foreground hover:text-foreground hover:bg-[var(--accent)]"
+                )}
               >
                 {link.label}
               </Link>
@@ -226,7 +235,13 @@ export function MainNav() {
                     key={link.label}
                     href={link.href}
                     onClick={() => setMobileOpen(false)}
-                    className="flex items-center gap-3 px-3 py-3 text-sm font-medium text-foreground rounded-xl hover:bg-[var(--accent)] transition-all duration-200"
+                    aria-current={pathname === link.href ? "page" : undefined}
+                    className={cn(
+                      "flex items-center gap-3 px-3 py-3 text-sm rounded-xl transition-all duration-200",
+                      pathname === link.href
+                        ? "text-foreground bg-[var(--accent)] font-semibold"
+                        : "font-medium text-foreground hover:bg-[var(--accent)]"
+                    )}
                   >
                     {link.label}
                   </Link>

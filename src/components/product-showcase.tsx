@@ -46,8 +46,8 @@ function SmartMenuShowcase() {
                   <Image
                     src="/images/smart-menu.jpg"
                     alt="لقطة شاشة حقيقية من منيو Smart Menu الرقمي"
-                    width={320}
-                    height={1657}
+                    width={800}
+                    height={4146}
                     sizes="320px"
                     className="w-full h-auto block"
                     priority={false}

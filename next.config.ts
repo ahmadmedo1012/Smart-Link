@@ -20,6 +20,28 @@ const nextConfig: NextConfig = {
     optimizePackageImports: ["lucide-react", "framer-motion"],
   },
   async headers() {
+    /* Round 4: immutable caching for public/ assets (screenshots, icons, OG
+       image, logo) — browsers would otherwise revalidate them every visit.
+       Vercel already covers /_next/static. */
+    const immutableFiles = [
+      "og-smartlink.jpg",
+      "logo.png",
+      "favicon-32.png",
+      "apple-touch-icon.png",
+      "icon-192.png",
+      "icon-512.png",
+      "icon-512-maskable.png",
+    ];
+    const immutable = [
+      ...immutableFiles.map((f) => ({
+        source: `/${f}`,
+        headers: [{ key: "Cache-Control", value: "public, max-age=31536000, immutable" }],
+      })),
+      {
+        source: "/images/:path*",
+        headers: [{ key: "Cache-Control", value: "public, max-age=31536000, immutable" }],
+      },
+    ];
     return [
       {
         source: "/(.*)",
@@ -31,6 +53,7 @@ const nextConfig: NextConfig = {
           { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=()" },
         ],
       },
+      ...immutable,
     ];
   },
 };

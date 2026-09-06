@@ -71,6 +71,8 @@ export default function ContactPage() {
       email: (form.elements.namedItem("email") as HTMLInputElement).value,
       subject: (form.elements.namedItem("subject") as HTMLSelectElement).value,
       message: (form.elements.namedItem("message") as HTMLTextAreaElement).value,
+      // Honeypot: hidden from humans, filled only by naive spam bots
+      company: (form.elements.namedItem("company") as HTMLInputElement)?.value ?? "",
     }
 
     try {
@@ -131,7 +133,16 @@ export default function ContactPage() {
         <div className="max-w-xl mx-auto reveal-up reveal-d3">
           <div className="glass rounded-2xl p-6 md:p-8">
             <h2 className="font-bold text-foreground text-lg mb-5">أرسل رسالة</h2>
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-4" noValidate={false}>
+              {/* Honeypot — invisible to humans/screen readers; bots that fill it are dropped silently server-side */}
+              <input
+                type="text"
+                name="company"
+                tabIndex={-1}
+                autoComplete="off"
+                aria-hidden="true"
+                className="absolute opacity-0 pointer-events-none w-0 h-0 -z-10"
+              />
               <div className="grid sm:grid-cols-2 gap-4">
                 <div>
                   <label htmlFor="name" className="block text-sm font-medium text-foreground mb-1.5">الاسم</label>

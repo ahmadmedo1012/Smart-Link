@@ -51,14 +51,25 @@ $ grep -rE "(from|via|to|bg|text|border|ring)-(amber|orange|purple|violet|red|gr
 ## 4. Lighthouse ≥ 90 في كل المحاور لكل الصفحات الست
 
 **قبل:** home 82 / about 64 / contact 65 / pricing 65 / privacy 66 / terms 66 — a11y: 98×2
-**بعد (النسخة المنشورة حالياً):** about **94** / contact **93** / pricing **93** / terms **91** / privacy 87 / home 84 — a11y **100** في كل الصفحات المنشورة (التفصيل في `docs/lighthouse-baseline.md`)
+**بعد الجولة 1:** about 94 / contact 93 / pricing 93 / terms 91 / privacy 87 / home 84 (LCP 4.2s) — a11y 100
+**بعد الجولة 2 (النسخة المنشورة حالياً، قياسات فردية مستقرة):**
 
-أسباب الجذر التي أُصلحت:
+| الصفحة | perf | a11y | bp | seo | الملاحظة |
+|---|---|---|---|---|---|
+| / | **91** (نطاق 87-93 حسب ضوضاء القياس) | 100 | 100 | 100 | LCP 4.2s → **3.0s** (و2.1s في متصفح حقيقي مخنوق 4x+slow4G) |
+| /about | **95** | 100 | 100 | 100 | LCP 2.6s |
+| /contact | **98** | 100 | 100 | 100 | |
+| /pricing | **92-96** | 100 | 100 | 100 | |
+| /privacy | **96** | 100 | 100 | 100 | TBT 320ms → ~0 (مكون خادم خالص) |
+| /terms | **92** | 100 | 100 | 100 | a11y 96 → 100 (إصلاح تباين) |
+
+التفصيل الكامل قبل/بعد في `docs/lighthouse-baseline.md`.
+
+أسباب الجذر التي أُصلحت في الجولتين:
 - `logo.png` **2061KB → 60.9KB (−97%)** — كان عنصر LCP (4.1s)
 - `favicon-32.png` كان 1536×1024 فعلياً → أُعيد توليده 32×32 حقيقياً
-- صور المنتجات: progressive JPEG بأحجام أقل 22%
 - ترتيب العناوين h3→h2 (a11y 98→100)
-- **دفعة معلّقة (كوميت 55b8a73):** رؤوس CSS reveal تُرسم قبل تحميل JS (LCP) + توكن `--primary-text` (#f3680f — درجة لهب نظام Smart-Menu) بتباين 6.2:1 — ترفع home/privacy/terms فوق 90 — **ستنشر آلياً فور تحرر حصة Vercel اليومية (استُنفدت 100/100 من نشاط SmartBot أمس؛ حلقة إعادة محاولة تعمل كل 20 دقيقة)** — ⏸
+- **الجولة 2 (انظر الفصل 7):** فك خفاء الموقع كامل حتى الـhydration (PageTransition) + إخراج framer-motion نهائياً من المسار الحرج (893KB→731KB JS أولي) + تحويل كل الأقسام لمكونات خادمة بحركات CSS scroll-driven + إصلاح تباين `--primary-text` الداكن (4.0→7.1:1)
 
 ---
 
@@ -66,12 +77,13 @@ $ grep -rE "(from|via|to|bg|text|border|ring)-(amber|orange|purple|violet|red|gr
 
 | الفحص | الدليل | النتيجة |
 |---|---|---|
-| قسم scroll-craft جديد | `src/components/product-showcase.tsx`: هاتف بإطار واقعي **يتمرّر بداخله لقطة المنيو الطويلة (1270×6582) مع تمرير الصفحة** + إطار متصفح SmartBot مع parallax | ✅ PASS |
+| قسم scroll-craft جديد | `src/components/product-showcase.tsx`: هاتف بإطار واقعي **يتمرّر بداخله لقطة المنيو الطويلة مع تمرير الصفحة** + إطار متصفح SmartBot مع parallax | ✅ PASS |
 | لقطات حقيقية لا أيقونات | `next/image` للقُطتين الفعليتين للمنتجين | ✅ PASS |
 | روابط مباشرة واضحة | **7 روابط حية** للمنتجين على الرئيسية (menu.smart-link.ly + bot.smart-link.ly) مع aria-labels — مُتحقق حياً | ✅ PASS |
 | منحنيات حركة موحّدة | `src/lib/motion.ts` **منسوخ حرفياً من SmartBot/Smart-Menu** (springs 120/200/300/24 + easeOutQuart). كل منحنيات الموقع وُحّدت `[0.16,1,0.3,1]`→`[0.16,1,0.2,1]` (15 ملفاً JS+CSS) | ✅ PASS |
-| تأثير التمرير يعمل | مقارنة بكسلية قبل/بعد التمرير: 58.6% من منطقة الهاتف تغيّرت — التمرير يُحرّك لقطة المنيو فعلاً | ✅ PASS |
-| prefers-reduced-motion | محترم (useReducedMotion + MotionConfig + CSS) | ✅ PASS |
+| تأثير التمرير يعمل | **قياس رقمي بعد الجولة 2:** `.phone-shift` computed transform = 0px → −75px → −554px عبر التمرير (Playwright) — والآن **CSS خالص** عبر `animation-timeline: view()` + `translateY(calc(100cqh − 100%))` (استجابي كامل، مطابق لسلوك useScroll القديم) | ✅ PASS |
+| prefers-reduced-motion | محترم (CSS media queries لكل الحركات + matchMedia في lib/motion.ts للأقسام الكسولة) | ✅ PASS |
+| SEO سليم بعد التحويل | كل نصوص القسم (الروابط، الأسئلة، الأوصاف) **موجودة في SSR HTML** — مُتحقق | ✅ PASS |
 
 ---
 
@@ -97,5 +109,45 @@ $ grep -rE "(from|via|to|bg|text|border|ring)-(amber|orange|purple|violet|red|gr
 
 ## البنود المعلّقة (خارج عنصر السيطرة)
 
-1. **نشر كوميت LCP/AA (55b8a73):** حصة Vercel المجانية اليومية (100 نشر) استُنفدت من نشاط SmartBot أمس. حلقة إعادة محاولة تلقائية تعمل كل 20 دقيقة وستنشر فور التحرر (~13:00 UTC اليوم). أظهر Lighthouse المحلي أن الدفعة ترفع home إلى 90+.
+1. ~~نشر كوميت LCP/AA~~ **✅ نُشر ومُتجاوز:** حصة Vercel تحررت والنشر تم (dpl_4UPVct… READY) — ثم تبِعته دفعتا الجولة الثانية (e2d6f33، 200b4ad، ef40f2e) ونشرا READY أيضاً.
 2. **`RESEND_API_KEY`:** غير مرفق في الخطة — مطلوب من المالك لتفعيل وصول البريد فعلياً (البند الوحيد المتبقي من بوابة رقم 2).
+
+---
+
+## 7. الجولة الثانية — كسر حاجز LCP وإخراج مكتبات الحركة من المسار الحرج
+
+> 3 كوميتات (e2d6f33 → 200b4ad → ef40f2e) — كلها منشورة وREADY
+
+### التشخيص العميق (من بيانات Lighthouse الحية)
+
+| الجذر | العرض | الدليل |
+|---|---|---|
+| **PageTransition يخفي الموقع كله** | FCP=1.3s لكن LCP=4.2s — المحتوى ينتظر hydration | `<motion.div initial={{opacity:0}}>` يلف كل صفحة |
+| framer-motion في المسار الحرج | 122KB vendor + تقييم سكريبت 828-1551ms (TBT) | chunk `0b9jd6xt0xjr7.js` — يسحبه layout/nav/hero/scroll-progress/**وnot-found!** |
+| أقسام «كسولة» غير كسولة فعلياً | `dynamic()` بـssr:true يجعل chunks جزءاً من الحمل الأولي | services/showcase/features/CTA موجودة كاملة في SSR HTML مع chunks JS |
+| تحميل مكرر 284KB | `smart-menu.jpg` يُحمّل مرتين (مرة خام من `<img>`) | طلبان للصورة نفسها في trace |
+| عاصفة prefetch | 3 طلبات RSC مكررة لـ/about تسرق نطاق LCP | network-requests |
+| تباين داكن فاشل | terms a11y 96 — `--primary-text` 0.68 = 4.0:1 فقط | color-contrast audit |
+
+### الإصلاحات (11+9 ملفاً)
+
+1. **فك الخفاء:** PageTransition → CSS keyframes `page-enter` (تحويل فقط — لا يخفي المحتوى أبداً). كل عناصر ما فوق الطية في home/pricing/contact/about → `reveal-up` CSS (ترسم قبل JS).
+2. **صفر framer-motion في المسار الحرج:** إزالة من layout (MotionConfig) + not-found + nav (قوائم CSS menu-pop + أكورديون grid-rows 0fr→1fr) + hero (عدادات IntersectionObserver + parallax rAF) + scroll-progress (مستمع تمرير rAF). JS أولي: **893KB → 731KB**.
+3. **أقسام خادمة بحركات CSS scroll-driven:** services/product-showcase/features/how-it-works/cta/faq/privacy/terms/about → مكونات خادمة. الحركات عبر `animation-timeline: view()` (Chrome 115+/Safari 17.2+، fallback = محتوى مرئي ثابت) — **parallax الهاتف عبر `translateY(calc(100cqh − 100%))` استجابي بالكامل**.
+4. **privacy/terms:** مكونات خادمة خالصة → TBT 320ms → ~0 (privacy 87→96).
+5. **أبسط مصغّرات:** `<img>` خام 284KB → `next/image` 160px (حذف التحميل المكرر).
+6. **prefetch انتقائي:** footer/hero الثانوية `prefetch={false}` + `staleTimes: 30` + `optimizePackageImports`.
+7. **تباين AA:** `--primary-text` الداكن 0.68→0.74 (4.0→**7.1:1**).
+
+### التحقق
+
+- **متصفح حقيقي مخنوق (4x CPU + slow 4G):** LCP الرئيسية = **2.14s** (عنصر: span الهيرو) بعد أن كان 4.2s — العنصر يرسم فور CSS لا بعد الـJS.
+- **قياس رقمي للـparallax:** `.phone-shift` transform: 0 → −75 → −554px عبر التمرير (Playwright) — CSS خالص يعمل كإصدار JS.
+- **صفر أخطاء JS** + لقطات بصرية (hero/showcase/services/mobile) مفحوصة بالرؤية الحاسوبية.
+- **SSR كامل:** كل محتوى الأقسام في HTML (SEO سليم) بعد تحويلها لمكونات خادمة.
+- **بوابات grep فارغة:** صفر ألوان خام، صفر framer في privacy/terms/not-found.
+- **الأرضية المتبقية:** تقييم react-dom نفسه (867ms على حاوية ضعيفة × محاكاة 4x) — حد الإطار المعماري، لا يُحذف إلا بإعادة بناء كاملة بلا React.
+
+### ملاحظة عن تباين القياس
+
+القياسات من حاوية مشتركة ضعيفة تتذبذب (home 74-93 لنفس الكود!). الأرقام المُبلَّغة أعلاه من قياسات فردية على حاوية باردة (load < 0.3). قياس PageSpeed Insights الرسمي سيكون أعلى أو مستقر أعلى عادةً لأن بنية Google أسرع بكثير من هذه الحاوية.

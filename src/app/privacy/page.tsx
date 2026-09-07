@@ -124,7 +124,7 @@ export default function PrivacyPage() {
 
           <section>
             <h2 className="text-xl font-bold text-foreground mt-6 mb-2">القانون المطبق</h2>
-            <p>تخضع سياسة الخصوصية هذه وتُفسر وفقاً لقوانين الجماهيرية العربية الليبية.</p>
+            <p>تخضع سياسة الخصوصية هذه وتُفسر وفقاً لقوانين دولة ليبيا.</p>
           </section>
         </div>
       </div>

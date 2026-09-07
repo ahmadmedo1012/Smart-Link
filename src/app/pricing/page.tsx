@@ -1,4 +1,5 @@
 import { Check, Smartphone, Bot, ChevronLeft, Sparkles } from "lucide-react"
+import { SITE } from "@/lib/site"
 import Link from "next/link"
 import { GenArtBackground } from "@/components/gen-art-background"
 import { FaqAccordion } from "@/components/faq-accordion"
@@ -18,6 +19,7 @@ const plans = [
   {
     title: "Smart Menu",
     subtitle: "المنيو الرقمي للمطاعم",
+    href: SITE.products.menu.url,
     icon: Smartphone,
     price: "مجاني",
     period: "الخطة الأساسية",
@@ -35,6 +37,7 @@ const plans = [
   {
     title: "SmartBot",
     subtitle: "البوت الذكي لفيسبوك",
+    href: SITE.products.bot.url,
     icon: Bot,
     price: "مجاني",
     period: "الخطة الأساسية",
@@ -53,7 +56,7 @@ const plans = [
 
 const faqs = [
   { q: "هل الخدمة مجانية حقاً؟", a: "نعم، الخطط الأساسية لكل من Smart Menu و SmartBot متوفرة مجاناً مع ميزات محدودة. يمكنك البدء فوراً بدون أي تكلفة." },
-  { q: "ما الفرق بين الخطة المجانية والمدفوعة؟", a: "الخطة المجانية توفر الميزات الأساسية. الخطط المدفوعة (القادمة قريباً) ستشمل ميزات متقدمة مثل التحليلات المتعمقة والدعم الفني الأولوي." },
+  { q: "ما الفرق بين الخطة المجانية والمدفوعة؟", a: "الخطة المجانية توفر الميزات الأساسية. الخطط المدفوعة (القادمة قريباً) ستشمل ميزات متقدمة مثل التحليلات المتعمقة والدعم الفني ذي الأولوية." },
   { q: "هل هناك حد أقصى لعدد المستخدمين؟", a: "الخطط المجانية تسمح باستخدام فردي. الخطط المدفوعة ستتيح إضافة أعضاء الفريق." },
   { q: "كيف يمكنني الترقية؟", a: "سيتم تفعيل الترقية مباشرة من لوحة التحكم عند إطلاق الخطط المدفوعة. سنقوم بإشعارك عبر البريد الإلكتروني." },
   { q: "هل يمكن إلغاء الاشتراك في أي وقت؟", a: "نعم، يمكنك إلغاء حسابك أو إيقاف الخدمة في أي وقت بدون أي رسوم." },
@@ -133,12 +136,14 @@ export default function PricingPage() {
                       </li>
                     ))}
                   </ul>
-                  <Link
-                    href="/contact"
+                  <a
+                    href={plan.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="group inline-flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-primary text-white font-semibold text-sm hover:brightness-110 transition-all duration-200 active:scale-[0.97]"
                   >
                     ابدأ الآن <ChevronLeft className="w-3.5 h-3.5 transition-transform group-hover:-translate-x-0.5" />
-                  </Link>
+                  </a>
                 </div>
               </div>
             )
@@ -153,7 +158,7 @@ export default function PricingPage() {
             </div>
             <h2 className="text-2xl font-bold text-foreground mb-2">قريباً - خطط مدفوعة</h2>
             <p className="text-muted-foreground max-w-md mx-auto mb-6">
-              نعمل على إطلاق خطط مدفوعة بميزات حصرية: تحليلات متقدمة، دعم فني أولوي، عدد غير محدود من العناصر، وأكثر
+              نعمل على إطلاق خطط مدفوعة بميزات حصرية: تحليلات متقدمة، دعم فني ذو أولوية، عدد غير محدود من العناصر، وأكثر
             </p>
             <Link
               href="/contact"

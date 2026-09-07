@@ -59,7 +59,7 @@ function SmartMenuShowcase() {
                   />
                 </div>
                 {/* Scroll hint */}
-                <div className="absolute bottom-3 left-1/2 -translate-x-1/2 px-3 py-1.5 rounded-full bg-[var(--glass-bg-strong)] backdrop-blur-md border border-[var(--glass-border)] text-[10px] text-[var(--muted-foreground)] pointer-events-none" aria-hidden="true">
+                <div className="absolute bottom-3 left-1/2 -translate-x-1/2 px-3 py-1.5 rounded-full bg-[var(--glass-bg-strong)] backdrop-blur-md border border-[var(--glass-border)] text-[11px] text-[var(--muted-foreground)] pointer-events-none" aria-hidden="true">
                   مرّر لمشاهدة المنيو كاملاً
                 </div>
               </div>
@@ -150,7 +150,7 @@ function SmartBotShowcase() {
                 <span className="w-3 h-3 rounded-full bg-[var(--destructive)] opacity-70" />
                 <span className="w-3 h-3 rounded-full bg-[var(--warning)] opacity-70" />
                 <span className="w-3 h-3 rounded-full bg-[var(--success)] opacity-70" />
-                <div className="flex-1 mx-3 px-3 py-1 rounded-lg bg-[var(--background)] text-[10px] text-[var(--muted-foreground)] text-center truncate" dir="ltr">
+                <div className="flex-1 mx-3 px-3 py-1 rounded-lg bg-[var(--background)] text-[11px] text-[var(--muted-foreground)] text-center truncate" dir="ltr">
                   bot.smart-link.ly
                 </div>
               </div>

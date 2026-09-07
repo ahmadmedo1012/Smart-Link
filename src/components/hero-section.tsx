@@ -49,7 +49,7 @@ export function HeroSection() {
   return (
     /* hero-section / hero-content: CSS view-timeline parallax hooks
        (globals.css) — replaces the rAF scroll listener. */
-    <section className="hero-section relative min-h-[90dvh] flex items-center pt-24 pb-16 overflow-hidden" aria-label="Hero section">
+    <section className="hero-section relative min-h-[90dvh] flex items-center pt-24 pb-16 overflow-hidden">
       {/* Ambient blobs — r8: blur radii halved (120/100/80/70 → 60/50/40/35).
           At 2–3% opacity the visual difference is imperceptible while the
           raster/GPU cost on mobile drops sharply (Lighthouse: 6 giant blurs

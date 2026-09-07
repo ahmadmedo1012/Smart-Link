@@ -6,7 +6,7 @@ import { pageMetadata } from "@/lib/seo"
 export const metadata = pageMetadata({
   title: "تواصل معنا",
   description:
-    "تواصل مع فريق SmartLink — استفسارات، دعم فني، أو طلب خدمة جديدة. واتساب مباشر أو نموذج التواصل ونترد خلال ساعات.",
+    "تواصل مع فريق SmartLink — استفسارات، دعم فني، أو طلب خدمة جديدة. واتساب مباشر أو نموذج التواصل ونردّ خلال ساعات.",
   canonical: "/contact",
   ogDescription: "استفسارات ودعم فني وطلبات خدمات — واتساب مباشر أو نموذج البريد",
 })

@@ -128,7 +128,7 @@ export function ServicesSection() {
           </div>
           <h2 className="text-4xl md:text-5xl font-extrabold text-[var(--foreground)] mb-4 tracking-tight">منظومة متكاملة</h2>
           <p className="text-[var(--muted-foreground)] max-w-xl mx-auto text-base leading-relaxed">
-            منظومة متكاملة من الخدمات الرقمية المصممة لتطوير أعمالك وزيادة مبيعاتك
+            خدمات رقمية مصممة لتطوير أعمالك وزيادة مبيعاتك خطوة بخطوة
           </p>
         </div>
 

@@ -1,7 +1,7 @@
 import { UserPlus, Palette, Share2 } from "lucide-react"
 
 /* Server component: step reveals + connecting-line draws + badge pops are
-   CSS scroll-driven (globals.css §scroll-driven). The line draw reuses the
+   CSS scroll-driven (styles.css §scroll-driven). The line draw reuses the
    existing border-draw keyframes attached to a view() timeline. */
 
 const steps = [

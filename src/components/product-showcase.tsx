@@ -7,7 +7,7 @@ import { SITE } from "@/lib/site"
    Real screenshots, scroll-driven, unified motion tokens.
 
    Server component: the parallax/reveal motion is 100% CSS
-   scroll-driven animations (globals.css §scroll-driven) — same
+   scroll-driven animations (styles.css §scroll-driven) — same
    behavior as the previous framer-motion version (phone shift
    covers 10%→85% of the section's view timeline, tilt ±8°,
    browser parallax ±60px) with zero client JavaScript.

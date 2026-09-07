@@ -7,7 +7,11 @@ import { Footer } from "@/components/footer"
 import { organizationJsonLd, websiteJsonLd, servicesJsonLd } from "@/lib/schema"
 import { OG_IMAGE } from "@/lib/seo"
 import { SITE } from "@/lib/site"
-import "./globals.css"
+/* r11 — إعادة تسمية من globals.css: بناء Vercel خدّم تشكيلاً متقادماً
+   من كاش Turbopack للمسار القديم رغم تغيّر المحتوى (الـHTML الجديد صدر
+   مع CSS قديم — 137 بايت من قواعد r11 غابت). مسار ملف جديد = لا مدخل
+   كاش له إطلاقاً في أي طبقة. التفاصيل في الفصل 16 من التقرير. */
+import "./styles.css"
 
 const cairo = Cairo({
   subsets: ["arabic", "latin"],
@@ -108,7 +112,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           تخطَّ إلى المحتوى الرئيسي
         </a>
         {/* r8: scroll progress bar is now a pure CSS scroll-driven
-            animation (scroll(root) timeline, see globals.css) — zero JS,
+            animation (scroll(root) timeline, see styles.css) — zero JS,
             zero listeners, zero hydration. Browsers without scroll
             timelines keep a static (invisible) bar: decorative, safe. */}
         <div className="scroll-progress" aria-hidden="true" />

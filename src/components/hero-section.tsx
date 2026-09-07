@@ -9,7 +9,7 @@ import { HeroStats } from "@/components/hero-stat"
      client JS in the hero, and it SSRs the FINAL values ("+500"…), so
      the stats paint pre-JS instead of waiting for hydration + count-up.
    - The scroll parallax is now a CSS scroll-driven animation
-     (view-timeline --hero, see globals.css) — zero JS, zero listeners.
+     (view-timeline --hero, see styles.css) — zero JS, zero listeners.
    Everything else here ships as static HTML: heading, CTAs, blobs,
    grid drift, floating icons (lucide SVGs render server-side). */
 
@@ -48,7 +48,7 @@ const headingWords = ["SmartLink", "منصة رقمية", "لخدمات ذكية
 export function HeroSection() {
   return (
     /* hero-section / hero-content: CSS view-timeline parallax hooks
-       (globals.css) — replaces the rAF scroll listener. */
+       (styles.css) — replaces the rAF scroll listener. */
     <section className="hero-section relative min-h-[90dvh] flex items-center pt-24 pb-16 overflow-hidden">
       {/* Ambient blobs — r8: blur radii halved (120/100/80/70 → 60/50/40/35).
           At 2–3% opacity the visual difference is imperceptible while the

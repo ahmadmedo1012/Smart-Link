@@ -1,7 +1,7 @@
 import Image from "next/image"
 import { Smartphone, Bot, Sparkles, ChevronLeft } from "lucide-react"
 import { SITE } from "@/lib/site"
-// Server component: entrance motion is CSS scroll-driven (globals.css),
+// Server component: entrance motion is CSS scroll-driven (styles.css),
 // hover effects are pure CSS transforms.
 
 const services = [

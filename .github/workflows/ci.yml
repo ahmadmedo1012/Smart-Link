@@ -2,16 +2,30 @@ name: CI
 
 # r7: جودة المستودع تصبح ذاتية التحقق — كل دفعة أو PR تجتاز
 # lint ← build ← E2E (Playwright + axe-core) قبل أن تصل إلى main.
+# r10 (security audit): الملف وُلد في r7 بتلف صامت «branches: ain]» بدل
+# «[main]» — GitHub تعامل معه بتساهل فاستمر التشغيل على main، لكن الفلتر
+# شكلياً لا يطابق شيئاً: أُصلح إلى [main] صريحاً.
 on:
   push:
     branches: [main]
   pull_request:
     branches: [main]
 
+# r10 (security audit — least privilege): الرمز الافتراضي GITHUB_TOKEN
+# أوسع من حاجة وظيفة قراءة/تشغيل اختبارات.
+permissions:
+  contents: read
+
+# r10 (testing audit): push متتابع يلغي التشغيل القديم المتقادم
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   quality:
     name: lint + build + e2e
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -21,6 +35,14 @@ jobs:
         with:
           node-version: 22
           cache: npm
+
+      # r10 (testing audit): ~120MB متصفح تُنزّل في كل تشغيل — كاش
+      # بمفتاح lockfile يختصر الدقيقة الأولى من كل CI.
+      - name: Playwright browser cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
 
       - name: Install dependencies
         run: npm ci
@@ -36,8 +58,10 @@ jobs:
 
       # بلا RESEND_API_KEY في CI → عقد الـ API يختبر مسار الفشل
       # الصريح (503) بشكل حتمي — لا بريد يُرسل ولا نجاح كاذب.
+      # r10: نفس أمر CLAUDE.md والسكربتات (npm run test:e2e) بدل npx
+      # المباشر — مصدر واحد للأمر.
       - name: E2E — Playwright + axe-core
-        run: npx playwright test
+        run: npm run test:e2e
 
       - name: Upload test artifacts (عند الفشل فقط)
         if: failure()

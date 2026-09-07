@@ -100,7 +100,10 @@ test.describe("عقد /api/contact", () => {
     })
     expect(res.status()).toBe(200)
     const json = await res.json()
-    expect(json.ok).toBe(true)
+    /* r10 (security): الرد صار مطابقاً بالبايت لشكل النجاح الحقيقي —
+       مسبار شكل يستطيع تمييز الفخ عن الحقيقي. */
+    expect(json.success).toBe(true)
+    expect(json.message).toBe("تم استلام رسالتك بنجاح. سنتواصل معك قريباً.")
   })
 
   test("طلب صالح بلا RESEND_API_KEY → 503 بصوت عالٍ + بديل واتساب (r6)", async ({ request }) => {

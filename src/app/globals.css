@@ -19,19 +19,15 @@
   --shadow-glow: var(--t-glow);
   --shadow-glow-strong: var(--t-glow-strong);
 
-  --color-background: var(--background);
+  /* r11 (تدقيق كود بعيون جديدة): 10 من 14 دخلاً --color-* كانت ميتة —
+     لا أي مستهلك لها في أي utility (المكونات تستخدم الصيغة
+     [var(--x)] مباشرة أو التوكنات الخام). المتبقي الأربعة فقط لهما
+     مستهلكون فعليون: foreground (68)، muted-foreground (35)،
+     primary (26)، primary-text (5). */
   --color-foreground: var(--foreground);
   --color-muted-foreground: var(--muted-foreground);
   --color-primary: var(--primary);
   --color-primary-text: var(--primary-text);
-  --color-accent: var(--accent);
-  --color-destructive: var(--destructive);
-  --color-border: var(--border);
-  --color-ring: var(--ring);
-  --color-card: var(--card);
-
-  --color-success: var(--success);
-  --color-warning: var(--warning);
 
   --radius-sm: 8px;
   --radius-lg: 20px;
@@ -39,9 +35,6 @@
 
   --ease-smooth: cubic-bezier(0.16, 1, 0.2, 1);
   --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
-
-  --color-glass-bg: var(--glass-bg);
-  --color-glass-border: var(--glass-border);
 }
 
 :root {
@@ -259,11 +252,14 @@
 }
 
 /* ── Blob animations ── */
-.blob-0, .blob-1, .blob-2 {
+.blob-0, .blob-1, .blob-2, .blob-3 {
   animation: blob-pulse 3s ease-in-out infinite;
 }
 .blob-1 { animation-delay: 1s; }
 .blob-2 { animation-delay: 2s; }
+/* r11 (تدقيق كود): البطل يرسم 4 blobs بينما CSS يحرّك 3 فقط —
+   الرابع كان ساكناً بصمت منذ r8. الآن مُحرَّك بطور متوسط. */
+.blob-3 { animation-delay: 1.5s; }
 
 @keyframes blob-pulse {
   0%, 100% { opacity: 1; }
@@ -373,9 +369,21 @@
 }
 .acc > * { overflow: hidden; min-height: 0; }
 .acc.open { grid-template-rows: 1fr; }
+/* r11 (محاكاة no-JS — B4-2): أزرار الأكورديون جزر React؛ بلا
+   JavaScript تبقى إجابات FAQ 2..6 مقفلة للأبد (الخادم يفتح الأولى
+   فقط). scripting:none يعني «متصفح بلا JS» — كل الألواح مفتوحة
+   ساكنة: المحتوى مقروء، والمستخدم الطبيعي لا يتأثر إطلاقاً
+   (زر التبديل يستمر في إدارة .open كما كان).
+   (ملاحظة B4-1 نفسها كانت إيجابية كاذبة: reveal-scroll مخططات
+   زمنية CSS خالصة تعمل بلا JS — أثبت المسبار أن كل شيء يظهر
+   بعد التمرير.) */
+@media (scripting: none) {
+  .acc { grid-template-rows: 1fr; }
+}
 @media (prefers-reduced-motion: reduce) {
   .menu-pop, .menu-pop-fast { animation: none; }
   .acc { transition: none; }
+  .blob-0, .blob-1, .blob-2, .blob-3 { animation: none; }
 }
 
 /* ── CTA shine sweep (replaces framer-motion whileHover) ── */

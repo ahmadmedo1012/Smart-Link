@@ -11,6 +11,11 @@ test.describe("التنقل — سطح المكتب", () => {
 
   test("قائمة «خدماتنا» المنسدلة — تفتح بالتمرير وتغلق بـ Escape", async ({ page }) => {
     const trigger = page.getByRole("button", { name: /خدماتنا/ })
+    /* r10: تحت حمل 4 عمال متوازيين قد يقع hover قبل اكتمال ترطيب React —
+       مستمعات mouseenter غير موجودة بعد والقائمة لا تفتح (فشل متقطع
+       حقيقي ظهر مع توسيع الجناح). زر الثيم يُصيَّر فقط بعد الترطيب
+       (mounted) — بوابة ترطيب مثالية قبل أي تفاعل بالهيدر. */
+    await expect(page.getByRole("button", { name: /الثيم/ })).toBeVisible()
     await trigger.hover()
     const menu = page.locator("nav[aria-label='التنقل الرئيسي'] >> text=Smart Menu — المنيو الرقمي")
     await expect(menu.first()).toBeVisible()

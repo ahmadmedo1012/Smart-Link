@@ -137,3 +137,35 @@ test.describe("JSON-LD — سلامة كل الصفحات", () => {
     })
   }
 })
+
+/* r10 (testing audit G6): BreadcrumbList ships on five pages but the
+   suite only checked "JSON is valid" — never the entries, positions or
+   URLs. A path rename would silently break the breadcrumb contract. */
+test.describe("r10 — BreadcrumbList لكل صفحة فرعية", () => {
+  const cases: [string, string][] = [
+    ["/about", "عن المنصة"],
+    ["/pricing", "الخطط والأسعار"],
+    ["/contact", "تواصل معنا"],
+    ["/privacy", "سياسة الخصوصية"],
+    ["/terms", "شروط الاستخدام"],
+  ]
+  for (const [path, name] of cases) {
+    test(`${path} — عنصران، position 1→2، وitem مطلق يطابق مسار الصفحة`, async ({ page }) => {
+      await page.goto(path, { waitUntil: "domcontentloaded" })
+      const scripts = await page.locator("script[type='application/ld+json']").allInnerTexts()
+      const parsed = scripts.map((s) => JSON.parse(s))
+      // pricing يضم كياناته في مصفوفة واحدة — طبّقها قبل البحث
+      const flat = parsed.flatMap((o) => (Array.isArray(o) ? o : [o]))
+      const bc = flat.find((o: Record<string, unknown>) => o["@type"] === "BreadcrumbList")
+      expect(bc, "BreadcrumbList موجود").toBeTruthy()
+      const items = (bc as { itemListElement: { position: number; name: string; item: string }[] }).itemListElement
+      expect(items.length).toBe(2)
+      expect(items[0].position).toBe(1)
+      expect(items[0].name).toBe("الرئيسية")
+      expect(items[0].item).toBe("https://smart-link.ly")
+      expect(items[1].position).toBe(2)
+      expect(items[1].name).toBe(name)
+      expect(items[1].item).toBe(`https://smart-link.ly${path}`)
+    })
+  }
+})

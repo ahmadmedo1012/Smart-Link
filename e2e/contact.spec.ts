@@ -107,25 +107,32 @@ test.describe("عقد /api/contact", () => {
   })
 
   test("طلب صالح بلا RESEND_API_KEY → 503 بصوت عالٍ + بديل واتساب (r6)", async ({ request }) => {
-    const res = await request.post("/api/contact", { data: VALID })
+    /* r10 (testing audit G1): دلو IP معزول — اختبار محدد المعدل أدناه كان
+       يشارك دلو هذا الاختبار (IP الخادم المشترك) تحت fullyParallel، فإذا
+       استيقظ 429 أولاً تسلم هذا 429 بدل 503 (CI أحمر لمد 60 ثانية). */
+    const res = await request.post("/api/contact", {
+      data: VALID,
+      headers: { "x-forwarded-for": "198.51.100.50" },
+    })
     expect(res.status()).toBe(503)
     const json = await res.json()
     expect(json.error).toContain("واتساب")
     expect(json.error).toContain("ahmedmedo1012@gmail.com")
   })
 
-  test("محدد المعدل → 429 خلال طلبات متتالية (r5)", async ({ request }) => {
-    // الطلبات الصالحة السابقة (واجهة + 503) حُسبت بالفعل (نفس الخادم)
-    const statuses: number[] = []
-    for (let i = 0; i < 10; i++) {
-      const res = await request.post("/api/contact", { data: VALID })
-      statuses.push(res.status())
-      if (res.status() === 429) {
-        const json = await res.json()
-        expect(json.error).toContain("دقيقة")
-        break
-      }
+  test("محدد المعدل — الحدود بالضبط: 1-5 تمر (503) والسادس 429 مع Retry-After (r10)", async ({ request }) => {
+    /* r10 (testing audit G1): العدّ الحديّ الدقيق يثبت عدم الحجب المبكر
+       (الطلبات 1-5 لا تُحجب أبداً) وأن السادس يحجب برأس Retry-After —
+       مهما كان ترتيب التشغيل، بفضل الدلو المعزول. */
+    const ip = { "x-forwarded-for": "198.51.100.60" }
+    for (let i = 1; i <= 5; i++) {
+      const res = await request.post("/api/contact", { data: VALID, headers: ip })
+      expect(res.status(), `الطلب ${i} من 5 يجب أن يمر (لا حجب مبكر)`).toBe(503)
     }
-    expect(statuses).toContain(429)
+    const sixth = await request.post("/api/contact", { data: VALID, headers: ip })
+    expect(sixth.status()).toBe(429)
+    expect(sixth.headers()["retry-after"]).toBe("60")
+    const json = await sixth.json()
+    expect(json.error).toContain("دقيقة")
   })
 })

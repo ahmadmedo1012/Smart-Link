@@ -64,9 +64,9 @@ test.describe("r9 — عقد footer (روابط التواصل على كل صف�
       await expect(footer.getByRole("link", { name: "شروط الاستخدام" })).toHaveAttribute("href", "/terms")
 
       // المنتجان الخارجيان بـ rel
-      for (const [label, href] of [
-        ["Smart Menu", "https://menu.smart-link.ly"],
-        ["SmartBot", "https://bot.smart-link.ly"],
+      for (const href of [
+        "https://menu.smart-link.ly",
+        "https://bot.smart-link.ly",
       ] as const) {
         const link = footer.locator(`a[href="${href}"]`).first()
         await expect(link).toHaveAttribute("target", "_blank")
@@ -95,5 +95,35 @@ test.describe("r9 — صمود no-JS (الموقع SSR-first بلا جافاسك
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible()
     await expect(page.locator("text=مجاني").first()).toBeVisible()
     await ctx.close()
+  })
+})
+
+/* r10 (testing audit G10): footer social links, quick links and the
+   copyright line had zero coverage (the r9 contract covered
+   whatsapp/email/legal/products only). */
+test.describe("r10 — عقد الفوتر: الاجتماعية والروابط السريعة والحقوق", () => {
+  test("روابط فيسبوك/إنستغرام بـ aria-label وtarget/rel آمنين", async ({ page }) => {
+    await page.goto("/", { waitUntil: "domcontentloaded" })
+    const fb = page.locator("footer a[aria-label='فيسبوك']")
+    const ig = page.locator("footer a[aria-label='إنستغرام']")
+    await expect(fb).toHaveAttribute("href", "https://www.facebook.com/profile.php?id=61591502614404")
+    await expect(ig).toHaveAttribute("href", "https://instagram.com/smart_link.0/")
+    for (const l of [fb, ig]) {
+      await expect(l).toHaveAttribute("target", "_blank")
+      await expect(l).toHaveAttribute("rel", "noopener noreferrer")
+    }
+  })
+
+  test("الروابط السريعة الأربعة تشير لمساراتها الصحيحة", async ({ page }) => {
+    await page.goto("/", { waitUntil: "domcontentloaded" })
+    const quick = page.locator("footer h3:text('روابط سريعة') + ul a")
+    const hrefs = await quick.evaluateAll((els) => els.map((e) => (e as HTMLAnchorElement).getAttribute("href")))
+    expect(hrefs).toEqual(["/", "/about", "/contact", "/pricing"])
+  })
+
+  test("سطر الحقوق بصيغة © سنة SmartLink", async ({ page }) => {
+    await page.goto("/", { waitUntil: "domcontentloaded" })
+    const year = new Date().getFullYear()
+    await expect(page.locator("footer p", { hasText: new RegExp(`© ${year} SmartLink`) })).toBeVisible()
   })
 })

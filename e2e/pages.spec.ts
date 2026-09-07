@@ -14,7 +14,9 @@ test.describe("الدخان — الصفحات الست", () => {
       await expect(page.locator("html")).toHaveAttribute("dir", "rtl")
       await expect(page.locator("html")).toHaveAttribute("lang", "ar")
 
-      // h1 واحد على الأقل يحمل عنوان الصفحة
+      // h1 واحد بالضبط يحمل عنوان الصفحة (r10: العدّ الصارم — first() كان
+      // سيخفي صفحة بها اثنان)
+      await expect(page.locator("h1")).toHaveCount(1)
       await expect(page.locator("h1").first()).toHaveText(p.h1)
 
       // عنوان التبويب

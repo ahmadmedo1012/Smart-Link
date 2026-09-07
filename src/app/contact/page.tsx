@@ -1,67 +1,41 @@
-"use client"
-import { useState } from "react"
-import { Mail, MessageCircle, MapPin, Clock, Send, Check, Loader2 } from "lucide-react"
+import { Mail, MessageCircle, MapPin, Clock } from "lucide-react"
 import { GenArtBackground } from "@/components/gen-art-background"
+import { ContactForm } from "@/components/contact-form"
+import { SITE } from "@/lib/site"
 
-/* r6: the generative background moved into the shared GenArtBackground
-   island (variant="rings", same seed 303 — identical art, one RNG source
-   instead of a 50-line inline copy). Also dropped the useMemo import the
-   copy needed; the form is the only stateful code left. */
+/* r9: a full server component. This was the only fully-client page on the
+   site (the whole page shipped as JS for three useState hooks). Now only
+   the form itself is a client island (contact-form.tsx) — the header,
+   contact cards and layout are static HTML, consistent with every other
+   page.
+
+   r9 (perf): the LCP surgery from the r8 hero is applied here too — h1
+   and the intro paragraph paint at FCP; the eyebrow badge keeps
+   reveal-d1 so the entrance cascade stays alive around them.
+
+   r9 (content audit C1/C7): the support-hours contradiction ("24/7 - الدوام
+   الرسمي: 9ص - 9م" in one line) is now two honest facts, and the page name
+   is unified to "تواصل معنا" (matching metadata, breadcrumbs, and every
+   other link to this page — the h1 used to say "اتصل بنا"). */
 
 const contacts = [
-  { icon: Mail, title: "البريد الإلكتروني", desc: "ahmedmedo1012@gmail.com", href: "mailto:ahmedmedo1012@gmail.com" },
-  { icon: MessageCircle, title: "واتساب", desc: "تواصل مباشر مع المؤسس", href: "https://wa.me/218910089975" },
-  { icon: MapPin, title: "الموقع", desc: "ليبيا" },
-  { icon: Clock, title: "أوقات العمل", desc: "24/7 - الدوام الرسمي: 9ص - 9م" },
+  { icon: Mail, title: "البريد الإلكتروني", desc: SITE.email, href: `mailto:${SITE.email}` },
+  { icon: MessageCircle, title: "واتساب", desc: "تواصل مباشر مع المؤسس", href: SITE.whatsapp.url },
+  { icon: MapPin, title: "الموقع", desc: SITE.address },
+  { icon: Clock, title: "أوقات الدعم", desc: "واتساب 24/7 · المكتب 9 صباحاً - 9 مساءً" },
 ]
 
 export default function ContactPage() {
-  const [sent, setSent] = useState(false)
-  const [sending, setSending] = useState(false)
-  const [error, setError] = useState("")
-
-  const handleSubmit = async (e: React.SyntheticEvent) => {
-    e.preventDefault()
-    setSending(true)
-    setError("")
-    const form = e.currentTarget as HTMLFormElement
-    const data = {
-      name: (form.elements.namedItem("name") as HTMLInputElement).value,
-      email: (form.elements.namedItem("email") as HTMLInputElement).value,
-      subject: (form.elements.namedItem("subject") as HTMLSelectElement).value,
-      message: (form.elements.namedItem("message") as HTMLTextAreaElement).value,
-      // Honeypot: hidden from humans, filled only by naive spam bots
-      company: (form.elements.namedItem("company") as HTMLInputElement)?.value ?? "",
-    }
-
-    try {
-      const res = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      })
-      const json = await res.json()
-      if (!res.ok) throw new Error(json.error)
-      setSent(true)
-      form.reset()
-      setTimeout(() => setSent(false), 4000)
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "حدث خطأ")
-    } finally {
-      setSending(false)
-    }
-  }
-
   return (
     <div className="pt-28 pb-16 relative overflow-hidden">
       <GenArtBackground seed={303} variant="rings" />
       <div className="container-base relative">
-        <div className="max-w-3xl mx-auto text-center mb-14 reveal-up">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[var(--glass-border)] bg-[var(--glass-bg)] backdrop-blur-sm text-xs text-primary-text font-medium mb-6">
+        <div className="max-w-3xl mx-auto text-center mb-14">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[var(--glass-border)] bg-[var(--glass-bg)] backdrop-blur-sm text-xs text-primary-text font-medium mb-6 reveal-up reveal-d1">
             <span>تواصل</span>
           </div>
           <h1 className="text-5xl md:text-6xl font-extrabold tracking-tight text-foreground mb-4">
-            اتصل بنا
+            تواصل معنا
           </h1>
           <p className="text-lg text-muted-foreground">
             فريقنا جاهز لمساعدتك - تواصل معنا بأي من الطرق التالية
@@ -88,83 +62,11 @@ export default function ContactPage() {
           ))}
         </div>
 
-        {/* Form — CSS reveal (LCP element) */}
+        {/* Form — the page's only client island (r9) */}
         <div className="max-w-xl mx-auto reveal-up reveal-d3">
           <div className="glass rounded-2xl p-6 md:p-8">
             <h2 className="font-bold text-foreground text-lg mb-5">أرسل رسالة</h2>
-            <form onSubmit={handleSubmit} className="space-y-4" noValidate={false}>
-              {/* Honeypot — invisible to humans/screen readers; bots that fill it are dropped silently server-side */}
-              <input
-                type="text"
-                name="company"
-                tabIndex={-1}
-                autoComplete="off"
-                aria-hidden="true"
-                className="absolute opacity-0 pointer-events-none w-0 h-0 -z-10"
-              />
-              <div className="grid sm:grid-cols-2 gap-4">
-                <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-foreground mb-1.5">الاسم</label>
-                  <input id="name" name="name" type="text" required autoComplete="name" className="w-full px-4 py-2.5 rounded-xl bg-[var(--card)] border border-[var(--border)] text-foreground text-sm focus:outline-none focus:border-[var(--ring)] focus:ring-2 focus:ring-[var(--accent)] transition-all placeholder:text-muted-foreground/50" placeholder="اسمك" />
-                </div>
-                <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-foreground mb-1.5">البريد</label>
-                  <input id="email" name="email" type="email" required autoComplete="email" className="w-full px-4 py-2.5 rounded-xl bg-[var(--card)] border border-[var(--border)] text-foreground text-sm focus:outline-none focus:border-[var(--ring)] focus:ring-2 focus:ring-[var(--accent)] transition-all placeholder:text-muted-foreground/50" placeholder="بريدك الإلكتروني" />
-                </div>
-              </div>
-              <div>
-                <label htmlFor="subject" className="block text-sm font-medium text-foreground mb-1.5">الموضوع</label>
-                <select id="subject" name="subject" className="w-full px-4 py-2.5 rounded-xl bg-[var(--card)] border border-[var(--border)] text-foreground text-sm focus:outline-none focus:border-[var(--ring)] focus:ring-2 focus:ring-[var(--accent)] transition-all">
-                  <option value="">اختر الموضوع</option>
-                  <option value="menu">استفسار عن Smart Menu</option>
-                  <option value="bot">استفسار عن Smart Bot</option>
-                  <option value="support">دعم فني</option>
-                  <option value="other">أخرى</option>
-                </select>
-              </div>
-              <div>
-                <label htmlFor="message" className="block text-sm font-medium text-foreground mb-1.5">الرسالة</label>
-                <textarea id="message" name="message" rows={4} required className="w-full px-4 py-2.5 rounded-xl bg-[var(--card)] border border-[var(--border)] text-foreground text-sm focus:outline-none focus:border-[var(--ring)] focus:ring-2 focus:ring-[var(--accent)] transition-all placeholder:text-muted-foreground/50 resize-none" placeholder="اكتب رسالتك هنا…" />
-              </div>
-              {error && (
-                <div
-                  className="text-sm rounded-xl px-4 py-3 text-center border"
-                  style={{
-                    color: "var(--destructive)",
-                    background: "oklch(from var(--destructive) l c h / 0.1)",
-                    borderColor: "oklch(from var(--destructive) l c h / 0.25)",
-                  }}
-                  role="alert"
-                >
-                  <span className="block font-medium">{error}</span>
-                  {(error.includes("واتساب") || error.includes("تعذّر") || error.includes("خطأ") || error.includes("غير مهيأة")) && (
-                    <span className="block mt-2 text-xs" style={{ color: "var(--muted-foreground)" }}>
-                      أو تواصل مباشرة:{" "}
-                      <a href="https://wa.me/218910089975" className="underline underline-offset-2" style={{ color: "var(--primary)" }}>
-                        واتساب 0910089975
-                      </a>{" "}·{" "}
-                      <a href="mailto:ahmedmedo1012@gmail.com" className="underline underline-offset-2" style={{ color: "var(--primary)" }}>
-                        ahmedmedo1012@gmail.com
-                      </a>
-                    </span>
-                  )}
-                </div>
-              )}
-              <button
-                type="submit"
-                disabled={sending}
-                aria-live="polite"
-                className="flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-primary text-white font-semibold text-sm hover:brightness-110 transition-all duration-300 active:scale-[0.98] disabled:opacity-60 disabled:cursor-not-allowed"
-              >
-                {sending ? (
-                  <><Loader2 className="w-4 h-4 animate-spin" /> جاري الإرسال…</>
-                ) : sent ? (
-                  <><Check className="w-4 h-4" /> تم الإرسال ✓</>
-                ) : (
-                  <><Send className="w-4 h-4" /> إرسال الرسالة</>
-                )}
-              </button>
-            </form>
+            <ContactForm />
           </div>
         </div>
       </div>

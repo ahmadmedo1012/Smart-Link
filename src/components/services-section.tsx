@@ -1,7 +1,6 @@
 import Image from "next/image"
 import { Smartphone, Bot, Sparkles, ChevronLeft } from "lucide-react"
 import { SITE } from "@/lib/site"
-// ponytail: Sparkles used only for "قريباً" badge — single intentional flourish
 // Server component: entrance motion is CSS scroll-driven (globals.css),
 // hover effects are pure CSS transforms.
 

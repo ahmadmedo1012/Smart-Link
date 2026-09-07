@@ -5,7 +5,6 @@ import { FaqAccordion } from "@/components/faq-accordion"
 import { pageMetadata } from "@/lib/seo"
 // Server component — the FAQ accordion is the only client island;
 // entrance motion is CSS reveal (paints pre-JS). Zero framer-motion.
-// ponytail: Sparkles retained for "coming soon" section — single intentional flourish
 
 export const metadata = pageMetadata({
   title: "الخطط والأسعار",
@@ -90,8 +89,8 @@ export default function PricingPage() {
       />
       <GenArtBackground seed={77} variant="blobs" />
       <div className="container-base relative">
-        <div className="max-w-3xl mx-auto text-center mb-14 reveal-up">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[var(--glass-border)] bg-[var(--glass-bg)] backdrop-blur-sm text-xs text-primary-text font-medium mb-6">
+        <div className="max-w-3xl mx-auto text-center mb-14">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[var(--glass-border)] bg-[var(--glass-bg)] backdrop-blur-sm text-xs text-primary-text font-medium mb-6 reveal-up reveal-d1">
             <span>الأسعار</span>
           </div>
           <h1 className="text-5xl md:text-6xl font-extrabold tracking-tight text-foreground mb-4">

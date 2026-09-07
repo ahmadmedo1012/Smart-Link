@@ -16,13 +16,17 @@ import { Smartphone, Bot, Users, TrendingUp } from "lucide-react"
    simply keep the final value (WCAG-aligned, no flash). */
 
 const stats = [
-  { label: "خدمة نشطة", value: "+500", icon: Users },
+  /* r9 (content audit C2): "+500 خدمة نشطة" contradicted every other
+     surface ("أكثر من 500 عميل" in CTA and about) — one truth now.
+     "99.9% نمو مستمر" was a percentage without a rate; renamed to the
+     standard SaaS availability claim. Values (SSR-tested) unchanged. */
+  { label: "عميل نشط", value: "+500", icon: Users },
   { label: "منيو رقمي", value: "+10K", icon: Smartphone },
   { label: "ردود آلية", value: "+50K", icon: Bot },
-  { label: "نمو مستمر", value: "99.9%", icon: TrendingUp },
+  { label: "جهوزية المنصة", value: "99.9%", icon: TrendingUp },
 ] as const
 
-function AnimatedStat({ value, label, icon: Icon, delay = 0 }: { value: string; label: string; icon: React.ComponentType<{ className?: string }>; delay?: number }) {
+function AnimatedStat({ value, label, icon: Icon }: { value: string; label: string; icon: React.ComponentType<{ className?: string }> }) {
   const ref = useRef<HTMLDivElement>(null)
   const [inView, setInView] = useState(false)
   /* SSR (and reduced-motion, and no-JS) renders the final value — see
@@ -75,7 +79,6 @@ function AnimatedStat({ value, label, icon: Icon, delay = 0 }: { value: string; 
   return (
     <div
       ref={ref}
-      style={{ transitionDelay: `${delay}s` }}
       className="glass-card rounded-xl p-4 text-center group transition-all duration-400 ease-[cubic-bezier(0.16,1,0.2,1)]"
     >
       <div className="w-8 h-8 rounded-lg bg-[var(--card)] flex items-center justify-center mx-auto mb-2 group-hover:scale-110 transition-transform duration-200">
@@ -92,8 +95,8 @@ export function HeroStats() {
     <div
       className="reveal-up reveal-d4 mt-16 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-2xl mx-auto"
     >
-      {stats.map((stat, i) => (
-        <AnimatedStat key={stat.label} {...stat} delay={i * 0.12} />
+      {stats.map((stat) => (
+        <AnimatedStat key={stat.label} {...stat} />
       ))}
     </div>
   )

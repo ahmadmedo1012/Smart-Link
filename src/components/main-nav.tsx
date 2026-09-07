@@ -23,7 +23,7 @@ const navLinks = [
      conversion page hidden from the main nav. Now a first-class link. */
   { href: "/pricing", label: "الأسعار" },
   { href: "/about", label: "عن SmartLink" },
-  { href: "/contact", label: "اتصل بنا" },
+  { href: "/contact", label: "تواصل معنا" },
 ]
 
 function MagneticButton({ children, className }: { children: React.ReactNode; className?: string }) {
@@ -145,7 +145,7 @@ export function MainNav() {
             (600×409) at a display-appropriate size (was 150×38 — the
             optimizer was generating a 384w AVIF for a ~53px slot). */}
         <Link href="/" prefetch={false} className="flex items-center group relative">
-          <Image src="/logo.png" alt="SmartLink" width={120} height={82} className="h-8 md:h-9 w-auto object-contain transition-transform duration-300 group-hover:scale-105" priority />
+          <Image src="/logo.png" alt="SmartLink" width={120} height={82} sizes="(max-width: 768px) 48px, 54px" className="h-8 md:h-9 w-auto object-contain transition-transform duration-300 group-hover:scale-105" priority />
         </Link>
 
         {/* Desktop nav — r6: named landmark for screen readers */}

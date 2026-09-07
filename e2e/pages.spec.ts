@@ -41,7 +41,7 @@ test.describe("الدخان — الصفحات الست", () => {
   test("الرئيسية — عدّادات الإحصائيات تعدّ حتى قيمها (انحدار r5)", async ({ page }) => {
     await page.goto("/", { waitUntil: "networkidle" })
     // مرّر الإحصائيات إلى مجال الرؤية ليطلق IntersectionObserver
-    await page.locator("text=خدمة نشطة").scrollIntoViewIfNeeded()
+    await page.locator("text=عميل نشط").scrollIntoViewIfNeeded()
     // العدّاد يبدأ من 0 وينتهي عند +500 خلال 1.2s
     await expect(page.locator("text=+500").first()).toBeVisible({ timeout: 6000 })
   })

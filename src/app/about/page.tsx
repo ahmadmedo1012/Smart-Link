@@ -2,6 +2,11 @@ import { Bot, Smartphone, Globe, Layers, ArrowLeft, User, Quote } from "lucide-r
 import Link from "next/link"
 import { GenArtBackground } from "@/components/gen-art-background"
 import { pageMetadata } from "@/lib/seo"
+/* r9 (perf): LCP surgery generalized from the r8 hero — h1 and the
+   intro paragraph now paint at FCP (no reveal animation). The eyebrow
+   badge keeps reveal-d1 so the entrance cascade stays alive around the
+   instantly-painted text, exactly like the home hero.
+
 /* Server component — entrance motion is CSS reveal/scroll-driven;
    GenArtBackground is the only client island. */
 
@@ -38,8 +43,8 @@ export default function AboutPage() {
       />
       <GenArtBackground seed={2024} />
       <div className="container-base relative">
-        <div className="max-w-3xl mx-auto text-center mb-14 reveal-up">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[var(--glass-border)] bg-[var(--glass-bg)] backdrop-blur-sm text-xs text-primary-text font-medium mb-6">
+        <div className="max-w-3xl mx-auto text-center mb-14">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[var(--glass-border)] bg-[var(--glass-bg)] backdrop-blur-sm text-xs text-primary-text font-medium mb-6 reveal-up reveal-d1">
             <span>عن المنصة</span>
           </div>
           <h1 className="text-5xl md:text-6xl font-extrabold tracking-tight text-foreground mb-4">

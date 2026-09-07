@@ -3,9 +3,16 @@ import { ArrowLeft, Home } from "lucide-react"
 import type { Metadata } from "next"
 
 /* r6: real page title for the 404 route (was falling back to the root
-   default — tab/history showed the home title on a dead URL). */
+   default — tab/history showed the home title on a dead URL).
+   r9 (SEO audit P2-1): robots noindex + description. The rendered 404 used
+   to carry the ROOT layout's `index, follow` alongside Next's own noindex
+   — two contradictory robots directives — plus a canonical to "/" and the
+   HOME's OG card on every dead URL. Page-level robots wins the merge, and
+   the description replaces the inherited home text. */
 export const metadata: Metadata = {
   title: "الصفحة غير موجودة",
+  description: "الصفحة التي تبحث عنها غير متوفرة أو تم نقلها إلى عنوان آخر.",
+  robots: { index: false, follow: true },
 }
 
 /* Server component — CSS reveal only. This boundary renders in EVERY route's
@@ -15,7 +22,7 @@ export default function NotFound() {
   return (
     <div className="min-h-[80vh] flex items-center justify-center relative overflow-hidden">
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-[var(--primary)]/5 blur-[150px]" aria-hidden="true" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-[var(--primary)]/5 blur-[90px]" aria-hidden="true" />
       </div>
       <div className="text-center relative">
         <div className="reveal-blur">

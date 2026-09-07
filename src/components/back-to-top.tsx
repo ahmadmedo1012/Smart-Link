@@ -39,7 +39,14 @@ export function BackToTop() {
     }
   }, [showScrollTop])
 
-  const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" })
+  /* r9 (a11y audit A8): the JS scrollTo({behavior:"smooth"}) overrides the
+     CSS `scroll-behavior: auto !important` that reduced-motion users rely
+     on — the media query was never consulted. */
+  const scrollToTop = () =>
+    window.scrollTo({
+      top: 0,
+      behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
+    })
 
   return (
     <button

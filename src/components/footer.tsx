@@ -67,7 +67,7 @@ export function Footer() {
               {[
                 { label: "الرئيسية", href: "/" },
                 { label: "عن SmartLink", href: "/about" },
-                { label: "اتصل بنا", href: "/contact" },
+                { label: "تواصل معنا", href: "/contact" },
                 { label: "الخطط والأسعار", href: "/pricing" },
               ].map((l) => (
                 <li key={l.label}>

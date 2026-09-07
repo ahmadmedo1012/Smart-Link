@@ -1,16 +1,15 @@
-"use client"
-import { useMemo } from "react"
-
-/* Client island: generative SVG background (seeded RNG + useMemo).
-   Extracted from about/contact/pricing pages so those pages can be server
-   components with zero framer-motion in their critical path.
+/* r9: a SERVER component. This shipped as a client island for no reason —
+   the generator is deterministic (seeded RNG), has zero interaction, and
+   useMemo was useless for a single render. Removing "use client" bakes
+   the SVG into the static HTML of about/pricing/contact and drops the
+   ~4.4 KB chunk + hydration work from all three pages.
 
    Three visual variants (all seeded, deterministic per seed):
    - "bands"  — horizontal drifting bands + star field (about)
    - "blobs"  — concentric blob rings + star field (pricing)
    - "rings"  — wavy concentric rings + star field (contact — r6 moved the
-     page's inline ~50-line copy of this generator into the shared island,
-     one seeded-RNG source of truth instead of two) */
+     page's inline ~50-line copy of this generator into the shared
+     component, one seeded-RNG source of truth instead of two) */
 
 function mulberry32(s: number) {
   return function () {
@@ -108,17 +107,14 @@ export function GenArtBackground({
   seed?: number
   variant?: "bands" | "blobs" | "rings"
 }) {
-  const paths = useMemo(() => {
-    const rng = mulberry32(seed)
-    const accent = "oklch(0.55 0.01 260)"
-    if (variant === "blobs") {
-      return blobsArt(rng, accent, "oklch(0.55 0.01 260 / 0.04)")
-    }
-    if (variant === "rings") {
-      return ringsArt(rng, accent)
-    }
-    return bandsArt(rng, accent)
-  }, [seed, variant])
+  const rng = mulberry32(seed)
+  const accent = "oklch(0.55 0.01 260)"
+  const paths =
+    variant === "blobs"
+      ? blobsArt(rng, accent, "oklch(0.55 0.01 260 / 0.04)")
+      : variant === "rings"
+        ? ringsArt(rng, accent)
+        : bandsArt(rng, accent)
 
   return (
     <svg

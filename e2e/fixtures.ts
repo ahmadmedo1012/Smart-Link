@@ -2,10 +2,12 @@ import { test as base, expect } from "@playwright/test"
 
 /**
  * Fixture مشترك لكل الاختبارات:
- * 1) إسكات الموارد الخارجية (analytics/unsplash) — محلياً `/_vercel/insights/*`
+ * 1) إسكات الموارد الخارجية (analytics) — محلياً `/_vercel/insights/*`
  *    يعيد 404 من خادم next start ويولّد ضوضاء console كاذبة تُفشل فحص
  *    «صفر أخطاء console». نستوفيها بردود فارغة بدلاً من تجاهل الأخطاء
  *    (إسكات أقوى من تصفية لأن الأخطاء الحقيقية تبقى ظاهرة).
+ *    (r9: مسار unsplash أُزيل — الموقع يخدم صفر صور خارجية بعد حذف
+ *    remotePatterns).
  * 2) جمع أخطاء console و pageerror — كل spec يفحصها في النهاية.
  */
 
@@ -17,9 +19,6 @@ export const test = base.extend<{ consoleErrors: string[] }>({
       )
       await page.route("**/va.vercel-scripts.com/**", (r) =>
         r.fulfill({ status: 200, contentType: "application/javascript", body: "" })
-      )
-      await page.route("**/images.unsplash.com/**", (r) =>
-        r.fulfill({ status: 200, contentType: "image/jpeg", body: Buffer.alloc(0) })
       )
       const errors: string[] = []
       page.on("console", (m) => {
@@ -39,7 +38,7 @@ export const PAGES = [
   { path: "/", h1: /SmartLink/, title: /SmartLink - منصة رقمية متكاملة/ },
   { path: "/about", h1: /عن SmartLink/, title: /عن المنصة \| SmartLink/ },
   { path: "/pricing", h1: /الخطط والأسعار/, title: /الخطط والأسعار \| SmartLink/ },
-  { path: "/contact", h1: /اتصل بنا/, title: /تواصل معنا \| SmartLink/ },
+  { path: "/contact", h1: /تواصل معنا/, title: /تواصل معنا \| SmartLink/ },
   { path: "/privacy", h1: /سياسة الخصوصية/, title: /سياسة الخصوصية \| SmartLink/ },
   { path: "/terms", h1: /شروط الاستخدام/, title: /شروط الاستخدام \| SmartLink/ },
 ] as const

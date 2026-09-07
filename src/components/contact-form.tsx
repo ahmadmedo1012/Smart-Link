@@ -2,7 +2,7 @@
 import { useState } from "react"
 import { Send, Check, Loader2 } from "lucide-react"
 import { SITE } from "@/lib/site"
-import { EMAIL_RE, NAME_MAX, MESSAGE_MAX } from "@/lib/contact-rules"
+import { EMAIL_RE, NAME_MAX, EMAIL_MAX, MESSAGE_MAX, NAME_LETTER_RE, NAME_LETTER_ERROR } from "@/lib/contact-rules"
 
 /* r9: extracted from the contact page — it was the only fully-client page
    on the site: ~10 KB of static markup (cards, headers) shipped in the
@@ -31,7 +31,7 @@ type FieldErrors = { name?: string; email?: string; message?: string }
    zooms the page on focus for any field under 16px, jolting every mobile
    user mid-conversion. 16px stops the zoom. */
 const inputBase =
-  "w-full px-4 py-2.5 rounded-xl bg-[var(--card)] border text-foreground text-base focus:outline-none focus:border-[var(--ring)] focus:ring-2 focus:ring-[var(--accent)] transition-all placeholder:text-muted-foreground/50"
+  "w-full px-4 py-2.5 rounded-xl bg-[var(--card)] border text-foreground text-base focus:outline-none focus:border-[var(--ring)] focus:ring-2 focus:ring-[var(--ring)] transition-all placeholder:text-muted-foreground/50"
 
 export function ContactForm() {
   const [sent, setSent] = useState(false)
@@ -56,6 +56,7 @@ export function ContactForm() {
     // Arabic per-field validation (replaces browser-locale messages)
     const errs: FieldErrors = {}
     if (!data.name.trim()) errs.name = "الاسم مطلوب"
+    else if (!NAME_LETTER_RE.test(data.name)) errs.name = NAME_LETTER_ERROR
     else if (data.name.length > NAME_MAX) errs.name = "الاسم أطول من المسموح"
     if (!data.email.trim()) errs.email = "البريد الإلكتروني مطلوب"
     else if (!EMAIL_RE.test(data.email)) errs.email = "البريد الإلكتروني غير صالح"
@@ -77,21 +78,33 @@ export function ContactForm() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
       })
-      const json = await res.json().catch(() => ({ error: "استجابة غير صالحة من الخادم" }))
-      if (!res.ok) {
+      /* r11 (محاكاة عدائية P1 — «النجاح الكاذب»): 200 بجسم غير JSON كان
+         يقع في فرع النجاح الافتراضي ويعرض «تم استلام رسالتك بنجاح» ويفرّغ
+         النموذج — عكس فلسفة fail-loud التي بُني عليها المسار كله. العقد
+         الآن صارم من الجهتين: النجاح يتطلب res.ok + success:true + رسالة
+         نصية من الخادم؛ أي شيء آخر = خطأ واضح لل مستخدم. */
+      let json: { success?: unknown; message?: unknown; error?: unknown } | null = null
+      try {
+        json = await res.json()
+      } catch {
+        json = null
+      }
+      if (!res.ok || !json || json.success !== true || typeof json.message !== "string") {
         // Map the one server error that is genuinely about the email FIELD
         // (exact match — "خدمة البريد غير مهيأة" is a 503 about the mail
         // service, not the user's input, and must stay a general alert).
-        if (json.error === "البريد الإلكتروني غير صالح") {
+        if (json && json.error === "البريد الإلكتروني غير صالح") {
           setFieldErrors({ email: json.error })
           ;(form.elements.namedItem("email") as HTMLElement).focus()
+        } else if (json && typeof json.error === "string" && json.error.trim() !== "") {
+          setError(json.error)
         } else {
-          setError(typeof json.error === "string" ? json.error : "حدث خطأ غير متوقع")
+          setError("استجابة غير صالحة من الخادم")
         }
         return
       }
       setSent(true)
-      setSentMessage(typeof json.message === "string" ? json.message : "تم استلام رسالتك بنجاح. سنتواصل معك قريباً.")
+      setSentMessage(json.message)
       form.reset()
       setTimeout(() => {
         setSent(false)
@@ -129,6 +142,7 @@ export function ContactForm() {
             name="name"
             type="text"
             required
+            maxLength={NAME_MAX}
             autoComplete="name"
             aria-invalid={!!fieldErrors.name}
             aria-describedby={fieldErrors.name ? "name-error" : undefined}
@@ -146,6 +160,7 @@ export function ContactForm() {
             name="email"
             type="email"
             required
+            maxLength={EMAIL_MAX}
             autoComplete="email"
             aria-invalid={!!fieldErrors.email}
             aria-describedby={fieldErrors.email ? "email-error" : undefined}
@@ -174,6 +189,7 @@ export function ContactForm() {
           name="message"
           rows={4}
           required
+          maxLength={MESSAGE_MAX}
           aria-invalid={!!fieldErrors.message}
           aria-describedby={fieldErrors.message ? "message-error" : undefined}
           className={`${fieldCls(fieldErrors.message)} resize-none`}

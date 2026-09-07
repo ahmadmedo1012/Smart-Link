@@ -7,7 +7,7 @@ import {
   ContactConfirmationEmail,
 } from "@/emails/contact-emails"
 import { SITE } from "@/lib/site"
-import { EMAIL_RE, NAME_MAX, EMAIL_MAX, MESSAGE_MAX } from "@/lib/contact-rules"
+import { EMAIL_RE, NAME_MAX, EMAIL_MAX, MESSAGE_MAX, NAME_LETTER_RE, NAME_LETTER_ERROR } from "@/lib/contact-rules"
 
 const OWNER_EMAIL = SITE.email
 const FROM_EMAIL = `SmartLink <noreply@smart-link.ly>`
@@ -113,8 +113,12 @@ export async function POST(req: Request) {
       })
     }
 
-    // Validate
-    if (!name || !email || !message) {
+    // Validate — r11 (محاكاة عدائية + تدقيق كود P1): الفحص القديم كان
+    // truthiness (!name) — يقبل "   " (مسافات فقط) و[] (مصفوفة فارغة
+    // truthy!) ثم يقصّها sanitize فترسل الرسالة باسم فارغ. الأنواع
+    // تُفحص أولاً، ثم الفراغ بعد القصّ، ثم قاعدة الأحرف المشتركة مع
+    // النموذج (إيموجي فقط = رفض) — نفس وحدة العقد lib/contact-rules.
+    if (typeof name !== "string" || typeof email !== "string" || typeof message !== "string") {
       return NextResponse.json(
         { error: "جميع الحقول المطلوبة يجب أن تكون مملوءة" },
         { status: 400 }
@@ -144,20 +148,32 @@ export async function POST(req: Request) {
     // r10 (security audit P3): Object.hasOwn guards the label map against
     // prototype keys (__proto__/toString returned truthy values from the
     // prototype chain → garbage in the owner's subject line).
-    const sanitize = (str: unknown) => String(str ?? "").replace(/[<>]/g, "").trim()
+    const sanitize = (str: string) => str.replace(/[<>]/g, "").trim()
     const cleanName = sanitize(name)
     const cleanEmail = sanitize(email)
-    const subjectKey = sanitize(subject)
+    const subjectKey = sanitize(typeof subject === "string" ? subject : "")
+    const cleanMessage = sanitize(message)
+
+    /* r11: الفراغ يُفحص بعد القصّ (لا قبله) — هذا هو المكان الذي
+       تسلّل منه name:"   " وname:[] طوال عمر الموقع. */
+    if (!cleanName || !cleanEmail || !cleanMessage) {
+      return NextResponse.json(
+        { error: "جميع الحقول المطلوبة يجب أن تكون مملوءة" },
+        { status: 400 }
+      )
+    }
+    if (!NAME_LETTER_RE.test(cleanName)) {
+      return NextResponse.json({ error: NAME_LETTER_ERROR }, { status: 400 })
+    }
+    const cleanSubject = Object.hasOwn(SUBJECT_LABELS, subjectKey)
+      ? SUBJECT_LABELS[subjectKey]
+      : "استفسار عام"
     if (subjectKey.length > SUBJECT_MAX) {
       return NextResponse.json(
         { error: "أحد الحقول أطول من المسموح" },
         { status: 400 }
       )
     }
-    const cleanSubject = Object.hasOwn(SUBJECT_LABELS, subjectKey)
-      ? SUBJECT_LABELS[subjectKey]
-      : "استفسار عام"
-    const cleanMessage = sanitize(message)
 
     // Rate limiting (r10: clientIp() + the global bucket — see above)
     const headersList = await headers()
@@ -184,6 +200,9 @@ export async function POST(req: Request) {
     const resend = new Resend(apiKey)
 
     // 1) Notification to the owner
+    /* r11 (تدقيق كود P2): البريدان كانا html فقط — إشارة HTML_ONLY
+       كلاسيكية ترفع نتيجة السبام؛ نص خام يُولّد من نفس القالب.
+       (يُفعّل تلقائياً لحظة إضافة RESEND_API_KEY — لا كود إضافي.) */
     const { data: notifyData, error: notifyError } = await resend.emails.send({
       from: FROM_EMAIL,
       to: OWNER_EMAIL,
@@ -196,6 +215,15 @@ export async function POST(req: Request) {
           subject: cleanSubject,
           message: cleanMessage,
         })
+      ),
+      text: await render(
+        ContactNotificationEmail({
+          name: cleanName,
+          email: cleanEmail,
+          subject: cleanSubject,
+          message: cleanMessage,
+        }),
+        { plainText: true }
       ),
     })
 
@@ -216,6 +244,10 @@ export async function POST(req: Request) {
       to: cleanEmail,
       subject: "استلمنا رسالتك — SmartLink",
       html: await render(ContactConfirmationEmail({ name: cleanName, subject: cleanSubject })),
+      text: await render(
+        ContactConfirmationEmail({ name: cleanName, subject: cleanSubject }),
+        { plainText: true }
+      ),
     })
     if (confirmError) {
       // The owner still got the message — log and continue

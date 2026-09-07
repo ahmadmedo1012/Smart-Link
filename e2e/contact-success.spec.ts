@@ -1,4 +1,4 @@
-import { test, expect } from "./fixtures"
+import { test, expect, allowResourceNoise } from "./fixtures"
 
 /**
  * r9 — مسارات النموذج التي لم تكن مختبرة إطلاقاً (تدقيق P1-2/P1-3):
@@ -48,7 +48,9 @@ test.describe("r9 — مسار النجاح (كان مغطى فقط بالفشل
     let release: (() => void) | undefined
     await page.route("**/api/contact", async (r) => {
       await new Promise<void>((resolve) => (release = resolve))
-      await r.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ success: true }) })
+      /* r11: عقد النجاح الصارم يطالب برسالة نصية — المحاكاة تحاكي
+         العقد الحقيقي للخادم (route.ts يرسل دائماً success+message). */
+      await r.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ success: true, message: "تم استلام رسالتك بنجاح. سنتواصل معك قريباً." }) })
     })
     await page.fill("#name", "اسم")
     await page.fill("#email", "user@example.com")
@@ -83,7 +85,9 @@ test.describe("r9 — مسار النجاح (كان مغطى فقط بالفشل
     await expect(page.locator("#email")).toBeFocused()
   })
 
-  test("خطأ بريد من الخادم يُربط بحقل البريد (لا بصندوق عام)", async ({ page }) => {
+  test("خطأ بريد من الخادم يُربط بحقل البريد (لا بصندوق عام)", async ({ page, consoleErrors }) => {
+    /* r11 (F-G8): رد 400 مقصود. */
+    allowResourceNoise(consoleErrors, /Failed to load resource.*400/)
     await page.route("**/api/contact", (r) =>
       r.fulfill({
         status: 400,

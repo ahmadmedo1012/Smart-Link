@@ -1,7 +1,7 @@
 import type { Metadata } from "next"
 import { Cairo, Readex_Pro } from "next/font/google"
 import { ThemeProvider } from "@/components/theme-provider"
-import { Analytics } from "@vercel/analytics/next"
+import { LazyAnalytics } from "@/components/lazy-analytics"
 import { MainNav } from "@/components/main-nav"
 import { Footer } from "@/components/footer"
 import { organizationJsonLd, websiteJsonLd, servicesJsonLd } from "@/lib/schema"
@@ -122,7 +122,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             {children}
           </main>
           <Footer />
-          <Analytics />
+          <LazyAnalytics />
         </ThemeProvider>
       </body>
     </html>

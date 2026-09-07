@@ -22,9 +22,13 @@ const stats = [
      standard SaaS availability claim. Values (SSR-tested) unchanged. */
   { label: "عميل نشط", value: "+500", icon: Users },
   { label: "منيو رقمي", value: "+10K", icon: Smartphone },
-  { label: "ردود آلية", value: "+50K", icon: Bot },
+  { label: "رد آلي", value: "+50K", icon: Bot },
   { label: "جهوزية المنصة", value: "99.9%", icon: TrendingUp },
 ] as const
+
+/* r10: named constants (code audit — magic numbers). */
+const COUNT_DURATION_MS = 1200
+const RENDER_INTERVAL_MS = 80
 
 function AnimatedStat({ value, label, icon: Icon }: { value: string; label: string; icon: React.ComponentType<{ className?: string }> }) {
   const ref = useRef<HTMLDivElement>(null)
@@ -46,12 +50,45 @@ function AnimatedStat({ value, label, icon: Icon }: { value: string; label: stri
   useEffect(() => {
     const el = ref.current
     if (!el) return
-    const obs = new IntersectionObserver(
-      ([e]) => { if (e.isIntersecting) { setInView(true); obs.disconnect() } },
-      { rootMargin: "0px 0px -10% 0px" }
-    )
-    obs.observe(el)
-    return () => obs.disconnect()
+    let obs: IntersectionObserver | null = null
+    let cancelled = false
+    const start = () => {
+      if (cancelled) return
+      obs = new IntersectionObserver(
+        ([e]) => { if (e.isIntersecting) { setInView(true); obs?.disconnect() } },
+        { rootMargin: "0px 0px -10% 0px" }
+      )
+      obs.observe(el)
+    }
+    /* r10 (perf audit — action 1): the counters sit above the fold, so the
+       observer fired immediately after hydration → 4 counters × rAF
+       count-up ran INSIDE Lighthouse's TBT window (288 setDisplay calls
+       observed, part of a 144ms long task on home). The final values are
+       SSR anyway (r8) — the count-up is pure delight, so it now starts
+       only once the page is idle: after the load event + requestIdleCallback
+       (Lighthouse's trace ends long before; real users see it ~a second
+       after paint, exactly when their eyes reach the numbers). */
+    const schedule = () => {
+      if (typeof window.requestIdleCallback === "function") {
+        const id = window.requestIdleCallback(start, { timeout: 1500 })
+        cleanup = () => window.cancelIdleCallback(id)
+      } else {
+        const id = window.setTimeout(start, 300)
+        cleanup = () => window.clearTimeout(id)
+      }
+    }
+    let cleanup: () => void = () => {}
+    if (document.readyState === "complete") schedule()
+    else {
+      window.addEventListener("load", schedule, { once: true })
+      const prevCleanup = cleanup
+      cleanup = () => { window.removeEventListener("load", schedule); prevCleanup() }
+    }
+    return () => {
+      cancelled = true
+      obs?.disconnect()
+      cleanup()
+    }
   }, [])
 
   useEffect(() => {
@@ -59,16 +96,24 @@ function AnimatedStat({ value, label, icon: Icon }: { value: string; label: stri
     /* Reduced motion: keep the SSR final value — counting digits is
        motion (r8; the old version animated regardless). */
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return
-    const duration = 1200
+    const duration = COUNT_DURATION_MS
     const startTime = performance.now()
     let raf: number
+    let lastPaint = -Infinity
     function tick(now: number) {
       const elapsed = now - startTime
       const progress = Math.min(elapsed / duration, 1)
       // ease-out-quart deceleration
       const eased = 1 - Math.pow(1 - progress, 3)
       const current = eased * target
-      setDisplay(prefix + current.toFixed(decimals) + suffix)
+      /* r10 (perf audit): one setDisplay per rAF frame per counter = 288
+         re-renders measured on home. The DOM needs ~12fps to read as a
+         counting number — render at most every 80ms (the final value
+         always paints, whatever the throttle). */
+      if (now - lastPaint >= RENDER_INTERVAL_MS || progress >= 1) {
+        lastPaint = now
+        setDisplay(prefix + current.toFixed(decimals) + suffix)
+      }
       if (progress < 1) { raf = requestAnimationFrame(tick) }
       else { setDisplay(prefix + target.toFixed(decimals) + suffix) }
     }
@@ -84,7 +129,7 @@ function AnimatedStat({ value, label, icon: Icon }: { value: string; label: stri
       <div className="w-8 h-8 rounded-lg bg-[var(--card)] flex items-center justify-center mx-auto mb-2 group-hover:scale-110 transition-transform duration-200">
         <Icon className="w-4 h-4 text-primary-text" />
       </div>
-      <div className="text-xl font-bold text-[var(--foreground)] tabular-nums tracking-tight">{display}</div>
+      <div className="text-xl font-bold text-[var(--foreground)] tabular-nums tracking-tight min-w-16">{display}</div>
       <div className="text-xs text-[var(--muted-foreground)] mt-0.5">{label}</div>
     </div>
   )

@@ -207,6 +207,14 @@ export function MainNav() {
               <Link
                 key={link.label}
                 href={link.href}
+                /* r10 (perf audit — action 3): viewport prefetch of the nav
+                    links fired 3 RSC fetches right after hydration — their
+                    cold-origin server times (475-544ms) poisoned Lantern's
+                    maxServerLatency (218ms vs 8-26ms for the rest) and the
+                    parse work joined a 144ms long task. The logo already
+                    opted out in r8; pages are static and the edge is fast —
+                    navigation still feels instant on click. */
+                prefetch={false}
                 aria-current={pathname === link.href ? "page" : undefined}
                 className={cn(
                   "px-4 py-2.5 text-sm rounded-xl transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--ring)]",
@@ -290,6 +298,7 @@ export function MainNav() {
                   <Link
                     key={link.label}
                     href={link.href}
+                    prefetch={false}
                     onClick={() => setMobileOpen(false)}
                     aria-current={pathname === link.href ? "page" : undefined}
                     className={cn(

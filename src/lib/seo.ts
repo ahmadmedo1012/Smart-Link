@@ -41,7 +41,7 @@ export function pageMetadata(opts: {
       description: ogDesc,
       url: `${SITE}${opts.canonical}`,
       siteName: "SmartLink",
-      locale: "ar_LY",
+      locale: "ar_AR" /* r9: ar_AR is the only Arabic locale Facebook recognizes */,
       type: "website",
       images: [OG_IMAGE],
     },

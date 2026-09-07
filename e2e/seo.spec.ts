@@ -32,7 +32,7 @@ test.describe("SEO — الميتاداتا الفوقية لكل صفحة", () 
       await expect(page.locator('meta[property="og:image:width"]')).toHaveAttribute("content", "1200")
       await expect(page.locator('meta[property="og:image:height"]')).toHaveAttribute("content", "630")
       await expect(page.locator('meta[property="og:site_name"]')).toHaveAttribute("content", "SmartLink")
-      await expect(page.locator('meta[property="og:locale"]')).toHaveAttribute("content", "ar_LY")
+      await expect(page.locator('meta[property="og:locale"]')).toHaveAttribute("content", "ar_AR")
 
       // بطاقة تويتر large image
       await expect(page.locator('meta[name="twitter:card"]')).toHaveAttribute(
@@ -108,5 +108,58 @@ test.describe("SEO — ملفات الزحف والتثبيت", () => {
       expect(res.status()).toBe(200)
       expect(res.headers()["content-type"]).toContain(type)
     }
+  })
+})
+
+test.describe("r9 — إشارات الزحف والـ PWA المضافة", () => {
+  test("404 — robots noindex + بلا canonical (حل تعارض الإشارات)", async ({ request }) => {
+    /* r9 (SEO audit P2-1): 404 كان يرث robots «index, follow» الجذري
+       مقابل «noindex» الذي يضيفه Next — إشارتان متعارضتان + canonical
+       للرئيسية على رابط ميت. الصفحة تُصيَّر بلا JS عبر request. */
+    const res = await request.get("/صفحة-ميتة-للاختبار")
+    expect(res.status()).toBe(404)
+    const html = await res.text()
+    // لا «index, follow» بعد الآن — فقط noindex بصيغتيه
+    expect(html).not.toContain('content="index, follow"')
+    expect(html).toContain('name="robots" content="noindex"')
+    // description خاصة بالـ 404 بدل وصف الرئيسية الموروث
+    expect(html).toContain('الصفحة التي تبحث عنها غير متوفرة')
+  })
+
+  test("404 — html المُصيَّر: رابطا العودة والتواصل", async ({ page }) => {
+    await page.goto("/dead-link-r9", { waitUntil: "domcontentloaded" })
+    const main = page.locator("#main-content")
+    await expect(main.getByRole("link", { name: /العودة للرئيسية/ })).toHaveAttribute("href", "/")
+    await expect(main.getByRole("link", { name: /تواصل معنا/ })).toHaveAttribute("href", "/contact")
+  })
+
+  test("robots.txt — يمنع /api/ (r9)", async ({ request }) => {
+    const res = await request.get("/robots.txt")
+    const body = await res.text()
+    expect(body).toContain("Disallow: /api/")
+  })
+
+  test("manifest — id صريح + اختصارات التنقل (r9)", async ({ request }) => {
+    const res = await request.get("/manifest.webmanifest")
+    const m = await res.json()
+    expect(m.id).toBe("/")
+    const shortcuts = m.shortcuts.map((sc: { url: string }) => sc.url)
+    expect(shortcuts).toContain("/pricing")
+    expect(shortcuts).toContain("/contact")
+  })
+
+  test("sitemap — القانونية بختم يوليو الثابت والبقية بتاريخ البناء (r9)", async ({ request }) => {
+    const res = await request.get("/sitemap.xml")
+    const xml = await res.text()
+    // الصفحتان القانونيتان تحملان تاريخ محتواهما الحقيقي، لا وقت البناء
+    expect(xml).toContain("2026-07-01")
+    // عدّ التواريخ التي ليست يوليو = 4 (home/about/pricing/contact)
+    const jul = (xml.match(/2026-07-01/g) ?? []).length
+    expect(jul).toBe(2)
+  })
+
+  test("apple-mobile-web-app-capable موجود (r9)", async ({ page }) => {
+    await page.goto("/", { waitUntil: "domcontentloaded" })
+    await expect(page.locator('meta[name="apple-mobile-web-app-capable"]')).toHaveAttribute("content", "yes")
   })
 })

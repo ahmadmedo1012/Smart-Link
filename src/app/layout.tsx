@@ -4,6 +4,7 @@ import { ThemeProvider } from "@/components/theme-provider"
 import { Analytics } from "@vercel/analytics/next"
 import { MainNav } from "@/components/main-nav"
 import { Footer } from "@/components/footer"
+import { organizationJsonLd, websiteJsonLd, servicesJsonLd } from "@/lib/schema"
 import "./globals.css"
 
 const cairo = Cairo({
@@ -49,7 +50,9 @@ export const metadata: Metadata = {
     description: "حلول ذكية للأعمال: المنيو الرقمي، البوت الذكي، والمزيد",
     url: "/",
     siteName: "SmartLink",
-    locale: "ar_LY",
+    /* r9 (SEO audit P3-7): ar_LY is not a value Facebook recognizes
+       (its Arabic list has ar_AR only) — unknown locales are dropped. */
+    locale: "ar_AR",
     type: "website",
     images: [{
       url: "/og-smartlink.jpg",
@@ -75,6 +78,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)" />
         <meta name="theme-color" content="#fafafa" media="(prefers-color-scheme: light)" />
         <meta name="mobile-web-app-capable" content="yes" />
+        {/* r9 (SEO audit P2-4): the documented iOS standalone meta —
+            mobile-web-app-capable alone is not read by older iOS/Safari
+            edges; this completes the Apple pair alongside status-bar-style
+            and title. */}
+        <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <meta name="apple-mobile-web-app-title" content="SmartLink" />
         {/* r6: iOS Safari otherwise auto-links bare 10+ digit sequences
@@ -87,66 +95,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="manifest" href="/manifest.webmanifest" />
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "Organization",
-              name: "SmartLink",
-              alternateName: "سمارت لينك",
-              url: "https://smart-link.ly",
-              logo: {
-                "@type": "ImageObject",
-                url: "https://smart-link.ly/logo.png",
-                width: 600,
-                height: 409,
-              },
-              description:
-                "منصة رقمية ليبية متكاملة تقدم حلولاً ذكية للأعمال: المنيو الرقمي للمطاعم والبوت الذكي لفيسبوك.",
-              foundingDate: "2025-11-20",
-              founder: { "@type": "Person", name: "أحمد خيري" },
-              contactPoint: {
-                "@type": "ContactPoint",
-                /* r6: was "ahmad..." — every other surface (API owner inbox,
-                   footer, contact page, terms/privacy, the plan doc) uses
-                   "ahmed..." and the GitHub login is ahmadmedo1012 — one
-                   transposed letter was shipping to crawlers via JSON-LD. */
-                email: "ahmedmedo1012@gmail.com",
-                contactType: "customer service",
-                availableLanguage: ["ar", "en"],
-              },
-              sameAs: [
-                "https://wa.me/218910089975",
-                "https://menu.smart-link.ly",
-                "https://bot.smart-link.ly",
-              ],
-              subOrganization: [
-                {
-                  "@type": "Organization",
-                  name: "Smart Menu",
-                  url: "https://menu.smart-link.ly",
-                  description: "المنيو الرقمي التفاعلي للمطاعم مع طلبات واتساب",
-                },
-                {
-                  "@type": "Organization",
-                  name: "SmartBot",
-                  url: "https://bot.smart-link.ly",
-                  description: "البوت الذكي لأتمتة الردود على صفحات فيسبوك",
-                },
-              ],
-            }),
-          }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd()) }}
         />
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "WebSite",
-              name: "SmartLink",
-              url: "https://smart-link.ly",
-              inLanguage: "ar",
-            }),
-          }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd()) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(servicesJsonLd()) }}
         />
       </head>
       <body className="min-h-dvh flex flex-col antialiased overflow-x-hidden bg-[var(--background)]">

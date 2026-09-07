@@ -5,9 +5,9 @@ import { test, expect } from "./fixtures"
  * (انحدار r6: البريد كان مقلوب الأحرف أمام الزواحف.)
  */
 async function ldScripts(page: import("@playwright/test").Page) {
-  /* pricing يبث مصفوفة [{FAQPage},{BreadcrumbList}] في script واحد —
-     نسطّح المصفوفات ليتعامل الفاحص مع كل كائن على حدة. */
-  return page
+  /* r9: @type may be an array (Organization+LocalBusiness) — byType checks
+     both shapes, and the @graph script (the Services) is flattened too. */
+  const flat = await page
     .locator('script[type="application/ld+json"]')
     .evaluateAll((nodes) =>
       nodes.flatMap((n) => {
@@ -15,13 +15,22 @@ async function ldScripts(page: import("@playwright/test").Page) {
         return Array.isArray(v) ? v : [v]
       })
     )
+  const isType = (obj: Record<string, unknown>, t: string) =>
+    Array.isArray(obj["@type"]) ? (obj["@type"] as string[]).includes(t) : obj["@type"] === t
+  const withGraphs = flat.flatMap((l) => {
+    const g = (l as Record<string, unknown>)["@graph"]
+    return Array.isArray(g) ? (g as unknown[]) : [l]
+  })
+  const byType = (t: string) =>
+    withGraphs.filter((l) => isType(l as Record<string, unknown>, t))
+  return { flat, withGraphs, byType }
 }
 
 test.describe("JSON-LD — الرئيسية", () => {
   test("Organization كاملة: بريد صحيح + منظمتان فرعيتان + روابط sameAs", async ({ page }) => {
     await page.goto("/", { waitUntil: "domcontentloaded" })
-    const lds = await ldScripts(page)
-    const org = lds.find((l) => l["@type"] === "Organization")
+    const { byType } = await ldScripts(page)
+    const org = byType("Organization")[0]
     expect(org).toBeTruthy()
 
     // انحدار r6: البريد الموحّد عبر كل الأسطح
@@ -40,10 +49,42 @@ test.describe("JSON-LD — الرئيسية", () => {
     expect(org.sameAs).toContain("https://bot.smart-link.ly")
   })
 
+  test("r9 — LocalBusiness: هاتف + ليبيا + ساعات دوام صادقة", async ({ page }) => {
+    await page.goto("/", { waitUntil: "domcontentloaded" })
+    const { byType } = await ldScripts(page)
+    const lb = byType("LocalBusiness")[0]
+    expect(lb).toBeTruthy()
+    expect(lb.telephone).toBe("+218910089975")
+    expect(lb.address.addressCountry).toBe("LY")
+    expect(lb.areaServed.name).toBe("ليبيا")
+    const hours = lb.openingHoursSpecification[0]
+    expect(hours.opens).toBe("09:00")
+    expect(hours.closes).toBe("21:00")
+    expect(hours.dayOfWeek).toHaveLength(7)
+  })
+
+  test("r9 — كيانات مترابطة @id + خدمتان مع Offer مجاني", async ({ page }) => {
+    await page.goto("/", { waitUntil: "domcontentloaded" })
+    const { byType } = await ldScripts(page)
+    const org = byType("Organization")[0]
+    const site = byType("WebSite")[0]
+    const services = byType("Service")
+
+    expect(org["@id"]).toBe("https://smart-link.ly/#organization")
+    expect(site.publisher["@id"]).toBe(org["@id"])
+    expect(services).toHaveLength(2)
+    for (const svc of services) {
+      expect(svc.provider["@id"]).toBe(org["@id"])
+      expect(svc.offers.price).toBe("0")
+    }
+    const svcNames = services.map((sv: { name: string }) => sv.name)
+    expect(svcNames).toEqual(expect.arrayContaining(["Smart Menu", "SmartBot"]))
+  })
+
   test("WebSite — اسم ولغة عربية", async ({ page }) => {
     await page.goto("/", { waitUntil: "domcontentloaded" })
-    const lds = await ldScripts(page)
-    const site = lds.find((l) => l["@type"] === "WebSite")
+    const { byType } = await ldScripts(page)
+    const site = byType("WebSite")[0]
     expect(site).toBeTruthy()
     expect(site.name).toBe("SmartLink")
     expect(site.inLanguage).toBe("ar")
@@ -51,8 +92,8 @@ test.describe("JSON-LD — الرئيسية", () => {
 
   test("FAQPage — ستة أسئلة بأجوبة غير فارغة (r6)", async ({ page }) => {
     await page.goto("/", { waitUntil: "domcontentloaded" })
-    const lds = await ldScripts(page)
-    const faq = lds.find((l) => l["@type"] === "FAQPage")
+    const { byType } = await ldScripts(page)
+    const faq = byType("FAQPage")[0]
     expect(faq).toBeTruthy()
     expect(faq.mainEntity).toHaveLength(6)
     for (const q of faq.mainEntity) {
@@ -65,8 +106,8 @@ test.describe("JSON-LD — الرئيسية", () => {
 test.describe("JSON-LD — /pricing", () => {
   test("FAQPage حاضر بأسئلة كافية (تكافؤ الرصيف مع الرئيسية)", async ({ page }) => {
     await page.goto("/pricing", { waitUntil: "domcontentloaded" })
-    const lds = await ldScripts(page)
-    const faq = lds.find((l) => l["@type"] === "FAQPage")
+    const { byType } = await ldScripts(page)
+    const faq = byType("FAQPage")[0]
     expect(faq).toBeTruthy()
     expect(faq.mainEntity.length).toBeGreaterThanOrEqual(4)
   })

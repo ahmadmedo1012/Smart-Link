@@ -36,7 +36,7 @@ function SmartMenuShowcase() {
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           {/* Phone mockup */}
           <div className="reveal-scroll-strong order-2 lg:order-1 mx-auto w-full max-w-[320px]">
-            <div className="phone-tilt relative rounded-[2.5rem] border border-[var(--glass-border)] p-3 shadow-[var(--shadow-xl)]">
+            <div className="phone-tilt relative rounded-[2.5rem] border border-[var(--glass-border)] p-3 shadow-xl">
               {/* Phone notch */}
               <div className="absolute top-3 left-1/2 -translate-x-1/2 w-24 h-1.5 rounded-full bg-[var(--border)] z-10" aria-hidden="true" />
               <div
@@ -90,7 +90,7 @@ function SmartMenuShowcase() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="زيارة Smart Menu — رابط خارجي"
-              className="reveal-scroll group inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-[var(--primary)] text-white font-semibold text-sm shadow-[var(--shadow-glow)] hover:brightness-110 transition-all duration-200 active:scale-[0.97]"
+              className="reveal-scroll group inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-[var(--primary)] text-white font-semibold text-sm shadow-glow hover:brightness-110 transition-all duration-200 active:scale-[0.97]"
             >
               <span className="inline-flex items-center gap-2">
                 جرّب المنيو الحي <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-0.5" aria-hidden="true" />
@@ -134,7 +134,7 @@ function SmartBotShowcase() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="زيارة SmartBot — رابط خارجي"
-              className="reveal-scroll group inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-[var(--primary)] text-white font-semibold text-sm shadow-[var(--shadow-glow)] hover:brightness-110 transition-all duration-200 active:scale-[0.97]"
+              className="reveal-scroll group inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-[var(--primary)] text-white font-semibold text-sm shadow-glow hover:brightness-110 transition-all duration-200 active:scale-[0.97]"
             >
               <span className="inline-flex items-center gap-2">
                 افتح SmartBot <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-0.5" aria-hidden="true" />
@@ -144,7 +144,7 @@ function SmartBotShowcase() {
 
           {/* Browser mockup */}
           <div className="reveal-scroll-strong order-2 mx-auto w-full max-w-[560px]">
-            <div className="browser-parallax rounded-2xl border border-[var(--glass-border)] bg-[var(--card)] shadow-[var(--shadow-xl)] overflow-hidden will-change-transform">
+            <div className="browser-parallax rounded-2xl border border-[var(--glass-border)] bg-[var(--card)] shadow-xl overflow-hidden will-change-transform">
               {/* Browser chrome */}
               <div className="flex items-center gap-2 px-4 py-3 border-b border-[var(--border)] bg-[var(--surface-raised)]" aria-hidden="true">
                 <span className="w-3 h-3 rounded-full bg-[var(--destructive)] opacity-70" />

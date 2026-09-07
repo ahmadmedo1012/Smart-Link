@@ -1,28 +1,25 @@
 @import "tailwindcss";
-@import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
   /* Brand parity with Smart-Menu/SmartBot (source: Smart-Menu globals.css) */
   --font-sans: var(--font-cairo, "Cairo"), "Cairo", "Noto Sans Arabic", system-ui, sans-serif;
-  --font-mono: "Noto Naskh Arabic", "Courier New", monospace;
-  --font-arabic: var(--font-cairo, "Cairo"), "Noto Naskh Arabic", "Noto Sans Arabic", system-ui, sans-serif;
   --font-heading: var(--font-readex-pro, "Readex Pro"), var(--font-cairo, "Cairo"), "Noto Sans Arabic", system-ui, sans-serif;
 
-  --text-xs: 0.75rem;
-  --text-sm: 0.875rem;
-  --text-base: 1rem;
-  --text-lg: 1.125rem;
-  --text-xl: 1.25rem;
-  --text-2xl: 1.5rem;
-  --text-3xl: 1.875rem;
-  --text-4xl: 2.25rem;
-  --text-5xl: 3rem;
-  --text-6xl: 3.75rem;
-  --text-7xl: 4.5rem;
-  --text-8xl: 6rem;
-  --text-9xl: 8rem;
+  /* r9 (audit P2-1): Tailwind v4 emits shadow-* utilities ONLY from the
+     @theme --shadow-* namespace. The tonal shadows previously lived in
+     :root where no utility is ever generated, so `shadow-glow` on 4 call
+     sites (hero CTA / closing CTA / features / back-to-top) silently
+     rendered with NO box-shadow at all. Runtime vars are prefixed --t-*
+     (a @theme entry cannot reference a var of its own name) and inlined
+     so they resolve per light/dark mode. */
+  --shadow-sm: var(--t-shadow-sm);
+  --shadow-md: var(--t-shadow-md);
+  --shadow-lg: var(--t-shadow-lg);
+  --shadow-xl: var(--t-shadow-xl);
+  --shadow-glow: var(--t-glow);
+  --shadow-glow-strong: var(--t-glow-strong);
 
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -30,20 +27,16 @@
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
   --color-primary-text: var(--primary-text);
-  --color-secondary: var(--secondary);
-  --color-secondary-foreground: var(--secondary-foreground);
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
   --color-destructive: var(--destructive);
   --color-border: var(--border);
-  --color-input: var(--input);
   --color-ring: var(--ring);
   --color-card: var(--card);
   --color-card-foreground: var(--card-foreground);
 
   --color-success: var(--success);
   --color-warning: var(--warning);
-  --color-info: var(--info);
 
   --radius-xs: 4px;
   --radius-sm: 8px;
@@ -51,36 +44,19 @@
   --radius-lg: 20px;
   --radius-xl: 28px;
 
-  --ease-out-quart: cubic-bezier(0.165, 0.84, 0.44, 1);
   --ease-smooth: cubic-bezier(0.16, 1, 0.2, 1);
   --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
-  --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
-  --ease-out-back: cubic-bezier(0.34, 1.56, 0.64, 1);
-  --ease-spring-bounce: cubic-bezier(0.18, 0.89, 0.32, 1.28);
-  --ease-out-cubic: cubic-bezier(0.33, 1, 0.68, 1);
 
   --color-glass-bg: var(--glass-bg);
   --color-glass-border: var(--glass-border);
 }
 
 :root {
-  --z-dropdown: 10;
-  --z-sticky: 20;
-  --z-nav: 30;
-  --z-modal-backdrop: 40;
-  --z-modal: 50;
-  --z-toast: 60;
-  --z-tooltip: 70;
-
   --scroll-offset: 6rem;
-  --duration-fast: 0.2s;
   --duration-base: 0.4s;
-  --duration-slow: 0.7s;
-  --duration-xl: 1.2s;
 
   /* ── Core palette ── */
   --background: oklch(0.018 0.003 30);
-  --background-radial: radial-gradient(ellipse 80% 50% at 50% -8%, oklch(0.68 0.19 45 / 0.1), transparent 70%);
   --foreground: oklch(0.95 0.003 30);
   --card: oklch(0.085 0.004 30);
   --card-foreground: oklch(0.95 0.003 30);
@@ -88,25 +64,18 @@
   /* AA on near-black backgrounds: 0.68 measured only 4.0:1 — raised to 0.74 (≈7.1:1) */
   --primary-text: oklch(0.74 0.19 45);
   --primary-foreground: oklch(0.98 0 0);
-  --secondary: oklch(0.12 0.005 30);
-  --secondary-foreground: oklch(0.75 0.008 30);
-  --muted: oklch(0.1 0.004 30);
   --muted-foreground: oklch(0.62 0.015 30);
   --accent: oklch(0.55 0.19 45 / 0.15);
   --accent-foreground: oklch(0.55 0.19 45);
   --destructive: oklch(0.6 0.22 25);
   --border: oklch(0.18 0.006 30);
-  --input: oklch(0.18 0.006 30);
   --ring: oklch(0.55 0.19 45);
   --success: oklch(0.62 0.18 145);
   --warning: oklch(0.72 0.16 80);
-  --info: oklch(0.55 0.14 240);
 
   /* ── Surface hierarchy ── */
   --surface-raised: oklch(0.14 0.006 30);
   --surface-sunken: oklch(0.04 0.002 30);
-  --overlay: oklch(0 0 0 / 0.6);
-  --surface-elevated: oklch(0.18 0.008 30);
 
   /* ── Glass variants ── */
   --glass-bg: oklch(0.085 0.004 30 / 0.35);
@@ -115,30 +84,24 @@
   --glass-shadow: 0 8px 32px oklch(0 0 0 / 0.45), inset 0 1px 0 oklch(1 1 0 / 0.04);
   --glass-shadow-lg: 0 12px 48px oklch(0 0 0 / 0.5), inset 0 1px 0 oklch(1 1 0 / 0.06);
 
-  /* ── Tonal shadows ── */
-  --shadow-sm: 0 1px 3px oklch(0 0 0 / 0.35), 0 1px 2px oklch(0 0 0 / 0.25);
-  --shadow-md: 0 4px 16px oklch(0 0 0 / 0.4), 0 2px 4px oklch(0 0 0 / 0.3);
-  --shadow-lg: 0 12px 40px oklch(0 0 0 / 0.45), 0 4px 8px oklch(0 0 0 / 0.35);
-  --shadow-xl: 0 24px 60px oklch(0 0 0 / 0.5), 0 8px 16px oklch(0 0 0 / 0.4);
-  --shadow-glow: 0 0 30px oklch(0.55 0.19 45 / 0.25);
-  --shadow-glow-strong: 0 0 60px oklch(0.55 0.19 45 / 0.35);
+  /* ── Tonal shadows (runtime side of the @theme --shadow-* entries above) ── */
+  --t-shadow-sm: 0 1px 3px oklch(0 0 0 / 0.35), 0 1px 2px oklch(0 0 0 / 0.25);
+  --t-shadow-md: 0 4px 16px oklch(0 0 0 / 0.4), 0 2px 4px oklch(0 0 0 / 0.3);
+  --t-shadow-lg: 0 12px 40px oklch(0 0 0 / 0.45), 0 4px 8px oklch(0 0 0 / 0.35);
+  --t-shadow-xl: 0 24px 60px oklch(0 0 0 / 0.5), 0 8px 16px oklch(0 0 0 / 0.4);
+  --t-glow: 0 0 30px oklch(0.55 0.19 45 / 0.25);
+  --t-glow-strong: 0 0 60px oklch(0.55 0.19 45 / 0.35);
 
   /* ── Service gradients ── */
   --gradient-smart-menu: linear-gradient(135deg, oklch(0.7 0.19 60 / 0.25), oklch(0.7 0.15 50 / 0.1));
   --gradient-smart-bot: linear-gradient(135deg, oklch(0.55 0.15 280 / 0.25), oklch(0.5 0.12 280 / 0.1));
   --gradient-coming-soon: linear-gradient(135deg, oklch(0.6 0.18 160 / 0.25), oklch(0.55 0.15 160 / 0.1));
-  --gradient-shine: linear-gradient(90deg, transparent 0%, oklch(1 0 0 / 0.05) 50%, transparent 100%);
 
   /* ── Grid pattern ── */
   --grid-line: oklch(0.55 0.19 45 / 0.1);
-  --grid-fill: oklch(0.55 0.19 45 / 0.04);
-  --grid-square: oklch(0.55 0.19 45 / 0.1);
 
   /* ── Motion ── */
-  --move-fast: 150ms;
   --move-base: 300ms;
-  --move-slow: 600ms;
-  --move-xl: 1000ms;
 }
 
 .light {
@@ -151,25 +114,18 @@
   --primary: oklch(0.4 0.19 45);
   --primary-text: oklch(0.4 0.19 45);
   --primary-foreground: oklch(0.98 0 0);
-  --secondary: oklch(0.92 0.005 30);
-  --secondary-foreground: oklch(0.25 0.008 30);
-  --muted: oklch(0.95 0.003 30);
   --muted-foreground: oklch(0.55 0.01 30);
   --accent: oklch(0.55 0.19 45 / 0.12);
   --accent-foreground: oklch(0.55 0.19 45);
   --destructive: oklch(0.58 0.2 25);
   --border: oklch(0.88 0.006 30);
-  --input: oklch(0.88 0.006 30);
   --ring: oklch(0.55 0.19 45);
   /* darker in light for AA text on white (dual-lightness like --primary) */
   --success: oklch(0.48 0.15 150);
   --warning: oklch(0.52 0.13 60);
-  --info: oklch(0.48 0.13 245);
 
   --surface-raised: oklch(0.96 0.003 30);
   --surface-sunken: oklch(0.98 0.002 30);
-  --surface-elevated: oklch(0.94 0.004 30);
-  --overlay: oklch(0 0 0 / 0.15);
 
   --glass-bg: oklch(1 0 0 / 0.3);
   --glass-bg-strong: oklch(1 0 0 / 0.5);
@@ -177,26 +133,26 @@
   --glass-shadow: 0 8px 32px oklch(0 0 0 / 0.06), inset 0 1px 0 oklch(1 1 0 / 0.6);
   --glass-shadow-lg: 0 12px 48px oklch(0 0 0 / 0.08), inset 0 1px 0 oklch(1 1 0 / 0.6);
 
-  --shadow-sm: 0 1px 3px oklch(0 0 0 / 0.06);
-  --shadow-md: 0 4px 12px oklch(0 0 0 / 0.06);
-  --shadow-lg: 0 12px 40px oklch(0 0 0 / 0.08);
-  --shadow-xl: 0 24px 60px oklch(0 0 0 / 0.1);
-  --shadow-glow: 0 0 30px oklch(0.55 0.19 45 / 0.12);
-  --shadow-glow-strong: 0 0 60px oklch(0.55 0.19 45 / 0.2);
+  --t-shadow-sm: 0 1px 3px oklch(0 0 0 / 0.06);
+  --t-shadow-md: 0 4px 12px oklch(0 0 0 / 0.06);
+  --t-shadow-lg: 0 12px 40px oklch(0 0 0 / 0.08);
+  --t-shadow-xl: 0 24px 60px oklch(0 0 0 / 0.1);
+  --t-glow: 0 0 30px oklch(0.55 0.19 45 / 0.12);
+  --t-glow-strong: 0 0 60px oklch(0.55 0.19 45 / 0.2);
 
   --gradient-smart-menu: linear-gradient(135deg, oklch(0.7 0.19 60 / 0.15), oklch(0.7 0.15 50 / 0.06));
   --gradient-smart-bot: linear-gradient(135deg, oklch(0.55 0.15 280 / 0.15), oklch(0.5 0.12 280 / 0.06));
   --gradient-coming-soon: linear-gradient(135deg, oklch(0.6 0.18 160 / 0.15), oklch(0.55 0.15 160 / 0.06));
-  --gradient-shine: linear-gradient(90deg, transparent 0%, oklch(0 0 0 / 0.03) 50%, transparent 100%);
 
   --grid-line: oklch(0.55 0.19 45 / 0.06);
-  --grid-fill: oklch(0.55 0.19 45 / 0.03);
-  --grid-square: oklch(0.55 0.19 45 / 0.06);
 }
 
 @layer base {
   * { border-color: var(--border); }
-  html { scroll-behavior: smooth; }
+  /* r9 (audit L3): --scroll-offset finally does its job — in-page anchors
+     (#services from the hero CTA) used to clear the fixed header only by
+     coincidence of section padding. */
+  html { scroll-behavior: smooth; scroll-padding-top: var(--scroll-offset); }
   body {
     background: var(--background);
     color: var(--foreground);
@@ -266,33 +222,11 @@
 /* ── Pure CSS animations with spring-like cubic-beziers ── */
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /* ── 21st.dev-style animations ── */
 @keyframes nav-shimmer {
   0% { transform: translateX(-100%); }
   100% { transform: translateX(200%); }
 }
-
-
-
-
-
-
-
 
 
 /* ── 21st.dev Shimmer Bar — runs once on load ── */
@@ -525,6 +459,10 @@
     .reveal-scroll-stagger > * {
       animation: reveal-up 0.5s cubic-bezier(0.16, 1, 0.2, 1) both;
       animation-timeline: view();
+      /* r9 (audit P3-9): default range for children beyond nth-child(6) —
+         without it the 7th+ item of any future list rests at 50% progress
+         (the exact bug class r8 fixed in the hero). */
+      animation-range: entry 40% entry 95%;
     }
     .reveal-scroll-stagger > *:nth-child(1) { animation-range: entry 0%  entry 55%; }
     .reveal-scroll-stagger > *:nth-child(2) { animation-range: entry 10% entry 65%; }
@@ -596,10 +534,6 @@
 }
 
 
-@utility noise-overlay {
-  position: relative;
-}
-
 /* ── View Transitions API ── */
 @view-transition {
   navigation: auto;
@@ -628,5 +562,12 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+  /* r9 (audit A7): the universal kill-switch missed view transitions —
+     page cross-fades kept animating for reduced-motion users. */
+  ::view-transition-group(*),
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none !important;
   }
 }

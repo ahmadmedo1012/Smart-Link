@@ -153,7 +153,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <a href="#main-content" className="pointer-events-auto fixed opacity-0 focus:opacity-100 focus:fixed focus:top-4 focus:right-4 focus:z-[100] focus:px-4 focus:py-2 focus:rounded-xl focus:bg-[var(--primary)] focus:text-white focus:text-sm focus:font-semibold focus:shadow-lg focus:outline-none transition-opacity duration-200">
           تخطى إلى المحتوى الرئيسي
         </a>
-        <div className="noise-overlay" />
         {/* r8: scroll progress bar is now a pure CSS scroll-driven
             animation (scroll(root) timeline, see globals.css) — zero JS,
             zero listeners, zero hydration. Browsers without scroll

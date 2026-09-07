@@ -18,7 +18,6 @@ export default function Error({
 
   return (
     <div className="pt-28 pb-16 relative overflow-hidden">
-      <div className="noise-overlay" />
       <div className="container-base relative">
         <div className="max-w-xl mx-auto text-center glass rounded-2xl p-10 reveal-up">
           <div className="w-16 h-16 rounded-2xl mx-auto mb-6 flex items-center justify-center border border-[var(--glass-border)]" style={{ background: "var(--accent)" }}>

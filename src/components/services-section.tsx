@@ -44,7 +44,7 @@ function ServiceCard({ service }: { service: typeof services[number] }) {
 
   return (
     <div
-      className={`reveal-scroll-strong group relative rounded-[20px] border border-[var(--border)] bg-[var(--card)] overflow-hidden hover:border-[var(--ring)]/40 hover:shadow-[0_0_60px_var(--shadow-glow)] transition-all duration-500 flex flex-col h-full [perspective:800px] hover:[transform:rotateY(2deg)_rotateX(-2deg)]`}
+      className={`reveal-scroll-strong group relative rounded-[20px] border border-[var(--border)] bg-[var(--card)] overflow-hidden hover:border-[var(--ring)]/40 hover:shadow-glow-strong transition-all duration-500 flex flex-col h-full [perspective:800px] hover:[transform:rotateY(2deg)_rotateX(-2deg)]`}
     >
       {/* Top accent gradient line */}
       <div className="absolute top-0 left-0 right-0 h-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{ background: `linear-gradient(90deg, transparent, ${service.color}, transparent)` }} aria-hidden="true" />

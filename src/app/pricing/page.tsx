@@ -109,7 +109,7 @@ export default function PricingPage() {
             return (
               <div
                 key={plan.title}
-                className={`reveal-up reveal-d${Math.min(i + 1, 4)} group relative rounded-[20px] border border-[var(--border)] bg-[var(--card)] overflow-hidden hover:border-[var(--ring)]/40 hover:shadow-[0_0_60px_var(--shadow-glow)] transition-all duration-500 flex flex-col`}
+                className={`reveal-up reveal-d${Math.min(i + 1, 4)} group relative rounded-[20px] border border-[var(--border)] bg-[var(--card)] overflow-hidden hover:border-[var(--ring)]/40 hover:shadow-glow-strong transition-all duration-500 flex flex-col`}
               >
                 {/* Top accent line */}
                 <div className="absolute top-0 left-0 right-0 h-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{ background: `linear-gradient(90deg, transparent, ${plan.color}, transparent)` }} aria-hidden="true" />

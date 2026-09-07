@@ -1,4 +1,5 @@
 import type { Page } from "@playwright/test"
+import { mkdirSync } from "node:fs"
 import { test, expect, PAGES } from "./fixtures"
 
 /**
@@ -23,11 +24,15 @@ import { test, expect, PAGES } from "./fixtures"
  * (html.dark، localStorage فارغ) — لذلك اللقطات تُسمّى بالوضع الفعلي
  * المُتحقَّق منه من class عنصر html، لا بترتيب الضغط.
  *
- * لقطات jpeg بجودة 60 (fullPage) تُحفظ خارج المستودع:
- *   /home/z/my-project/r11-findings/screenshots/
+ * لقطات jpeg بجودة 60 (fullPage) — المسار قابل للتهيئة:
+ *   SIM_SHOTS_DIR=... (خارج المستودع محلياً)، والافتراضي داخل
+ *   test-results/sim-shots (يعمل على أي بيئة بما فيها CI — يُرفع
+ *   كـ artifact عند الفشل تلقائياً). r11: المسار المطلق القديم
+ *   أفشل 12 اختبار لقطة على عدّاد CI (ENOENT).
  */
 
-const SHOT_DIR = "/home/z/my-project/r11-findings/screenshots"
+const SHOT_DIR = process.env.SIM_SHOTS_DIR ?? "test-results/sim-shots"
+mkdirSync(SHOT_DIR, { recursive: true })
 
 const slug = (p: string) => (p === "/" ? "home" : p.replace(/^\//, ""))
 

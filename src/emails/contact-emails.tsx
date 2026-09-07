@@ -79,7 +79,7 @@ export function ContactNotificationEmail({ name, email, subject, message }: Cont
             >
               الرد على المرسل
             </Button>
-            <Text style={{ color: "#6e6961", fontSize: "11px", margin: "24px 0 0" }}>
+            <Text style={{ color: "#8a847e", fontSize: "11px", margin: "24px 0 0" }}>
               أُرسلت تلقائياً من نموذج التواصل في smart-link.ly
             </Text>
           </Section>
@@ -117,7 +117,7 @@ export function ContactConfirmationEmail({ name, subject }: { name: string; subj
               واتساب مباشر
             </Button>
             <Hr style={{ borderColor: "#2c2925", margin: "28px 0" }} />
-            <Text style={{ color: "#6e6961", fontSize: "12px", margin: 0, lineHeight: "1.8" }}>
+            <Text style={{ color: "#8a847e", fontSize: "12px", margin: 0, lineHeight: "1.8" }}>
               هذه رسالة تأكيد تلقائية — لا داعي للرد عليها.
               <br />
               SmartLink · ليبيا · <Link href="https://smart-link.ly" style={{ color: BRAND_TEXT }}>smart-link.ly</Link>

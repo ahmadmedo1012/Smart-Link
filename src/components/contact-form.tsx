@@ -24,8 +24,11 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
 type FieldErrors = { name?: string; email?: string; message?: string }
 
+/* r10 (a11y audit P2): inputs were text-sm (14px) — Safari iOS auto-
+   zooms the page on focus for any field under 16px, jolting every mobile
+   user mid-conversion. 16px stops the zoom. */
 const inputBase =
-  "w-full px-4 py-2.5 rounded-xl bg-[var(--card)] border text-foreground text-sm focus:outline-none focus:border-[var(--ring)] focus:ring-2 focus:ring-[var(--accent)] transition-all placeholder:text-muted-foreground/50"
+  "w-full px-4 py-2.5 rounded-xl bg-[var(--card)] border text-foreground text-base focus:outline-none focus:border-[var(--ring)] focus:ring-2 focus:ring-[var(--accent)] transition-all placeholder:text-muted-foreground/50"
 
 export function ContactForm() {
   const [sent, setSent] = useState(false)
@@ -134,7 +137,7 @@ export function ContactForm() {
           )}
         </div>
         <div>
-          <label htmlFor="email" className="block text-sm font-medium text-foreground mb-1.5">البريد</label>
+          <label htmlFor="email" className="block text-sm font-medium text-foreground mb-1.5">البريد الإلكتروني</label>
           <input
             id="email"
             name="email"
@@ -221,7 +224,7 @@ export function ContactForm() {
       <button
         type="submit"
         disabled={sending}
-        className="flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-primary text-white font-semibold text-sm hover:brightness-110 transition-all duration-300 active:scale-[0.98] disabled:opacity-60 disabled:cursor-not-allowed"
+        className="flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-primary text-white font-semibold text-sm hover:brightness-105 transition-all duration-300 active:scale-[0.98] disabled:opacity-60 disabled:cursor-not-allowed"
       >
         {sending ? (
           <><Loader2 className="w-4 h-4 animate-spin" aria-hidden="true" /> جاري الإرسال…</>

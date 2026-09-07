@@ -38,7 +38,7 @@ export default function NotFound() {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
             <Link
               href="/"
-              className="group inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[var(--primary)] text-white font-semibold text-sm hover:brightness-110 transition-all duration-200 active:scale-[0.98]"
+              className="group inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[var(--primary)] text-white font-semibold text-sm hover:brightness-105 transition-all duration-200 active:scale-[0.98]"
             >
               <Home className="w-4 h-4" aria-hidden="true" /> العودة للرئيسية
             </Link>

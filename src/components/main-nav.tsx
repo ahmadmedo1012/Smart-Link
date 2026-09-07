@@ -145,7 +145,7 @@ export function MainNav() {
             (600×409) at a display-appropriate size (was 150×38 — the
             optimizer was generating a 384w AVIF for a ~53px slot). */}
         <Link href="/" prefetch={false} className="flex items-center group relative">
-          <Image src="/logo.png" alt="SmartLink" width={120} height={82} sizes="(max-width: 768px) 48px, 54px" className="h-8 md:h-9 w-auto object-contain transition-transform duration-300 group-hover:scale-105" priority />
+          <Image src="/logo.png" alt="SmartLink — الرئيسية" width={120} height={82} sizes="(max-width: 768px) 48px, 54px" className="h-8 md:h-9 w-auto object-contain transition-transform duration-300 group-hover:scale-105" priority />
         </Link>
 
         {/* Desktop nav — r6: named landmark for screen readers */}
@@ -163,6 +163,10 @@ export function MainNav() {
                 <button
                   aria-haspopup="true"
                   aria-expanded={desktopServicesOpen}
+                  /* r10 (a11y audit P2): hover/focus opened the dropdown, but a
+                      tap on a touch laptop did nothing — the button now
+                      toggles too (Escape still closes). */
+                  onClick={() => setDesktopServicesOpen((v) => !v)}
                   className="flex items-center gap-1.5 px-4 py-2.5 text-sm font-medium text-muted-foreground hover:text-foreground rounded-xl hover:bg-[var(--accent)] transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--ring)]"
                 >
                   {link.label}

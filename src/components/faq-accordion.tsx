@@ -27,19 +27,25 @@ export function FaqAccordion({
             key={i}
             className="glass rounded-xl overflow-hidden transition-all duration-300 hover:border-[var(--ring)]/20"
           >
-            <button
-              onClick={() => setOpen(isOpen ? null : i)}
-              className="w-full px-5 py-4 flex items-center justify-between text-right text-sm font-medium text-foreground hover:bg-[var(--accent)]/30 transition-colors"
-              aria-expanded={isOpen}
-              aria-controls={`faq-panel-${i}`}
-              id={`faq-button-${i}`}
-            >
-              {faq.q}
-              <ChevronLeft
-                className={`w-4 h-4 shrink-0 transition-transform duration-300 ${isOpen ? "rotate-180 text-primary" : ""}`}
-                aria-hidden="true"
-              />
-            </button>
+        {/* r10 (a11y audit P2): the question is wrapped in an h3 so screen
+            readers can jump between FAQ questions with the headings key —
+            a bare button is invisible to heading navigation. Button keeps
+            aria-expanded/aria-controls exactly as before. */}
+            <h3 className="text-base font-semibold">
+              <button
+                onClick={() => setOpen(isOpen ? null : i)}
+                className="w-full px-5 py-4 flex items-center justify-between text-start text-sm font-medium text-foreground hover:bg-[var(--accent)]/30 transition-colors"
+                aria-expanded={isOpen}
+                aria-controls={`faq-panel-${i}`}
+                id={`faq-button-${i}`}
+              >
+                {faq.q}
+                <ChevronLeft
+                  className={`w-4 h-4 shrink-0 transition-transform duration-300 ${isOpen ? "rotate-180 text-primary" : ""}`}
+                  aria-hidden="true"
+                />
+              </button>
+            </h3>
             <div className={`acc ${isOpen ? "open" : ""}`} id={`faq-panel-${i}`} role="region" aria-labelledby={`faq-button-${i}`}>
               <div>
                 <p className="px-5 pb-4 text-sm text-muted-foreground leading-relaxed">{faq.a}</p>

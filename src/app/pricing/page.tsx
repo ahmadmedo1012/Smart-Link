@@ -140,7 +140,7 @@ export default function PricingPage() {
                     href={plan.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="group inline-flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-primary text-white font-semibold text-sm hover:brightness-110 transition-all duration-200 active:scale-[0.97]"
+                    className="group inline-flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-primary text-white font-semibold text-sm hover:brightness-105 transition-all duration-200 active:scale-[0.97]"
                   >
                     ابدأ الآن <ChevronLeft className="w-3.5 h-3.5 transition-transform group-hover:-translate-x-0.5" />
                   </a>
@@ -162,7 +162,7 @@ export default function PricingPage() {
             </p>
             <Link
               href="/contact"
-              className="group inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[var(--primary)] text-white text-sm font-semibold hover:brightness-110 transition-all duration-200 active:scale-[0.97]"
+              className="group inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[var(--primary)] text-white text-sm font-semibold hover:brightness-105 transition-all duration-200 active:scale-[0.97]"
             >
               تواصل معنا لمعرفة المزيد <ChevronLeft className="w-3.5 h-3.5 transition-transform group-hover:-translate-x-0.5" />
             </Link>

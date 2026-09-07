@@ -100,6 +100,12 @@
   /* ── Grid pattern ── */
   --grid-line: oklch(0.55 0.19 45 / 0.1);
 
+  /* ── Gradient-text stops (r10 a11y P0) ──
+     Dark-mode values keep the historical look (6.78/8.68:1 on the dark
+     background). Light-mode values live in .light — see below. */
+  --gradient-text-mid: oklch(0.68 0.19 45);
+  --gradient-text-end: oklch(0.75 0.18 50);
+
   /* ── Motion ── */
   --move-base: 300ms;
 }
@@ -117,7 +123,10 @@
   --muted-foreground: oklch(0.55 0.01 30);
   --accent: oklch(0.55 0.19 45 / 0.12);
   --accent-foreground: oklch(0.55 0.19 45);
-  --destructive: oklch(0.58 0.2 25);
+  /* r10 (a11y audit P1): 0.58 measured 3.93:1 on the error-box tinted
+     background (text-sm size) — only reachable by users who actually
+     made a mistake, so no scanner ever saw it. 0.52 measures 4.95:1. */
+  --destructive: oklch(0.52 0.2 25);
   --border: oklch(0.88 0.006 30);
   --ring: oklch(0.55 0.19 45);
   /* darker in light for AA text on white (dual-lightness like --primary) */
@@ -145,6 +154,16 @@
   --gradient-coming-soon: linear-gradient(135deg, oklch(0.6 0.18 160 / 0.15), oklch(0.55 0.15 160 / 0.06));
 
   --grid-line: oklch(0.55 0.19 45 / 0.06);
+
+  /* r10 (a11y audit P0): the gradient-text stops used to be hardcoded at
+     0.68/0.75 lightness — on the LIGHT background they measured 2.96:1
+     and 2.32:1 (large-text needs 3:1) on every gradient heading: hero h1,
+     both showcase cards and the 404. axe/Lighthouse skip the element
+     entirely (-webkit-text-fill-color: transparent defeats their color
+     probe), which is why "a11y 100" never caught it. 0.55/0.52 measure
+     5.01/5.69:1 — comfortably AA. */
+  --gradient-text-mid: oklch(0.55 0.19 45);
+  --gradient-text-end: oklch(0.52 0.18 50);
 }
 
 @layer base {
@@ -196,7 +215,7 @@
 
 @utility gradient-text {
   color: var(--primary);
-  background-image: linear-gradient(135deg, var(--primary), oklch(0.68 0.19 45), oklch(0.75 0.18 50));
+  background-image: linear-gradient(135deg, var(--primary), var(--gradient-text-mid), var(--gradient-text-end));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;

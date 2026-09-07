@@ -1,6 +1,8 @@
 import type { MetadataRoute } from "next"
+import { SITE } from "@/lib/site"
 
-/* App Router metadata route — replaces the static public/robots.txt. */
+/* App Router metadata route — replaces the static public/robots.txt.
+   r10 (code audit): the sitemap URL now comes from the single SITE source. */
 
 export default function robots(): MetadataRoute.Robots {
   return {
@@ -8,6 +10,6 @@ export default function robots(): MetadataRoute.Robots {
        is pure wasted budget, and POST-only endpoints have no public
        content to index. */
     rules: { userAgent: "*", allow: "/", disallow: "/api/" },
-    sitemap: "https://smart-link.ly/sitemap.xml",
+    sitemap: `${SITE.url}/sitemap.xml`,
   }
 }

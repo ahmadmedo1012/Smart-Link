@@ -27,7 +27,7 @@ function StepCard({ step, index }: { step: typeof steps[number]; index: number }
 
       {/* Step badge */}
       <div className="relative inline-flex mb-5">
-        <div className="w-16 h-16 rounded-2xl bg-[var(--card)] border border-[var(--border)] flex items-center justify-center group-hover:scale-[1.12] group-hover:-translate-y-1 transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.2,1)]">
+        <div className="w-16 h-16 rounded-2xl bg-[var(--card)] border border-[var(--border)] flex items-center justify-center group-hover:scale-[1.12] group-hover:-translate-y-1 transition-transform duration-300 ease-[var(--ease-smooth)]">
           <Icon className="w-8 h-8 text-[var(--primary)]" />
         </div>
         <div

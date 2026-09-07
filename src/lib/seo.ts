@@ -4,9 +4,11 @@ import { SITE } from "@/lib/site"
 /* r10 (code audit): the local `const SITE = "https://…"` shadowed the
    real SITE object from lib/site.ts — two sources of the same truth. */
 
-/* Shared OG image descriptor — identical to the root layout's, so subpages
-   resolve to the exact same absolute URL (one cache entry per crawler). */
-const OG_IMAGE = {
+/* Shared OG image descriptor — the root layout imports the same object
+   (r10: it used to keep an identical copy of these five fields), so
+   subpages resolve to the exact same absolute URL (one cache entry per
+   crawler) and changing the image is a one-line edit. */
+export const OG_IMAGE = {
   url: "/og-smartlink.jpg",
   width: 1200,
   height: 630,

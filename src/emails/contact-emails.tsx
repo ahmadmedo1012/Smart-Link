@@ -66,7 +66,7 @@ export function ContactNotificationEmail({ name, email, subject, message }: Cont
               رسالة جديدة من نموذج التواصل
             </Heading>
             <Text style={{ color: BRAND_TEXT, fontSize: "13px", margin: "0 0 24px", fontWeight: 700 }}>
-              SmartLink — smart-link.ly
+              SmartLink — {SITE.url.replace("https://", "")}
             </Text>
             {fieldRow("الاسم", name)}
             {fieldRow("البريد الإلكتروني", email)}
@@ -80,7 +80,7 @@ export function ContactNotificationEmail({ name, email, subject, message }: Cont
               الرد على المرسل
             </Button>
             <Text style={{ color: "#8a847e", fontSize: "11px", margin: "24px 0 0" }}>
-              أُرسلت تلقائياً من نموذج التواصل في smart-link.ly
+              أُرسلت تلقائياً من نموذج التواصل في {SITE.url.replace("https://", "")}
             </Text>
           </Section>
         </Container>
@@ -102,7 +102,7 @@ export function ContactConfirmationEmail({ name, subject }: { name: string; subj
               شكراً {name}، استلمنا رسالتك
             </Heading>
             <Text style={{ color: BRAND_TEXT, fontSize: "13px", margin: "0 0 24px", fontWeight: 700 }}>
-              SmartLink — smart-link.ly
+              SmartLink — {SITE.url.replace("https://", "")}
             </Text>
             <Text style={{ color: "#c9c4be", fontSize: "15px", lineHeight: "1.8", margin: "0 0 12px" }}>
               وصلتنا رسالتك بخصوص «{subject}» بنجاح، وسيتواصل معك فريقنا في أقرب وقت — عادة خلال 24 ساعة عمل.
@@ -120,7 +120,7 @@ export function ContactConfirmationEmail({ name, subject }: { name: string; subj
             <Text style={{ color: "#8a847e", fontSize: "12px", margin: 0, lineHeight: "1.8" }}>
               هذه رسالة تأكيد تلقائية — لا داعي للرد عليها.
               <br />
-              SmartLink · ليبيا · <Link href="https://smart-link.ly" style={{ color: BRAND_TEXT }}>smart-link.ly</Link>
+              SmartLink · ليبيا · <Link href={SITE.url} style={{ color: BRAND_TEXT }}>{SITE.url.replace("https://", "")}</Link>
             </Text>
           </Section>
         </Container>

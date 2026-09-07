@@ -91,7 +91,7 @@ export function HeroSection() {
         <div className="max-w-4xl mx-auto text-center">
           {/* Eyebrow — CSS reveal (paints pre-JS, critical for LCP) */}
           <div
-            className="reveal-up reveal-d1 inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[var(--glass-border)] bg-[var(--glass-bg)] backdrop-blur-sm text-xs text-primary-text font-medium mb-10"
+            className="reveal-up reveal-d1 eyebrow-badge mb-10"
           >
             <span>منصة رقمية متكاملة</span>
           </div>

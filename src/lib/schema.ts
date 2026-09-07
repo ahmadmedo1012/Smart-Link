@@ -27,6 +27,35 @@ const WEBSITE_ID = `${SITE.url}/#website`
 
 const DAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
 
+/* r10 (code audit — DRY): BreadcrumbList was copy-pasted in five pages
+   (8 identical lines each, only the two names differ) and the FAQPage
+   builder in two (home + pricing, same map). One helper each; the URLs
+   come from the single SITE source, so a domain change is one edit. */
+export function breadcrumbJsonLd(items: { name: string; path: string }[]) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: items.map((item, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      name: item.name,
+      item: `${SITE.url}${item.path}`,
+    })),
+  }
+}
+
+export function faqJsonLd(faqs: { q: string; a: string }[]) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.map((f) => ({
+      "@type": "Question",
+      name: f.q,
+      acceptedAnswer: { "@type": "Answer", text: f.a },
+    })),
+  }
+}
+
 export function organizationJsonLd() {
   return {
     "@context": "https://schema.org",

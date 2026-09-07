@@ -4,6 +4,7 @@ import Link from "next/link"
 import { GenArtBackground } from "@/components/gen-art-background"
 import { FaqAccordion } from "@/components/faq-accordion"
 import { pageMetadata } from "@/lib/seo"
+import { breadcrumbJsonLd, faqJsonLd } from "@/lib/schema"
 // Server component — the FAQ accordion is the only client island;
 // entrance motion is CSS reveal (paints pre-JS). Zero framer-motion.
 
@@ -64,25 +65,14 @@ const faqs = [
   { q: "هل يمكن إلغاء الاشتراك في أي وقت؟", a: "نعم، يمكنك إلغاء حسابك أو إيقاف الخدمة في أي وقت بدون أي رسوم." },
 ]
 
-/* Rich results: FAQPage + BreadcrumbList structured data (Google eligibility) */
+/* Rich results: FAQPage + BreadcrumbList structured data (Google eligibility)
+   — r10: shared builders from lib/schema (was a copy of the home FAQ map). */
 const jsonLd = [
-  {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: faqs.map((f) => ({
-      "@type": "Question",
-      name: f.q,
-      acceptedAnswer: { "@type": "Answer", text: f.a },
-    })),
-  },
-  {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      { "@type": "ListItem", position: 1, name: "الرئيسية", item: "https://smart-link.ly" },
-      { "@type": "ListItem", position: 2, name: "الخطط والأسعار", item: "https://smart-link.ly/pricing" },
-    ],
-  },
+  faqJsonLd(faqs),
+  breadcrumbJsonLd([
+    { name: "الرئيسية", path: "" },
+    { name: "الخطط والأسعار", path: "/pricing" },
+  ]),
 ]
 
 export default function PricingPage() {
@@ -95,7 +85,7 @@ export default function PricingPage() {
       <GenArtBackground seed={77} variant="blobs" />
       <div className="container-base relative">
         <div className="max-w-3xl mx-auto text-center mb-14">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[var(--glass-border)] bg-[var(--glass-bg)] backdrop-blur-sm text-xs text-primary-text font-medium mb-6 reveal-up reveal-d1">
+          <div className="eyebrow-badge mb-6 reveal-up reveal-d1">
             <span>الأسعار</span>
           </div>
           <h1 className="text-5xl md:text-6xl font-extrabold tracking-tight text-foreground mb-4">
@@ -126,7 +116,7 @@ export default function PricingPage() {
                   <p className="text-sm text-[var(--primary-text)] font-medium mb-2">{plan.subtitle}</p>
                   <div className="mb-6">
                     <span className="text-4xl font-extrabold text-foreground">{plan.price}</span>
-                    <span className="text-sm text-muted-foreground mr-2">{plan.period}</span>
+                    <span className="text-sm text-muted-foreground ms-2">{plan.period}</span>
                   </div>
                   <ul className="space-y-3 mb-8 flex-1">
                     {plan.features.map((f, fi) => (

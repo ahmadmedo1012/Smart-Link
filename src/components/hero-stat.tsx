@@ -124,7 +124,7 @@ function AnimatedStat({ value, label, icon: Icon }: { value: string; label: stri
   return (
     <div
       ref={ref}
-      className="glass-card rounded-xl p-4 text-center group transition-all duration-400 ease-[cubic-bezier(0.16,1,0.2,1)]"
+      className="glass-card rounded-xl p-4 text-center group transition-all duration-400 ease-[var(--ease-smooth)]"
     >
       <div className="w-8 h-8 rounded-lg bg-[var(--card)] flex items-center justify-center mx-auto mb-2 group-hover:scale-110 transition-transform duration-200">
         <Icon className="w-4 h-4 text-primary-text" />

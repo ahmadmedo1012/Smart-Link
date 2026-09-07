@@ -273,7 +273,7 @@ export function MainNav() {
                       {link.label}
                       <ChevronDown className={cn("w-4 h-4 transition-transform duration-200", servicesOpen && "rotate-180")} />
                     </button>
-                    <div className={cn("acc mr-3", servicesOpen && "open")}>
+                    <div className={cn("acc ms-3", servicesOpen && "open")}>
                           <div className="space-y-1 pb-1 pt-1">
                             {link.children.map((child) => (
                               <a

@@ -7,6 +7,7 @@ import {
   ContactConfirmationEmail,
 } from "@/emails/contact-emails"
 import { SITE } from "@/lib/site"
+import { EMAIL_RE, NAME_MAX, EMAIL_MAX, MESSAGE_MAX } from "@/lib/contact-rules"
 
 const OWNER_EMAIL = SITE.email
 const FROM_EMAIL = `SmartLink <noreply@smart-link.ly>`
@@ -120,15 +121,16 @@ export async function POST(req: Request) {
       )
     }
 
-    // Basic email validation + r9 cap (254 = RFC 5321 max forward path;
-    // before this a multi-megabyte "email" sailed through to Resend and
-    // failed late with 502)
-    if (typeof email !== "string" || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || email.length > 254) {
+    /* Basic email validation + r9 cap (254 = RFC 5321 max forward path;
+       before this a multi-megabyte "email" sailed through to Resend and
+       failed late with 502). r10: the regex and limits are the SAME module
+       the form validates with (lib/contact-rules). */
+    if (typeof email !== "string" || !EMAIL_RE.test(email) || email.length > EMAIL_MAX) {
       return NextResponse.json({ error: "البريد الإلكتروني غير صالح" }, { status: 400 })
     }
 
     // Length caps (protect the mail service from abuse)
-    if (String(name).length > 100 || String(message).length > 5000) {
+    if (String(name).length > NAME_MAX || String(message).length > MESSAGE_MAX) {
       return NextResponse.json(
         { error: "أحد الحقول أطول من المسموح" },
         { status: 400 }

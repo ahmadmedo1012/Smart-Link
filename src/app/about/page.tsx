@@ -2,13 +2,16 @@ import { Bot, Smartphone, Globe, Layers, ArrowLeft, User, Quote } from "lucide-r
 import Link from "next/link"
 import { GenArtBackground } from "@/components/gen-art-background"
 import { pageMetadata } from "@/lib/seo"
+import { breadcrumbJsonLd } from "@/lib/schema"
 /* r9 (perf): LCP surgery generalized from the r8 hero — h1 and the
    intro paragraph now paint at FCP (no reveal animation). The eyebrow
    badge keeps reveal-d1 so the entrance cascade stays alive around the
    instantly-painted text, exactly like the home hero.
 
-/* Server component — entrance motion is CSS reveal/scroll-driven;
-   GenArtBackground is the only client island. */
+   r10 (code audit): stale nested comment removed — it claimed
+   GenArtBackground was "the only client island", which stopped being
+   true in r9 (it became a server component; this page has zero client
+   islands now). */
 
 export const metadata = pageMetadata({
   /* r10 (SEO audit P2): titles/descriptions expanded toward the 40-55 /
@@ -27,14 +30,10 @@ const values = [
   { icon: Layers, title: "منصة متكاملة", desc: "كل ما تحتاجه لإدارة أعمالك رقمياً - خدمات تعمل معاً بتناغم." },
 ]
 
-const breadcrumbLd = {
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  itemListElement: [
-    { "@type": "ListItem", position: 1, name: "الرئيسية", item: "https://smart-link.ly" },
-    { "@type": "ListItem", position: 2, name: "عن المنصة", item: "https://smart-link.ly/about" },
-  ],
-}
+const breadcrumbLd = breadcrumbJsonLd([
+  { name: "الرئيسية", path: "" },
+  { name: "عن المنصة", path: "/about" },
+])
 
 export default function AboutPage() {
   return (
@@ -46,7 +45,7 @@ export default function AboutPage() {
       <GenArtBackground seed={2024} />
       <div className="container-base relative">
         <div className="max-w-3xl mx-auto text-center mb-14">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[var(--glass-border)] bg-[var(--glass-bg)] backdrop-blur-sm text-xs text-primary-text font-medium mb-6 reveal-up reveal-d1">
+          <div className="eyebrow-badge mb-6 reveal-up reveal-d1">
             <span>عن المنصة</span>
           </div>
           <h1 className="text-5xl md:text-6xl font-extrabold tracking-tight text-foreground mb-4">
@@ -103,7 +102,7 @@ export default function AboutPage() {
           {/* Pull quote */}
           <div className="relative my-8 p-6 rounded-2xl bg-[var(--card)] border border-[var(--border)]">
             <Quote className="w-6 h-6 text-primary/30 absolute top-4 right-4" aria-hidden="true" />
-            <p className="text-base md:text-lg text-foreground/80 italic font-medium leading-relaxed mr-8">
+            <p className="text-base md:text-lg text-foreground/80 italic font-medium leading-relaxed ms-8">
               &ldquo;التكنولوجيا الحقيقية هي التي تخدم الناس، لا التي تبهرهم. في SmartLink، نبني حلولاً تعيش مع الناس وتفهم احتياجاتهم.&rdquo;
             </p>
           </div>

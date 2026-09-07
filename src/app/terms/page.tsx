@@ -2,6 +2,7 @@
 // evaluation that was a top TBT source on this page).
 import { pageMetadata } from "@/lib/seo"
 import { SITE } from "@/lib/site"
+import { breadcrumbJsonLd } from "@/lib/schema"
 
 export const metadata = pageMetadata({
   /* r10 (SEO audit P2): expanded toward the SERP window. */
@@ -11,14 +12,10 @@ export const metadata = pageMetadata({
   canonical: "/terms",
 })
 
-const breadcrumbLd = {
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  itemListElement: [
-    { "@type": "ListItem", position: 1, name: "الرئيسية", item: "https://smart-link.ly" },
-    { "@type": "ListItem", position: 2, name: "شروط الاستخدام", item: "https://smart-link.ly/terms" },
-  ],
-}
+const breadcrumbLd = breadcrumbJsonLd([
+  { name: "الرئيسية", path: "" },
+  { name: "شروط الاستخدام", path: "/terms" },
+])
 
 export default function TermsPage() {
   return (
@@ -32,7 +29,7 @@ export default function TermsPage() {
       </div>
       <div className="container-base max-w-3xl mx-auto relative">
         <div className="text-center mb-10">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[var(--glass-border)] bg-[var(--glass-bg)] backdrop-blur-sm text-xs text-primary-text font-medium mb-5 reveal-up reveal-d1">
+          <div className="eyebrow-badge mb-5 reveal-up reveal-d1">
             <span>الشروط</span>
           </div>
           <h1 className="text-5xl md:text-6xl font-extrabold tracking-tight text-foreground">
@@ -52,7 +49,7 @@ export default function TermsPage() {
           <section>
             <h2 className="text-xl font-bold text-foreground mt-6 mb-2">الخدمات</h2>
             <p>تقدم SmartLink مجموعة من الخدمات الرقمية تشمل:</p>
-            <ul className="list-disc mr-5 mt-2 space-y-1">
+            <ul className="list-disc ms-5 mt-2 space-y-1">
               <li><strong>Smart Menu:</strong> خدمة المنيو الرقمي للمطاعم والمقاهي تتيح إنشاء قائمة طعام رقمية تفاعلية مع إمكانية استقبال الطلبات عبر واتساب.</li>
               <li><strong>SmartBot:</strong> خدمة البوت الذكي لصفحات فيسبوك تتيح الردود التلقائية الذكية وإدارة المحادثات.</li>
             </ul>
@@ -66,7 +63,7 @@ export default function TermsPage() {
           <section>
             <h2 className="text-xl font-bold text-foreground mt-6 mb-2">الاستخدام المسموح</h2>
             <p>نمنحك ترخيصاً محدوداً لاستخدام المنصة لأغراضك التجارية المشروعة. يجب ألا تستخدم المنصة في أي نشاط غير قانوني أو مخالف للقوانين المحلية والدولية.</p>
-            <ul className="list-disc mr-5 mt-2 space-y-1">
+            <ul className="list-disc ms-5 mt-2 space-y-1">
               <li>لا يجوز استخدام الخدمات لإرسال رسائل غير مرغوب فيها</li>
               <li>لا يجوز انتهاك حقوق الملكية الفكرية</li>
               <li>لا يجوز محاولة اختراق أو تعطيل المنصة</li>

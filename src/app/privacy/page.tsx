@@ -2,6 +2,7 @@
 // evaluation that was the #1 TBT source on this page).
 import { pageMetadata } from "@/lib/seo"
 import { SITE } from "@/lib/site"
+import { breadcrumbJsonLd } from "@/lib/schema"
 
 export const metadata = pageMetadata({
   /* r10 (SEO audit P2): expanded toward the SERP window + names the
@@ -12,14 +13,10 @@ export const metadata = pageMetadata({
   canonical: "/privacy",
 })
 
-const breadcrumbLd = {
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  itemListElement: [
-    { "@type": "ListItem", position: 1, name: "الرئيسية", item: "https://smart-link.ly" },
-    { "@type": "ListItem", position: 2, name: "سياسة الخصوصية", item: "https://smart-link.ly/privacy" },
-  ],
-}
+const breadcrumbLd = breadcrumbJsonLd([
+  { name: "الرئيسية", path: "" },
+  { name: "سياسة الخصوصية", path: "/privacy" },
+])
 
 export default function PrivacyPage() {
   return (
@@ -33,7 +30,7 @@ export default function PrivacyPage() {
       </div>
       <div className="container-base max-w-3xl mx-auto relative">
         <div className="text-center mb-10">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[var(--glass-border)] bg-[var(--glass-bg)] backdrop-blur-sm text-xs text-primary-text font-medium mb-5 reveal-up reveal-d1">
+          <div className="eyebrow-badge mb-5 reveal-up reveal-d1">
             <span>الخصوصية</span>
           </div>
           <h1 className="text-5xl md:text-6xl font-extrabold tracking-tight text-foreground">
@@ -53,7 +50,7 @@ export default function PrivacyPage() {
           <section>
             <h2 className="text-xl font-bold text-foreground mt-6 mb-2">البيانات التي نجمعها</h2>
             <p>قد نجمع الأنواع التالية من البيانات:</p>
-            <ul className="list-disc mr-5 mt-2 space-y-1">
+            <ul className="list-disc ms-5 mt-2 space-y-1">
               <li>الاسم الكامل</li>
               <li>البريد الإلكتروني</li>
               <li>رقم الهاتف</li>
@@ -71,7 +68,7 @@ export default function PrivacyPage() {
           <section>
             <h2 className="text-xl font-bold text-foreground mt-6 mb-2">كيف نستخدم بياناتك</h2>
             <p>نستخدم البيانات التي نجمعها للأغراض التالية:</p>
-            <ul className="list-disc mr-5 mt-2 space-y-1">
+            <ul className="list-disc ms-5 mt-2 space-y-1">
               <li>تقديم الخدمات وتحسينها (المنيو الرقمي، البوت الذكي)</li>
               <li>التواصل معك بخصوص حسابك وطلباتك</li>
               <li>الدعم الفني وخدمة العملاء</li>
@@ -93,7 +90,7 @@ export default function PrivacyPage() {
           <section>
             <h2 className="text-xl font-bold text-foreground mt-6 mb-2">حقوق المستخدم</h2>
             <p>نحن نسعى لتوفير مستوى حماية يتوافق مع المعايير العالمية مثل اللائحة العامة لحماية البيانات (GDPR). تشمل حقوقك:</p>
-            <ul className="list-disc mr-5 mt-2 space-y-1">
+            <ul className="list-disc ms-5 mt-2 space-y-1">
               <li>حق الوصول إلى بياناتك الشخصية</li>
               <li>حق تصحيح البيانات غير الدقيقة</li>
               <li>حق حذف بياناتك (في الحالات التي يسمح بها القانون)</li>
@@ -105,7 +102,7 @@ export default function PrivacyPage() {
           <section>
             <h2 className="text-xl font-bold text-foreground mt-6 mb-2">الإجراءات الأمنية</h2>
             <p>نطبق إجراءات أمنية شاملة لحماية بياناتك، بما في ذلك:</p>
-            <ul className="list-disc mr-5 mt-2 space-y-1">
+            <ul className="list-disc ms-5 mt-2 space-y-1">
               <li>التشفير في نقل البيانات باستخدام بروتوكول TLS</li>
               <li>ضوابط الوصول الصارمة (صلاحيات محدودة حسب المهام)</li>
               <li>تدقيق أمني دوري للبنية التحتية</li>

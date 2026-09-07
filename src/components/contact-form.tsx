@@ -2,6 +2,7 @@
 import { useState } from "react"
 import { Send, Check, Loader2 } from "lucide-react"
 import { SITE } from "@/lib/site"
+import { EMAIL_RE, NAME_MAX, MESSAGE_MAX } from "@/lib/contact-rules"
 
 /* r9: extracted from the contact page — it was the only fully-client page
    on the site: ~10 KB of static markup (cards, headers) shipped in the
@@ -20,7 +21,9 @@ import { SITE } from "@/lib/site"
      --primary links measured ≈4.0:1 at text-xs — the exact failure the
      token was created to prevent) and one WhatsApp display format. */
 
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+/* r10: the validation contract (regex + limits) is imported from
+   lib/contact-rules — the API route imports the same module, so the form
+   can never accept what the server rejects. */
 
 type FieldErrors = { name?: string; email?: string; message?: string }
 
@@ -53,11 +56,11 @@ export function ContactForm() {
     // Arabic per-field validation (replaces browser-locale messages)
     const errs: FieldErrors = {}
     if (!data.name.trim()) errs.name = "الاسم مطلوب"
-    else if (data.name.length > 100) errs.name = "الاسم أطول من المسموح"
+    else if (data.name.length > NAME_MAX) errs.name = "الاسم أطول من المسموح"
     if (!data.email.trim()) errs.email = "البريد الإلكتروني مطلوب"
     else if (!EMAIL_RE.test(data.email)) errs.email = "البريد الإلكتروني غير صالح"
     if (!data.message.trim()) errs.message = "الرسالة مطلوبة"
-    else if (data.message.length > 5000) errs.message = "الرسالة أطول من المسموح"
+    else if (data.message.length > MESSAGE_MAX) errs.message = "الرسالة أطول من المسموح"
 
     if (Object.keys(errs).length > 0) {
       setFieldErrors(errs)
@@ -192,7 +195,11 @@ export function ContactForm() {
           role="alert"
         >
           <span className="block font-medium">{error}</span>
-          {(error.includes("واتساب") || error.includes("تعذّر") || error.includes("خطأ") || error.includes("غير مهيأة")) && (
+          {/* r10 (code audit — string coupling): the links used to appear only
+              when the error text happened to contain one of four substrings —
+              any future rewording of the API messages would silently hide
+              them. Any error deserves direct-contact fallbacks. */}
+          {(
             <span className="block mt-2 text-xs" style={{ color: "var(--muted-foreground)" }}>
               أو تواصل مباشرة:{" "}
               <a href={SITE.whatsapp.url} className="underline underline-offset-2" style={{ color: "var(--primary-text)" }}>

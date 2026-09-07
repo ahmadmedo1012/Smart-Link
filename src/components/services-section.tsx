@@ -11,6 +11,10 @@ const services = [
     description: "حول منيو مطعمك إلى تجربة رقمية تفاعلية. طلبات تصل مباشرة على واتساب مع لوحة تحكم عربية كاملة.",
     href: SITE.products.menu.url,
     icon: Smartphone,
+    /* r10 (code audit — string coupling): the screenshot used to render
+       only when title === "Smart Menu" — renaming the title would silently
+       drop the image. The data owns its screenshot now. */
+    screenshot: "/images/smart-menu.jpg",
     features: ["منيو رقمي تفاعلي", "طلبات عبر واتساب", "برنامج ولاء وإحالات", "إحصائيات وتحليلات", "QR كود مخصص", "لوحة تحكم عربية"],
     gradientVar: "var(--gradient-smart-menu)",
     color: "oklch(0.7 0.19 60)",
@@ -21,6 +25,7 @@ const services = [
     description: "أتمتة الردود على صفحات فيسبوك بذكاء. ردود تلقائية، تصنيف نوايا، وإدارة متكاملة للمحادثات.",
     href: SITE.products.bot.url,
     icon: Bot,
+    screenshot: "/images/smart-bot.jpg",
     features: ["ردود تلقائية ذكية", "تصنيف النوايا", "لوحة تحكم متكاملة", "تقارير وتحليلات", "بث جماعي", "إدارة الصفحات"],
     gradientVar: "var(--gradient-smart-bot)",
     color: "oklch(0.55 0.15 280)",
@@ -52,7 +57,7 @@ function ServiceCard({ service }: { service: typeof services[number] }) {
         <div className="relative p-7 md:p-8 flex flex-col flex-1">
           {/* Icon — scales on card hover */}
           <div
-            className="w-12 h-12 rounded-xl flex items-center justify-center mb-5 border border-[var(--glass-border)] group-hover:scale-[1.15] group-hover:-translate-y-1 transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.2,1)]"
+            className="w-12 h-12 rounded-xl flex items-center justify-center mb-5 border border-[var(--glass-border)] group-hover:scale-[1.15] group-hover:-translate-y-1 transition-transform duration-300 ease-[var(--ease-smooth)]"
             style={{ background: service.gradientVar }}
           >
             <Icon className="w-6 h-6 text-[var(--primary)]" />
@@ -91,17 +96,10 @@ function ServiceCard({ service }: { service: typeof services[number] }) {
               >
                 زيارة الخدمة <ChevronLeft className="w-3.5 h-3.5 transition-transform group-hover/btn:-translate-x-0.5" />
               </a>
-              {service.title === "Smart Menu" && (
+              {service.screenshot && (
                 <div className="flex gap-2">
-                  <a href="/images/smart-menu.jpg" target="_blank" rel="noopener noreferrer" aria-label="Smart Menu لقطة شاشة مكبرة" className="block w-20 h-14 rounded-lg overflow-hidden border border-[var(--border)] hover:border-[var(--ring)]/40 transition-all duration-200 hover:scale-105">
-                    <Image src="/images/smart-menu.jpg" alt="Smart Menu لقطة شاشة" width={160} height={112} sizes="80px" className="w-full h-full object-cover" loading="lazy" />
-                  </a>
-                </div>
-              )}
-              {service.title === "SmartBot" && (
-                <div className="flex gap-2">
-                  <a href="/images/smart-bot.jpg" target="_blank" rel="noopener noreferrer" aria-label="SmartBot لقطة شاشة مكبرة" className="block w-20 h-14 rounded-lg overflow-hidden border border-[var(--border)] hover:border-[var(--ring)]/40 transition-all duration-200 hover:scale-105">
-                    <Image src="/images/smart-bot.jpg" alt="SmartBot لقطة شاشة" width={160} height={112} sizes="80px" className="w-full h-full object-cover" loading="lazy" />
+                  <a href={service.screenshot} target="_blank" rel="noopener noreferrer" aria-label={`${service.title} لقطة شاشة مكبرة`} className="block w-20 h-14 rounded-lg overflow-hidden border border-[var(--border)] hover:border-[var(--ring)]/40 transition-all duration-200 hover:scale-105">
+                    <Image src={service.screenshot} alt={`${service.title} لقطة شاشة`} width={160} height={112} sizes="80px" className="w-full h-full object-cover" loading="lazy" />
                   </a>
                 </div>
               )}
@@ -123,7 +121,7 @@ export function ServicesSection() {
       <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[600px] h-[300px] rounded-full bg-[var(--primary)]/5 blur-[75px] pointer-events-none" aria-hidden="true" />
       <div className="container-base">
         <div className="reveal-scroll text-center mb-14">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[var(--glass-border)] bg-[var(--glass-bg)] backdrop-blur-sm text-xs text-primary-text font-medium mb-5">
+          <div className="eyebrow-badge mb-5">
             <span>خدماتنا</span>
           </div>
           <h2 className="text-4xl md:text-5xl font-extrabold text-[var(--foreground)] mb-4 tracking-tight">منظومة متكاملة</h2>

@@ -5,6 +5,8 @@ import { LazyAnalytics } from "@/components/lazy-analytics"
 import { MainNav } from "@/components/main-nav"
 import { Footer } from "@/components/footer"
 import { organizationJsonLd, websiteJsonLd, servicesJsonLd } from "@/lib/schema"
+import { OG_IMAGE } from "@/lib/seo"
+import { SITE } from "@/lib/site"
 import "./globals.css"
 
 const cairo = Cairo({
@@ -40,7 +42,7 @@ export const metadata: Metadata = {
   description:
     "SmartLink منصة رقمية ليبية متكاملة تقدم حلولاً ذكية للأعمال: المنيو الرقمي التفاعلي للمطاعم، والبوت الذكي لردود فيسبوك الآلية — ابدأ مجاناً اليوم وطور أعمالك خطوة بخطوة.",
   keywords: ["SmartLink", "منصة رقمية", "الربط الذكي", "منيو رقمي", "بوت فيسبوك", "تسويق إلكتروني"],
-  metadataBase: new URL("https://smart-link.ly"),
+  metadataBase: new URL(SITE.url),
   /* r7: home was the ONLY route without a canonical link — the five
      subpages stamp one via pageMetadata(), but the root layout never
      defined alternates, so search engines got no self-reference for
@@ -55,13 +57,7 @@ export const metadata: Metadata = {
        (its Arabic list has ar_AR only) — unknown locales are dropped. */
     locale: "ar_AR",
     type: "website",
-    images: [{
-      url: "/og-smartlink.jpg",
-      width: 1200,
-      height: 630,
-      alt: "SmartLink — منصة رقمية متكاملة: المنيو الرقمي والبوت الذكي",
-      type: "image/jpeg",
-    }],
+    images: [OG_IMAGE],
   },
   twitter: {
     card: "summary_large_image",

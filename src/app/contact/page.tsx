@@ -2,6 +2,29 @@ import { Mail, MessageCircle, MapPin, Clock } from "lucide-react"
 import { GenArtBackground } from "@/components/gen-art-background"
 import { ContactForm } from "@/components/contact-form"
 import { SITE } from "@/lib/site"
+import { pageMetadata } from "@/lib/seo"
+import { breadcrumbJsonLd } from "@/lib/schema"
+
+/* r10 (code audit): the segment layout existed only because the page was
+   a "use client" component (metadata can't be exported from those) — the
+   page has been a server component since r9, so the layout (34 lines and
+   a stale comment describing a client page that no longer exists) folds
+   back here. */
+
+export const metadata = pageMetadata({
+  /* r10 (SEO audit P2): expanded toward the SERP window with the
+     strongest contact keywords (واتساب، دعم فني). */
+  title: "تواصل معنا — فريق SmartLink جاهز للمساعدة",
+  description:
+    "تواصل مع فريق SmartLink لأي استفسار أو دعم فني أو طلب خدمة: نموذج تواصل سريع أو واتساب مباشر على مدار الساعة — نردّ خلال ساعات العمل 9 صباحاً حتى 9 مساءً.",
+  canonical: "/contact",
+  ogDescription: "استفسارات ودعم فني وطلبات خدمات — واتساب مباشر أو نموذج البريد",
+})
+
+const breadcrumbLd = breadcrumbJsonLd([
+  { name: "الرئيسية", path: "" },
+  { name: "تواصل معنا", path: "/contact" },
+])
 
 /* r9: a full server component. This was the only fully-client page on the
    site (the whole page shipped as JS for three useState hooks). Now only
@@ -28,10 +51,14 @@ const contacts = [
 export default function ContactPage() {
   return (
     <div className="pt-28 pb-16 relative overflow-hidden">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
+      />
       <GenArtBackground seed={303} variant="rings" />
       <div className="container-base relative">
         <div className="max-w-3xl mx-auto text-center mb-14">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[var(--glass-border)] bg-[var(--glass-bg)] backdrop-blur-sm text-xs text-primary-text font-medium mb-6 reveal-up reveal-d1">
+          <div className="eyebrow-badge mb-6 reveal-up reveal-d1">
             <span>تواصل</span>
           </div>
           <h1 className="text-5xl md:text-6xl font-extrabold tracking-tight text-foreground mb-4">

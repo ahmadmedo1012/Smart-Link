@@ -4,7 +4,9 @@ import type { MetadataRoute } from "next"
    lastModified is stamped at build time, so every deploy refreshes it
    without manual file edits. */
 
-const BASE = "https://smart-link.ly"
+import { SITE } from "@/lib/site"
+
+const BASE = SITE.url
 
 /* r9 (SEO audit P3-10): build-time lastmod for every deploy told Google
    that legal pages changed on EVERY release — even when their content

@@ -1,4 +1,5 @@
 import { FaqAccordion } from "@/components/faq-accordion"
+import { faqJsonLd } from "@/lib/schema"
 
 /* Server component (r6): section chrome + FAQPage structured data render
    on the server; FaqAccordion is the only client island — identical
@@ -19,16 +20,9 @@ const faqs = [
 ]
 
 /* Rich results: the homepage's six real Q&As become FAQPage-eligible
-   (parity with /pricing, which already shipped this schema). */
-const faqLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  mainEntity: faqs.map((f) => ({
-    "@type": "Question",
-    name: f.q,
-    acceptedAnswer: { "@type": "Answer", text: f.a },
-  })),
-}
+   (parity with /pricing, which already shipped this schema).
+   r10: shared builder from lib/schema. */
+const faqLd = faqJsonLd(faqs)
 
 export function FaqSection() {
   return (
@@ -39,7 +33,7 @@ export function FaqSection() {
       />
       <div className="container-base max-w-2xl">
         <div className="reveal-scroll text-center mb-12">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[var(--glass-border)] bg-[var(--glass-bg)] backdrop-blur-sm text-xs text-primary-text font-medium mb-5">
+          <div className="eyebrow-badge mb-5">
             <span>الأسئلة الشائعة</span>
           </div>
           <h2 className="text-3xl md:text-5xl font-extrabold text-foreground mb-4 tracking-[-0.01em]">الأسئلة الشائعة</h2>

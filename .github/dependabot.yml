@@ -1,0 +1,24 @@
+# r9 (security audit P3-12): automated dependency hygiene. Versions were
+# verified current at r9 (next 16.3.4, react 19.2.4, resend 6.26.0) but
+# nothing watched for regressions — CI has no npm audit step and no
+# bot filed updates.
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    # Security fixes immediately; group minor/patch noise into one PR.
+    open-pull-requests-limit: 5
+    groups:
+      minor-and-patch:
+        update-types: ["minor", "patch"]
+    commit-message:
+      prefix: "chore(deps)"
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "chore(ci)"

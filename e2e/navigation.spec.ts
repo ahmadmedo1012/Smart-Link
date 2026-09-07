@@ -12,7 +12,7 @@ test.describe("التنقل — سطح المكتب", () => {
   test("قائمة «خدماتنا» المنسدلة — تفتح بالتمرير وتغلق بـ Escape", async ({ page }) => {
     const trigger = page.getByRole("button", { name: /خدماتنا/ })
     await trigger.hover()
-    const menu = page.locator("nav[aria-label='التنقل الرئيسي'] >> text=Smart Menu - المنيو الرقمي")
+    const menu = page.locator("nav[aria-label='التنقل الرئيسي'] >> text=Smart Menu — المنيو الرقمي")
     await expect(menu.first()).toBeVisible()
     await expect(trigger).toHaveAttribute("aria-expanded", "true")
 

@@ -44,7 +44,7 @@ test.describe("r9 — مسار النجاح (كان مغطى فقط بالفشل
     await expect(status).toBeHidden({ timeout: 7000 })
   })
 
-  test("أثناء الإرسال: الزر معطّل ونصه «جاري الإرسال…»", async ({ page }) => {
+  test("أثناء الإرسال: الزر معطّل ونصه «جارٍ الإرسال…»", async ({ page }) => {
     let release: (() => void) | undefined
     await page.route("**/api/contact", async (r) => {
       await new Promise<void>((resolve) => (release = resolve))
@@ -56,7 +56,7 @@ test.describe("r9 — مسار النجاح (كان مغطى فقط بالفشل
     await page.getByRole("button", { name: /إرسال الرسالة/ }).click()
     const btn = page.locator("form").getByRole("button")
     await expect(btn).toBeDisabled()
-    await expect(btn).toContainText("جاري الإرسال")
+    await expect(btn).toContainText("جارٍ الإرسال")
     release?.()
     await expect(page.locator('form div[role="status"]')).toBeVisible({ timeout: 8000 })
   })

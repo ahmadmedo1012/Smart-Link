@@ -11,7 +11,7 @@ import { test, expect } from "./fixtures"
 const LCP_MARKS: Record<string, { h1: string; intro?: string }> = {
   "/": { h1: "SmartLink", intro: "منصة موحدة تجمع حلولنا الرقمية المبتكرة" },
   "/about": { h1: "عن SmartLink", intro: "SmartLink منصة رقمية ليبية متكاملة" },
-  "/pricing": { h1: "الخطط والأسعار", intro: "اختر الخطة المناسبة لعملك" },
+  "/pricing": { h1: "الخطط والأسعار", intro: "اختر الخطة المناسبة لأعمالك" },
   "/contact": { h1: "تواصل معنا", intro: "فريقنا جاهز لمساعدتك" },
   "/privacy": { h1: "سياسة الخصوصية" },
   "/terms": { h1: "شروط الاستخدام" },

@@ -161,7 +161,7 @@ test.describe("r9 — إشارات الزحف والـ PWA المضافة", () =
        قنبلة موقوتة (بناء يوم 2026-07-01 يجعل العدد 6). الآن: عدّ مدخلات
        كل مجموعة من عناصر <loc> نفسها وقارن ختمها المتوقع. */
     const lastmod = (loc: string) => {
-      const m = xml.match(new RegExp(`<loc>[^<]*${loc}</loc><lastmod>([^<]+)</lastmod>`))
+      const m = xml.match(new RegExp(`<loc>[^<]*${loc}</loc>\\s*<lastmod>([^<]+)</lastmod>`))
       return m?.[1] ?? ""
     }
     // القانونيتان بتاريخ محتواهما الحقيقي (يوليو 2026)

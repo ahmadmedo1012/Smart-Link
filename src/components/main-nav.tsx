@@ -10,7 +10,21 @@ import { SITE } from "@/lib/site"
 // NOTE: framer-motion removed from the critical path (122 KB initial chunk,
 // ~1.5 s script evaluation). Menu/dropdown animations are now CSS-only.
 
-const navLinks = [
+/* r11 (typedRoutes): التمريط الصريح يمنع توسيع href إلى string —
+   البوابة الجديدة تتحقق من كل روابط Link زمن البناء (القيمة الحرفية
+   "/" تُقبل لأنها في اتحاد المسارات المولَّد). أبناء «خدماتنا» روابط
+   خارجية على <a> عادية فتبقى string. */
+type NavChild = {
+  href: string
+  label: string
+  icon: typeof Smartphone
+  desc: string
+}
+type NavLink =
+  | { href: import("next").Route; label: string; children?: undefined }
+  | { label: string; href?: undefined; children: NavChild[] }
+
+const navLinks: NavLink[] = [
   { href: "/", label: "الرئيسية" },
   {
     label: "خدماتنا",
@@ -83,9 +97,23 @@ export function MainNav() {
   const pathname = usePathname()
   const { theme, setTheme } = useTheme()
   const headerRef = useRef<HTMLDivElement>(null)
+  /* r11 (محاكاة لوحة مفاتيح — B1-K1/B2/E-E9): إصلاح النموذج التفاعلي
+     للقائمة المنسدلة. المشكلة القديمة كانت آلية معطوبة من ثلاث جهات:
+     (1) onFocus يفتح بالتركيز ثم onBlur يغلق فور مغادرته الزر — القائمة
+     تُفكّ من DOM في منتصف انتقال التركيز فيسقط على <body> (نقطة توقف
+     ميتة أكّدها وكيلان مستقلان)؛ (2) Enter بعد فتح التركيز = إغلاق
+     (التبديل يحارب الافتتاح)؛ (3) لا aria-controls يربط الزر بالقائمة.
+     النموذج الجديد = نمط disclosure القياسي: التركيز لا يفتح، Enter/Space
+     ونقرة التبديل تفتح/تغلق، focusout يغلق فقط إذا غادر التركيز الحاوية
+     كاملة (relatedTarget)، وEscape يغلق ويعيد التركيز للزر. */
+  const servicesRef = useRef<HTMLDivElement>(null)
+  const servicesButtonRef = useRef<HTMLButtonElement>(null)
+  const burgerRef = useRef<HTMLButtonElement>(null)
 
   /* r5 (gstack /qa — a11y polish): Escape closes any open menu (always
-     active), and the mobile menu locks body scroll while open. */
+     active), and the mobile menu locks body scroll while open.
+     r11: mobile Escape يعيد التركيز لزر البرغر (كان يسقط على body —
+     اكتشاف B2)، وEscape المنسدلة يُدار محلياً في حاوية services. */
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
@@ -154,15 +182,32 @@ export function MainNav() {
             link.children ? (
               <div
                 key={link.label}
+                ref={servicesRef}
                 className="relative"
                 onMouseEnter={() => setDesktopServicesOpen(true)}
                 onMouseLeave={() => setDesktopServicesOpen(false)}
-                onFocus={() => setDesktopServicesOpen(true)}
-                onBlur={() => setDesktopServicesOpen(false)}
+                /* r11: focusout (React onBlur يفقع focusout) يُغلق فقط إذا
+                   كان الهدف التالي خارج الحاوية — القائمة تبقى مفتوحة
+                   أثناء تنقّل Tab بين الزر وبنودها (إصلاح نقطة التوقف
+                   الميتة). */
+                onBlur={(e) => {
+                  if (!e.currentTarget.contains(e.relatedTarget as Node | null)) {
+                    setDesktopServicesOpen(false)
+                  }
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === "Escape" && desktopServicesOpen) {
+                    setDesktopServicesOpen(false)
+                    servicesButtonRef.current?.focus()
+                  }
+                }}
               >
                 <button
+                  ref={servicesButtonRef}
                   aria-haspopup="true"
                   aria-expanded={desktopServicesOpen}
+                  aria-controls="services-menu"
+                  id="services-button"
                   /* r10 (a11y audit P2): hover/focus opened the dropdown, but a
                       tap on a touch laptop did nothing — the button now
                       toggles too (Escape still closes). */
@@ -176,7 +221,7 @@ export function MainNav() {
                   <ChevronDown className="w-3.5 h-3.5 transition-transform duration-200" style={{ transform: desktopServicesOpen ? "rotate(180deg)" : undefined }} />
                 </button>
                 {desktopServicesOpen && (
-                <div className="menu-pop menu-pop-fast absolute top-full right-0 mt-2 w-80">
+                <div id="services-menu" role="group" aria-labelledby="services-button" className="menu-pop menu-pop-fast absolute top-full right-0 mt-2 w-80">
                     <div className="glass-strong rounded-2xl p-2 shadow-xl">
                         {link.children.map((child) => {
                           const Icon = child.icon
@@ -234,11 +279,13 @@ export function MainNav() {
             <MagneticButton>
               <button
                 onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-                aria-label={theme === "dark" ? "تفعيل الثيم الفاتح" : "تفعيل الثيم الداكن"}
-                className="p-2.5 rounded-xl hover:bg-[var(--accent)] text-muted-foreground hover:text-foreground transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--ring)]"
+                aria-label={theme === "dark" ? "تفعيل المظهر الفاتح" : "تفعيل المظهر الداكن"}
+                /* r11 (E-E12/E-E13): هدف لمس 44px (كان 36px — p-2.5 + أيقونة
+                   16px) بمعيار WCAG 2.5.5، و«الثيم»→«المظهر» (تعريب أصحّ). */
+                className="p-3 rounded-xl hover:bg-[var(--accent)] text-muted-foreground hover:text-foreground transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--ring)]"
               >
                 <span className={cn("block transition-all duration-500 ease-[var(--ease-spring)]", theme === "dark" ? "rotate-0" : "rotate-180")}>
-                  {theme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+                  {theme === "dark" ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
                 </span>
               </button>
             </MagneticButton>
@@ -246,10 +293,13 @@ export function MainNav() {
 
           <MagneticButton>
             <button
+              ref={burgerRef}
               onClick={() => { setMobileOpen(!mobileOpen); if (mobileOpen) setServicesOpen(false) }}
               aria-label={mobileOpen ? "إغلاق القائمة" : "فتح القائمة"}
               aria-expanded={mobileOpen}
-              className="md:hidden p-2.5 rounded-xl hover:bg-[var(--accent)] transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--ring)]"
+              aria-controls="mobile-menu"
+              /* r11 (E-E12): 44px هدف لمس (كان 40px). */
+              className="md:hidden p-3 rounded-xl hover:bg-[var(--accent)] transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--ring)]"
             >
               {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
@@ -258,9 +308,22 @@ export function MainNav() {
       </div>
 
       {/* Mobile menu — CSS menu-pop; sub-menu uses the grid-rows accordion.
-          r6: named nav landmark (was a bare div). */}
+          r6: named nav landmark (was a bare div).
+          r11 (E-E9/B2): id يربط aria-controls البرغر بالقائمة، وEscape
+          داخلها يغلقها ويعيد التركيز للزر (كان يسقط على body). */}
       {mobileOpen && (
-          <nav className="menu-pop md:hidden mx-2 mb-2" aria-label="قائمة الجوال">
+          <nav
+            id="mobile-menu"
+            className="menu-pop md:hidden mx-2 mb-2"
+            aria-label="قائمة الجوال"
+            onKeyDown={(e) => {
+              if (e.key === "Escape") {
+                setMobileOpen(false)
+                setServicesOpen(false)
+                burgerRef.current?.focus()
+              }
+            }}
+          >
             <div className="glass-strong rounded-2xl p-2 shadow-xl">
               {navLinks.map((link) =>
                 link.children ? (

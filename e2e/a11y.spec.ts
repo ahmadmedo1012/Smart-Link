@@ -4,7 +4,7 @@ import AxeBuilder from "@axe-core/playwright"
 /**
  * فحوص الوصول الشاملة بـ axe-core (WCAG 2.x AA) — في الوضعين الداكن
  * والفاتح معاً. Lighthouse يفحص الوضع الافتراضي (الداكن) فقط؛ هذه
- * الجولة تضمن أن تبديل الثيم لا يكسر التباين أو أي قاعدة أخرى.
+ * الجولة تضمن أن تبديل المظهر لا يكسر التباين أو أي قاعدة أخرى.
  */
 async function scan(page: import("@playwright/test").Page) {
   const results = await new AxeBuilder({ page })
@@ -33,7 +33,7 @@ test.describe("axe-core — صفر انتهاكات في الوضعين", () => 
     test(`${p.path} — الوضع الفاتح (بعد التبديل)`, async ({ page }) => {
       await page.goto(p.path, { waitUntil: "networkidle" })
       // بدّل إلى الفاتح كما يفعل المستخدم
-      await page.getByRole("button", { name: "تفعيل الثيم الفاتح" }).click()
+      await page.getByRole("button", { name: "تفعيل المظهر الفاتح" }).click()
       await expect(page.locator("html")).toHaveClass(/light/)
       // رسومات الخلفية التوليدية تحتاج إطاراً لتتطلب
       await page.waitForTimeout(300)

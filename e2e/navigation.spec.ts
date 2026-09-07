@@ -2,7 +2,7 @@ import { test, expect } from "./fixtures"
 
 /**
  * السلوكيات التفاعلية — القائمة الجوالة، Escape، القائمة المنسدلة،
- * مبدّل الثيم، واختبار انحدار زر «العودة للأعلى» (خلل r7 المؤكد بالدليل).
+ * مبدّل المظهر، واختبار انحدار زر «العودة للأعلى» (خلل r7 المؤكد بالدليل).
  */
 test.describe("التنقل — سطح المكتب", () => {
   test.beforeEach(async ({ page }) => {
@@ -13,9 +13,9 @@ test.describe("التنقل — سطح المكتب", () => {
     const trigger = page.getByRole("button", { name: /خدماتنا/ })
     /* r10: تحت حمل 4 عمال متوازيين قد يقع hover قبل اكتمال ترطيب React —
        مستمعات mouseenter غير موجودة بعد والقائمة لا تفتح (فشل متقطع
-       حقيقي ظهر مع توسيع الجناح). زر الثيم يُصيَّر فقط بعد الترطيب
+       حقيقي ظهر مع توسيع الجناح). زر المظهر يُصيَّر فقط بعد الترطيب
        (mounted) — بوابة ترطيب مثالية قبل أي تفاعل بالهيدر. */
-    await expect(page.getByRole("button", { name: /الثيم/ })).toBeVisible()
+    await expect(page.getByRole("button", { name: /المظهر/ })).toBeVisible()
     await trigger.hover()
     const menu = page.locator("nav[aria-label='التنقل الرئيسي'] >> text=Smart Menu — المنيو الرقمي")
     await expect(menu.first()).toBeVisible()
@@ -32,14 +32,14 @@ test.describe("التنقل — سطح المكتب", () => {
     await expect(menu.first()).toBeHidden()
   })
 
-  test("مبدّل الثيم — داكن ← فاتح ← ثابت بعد إعادة التحميل", async ({ page }) => {
+  test("مبدّل المظهر — داكن ← فاتح ← ثابت بعد إعادة التحميل", async ({ page }) => {
     // الافتراضي داكن
     await expect(page.locator("html")).toHaveClass(/dark/)
 
-    const toggle = page.getByRole("button", { name: "تفعيل الثيم الفاتح" })
+    const toggle = page.getByRole("button", { name: "تفعيل المظهر الفاتح" })
     await toggle.click()
     await expect(page.locator("html")).toHaveClass(/light/)
-    await expect(page.getByRole("button", { name: "تفعيل الثيم الداكن" })).toBeVisible()
+    await expect(page.getByRole("button", { name: "تفعيل المظهر الداكن" })).toBeVisible()
 
     // الاختيار يبقى بعد إعادة التحميل (next-themes localStorage)
     await page.reload({ waitUntil: "networkidle" })

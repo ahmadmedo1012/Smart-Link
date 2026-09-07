@@ -5,9 +5,9 @@ import { UserPlus, Palette, Share2 } from "lucide-react"
    existing border-draw keyframes attached to a view() timeline. */
 
 const steps = [
-  { icon: UserPlus, title: "إنشاء حساب مجاني", description: "سجل حسابك مجاناً بدون أي بطاقة ائتمان. ابدأ رحلتك الرقمية في دقائق." },
+  { icon: UserPlus, title: "إنشاء حساب مجاني", description: "أنشئ حسابك مجاناً بدون أي بطاقة ائتمان. ابدأ رحلتك الرقمية في دقائق." },
   { icon: Palette, title: "اختيار الخدمة", description: "اختر الخدمة التي تناسب عملك - منيو رقمي لمطعمك أو بوت ذكي لصفحتك." },
-  { icon: Share2, title: "انطلق وابدأ", description: "شارك الرابط مع عملائك وابدأ في استقبال الطلبات والردود بشكل آلي." },
+  { icon: Share2, title: "انطلق وابدأ", description: "شارك الرابط مع عملائك وابدأ في استقبال الطلبات، وسيتولى البوت الرد على العملاء بشكل آلي." },
 ]
 
 function StepCard({ step, index }: { step: typeof steps[number]; index: number }) {

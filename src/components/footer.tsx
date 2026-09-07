@@ -44,7 +44,7 @@ export function Footer() {
               {[
                 { icon: MessageCircle, href: SITE.whatsapp.url, label: "واتساب" },
                 { icon: Globe, href: SITE.social.facebook, label: "فيسبوك" },
-                { icon: Share2, href: SITE.social.instagram, label: "انستغرام" },
+                { icon: Share2, href: SITE.social.instagram, label: "إنستغرام" },
               ].map((s) => (
                 <a
                   key={s.label}

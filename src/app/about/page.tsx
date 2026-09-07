@@ -82,7 +82,7 @@ export default function AboutPage() {
             <div>
               <h2 className="text-xl font-bold text-foreground mb-1">المؤسس</h2>
               <p className="text-base text-foreground font-medium">أحمد خيري</p>
-              <p className="text-sm text-muted-foreground">مؤسس ورئيس SmartLink - منصة رقمية ليبية رائدة في المنيو الرقمي وخدمات الأتمتة.</p>
+              <p className="text-sm text-muted-foreground">مؤسس ورئيس SmartLink — منصة رقمية ليبية رائدة في المنيو الرقمي وخدمات الأتمتة.</p>
             </div>
           </div>
         </div>
@@ -96,7 +96,7 @@ export default function AboutPage() {
             الذين يبحثون عن أتمتة ذكية لردودهم.
           </p>
           <p className="text-muted-foreground leading-relaxed mb-4">
-            بصفتنا <strong>أول منصة ليبية</strong> متخصصة في إنشاء المنيو الإلكتروني التفاعلي، نسعى لتكون SmartLink
+            بصفتنا <strong>أول منصة ليبية</strong> متخصصة في إنشاء المنيو الرقمي التفاعلي، نسعى لأن تكون SmartLink
             المنصة الرقمية الأولى للأعمال في ليبيا والعالم العربي.
           </p>
 
@@ -110,7 +110,7 @@ export default function AboutPage() {
 
           <p className="text-muted-foreground leading-relaxed mb-6">
             اليوم، نحن منصة متنامية تضم أكثر من 500 عميل نشط، ونعمل باستمرار على تطوير خدماتنا
-            وإضافة المزيد من الحلول المبتكرة - من البوت الذكي لفيسبوك إلى خدمات قادمة تطمح لتغيير
+            وإضافة المزيد من الحلول المبتكرة — من البوت الذكي لفيسبوك إلى خدمات قادمة تطمح لتغيير
             مشهد الأعمال الرقمية في المنطقة.
           </p>
           <Link

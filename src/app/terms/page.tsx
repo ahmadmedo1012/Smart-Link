@@ -76,7 +76,7 @@ export default function TermsPage() {
 
           <section>
             <h2 className="text-xl font-bold text-foreground mt-6 mb-2">الملكية الفكرية</h2>
-            <p>جميع حقوق الملكية الفكرية المتعلقة بمنصة SmartLink - بما في ذلك التصميم، الشيفرة المصدرية، العلامات التجارية، والمحتوى - هي مملوكة حصرياً لـ SmartLink. لا يجوز نسخ أو توزيع أو تعديل أي جزء من المنصة دون إذن كتابي مسبق.</p>
+            <p>جميع حقوق الملكية الفكرية المتعلقة بمنصة SmartLink — بما في ذلك التصميم، الشيفرة المصدرية، العلامات التجارية، والمحتوى — هي مملوكة حصرياً لشركة SmartLink. لا يجوز نسخ أو توزيع أو تعديل أي جزء من المنصة دون إذن كتابي مسبق.</p>
           </section>
 
           <section>
@@ -92,6 +92,13 @@ export default function TermsPage() {
           <section>
             <h2 className="text-xl font-bold text-foreground mt-6 mb-2">التعديلات على الخدمة</h2>
             <p>نحن نعمل باستمرار على تطوير وتحسين منصتنا. قد نقوم بتعديل أو إيقاف أي خدمة أو ميزة في أي وقت دون إشعار مسبق. لن نتحمل المسؤولية عن أي تعديل أو تعليق أو إيقاف للخدمات.</p>
+          </section>
+
+          <section>
+            <h2 className="text-xl font-bold text-foreground mt-6 mb-2">القانون المطبق</h2>
+            {/* r10 (content audit P2): privacy has had a governing-law clause
+                since r9; terms was missing its twin. */}
+            <p>تخضع شروط الاستخدام هذه وتُفسَّر وفقاً لقوانين دولة ليبيا، وتختص محاكمها بالنزاعات الناشئة عنها أو المتعلقة بها.</p>
           </section>
 
           <section>

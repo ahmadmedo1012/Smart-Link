@@ -227,7 +227,7 @@ export function ContactForm() {
         className="flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-primary text-white font-semibold text-sm hover:brightness-105 transition-all duration-300 active:scale-[0.98] disabled:opacity-60 disabled:cursor-not-allowed"
       >
         {sending ? (
-          <><Loader2 className="w-4 h-4 animate-spin" aria-hidden="true" /> جاري الإرسال…</>
+          <><Loader2 className="w-4 h-4 animate-spin" aria-hidden="true" /> جارٍ الإرسال…</>
         ) : sent ? (
           <><Check className="w-4 h-4" aria-hidden="true" /> تم الإرسال ✓</>
         ) : (

@@ -186,7 +186,7 @@ export async function POST(req: Request) {
       from: FROM_EMAIL,
       to: OWNER_EMAIL,
       replyTo: cleanEmail,
-      subject: `[SmartLink Contact] ${cleanSubject}`,
+      subject: `[تواصل SmartLink] ${cleanSubject}`,
       html: await render(
         ContactNotificationEmail({
           name: cleanName,

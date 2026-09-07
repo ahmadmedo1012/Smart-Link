@@ -38,7 +38,7 @@ export default function ContactPage() {
             تواصل معنا
           </h1>
           <p className="text-lg text-muted-foreground">
-            فريقنا جاهز لمساعدتك - تواصل معنا بأي من الطرق التالية
+            فريقنا جاهز لمساعدتك — تواصل معنا بأي طريقة من الطرق التالية
           </p>
         </div>
 

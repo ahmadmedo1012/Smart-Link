@@ -39,9 +39,11 @@ test.describe("r10 — CTA الختامي", () => {
 
   test("«تواصل معنا» الختامي → /contact", async ({ page }) => {
     await page.goto("/", { waitUntil: "domcontentloaded" })
-    // زرّا CTA: الرئيسية تحمل واحداً في القسم الختامي فقط
-    await page.locator("footer").scrollIntoViewIfNeeded()
-    const cta = page.getByRole("link", { name: /^تواصل معنا$/ }).last()
+    /* r11 (تدقيق C): .last() كانت تحلّ على رابط الفوتر من 3 مطابقات —
+       الاختبار كان يمرّ حتى لو انكسر زر CTA الختامي نفسه. الآن محصور
+       في قسم CTA (#cta) الذي يحتوي الزر المقصود وحده. */
+    await page.locator("#cta").scrollIntoViewIfNeeded()
+    const cta = page.locator("#cta").getByRole("link", { name: /تواصل معنا/ })
     await expect(cta).toHaveAttribute("href", "/contact")
   })
 })

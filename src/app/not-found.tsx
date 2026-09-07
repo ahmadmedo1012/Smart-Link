@@ -25,6 +25,10 @@ export const metadata: Metadata = {
     title: "الصفحة غير موجودة",
     description: "الصفحة التي تبحث عنها غير متوفرة أو تم نقلها إلى عنوان آخر.",
   },
+  /* r11 (تحقق حي): بطاقة twitter كانت الوحيدة الباقية الموروثة من
+     الجذر على رابط ميت بعد قطع canonical وog في r10 — نصف إصلاح
+     من نفس النوع. null يمنع التوريث (تحقق متعمد في SEO spec). */
+  twitter: null,
 }
 
 /* Server component — CSS reveal only. This boundary renders in EVERY route's

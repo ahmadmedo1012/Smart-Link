@@ -11,6 +11,9 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
   reactStrictMode: true,
   compress: true,
+  /* r11 (تدقيق كود): روابط href الداخلية الـ15 تتحقق زمن البناء
+     (خطأ إملائي في مسار = فشل build بدل 404 حي). */
+  typedRoutes: true,
   onDemandEntries: { maxInactiveAge: 60 * 60 * 1000 },
   experimental: {
     /* Round 2: cut duplicate RSC prefetch re-fetches (three identical /about
@@ -33,6 +36,7 @@ const nextConfig: NextConfig = {
       "logo.png",
       "favicon-32.png",
       "apple-touch-icon.png",
+      "icon-96.png",
       "icon-192.png",
       "icon-512.png",
       "icon-512-maskable.png",
@@ -90,14 +94,16 @@ const nextConfig: NextConfig = {
              streaming scripts only (App Router emits self.__next_f inline
              pushes that cannot be nonced on statically-prerendered pages).
              r9: unsplash hosts dropped from img-src — the site serves zero
-             remote images. */
+             remote images. r11 (تدقيق أمن B-B10): blob: سقط من img-src —
+             لا يوجد أي createObjectURL في الكود، ومخصص بلا مستهلك
+             = سطح هجوم مفتوح للصفر. */
           {
             key: "Content-Security-Policy",
             value: [
               "default-src 'self'",
               "script-src 'self' 'unsafe-inline' https://va.vercel-scripts.com",
               "style-src 'self' 'unsafe-inline'",
-              "img-src 'self' data: blob:",
+              "img-src 'self' data:",
               "font-src 'self' data:",
               "connect-src 'self' https://va.vercel-scripts.com",
               "frame-ancestors 'none'",

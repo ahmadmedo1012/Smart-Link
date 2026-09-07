@@ -65,10 +65,10 @@ export function Footer() {
             <h3 className="text-sm font-bold text-foreground mb-4">روابط سريعة</h3>
             <ul className="space-y-2.5">
               {[
-                { label: "الرئيسية", href: "/" },
-                { label: "عن SmartLink", href: "/about" },
-                { label: "تواصل معنا", href: "/contact" },
-                { label: "الخطط والأسعار", href: "/pricing" },
+                { label: "الرئيسية", href: "/" as import("next").Route },
+                { label: "عن SmartLink", href: "/about" as import("next").Route },
+                { label: "تواصل معنا", href: "/contact" as import("next").Route },
+                { label: "الخطط والأسعار", href: "/pricing" as import("next").Route },
               ].map((l) => (
                 <li key={l.label}>
                   {/* prefetch={false}: footer quick-links were firing duplicate

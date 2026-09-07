@@ -1,4 +1,8 @@
 import { test, expect, PAGES, allowResourceNoise } from "./fixtures"
+import { mkdirSync } from "node:fs"
+
+const SHOT_DIR = process.env.SIM_SHOTS_DIR ?? "test-results/sim-shots"
+mkdirSync(SHOT_DIR, { recursive: true })
 
 /**
  * r11-B4 — محاكاة الأنماط الخاصة (user-modes simulator)
@@ -438,9 +442,10 @@ test.describe("D) فحوص RTL العميقة (سطح المكتب)", () => {
     // روابط CTA «زيارة الخدمة» بشيفرون-يسار (تقدم صحيح في RTL)
     await expect(page.locator('a[aria-label*="زيارة الخدمة"] svg.lucide-chevron-left').first()).toBeVisible()
 
-    // لقطات بصرية كدليل (تُحفظ في r11-findings للتقرير)
-    await page.locator("#faq-button-0").screenshot({ path: "/home/z/my-project/r11-findings/B4-faq-chevron-rtl.png" })
-    await page.locator('a[aria-label*="زيارة الخدمة"]').first().screenshot({ path: "/home/z/my-project/r11-findings/B4-cta-chevron-rtl.png" })
+    // لقطات بصرية كدليل — نفس مسار اللقطات القابل للنقل (r11: مسار
+    // مطلق أفشل CI كما في sim-devices)
+    await page.locator("#faq-button-0").screenshot({ path: `${SHOT_DIR}/B4-faq-chevron-rtl.png` })
+    await page.locator('a[aria-label*="زيارة الخدمة"]').first().screenshot({ path: `${SHOT_DIR}/B4-cta-chevron-rtl.png` })
   })
 
   test("D5 الأرقام في النص العربي — إحصاءات وهاتف سليمة غير معكوسة", async ({ page }) => {

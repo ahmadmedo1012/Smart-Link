@@ -34,10 +34,11 @@ const readexPro = Readex_Pro({
 
 export const metadata: Metadata = {
   title: {
-    default: "SmartLink - منصة رقمية متكاملة",
+    default: "SmartLink — منصة رقمية متكاملة للأعمال في ليبيا",
     template: "%s | SmartLink",
   },
-  description: "SmartLink منصة رقمية متكاملة تقدم حلولاً ذكية للأعمال: المنيو الرقمي للمطاعم، البوت الذكي لفيسبوك، والمزيد من الخدمات المبتكرة",
+  description:
+    "SmartLink منصة رقمية ليبية متكاملة تقدم حلولاً ذكية للأعمال: المنيو الرقمي التفاعلي للمطاعم، والبوت الذكي لردود فيسبوك الآلية — ابدأ مجاناً اليوم وطور أعمالك خطوة بخطوة.",
   keywords: ["SmartLink", "منصة رقمية", "الربط الذكي", "منيو رقمي", "بوت فيسبوك", "تسويق إلكتروني"],
   metadataBase: new URL("https://smart-link.ly"),
   /* r7: home was the ONLY route without a canonical link — the five
@@ -46,8 +47,8 @@ export const metadata: Metadata = {
      the most-linked URL of the site (live-verified missing). */
   alternates: { canonical: "/" },
   openGraph: {
-    title: "SmartLink - منصة رقمية متكاملة",
-    description: "حلول ذكية للأعمال: المنيو الرقمي، البوت الذكي، والمزيد",
+    title: "SmartLink — منصة رقمية متكاملة للأعمال في ليبيا",
+    description: "حلول ذكية للأعمال في ليبيا: المنيو الرقمي التفاعلي، والبوت الذكي لفيسبوك — ابدأ مجاناً اليوم.",
     url: "/",
     siteName: "SmartLink",
     /* r9 (SEO audit P3-7): ar_LY is not a value Facebook recognizes
@@ -64,8 +65,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "SmartLink - منصة رقمية متكاملة",
-    description: "حلول ذكية للأعمال: المنيو الرقمي، البوت الذكي، والمزيد",
+    title: "SmartLink — منصة رقمية متكاملة للأعمال في ليبيا",
+    description: "حلول ذكية للأعمال في ليبيا: المنيو الرقمي التفاعلي، والبوت الذكي لفيسبوك — ابدأ مجاناً اليوم.",
     images: ["/og-smartlink.jpg"],
   },
   robots: { index: true, follow: true },

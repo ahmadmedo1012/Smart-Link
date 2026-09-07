@@ -24,7 +24,7 @@ export const SITE = {
   products: {
     menu: {
       short: "Smart Menu",
-      label: "Smart Menu - المنيو الرقمي",
+      label: "Smart Menu — المنيو الرقمي",
       url: "https://menu.smart-link.ly",
       desc: "حول منيو مطعمك إلى تجربة رقمية تفاعلية",
     },
@@ -32,7 +32,7 @@ export const SITE = {
       /** r9: "SmartBot" — one word, everywhere. Two API surfaces used
           "Smart Bot" with a space (audit C3). */
       short: "SmartBot",
-      label: "SmartBot - البوت الذكي",
+      label: "SmartBot — البوت الذكي",
       url: "https://bot.smart-link.ly",
       desc: "أتمتة الردود على صفحات فيسبوك بذكاء",
     },

@@ -67,7 +67,21 @@ export function organizationJsonLd() {
       contactType: "customer service",
       availableLanguage: ["ar", "en"],
     },
-    sameAs: [SITE.whatsapp.url, SITE.products.menu.url, SITE.products.bot.url],
+    sameAs: [SITE.social.facebook, SITE.social.instagram],
+    /* r10 (SEO audit P2): LocalBusiness completeness per Google's local
+       business docs — priceRange (everything is free at launch → "$") and
+       an image. sameAs now points at the REAL identity profiles (the
+       Facebook/Instagram accounts already in SITE.social) instead of a
+       wa.me link and the product domains — the products are already
+       modeled by subOrganization + Service, and Google documents sameAs
+       as the place to link a entity to its official profiles. */
+    priceRange: "$",
+    image: {
+      "@type": "ImageObject",
+      url: `${SITE.url}/og-smartlink.jpg`,
+      width: 1200,
+      height: 630,
+    },
     subOrganization: [
       {
         "@type": "Organization",

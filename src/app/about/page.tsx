@@ -11,9 +11,11 @@ import { pageMetadata } from "@/lib/seo"
    GenArtBackground is the only client island. */
 
 export const metadata = pageMetadata({
-  title: "عن المنصة",
+  /* r10 (SEO audit P2): titles/descriptions expanded toward the 40-55 /
+     140-160 char SERP windows — the previous set wasted half the space. */
+  title: "عن SmartLink — منصة ليبية متكاملة",
   description:
-    "قصة SmartLink — منصة رقمية ليبية متكاملة أسسها أحمد خيري لتقديم حلول ذكية للأعمال: المنيو الرقمي للمطاعم وأتمتة صفحات فيسبوك.",
+    "تعرّف على قصة SmartLink — منصة رقمية ليبية متكاملة أسسها أحمد خيري لتقديم حلول ذكية للأعمال: المنيو الرقمي التفاعلي للمطاعم وأتمتة الردود على صفحات فيسبوك بذكاء.",
   canonical: "/about",
   ogDescription: "منصة رقمية ليبية متكاملة — حلول ذكية للأعمال في العالم العربي",
 })

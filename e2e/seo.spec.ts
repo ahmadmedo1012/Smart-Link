@@ -124,6 +124,12 @@ test.describe("r9 — إشارات الزحف والـ PWA المضافة", () =
     expect(html).toContain('name="robots" content="noindex"')
     // description خاصة بالـ 404 بدل وصف الرئيسية الموروث
     expect(html).toContain('الصفحة التي تبحث عنها غير متوفرة')
+    /* r10 (SEO audit P1): العنوان كان يدّعي «بلا canonical» ولا يفحصه —
+       الرابط الميت كان يصدّر canonical="https://smart-link.ly" (وراثة من
+       الجذر) فيعارض noindex. الآن الجذر يُقص بـ alternates:{} + بطاقة
+       OG خاصة بلا og:url موروث. */
+    expect(html).not.toContain('rel="canonical"')
+    expect(html).not.toContain('property="og:url"')
   })
 
   test("404 — html المُصيَّر: رابطا العودة والتواصل", async ({ page }) => {
@@ -148,14 +154,26 @@ test.describe("r9 — إشارات الزحف والـ PWA المضافة", () =
     expect(shortcuts).toContain("/contact")
   })
 
-  test("sitemap — القانونية بختم يوليو الثابت والبقية بتاريخ البناء (r9)", async ({ request }) => {
+  test("sitemap — القانونية بختم ثابت والشبه ثابتة بختم محتوى (r10)", async ({ request }) => {
     const res = await request.get("/sitemap.xml")
     const xml = await res.text()
-    // الصفحتان القانونيتان تحملان تاريخ محتواهما الحقيقي، لا وقت البناء
-    expect(xml).toContain("2026-07-01")
-    // عدّ التواريخ التي ليست يوليو = 4 (home/about/pricing/contact)
-    const jul = (xml.match(/2026-07-01/g) ?? []).length
-    expect(jul).toBe(2)
+    /* r10 (SEO audit P3 + testing audit G12): كان العدّ النصي للتاريخ
+       قنبلة موقوتة (بناء يوم 2026-07-01 يجعل العدد 6). الآن: عدّ مدخلات
+       كل مجموعة من عناصر <loc> نفسها وقارن ختمها المتوقع. */
+    const lastmod = (loc: string) => {
+      const m = xml.match(new RegExp(`<loc>[^<]*${loc}</loc><lastmod>([^<]+)</lastmod>`))
+      return m?.[1] ?? ""
+    }
+    // القانونيتان بتاريخ محتواهما الحقيقي (يوليو 2026)
+    expect(lastmod("/privacy")).toBe("2026-07-01T00:00:00.000Z")
+    expect(lastmod("/terms")).toBe("2026-07-01T00:00:00.000Z")
+    // about/contact بختم محتوى ثابت (r10 — ليست وقت البناء بعد الآن)
+    expect(lastmod("/about")).toBe("2026-09-07T00:00:00.000Z")
+    expect(lastmod("/contact")).toBe("2026-09-07T00:00:00.000Z")
+    // home/pricing لا يزالان بتاريخ البناء (ديناميكيان فعلاً)
+    expect(lastmod("smart-link.ly")).not.toBe("2026-07-01T00:00:00.000Z")
+    expect(lastmod("smart-link.ly")).not.toBe("")
+    expect(lastmod("/pricing")).not.toBe("")
   })
 
   test("apple-mobile-web-app-capable موجود (r9)", async ({ page }) => {

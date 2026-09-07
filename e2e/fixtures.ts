@@ -35,12 +35,12 @@ export { expect }
 
 /** الصفحات الست + عناوينها — مصدر واحد للحقيقة لكل specs الصفحات/SEO/a11y */
 export const PAGES = [
-  { path: "/", h1: /SmartLink/, title: /SmartLink - منصة رقمية متكاملة/ },
-  { path: "/about", h1: /عن SmartLink/, title: /عن المنصة \| SmartLink/ },
-  { path: "/pricing", h1: /الخطط والأسعار/, title: /الخطط والأسعار \| SmartLink/ },
-  { path: "/contact", h1: /تواصل معنا/, title: /تواصل معنا \| SmartLink/ },
-  { path: "/privacy", h1: /سياسة الخصوصية/, title: /سياسة الخصوصية \| SmartLink/ },
-  { path: "/terms", h1: /شروط الاستخدام/, title: /شروط الاستخدام \| SmartLink/ },
+  { path: "/", h1: /SmartLink/, title: /SmartLink — منصة رقمية متكاملة/ },
+  { path: "/about", h1: /عن SmartLink/, title: /عن SmartLink — منصة ليبية متكاملة \| SmartLink/ },
+  { path: "/pricing", h1: /الخطط والأسعار/, title: /الخطط والأسعار — ابدأ مجاناً اليوم \| SmartLink/ },
+  { path: "/contact", h1: /تواصل معنا/, title: /تواصل معنا — فريق SmartLink جاهز للمساعدة \| SmartLink/ },
+  { path: "/privacy", h1: /سياسة الخصوصية/, title: /سياسة الخصوصية وحماية بياناتك \| SmartLink/ },
+  { path: "/terms", h1: /شروط الاستخدام/, title: /شروط الاستخدام وأحكام التعاقد \| SmartLink/ },
 ] as const
 
 export const BASE = "https://smart-link.ly"

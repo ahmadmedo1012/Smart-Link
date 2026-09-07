@@ -43,10 +43,22 @@ test.describe("JSON-LD — الرئيسية", () => {
     const subNames = org.subOrganization.map((s: { name: string }) => s.name)
     expect(subNames).toEqual(expect.arrayContaining(["Smart Menu", "SmartBot"]))
 
-    // روابط الحضور
-    expect(org.sameAs).toContain("https://wa.me/218910089975")
-    expect(org.sameAs).toContain("https://menu.smart-link.ly")
-    expect(org.sameAs).toContain("https://bot.smart-link.ly")
+    // روابط الحضور — r10: الحسابات الرسمية الحقيقية (فيسبوك/انستغرام)
+    // بدل رابط مراسلة wa.me ونطاقي المنتجات (المغطيين بـ subOrganization
+    // + Service — sameAs مكان ربط الكيان بملفاته الرسمية حسب توثيق Google)
+    expect(org.sameAs).toContain("https://www.facebook.com/profile.php?id=61591502614404")
+    expect(org.sameAs).toContain("https://instagram.com/smart_link.0/")
+    expect(org.sameAs).not.toContain("https://wa.me/218910089975")
+  })
+
+  test("r10 — LocalBusiness: priceRange + image (اكتمال كيان Google المحلي)", async ({ page }) => {
+    await page.goto("/", { waitUntil: "domcontentloaded" })
+    const { byType } = await ldScripts(page)
+    const lb = byType("LocalBusiness")[0]
+    expect(lb).toBeTruthy()
+    expect(lb.priceRange).toBe("$")
+    expect(lb.image["@type"]).toBe("ImageObject")
+    expect(lb.image.url).toBe("https://smart-link.ly/og-smartlink.jpg")
   })
 
   test("r9 — LocalBusiness: هاتف + ليبيا + ساعات دوام صادقة", async ({ page }) => {

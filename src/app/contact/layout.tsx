@@ -4,9 +4,11 @@ import { pageMetadata } from "@/lib/seo"
    from "use client" files, so a segment layout carries them). Full OG shape
    via pageMetadata — see src/lib/seo.ts. */
 export const metadata = pageMetadata({
-  title: "تواصل معنا",
+  /* r10 (SEO audit P2): expanded toward the SERP window with the
+     strongest contact keywords (واتساب، دعم فني). */
+  title: "تواصل معنا — فريق SmartLink جاهز للمساعدة",
   description:
-    "تواصل مع فريق SmartLink — استفسارات، دعم فني، أو طلب خدمة جديدة. واتساب مباشر أو نموذج التواصل ونردّ خلال ساعات.",
+    "تواصل مع فريق SmartLink لأي استفسار أو دعم فني أو طلب خدمة: نموذج تواصل سريع أو واتساب مباشر على مدار الساعة — نردّ خلال ساعات العمل 9 صباحاً حتى 9 مساءً.",
   canonical: "/contact",
   ogDescription: "استفسارات ودعم فني وطلبات خدمات — واتساب مباشر أو نموذج البريد",
 })

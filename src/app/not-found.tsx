@@ -13,6 +13,18 @@ export const metadata: Metadata = {
   title: "الصفحة غير موجودة",
   description: "الصفحة التي تبحث عنها غير متوفرة أو تم نقلها إلى عنوان آخر.",
   robots: { index: false, follow: true },
+  /* r10 (SEO audit P1): the ROOT layout's alternates.canonical="/" used to
+     be inherited by every dead URL — a 404 telling crawlers "merge me into
+     the home page" while robots said noindex: contradictory signals.
+     An empty object REPLACES the root's alternates (Next merges metadata
+     shallowly), cutting the inherited canonical. The openGraph card below
+     replaces the root's home card for the same reason — a shared dead link
+     rendered the HOME's og:url/og:title on Facebook/WhatsApp. */
+  alternates: {},
+  openGraph: {
+    title: "الصفحة غير موجودة",
+    description: "الصفحة التي تبحث عنها غير متوفرة أو تم نقلها إلى عنوان آخر.",
+  },
 }
 
 /* Server component — CSS reveal only. This boundary renders in EVERY route's

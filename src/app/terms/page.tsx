@@ -4,9 +4,10 @@ import { pageMetadata } from "@/lib/seo"
 import { SITE } from "@/lib/site"
 
 export const metadata = pageMetadata({
-  title: "شروط الاستخدام",
+  /* r10 (SEO audit P2): expanded toward the SERP window. */
+  title: "شروط الاستخدام وأحكام التعاقد",
   description:
-    "شروط استخدام منصة SmartLink وخدماتها (Smart Menu وSmartBot) — الحقوق والالتزامات وأحكام التعاقد الرقمي.",
+    "شروط استخدام منصة SmartLink وخدماتها Smart Menu وSmartBot: الحقوق والالتزامات، أحكام التعاقد الرقمي، الملكية الفكرية، وحدود المسؤولية — بالتفصيل وبوضوح كامل.",
   canonical: "/terms",
 })
 

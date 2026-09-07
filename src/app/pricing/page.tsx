@@ -8,9 +8,11 @@ import { pageMetadata } from "@/lib/seo"
 // entrance motion is CSS reveal (paints pre-JS). Zero framer-motion.
 
 export const metadata = pageMetadata({
-  title: "الخطط والأسعار",
+  /* r10 (SEO audit P2): expanded toward the SERP window with the
+     strongest commercial keywords (مجاناً، بلا بطاقة ائتمان). */
+  title: "الخطط والأسعار — ابدأ مجاناً اليوم",
   description:
-    "خطط Smart Menu وSmartBot — ابدأ مجاناً اليوم: منيو رقمي للمطاعم وبوت ذكي لفيسبوك، مع خطط مدفوعة قادمة بميزات حصرية.",
+    "خطط وأسعار Smart Menu وSmartBot: ابدأ مجاناً اليوم بلا بطاقة ائتمان — منيو رقمي تفاعلي للمطاعم وبوت ذكي لصفحات فيسبوك، مع خطط مدفوعة قادمة بميزات حصرية للفرق.",
   canonical: "/pricing",
   ogDescription: "ابدأ مجاناً — خطط Smart Menu وSmartBot الأساسية مجانية بالكامل",
 })

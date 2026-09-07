@@ -1,6 +1,8 @@
 import type { Metadata } from "next"
+import { SITE } from "@/lib/site"
 
-const SITE = "https://smart-link.ly"
+/* r10 (code audit): the local `const SITE = "https://…"` shadowed the
+   real SITE object from lib/site.ts — two sources of the same truth. */
 
 /* Shared OG image descriptor — identical to the root layout's, so subpages
    resolve to the exact same absolute URL (one cache entry per crawler). */
@@ -39,7 +41,7 @@ export function pageMetadata(opts: {
     openGraph: {
       title: ogTitle,
       description: ogDesc,
-      url: `${SITE}${opts.canonical}`,
+      url: `${SITE.url}${opts.canonical}`,
       siteName: "SmartLink",
       locale: "ar_AR" /* r9: ar_AR is the only Arabic locale Facebook recognizes */,
       type: "website",

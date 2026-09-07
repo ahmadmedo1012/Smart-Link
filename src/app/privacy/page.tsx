@@ -4,9 +4,11 @@ import { pageMetadata } from "@/lib/seo"
 import { SITE } from "@/lib/site"
 
 export const metadata = pageMetadata({
-  title: "سياسة الخصوصية",
+  /* r10 (SEO audit P2): expanded toward the SERP window + names the
+     products explicitly for entity matching. */
+  title: "سياسة الخصوصية وحماية بياناتك",
   description:
-    "سياسة خصوصية SmartLink — كيف نجمع بياناتك ونحميها عند استخدام المنيو الرقمي والبوت الذكي، وفق أفضل الممارسات الرقمية.",
+    "سياسة خصوصية SmartLink: كيف نجمع بياناتك ونستخدمها ونحميها عند استخدام المنيو الرقمي Smart Menu والبوت الذكي SmartBot — شفافية كاملة مع حقوقك وطرق التواصل معنا.",
   canonical: "/privacy",
 })
 

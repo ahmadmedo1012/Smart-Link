@@ -19,13 +19,15 @@
       "name": "الأسعار",
       "short_name": "الأسعار",
       "description": "الخطط والأسعار",
-      "url": "/pricing"
+      "url": "/pricing",
+      "icons": [{ "src": "/icon-96.png", "sizes": "96x96", "type": "image/png" }]
     },
     {
       "name": "تواصل معنا",
       "short_name": "تواصل",
       "description": "أرسل رسالة للفريق",
-      "url": "/contact"
+      "url": "/contact",
+      "icons": [{ "src": "/icon-96.png", "sizes": "96x96", "type": "image/png" }]
     }
   ],
   "icons": [

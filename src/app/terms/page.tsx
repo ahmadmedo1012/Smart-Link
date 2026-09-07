@@ -1,6 +1,7 @@
 // Server Component: legal text needs zero client JS (removes ~800ms script
 // evaluation that was a top TBT source on this page).
 import { pageMetadata } from "@/lib/seo"
+import { SITE } from "@/lib/site"
 
 export const metadata = pageMetadata({
   title: "شروط الاستخدام",
@@ -95,7 +96,7 @@ export default function TermsPage() {
           <section>
             <h2 className="text-xl font-bold text-foreground mt-6 mb-2">اتصل بنا</h2>
             <p>لأي استفسارات بخصوص شروط الاستخدام، يرجى التواصل عبر البريد الإلكتروني على:</p>
-            <p className="mt-1 font-medium text-foreground">ahmedmedo1012@gmail.com</p>
+            <p className="mt-1 font-medium text-foreground">{SITE.email}</p>
           </section>
         </div>
       </div>

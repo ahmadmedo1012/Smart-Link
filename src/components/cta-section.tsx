@@ -1,5 +1,6 @@
 import Link from "next/link"
 import { ArrowLeft } from "lucide-react"
+import { SITE } from "@/lib/site"
 
 export function CTASection() {
   return (
@@ -28,7 +29,7 @@ export function CTASection() {
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <a
-              href="https://menu.smart-link.ly"
+              href={SITE.products.menu.url}
               target="_blank"
               rel="noopener noreferrer"
               className="group relative inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-primary text-white font-semibold text-sm transition-all duration-300 shadow-glow hover:shadow-glow-strong active:scale-[0.97] overflow-hidden"

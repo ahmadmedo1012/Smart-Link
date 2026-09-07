@@ -6,12 +6,13 @@ import {
   ContactNotificationEmail,
   ContactConfirmationEmail,
 } from "@/emails/contact-emails"
+import { SITE } from "@/lib/site"
 
-const OWNER_EMAIL = "ahmedmedo1012@gmail.com"
-const FROM_EMAIL = "SmartLink <noreply@smart-link.ly>"
+const OWNER_EMAIL = SITE.email
+const FROM_EMAIL = `SmartLink <noreply@smart-link.ly>`
 const SUBJECT_LABELS: Record<string, string> = {
   menu: "استفسار عن Smart Menu",
-  bot: "استفسار عن Smart Bot",
+  bot: "استفسار عن SmartBot",
   support: "دعم فني",
   other: "أخرى",
 }
@@ -38,8 +39,21 @@ function isRateLimited(ip: string): boolean {
 }
 
 export async function POST(req: Request) {
+  // r9 (security): a malformed body used to fall into the generic catch →
+  // 500 + a misleading "خطأ في الإرسال" message. A bad request is a 400,
+  // and the 500 path stays reserved for genuine send-side failures.
+  let body: Record<string, unknown>
   try {
-    const { name, email, subject, message, company } = await req.json()
+    body = await req.json()
+  } catch {
+    return NextResponse.json(
+      { error: "طلب غير صالح — تعذّر قراءة البيانات المرسلة" },
+      { status: 400 }
+    )
+  }
+  const { name, email, subject, message, company } = body
+
+  try {
 
     // Honeypot: a field invisible to humans — any content means a spam bot.
     // Return a fake success so the bot thinks it worked and moves on.
@@ -55,8 +69,10 @@ export async function POST(req: Request) {
       )
     }
 
-    // Basic email validation
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    // Basic email validation + r9 cap (254 = RFC 5321 max forward path;
+    // before this a multi-megabyte "email" sailed through to Resend and
+    // failed late with 502)
+    if (typeof email !== "string" || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || email.length > 254) {
       return NextResponse.json({ error: "البريد الإلكتروني غير صالح" }, { status: 400 })
     }
 
@@ -98,7 +114,7 @@ export async function POST(req: Request) {
       return NextResponse.json(
         {
           error:
-            "خدمة البريد غير مهيأة حالياً. تواصل معنا مباشرة عبر واتساب 0910089975 أو ahmedmedo1012@gmail.com",
+            `خدمة البريد غير مهيأة حالياً. تواصل معنا مباشرة عبر واتساب ${SITE.whatsapp.local} أو ${SITE.email}`,
         },
         { status: 503 }
       )
@@ -127,7 +143,7 @@ export async function POST(req: Request) {
       return NextResponse.json(
         {
           error:
-            "تعذّر إرسال الرسالة مؤقتاً. تواصل معنا مباشرة عبر واتساب 0910089975 أو ahmedmedo1012@gmail.com",
+            `تعذّر إرسال الرسالة مؤقتاً. تواصل معنا مباشرة عبر واتساب ${SITE.whatsapp.local} أو ${SITE.email}`,
         },
         { status: 502 }
       )
@@ -154,7 +170,7 @@ export async function POST(req: Request) {
     return NextResponse.json(
       {
         error:
-          "حدث خطأ في إرسال الرسالة. تواصل معنا مباشرة عبر واتساب 0910089975 أو ahmedmedo1012@gmail.com",
+          `حدث خطأ في إرسال الرسالة. تواصل معنا مباشرة عبر واتساب ${SITE.whatsapp.local} أو ${SITE.email}`,
       },
       { status: 500 }
     )

@@ -2,6 +2,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { Smartphone, Bot, Mail, MapPin, Globe, MessageCircle, Share2 } from "lucide-react"
 import { BackToTop } from "@/components/back-to-top"
+import { SITE } from "@/lib/site"
 
 /* r8: a full server component. The footer markup (links, contact list,
    bottom bar) is static HTML that never needed hydration — only the
@@ -30,7 +31,10 @@ export function Footer() {
           {/* Brand */}
           <div>
             <div className="flex items-center gap-2.5 mb-4">
-              <Image src="/logo.png" alt="SmartLink" width={130} height={32} className="h-7 w-auto object-contain" loading="lazy" />
+              <Image src="/logo.png" alt="SmartLink" width={118} height={80} className="h-7 w-auto object-contain" loading="lazy" />
+            {/* r9: width/height now match the source aspect ratio (600×409) —
+                the 130×32 declaration reserved a 4:1 box for a 1.47:1 image
+                (r8 fixed this in main-nav but missed the footer). */}
             </div>
             <p className="text-sm text-muted-foreground leading-relaxed mb-4">
               منصة رقمية متكاملة تقدم حلولاً ذكية للأعمال. نُمكنك من رقمنة خدماتك وزيادة مبيعاتك بأحدث التقنيات.
@@ -38,14 +42,16 @@ export function Footer() {
             {/* Social links */}
             <div className="flex items-center gap-3">
               {[
-                { icon: MessageCircle, href: "https://wa.me/218910089975", label: "واتساب" },
-                { icon: Globe, href: "https://www.facebook.com/profile.php?id=61591502614404", label: "فيسبوك" },
-                { icon: Share2, href: "https://instagram.com/smart_link.0/", label: "انستغرام" },
+                { icon: MessageCircle, href: SITE.whatsapp.url, label: "واتساب" },
+                { icon: Globe, href: SITE.social.facebook, label: "فيسبوك" },
+                { icon: Share2, href: SITE.social.instagram, label: "انستغرام" },
               ].map((s) => (
                 <a
                   key={s.label}
                   href={s.href}
                   aria-label={s.label}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="w-11 h-11 rounded-xl bg-[var(--accent)] flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-[var(--primary)] hover:text-white transition-all duration-300"
                 >
                   <s.icon className="w-4 h-4" />
@@ -81,8 +87,8 @@ export function Footer() {
             <h3 className="text-sm font-bold text-foreground mb-4">خدماتنا</h3>
             <ul className="space-y-2.5">
               {[
-                { label: "Smart Menu - المنيو الرقمي", href: "https://menu.smart-link.ly", icon: Smartphone, desc: "حول منيو مطعمك إلى تجربة رقمية" },
-                { label: "SmartBot - البوت الذكي", href: "https://bot.smart-link.ly", icon: Bot, desc: "أتمتة الردود على فيسبوك بذكاء" },
+                { label: SITE.products.menu.label, href: SITE.products.menu.url, icon: Smartphone, desc: SITE.products.menu.desc },
+                { label: SITE.products.bot.label, href: SITE.products.bot.url, icon: Bot, desc: SITE.products.bot.desc },
               ].map((l) => (
                 <li key={l.label}>
                   <a
@@ -111,7 +117,7 @@ export function Footer() {
                 <div className="w-8 h-8 rounded-lg bg-[var(--accent)] flex items-center justify-center shrink-0">
                   <Mail className="w-3.5 h-3.5 text-primary" />
                 </div>
-                <a href="mailto:ahmedmedo1012@gmail.com" className="hover:text-foreground transition-colors">ahmedmedo1012@gmail.com</a>
+                <a href={`mailto:${SITE.email}`} className="hover:text-foreground transition-colors">{SITE.email}</a>
               </li>
               <li className="flex items-center gap-2 text-sm text-muted-foreground">
                 <div className="w-8 h-8 rounded-lg bg-[var(--accent)] flex items-center justify-center shrink-0">
@@ -123,8 +129,8 @@ export function Footer() {
                 <div className="w-8 h-8 rounded-lg bg-[var(--accent)] flex items-center justify-center shrink-0">
                   <MessageCircle className="w-3.5 h-3.5 text-primary" />
                 </div>
-                <a href="https://wa.me/218910089975" target="_blank" rel="noopener noreferrer" className="text-primary-text hover:underline underline-offset-2 transition-all">
-                  واتساب: 218910089975+
+                <a href={SITE.whatsapp.url} target="_blank" rel="noopener noreferrer" className="text-primary-text hover:underline underline-offset-2 transition-all" dir="ltr">
+                  {SITE.whatsapp.display}
                 </a>
               </li>
             </ul>

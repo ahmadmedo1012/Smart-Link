@@ -1,5 +1,6 @@
 import Image from "next/image"
 import { Smartphone, Bot, ArrowLeft } from "lucide-react"
+import { SITE } from "@/lib/site"
 
 /* ────────────────────────────────────────────────────────────
    Product Showcase — scroll-craft section (Smart-Menu parity)
@@ -85,7 +86,7 @@ function SmartMenuShowcase() {
               ))}
             </ul>
             <a
-              href="https://menu.smart-link.ly"
+              href={SITE.products.menu.url}
               target="_blank"
               rel="noopener noreferrer"
               aria-label="زيارة Smart Menu — رابط خارجي"
@@ -129,7 +130,7 @@ function SmartBotShowcase() {
               ))}
             </ul>
             <a
-              href="https://bot.smart-link.ly"
+              href={SITE.products.bot.url}
               target="_blank"
               rel="noopener noreferrer"
               aria-label="زيارة SmartBot — رابط خارجي"

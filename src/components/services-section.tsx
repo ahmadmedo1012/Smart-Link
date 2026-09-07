@@ -1,5 +1,6 @@
 import Image from "next/image"
 import { Smartphone, Bot, Sparkles, ChevronLeft } from "lucide-react"
+import { SITE } from "@/lib/site"
 // ponytail: Sparkles used only for "قريباً" badge — single intentional flourish
 // Server component: entrance motion is CSS scroll-driven (globals.css),
 // hover effects are pure CSS transforms.
@@ -9,7 +10,7 @@ const services = [
     title: "Smart Menu",
     subtitle: "المنيو الرقمي للمطاعم",
     description: "حول منيو مطعمك إلى تجربة رقمية تفاعلية. طلبات تصل مباشرة على واتساب مع لوحة تحكم عربية كاملة.",
-    href: "https://menu.smart-link.ly",
+    href: SITE.products.menu.url,
     icon: Smartphone,
     features: ["منيو رقمي تفاعلي", "طلبات عبر واتساب", "برنامج ولاء وإحالات", "إحصائيات وتحليلات", "QR كود مخصص", "لوحة تحكم عربية"],
     gradientVar: "var(--gradient-smart-menu)",
@@ -19,7 +20,7 @@ const services = [
     title: "SmartBot",
     subtitle: "البوت الذكي لفيسبوك",
     description: "أتمتة الردود على صفحات فيسبوك بذكاء. ردود تلقائية، تصنيف نوايا، وإدارة متكاملة للمحادثات.",
-    href: "https://bot.smart-link.ly",
+    href: SITE.products.bot.url,
     icon: Bot,
     features: ["ردود تلقائية ذكية", "تصنيف النوايا", "لوحة تحكم متكاملة", "تقارير وتحليلات", "بث جماعي", "إدارة الصفحات"],
     gradientVar: "var(--gradient-smart-bot)",

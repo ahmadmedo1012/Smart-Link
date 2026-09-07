@@ -11,13 +11,27 @@ import {
   Section,
   Text,
 } from "@react-email/components"
-import * as React from "react"
+import { SITE } from "@/lib/site"
 
-/* Brand tokens (Smart-Menu parity) rendered as hex for email clients */
+/* Brand tokens (Smart-Menu parity) rendered as hex for email clients.
+   r9: BRAND_TEXT raised to #d97a2e (5.9:1 on CARD) — the old #bc4700
+   text sat at 3.5:1, failing WCAG AA inside both emails. Buttons keep
+   the deep BRAND with white text (5.2:1, compliant). */
 const BRAND = "#bc4700" // oklch(0.55 0.19 45) gamut-clipped — same visual as smart-link.ly
+const BRAND_TEXT = "#d97a2e" // accessible-on-dark variant of the same hue
 const BG = "#0e0d0c"
 const CARD = "#171512"
 const MUTED = "#a6a09a"
+
+const buttonStyle = {
+  backgroundColor: BRAND,
+  color: "#ffffff",
+  padding: "12px 24px",
+  borderRadius: "10px",
+  fontSize: "14px",
+  fontWeight: 700,
+  textDecoration: "none",
+} as const
 
 interface ContactFields {
   name: string
@@ -51,7 +65,7 @@ export function ContactNotificationEmail({ name, email, subject, message }: Cont
             <Heading as="h1" style={{ color: "#f4f1ee", fontSize: "20px", margin: "0 0 6px" }}>
               رسالة جديدة من نموذج التواصل
             </Heading>
-            <Text style={{ color: BRAND, fontSize: "13px", margin: "0 0 24px", fontWeight: 700 }}>
+            <Text style={{ color: BRAND_TEXT, fontSize: "13px", margin: "0 0 24px", fontWeight: 700 }}>
               SmartLink — smart-link.ly
             </Text>
             {fieldRow("الاسم", name)}
@@ -61,15 +75,7 @@ export function ContactNotificationEmail({ name, email, subject, message }: Cont
             <Hr style={{ borderColor: "#2c2925", margin: "28px 0" }} />
             <Button
               href={`mailto:${email}?subject=${encodeURIComponent(`رد: ${subject} — SmartLink`)}`}
-              style={{
-                backgroundColor: BRAND,
-                color: "#ffffff",
-                padding: "12px 24px",
-                borderRadius: "10px",
-                fontSize: "14px",
-                fontWeight: 700,
-                textDecoration: "none",
-              }}
+              style={buttonStyle}
             >
               الرد على المرسل
             </Button>
@@ -95,7 +101,7 @@ export function ContactConfirmationEmail({ name, subject }: { name: string; subj
             <Heading as="h1" style={{ color: "#f4f1ee", fontSize: "20px", margin: "0 0 6px" }}>
               شكراً {name}، استلمنا رسالتك
             </Heading>
-            <Text style={{ color: BRAND, fontSize: "13px", margin: "0 0 24px", fontWeight: 700 }}>
+            <Text style={{ color: BRAND_TEXT, fontSize: "13px", margin: "0 0 24px", fontWeight: 700 }}>
               SmartLink — smart-link.ly
             </Text>
             <Text style={{ color: "#c9c4be", fontSize: "15px", lineHeight: "1.8", margin: "0 0 12px" }}>
@@ -105,16 +111,8 @@ export function ContactConfirmationEmail({ name, subject }: { name: string; subj
               إن كان الأمر مستعجلاً، يمكنك التواصل معنا مباشرة عبر واتساب:
             </Text>
             <Button
-              href="https://wa.me/218910089975"
-              style={{
-                backgroundColor: BRAND,
-                color: "#ffffff",
-                padding: "12px 24px",
-                borderRadius: "10px",
-                fontSize: "14px",
-                fontWeight: 700,
-                textDecoration: "none",
-              }}
+              href={SITE.whatsapp.url}
+              style={buttonStyle}
             >
               واتساب مباشر
             </Button>
@@ -122,7 +120,7 @@ export function ContactConfirmationEmail({ name, subject }: { name: string; subj
             <Text style={{ color: "#6e6961", fontSize: "12px", margin: 0, lineHeight: "1.8" }}>
               هذه رسالة تأكيد تلقائية — لا داعي للرد عليها.
               <br />
-              SmartLink · ليبيا · <Link href="https://smart-link.ly" style={{ color: BRAND }}>smart-link.ly</Link>
+              SmartLink · ليبيا · <Link href="https://smart-link.ly" style={{ color: BRAND_TEXT }}>smart-link.ly</Link>
             </Text>
           </Section>
         </Container>

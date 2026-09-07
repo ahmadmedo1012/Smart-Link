@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation"
 import { Menu, X, Smartphone, Bot, ChevronDown, Sun, Moon } from "lucide-react"
 import { useTheme } from "next-themes"
 import { cn } from "@/lib/utils"
+import { SITE } from "@/lib/site"
 // NOTE: framer-motion removed from the critical path (122 KB initial chunk,
 // ~1.5 s script evaluation). Menu/dropdown animations are now CSS-only.
 
@@ -14,10 +15,13 @@ const navLinks = [
   {
     label: "خدماتنا",
     children: [
-      { href: "https://menu.smart-link.ly", label: "Smart Menu - المنيو الرقمي", icon: Smartphone, desc: "حول منيو مطعمك إلى تجربة رقمية تفاعلية" },
-      { href: "https://bot.smart-link.ly", label: "SmartBot - البوت الذكي", icon: Bot, desc: "أتمتة الردود على صفحات فيسبوك بذكاء" },
+      { href: SITE.products.menu.url, label: SITE.products.menu.label, icon: Smartphone, desc: SITE.products.menu.desc },
+      { href: SITE.products.bot.url, label: SITE.products.bot.label, icon: Bot, desc: SITE.products.bot.desc },
     ],
   },
+  /* r9 (audit L2): pricing was reachable only from the footer — a primary
+     conversion page hidden from the main nav. Now a first-class link. */
+  { href: "/pricing", label: "الأسعار" },
   { href: "/about", label: "عن SmartLink" },
   { href: "/contact", label: "اتصل بنا" },
 ]

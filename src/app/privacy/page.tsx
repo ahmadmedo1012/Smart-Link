@@ -1,6 +1,7 @@
 // Server Component: legal text needs zero client JS (removes ~800ms script
 // evaluation that was the #1 TBT source on this page).
 import { pageMetadata } from "@/lib/seo"
+import { SITE } from "@/lib/site"
 
 export const metadata = pageMetadata({
   title: "سياسة الخصوصية",
@@ -118,7 +119,7 @@ export default function PrivacyPage() {
           <section>
             <h2 className="text-xl font-bold text-foreground mt-6 mb-2">اتصل بنا</h2>
             <p>لأي استفسارات أو مخاوف بخصوص سياسة الخصوصية هذه، يرجى التواصل معنا على:</p>
-            <p className="mt-1 font-medium text-foreground">ahmedmedo1012@gmail.com</p>
+            <p className="mt-1 font-medium text-foreground">{SITE.email}</p>
           </section>
 
           <section>

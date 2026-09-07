@@ -1,4 +1,4 @@
-import { test, expect, PAGES, BASE } from "./fixtures"
+import { test, expect, PAGES, BASE, allowResourceNoise } from "./fixtures"
 
 /**
  * فحوص SEO الفوقية: canonical لكل صفحة، بطاقة OG كاملة (عنوان/رابط/صورة)،
@@ -132,7 +132,9 @@ test.describe("r9 — إشارات الزحف والـ PWA المضافة", () =
     expect(html).not.toContain('property="og:url"')
   })
 
-  test("404 — html المُصيَّر: رابطا العودة والتواصل", async ({ page }) => {
+  test("404 — html المُصيَّر: رابطا العودة والتواصل", async ({ page, consoleErrors }) => {
+    /* r11 (F-G8): وثيقة ميتة مقصودة — ضوضية 404 متوقعة. */
+    allowResourceNoise(consoleErrors, /Failed to load resource.*404/)
     await page.goto("/dead-link-r9", { waitUntil: "domcontentloaded" })
     const main = page.locator("#main-content")
     await expect(main.getByRole("link", { name: /العودة للرئيسية/ })).toHaveAttribute("href", "/")

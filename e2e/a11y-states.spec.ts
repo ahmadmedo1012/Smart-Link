@@ -1,4 +1,4 @@
-import { test, expect } from "./fixtures"
+import { test, expect, allowResourceNoise } from "./fixtures"
 import AxeBuilder from "@axe-core/playwright"
 
 /* r10 (testing audit G5 + a11y audit E): the whole axe suite runs on
@@ -41,7 +41,9 @@ test.describe("r10 — axe على الحالات التفاعلية (كان أع
     expect(await scan(page)).toEqual([])
   })
 
-  test("صندوق خطأ الخادم مع روابط البدائل → صفر انتهاكات", async ({ page }) => {
+  test("صندوق خطأ الخادم مع روابط البدائل → صفر انتهاكات", async ({ page, consoleErrors }) => {
+    /* r11 (F-G8): خطأ خادم مقصود (503) لعرض الصندوق. */
+    allowResourceNoise(consoleErrors, /Failed to load resource.*503/)
     await page.goto("/contact", { waitUntil: "domcontentloaded" })
     await page.route("**/api/contact", (route) =>
       route.fulfill({

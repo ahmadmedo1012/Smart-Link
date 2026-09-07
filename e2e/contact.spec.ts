@@ -1,4 +1,4 @@
-import { test, expect } from "./fixtures"
+import { test, expect, allowResourceNoise } from "./fixtures"
 
 /**
  * عقد API الاتصال + سلوك النموذج في الواجهة.
@@ -42,7 +42,9 @@ test.describe("نموذج الاتصال — الواجهة", () => {
     }
   })
 
-  test("الإرسال دون مفتاح → خطأ role=alert مع بدائل التواصل المباشر", async ({ page }) => {
+  test("الإرسال دون مفتاح → خطأ role=alert مع بدائل التواصل المباشر", async ({ page, consoleErrors }) => {
+    /* r11 (F-G8): رد 503 مقصود — ضوضية الشبكة متوقعة ومصرَّح بها. */
+    allowResourceNoise(consoleErrors, /Failed to load resource.*503/)
     // نحقق عقد 503 (فشل صوت عالٍ بلا مفتاح) عند مستوى الشبكة — لا
     // اعتماد على حالة الخادم أو محدد المعدل؛ الخادم الحقيقي مغطى أدناه
     await page.route("**/api/contact", (r) =>

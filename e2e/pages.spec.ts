@@ -1,4 +1,4 @@
-import { test, expect, PAGES } from "./fixtures"
+import { test, expect, PAGES, allowResourceNoise } from "./fixtures"
 
 /**
  * فحوص الدخان: كل صفحة تُخدم بنجاح، RTL عربية، عنوان h1، عنوان تبويب
@@ -31,6 +31,8 @@ test.describe("الدخان — الصفحات الست", () => {
   }
 
   test("404 — حالة 404 + صفحة عربية بعنوان تبويب خاص", async ({ page, consoleErrors }) => {
+    /* r11 (F-G8): ضوضية مقصودة — طلب الوثيقة الميت نفسه يسجّل 404. */
+    allowResourceNoise(consoleErrors, /Failed to load resource.*404/)
     const res = await page.goto("/صفحة-غير-موجودة-r7", { waitUntil: "networkidle" })
     expect(res?.status()).toBe(404)
     await expect(page.locator("h1")).toContainText("404")

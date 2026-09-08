@@ -61,6 +61,14 @@ async function expectUserVisible(
 test.describe("A) no-JS — الموقع SSR-first بلا أي جافاسكريبت", () => {
   test.use({ javaScriptEnabled: false })
 
+  /* r12: كروميوم نفسه (لا كود الصفحة — لا JS أصلاً) يسجّل InvalidStateError
+     «ViewTransition opt-in disabled» عند التنقل لأن CSS الصفحة يطلب
+     view-transition والعتاد معطَّل مع JS. ضجيج بيئة معلَن صراحة —
+     كل ما عداه من أخطاء console يبقى قاتلاً. */
+  test.beforeEach(async ({ consoleErrors }) => {
+    allowResourceNoise(consoleErrors, /ViewTransition opt-in disabled/)
+  })
+
   for (const p of PAGES) {
     test(`A1 ${p.path} — h1 + نص SSR جوهري بلا تراكب أخطاء`, async ({ page }) => {
       await page.goto(p.path, { waitUntil: "domcontentloaded" })

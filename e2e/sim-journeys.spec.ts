@@ -23,15 +23,16 @@ import { test, expect, allowResourceNoise } from "./fixtures"
 test("ج1 «زائر أول مرة»: الهبوط + الفوتر + كل صفحات الـ nav الرئيسي", async ({ page, consoleErrors }) => {
   await page.goto("/")
 
-  // h1 ظاهر فور الهبوط
+  // h1 ظاهر فور الهبوط (r12: مهلة كريمة 15s — رحلات المستخدم تُقاس
+  // بالتجربة لا بالميلي ثانية، والجهاز المشترك يرتفع ضغطه إلى 7+)
   const h1 = page.locator("h1").first()
-  await expect(h1).toBeVisible()
+  await expect(h1).toBeVisible({ timeout: 15_000 })
   await expect(h1).toContainText("SmartLink")
 
   // تمرير حتى أسفل الصفحة → الفوتر (contentinfo) ظاهر
   await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight))
   const footer = page.getByRole("contentinfo")
-  await expect(footer).toBeVisible()
+  await expect(footer).toBeVisible({ timeout: 15_000 })
   await expect(footer).toContainText("جميع الحقوق محفوظة")
 
   // جولة عبر كل رابط في nav الرئيسي (ما يراه الزائر في الترويسة)
@@ -46,7 +47,7 @@ test("ج1 «زائر أول مرة»: الهبوط + الفوتر + كل صفح�
   for (const nav of navPages) {
     await page.getByRole("banner").getByRole("link", { name: nav.name, exact: true }).click()
     await page.waitForURL(`**${nav.url}`)
-    await expect(page.locator("h1").first()).toBeVisible()
+    await expect(page.locator("h1").first()).toBeVisible({ timeout: 15_000 })
     await expect(page.locator("h1").first()).toContainText(nav.h1)
     titles.push(await page.title())
   }

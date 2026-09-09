@@ -42,12 +42,17 @@ test.describe("الدخان — الصفحات الست", () => {
     expect(consoleErrors.filter((e) => !e.includes("404"))).toEqual([])
   })
 
-  test("الرئيسية — عدّادات الإحصائيات تعدّ حتى قيمها (انحدار r5)", async ({ page }) => {
+  test("الرئيسية — القيم النهائية للإحصائيات حاضرة بعد التمرير (SSR يحمي LCP — r8/r10)", async ({ page }) => {
+    /* r13 (testing audit): كان الاسم «تعدّ حتى قيمها» والفحص نص واحد
+       مرئي — حقيقة بديهية منذ جراحة r8 (القيم النهائية في SSR نفسه،
+       ومحكومة أصلاً بـlcp-guard). العقد الحقيقي المتبقي: كل القيم
+       الأربع تعرض بعد التمرير وتحمل القيمة النهائية لا 0. */
     await page.goto("/", { waitUntil: "networkidle" })
-    // مرّر الإحصائيات إلى مجال الرؤية ليطلق IntersectionObserver
     await page.locator("text=عميل نشط").scrollIntoViewIfNeeded()
-    // العدّاد يبدأ من 0 وينتهي عند +500 خلال 1.2s
     await expect(page.locator("text=+500").first()).toBeVisible({ timeout: 6000 })
+    await expect(page.locator("text=+10K").first()).toBeVisible()
+    await expect(page.locator("text=+50K").first()).toBeVisible()
+    await expect(page.locator("text=99.9%").first()).toBeVisible()
   })
 
   test("r8 — العدّادات تُصيَّر بالقيم النهائية في HTML الخام قبل أي JS (انحدار LCP)", async ({ request }) => {

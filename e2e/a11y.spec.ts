@@ -1,23 +1,17 @@
 import { test, expect, PAGES } from "./fixtures"
-import AxeBuilder from "@axe-core/playwright"
+import { axeScan } from "./helpers"
 
 /**
  * فحوص الوصول الشاملة بـ axe-core (WCAG 2.x AA) — في الوضعين الداكن
  * والفاتح معاً. Lighthouse يفحص الوضع الافتراضي (الداكن) فقط؛ هذه
  * الجولة تضمن أن تبديل المظهر لا يكسر التباين أو أي قاعدة أخرى.
  */
-async function scan(page: import("@playwright/test").Page) {
-  const results = await new AxeBuilder({ page })
-    .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"])
-    .analyze()
-  return results.violations
-}
 
 test.describe("axe-core — صفر انتهاكات في الوضعين", () => {
   for (const p of PAGES) {
     test(`${p.path} — الوضع الداكن (الافتراضي)`, async ({ page }) => {
       await page.goto(p.path, { waitUntil: "networkidle" })
-      const violations = await scan(page)
+      const violations = await axeScan(page)
       expect(
         violations.map((v) => `${v.id}: ${v.nodes.length} عقدة`),
         `axe violations on ${p.path} (dark):\n${JSON.stringify(
@@ -37,7 +31,7 @@ test.describe("axe-core — صفر انتهاكات في الوضعين", () => 
       await expect(page.locator("html")).toHaveClass(/light/)
       // رسومات الخلفية التوليدية تحتاج إطاراً لتتطلب
       await page.waitForTimeout(300)
-      const violations = await scan(page)
+      const violations = await axeScan(page)
       expect(
         violations.map((v) => `${v.id}: ${v.nodes.length} عقدة`),
         `axe violations on ${p.path} (light):\n${JSON.stringify(

@@ -1,4 +1,5 @@
 import { test, expect, allowResourceNoise } from "./fixtures"
+import { SUCCESS_BODY } from "./helpers"
 
 /**
  * r11-B1 — محاكاة رحلات المستخدم الحقيقية (user-journey simulation)
@@ -100,10 +101,7 @@ test("ج2 «عميل مهتم»: الأسعار + FAQ + إرسال النموذ�
     route.fulfill({
       status: 200,
       contentType: "application/json",
-      body: JSON.stringify({
-        success: true,
-        message: "تم استلام رسالتك بنجاح. سنتواصل معك قريباً.",
-      }),
+      body: SUCCESS_BODY,
     })
   )
   await page.getByLabel("الاسم", { exact: true }).fill("أحمد المهدي")

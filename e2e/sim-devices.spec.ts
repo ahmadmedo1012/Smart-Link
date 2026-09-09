@@ -1,6 +1,6 @@
 import type { Page } from "@playwright/test"
-import { mkdirSync } from "node:fs"
 import { test, expect, PAGES } from "./fixtures"
+import { SHOT_DIR, slug, hydrationGate, MOBILE_VIEWPORT } from "./helpers"
 
 /**
  * r11-B3 — محاكاة الأجهزة والبصريات (gstack user-perceivable qa-patterns)
@@ -31,15 +31,7 @@ import { test, expect, PAGES } from "./fixtures"
  *   أفشل 12 اختبار لقطة على عدّاد CI (ENOENT).
  */
 
-const SHOT_DIR = process.env.SIM_SHOTS_DIR ?? "test-results/sim-shots"
-mkdirSync(SHOT_DIR, { recursive: true })
 
-const slug = (p: string) => (p === "/" ? "home" : p.replace(/^\//, ""))
-
-/** بوابة الترطيب: زر المظهر لا يُصيَّر إلا بعد mount (r10) — قبل أي تفاعل بالهيدر */
-async function hydrationGate(page: Page) {
-  await expect(page.getByRole("button", { name: /تفعيل المظهر/ })).toBeVisible()
-}
 
 /** تمرير المستخدم الحقيقي عبر الصفحة (يشغّل lazy-load) ثم العودة للقمة */
 async function scrollThrough(page: Page) {
@@ -118,7 +110,7 @@ test.describe("r11-B3 — مصفوفة الصفحات", () => {
 /* 1) MOBILE 375×812 — صفحة واحدة = اختبار واحد */
 /* -------------------------------------------------------------------------- */
 test.describe("MOBILE 375×812 — الصفحات الست", () => {
-  test.use({ viewport: { width: 375, height: 812 } })
+  test.use({ viewport: MOBILE_VIEWPORT })
 
   for (const p of PAGES) {
     test(`${p.path} — بلا تمرير أفقي + برجر يفتح ويغلق + h1 + فوتر`, async ({ page }) => {
@@ -162,7 +154,7 @@ test.describe("MOBILE 375×812 — الصفحات الست", () => {
 /* 2) MOBILE FORM — /contact على 375px */
 /* -------------------------------------------------------------------------- */
 test.describe("MOBILE 375×812 — نموذج التواصل", () => {
-  test.use({ viewport: { width: 375, height: 812 } })
+  test.use({ viewport: MOBILE_VIEWPORT })
 
   test("/contact — الحقول وزر الإرسال ظاهرة قابلة للتعبئة، بريد طويل بلا فائض", async ({ page }) => {
     await page.goto("/contact", { waitUntil: "load" })
@@ -240,7 +232,7 @@ test.describe("DESKTOP 1280×800 — لقطات داكن + فاتح", () => {
 /* 4) MOBILE 375×812 — لقطات الوضع الفاتح */
 /* -------------------------------------------------------------------------- */
 test.describe("MOBILE 375×812 — لقطات الوضع الفاتح", () => {
-  test.use({ viewport: { width: 375, height: 812 } })
+  test.use({ viewport: MOBILE_VIEWPORT })
 
   for (const p of PAGES) {
     test(`${p.path} — لقطة fullPage فاتح (jpeg q60)`, async ({ page }) => {
@@ -283,7 +275,7 @@ test.describe("CONSOLE SWEEP — desktop 1280×800", () => {
 })
 
 test.describe("CONSOLE SWEEP — mobile 375×812", () => {
-  test.use({ viewport: { width: 375, height: 812 } })
+  test.use({ viewport: MOBILE_VIEWPORT })
   for (const p of PAGES) {
     test(`${p.path} — صفر أخطاء console/pageerror`, async ({ page, consoleErrors }) => {
       await consoleSweep(page, consoleErrors, p.path, "mobile")

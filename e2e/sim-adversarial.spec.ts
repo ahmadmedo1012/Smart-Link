@@ -1,5 +1,6 @@
 import { test, expect, allowResourceNoise } from "./fixtures"
-import type { Page, Request, Response, Route } from "@playwright/test"
+import { spoofIp, SUCCESS_BODY } from "./helpers"
+import type { Page, Request, Response } from "@playwright/test"
 
 /**
  * r11-B2 — محاكاة مستخدم عدائي/مرتبك (adversarial user simulator).
@@ -21,9 +22,6 @@ import type { Page, Request, Response, Route } from "@playwright/test"
 
 const B2 = "10.11.12" // نطاق IP خاص بهذا الملف فقط
 
-/** تمرير طلب النموذج إلى الخادم الحقيقي بعنوان IP مزيف فريد */
-const spoofIp = (ip: string) => (route: Route) =>
-  route.continue({ headers: { ...route.request().headers(), "x-forwarded-for": ip } })
 
 /** أخطاء console التي ليست ضوضاء الشبكة المتوقعة */
 const siteErrors = (errs: string[]) => errs.filter((e) => !e.startsWith("Failed to load resource"))
@@ -117,7 +115,7 @@ test.describe("r11-B2 — هجمات نموذج /contact (مستخدم عدائ�
     await submitBtn(page).click()
     // 100 حرفاً بالضبط = سليم — لا خطأ طول (حد الرفض > لا >)
     await expect(page.getByRole("alert").filter({ hasText: "الاسم أطول من المسموح" })).toHaveCount(0)
-    expect(count(), "الإرسال يحدث بقيمة مقصوصة سليمة").toBeGreaterThanOrEqual(0)
+    expect(count(), "الإرسال يحدث مرة واحدة بقيمة مقصوصة سليمة (r13: كانت >= 0 — دائماً صحيح)").toBe(1)
     expectNoCrash(consoleErrors)
   })
 
@@ -187,7 +185,7 @@ test.describe("r11-B2 — هجمات نموذج /contact (مستخدم عدائ�
       await route.fulfill({
         status: 200,
         contentType: "application/json",
-        body: JSON.stringify({ success: true, message: "تم استلام رسالتك بنجاح. سنتواصل معك قريباً." }),
+        body: SUCCESS_BODY,
       })
     })
     await fillValid(page)
@@ -229,7 +227,7 @@ test.describe("r11-B2 — هجمات نموذج /contact (مستخدم عدائ�
       r.fulfill({
         status: 200,
         contentType: "application/json",
-        body: JSON.stringify({ success: true, message: "تم استلام رسالتك بنجاح. سنتواصل معك قريباً." }),
+        body: SUCCESS_BODY,
       })
     )
     await submitBtn(page).click()

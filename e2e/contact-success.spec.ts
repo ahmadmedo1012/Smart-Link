@@ -1,4 +1,5 @@
 import { test, expect, allowResourceNoise } from "./fixtures"
+import { isoHeaders, SUCCESS_BODY } from "./helpers"
 
 /**
  * r9 — مسارات النموذج التي لم تكن مختبرة إطلاقاً (تدقيق P1-2/P1-3):
@@ -50,7 +51,7 @@ test.describe("r9 — مسار النجاح (كان مغطى فقط بالفشل
       await new Promise<void>((resolve) => (release = resolve))
       /* r11: عقد النجاح الصارم يطالب برسالة نصية — المحاكاة تحاكي
          العقد الحقيقي للخادم (route.ts يرسل دائماً success+message). */
-      await r.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ success: true, message: "تم استلام رسالتك بنجاح. سنتواصل معك قريباً." }) })
+      await r.fulfill({ status: 200, contentType: "application/json", body: SUCCESS_BODY })
     })
     await page.fill("#name", "اسم")
     await page.fill("#email", "user@example.com")
@@ -137,7 +138,7 @@ test.describe("r9 — حواف /api/contact (كانت تقع في 500 أو تم�
    على خادم اختبارات واحد مشترك — بدون هذا كانت هذه الطلبات الحية
    تستهلك ميزانية contact.spec القديم فيتحول اختباره 503 إلى 429
    (فئة الهشاشة المسجلة في تدقيق الاختبارات P2-تقارن). */
-  const ISOLATED_IP = { "x-forwarded-for": "198.51.100.77" }
+  const ISOLATED_IP = isoHeaders(77) /* r13: الصيغة الموحدة — نفس الدلو الفريد */
 
   const VALID = {
     name: "اختبار r9",

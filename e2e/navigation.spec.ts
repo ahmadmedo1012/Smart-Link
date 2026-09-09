@@ -1,4 +1,5 @@
 import { test, expect } from "./fixtures"
+import { hydrationGate, MOBILE_VIEWPORT } from "./helpers"
 
 /**
  * السلوكيات التفاعلية — القائمة الجوالة، Escape، القائمة المنسدلة،
@@ -13,9 +14,8 @@ test.describe("التنقل — سطح المكتب", () => {
     const trigger = page.getByRole("button", { name: /خدماتنا/ })
     /* r10: تحت حمل 4 عمال متوازيين قد يقع hover قبل اكتمال ترطيب React —
        مستمعات mouseenter غير موجودة بعد والقائمة لا تفتح (فشل متقطع
-       حقيقي ظهر مع توسيع الجناح). زر المظهر يُصيَّر فقط بعد الترطيب
-       (mounted) — بوابة ترطيب مثالية قبل أي تفاعل بالهيدر. */
-    await expect(page.getByRole("button", { name: /المظهر/ })).toBeVisible()
+       حقيقي ظهر مع توسيع الجناح). بوابة الترطيب المشتركة (r13). */
+    await hydrationGate(page)
     await trigger.hover()
     const menu = page.locator("nav[aria-label='التنقل الرئيسي'] >> text=Smart Menu — المنيو الرقمي")
     await expect(menu.first()).toBeVisible()
@@ -71,7 +71,7 @@ test.describe("التنقل — سطح المكتب", () => {
   })
 
   test("شريط تقدم التمرير يتقدّم مع التمرير", async ({ page }) => {
-    const bar = page.locator(".scroll-progress, div.fixed.top-0.h-\\[2px\\]").first()
+    const bar = page.locator(".scroll-progress")
     const scaleX = () => bar.evaluate((el) => getComputedStyle(el).transform)
     // CSS transform مصفوفة؛ القيمة الأخيرة scaleX
     await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight / 2))
@@ -85,7 +85,7 @@ test.describe("التنقل — سطح المكتب", () => {
 })
 
 test.describe("التنقل — الجوال (375×812)", () => {
-  test.use({ viewport: { width: 375, height: 812 } })
+  test.use({ viewport: MOBILE_VIEWPORT })
 
   test.beforeEach(async ({ page }) => {
     await page.goto("/", { waitUntil: "networkidle" })

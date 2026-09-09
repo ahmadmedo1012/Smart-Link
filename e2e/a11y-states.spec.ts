@@ -1,5 +1,5 @@
 import { test, expect, allowResourceNoise } from "./fixtures"
-import AxeBuilder from "@axe-core/playwright"
+import { axeScan } from "./helpers"
 
 /* r10 (testing audit G5 + a11y audit E): the whole axe suite runs on
    the STATIC page — but the a11y findings of r10 lived exactly where
@@ -8,19 +8,13 @@ import AxeBuilder from "@axe-core/playwright"
    render after user interaction. These tests point axe at the
    INTERACTIVE states. */
 
-async function scan(page: import("@playwright/test").Page) {
-  const results = await new AxeBuilder({ page })
-    .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"])
-    .analyze()
-  return results.violations
-}
 
 test.describe("r10 — axe على الحالات التفاعلية (كان أعمى لها)", () => {
   test("القائمة المنسدلة «خدماتنا» مفتوحة → صفر انتهاكات", async ({ page }) => {
     await page.goto("/", { waitUntil: "domcontentloaded" })
     await page.getByRole("button", { name: /خدماتنا/ }).hover()
     await expect(page.locator(".menu-pop").first()).toBeVisible()
-    expect(await scan(page)).toEqual([])
+    expect(await axeScan(page)).toEqual([])
   })
 
   test("قائمة الجوال مفتوحة → صفر انتهاكات", async ({ page }) => {
@@ -28,7 +22,7 @@ test.describe("r10 — axe على الحالات التفاعلية (كان أع
     await page.goto("/", { waitUntil: "domcontentloaded" })
     await page.getByRole("button", { name: "فتح القائمة" }).click()
     await expect(page.locator("nav[aria-label='قائمة الجوال']")).toBeVisible()
-    expect(await scan(page)).toEqual([])
+    expect(await axeScan(page)).toEqual([])
   })
 
   test("نموذج التواصل مع أخطاء الحقول الظاهرة → صفر انتهاكات", async ({ page }) => {
@@ -38,7 +32,7 @@ test.describe("r10 — axe على الحالات التفاعلية (كان أع
     await expect(page.locator("#name-error")).toBeVisible()
     await expect(page.locator("#email-error")).toBeVisible()
     await expect(page.locator("#message-error")).toBeVisible()
-    expect(await scan(page)).toEqual([])
+    expect(await axeScan(page)).toEqual([])
   })
 
   test("صندوق خطأ الخادم مع روابط البدائل → صفر انتهاكات", async ({ page, consoleErrors }) => {
@@ -62,7 +56,7 @@ test.describe("r10 — axe على الحالات التفاعلية (كان أع
     await expect(alert).toBeVisible()
     // روابط البدائل تظهر مع أي خطأ (r10 — فك اقتران السلاسل)
     await expect(alert.getByRole("link", { name: /واتساب/ })).toBeVisible()
-    expect(await scan(page)).toEqual([])
+    expect(await axeScan(page)).toEqual([])
   })
 
   test("صندوق النجاح role=status → صفر انتهاكات", async ({ page }) => {
@@ -79,6 +73,6 @@ test.describe("r10 — axe على الحالات التفاعلية (كان أع
     await page.getByLabel("الرسالة").fill("رسالة اختبار النجاح")
     await page.getByRole("button", { name: /إرسال الرسالة/ }).click()
     await expect(page.getByRole("status")).toBeVisible()
-    expect(await scan(page)).toEqual([])
+    expect(await axeScan(page)).toEqual([])
   })
 })

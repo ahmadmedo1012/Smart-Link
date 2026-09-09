@@ -1,8 +1,5 @@
 import { test, expect, PAGES, allowResourceNoise } from "./fixtures"
-import { mkdirSync } from "node:fs"
-
-const SHOT_DIR = process.env.SIM_SHOTS_DIR ?? "test-results/sim-shots"
-mkdirSync(SHOT_DIR, { recursive: true })
+import { SHOT_DIR, hydrationGate } from "./helpers"
 
 /**
  * r11-B4 — محاكاة الأنماط الخاصة (user-modes simulator)
@@ -258,7 +255,8 @@ test.describe("B) reduced-motion — مفتاح إيقاف الحركات الك
     await page.goto("/", { waitUntil: "domcontentloaded" })
 
     // بوابة الترطيب: الأكورديون جزيرة عميل — النقر قبل الترطيب لا يعمل
-    await expect(page.getByRole("button", { name: /المظهر/ })).toBeVisible()
+    // (r13: الصيغة الموحدة من helpers — كانت النسخة الثالثة المكررة)
+    await hydrationGate(page)
 
     const q = page.locator("#faq-button-1") // «هل الخدمة مجانية؟»
     await q.scrollIntoViewIfNeeded()

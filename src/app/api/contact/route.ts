@@ -79,11 +79,24 @@ function clientIp(h: Headers): string {
 }
 
 export async function POST(req: Request) {
-  // r10 (security audit P2 — defense in depth): bound the body BEFORE
-  // parsing. Vercel caps at 4.5MB anyway; this makes the contract explicit
-  // and the route safe if it ever moves off the platform.
-  const bodyBytes = Number(req.headers.get("content-length") ?? 0)
-  if (bodyBytes > BODY_MAX_BYTES) {
+  /* r10 (security audit P2 — defense in depth): bound the body BEFORE
+     parsing. r13 (security audit P2): content-length is CLIENT-CONTROLLED
+     and absent entirely under Transfer-Encoding: chunked — the gate could
+     be skipped in exactly the off-platform scenario it was built for
+     (a lying small value, or no value at all). The raw text is now read
+     and measured instead: the REAL size decides, headers be damned.
+     (Char-based cap — UTF-8 byte size can be 3× this for Arabic; the
+     absolute memory bound remains Vercel's 4.5MB request cap.) */
+  let raw: string
+  try {
+    raw = await req.text()
+  } catch {
+    return NextResponse.json(
+      { error: "طلب غير صالح — تعذّر قراءة البيانات المرسلة" },
+      { status: 400 }
+    )
+  }
+  if (raw.length > BODY_MAX_BYTES) {
     return NextResponse.json({ error: "الطلب أكبر من المسموح" }, { status: 413 })
   }
   // r9 (security): a malformed body used to fall into the generic catch →
@@ -91,7 +104,7 @@ export async function POST(req: Request) {
   // and the 500 path stays reserved for genuine send-side failures.
   let body: Record<string, unknown>
   try {
-    body = await req.json()
+    body = JSON.parse(raw) as Record<string, unknown>
   } catch {
     return NextResponse.json(
       { error: "طلب غير صالح — تعذّر قراءة البيانات المرسلة" },
@@ -101,12 +114,26 @@ export async function POST(req: Request) {
   const { name, email, subject, message, company } = body
 
   try {
+    const headersList = await headers()
 
     // Honeypot: a field invisible to humans — any content means a spam bot.
     // Return a fake success so the bot thinks it worked and moves on.
     // r10 (security audit P3): the response is now byte-identical to the
     // real success (a shape probe could tell the trap from the real thing).
+    /* r13 (security audit P3): honeypot hits now CONSUME the rate budget
+       (both buckets) before the trap answers — previously a bot could
+       loop parse-and-fake-200 unboundedly without ever meeting a limit
+       (the limiter sat AFTER the early return). Under the limit the trap
+       answers the same fake 200 (deception preserved); past it the bot
+       gets the standard 429 — indistinguishable from the general
+       limiter, so no extra information leaks. */
     if (typeof company === "string" && company.trim() !== "") {
+      if (isRateLimited(clientIp(headersList)) || isGloballyLimited()) {
+        return NextResponse.json(
+          { error: "أرسلت عدة رسائل متتالية — انتظر دقيقة ثم حاول مجدداً" },
+          { status: 429, headers: { "Retry-After": "60" } }
+        )
+      }
       return NextResponse.json({
         success: true,
         message: "تم استلام رسالتك بنجاح. سنتواصل معك قريباً.",
@@ -176,7 +203,6 @@ export async function POST(req: Request) {
     }
 
     // Rate limiting (r10: clientIp() + the global bucket — see above)
-    const headersList = await headers()
     if (isRateLimited(clientIp(headersList)) || isGloballyLimited()) {
       return NextResponse.json(
         { error: "أرسلت عدة رسائل متتالية — انتظر دقيقة ثم حاول مجدداً" },

@@ -71,11 +71,14 @@ const nextConfig: NextConfig = {
           { key: "X-Frame-Options", value: "DENY" },
           { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
           /* r9 (security audit P3-9): expanded beyond camera/mic/geo to the
-             full deny-by-default surface a marketing site never needs. */
+             full deny-by-default surface a marketing site never needs.
+             r13 (security audit P3): + interest-cohort (FLoC),
+             idle-detection, accelerometer and gyroscope — closing the
+             remaining API surface a static site exposes for zero value. */
           {
             key: "Permissions-Policy",
             value:
-              "camera=(), microphone=(), geolocation=(), payment=(), usb=(), bluetooth=(), magnetometer=(), browsing-topics=()",
+              "camera=(), microphone=(), geolocation=(), payment=(), usb=(), bluetooth=(), magnetometer=(), browsing-topics=(), interest-cohort=(), idle-detection=(), accelerometer=(), gyroscope=()",
           },
           /* r8: cross-origin hardening. Live comparison (r8) showed the
              sibling site menu.smart-link.ly had already shipped COOP/CORP —
@@ -85,7 +88,9 @@ const nextConfig: NextConfig = {
              arbitrary origins. */
           { key: "Cross-Origin-Opener-Policy", value: "same-origin" },
           { key: "Cross-Origin-Resource-Policy", value: "same-origin" },
-          { key: "X-DNS-Prefetch-Control", value: "on" },
+          /* r13 (security audit): X-DNS-Prefetch-Control removed — "on" is
+             the browser default, so the header asserted nothing and did
+             nothing (documented as a no-op since r10). Dead signal deleted. */
           /* Round 5 (gstack /cso — OWASP A05): static CSP. A nonce-based policy
              needs middleware; this static profile still kills the dangerous
              default: frame-ancestors + base-uri + form-action + object-src are

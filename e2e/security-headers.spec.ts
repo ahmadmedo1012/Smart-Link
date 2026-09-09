@@ -30,14 +30,21 @@ test.describe("الترويسات الأمنية", () => {
     expect(h["x-powered-by"]).toBeUndefined()
   })
 
-  test("r8 — عزل عابر للمناشئ: COOP + CORP + DNS-Prefetch", async ({ request }) => {
+  test("r8 — عزل عابر للمناشئ: COOP + CORP + توسيع r13 للـPP (وبلا X-DNS)", async ({ request }) => {
     /* المقارنة الحية r8: menu سبقنا بـ COOP/CORP — المظلة كانت الوحيدة
        بلا عزل عابر للمناشئ في العائلة. هذا الاختبار يمنع النكوص. */
     const res = await request.get("/")
     const h = res.headers()
     expect(h["cross-origin-opener-policy"]).toBe("same-origin")
     expect(h["cross-origin-resource-policy"]).toBe("same-origin")
-    expect(h["x-dns-prefetch-control"]).toBe("on")
+    /* r13: X-DNS-Prefetch-Control حُذف من الخادم (no-op موثّق منذ r10 —
+       "on" هو افتراضي المتصفح) — الاختبار يمنع عودته بأي قيمة، ويقفل
+       التوسيع الجديد للـPermissions-Policy. */
+    expect(h["x-dns-prefetch-control"]).toBeUndefined()
+    expect(h["permissions-policy"]).toContain("interest-cohort=()")
+    expect(h["permissions-policy"]).toContain("idle-detection=()")
+    expect(h["permissions-policy"]).toContain("accelerometer=()")
+    expect(h["permissions-policy"]).toContain("gyroscope=()")
   })
 
   test("الأصول العامة — تخزين immutable لسنة كاملة (r4)", async ({ request }) => {

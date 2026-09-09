@@ -7,16 +7,21 @@ import {
   ContactConfirmationEmail,
 } from "@/emails/contact-emails"
 import { SITE } from "@/lib/site"
-import { EMAIL_RE, NAME_MAX, EMAIL_MAX, MESSAGE_MAX, NAME_LETTER_RE, NAME_LETTER_ERROR } from "@/lib/contact-rules"
+import {
+  EMAIL_RE,
+  NAME_MAX,
+  EMAIL_MAX,
+  MESSAGE_MAX,
+  NAME_LETTER_RE,
+  NAME_LETTER_ERROR,
+  SUBJECT_LABELS,
+  CONTACT_SUCCESS_MESSAGE,
+} from "@/lib/contact-rules"
 
 const OWNER_EMAIL = SITE.email
-const FROM_EMAIL = `SmartLink <noreply@smart-link.ly>`
-const SUBJECT_LABELS: Record<string, string> = {
-  menu: "استفسار عن Smart Menu",
-  bot: "استفسار عن SmartBot",
-  support: "دعم فني",
-  other: "أخرى",
-}
+/* r13: نطاق المرسل بات في مصدر الحقيقة الواحد مع باقي الثوابت
+   التجارية — كان آخر حرف نطاق خارج SITE (route.ts:13). */
+const FROM_EMAIL = SITE.fromEmail
 
 /* In-memory rate limiting (r5, hardened r10):
    - 5 submissions per IP per minute (RATE_MAX), entries pruned at
@@ -38,7 +43,14 @@ const SUBJECT_LABELS: Record<string, string> = {
 const RATE_WINDOW_MS = 60_000
 const RATE_MAX = 5
 const RATE_MAP_CAP = 1000
-const GLOBAL_MAX = 20
+/* r13 (testing audit F): الصمام العالمي (20/دقيقة لكل نسخة) هو درع
+   إنتاج ضد دوران الـIP — لكن مواصفات API في الجناح ترسل ~25 طلباً
+   صالحاً في الدورة، فتشغيلها المجمّع (أو آلة أبطأ) كان يعبر الصمام
+   ويقلب اختبارات غير ذات صلة إلى 429 (قنبلة توقيت موثقة منذ r10).
+   الصمام قابل للضبط بيئياً لمنصة الاختبار (webServer يضبط
+   RATE_GLOBAL_MAX)؛ الإنتاج بلا متغير = 20 كما هو. دلو الـIP —
+   الصمام الفعلي الذي تختبره اختبارات 429 — ليس قابلاً للضبط. */
+const GLOBAL_MAX = Number(process.env.RATE_GLOBAL_MAX ?? 20) || 20
 const BODY_MAX_BYTES = 65_536
 const SUBJECT_MAX = 64
 
@@ -136,7 +148,7 @@ export async function POST(req: Request) {
       }
       return NextResponse.json({
         success: true,
-        message: "تم استلام رسالتك بنجاح. سنتواصل معك قريباً.",
+        message: CONTACT_SUCCESS_MESSAGE,
       })
     }
 
@@ -157,7 +169,12 @@ export async function POST(req: Request) {
        failed late with 502). r10: the regex and limits are the SAME module
        the form validates with (lib/contact-rules). */
     if (typeof email !== "string" || !EMAIL_RE.test(email) || email.length > EMAIL_MAX) {
-      return NextResponse.json({ error: "البريد الإلكتروني غير صالح" }, { status: 400 })
+      /* r13 (عقد القنوات): field يختم أخطاء الحقل الواحد — النموذج
+         يعيّن الخطأ للمفتاح لا لمطابقة النص العربي. */
+      return NextResponse.json(
+        { error: "البريد الإلكتروني غير صالح", field: "email" },
+        { status: 400 }
+      )
     }
 
     // Length caps (protect the mail service from abuse)
@@ -190,7 +207,10 @@ export async function POST(req: Request) {
       )
     }
     if (!NAME_LETTER_RE.test(cleanName)) {
-      return NextResponse.json({ error: NAME_LETTER_ERROR }, { status: 400 })
+      return NextResponse.json(
+        { error: NAME_LETTER_ERROR, field: "name" },
+        { status: 400 }
+      )
     }
     const cleanSubject = Object.hasOwn(SUBJECT_LABELS, subjectKey)
       ? SUBJECT_LABELS[subjectKey]
@@ -282,7 +302,7 @@ export async function POST(req: Request) {
 
     return NextResponse.json({
       success: true,
-      message: "تم استلام رسالتك بنجاح. سنتواصل معك قريباً.",
+      message: CONTACT_SUCCESS_MESSAGE,
     })
   } catch (error) {
     console.error("[Contact] Error:", error)

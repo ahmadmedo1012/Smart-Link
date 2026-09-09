@@ -90,14 +90,17 @@ test.describe("r9 — مسار النجاح (كان مغطى فقط بالفشل
     await expect(page.locator("#email")).toBeFocused()
   })
 
-  test("خطأ بريد من الخادم يُربط بحقل البريد (لا بصندوق عام)", async ({ page, consoleErrors }) => {
+  test("خطأ بريد من الخادم (field:\"email\") يُربط بحقل البريد (لا بصندوق عام)", async ({ page, consoleErrors }) => {
     /* r11 (F-G8): رد 400 مقصود. */
     allowResourceNoise(consoleErrors, /Failed to load resource.*400/)
     await page.route("**/api/contact", (r) =>
       r.fulfill({
         status: 400,
         contentType: "application/json",
-        body: JSON.stringify({ error: "البريد الإلكتروني غير صالح" }),
+        /* r13 (عقد القنوات): التعيين بالمفتاح لا بمطابقة النص —
+           المحاكاة تحاكي شكل الرد الحقيقي للخادم (route.ts يختم
+           field:"email" على خطأ البريد). */
+        body: JSON.stringify({ error: "البريد الإلكتروني غير صالح", field: "email" }),
       })
     )
     await page.fill("#name", "اسم")
@@ -105,8 +108,27 @@ test.describe("r9 — مسار النجاح (كان مغطى فقط بالفشل
     await page.fill("#message", "نص كافٍ.")
     await page.getByRole("button", { name: /إرسال الرسالة/ }).click()
     await expect(page.locator("#email-error")).toContainText("البريد الإلكتروني غير صالح")
+    await expect(page.locator("#email")).toBeFocused()
     // لا صندوق خطأ عام (خدمة البريد ≠ حقل البريد — علة r9 الأولى)
     await expect(page.locator('form div[role="alert"]')).toHaveCount(0)
+  })
+
+  test("خطأ خادم بلا field → الصندوق العام (503 البريد مثلاً — لا حقل خاطئ)", async ({ page, consoleErrors }) => {
+    allowResourceNoise(consoleErrors, /Failed to load resource.*503/)
+    await page.route("**/api/contact", (r) =>
+      r.fulfill({
+        status: 503,
+        contentType: "application/json",
+        body: JSON.stringify({ error: "خدمة البريد غير مهيأة حالياً. تواصل معنا مباشرة عبر واتساب" }),
+      })
+    )
+    await page.fill("#name", "اسم")
+    await page.fill("#email", "user@example.com")
+    await page.fill("#message", "نص كافٍ.")
+    await page.getByRole("button", { name: /إرسال الرسالة/ }).click()
+    // صندوق عام + بدائل التواصل — وليس خطأ حقل (الرسالة تخص الخدمة لا المدخلات)
+    await expect(page.locator('form div[role="alert"]')).toBeVisible()
+    await expect(page.locator("#email-error")).toHaveCount(0)
   })
 })
 

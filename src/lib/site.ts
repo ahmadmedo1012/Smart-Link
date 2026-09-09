@@ -9,6 +9,12 @@ export const SITE = {
 
   email: "ahmedmedo1012@gmail.com",
 
+  /** Transactional from-address on the site's OWN domain (r13 — was the
+      last domain literal living outside this file, hardcoded in the API
+      route). Resend requires an owned domain; SITE.email above is the
+      owner's personal inbox (the destination), this is the sender. */
+  fromEmail: "SmartLink <noreply@smart-link.ly>",
+
   whatsapp: {
     /** International format without "+", as wa.me expects. */
     number: "218910089975",

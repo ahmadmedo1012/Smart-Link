@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from "react"
 import { Send, Check, Loader2 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { SITE } from "@/lib/site"
-import { EMAIL_RE, NAME_MAX, EMAIL_MAX, MESSAGE_MAX, NAME_LETTER_RE, NAME_LETTER_ERROR } from "@/lib/contact-rules"
+import { EMAIL_RE, NAME_MAX, EMAIL_MAX, MESSAGE_MAX, NAME_LETTER_RE, NAME_LETTER_ERROR, SUBJECTS } from "@/lib/contact-rules"
 
 /* r9: extracted from the contact page — it was the only fully-client page
    on the site: ~10 KB of static markup (cards, headers) shipped in the
@@ -93,23 +93,28 @@ export function ContactForm() {
          النموذج — عكس فلسفة fail-loud التي بُني عليها المسار كله. العقد
          الآن صارم من الجهتين: النجاح يتطلب res.ok + success:true + رسالة
          نصية من الخادم؛ أي شيء آخر = خطأ واضح لل مستخدم. */
-      let json: { success?: unknown; message?: unknown; error?: unknown } | null = null
+      let json: { success?: unknown; message?: unknown; error?: unknown; field?: unknown } | null = null
       try {
         json = await res.json()
       } catch {
         json = null
       }
       if (!res.ok || !json || json.success !== true || typeof json.message !== "string") {
-        // Map the one server error that is genuinely about the email FIELD
-        // (exact match — "خدمة البريد غير مهيأة" is a 503 about the mail
-        // service, not the user's input, and must stay a general alert).
-        if (json && json.error === "البريد الإلكتروني غير صالح") {
-          setFieldErrors({ email: json.error })
-          ;(form.elements.namedItem("email") as HTMLElement).focus()
-        } else if (json && typeof json.error === "string" && json.error.trim() !== "") {
-          setError(json.error)
+        /* r13 (عقد القنوات): أخطاء الحقل الواحد تُختم بـfield من
+           الخادم — التعيين بالمفتاح لا بمطابقة نص الرسالة العربي
+           (أي إعادة صياغة كانت تكسر التعيين بصمت والـmocks تبقى
+           خضراء). 503 «خدمة البريد غير مهيأة» بلا field → صندوق
+           عام كما كان. */
+        const serverError =
+          json && typeof json.error === "string" && json.error.trim() !== ""
+            ? json.error
+            : "استجابة غير صالحة من الخادم"
+        const field = json && typeof json.field === "string" ? json.field : ""
+        if (field === "name" || field === "email" || field === "message") {
+          setFieldErrors({ [field]: serverError })
+          ;(form.elements.namedItem(field) as HTMLElement).focus()
         } else {
-          setError("استجابة غير صالحة من الخادم")
+          setError(serverError)
         }
         return
       }
@@ -195,10 +200,11 @@ export function ContactForm() {
         <label htmlFor="subject" className="block text-sm font-medium text-foreground mb-1.5">الموضوع</label>
         <select id="subject" name="subject" className={`${inputBase} border-[var(--input-border)]`}>
           <option value="">اختر الموضوع</option>
-          <option value="menu">استفسار عن Smart Menu</option>
-          <option value="bot">استفسار عن SmartBot</option>
-          <option value="support">دعم فني</option>
-          <option value="other">أخرى</option>
+          {/* r13: خيارات الموضوع من العقد المشترك — كانت الخريطة نفسها
+              منسوخة حرفياً بين هذا الملف وroute.ts */}
+          {SUBJECTS.map((s) => (
+            <option key={s.key} value={s.key}>{s.label}</option>
+          ))}
         </select>
       </div>
       <div>
@@ -235,12 +241,11 @@ export function ContactForm() {
           {/* r10 (code audit — string coupling): the links used to appear only
               when the error text happened to contain one of four substrings —
               any future rewording of the API messages would silently hide
-              them. Any error deserves direct-contact fallbacks. */}
-          {(
-            /* r13 (a11y audit P2): this helper line sat at 4.03:1 in light
-               mode on the tinted error background — foreground/80 clears
-               10:1 (the links after it keep their primary-text color). */
-            <span className="block mt-2 text-xs text-foreground/80">
+              them. Any error deserves direct-contact fallbacks.
+              r13 (a11y audit P2): this helper line sat at 4.03:1 in light
+              mode on the tinted error background — foreground/80 clears
+              10:1 (the links after it keep their primary-text color). */}
+          <span className="block mt-2 text-xs text-foreground/80">
               أو تواصل مباشرة:{" "}
               <a href={SITE.whatsapp.url} className="underline underline-offset-2" style={{ color: "var(--primary-text)" }}>
                 واتساب <span dir="ltr">{SITE.whatsapp.display}</span>
@@ -249,7 +254,6 @@ export function ContactForm() {
                 {SITE.email}
               </a>
             </span>
-          )}
         </div>
       )}
 

@@ -10,12 +10,15 @@ const BASE = SITE.url
 
 /* r9 (SEO audit P3-10): build-time lastmod for every deploy told Google
    that legal pages changed on EVERY release — even when their content
-   was untouched (both pages state "آخر تحديث: يوليو 2026" in their
-   bodies). They now carry their real content date; Google documents
+   was untouched. They now carry their real content date; Google documents
    that inflated lastmod values erode trust in the signal.
    r10 (SEO audit P3): about/contact joined them — nearly-static content
-   stamped "today" on every deploy erodes the same trust. */
-const LEGAL_LASTMOD = new Date("2026-07-01")
+   stamped "today" on every deploy erodes the same trust.
+   r13 (content audit P1): the legal pages really DID change in September
+   (r10 added data categories, r11 added the processors clause, r13 added
+   the WhatsApp/Meta processor + retention distinction) — the July stamp
+   had become a false statement, live-verified by r13-G. */
+const LEGAL_LASTMOD = new Date("2026-09-09")
 const STATIC_LASTMOD = new Date("2026-09-07")
 
 export default function sitemap(): MetadataRoute.Sitemap {

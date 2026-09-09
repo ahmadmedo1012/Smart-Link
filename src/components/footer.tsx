@@ -95,7 +95,7 @@ export function Footer() {
                     href={l.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    aria-label={`${l.label} - رابط خارجي`}
+                    aria-label={`${l.label} — رابط خارجي`}
                     className="flex flex-col gap-0.5 text-sm text-muted-foreground hover:text-foreground transition-colors duration-200 group rounded"
                   >
                     <span className="flex items-center gap-2">

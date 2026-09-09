@@ -39,7 +39,7 @@ export default function TermsPage() {
         <div
           className="space-y-6 text-muted-foreground leading-relaxed"
         >
-          <p className="text-sm">آخر تحديث: يوليو 2026</p>
+          <p className="text-sm">آخر تحديث: سبتمبر 2026</p>
 
           <section>
             <h2 className="text-xl font-bold text-foreground mt-6 mb-2">القبول بالشروط</h2>

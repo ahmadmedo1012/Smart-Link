@@ -5,7 +5,10 @@ const features = [
   { icon: Bot, title: "ذكاء اصطناعي", description: "تقنيات ذكاء اصطناعي متطورة لأتمتة الردود وتحليل البيانات وفهم العملاء." },
   { icon: BarChart3, title: "تحليلات متقدمة", description: "تقارير وإحصائيات دقيقة تساعدك على اتخاذ قرارات أفضل لنمو أعمالك." },
   { icon: Wallet, title: "مجاني للبدء", description: "ابدأ مجاناً بدون بطاقة ائتمان. خطط مرنة تناسب جميع الأحجام." },
-  { icon: HeadphonesIcon, title: "دعم فني متكامل", description: "فريق دعم متاح 24/7 لمساعدتك في أي وقت عبر واتساب والبريد الإلكتروني." },
+  /* r13 (content audit P1): the old copy stretched the 24/7 promise to
+     email — the truth is WhatsApp-only around the clock, office 9-to-9
+     (SITE.hours). */
+  { icon: HeadphonesIcon, title: "دعم فني متكامل", description: "فريق دعم متاح على مدار الساعة عبر واتساب، ويصلنا بريدك خلال ساعات عمل المكتب (9 صباحاً — 9 مساءً)." },
   { icon: QrCode, title: "تقنيات حديثة", description: "أحدث التقنيات في الواجهات التفاعلية، QR كود، والربط مع واتساب وفيسبوك." },
 ]
 

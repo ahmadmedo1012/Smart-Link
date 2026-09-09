@@ -231,7 +231,7 @@ export function MainNav() {
                               href={child.href}
                               target="_blank"
                               rel="noopener noreferrer"
-                              aria-label={`${child.label} - رابط خارجي`}
+                              aria-label={`${child.label} — رابط خارجي`}
                               className="flex items-start gap-3 px-3 py-3 rounded-xl hover:bg-[var(--accent)] transition-all duration-200 group/item"
                             >
                               <div className="w-10 h-10 rounded-xl bg-[var(--accent)] flex items-center justify-center shrink-0 group-hover/item:scale-110 transition-transform duration-200">
@@ -344,7 +344,7 @@ export function MainNav() {
                                 href={child.href}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                aria-label={`${child.label} - رابط خارجي`}
+                                aria-label={`${child.label} — رابط خارجي`}
                                 className="flex items-center gap-3 px-3 py-2.5 text-sm text-muted-foreground hover:text-foreground rounded-xl hover:bg-[var(--accent)] transition-all duration-200"
                               >
                                 {child.icon && <child.icon className="w-4 h-4 text-primary" />}

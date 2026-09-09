@@ -50,7 +50,7 @@ export const SITE = {
         The contact page used to mash both into one contradictory line
         (audit C1) — use these two separately, never one string. */
     support: "24/7",
-    office: "9 صباحاً - 9 مساءً",
+    office: "9 صباحاً — 9 مساءً",
     /** JSON-LD openingHoursSpecification values (Mo-Su 09:00–21:00). */
     schemaOpens: "09:00",
     schemaCloses: "21:00",

@@ -44,7 +44,9 @@ export const metadata: Metadata = {
     template: "%s | SmartLink",
   },
   description:
-    "SmartLink منصة رقمية ليبية متكاملة تقدم حلولاً ذكية للأعمال: المنيو الرقمي التفاعلي للمطاعم، والبوت الذكي لردود فيسبوك الآلية — ابدأ مجاناً اليوم وطور أعمالك خطوة بخطوة.",
+    /* r13 (content audit P3): trimmed «خطوة بخطوة» — the description sat
+       at 169 chars, past the 140–160 sweet spot; this lands at 157. */
+    "SmartLink منصة رقمية ليبية متكاملة تقدم حلولاً ذكية للأعمال: المنيو الرقمي التفاعلي للمطاعم، والبوت الذكي لردود فيسبوك الآلية — ابدأ مجاناً اليوم وطور أعمالك.",
   keywords: ["SmartLink", "منصة رقمية", "الربط الذكي", "منيو رقمي", "بوت فيسبوك", "تسويق إلكتروني"],
   metadataBase: new URL(SITE.url),
   /* r7: home was the ONLY route without a canonical link — the five

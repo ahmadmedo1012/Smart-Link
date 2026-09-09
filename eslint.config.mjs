@@ -12,6 +12,11 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // r13: generated test artifacts — running eslint AFTER a test run
+    // (locally or in CI) otherwise drags the Playwright report's bundled
+    // vendor JS into the lint (thousands of unrelated problems).
+    "playwright-report/**",
+    "test-results/**",
   ]),
 ]);
 

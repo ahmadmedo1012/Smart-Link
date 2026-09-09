@@ -69,10 +69,13 @@ test("ج2 «عميل مهتم»: الأسعار + FAQ + إرسال النموذ�
   await page.waitForURL("**/pricing")
   await expect(page.locator("h1").first()).toContainText("الخطط والأسعار")
 
-  // الخطط ظاهرة: منتجان + مجانية
-  await expect(page.getByText("Smart Menu").first()).toBeVisible()
-  await expect(page.getByText("SmartBot").first()).toBeVisible()
-  await expect(page.getByText("مجاني").first()).toBeVisible()
+  // الخطط ظاهرة: منتجان + مجانية — محصورة بالمحتوى الرئيسي (القائمة
+  // المنسدلة صارت دائمة الوجود في DOM بـhidden منذ r13 فأول مطابقة
+  // نصية عمومية قد تكون بنداً مخفياً في الهيدر)
+  const main = page.getByRole("main")
+  await expect(main.getByText("Smart Menu").first()).toBeVisible()
+  await expect(main.getByText("SmartBot").first()).toBeVisible()
+  await expect(main.getByText("مجاني").first()).toBeVisible()
 
   // يفتح سؤالاً من أسئلة الأسعار الشائعة (accordion)
   const q = page.getByRole("button", { name: "ما الفرق بين الخطة المجانية والمدفوعة؟" })
@@ -141,8 +144,9 @@ test("ج3 «روابط مباشرة»: كل الصفحات الست عبر goto 
     await page.goto(p.url)
     await expect(page.locator("h1").first()).toBeVisible()
     await expect(page.locator("h1").first()).toContainText(p.h1)
-    // محتوى ذو معنى (وليست صفحة فارغة)
-    await expect(page.getByText(p.content, { exact: false }).first()).toBeVisible()
+    // محتوى ذو معنى (وليست صفحة فارغة) — داخل main لأن قوائم الهيدر
+    // دائمة الوجود بـhidden منذ r13 (بند مخفي قد يسبق المحتوى في الترتيب)
+    await expect(page.getByRole("main").getByText(p.content, { exact: false }).first()).toBeVisible()
     const mainLen = await page.evaluate(() => document.querySelector("main")?.innerText.length ?? 0)
     expect(mainLen).toBeGreaterThan(300)
   }
@@ -294,7 +298,9 @@ test("ج+ قائمة «خدماتنا»: تفتح بالماوس وتعرض را
   await page.goto("/")
 
   const servicesBtn = page.getByRole("button", { name: "خدماتنا" })
-  await expect(servicesBtn).toHaveAttribute("aria-haspopup", "true")
+  /* r13: aria-haspopup حُذف — كان يَعِد بنمط menu (أسهم تنقل) بينما
+     التنفيذ disclosure بتدفق Tab حر؛ aria-expanded هو عقد الحالة الفعلي. */
+  await expect(servicesBtn).toHaveAttribute("aria-expanded", "false")
 
   // الماوس فوق الزر → القائمة تنفتح (aria-expanded=true + روابط الخدمتين)
   const box = await servicesBtn.boundingBox()

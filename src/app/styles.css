@@ -50,7 +50,12 @@
   --primary-text: oklch(0.74 0.19 45);
   --muted-foreground: oklch(0.62 0.015 30);
   --accent: oklch(0.55 0.19 45 / 0.15);
-  --destructive: oklch(0.6 0.22 25);
+  --destructive: oklch(0.62 0.22 25);
+  /* r13 (a11y audit 1.4.11): the bare --border (1.10:1 on card) made the
+     RESTING field boundaries invisible to low-vision users — only the
+     focus/error states were distinguishable. A mixed border clears 3:1
+     in both themes (dark ≈3.21, light ≈3.48 — measured, contrast-r13.json). */
+  --input-border: color-mix(in oklab, var(--muted-foreground) 70%, var(--card));
   --border: oklch(0.18 0.006 30);
   --ring: oklch(0.55 0.19 45);
   --success: oklch(0.62 0.18 145);
@@ -104,6 +109,7 @@
      background (text-sm size) — only reachable by users who actually
      made a mistake, so no scanner ever saw it. 0.52 measures 4.95:1. */
   --destructive: oklch(0.52 0.2 25);
+  --input-border: color-mix(in oklab, var(--muted-foreground) 80%, var(--card));
   --border: oklch(0.88 0.006 30);
   --ring: oklch(0.55 0.19 45);
   /* darker in light for AA text on white (dual-lightness like --primary) */

@@ -171,8 +171,14 @@ test.describe("A) no-JS — الموقع SSR-first بلا أي جافاسكري�
     // ✔ r11 (إصلاح B4-2): أزرار الأكورديون جزر React — بلا JS كانت إجابات
     // FAQ 2..6 مقفلة للأبد (ارتفاع 0). @media (scripting: none) يفتح كل
     // الألواح ساكنة: المحتوى مقروء بلا JavaScript.
+    /* r13: أكورديون قائمة الجوال صار دائم الوجود في DOM (إصلاح
+       aria-controls المعلق) لكنه داخل أب hidden — العقد الصحيح:
+       كل .acc *يراه المستخدم* يجب أن يكون مفتوحاً؛ ما يختفي مع قائمته
+       المغلقة ليس قفلاً بلا JS بل عنصراً غير معروض أصلاً. */
     const heights = await page.locator(".acc").evaluateAll((els) =>
-      els.map((e) => ({ id: e.id, h: Math.round(e.getBoundingClientRect().height) }))
+      els
+        .filter((e) => (e as HTMLElement).offsetParent !== null)
+        .map((e) => ({ id: e.id, h: Math.round(e.getBoundingClientRect().height) }))
     )
     expect(
       heights.filter((x) => x.h === 0),

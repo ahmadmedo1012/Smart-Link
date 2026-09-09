@@ -44,7 +44,7 @@ test.describe("r9 — مسار النجاح (كان مغطى فقط بالفشل
     await expect(status).toBeHidden({ timeout: 7000 })
   })
 
-  test("أثناء الإرسال: الزر معطّل ونصه «جارٍ الإرسال…»", async ({ page }) => {
+  test("أثناء الإرسال: الزر aria-busy (يبقى قابلاً للتركيز) ونصه «جارٍ الإرسال…»", async ({ page }) => {
     let release: (() => void) | undefined
     await page.route("**/api/contact", async (r) => {
       await new Promise<void>((resolve) => (release = resolve))
@@ -57,10 +57,15 @@ test.describe("r9 — مسار النجاح (كان مغطى فقط بالفشل
     await page.fill("#message", "نص كافٍ.")
     await page.getByRole("button", { name: /إرسال الرسالة/ }).click()
     const btn = page.locator("form").getByRole("button")
-    await expect(btn).toBeDisabled()
+    /* r13 (a11y): disabled كانت تقذف تركيز الكيبورد إلى <body> في منتصف
+       التحويل — الزر الآن يبقى قابلاً للتركيز ويعلن حالته بـaria-busy،
+       والحارس في handleSubmit يمنع الإرسال المزدوج. */
+    await expect(btn).toHaveAttribute("aria-busy", "true")
+    await expect(btn).toBeEnabled()
     await expect(btn).toContainText("جارٍ الإرسال")
     release?.()
     await expect(page.locator('form div[role="status"]')).toBeVisible({ timeout: 8000 })
+    await expect(btn).toHaveAttribute("aria-busy", "false")
   })
 
   test("أخطاء الحقول بالعربية مع aria-invalid/aria-describedby + نقل التركيز", async ({ page }) => {

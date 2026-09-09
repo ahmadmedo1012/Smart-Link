@@ -102,7 +102,9 @@ export function Footer() {
                       <l.icon className="w-3.5 h-3.5 text-primary group-hover:scale-110 transition-transform" />
                       {l.label}
                     </span>
-                    <span className="text-xs text-muted-foreground/60 ms-5.5">{l.desc}</span>
+                    {/* r13 (a11y audit P2): /60 measured 2.27:1 in light —
+                        full muted clears 4.63:1 (matches the lower strip). */}
+                    <span className="text-xs text-muted-foreground ms-5.5">{l.desc}</span>
                   </a>
                 </li>
               ))}

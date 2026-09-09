@@ -185,7 +185,16 @@ export function MainNav() {
                 ref={servicesRef}
                 className="relative"
                 onMouseEnter={() => setDesktopServicesOpen(true)}
-                onMouseLeave={() => setDesktopServicesOpen(false)}
+                /* r13 (a11y audit P3): guard the hybrid edge — mouse leaving
+                   the container used to unmount the menu even when KEYBOARD
+                   focus was inside it (open via Enter, mouse passes out
+                   → focus dropped to <body>). Now it only closes when
+                   neither pointer nor focus is inside. */
+                onMouseLeave={() => {
+                  if (!servicesRef.current?.contains(document.activeElement)) {
+                    setDesktopServicesOpen(false)
+                  }
+                }}
                 /* r11: focusout (React onBlur يفقع focusout) يُغلق فقط إذا
                    كان الهدف التالي خارج الحاوية — القائمة تبقى مفتوحة
                    أثناء تنقّل Tab بين الزر وبنودها (إصلاح نقطة التوقف
@@ -204,7 +213,10 @@ export function MainNav() {
               >
                 <button
                   ref={servicesButtonRef}
-                  aria-haspopup="true"
+                  /* r13 (a11y audit P3): aria-haspopup="true" == "menu",
+                   which promises arrow-key navigation we deliberately do
+                   not implement (disclosure pattern: free Tab flow). The
+                   promise outlived the implementation — removed. */
                   aria-expanded={desktopServicesOpen}
                   aria-controls="services-menu"
                   id="services-button"
@@ -220,8 +232,20 @@ export function MainNav() {
                       style below is what actually rotates the chevron. */}
                   <ChevronDown className="w-3.5 h-3.5 transition-transform duration-200" style={{ transform: desktopServicesOpen ? "rotate(180deg)" : undefined }} />
                 </button>
-                {desktopServicesOpen && (
-                <div id="services-menu" role="group" aria-labelledby="services-button" className="menu-pop menu-pop-fast absolute top-full right-0 mt-2 w-80">
+                {/* r13 (a11y audit P3): the menu stays in the DOM with
+                    `hidden` — the old conditional unmount left
+                    aria-controls pointing at a non-existent id whenever
+                    the menu was closed (live-axe flagged it as
+                    aria-valid-attr-value incomplete). Same visual:
+                    display:none cancels the menu-pop animation, removing
+                    hidden restarts it. */}
+                <div
+                  id="services-menu"
+                  role="group"
+                  aria-labelledby="services-button"
+                  hidden={!desktopServicesOpen}
+                  className="menu-pop menu-pop-fast absolute top-full right-0 mt-2 w-80"
+                >
                     <div className="glass-strong rounded-2xl p-2 shadow-xl">
                         {link.children.map((child) => {
                           const Icon = child.icon
@@ -246,7 +270,6 @@ export function MainNav() {
                         })}
                       </div>
                 </div>
-                )}
               </div>
             ) : (
               <Link
@@ -311,9 +334,12 @@ export function MainNav() {
           r6: named nav landmark (was a bare div).
           r11 (E-E9/B2): id يربط aria-controls البرغر بالقائمة، وEscape
           داخلها يغلقها ويعيد التركيز للزر (كان يسقط على body). */}
-      {mobileOpen && (
+      {(
           <nav
             id="mobile-menu"
+            /* r13 (a11y audit P3): same dangling-aria-controls fix as the
+                desktop menu — stay mounted, toggle `hidden`. */
+            hidden={!mobileOpen}
             className="menu-pop md:hidden mx-2 mb-2"
             aria-label="قائمة الجوال"
             onKeyDown={(e) => {
@@ -331,12 +357,13 @@ export function MainNav() {
                     <button
                       onClick={() => setServicesOpen(!servicesOpen)}
                       aria-expanded={servicesOpen}
+                      aria-controls="m-services"
                       className="flex items-center justify-between w-full px-3 py-3 text-sm font-medium text-foreground rounded-xl hover:bg-[var(--accent)] transition-all duration-200"
                     >
                       {link.label}
                       <ChevronDown className={cn("w-4 h-4 transition-transform duration-200", servicesOpen && "rotate-180")} />
                     </button>
-                    <div className={cn("acc ms-3", servicesOpen && "open")}>
+                    <div id="m-services" className={cn("acc ms-3", servicesOpen && "open")}>
                           <div className="space-y-1 pb-1 pt-1">
                             {link.children.map((child) => (
                               <a
@@ -350,7 +377,7 @@ export function MainNav() {
                                 {child.icon && <child.icon className="w-4 h-4 text-primary" />}
                                 <div>
                                   <div className="font-medium">{child.label}</div>
-                                  {child.desc && <div className="text-xs text-muted-foreground/70 mt-0.5">{child.desc}</div>}
+                                  {child.desc && <div className="text-xs text-muted-foreground mt-0.5">{child.desc}</div>}
                                 </div>
                               </a>
                             ))}
@@ -377,7 +404,7 @@ export function MainNav() {
               )}
             </div>
           </nav>
-        )}
+      )}
     </header>
   )
 }

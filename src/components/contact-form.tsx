@@ -1,6 +1,7 @@
 "use client"
-import { useState } from "react"
+import { useState, useEffect, useRef } from "react"
 import { Send, Check, Loader2 } from "lucide-react"
+import { cn } from "@/lib/utils"
 import { SITE } from "@/lib/site"
 import { EMAIL_RE, NAME_MAX, EMAIL_MAX, MESSAGE_MAX, NAME_LETTER_RE, NAME_LETTER_ERROR } from "@/lib/contact-rules"
 
@@ -29,9 +30,13 @@ type FieldErrors = { name?: string; email?: string; message?: string }
 
 /* r10 (a11y audit P2): inputs were text-sm (14px) — Safari iOS auto-
    zooms the page on focus for any field under 16px, jolting every mobile
-   user mid-conversion. 16px stops the zoom. */
+   user mid-conversion. 16px stops the zoom.
+   r13 (a11y audit P2 ×2): placeholder/50 measured 1.99:1 in light mode
+   (real visible text in the ONLY conversion path — axe can't see
+   ::placeholder at all); the RESTING border used --border at 1.10:1
+   (WCAG 1.4.11) — now --input-border, which clears 3:1 in both themes. */
 const inputBase =
-  "w-full px-4 py-2.5 rounded-xl bg-[var(--card)] border text-foreground text-base focus:outline-none focus:border-[var(--ring)] focus:ring-2 focus:ring-[var(--ring)] transition-all placeholder:text-muted-foreground/50"
+  "w-full px-4 py-2.5 rounded-xl bg-[var(--card)] border text-foreground text-base focus:outline-none focus:border-[var(--ring)] focus:ring-2 focus:ring-[var(--ring)] transition-all placeholder:text-muted-foreground"
 
 export function ContactForm() {
   const [sent, setSent] = useState(false)
@@ -42,6 +47,11 @@ export function ContactForm() {
 
   const handleSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault()
+    /* r13 (a11y audit P2): the button stays FOCUSABLE while sending
+       (disabled= ejected keyboard users' focus to <body> mid-conversion);
+       aria-busy announces the state instead, and this guard blocks the
+       double-submit that Enter-presses could previously trigger. */
+    if (sending) return
     setError("")
     const form = e.currentTarget as HTMLFormElement
     const data = {
@@ -117,8 +127,17 @@ export function ContactForm() {
     }
   }
 
+  /* r13 (a11y audit P3): move focus to the general error box when it
+     appears — role=alert announces it, but sighted keyboard users had no
+     cue that anything appeared below the form. Per-field errors still
+     focus the first invalid field instead (higher up in handleSubmit). */
+  const errorBoxRef = useRef<HTMLDivElement>(null)
+  useEffect(() => {
+    if (error) errorBoxRef.current?.focus()
+  }, [error])
+
   const fieldCls = (bad?: string) =>
-    bad ? `${inputBase} border-[var(--destructive)]` : `${inputBase} border-[var(--border)]`
+    bad ? `${inputBase} border-[var(--destructive)]` : `${inputBase} border-[var(--input-border)]`
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4" noValidate>
@@ -174,7 +193,7 @@ export function ContactForm() {
       </div>
       <div>
         <label htmlFor="subject" className="block text-sm font-medium text-foreground mb-1.5">الموضوع</label>
-        <select id="subject" name="subject" className={`${inputBase} border-[var(--border)]`}>
+        <select id="subject" name="subject" className={`${inputBase} border-[var(--input-border)]`}>
           <option value="">اختر الموضوع</option>
           <option value="menu">استفسار عن Smart Menu</option>
           <option value="bot">استفسار عن SmartBot</option>
@@ -202,7 +221,9 @@ export function ContactForm() {
 
       {error && (
         <div
-          className="text-sm rounded-xl px-4 py-3 text-center border"
+          ref={errorBoxRef}
+          tabIndex={-1}
+          className="text-sm rounded-xl px-4 py-3 text-center border focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)]"
           style={{
             color: "var(--destructive)",
             background: "oklch(from var(--destructive) l c h / 0.1)",
@@ -216,7 +237,10 @@ export function ContactForm() {
               any future rewording of the API messages would silently hide
               them. Any error deserves direct-contact fallbacks. */}
           {(
-            <span className="block mt-2 text-xs" style={{ color: "var(--muted-foreground)" }}>
+            /* r13 (a11y audit P2): this helper line sat at 4.03:1 in light
+               mode on the tinted error background — foreground/80 clears
+               10:1 (the links after it keep their primary-text color). */
+            <span className="block mt-2 text-xs text-foreground/80">
               أو تواصل مباشرة:{" "}
               <a href={SITE.whatsapp.url} className="underline underline-offset-2" style={{ color: "var(--primary-text)" }}>
                 واتساب <span dir="ltr">{SITE.whatsapp.display}</span>
@@ -246,8 +270,11 @@ export function ContactForm() {
 
       <button
         type="submit"
-        disabled={sending}
-        className="flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-primary text-white font-semibold text-sm hover:brightness-105 transition-all duration-300 active:scale-[0.98] disabled:opacity-60 disabled:cursor-not-allowed"
+        aria-busy={sending}
+        className={cn(
+          "flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-primary text-white font-semibold text-sm hover:brightness-105 transition-all duration-300 active:scale-[0.98]",
+          sending && "cursor-wait"
+        )}
       >
         {sending ? (
           <><Loader2 className="w-4 h-4 animate-spin" aria-hidden="true" /> جارٍ الإرسال…</>

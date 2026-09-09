@@ -138,3 +138,22 @@ test.describe("التنقل — الجوال (375×812)", () => {
     await expect(skip).toBeVisible()
   })
 })
+
+/* ══════════════════════════════════════════════════════════════
+ * r13 (testing audit F-P2) — حد الإطار 768px
+ *
+ * نقطة التبديل (md: 768px) بين سطح المكتب والجوال لم تُختبر قط:
+ * انزياح الحد (xs: أو نقطة مختلفة) كان سيقلب تجربة فئة كاملة دون
+ * أن يلاحظ CI. البرغر يظهر تحت الحد بالضبط ويختفي عنده.
+ * ══════════════════════════════════════════════════════════════ */
+test("r13 — حد 767/768: البرغر يظهر تحته ويختفي فوقه (نقطة md)", async ({ page }) => {
+  await page.setViewportSize({ width: 767, height: 812 })
+  await page.goto("/")
+  await expect(page.getByRole("button", { name: /فتح القائمة|إغلاق القائمة/ })).toBeVisible()
+  // التنقل السطحي مخفي تحته
+  await expect(page.getByRole("navigation", { name: "التنقل الرئيسي" })).toBeHidden()
+
+  await page.setViewportSize({ width: 768, height: 812 })
+  await expect(page.getByRole("button", { name: /فتح القائمة|إغلاق القائمة/ })).toBeHidden()
+  await expect(page.getByRole("navigation", { name: "التنقل الرئيسي" })).toBeVisible()
+})

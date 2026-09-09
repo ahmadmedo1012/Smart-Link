@@ -56,6 +56,7 @@ test.describe("الترويسات الأمنية", () => {
       "/icon-192.png",
       "/icon-512.png",
       "/icon-512-maskable.png",
+      "/icon-96.png",
       "/images/smart-menu.jpg",
     ]) {
       const res = await request.get(path)

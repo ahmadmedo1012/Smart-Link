@@ -187,7 +187,10 @@ test.describe("A) no-JS — الموقع SSR-first بلا أي جافاسكري�
 /* ═══════════════════ B) REDUCED MOTION ═══════════════════ */
 
 test.describe("B) reduced-motion — مفتاح إيقاف الحركات الكامل", () => {
-  for (const path of ["/", "/pricing"] as const) {
+  /* r13 (testing audit F-P2): كانت الحلقة على صفحتين فقط من 6 — البقية
+     مكشوفة بنيوياً بالقاتل الكوني نفسه لكن بلا عقد. الآن الست كلها. */
+  for (const p of PAGES) {
+    const path = p.path as "/" | "/pricing"
     test(`B1 ${path} — عناصر reveal/animate/fade: صفر مدة حركة ومحتوى ظاهر`, async ({ page }) => {
       await page.emulateMedia({ reducedMotion: "reduce" })
       await page.goto(path, { waitUntil: "domcontentloaded" })

@@ -525,3 +525,55 @@ test.describe("r11-B2 — مستخدم لوحة مفاتيح فقط (/, /contact
     expectNoCrash(consoleErrors)
   })
 })
+
+/* ══════════════════════════════════════════════════════════════
+ * r13 (testing audit F-P2) — عقد الفشل الصامت في طرف النجاح
+ *
+ * العقد الصارم (r11) من الجهتين لكن حالات الفشل الصامت تحديداً لم
+ * تُقفل: 200 بجسم ناقص/متناقض كان يجب أن يظهر خطأً عربياً — أي
+ * تراجع إلى فرع النجاح الافتراضي يعيد «النجاح الكاذب» الأصلي.
+ * ══════════════════════════════════════════════════════════════ */
+test("17) 200 {success:true} بلا message → «استجابة غير صالحة»، لا نجاح كاذب (r13-F)", async ({ page, consoleErrors }) => {
+  await page.goto("/contact")
+  allowResourceNoise(consoleErrors, /Failed to load resource/)
+  await page.route("**/api/contact", (r) =>
+    r.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ success: true }) })
+  )
+  await fillValid(page)
+  await submitBtn(page).click()
+
+  const alert = page.locator('form div[role="alert"]')
+  await expect(alert).toBeVisible({ timeout: 8000 })
+  await expect(alert).toContainText("استجابة غير صالحة")
+  // لا نجاح كاذب: الحقول لم تُفرَّغ ولا صندوق status ظهر
+  await expect(page.locator('form div[role="status"]')).toHaveCount(0)
+  await expect(page.getByLabel("الاسم", { exact: true })).toHaveValue("مستخدم تجريبي")
+  expectNoCrash(consoleErrors)
+})
+
+test("18) 200 {success:false, error} → خطأ الخادم في الصندوق العام، لا نجاح (r13-F)", async ({ page, consoleErrors }) => {
+  await page.goto("/contact")
+  allowResourceNoise(consoleErrors, /Failed to load resource/)
+  await page.route("**/api/contact", (r) =>
+    r.fulfill({
+      status: 200,
+      contentType: "application/json",
+      body: JSON.stringify({ success: false, error: "رسالة خطأ من الخادم" }),
+    })
+  )
+  await fillValid(page)
+  await submitBtn(page).click()
+
+  const alert = page.locator('form div[role="alert"]')
+  await expect(alert).toBeVisible({ timeout: 8000 })
+  await expect(alert).toContainText("رسالة خطأ من الخادم")
+  await expect(page.locator('form div[role="status"]')).toHaveCount(0)
+  expectNoCrash(consoleErrors)
+})
+
+test("19) بريد 6000 محرف → maxlength يقصّ عند 254 (r13-F: الحد بلا اختبار قط)", async ({ page }) => {
+  await page.goto("/contact")
+  const email = page.getByLabel("البريد الإلكتروني", { exact: true })
+  await email.fill("u@" + "a".repeat(5998))
+  await expect(email).toHaveValue("u@" + "a".repeat(252))
+})

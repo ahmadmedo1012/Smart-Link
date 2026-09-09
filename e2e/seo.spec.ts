@@ -25,9 +25,11 @@ test.describe("SEO — الميتاداتا الفوقية لكل صفحة", () 
         "content",
         p.path === "/" ? BASE : `${BASE}${p.path}`
       )
+      /* r13 (testing audit F): regex كان يقبل روابط نسبية — انحدار
+         metadataBase/OG_IMAGE يمرّ عبر CI خضراء. القيمة مطلقة بالضبط. */
       await expect(page.locator('meta[property="og:image"]')).toHaveAttribute(
         "content",
-        /og-smartlink\.jpg/
+        `${BASE}/og-smartlink.jpg`
       )
       await expect(page.locator('meta[property="og:image:width"]')).toHaveAttribute("content", "1200")
       await expect(page.locator('meta[property="og:image:height"]')).toHaveAttribute("content", "630")
@@ -41,7 +43,7 @@ test.describe("SEO — الميتاداتا الفوقية لكل صفحة", () 
       )
       await expect(page.locator('meta[name="twitter:image"]')).toHaveAttribute(
         "content",
-        /og-smartlink\.jpg/
+        `${BASE}/og-smartlink.jpg`
       )
 
       // وصف meta موجود لكل صفحة
@@ -183,4 +185,33 @@ test.describe("r9 — إشارات الزحف والـ PWA المضافة", () =
     await page.goto("/", { waitUntil: "domcontentloaded" })
     await expect(page.locator('meta[name="apple-mobile-web-app-capable"]')).toHaveAttribute("content", "yes")
   })
+})
+
+/* ══════════════════════════════════════════════════════════════
+ * r13 (testing audit F-P2) — عقد رؤوس <head> الكاملة
+ *
+ * 7 من 8 رؤوس PWA/الجوال كانت بلا أي اختبار (فُحص apple-mobile-web-app-capable
+ * وحده): theme-color للوضعين، شريط حالة iOS، عنوان Apple، تعطيل اكتشاف
+ * الهاتف (r6: منع تحويل أرقام الواتساب إلى tel: غير مضبوطة)، والقدرة
+ * على التثبيت العام. انحدار أي واحد منها كان سيمر عبر CI خضراء.
+ * ══════════════════════════════════════════════════════════════ */
+test("r13 — رؤوس head: theme-color للوضعين + Apple كاملة + format-detection", async ({ page }) => {
+  await page.goto("/")
+
+  // theme-color يطابق توكن الخلفية رياضياً (r10-D: #000000/#fafafa)
+  await expect(
+    page.locator('meta[name="theme-color"][media="(prefers-color-scheme: dark)"]')
+  ).toHaveAttribute("content", "#000000")
+  await expect(
+    page.locator('meta[name="theme-color"][media="(prefers-color-scheme: light)"]')
+  ).toHaveAttribute("content", "#fafafa")
+
+  // زوج Apple (r9): capability + شريط الحالة + عنوان التطبيق
+  await expect(page.locator('meta[name="apple-mobile-web-app-capable"]')).toHaveAttribute("content", "yes")
+  await expect(page.locator('meta[name="mobile-web-app-capable"]')).toHaveAttribute("content", "yes")
+  await expect(page.locator('meta[name="apple-mobile-web-app-status-bar-style"]')).toHaveAttribute("content", "default")
+  await expect(page.locator('meta[name="apple-mobile-web-app-title"]')).toHaveAttribute("content", "SmartLink")
+
+  // r6: iOS يحوّل أي تسلسل 10+ أرقام إلى tel: غير مضبوط — التعطيل إلزامي
+  await expect(page.locator('meta[name="format-detection"]')).toHaveAttribute("content", "telephone=no")
 })

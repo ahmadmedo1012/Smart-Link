@@ -48,7 +48,7 @@ export default function AboutPage() {
           <div className="eyebrow-badge mb-6 reveal-up reveal-d1">
             <span>عن المنصة</span>
           </div>
-          <h1 className="text-5xl md:text-6xl font-extrabold tracking-tight text-foreground mb-4">
+          <h1 className="text-5xl max-[360px]:text-4xl md:text-6xl font-extrabold tracking-tight text-foreground mb-4">
             عن SmartLink
           </h1>
           <p className="text-lg text-muted-foreground leading-relaxed max-w-2xl mx-auto">

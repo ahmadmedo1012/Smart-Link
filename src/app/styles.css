@@ -103,7 +103,12 @@
   --card: oklch(1 0 0);
   --primary: oklch(0.4 0.19 45);
   --primary-text: oklch(0.4 0.19 45);
-  --muted-foreground: oklch(0.55 0.01 30);
+  /* r14 (a11y audit): 0.55 measured 4.28:1 where the legal pages' glow layer
+     (5% primary, blur-75) sits under the text — /terms on every portrait
+     viewport + /privacy@390. 0.52 measures 4.82:1 over the glow and 5.29:1
+     clean, closing the whole "secondary text over decorative tint" class
+     for every future layer too. */
+  --muted-foreground: oklch(0.52 0.01 30);
   --accent: oklch(0.55 0.19 45 / 0.12);
   /* r10 (a11y audit P1): 0.58 measured 3.93:1 on the error-box tinted
      background (text-sm size) — only reachable by users who actually

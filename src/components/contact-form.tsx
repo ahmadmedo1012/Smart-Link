@@ -276,7 +276,7 @@ export function ContactForm() {
         type="submit"
         aria-busy={sending}
         className={cn(
-          "flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-primary text-white font-semibold text-sm hover:brightness-105 transition-all duration-300 active:scale-[0.98]",
+          "flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-primary text-white font-semibold text-sm hover:brightness-105 transition-all duration-300 active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--foreground)]",
           sending && "cursor-wait"
         )}
       >

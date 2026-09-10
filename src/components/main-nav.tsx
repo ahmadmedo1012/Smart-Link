@@ -46,6 +46,12 @@ function MagneticButton({ children, className }: { children: React.ReactNode; cl
   useEffect(() => {
     const el = ref.current
     if (!el) return
+    /* r14 (M2/M5 touch audit): behind (hover:hover) — touch devices fire
+       synthetic mousemove (a stuck ≤3.5px translate on iOS until a
+       mouseleave that never comes) and the three listeners were dead
+       weight on every phone anyway. Desktop-only decoration stays
+       desktop-only. */
+    if (!window.matchMedia("(hover: hover)").matches) return
     /* Direct DOM transform — a state update per mousemove re-rendered the
        whole header; this path costs zero renders. */
     /* r8: rect is measured ONCE on mouseenter and cached — the old version
@@ -128,10 +134,24 @@ export function MainNav() {
 
   useEffect(() => {
     if (!mobileOpen) return
-    const prev = document.body.style.overflow
-    document.body.style.overflow = "hidden"
+    /* r14 (iOS scroll-lock): body overflow:hidden is IGNORED by iOS Safari
+       for touch drag — the page kept scrolling behind the open menu and the
+       URL bar jumped (documented WebKit behavior since iOS 9 — the reason
+       body-scroll-lock et al. exist). position:fixed + negative top locks
+       the scroll on every iOS version while keeping the visual position.
+       overflow:hidden stays in the string: it still guards non-WebKit
+       browsers AND keeps the body.style.overflow contract the e2e suite
+       asserts (navigation.spec + sim-adversarial). cssText restores
+       atomically; the header is itself position:fixed so it never moves. */
+    const scrollY = window.scrollY
+    const prevCss = document.body.style.cssText
+    document.body.style.cssText =
+      `position:fixed;top:${-scrollY}px;width:100%;left:0;overflow:hidden;overscroll-behavior:none;`
     return () => {
-      document.body.style.overflow = prev
+      document.body.style.cssText = prevCss
+      /* instant: html{scroll-behavior:smooth} would animate the restore —
+         the user should land exactly where they were, with no visible jump */
+      window.scrollTo({ top: scrollY, behavior: "instant" })
     }
   }, [mobileOpen])
 
@@ -172,7 +192,7 @@ export function MainNav() {
             first load). The logo dimensions now match the source ratio
             (600×409) at a display-appropriate size (was 150×38 — the
             optimizer was generating a 384w AVIF for a ~53px slot). */}
-        <Link href="/" prefetch={false} className="flex items-center group relative">
+        <Link href="/" prefetch={false} className="flex items-center self-stretch group relative">
           <Image src="/logo.png" alt="SmartLink — الرئيسية" width={120} height={82} sizes="(max-width: 768px) 48px, 54px" className="h-8 md:h-9 w-auto object-contain transition-transform duration-300 group-hover:scale-105" priority />
         </Link>
 
@@ -297,7 +317,7 @@ export function MainNav() {
           )}
         </nav>
 
-        <div className="flex items-center gap-1">
+        <div className="flex items-center gap-2">
           {mounted && (
             <MagneticButton>
               <button
@@ -305,7 +325,7 @@ export function MainNav() {
                 aria-label={theme === "dark" ? "تفعيل المظهر الفاتح" : "تفعيل المظهر الداكن"}
                 /* r11 (E-E12/E-E13): هدف لمس 44px (كان 36px — p-2.5 + أيقونة
                    16px) بمعيار WCAG 2.5.5، و«الثيم»→«المظهر» (تعريب أصحّ). */
-                className="p-3 rounded-xl hover:bg-[var(--accent)] text-muted-foreground hover:text-foreground transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--ring)]"
+                className="p-3 rounded-xl hover:bg-[var(--accent)] text-muted-foreground hover:text-foreground transition-all duration-200 active:scale-[0.97] focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--ring)]"
               >
                 <span className={cn("block transition-all duration-500 ease-[var(--ease-spring)]", theme === "dark" ? "rotate-0" : "rotate-180")}>
                   {theme === "dark" ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
@@ -322,7 +342,7 @@ export function MainNav() {
               aria-expanded={mobileOpen}
               aria-controls="mobile-menu"
               /* r11 (E-E12): 44px هدف لمس (كان 40px). */
-              className="md:hidden p-3 rounded-xl hover:bg-[var(--accent)] transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--ring)]"
+              className="md:hidden p-3 rounded-xl hover:bg-[var(--accent)] transition-all duration-200 active:scale-[0.97] focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--ring)]"
             >
               {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
@@ -340,7 +360,7 @@ export function MainNav() {
             /* r13 (a11y audit P3): same dangling-aria-controls fix as the
                 desktop menu — stay mounted, toggle `hidden`. */
             hidden={!mobileOpen}
-            className="menu-pop md:hidden mx-2 mb-2"
+            className="menu-pop md:hidden mx-2 mb-2 max-h-[calc(100dvh-5rem)] overflow-y-auto overscroll-contain"
             aria-label="قائمة الجوال"
             onKeyDown={(e) => {
               if (e.key === "Escape") {

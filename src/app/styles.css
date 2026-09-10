@@ -158,12 +158,22 @@
      (#services from the hero CTA) used to clear the fixed header only by
      coincidence of section padding. */
   html { scroll-behavior: smooth; scroll-padding-top: var(--scroll-offset); }
+  /* r14 (M2 touch audit): kills the legacy double-tap-zoom delay on
+     interactive elements without touching pinch-zoom accessibility. */
+  a, button, [role="button"], select, summary { touch-action: manipulation; }
   body {
     background: var(--background);
     color: var(--foreground);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    /* r14 (M5): fallback where overflow-x:clip is unsupported — the
+       overflow-x-clip utility on <body> (layout.tsx) wins wherever clip
+       is supported (utilities layer > base); browsers that drop it fall
+       back to this hidden. hidden turns body into a scroll container
+       (css-overflow) — the historical iOS fixed/rubber-band bug class —
+       which is exactly why clip is preferred where available. */
+    overflow-x: hidden;
   }
   ::selection { background: oklch(0.55 0.19 45 / 0.25); color: var(--foreground); }
   ::-webkit-scrollbar { width: 5px; height: 5px; }
@@ -405,8 +415,13 @@
   transform: translateX(-100%);
   pointer-events: none;
 }
-.group:hover .cta-shine {
-  animation: cta-shine 0.5s cubic-bezier(0.16, 1, 0.2, 1);
+/* r14 (M5): behind (hover:hover) — the last unguarded :hover rule;
+   iOS sticky-hover fired the sweep on tap. Tailwind guards all its
+   hover: variants automatically; hand-written rules must opt in. */
+@media (hover: hover) {
+  .group:hover .cta-shine {
+    animation: cta-shine 0.5s cubic-bezier(0.16, 1, 0.2, 1);
+  }
 }
 @keyframes cta-shine {
   from { transform: translateX(-100%); }

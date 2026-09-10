@@ -109,7 +109,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           dangerouslySetInnerHTML={{ __html: JSON.stringify(servicesJsonLd()) }}
         />
       </head>
-      <body className="min-h-dvh flex flex-col antialiased overflow-x-hidden bg-[var(--background)]">
+      <body className="min-h-dvh flex flex-col antialiased overflow-x-clip bg-[var(--background)]">
         <a href="#main-content" className="pointer-events-auto fixed opacity-0 focus:opacity-100 focus:fixed focus:top-4 focus:right-4 focus:z-[100] focus:px-4 focus:py-2 focus:rounded-xl focus:bg-[var(--primary)] focus:text-white focus:text-sm focus:font-semibold focus:shadow-lg focus:outline-none transition-opacity duration-200">
           تخطَّ إلى المحتوى الرئيسي
         </a>

@@ -15,8 +15,14 @@ function StepCard({ step, index }: { step: typeof steps[number]; index: number }
 
   return (
     <div className="reveal-scroll relative text-center group">
-      {/* Connecting line — draws as it scrolls into view */}
-      {index < steps.length - 1 && (
+      {/* Connecting line — draws as it scrolls into view.
+          r14 (M1): the render condition was LTR-inverted — connectors point
+          RIGHT (toward the previous step in this RTL grid), so the LAST
+          (leftmost) step needs none, while the FIRST (rightmost) one drew
+          a dangling line 34–59px past the grid edge, clipped only by the
+          body overflow guard. index > 0 keeps every connector inside the
+          grid and finally links the last pair. */}
+      {index > 0 && (
         <div className="hidden md:block absolute top-8 left-[calc(50%+3rem)] w-[calc(100%-6rem)] h-px">
           <div
             className="line-draw-scroll h-full bg-gradient-to-r from-[var(--primary)]/0 via-[var(--primary)]/20 to-[var(--primary)]/0"

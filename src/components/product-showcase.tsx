@@ -60,7 +60,7 @@ function SmartMenuShowcase() {
                 </div>
                 {/* Scroll hint */}
                 <div className="absolute bottom-3 left-1/2 -translate-x-1/2 px-3 py-1.5 rounded-full bg-[var(--glass-bg-strong)] backdrop-blur-md border border-[var(--glass-border)] text-[11px] text-[var(--muted-foreground)] pointer-events-none" aria-hidden="true">
-                  مرّر لمشاهدة المنيو كاملاً
+                  مرّر الصفحة لمشاهدة المنيو كاملاً
                 </div>
               </div>
             </div>

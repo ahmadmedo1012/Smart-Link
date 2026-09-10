@@ -1,6 +1,6 @@
 "use client"
 import { useState, useEffect, useRef } from "react"
-import { Send, Check, Loader2 } from "lucide-react"
+import { Send, Check, Loader2, ChevronDown } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { SITE } from "@/lib/site"
 import { EMAIL_RE, NAME_MAX, EMAIL_MAX, MESSAGE_MAX, NAME_LETTER_RE, NAME_LETTER_ERROR, SUBJECTS } from "@/lib/contact-rules"
@@ -198,14 +198,21 @@ export function ContactForm() {
       </div>
       <div>
         <label htmlFor="subject" className="block text-sm font-medium text-foreground mb-1.5">الموضوع</label>
-        <select id="subject" name="subject" className={`${inputBase} border-[var(--input-border)]`}>
-          <option value="">اختر الموضوع</option>
-          {/* r13: خيارات الموضوع من العقد المشترك — كانت الخريطة نفسها
-              منسوخة حرفياً بين هذا الملف وroute.ts */}
-          {SUBJECTS.map((s) => (
-            <option key={s.key} value={s.key}>{s.label}</option>
-          ))}
-        </select>
+        {/* r14 (M5 select-native-ios): iOS imposed its native arrow and
+            bezels over the dark design — the only field breaking the row.
+            appearance-none + a custom logical-side chevron; pe-10 keeps the
+            option text clear of the icon in RTL. */}
+        <div className="relative">
+          <select id="subject" name="subject" className={`${inputBase} border-[var(--input-border)] appearance-none pe-10 cursor-pointer`}>
+            <option value="">اختر الموضوع</option>
+            {/* r13: خيارات الموضوع من العقد المشترك — كانت الخريطة نفسها
+                منسوخة حرفياً بين هذا الملف وroute.ts */}
+            {SUBJECTS.map((s) => (
+              <option key={s.key} value={s.key}>{s.label}</option>
+            ))}
+          </select>
+          <ChevronDown className="pointer-events-none absolute end-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" aria-hidden="true" />
+        </div>
       </div>
       <div>
         <label htmlFor="message" className="block text-sm font-medium text-foreground mb-1.5">الرسالة</label>

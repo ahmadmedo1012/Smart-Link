@@ -31,7 +31,7 @@ export function Footer() {
           {/* Brand */}
           <div>
             <div className="flex items-center gap-2.5 mb-4">
-              <Image src="/logo.png" alt="SmartLink" width={118} height={80} className="h-7 w-auto object-contain" loading="lazy" />
+              <Image src="/logo.png" alt="SmartLink" width={118} height={80} sizes="43px" className="h-7 w-auto object-contain" loading="lazy" />
             {/* r9: width/height now match the source aspect ratio (600×409) —
                 the 130×32 declaration reserved a 4:1 box for a 1.47:1 image
                 (r8 fixed this in main-nav but missed the footer). */}
@@ -73,7 +73,7 @@ export function Footer() {
                 <li key={l.label}>
                   {/* prefetch={false}: footer quick-links were firing duplicate
                       RSC prefetches that competed with LCP bandwidth. */}
-                  <Link href={l.href} prefetch={false} className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200 group inline-flex items-center gap-1.5 rounded">
+                  <Link href={l.href} prefetch={false} className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200 group inline-flex items-center gap-1.5 py-2.5 rounded">
                     <span className="w-0 group-hover:w-1.5 h-1.5 rounded-full bg-primary transition-all duration-200" aria-hidden="true" />
                     {l.label}
                   </Link>
@@ -96,7 +96,7 @@ export function Footer() {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={`${l.label} — رابط خارجي`}
-                    className="flex flex-col gap-0.5 text-sm text-muted-foreground hover:text-foreground transition-colors duration-200 group rounded"
+                    className="flex flex-col gap-0.5 text-sm text-muted-foreground hover:text-foreground transition-colors duration-200 group rounded py-1"
                   >
                     <span className="flex items-center gap-2">
                       <l.icon className="w-3.5 h-3.5 text-primary group-hover:scale-110 transition-transform" />
@@ -119,7 +119,7 @@ export function Footer() {
                 <div className="w-8 h-8 rounded-lg bg-[var(--accent)] flex items-center justify-center shrink-0">
                   <Mail className="w-3.5 h-3.5 text-primary" />
                 </div>
-                <a href={`mailto:${SITE.email}`} className="hover:text-foreground transition-colors">{SITE.email}</a>
+                <a href={`mailto:${SITE.email}`} className="hover:text-foreground transition-colors inline-flex items-center py-2.5 rounded">{SITE.email}</a>
               </li>
               <li className="flex items-center gap-2 text-sm text-muted-foreground">
                 <div className="w-8 h-8 rounded-lg bg-[var(--accent)] flex items-center justify-center shrink-0">
@@ -131,7 +131,7 @@ export function Footer() {
                 <div className="w-8 h-8 rounded-lg bg-[var(--accent)] flex items-center justify-center shrink-0">
                   <MessageCircle className="w-3.5 h-3.5 text-primary" />
                 </div>
-                <a href={SITE.whatsapp.url} target="_blank" rel="noopener noreferrer" className="text-primary-text hover:underline underline-offset-2 transition-all" dir="ltr">
+                <a href={SITE.whatsapp.url} target="_blank" rel="noopener noreferrer" className="text-primary-text hover:underline underline-offset-2 transition-all inline-flex items-center py-2.5 rounded" dir="ltr">
                   {SITE.whatsapp.display}
                 </a>
               </li>
@@ -145,8 +145,8 @@ export function Footer() {
         <div className="container-base flex flex-col md:flex-row items-center justify-between gap-3">
           <p className="text-xs text-muted-foreground">© {new Date().getFullYear()} SmartLink. جميع الحقوق محفوظة</p>
           <div className="flex items-center gap-4">
-            <Link href="/privacy" className="text-xs text-muted-foreground hover:text-foreground transition-colors rounded">سياسة الخصوصية</Link>
-            <Link href="/terms" className="text-xs text-muted-foreground hover:text-foreground transition-colors rounded">شروط الاستخدام</Link>
+            <Link href="/privacy" className="text-xs text-muted-foreground hover:text-foreground transition-colors rounded inline-flex items-center min-h-[24px] py-1">سياسة الخصوصية</Link>
+            <Link href="/terms" className="text-xs text-muted-foreground hover:text-foreground transition-colors rounded inline-flex items-center min-h-[24px] py-1">شروط الاستخدام</Link>
           </div>
         </div>
       </div>

@@ -92,7 +92,7 @@ function ServiceCard({ service }: { service: typeof services[number] }) {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={`زيارة الخدمة — ${service.title}، رابط خارجي`}
-                className="group/btn inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[var(--primary)] text-white text-sm font-semibold hover:brightness-105 transition-all duration-200 active:scale-[0.97] w-fit"
+                className="group/btn inline-flex items-center gap-2 px-5 py-3.5 rounded-xl bg-[var(--primary)] text-white text-sm font-semibold hover:brightness-105 transition-all duration-200 active:scale-[0.97] w-fit focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--foreground)]"
               >
                 زيارة الخدمة <ChevronLeft className="w-3.5 h-3.5 transition-transform group-hover/btn:-translate-x-0.5" />
               </a>

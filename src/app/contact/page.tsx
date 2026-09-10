@@ -81,7 +81,7 @@ export default function ContactPage() {
               </div>
               <h2 className="font-bold text-foreground text-sm mb-1">{item.title}</h2>
               {item.href ? (
-                <a href={item.href} className="text-xs text-primary-text hover:underline underline-offset-2 rounded">{item.desc}</a>
+                <a href={item.href} className="text-xs text-primary-text hover:underline underline-offset-2 rounded inline-flex items-center py-2">{item.desc}</a>
               ) : (
                 <p className="text-xs text-muted-foreground">{item.desc}</p>
               )}

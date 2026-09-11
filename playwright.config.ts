@@ -24,6 +24,13 @@ export default defineConfig({
     baseURL: "http://localhost:3000",
     trace: "on-first-retry",
     locale: "ar-LY",
+    /* r14 (M7): الحزام والسبتنك — الموقع يسجل الآن SW على كل صفحة.
+     حجبه هنا يجعل الـ268+ اختباراً محصنين من أي سلوك SW مستقبلي
+     (اعتراض الطلبات/الكاش) بلا استثناء واحد، وspec الأوفلاين المخصص
+     يفتح سياقه الخاص بـ serviceWorkers:"allow" لاختبار السلوك
+     الحقيقي. التسجيل نفسه لا يولّد ضوضاء console (السكربت inline
+     يبتلع الفشل بـ.catch). */
+    serviceWorkers: "block",
   },
   projects: [
     {

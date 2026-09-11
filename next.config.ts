@@ -58,6 +58,16 @@ const nextConfig: NextConfig = {
         source: "/manifest.webmanifest",
         headers: [{ key: "Cache-Control", value: "public, max-age=86400" }],
       },
+      /* r14 (M7): SW يجب أن يعاد جلبه دائماً — Vercel يخدم public/ هكذا
+         افتراضياً، لكن التصريح الصريح يحميه من أي نسخ مستقبلي لقائمة
+         immutable المجاورة (سطر إصدار SW واحد يفشل بصمت خلف كاش سنة). */
+      {
+        source: "/sw.js",
+        headers: [
+          { key: "Cache-Control", value: "public, max-age=0, must-revalidate" },
+          { key: "Service-Worker-Allowed", value: "/" },
+        ],
+      },
     ];
     return [
       {

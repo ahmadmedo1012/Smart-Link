@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 import { Cairo, Readex_Pro } from "next/font/google"
 import { ThemeProvider } from "@/components/theme-provider"
+import { ThemeColorSync } from "@/components/theme-color-sync"
 import { LazyAnalytics } from "@/components/lazy-analytics"
 import { MainNav } from "@/components/main-nav"
 import { Footer } from "@/components/footer"
@@ -96,6 +97,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
         <link rel="manifest" href="/manifest.webmanifest" />
+        {/* r14 (M7): تسجيل SW أصغرية (ملاحة فقط + /offline عند انقطاع
+            الشبكة) — سكربت inline بنمط JSON-LD نفسه: صفر حزم، صفر ترطيب،
+            والتسجيل بعد load فلا يقترب من النافذة الحرجة. .catch يبتلع
+            أي فشل (Playwright يحجب SW في سياقات الاختبار بلا ضوضاء). */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `if("serviceWorker" in navigator){window.addEventListener("load",function(){navigator.serviceWorker.register("/sw.js").catch(function(){})},{once:true})}`,
+          }}
+        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd()) }}
@@ -119,6 +129,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             timelines keep a static (invisible) bar: decorative, safe. */}
         <div className="scroll-progress" aria-hidden="true" />
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
+          <ThemeColorSync />
           <MainNav />
           <main id="main-content" className="flex-1">
             {children}

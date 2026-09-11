@@ -62,6 +62,16 @@ test.describe("offline — سلوك Service Worker", () => {
   test("SW يسجل وينشط ثم يخدم /offline عند انقطاع الشبكة، ويعود network-first", async ({ browser }) => {
     const context = await browser.newContext({ serviceWorkers: "allow" })
     const page = await context.newPage()
+    /* نفس إسكات fixture المشترك — السياق الخاص لا يرث الـroutes:
+       التحليلات lazyOnload تطلق 404 محلياً (لا يوجد /_vercel محلياً)،
+       والتسجيل المؤجل إلى idle (r14-post) يترك للسكربت وقتاً لإطلاق
+       ضوضائه أثناء انتظار ready — إسكات المصدر أقوى من تصفية الأخطاء. */
+    await page.route("**/_vercel/insights/**", (r) =>
+      r.fulfill({ status: 200, contentType: "application/javascript", body: "" })
+    )
+    await page.route("**/va.vercel-scripts.com/**", (r) =>
+      r.fulfill({ status: 200, contentType: "application/javascript", body: "" })
+    )
     const errors: string[] = []
     page.on("console", (m) => m.type() === "error" && errors.push(m.text()))
     page.on("pageerror", (e) => errors.push(String(e)))
@@ -91,8 +101,13 @@ test.describe("offline — سلوك Service Worker", () => {
         "لا يوجد اتصال بالإنترنت"
       )
 
-      // بوابة console يدوية (سياق خاص خارج fixture المشترك)
-      expect(errors, `أخطاء SW غير متوقعة: ${JSON.stringify(errors)}`).toEqual([])
+      // بوابة console يدوية (سياق خاص خارج fixture المشترك) — ضوضية
+      // الشبكة المقصودة معلنة: فشل الملاحة الأوفلاين نفسه هو المسار
+      // الذي يصطاده الـSW ويخدم الكاش مكانه (سلوك متوقع بلا إصلاح)
+      const relevant = errors.filter(
+        (e) => !/ERR_INTERNET_DISCONNECTED/.test(e)
+      )
+      expect(relevant, `أخطاء SW غير متوقعة: ${JSON.stringify(relevant)}`).toEqual([])
     } finally {
       await context.close()
     }

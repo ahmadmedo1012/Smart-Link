@@ -98,12 +98,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
         <link rel="manifest" href="/manifest.webmanifest" />
         {/* r14 (M7): تسجيل SW أصغرية (ملاحة فقط + /offline عند انقطاع
-            الشبكة) — سكربت inline بنمط JSON-LD نفسه: صفر حزم، صفر ترطيب،
-            والتسجيل بعد load فلا يقترب من النافذة الحرجة. .catch يبتلع
-            أي فشل (Playwright يحجب SW في سياقات الاختبار بلا ضوضاء). */}
+            الشبكة) — سكربت inline بنمط JSON-LD نفسه: صفر حزم، صفر ترطيب.
+            r14-post: التسجيل أُجّل إلى idle (سقف 3s) — التثبيت يجلب /offline
+            ويكتب الكاش فور load، فكان ينافس نافذة القياس الحساسة وزوار
+            3G الباردة على الشبكة/CPU بلا داعٍ؛ الحماية تصل خلال ثوانٍ
+            قبل أي سيناريو انقطاع+إعادة فتح واقعي. .catch يبتلع أي فشل
+            (Playwright يحجب SW في سياقات الاختبار بلا ضوضاء). */}
         <script
           dangerouslySetInnerHTML={{
-            __html: `if("serviceWorker" in navigator){window.addEventListener("load",function(){navigator.serviceWorker.register("/sw.js").catch(function(){})},{once:true})}`,
+            __html: `if("serviceWorker" in navigator){window.addEventListener("load",function(){var r=function(){navigator.serviceWorker.register("/sw.js").catch(function(){})};if("requestIdleCallback" in window){requestIdleCallback(r,{timeout:3000})}else{setTimeout(r,1500)}},{once:true})}`,
           }}
         />
         <script

@@ -29,6 +29,25 @@ export async function hydrationGate(page: Page) {
 /** إطار العرض الجوال القياسي (iPhone X-class — 375×812). */
 export const MOBILE_VIEWPORT = { width: 375, height: 812 } as const
 
+/** الفحص الأفقي كما يراه المستخدم: المستند والجسد لا يتجاوزان إطار العرض.
+ *  (r14-M6: مرفوع من sim-devices.spec.ts حيث كان حرفياً محلياً — استخدامه
+ *  الأول كان 375×812، والآن 320/landscape كذلك. المكان الواحد لتعديل
+ *  سلوك الفحص المشترك.) */
+export async function assertNoHScroll(page: Page, label: string) {
+  const o = await page.evaluate(() => ({
+    doc: document.documentElement.scrollWidth - document.documentElement.clientWidth,
+    body: document.body.scrollWidth - document.documentElement.clientWidth,
+  }))
+  expect(
+    o.doc,
+    `FINDING[h-scroll] ${label}: documentElement فائض ${o.doc}px`
+  ).toBeLessThanOrEqual(0)
+  expect(
+    o.body,
+    `FINDING[h-scroll] ${label}: body فائض ${o.body}px`
+  ).toBeLessThanOrEqual(0)
+}
+
 /** تمرير طلب النموذج إلى الخادم الحقيقي بعنوان IP مزيف فريد (route
  *  handler يعدّل الترويسات ويستمر) — لعزل دلو المعدل لكل اختبار. */
 export const spoofIp = (ip: string) => (route: Route) =>

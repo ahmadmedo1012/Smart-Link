@@ -157,3 +157,31 @@ test("r13 — حد 767/768: البرغر يظهر تحته ويختفي فوقه
   await expect(page.getByRole("button", { name: /فتح القائمة|إغلاق القائمة/ })).toBeHidden()
   await expect(page.getByRole("navigation", { name: "التنقل الرئيسي" })).toBeVisible()
 })
+
+/* r14 (M5-F2/M6-F5): القائمة داخل هيدر fixed — أي رابط تحت حافة الشاشة
+ * مستحيل الوصول (تمرير الصفحة لا يحرك الهيدر). قبل إصلاح r14: قاع
+ * القائمة+الفرعية 430px في landscape 375 → «تواصل معنا» و«الأسعار»
+ * خارج الشاشة (قياس r14-findings/m5 §menu-height). بعد الإصلاح
+ * (max-h + overflow-y-auto): القائمة تتمرر داخلياً — العقد: كل رابط
+ * يمكن إحضاره داخل الشاشة والنقر عليه. */
+test("r14 — landscape: كل روابط القائمة (والفرعية) قابلة للوصول فعلاً", async ({ page }) => {
+  await page.setViewportSize({ width: 667, height: 375 })
+  await page.goto("/", { waitUntil: "load" })
+  await page.getByRole("button", { name: /فتح القائمة|إغلاق القائمة/ }).click()
+  const mobileNav = page.locator('nav[aria-label="قائمة الجوال"]')
+  await expect(mobileNav).toBeVisible()
+  // افتح القائمة الفرعية (أسوأ حالة ارتفاع — قياس M5: 430px قبل الإصلاح)
+  await mobileNav.locator("button", { hasText: "خدماتنا" }).click()
+  await expect(
+    mobileNav.locator('a[href="https://menu.smart-link.ly"]')
+  ).toBeVisible()
+
+  // العقد: كل رابط يمكن إحضاره داخل إطار العرض (تمريراً داخلياً بعد
+  // الإصلاح) ثم النقر ينجح — قبل الإصلاح العنصر داخل هيدر fixed مقصوص
+  // بلا تمرير داخلي → scrollIntoViewIfNeeded تنهر والاختبار أحمر.
+  const contact = mobileNav.locator('a[href="/contact"]')
+  await contact.scrollIntoViewIfNeeded({ timeout: 4000 })
+  await contact.click()
+  await expect(page).toHaveURL(/\/contact$/)
+  await expect(mobileNav).toBeHidden()
+})

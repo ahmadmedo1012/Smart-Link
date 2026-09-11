@@ -1,6 +1,6 @@
 import type { Page } from "@playwright/test"
 import { test, expect, PAGES } from "./fixtures"
-import { SHOT_DIR, slug, hydrationGate, MOBILE_VIEWPORT } from "./helpers"
+import { SHOT_DIR, slug, hydrationGate, MOBILE_VIEWPORT, assertNoHScroll } from "./helpers"
 
 /**
  * r11-B3 — محاكاة الأجهزة والبصريات (gstack user-perceivable qa-patterns)
@@ -48,21 +48,8 @@ async function scrollThrough(page: Page) {
   await page.waitForTimeout(200)
 }
 
-/** الفحص الأفقي كما يراه المستخدم: المستند والجسد لا يتجاوزان إطار العرض */
-async function assertNoHScroll(page: Page, label: string) {
-  const o = await page.evaluate(() => ({
-    doc: document.documentElement.scrollWidth - document.documentElement.clientWidth,
-    body: document.body.scrollWidth - document.documentElement.clientWidth,
-  }))
-  expect(
-    o.doc,
-    `FINDING[h-scroll] ${label}: documentElement فائض ${o.doc}px`
-  ).toBeLessThanOrEqual(0)
-  expect(
-    o.body,
-    `FINDING[h-scroll] ${label}: body فائض ${o.body}px`
-  ).toBeLessThanOrEqual(0)
-}
+/* r14-M6: assertNoHScroll رُفع إلى helpers.ts (المكان الواحد) — حذفت
+   النسخة المحلية هنا. */
 
 async function shot(page: Page, name: string) {
   await page.screenshot({
@@ -198,6 +185,29 @@ test.describe("MOBILE 375×812 — نموذج التواصل", () => {
     await assertNoHScroll(page, "375px /contact (بعد تعبئة بريد طويل)")
 
     // ملاحظة: لا نضغط «إرسال» — لا نريد طلب API فعلياً (حد المعدل/البريد)
+  })
+  test("/contact — خط الحقول ≥ 16px (حرّاس iOS zoom — إصلاح r10 غير المحروس)", async ({ page }) => {
+    await page.goto("/contact", { waitUntil: "load" })
+    await hydrationGate(page)
+    /* r14-M6 (F4): أي حقل دون 16px يجعل iOS Safari يزوّم الصفحة كلها عند
+       تركيزه — إصلاح r10 (text-base في inputBase) كان موثقاً بتعليقات فقط.
+       انحداراً واحداً إلى text-sm يمر CI أخضر على كل مستخدمي iPhone في
+       صفحة التحويل الوحيدة. getByLabel مؤكد (contact.spec يثبت label/for). */
+    const FIELD_LABELS: Record<string, string> = {
+      name: "الاسم",
+      email: "البريد الإلكتروني",
+      subject: "الموضوع",
+      message: "الرسالة",
+    }
+    for (const [id, label] of Object.entries(FIELD_LABELS)) {
+      const size = await page
+        .getByLabel(label, { exact: true })
+        .evaluate((el) => parseFloat(getComputedStyle(el).fontSize))
+      expect(
+        size,
+        `FINDING[ios-zoom] ${id}: font-size ${size}px < 16 — iOS يقرب الصفحة عند تركيز الحقل`
+      ).toBeGreaterThanOrEqual(16)
+    }
   })
 })
 

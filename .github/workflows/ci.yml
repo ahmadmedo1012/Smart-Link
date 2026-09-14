@@ -39,7 +39,7 @@ jobs:
       # r10 (testing audit): ~120MB متصفح تُنزّل في كل تشغيل — كاش
       # بمفتاح lockfile يختصر الدقيقة الأولى من كل CI.
       - name: Playwright browser cache
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: ~/.cache/ms-playwright
           key: playwright-${{ runner.os }}-${{ hashFiles('package-lock.json') }}

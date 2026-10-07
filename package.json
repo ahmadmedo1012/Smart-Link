@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "eslint",
     "test:e2e": "playwright test",
+    "test:parity": "node tests/parity.mjs",
     "test:live:sim": "playwright test --config e2e/playwright.live.config.ts"
   },
   "dependencies": {

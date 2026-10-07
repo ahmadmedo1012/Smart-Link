@@ -46,7 +46,12 @@ interface ContactFields {
 function fieldRow(label: string, value: string) {
   return (
     <Section style={{ marginBottom: "18px" }}>
-      <Text style={{ margin: 0, color: MUTED, fontSize: "12px", fontWeight: 700, letterSpacing: "0.5px" }}>
+      {/* m16 (wave-A QA): letterSpacing 0.5px removed — the labels are
+          Arabic and email clients ignore styles.css's unlayered RTL guard,
+          so the tracking actually reached the glyphs (Madarek ruling #2:
+          tracking breaks Arabic cursive joins). Hierarchy keeps the 700
+          weight + muted color. */}
+      <Text style={{ margin: 0, color: MUTED, fontSize: "12px", fontWeight: 700 }}>
         {label}
       </Text>
       <Text style={{ margin: "4px 0 0", color: "#F2EFE6", fontSize: "15px", lineHeight: "1.7" }}>

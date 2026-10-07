@@ -50,6 +50,16 @@ export const metadata: Metadata = {
     "SmartLink منصة رقمية ليبية متكاملة تقدم حلولاً ذكية للأعمال: المنيو الرقمي التفاعلي للمطاعم، والبوت الذكي لردود فيسبوك الآلية — ابدأ مجاناً اليوم وطور أعمالك.",
   keywords: ["SmartLink", "منصة رقمية", "الربط الذكي", "منيو رقمي", "بوت فيسبوك", "تسويق إلكتروني"],
   metadataBase: new URL(SITE.url),
+  /* r14 (M7): viewport-fit cover — the web view must extend under the
+     iOS home-indicator / Dynamic Island so env(safe-area-inset-*)
+     resolves to real values. Without this, .safe-area-pb and any
+     calc() using env() was a no-op reading 0 on every iPhone with a
+     bottom gesture area. Paired with the CSS utilities below. */
+  viewport: {
+    width: "device-width",
+    initialScale: 1,
+    viewportFit: "cover",
+  },
   /* r7: home was the ONLY route without a canonical link — the five
      subpages stamp one via pageMetadata(), but the root layout never
      defined alternates, so search engines got no self-reference for

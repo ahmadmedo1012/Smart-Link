@@ -35,7 +35,7 @@ const plans = [
       "إحصائيات أساسية",
       "دعم فني عبر البريد",
     ],
-    color: "oklch(0.7 0.19 60)",
+    color: "var(--c-peach-ink)",
   },
   {
     title: "SmartBot",
@@ -53,7 +53,7 @@ const plans = [
       "إدارة صفحة واحدة",
       "دعم فني عبر البريد",
     ],
-    color: "oklch(0.55 0.15 280)",
+    color: "var(--c-lavender-ink)",
   },
 ]
 

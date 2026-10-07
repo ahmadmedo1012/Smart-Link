@@ -99,3 +99,13 @@ Next.js 16 App Router, RTL Arabic, Tailwind CSS v4.
 - **Touch targets floor is 24×24, guarded at zero** (`sim-touch-targets.spec`): footer/legal/contact links carry `py-2.5`+inline-flex (40px+); a new interactive element below 24px fails CI. Primary CTAs aim for 44×44 (HIG) — burger/theme/back-to-top are guarded at exactly that.
 - **`touch-action: manipulation`** sits on interactive elements (base layer) — kills the legacy double-tap-zoom delay without touching pinch-zoom (viewport meta stays free of user-scalable/maximum-scale — WCAG 1.4.4 guarded by a spec).
 - **Stale-server debugging (local)**: after `npm run build`, `next start` must actually restart — in this environment `lsof -i:3000` can MISS the listening process; kill by PID via `ss -tlnp` and verify the served CSS byte-size matches `.next/static/chunks/*.css` before believing any "broken layout" result (a 21-byte CSS = a server still running the previous build's in-memory state).
+
+<!-- BEGIN:nextjs-agent-rules -->
+
+# This is NOT the Next.js you know
+
+This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` (resolved from this file's directory; in monorepos the `next` package may not be visible from the repo root) before writing any code. Heed deprecation notices.
+
+This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
+
+<!-- END:nextjs-agent-rules -->

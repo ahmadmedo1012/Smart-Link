@@ -2,10 +2,137 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* ═══════════════════════════════════════════════════════════════════
+   MADAREK FONTS (m15) — self-hosted IBM Plex, copied verbatim from
+   madarek/frontend/src/styles/fonts.css (refs/madarek-reference.md §7).
+   12 woff2 live in /public/fonts (≈329 KB on disk; unicode-range
+   subsets mean the browser only downloads what a page paints — a
+   typical first paint needs the two preloaded arabic cuts ≈86 KB).
+   · Sans Arabic 400/500/600/700 — body + display (NO true 800 cut
+     exists: font-extrabold resolves to the real 700 file, zero
+     synthesis — commandment 3).
+   · Serif italic 400/500 — latin unicode-range ONLY (no Arabic glyph
+     can reach them; Arabic emphasis = upright weight + accent ink).
+   · Mono 400/500 — codes/IDs/numbers (latin).
+   font-display: swap on every face. Replaces the former Google-Fonts
+   Cairo (preloaded!) + Readex Pro pair — those bytes downloaded and
+   were then overridden away by the token layer; pure LCP waste.
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* ── IBM Plex Sans Arabic — arabic subset ─────────────────────────── */
+@font-face {
+  font-family: 'IBM Plex Sans Arabic';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/plex-sans-arabic-400-normal-arabic.woff2') format('woff2');
+  unicode-range: U+0600-06FF, U+0750-077F, U+0870-088E, U+0890-0891, U+0897-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC, U+102E0-102FB, U+10E60-10E7E, U+10EC2-10EC4, U+10EFC-10EFF, U+1EE00-1EE03, U+1EE05-1EE1F, U+1EE21-1EE22, U+1EE24, U+1EE27, U+1EE29-1EE32, U+1EE34-1EE37, U+1EE39, U+1EE3B, U+1EE42, U+1EE47, U+1EE49, U+1EE4B, U+1EE4D-1EE4F, U+1EE51-1EE52, U+1EE54, U+1EE57, U+1EE59, U+1EE5B, U+1EE5D, U+1EE5F, U+1EE61-1EE62, U+1EE64, U+1EE67-1EE6A, U+1EE6C-1EE72, U+1EE74-1EE77, U+1EE79-1EE7C, U+1EE7E, U+1EE80-1EE89, U+1EE8B-1EE9B, U+1EEA1-1EEA3, U+1EEA5-1EEA9, U+1EEAB-1EEBB, U+1EEF0-1EEF1;
+}
+@font-face {
+  font-family: 'IBM Plex Sans Arabic';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/plex-sans-arabic-500-normal-arabic.woff2') format('woff2');
+  unicode-range: U+0600-06FF, U+0750-077F, U+0870-088E, U+0890-0891, U+0897-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC, U+102E0-102FB, U+10E60-10E7E, U+10EC2-10EC4, U+10EFC-10EFF, U+1EE00-1EE03, U+1EE05-1EE1F, U+1EE21-1EE22, U+1EE24, U+1EE27, U+1EE29-1EE32, U+1EE34-1EE37, U+1EE39, U+1EE3B, U+1EE42, U+1EE47, U+1EE49, U+1EE4B, U+1EE4D-1EE4F, U+1EE51-1EE52, U+1EE54, U+1EE57, U+1EE59, U+1EE5B, U+1EE5D, U+1EE5F, U+1EE61-1EE62, U+1EE64, U+1EE67-1EE6A, U+1EE6C-1EE72, U+1EE74-1EE77, U+1EE79-1EE7C, U+1EE7E, U+1EE80-1EE89, U+1EE8B-1EE9B, U+1EEA1-1EEA3, U+1EEA5-1EEA9, U+1EEAB-1EEBB, U+1EEF0-1EEF1;
+}
+@font-face {
+  font-family: 'IBM Plex Sans Arabic';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('/fonts/plex-sans-arabic-600-normal-arabic.woff2') format('woff2');
+  unicode-range: U+0600-06FF, U+0750-077F, U+0870-088E, U+0890-0891, U+0897-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC, U+102E0-102FB, U+10E60-10E7E, U+10EC2-10EC4, U+10EFC-10EFF, U+1EE00-1EE03, U+1EE05-1EE1F, U+1EE21-1EE22, U+1EE24, U+1EE27, U+1EE29-1EE32, U+1EE34-1EE37, U+1EE39, U+1EE3B, U+1EE42, U+1EE47, U+1EE49, U+1EE4B, U+1EE4D-1EE4F, U+1EE51-1EE52, U+1EE54, U+1EE57, U+1EE59, U+1EE5B, U+1EE5D, U+1EE5F, U+1EE61-1EE62, U+1EE64, U+1EE67-1EE6A, U+1EE6C-1EE72, U+1EE74-1EE77, U+1EE79-1EE7C, U+1EE7E, U+1EE80-1EE89, U+1EE8B-1EE9B, U+1EEA1-1EEA3, U+1EEA5-1EEA9, U+1EEAB-1EEBB, U+1EEF0-1EEF1;
+}
+@font-face {
+  font-family: 'IBM Plex Sans Arabic';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/plex-sans-arabic-700-normal-arabic.woff2') format('woff2');
+  unicode-range: U+0600-06FF, U+0750-077F, U+0870-088E, U+0890-0891, U+0897-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC, U+102E0-102FB, U+10E60-10E7E, U+10EC2-10EC4, U+10EFC-10EFF, U+1EE00-1EE03, U+1EE05-1EE1F, U+1EE21-1EE22, U+1EE24, U+1EE27, U+1EE29-1EE32, U+1EE34-1EE37, U+1EE39, U+1EE3B, U+1EE42, U+1EE47, U+1EE49, U+1EE4B, U+1EE4D-1EE4F, U+1EE51-1EE52, U+1EE54, U+1EE57, U+1EE59, U+1EE5B, U+1EE5D, U+1EE5F, U+1EE61-1EE62, U+1EE64, U+1EE67-1EE6A, U+1EE6C-1EE72, U+1EE74-1EE77, U+1EE79-1EE7C, U+1EE7E, U+1EE80-1EE89, U+1EE8B-1EE9B, U+1EEA1-1EEA3, U+1EEA5-1EEA9, U+1EEAB-1EEBB, U+1EEF0-1EEF1;
+}
+
+/* ── IBM Plex Sans Arabic — latin subset (digits, codes, latin runs) ── */
+@font-face {
+  font-family: 'IBM Plex Sans Arabic';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/plex-sans-arabic-400-normal-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'IBM Plex Sans Arabic';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/plex-sans-arabic-500-normal-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'IBM Plex Sans Arabic';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('/fonts/plex-sans-arabic-600-normal-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'IBM Plex Sans Arabic';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/plex-sans-arabic-700-normal-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* ── IBM Plex Serif — italic accent cuts (latin; Arabic falls back) ── */
+@font-face {
+  font-family: 'IBM Plex Serif';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/plex-serif-400-italic-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'IBM Plex Serif';
+  font-style: italic;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/plex-serif-500-italic-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* ── IBM Plex Mono — latin (codes, IDs, numbers, emails) ──────────── */
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/plex-mono-400-normal-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/plex-mono-500-normal-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
 @theme inline {
-  /* Brand parity with Smart-Menu/SmartBot (source: Smart-Menu globals.css) */
-  --font-sans: var(--font-cairo, "Cairo"), "Cairo", "Noto Sans Arabic", system-ui, sans-serif;
-  --font-heading: var(--font-readex-pro, "Readex Pro"), var(--font-cairo, "Cairo"), "Noto Sans Arabic", system-ui, sans-serif;
+  /* m15 (Madarek parity §2.1): IBM Plex Sans Arabic self-hosted from
+     /public/fonts (see the @font-face block above). Body and display
+     share the family — Plex Sans Arabic IS the display voice in
+     Madarek; the old Cairo/Readex Google-Fonts pair is gone (its
+     bytes downloaded preloaded and were never painted). */
+  --font-sans: "IBM Plex Sans Arabic", "Tajawal", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-heading: "IBM Plex Sans Arabic", "Tajawal", system-ui, sans-serif;
+  --font-serif: "IBM Plex Serif", Georgia, serif;
+  --font-mono: "IBM Plex Mono", "IBM Plex Sans Arabic", ui-monospace, "SFMono-Regular", monospace;
 
   /* r9 (audit P2-1): Tailwind v4 emits shadow-* utilities ONLY from the
      @theme --shadow-* namespace. The tonal shadows previously lived in
@@ -29,127 +156,245 @@
   --color-primary: var(--primary);
   --color-primary-text: var(--primary-text);
 
+  /* Radii already sit on the Madarek "Notion-soft" ladder (§1.2):
+     8 = --r-sm · 20 = --r-2xl · 28 = --r-3xl. The full 6/8/10/12/16/
+     20/28 ladder is declared as --r-* in :root below. */
   --radius-sm: 8px;
   --radius-lg: 20px;
   --radius-xl: 28px;
 
-  --ease-smooth: cubic-bezier(0.16, 1, 0.2, 1);
+  /* m15: exact Madarek --ease-out (§4.2) — the exponential settle.
+     (The pre-existing value 0.2,1 was a near-identical hand-tune.) */
+  --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
+/* ═══════════════════════════════════════════════════════════════════
+   m15 — MADAREK TOKEN BRIDGE (dark = default theme)
+   Values are exact from refs/madarek-reference.md (the "DARK" column):
+   night-indigo ground #070B16 · sand ink #F2EFE6 · gold accent #E9B44C.
+   Smart-Link's original token NAMES are preserved (27 are consumed by
+   components) — only the values changed. The former flame-orange oklch
+   world is retired. Smart-Link's --primary = Madarek's accent family
+   (gold here, copper in .light): CTAs, focus, links and icon tints all
+   ride it, exactly like the copper/gold accent carries Madarek.
+   ═══════════════════════════════════════════════════════════════════ */
 :root {
   --scroll-offset: 6rem;
   --duration-base: 0.4s;
+  color-scheme: dark;
 
-  /* ── Core palette ── */
-  --background: oklch(0.018 0.003 30);
-  --foreground: oklch(0.95 0.003 30);
-  --card: oklch(0.085 0.004 30);
-  --primary: oklch(0.55 0.19 45);
-  /* AA on near-black backgrounds: 0.68 measured only 4.0:1 — raised to 0.74 (≈7.1:1) */
-  --primary-text: oklch(0.74 0.19 45);
-  --muted-foreground: oklch(0.62 0.015 30);
-  --accent: oklch(0.55 0.19 45 / 0.15);
-  --destructive: oklch(0.62 0.22 25);
-  /* r13 (a11y audit 1.4.11): the bare --border (1.10:1 on card) made the
-     RESTING field boundaries invisible to low-vision users — only the
-     focus/error states were distinguishable. A mixed border clears 3:1
-     in both themes (dark ≈3.21, light ≈3.48 — measured, contrast-r13.json). */
+  /* ── Core palette — Madarek night (§1.3/§1.7 dark) ── */
+  --background: #070B16;
+  --foreground: #F2EFE6;
+  --card: #0D1428;
+  /* --primary = the gold accent (§1.5 dark --accent). White text on
+     gold measures 1.89:1, so filled CTAs carry --primary-fg ink —
+     the Madarek .btn.accent dark recipe (§5.1). */
+  --primary: #E9B44C;
+  /* --primary-text = Madarek --accent-ink dark (§1.5): accent AS TEXT,
+     10.3:1 on the night ground. */
+  --primary-text: #E9B44C;
+  /* --primary-fg = Madarek --accent-fg dark: text ON an accent fill. */
+  --primary-fg: #05070F;
+  /* --accent keeps Smart-Link's translucent-wash semantics (18 hover
+     backgrounds + icon wells) — the gold at the original 15% wash. */
+  --accent: rgb(233 180 76 / 0.15);
+  --muted-foreground: #C3C8DC;
+  /* --destructive/--success/--warning = the Madarek -ink status values
+     (§1.6) — these tokens render TEXT, so the fill/stroke values stay
+     out: danger-ink #F0938F etc. The contact form derives its tinted
+     boxes via oklch(from …) so they follow automatically. */
+  --destructive: #F0938F;
+  /* r13 (a11y audit 1.4.11) recipe kept: a mixed border clears 3:1 in
+     both themes — now mixing Madarek ink + Madarek card. */
   --input-border: color-mix(in oklab, var(--muted-foreground) 70%, var(--card));
-  --border: oklch(0.18 0.006 30);
-  --ring: oklch(0.55 0.19 45);
-  --success: oklch(0.62 0.18 145);
-  --warning: oklch(0.72 0.16 80);
+  --border: #1B2444;
+  --border-strong: #263052;
+  /* --ring = Madarek --state-focus-ring-color = --accent-strong dark
+     (§4.5, 7.87:1). Also tints the feature-card hover hairline. */
+  --ring: #C9962F;
+  --success: #7FD39A;
+  --warning: #ECC97D;
 
-  /* ── Surface hierarchy ── */
-  --surface-raised: oklch(0.14 0.006 30);
-  --surface-sunken: oklch(0.04 0.002 30);
+  /* ── Madarek accent family (§1.5 dark column), exact ── */
+  --accent-solid: #E9B44C;
+  --accent-hover: #F5D48A;
+  --accent-soft: #2C2312;
+  --accent-strong: #C9962F;
+  --accent-ink: #E9B44C;
+  --accent-fg: #05070F;
 
-  /* ── Glass variants ── */
-  --glass-bg: oklch(0.085 0.004 30 / 0.35);
-  --glass-bg-strong: oklch(0.12 0.005 30 / 0.55);
-  --glass-border: oklch(0.55 0.19 45 / 0.08);
-  --glass-shadow: 0 8px 32px oklch(0 0 0 / 0.45), inset 0 1px 0 oklch(1 1 0 / 0.04);
-  --glass-shadow-lg: 0 12px 48px oklch(0 0 0 / 0.5), inset 0 1px 0 oklch(1 1 0 / 0.06);
+  /* ── Surface hierarchy — Madarek dark surfaces (§1.3/§1.7) ── */
+  --surface-raised: #121A36;
+  --surface-sunken: #0D1428;
 
-  /* ── Tonal shadows (runtime side of the @theme --shadow-* entries above) ── */
-  --t-shadow-lg: 0 12px 40px oklch(0 0 0 / 0.45), 0 4px 8px oklch(0 0 0 / 0.35);
-  --t-shadow-xl: 0 24px 60px oklch(0 0 0 / 0.5), 0 8px 16px oklch(0 0 0 / 0.4);
-  --t-glow: 0 0 30px oklch(0.55 0.19 45 / 0.25);
-  --t-glow-strong: 0 0 60px oklch(0.55 0.19 45 / 0.35);
+  /* ── Glass variants — Madarek §1.8 dark, exact ── */
+  --glass-bg: rgba(11, 16, 32, 0.78);
+  --glass-bg-strong: rgba(13, 20, 40, 0.92);
+  --glass-border: rgba(142, 151, 184, 0.12);
+  --glass-shadow: 0 8px 16px rgba(0, 0, 0, 0.40), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  --glass-shadow-lg: 0 16px 32px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.07);
 
-  /* ── Service gradients ── */
-  --gradient-smart-menu: linear-gradient(135deg, oklch(0.7 0.19 60 / 0.25), oklch(0.7 0.15 50 / 0.1));
-  --gradient-smart-bot: linear-gradient(135deg, oklch(0.55 0.15 280 / 0.25), oklch(0.5 0.12 280 / 0.1));
-  --gradient-coming-soon: linear-gradient(135deg, oklch(0.6 0.18 160 / 0.25), oklch(0.55 0.15 160 / 0.1));
+  /* ── Tonal shadows (runtime side of the @theme --shadow-* entries)
+     → Madarek §1.9 dark recipes: shadow-lg = --shadow-pop,
+     shadow-xl = --shadow-modal (heavier + 1px light ring). ── */
+  --t-shadow-lg: 0 2px 4px rgba(2, 4, 12, 0.55), 0 10px 28px rgba(2, 4, 12, 0.62), 0 0 0 1px rgba(142, 151, 184, 0.10);
+  --t-shadow-xl: 0 12px 32px rgba(2, 4, 12, 0.66), 0 32px 80px rgba(2, 4, 12, 0.70), 0 0 0 1px rgba(142, 151, 184, 0.12);
+  --t-glow: 0 0 30px rgb(233 180 76 / 0.25);
+  --t-glow-strong: 0 0 60px rgb(233 180 76 / 0.35);
 
-  /* ── Grid pattern ── */
-  --grid-line: oklch(0.55 0.19 45 / 0.1);
+  /* ── Service gradients — Madarek pastel families (§1.4):
+     smart-menu = peach · smart-bot = lavender · coming-soon = mint.
+     Family -ink hues at the original wash alphas (25%→10% dark). ── */
+  --gradient-smart-menu: linear-gradient(135deg, rgb(242 160 127 / 0.25), rgb(242 160 127 / 0.1));
+  --gradient-smart-bot: linear-gradient(135deg, rgb(183 160 244 / 0.25), rgb(183 160 244 / 0.1));
+  --gradient-coming-soon: linear-gradient(135deg, rgb(127 211 154 / 0.25), rgb(127 211 154 / 0.1));
 
-  /* ── Gradient-text stops (r10 a11y P0) ──
-     Dark-mode values keep the historical look (6.78/8.68:1 on the dark
-     background). Light-mode values live in .light — see below. */
-  --gradient-text-mid: oklch(0.68 0.19 45);
-  --gradient-text-end: oklch(0.75 0.18 50);
+  /* ── Grid pattern — gold hairline at the original 10% ── */
+  --grid-line: rgb(233 180 76 / 0.1);
 
-  /* ── Motion ── */
+  /* ── Gradient-text stops — gold → accent-hover gold (§1.5 dark);
+     10.3:1+ on the night ground (large-text AA everywhere it paints). ── */
+  --gradient-text-mid: #E9B44C;
+  --gradient-text-end: #F5D48A;
+
+  /* ── Pastel section families consumed here (§1.4 dark column) ── */
+  --c-peach-bg: #2C1A16;  --c-peach-ink: #F2A07F;  --c-peach-deep: #FCD9C4;
+  --c-lavender-bg: #221B3A;  --c-lavender-ink: #B7A0F4;  --c-lavender-deep: #DCD2F9;
+  --c-mint-bg: #0F241C;  --c-mint-ink: #7FD39A;  --c-mint-deep: #C9EAD3;
+  --c-copper-bg: #2C2312;  --c-copper-ink: #E9B44C;  --c-copper-deep: #F5D48A;
+
+  /* ── Radius ladder — Madarek "Notion-soft" (§1.2) ── */
+  --r-xs: 6px;  --r-sm: 8px;  --r-md: 10px;  --r-lg: 12px;
+  --r-xl: 16px;  --r-2xl: 20px;  --r-3xl: 28px;  --r-full: 9999px;
+
+  /* ── Shadows + elevation ladder (§1.9 dark: fill-led + inset top
+     highlight). --shadow-card = --elev-1 per Madarek. ── */
+  --elev-1: 0 1px 2px rgba(0, 0, 0, 0.30), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  --elev-2: 0 4px 8px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  --elev-3: 0 8px 16px rgba(0, 0, 0, 0.40), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  --elev-4: 0 16px 32px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.07);
+  --elev-5: 0 32px 64px rgba(0, 0, 0, 0.50), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  --shadow-card: var(--elev-1);
+  --shadow-card-h: 0 1px 2px rgba(2, 4, 12, 0.50), 0 8px 22px rgba(2, 4, 12, 0.55), 0 0 0 1px rgba(142, 151, 184, 0.08);
+  --shadow-pop: 0 2px 4px rgba(2, 4, 12, 0.55), 0 10px 28px rgba(2, 4, 12, 0.62), 0 0 0 1px rgba(142, 151, 184, 0.10);
+  --shadow-modal: 0 12px 32px rgba(2, 4, 12, 0.66), 0 32px 80px rgba(2, 4, 12, 0.70), 0 0 0 1px rgba(142, 151, 184, 0.12);
+
+  /* ── Scrollbar (§1.16 dark) ── */
+  --scrollbar-thumb: rgba(142, 151, 184, 0.20);
+  --scrollbar-thumb-hover: rgba(142, 151, 184, 0.34);
+
+  /* ── Motion ladder (§4.1/§4.2/§4.3) — durations, easings, and the
+     RTL direction multiplier for any X-axis motion. ── */
+  --t-micro: 80ms;   --t-fast: 160ms;  --t-base: 240ms;
+  --t-slow: 380ms;   --t-slower: 520ms;  --t-cinema: 720ms;
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in: cubic-bezier(0.7, 0, 0.84, 0);
+  --ease-soft: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-spring-soft: cubic-bezier(0.34, 1.18, 0.64, 1);
+  --ease-spring: cubic-bezier(0.34, 1.36, 0.64, 1);
+  --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --motion-direction: 1;
+
+  /* ── Motion (legacy Smart-Link alias) ── */
   --move-base: 300ms;
 }
 
+/* ═══════════════════════════════════════════════════════════════════
+   m15 — MADAREK TOKEN BRIDGE (light theme)
+   Exact values from refs/madarek-reference.md "LIGHT" column:
+   warm-cream ground #FBFAF9 · ink #191918 · copper accent #B57438.
+   ═══════════════════════════════════════════════════════════════════ */
 .light {
-  /* Smart-Menu light-mode parity: darker primary for AA on white (dual-lightness) */
-  --background: oklch(0.985 0 0);
-  --foreground: oklch(0.12 0.004 30);
-  --card: oklch(1 0 0);
-  --primary: oklch(0.4 0.19 45);
-  --primary-text: oklch(0.4 0.19 45);
-  /* r14 (a11y audit): 0.55 measured 4.28:1 where the legal pages' glow layer
-     (5% primary, blur-75) sits under the text — /terms on every portrait
-     viewport + /privacy@390. 0.52 measures 4.82:1 over the glow and 5.29:1
-     clean, closing the whole "secondary text over decorative tint" class
-     for every future layer too. */
-  --muted-foreground: oklch(0.52 0.01 30);
-  --accent: oklch(0.55 0.19 45 / 0.12);
-  /* r10 (a11y audit P1): 0.58 measured 3.93:1 on the error-box tinted
-     background (text-sm size) — only reachable by users who actually
-     made a mistake, so no scanner ever saw it. 0.52 measures 4.95:1. */
-  --destructive: oklch(0.52 0.2 25);
+  color-scheme: light;
+
+  /* ── Core palette — Madarek cream (§1.3/§1.7 light) ── */
+  --background: #FBFAF9;
+  --foreground: #191918;
+  --card: #FFFFFF;
+  /* --primary = the copper accent (§1.5 light --accent). Copper with
+     white text measures 3.8:1, so filled CTAs carry --primary-fg
+     (#1A0F06, 4.95:1) — the Madarek .btn.accent light recipe. */
+  --primary: #B57438;
+  /* --primary-text = Madarek --accent-ink light: copper-deep #5C3416
+     as TEXT, 10.29:1 on cream (dual-lightness pattern preserved). */
+  --primary-text: #5C3416;
+  --primary-fg: #1A0F06;
+  /* Copper wash at the original 12% (Smart-Link wash semantics). */
+  --accent: rgb(181 116 56 / 0.12);
+  --muted-foreground: #4F4D48;
+  --destructive: #6B2128;
   --input-border: color-mix(in oklab, var(--muted-foreground) 80%, var(--card));
-  --border: oklch(0.88 0.006 30);
-  --ring: oklch(0.55 0.19 45);
-  /* darker in light for AA text on white (dual-lightness like --primary) */
-  --success: oklch(0.48 0.15 150);
-  --warning: oklch(0.52 0.13 60);
+  --border: #E9E7E2;
+  --border-strong: #D9D6D0;
+  /* --ring = Madarek --state-focus-ring-color light = --accent-strong
+     #5C3416 (10.29:1) — the AA focus ring Madarek pins. */
+  --ring: #5C3416;
+  --success: #1F4F30;
+  --warning: #6B4C0B;
 
-  --surface-raised: oklch(0.96 0.003 30);
-  --surface-sunken: oklch(0.98 0.002 30);
+  /* ── Madarek accent family (§1.5 light column), exact ── */
+  --accent-solid: #B57438;
+  --accent-hover: #9A5F25;
+  --accent-soft: #F4E4D2;
+  --accent-strong: #5C3416;
+  --accent-ink: #5C3416;
+  --accent-fg: #1A0F06;
 
-  --glass-bg: oklch(1 0 0 / 0.3);
-  --glass-bg-strong: oklch(1 0 0 / 0.5);
-  --glass-border: oklch(0.55 0.19 45 / 0.1);
-  --glass-shadow: 0 8px 32px oklch(0 0 0 / 0.06), inset 0 1px 0 oklch(1 1 0 / 0.6);
-  --glass-shadow-lg: 0 12px 48px oklch(0 0 0 / 0.08), inset 0 1px 0 oklch(1 1 0 / 0.6);
+  /* ── Surface hierarchy — Madarek light surfaces ── */
+  --surface-raised: #F1EFEC;
+  --surface-sunken: #F7F6F3;
 
-  --t-shadow-lg: 0 12px 40px oklch(0 0 0 / 0.08);
-  --t-shadow-xl: 0 24px 60px oklch(0 0 0 / 0.1);
-  --t-glow: 0 0 30px oklch(0.55 0.19 45 / 0.12);
-  --t-glow-strong: 0 0 60px oklch(0.55 0.19 45 / 0.2);
+  /* ── Glass variants — Madarek §1.8 light, exact ── */
+  --glass-bg: rgba(251, 250, 249, 0.78);
+  --glass-bg-strong: rgba(255, 255, 255, 0.9);
+  --glass-border: rgba(25, 25, 24, 0.06);
+  --glass-shadow: 0 8px 16px rgba(0, 0, 0, 0.08), 0 4px 8px rgba(0, 0, 0, 0.05);
+  --glass-shadow-lg: 0 16px 32px rgba(0, 0, 0, 0.10), 0 8px 16px rgba(0, 0, 0, 0.06);
 
-  --gradient-smart-menu: linear-gradient(135deg, oklch(0.7 0.19 60 / 0.15), oklch(0.7 0.15 50 / 0.06));
-  --gradient-smart-bot: linear-gradient(135deg, oklch(0.55 0.15 280 / 0.15), oklch(0.5 0.12 280 / 0.06));
-  --gradient-coming-soon: linear-gradient(135deg, oklch(0.6 0.18 160 / 0.15), oklch(0.55 0.15 160 / 0.06));
+  /* ── Tonal shadows → Madarek §1.9 light recipes ── */
+  --t-shadow-lg: 0 1px 2px rgba(15, 15, 15, 0.04), 0 8px 24px rgba(15, 15, 15, 0.08);
+  --t-shadow-xl: 0 12px 36px rgba(15, 15, 15, 0.10), 0 32px 80px rgba(15, 15, 15, 0.14);
+  --t-glow: 0 0 30px rgb(181 116 56 / 0.12);
+  --t-glow-strong: 0 0 60px rgb(181 116 56 / 0.2);
 
-  --grid-line: oklch(0.55 0.19 45 / 0.06);
+  /* ── Service gradients — family -ink hues at the original light
+     wash alphas (15%→6%). ── */
+  --gradient-smart-menu: linear-gradient(135deg, rgb(224 120 86 / 0.15), rgb(224 120 86 / 0.06));
+  --gradient-smart-bot: linear-gradient(135deg, rgb(138 111 224 / 0.15), rgb(138 111 224 / 0.06));
+  --gradient-coming-soon: linear-gradient(135deg, rgb(79 166 109 / 0.15), rgb(79 166 109 / 0.06));
 
-  /* r10 (a11y audit P0): the gradient-text stops used to be hardcoded at
-     0.68/0.75 lightness — on the LIGHT background they measured 2.96:1
-     and 2.32:1 (large-text needs 3:1) on every gradient heading: hero h1,
-     both showcase cards and the 404. axe/Lighthouse skip the element
-     entirely (-webkit-text-fill-color: transparent defeats their color
-     probe), which is why "a11y 100" never caught it. 0.55/0.52 measure
-     5.01/5.69:1 — comfortably AA. */
-  --gradient-text-mid: oklch(0.55 0.19 45);
-  --gradient-text-end: oklch(0.52 0.18 50);
+  /* ── Grid pattern — copper hairline at the original 6% ── */
+  --grid-line: rgb(181 116 56 / 0.06);
+
+  /* ── Gradient-text stops — copper → accent-hover copper-deep (§1.5):
+     3.65:1 → 5.2:1 on cream. Every gradient-text site is display-size
+     (h1 36–72px, showcase h2 30–36px, 404) — large-text AA ≥3:1 ✓. ── */
+  --gradient-text-mid: #B57438;
+  --gradient-text-end: #9A5F25;
+
+  /* ── Pastel section families (§1.4 light column) ── */
+  --c-peach-bg: #FFE9DC;  --c-peach-ink: #E07856;  --c-peach-deep: #6B2D1A;
+  --c-lavender-bg: #ECE6FA;  --c-lavender-ink: #8A6FE0;  --c-lavender-deep: #3F2D7A;
+  --c-mint-bg: #DCF1E2;  --c-mint-ink: #4FA66D;  --c-mint-deep: #1F4F30;
+  --c-copper-bg: #F4E4D2;  --c-copper-ink: #B57438;  --c-copper-deep: #5C3416;
+
+  /* ── Shadows + elevation ladder (§1.9 light: soft two-layer). ── */
+  --elev-1: 0 1px 2px rgba(0, 0, 0, 0.04), 0 1px 1px rgba(0, 0, 0, 0.06);
+  --elev-2: 0 4px 8px rgba(0, 0, 0, 0.06), 0 2px 4px rgba(0, 0, 0, 0.04);
+  --elev-3: 0 8px 16px rgba(0, 0, 0, 0.08), 0 4px 8px rgba(0, 0, 0, 0.05);
+  --elev-4: 0 16px 32px rgba(0, 0, 0, 0.10), 0 8px 16px rgba(0, 0, 0, 0.06);
+  --elev-5: 0 32px 64px rgba(0, 0, 0, 0.12), 0 16px 32px rgba(0, 0, 0, 0.08);
+  --shadow-card: var(--elev-1);
+  --shadow-card-h: 0 1px 2px rgba(15, 15, 15, 0.04), 0 6px 18px rgba(15, 15, 15, 0.06);
+  --shadow-pop: 0 1px 2px rgba(15, 15, 15, 0.04), 0 8px 24px rgba(15, 15, 15, 0.08);
+  --shadow-modal: 0 12px 36px rgba(15, 15, 15, 0.10), 0 32px 80px rgba(15, 15, 15, 0.14);
+
+  /* ── Scrollbar (§1.16 light) ── */
+  --scrollbar-thumb: rgba(25, 25, 24, 0.16);
+  --scrollbar-thumb-hover: rgba(25, 25, 24, 0.28);
 }
 
 @layer base {
@@ -175,11 +420,13 @@
        which is exactly why clip is preferred where available. */
     overflow-x: hidden;
   }
-  ::selection { background: oklch(0.55 0.19 45 / 0.25); color: var(--foreground); }
+  /* m15: Madarek §2.6 selection — accent at 28% over the ground,
+     text keeps its theme ink. */
+  ::selection { background: color-mix(in srgb, var(--primary) 28%, transparent); color: var(--foreground); }
   ::-webkit-scrollbar { width: 5px; height: 5px; }
   ::-webkit-scrollbar-track { background: transparent; }
-  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 999px; }
-  ::-webkit-scrollbar-thumb:hover { background: var(--muted-foreground); }
+  ::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: 999px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--scrollbar-thumb-hover); }
   *:focus-visible { outline: 2px solid var(--ring); outline-offset: 2px; border-radius: var(--radius-sm); }
   h1, h2, h3, h4 { text-wrap: balance; font-family: var(--font-heading); }
   p { text-wrap: pretty; }
@@ -253,11 +500,13 @@
   content: '';
   position: absolute;
   inset: 0;
+  /* m15: Madarek sheen — the accent sweeps at 30/50% (was hardcoded
+     flame oklch; rides --primary so both themes stay copper/gold). */
   background: linear-gradient(90deg,
     transparent 0%,
-    oklch(0.55 0.19 45 / 0.3) 20%,
-    oklch(0.68 0.19 45 / 0.5) 40%,
-    oklch(0.55 0.19 45 / 0.3) 60%,
+    color-mix(in srgb, var(--primary) 30%, transparent) 20%,
+    color-mix(in srgb, var(--primary) 50%, transparent) 40%,
+    color-mix(in srgb, var(--primary) 30%, transparent) 60%,
     transparent 100%
   );
   animation: nav-shimmer 2s ease-in-out infinite;
@@ -566,7 +815,8 @@
   backdrop-filter: blur(4px);
   font-size: 0.75rem;
   line-height: 1rem;
-  font-weight: 500;
+  /* m15: Madarek label/pill weight (§5.8 — 12px/600) */
+  font-weight: 600;
   color: var(--primary-text);
 }
 
@@ -619,3 +869,99 @@
     animation: none !important;
   }
 }
+
+/* ═══════════════════════════════════════════════════════════════════
+   m15 — MADAREK PATTERN BRIDGE (component alignment)
+   Curated from refs/madarek-reference.md for the components Smart-Link
+   actually renders (CTA buttons, glass cards, eyebrow pills, inputs,
+   headings). Unlayered ON PURPOSE: unlayered rules beat every Tailwind
+   cascade layer, which is how the Madarek recipes win over utility
+   defaults with zero TSX churn. Every :hover rule lives inside a bare
+   @media (hover:hover) block — the r14 sticky-hover e2e contract pins
+   exactly that guard shape.
+   Deliberately NOT ported (zero consumers on a marketing site):
+   sidebar/topbar/has-shell, tables, modals/sheets/toasts, skeletons
+   (no async surfaces), role/college accents, Orbit-Ink landing rules.
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* 1 ── Accent-fill foreground ink (§5.1 .btn.accent recipe) ──────────
+   Copper/gold fills carry their dedicated dark-brown ink, never white:
+   white-on-gold measures 1.89:1 (dark), white-on-copper 3.8:1 (light) —
+   both under the 4.5:1 every CTA label needs. --primary-fg =
+   Madarek --accent-fg (light #1A0F06 4.95:1 · dark #05070F ~10.6:1).
+   Covers both class forms the codebase writes (utility bg-primary and
+   arbitrary bg-[var(--primary)]) plus the layout skip-link's
+   focus-fill. The footer's hover-fill socials live in the guarded
+   block below — a bare :hover rule must sit inside @media
+   (hover:hover) per the r14 sticky-hover contract. */
+.bg-primary.text-white,
+[class~="bg-[var(--primary)]"].text-white,
+[class~="focus:bg-[var(--primary)]"]:focus {
+  color: var(--primary-fg);
+}
+
+/* 2 ── Primary/accent button motion (§4.5) ───────────────────────────
+   The hover lift (−1px) is EXCLUSIVE to filled buttons and only for
+   real pointers; press feedback already rides the Tailwind
+   active:scale-[0.97] utilities on every CTA — what was missing is the
+   Madarek micro-snap: transitions compress to 80ms while pressed.
+   (transform and the scale property compose, so the lift and the
+   press-scale never fight.) */
+@media (hover: hover) {
+  [class~="hover:bg-[var(--primary)]"]:hover {
+    color: var(--primary-fg);
+  }
+  .bg-primary:hover,
+  [class~="bg-[var(--primary)]"]:hover {
+    transform: translateY(-1px);
+  }
+}
+.bg-primary:active,
+[class~="bg-[var(--primary)]"]:active {
+  transition-duration: var(--t-micro);
+}
+
+/* 3 ── Card pattern (§5.4 .card.interactive) ─────────────────────────
+   Hover = warm hairline strengthens + --shadow-card-h elevation + a
+   2px lift; press = 0.995 scale with the micro snap. The .glass-card
+   utility (hero stat cards) already transitions border/shadow/transform
+   at its own cadence — these rules only add the Madarek target states. */
+@media (hover: hover) {
+  .glass-card:hover {
+    border-color: var(--border-strong);
+    box-shadow: var(--shadow-card-h);
+    transform: translateY(-2px);
+  }
+}
+.glass-card:active {
+  transform: scale(0.995);
+  transition-duration: var(--t-micro);
+}
+
+/* 4 ── Arabic typography laws (§2.4/§0 — platform rulings 2 & 5) ─────
+   NO letter-spacing on Arabic, ever: tracking breaks cursive joining.
+   Every Smart-Link heading is Arabic or mixed-script, and a dozen of
+   them carried tracking-tight/tracking-[-0.01em] utilities — unlayered
+   wins over the utilities layer, so the law is enforced globally.
+   (Digit runs like the hero-stat counters are NOT headings — their
+   tabular-nums tracking stays legal.) */
+h1, h2, h3, h4, h5, h6 {
+  letter-spacing: normal;
+}
+
+/* 5 ── RTL motion direction (§4.3) ───────────────────────────────────
+   Multiplier for any X-axis entrance motion. Declared for future
+   consumers; today's X-motion (cta-shine sweep, nav-shimmer) is
+   symmetric so the physical sweep reads identically in both
+   directions — no rewrite needed. */
+[dir="rtl"] {
+  --motion-direction: -1;
+}
+
+/* 6 ── Input focus halo (§5.3) ───────────────────────────────────────
+   The contact form already carries the 16px iOS zoom floor (r13) and a
+   2px --ring halo via utilities; the token bridge points --ring at the
+   Madarek --accent-strong values (10.29:1 light / 7.87:1 dark), which
+   completes the §4.5 input-focus recipe. Nothing further to add —
+   documented here so the pattern's home is findable. */
+

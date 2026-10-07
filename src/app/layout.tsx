@@ -1,5 +1,4 @@
-import type { Metadata } from "next"
-import { Cairo, Readex_Pro } from "next/font/google"
+import type { Metadata, Viewport } from "next"
 import { ThemeProvider } from "@/components/theme-provider"
 import { ThemeColorSync } from "@/components/theme-color-sync"
 import { LazyAnalytics } from "@/components/lazy-analytics"
@@ -14,30 +13,13 @@ import { SITE } from "@/lib/site"
    كاش له إطلاقاً في أي طبقة. التفاصيل في الفصل 16 من التقرير. */
 import "./styles.css"
 
-const cairo = Cairo({
-  subsets: ["arabic", "latin"],
-  weight: ["400", "700"],
-  variable: "--font-cairo",
-  display: "swap",
-  /* r8 final: preload is ON after a measured A/B. The hero description —
-     the page's LCP element (26,566 px² on mobile) — is BODY text set in
-     Cairo. With preload:false the text paints in the fallback and swaps,
-     which real throttled probes measured as fine (LCP = FCP = 1.16s) but
-     Lighthouse's Lantern simulation models the non-preloaded font as
-     late-discovered (local LCP 3.5s) — and the acceptance gate is the
-     lab score. With the r8 reveal-animations removed from the h1 and the
-     description, LCP no longer waits on animation end either, so the
-     preloads land as pure win: LCP paints at max(FCP, font arrival). */
-  preload: true,
-})
-
-/* Brand parity with Smart-Menu/SmartBot: Readex Pro leads --font-heading */
-const readexPro = Readex_Pro({
-  subsets: ["arabic", "latin"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-readex-pro",
-  display: "swap",
-})
+/* m15 (Madarek parity): the next/font/google Cairo (preloaded!) +
+   Readex Pro pair is RETIRED. Typography is the self-hosted IBM Plex
+   Sans Arabic (12 woff2 in /public/fonts, @font-face block at the top
+   of styles.css — refs/madarek-reference.md §2/§7). The two first-paint
+   preloads below replace the Cairo preload one-for-one: the body text
+   paints in the 400 arabic cut and every heading/CTA label in the 700
+   arabic cut (~86 KB together, same preload budget as before). */
 
 export const metadata: Metadata = {
   title: {
@@ -75,12 +57,33 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
 }
 
+/* r14 (M7): viewport-fit cover — the web view must extend under the
+   iOS home-indicator / Dynamic Island so env(safe-area-inset-*)
+   resolves to real values. Without this, .safe-area-pb and any
+   calc() using env() was a no-op reading 0 on every iPhone with a
+   bottom gesture area. Paired with the CSS utilities in styles.css.
+   (m15: moved to the dedicated Viewport export — Next 16 warns when
+   viewport rides inside the metadata object.) */
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+}
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="ar" dir="rtl" suppressHydrationWarning className={`${cairo.variable} ${readexPro.variable}`}>
+    <html lang="ar" dir="rtl" suppressHydrationWarning>
       <head>
-        <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)" />
-        <meta name="theme-color" content="#fafafa" media="(prefers-color-scheme: light)" />
+        {/* m15: first-paint font preloads — the only two faces the hero
+            paints with (body 400 + headings/CTA 700, arabic subsets).
+            crossorigin is mandatory for font fetches even same-origin. */}
+        <link rel="preload" href="/fonts/plex-sans-arabic-400-normal-arabic.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
+        <link rel="preload" href="/fonts/plex-sans-arabic-700-normal-arabic.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
+        {/* m15: browser bar follows the Madarek grounds — night-indigo
+            #070B16 (dark) / warm cream #FBFAF9 (light); ThemeColorSync
+            re-points both metas to the user's resolved theme. */}
+        <meta name="theme-color" content="#070B16" media="(prefers-color-scheme: dark)" />
+        <meta name="theme-color" content="#FBFAF9" media="(prefers-color-scheme: light)" />
         <meta name="mobile-web-app-capable" content="yes" />
         {/* r9 (SEO audit P2-4): the documented iOS standalone meta —
             mobile-web-app-capable alone is not read by older iOS/Safari

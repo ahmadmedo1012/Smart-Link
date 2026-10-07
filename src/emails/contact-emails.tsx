@@ -13,19 +13,22 @@ import {
 } from "@react-email/components"
 import { SITE } from "@/lib/site"
 
-/* Brand tokens (Smart-Menu parity) rendered as hex for email clients.
-   r9: BRAND_TEXT raised to #d97a2e (5.9:1 on CARD) — the old #bc4700
-   text sat at 3.5:1, failing WCAG AA inside both emails. Buttons keep
-   the deep BRAND with white text (5.2:1, compliant). */
-const BRAND = "#bc4700" // oklch(0.55 0.19 45) gamut-clipped — same visual as smart-link.ly
-const BRAND_TEXT = "#d97a2e" // accessible-on-dark variant of the same hue
-const BG = "#0e0d0c"
-const CARD = "#171512"
-const MUTED = "#a6a09a"
+/* Brand tokens rendered as hex for email clients (email CSS vars don't
+   exist — hardcoded is intentional). m15 (Madarek parity): the email
+   chrome follows the Madarek NIGHT world — gold accent #E9B44C on
+   night ground #070B16, gold buttons carry the dark --accent-fg ink
+   (#05070F, 10.6:1 — the .btn.accent dark recipe). Gold as TEXT on
+   the card measures 9.6:1. */
+const BRAND = "#E9B44C" // Madarek dark accent (gold)
+const BRAND_TEXT = "#E9B44C" // gold as text — 9.6:1 on CARD
+const BRAND_INK = "#05070F" // text on gold fills — 10.6:1
+const BG = "#070B16" // Madarek night ground
+const CARD = "#0D1428" // Madarek night surface
+const MUTED = "#8E97B8" // Madarek dark muted
 
 const buttonStyle = {
   backgroundColor: BRAND,
-  color: "#ffffff",
+  color: BRAND_INK,
   padding: "12px 24px",
   borderRadius: "10px",
   fontSize: "14px",
@@ -46,7 +49,7 @@ function fieldRow(label: string, value: string) {
       <Text style={{ margin: 0, color: MUTED, fontSize: "12px", fontWeight: 700, letterSpacing: "0.5px" }}>
         {label}
       </Text>
-      <Text style={{ margin: "4px 0 0", color: "#f4f1ee", fontSize: "15px", lineHeight: "1.7" }}>
+      <Text style={{ margin: "4px 0 0", color: "#F2EFE6", fontSize: "15px", lineHeight: "1.7" }}>
         {value}
       </Text>
     </Section>
@@ -62,7 +65,7 @@ export function ContactNotificationEmail({ name, email, subject, message }: Cont
       <Body style={{ backgroundColor: BG, margin: 0, padding: "24px 12px", fontFamily: "Tahoma, Arial, sans-serif" }}>
         <Container style={{ maxWidth: "560px", margin: "0 auto" }}>
           <Section style={{ backgroundColor: CARD, borderRadius: "16px", padding: "32px", border: `1px solid ${BRAND}22` }}>
-            <Heading as="h1" style={{ color: "#f4f1ee", fontSize: "20px", margin: "0 0 6px" }}>
+            <Heading as="h1" style={{ color: "#F2EFE6", fontSize: "20px", margin: "0 0 6px" }}>
               رسالة جديدة من نموذج التواصل
             </Heading>
             <Text style={{ color: BRAND_TEXT, fontSize: "13px", margin: "0 0 24px", fontWeight: 700 }}>
@@ -72,14 +75,14 @@ export function ContactNotificationEmail({ name, email, subject, message }: Cont
             {fieldRow("البريد الإلكتروني", email)}
             {fieldRow("الموضوع", subject)}
             {fieldRow("الرسالة", message)}
-            <Hr style={{ borderColor: "#2c2925", margin: "28px 0" }} />
+            <Hr style={{ borderColor: "#1B2444", margin: "28px 0" }} />
             <Button
               href={`mailto:${email}?subject=${encodeURIComponent(`رد: ${subject} — SmartLink`)}`}
               style={buttonStyle}
             >
               الرد على المرسل
             </Button>
-            <Text style={{ color: "#8a847e", fontSize: "11px", margin: "24px 0 0" }}>
+            <Text style={{ color: MUTED, fontSize: "11px", margin: "24px 0 0" }}>
               أُرسلت تلقائياً من نموذج التواصل في {SITE.url.replace("https://", "")}
             </Text>
           </Section>
@@ -98,16 +101,16 @@ export function ContactConfirmationEmail({ name, subject }: { name: string; subj
       <Body style={{ backgroundColor: BG, margin: 0, padding: "24px 12px", fontFamily: "Tahoma, Arial, sans-serif" }}>
         <Container style={{ maxWidth: "560px", margin: "0 auto" }}>
           <Section style={{ backgroundColor: CARD, borderRadius: "16px", padding: "32px", border: `1px solid ${BRAND}22` }}>
-            <Heading as="h1" style={{ color: "#f4f1ee", fontSize: "20px", margin: "0 0 6px" }}>
+            <Heading as="h1" style={{ color: "#F2EFE6", fontSize: "20px", margin: "0 0 6px" }}>
               شكراً {name}، استلمنا رسالتك
             </Heading>
             <Text style={{ color: BRAND_TEXT, fontSize: "13px", margin: "0 0 24px", fontWeight: 700 }}>
               SmartLink — {SITE.url.replace("https://", "")}
             </Text>
-            <Text style={{ color: "#c9c4be", fontSize: "15px", lineHeight: "1.8", margin: "0 0 12px" }}>
+            <Text style={{ color: "#C3C8DC", fontSize: "15px", lineHeight: "1.8", margin: "0 0 12px" }}>
               وصلتنا رسالتك بخصوص «{subject}» بنجاح، وسيتواصل معك فريقنا في أقرب وقت — عادة خلال 24 ساعة عمل.
             </Text>
-            <Text style={{ color: "#c9c4be", fontSize: "15px", lineHeight: "1.8", margin: "0 0 24px" }}>
+            <Text style={{ color: "#C3C8DC", fontSize: "15px", lineHeight: "1.8", margin: "0 0 24px" }}>
               إن كان الأمر مستعجلاً، يمكنك التواصل معنا مباشرة عبر واتساب:
             </Text>
             <Button
@@ -116,8 +119,8 @@ export function ContactConfirmationEmail({ name, subject }: { name: string; subj
             >
               واتساب مباشر
             </Button>
-            <Hr style={{ borderColor: "#2c2925", margin: "28px 0" }} />
-            <Text style={{ color: "#8a847e", fontSize: "12px", margin: 0, lineHeight: "1.8" }}>
+            <Hr style={{ borderColor: "#1B2444", margin: "28px 0" }} />
+            <Text style={{ color: MUTED, fontSize: "12px", margin: 0, lineHeight: "1.8" }}>
               هذه رسالة تأكيد تلقائية — لا داعي للرد عليها.
               <br />
               SmartLink · ليبيا · <Link href={SITE.url} style={{ color: BRAND_TEXT }}>{SITE.url.replace("https://", "")}</Link>

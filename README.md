@@ -87,6 +87,8 @@ npm run test:e2e                  # 64/64 يجب أن تمرّ
 - **JSON-LD**: Organization/WebSite/FAQPage بمحتواها الحقيقي من DOM (انحدار r6 للبريد)
 - **axe-core**: صفر انتهاكات WCAG 2 AA **في الوضعين الداكن والفاتح** (12 فحصاً)
 
+**ر15 — استقرار فحص axe**: كان `axeScan` يمسح DOM «حيّاً» أثناء حركات الدخول (reveal-up 0.6s / menu-pop 0.2s)، فيلتقط إطاراً وسطياً بتباين منخفض → flake متكرر (color-contrast 2.24:1). الإصلاح: الفحص بحالة `prefers-reduced-motion` (التي يدعمها الموقع أصلاً — styles.css:477 تُسقط كل الحركة إلى 0.01ms) في نقطة الاختناق `axeScan` وحدها — لا `sleep` ولا CSS مُحقَظ، ويظل أي انتهاك تباين حقيقي مرئياً. 295/295 متكررة نظيفة.
+
 **GitHub Actions** (`.github/workflows/ci.yml`): كل دفعة/PR إلى `main` تجتاز lint ← build ← E2E تلقائياً — المستودع يتحقق من نفسه.
 
 ## الوثائق

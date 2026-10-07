@@ -14,7 +14,7 @@ import { useTheme } from "next-themes"
    اختبار seo.spec القائم (يؤكد الوسمين بقيمتيهما على HTML الخادم)
    يبقى أخضر بلا تعديل. حالة system مستقبلاً تُحل تلقائياً:
    resolvedTheme يعيد قيمة OS والوسوم الفعلية للـmedia تكون مطابقة. */
-const BAR = { dark: "#000000", light: "#fafafa" } as const
+const BAR = { dark: "#070B16", light: "#FBFAF9" } as const
 
 export function ThemeColorSync() {
   const { resolvedTheme } = useTheme()

@@ -25,7 +25,7 @@ export default function OfflinePage() {
   return (
     <main className="min-h-dvh flex flex-col items-center justify-center bg-[var(--background)] px-6 text-center">
       <WifiOff className="w-14 h-14 text-primary mb-6" aria-hidden="true" />
-      <h1 className="font-[family-name:var(--font-readex-pro)] text-3xl font-bold text-foreground mb-3">
+      <h1 className="font-[family-name:var(--font-heading)] text-3xl font-bold text-foreground mb-3">
         لا يوجد اتصال بالإنترنت
       </h1>
       <p className="text-muted-foreground leading-relaxed max-w-md mb-8">

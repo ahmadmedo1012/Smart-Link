@@ -102,7 +102,11 @@ export default function AboutPage() {
           {/* Pull quote */}
           <div className="relative my-8 p-6 rounded-2xl bg-[var(--card)] border border-[var(--border)]">
             <Quote className="w-6 h-6 text-primary/30 absolute top-4 right-4" aria-hidden="true" />
-            <p className="text-base md:text-lg text-foreground/80 italic font-medium leading-relaxed ms-8">
+            {/* m15: Arabic typography law (madarek-reference §2 — no
+                synthetic italics on Arabic; emphasis = weight + accent
+                ink): the quote keeps its weight, drops the slant, and
+                carries the copper-deep accent ink instead. */}
+            <p className="text-base md:text-lg text-[var(--primary-text)] font-medium leading-relaxed ms-8">
               &ldquo;التكنولوجيا الحقيقية هي التي تخدم الناس، لا التي تبهرهم. في SmartLink، نبني حلولاً تعيش مع الناس وتفهم احتياجاتهم.&rdquo;
             </p>
           </div>

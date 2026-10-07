@@ -24,8 +24,9 @@ export default function GlobalError({
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          background: "#0d0d14",
-          color: "#f5f5f7",
+          /* m15: Madarek night — ground #070B16, sand ink #F2EFE6 */
+          background: "#070B16",
+          color: "#F2EFE6",
           fontFamily: "system-ui, 'Segoe UI', Tahoma, sans-serif",
           textAlign: "center",
           padding: "2rem",
@@ -38,7 +39,8 @@ export default function GlobalError({
               height: 56,
               borderRadius: 16,
               margin: "0 auto 24px",
-              background: "rgba(188, 71, 0, 0.15)",
+              /* m15: gold wash — the dark accent at 15% */
+              background: "rgba(233, 180, 76, 0.15)",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
@@ -62,8 +64,10 @@ export default function GlobalError({
                 padding: "12px 24px",
                 borderRadius: 12,
                 border: "none",
-                background: "#bc4700",
-                color: "#fff",
+                /* m15: Madarek .btn.accent dark — gold fill + dark ink
+                   (#05070F on #E9B44C ≈ 10.6:1; white was 1.9:1) */
+                background: "#E9B44C",
+                color: "#05070F",
                 fontWeight: 700,
                 fontSize: 14,
                 cursor: "pointer",

@@ -17,7 +17,10 @@ const services = [
     screenshot: "/images/smart-menu.jpg",
     features: ["منيو رقمي تفاعلي", "طلبات عبر واتساب", "برنامج ولاء وإحالات", "إحصائيات وتحليلات", "QR كود مخصص", "لوحة تحكم عربية"],
     gradientVar: "var(--gradient-smart-menu)",
-    color: "oklch(0.7 0.19 60)",
+    /* m15: Madarek pastel families (§1.4) — menu = peach, bot = lavender,
+       coming-soon = mint. The hover hairline gradient rides the same
+       family -ink the icon well does, in both themes. */
+    color: "var(--c-peach-ink)",
   },
   {
     title: "SmartBot",
@@ -28,7 +31,7 @@ const services = [
     screenshot: "/images/smart-bot.jpg",
     features: ["ردود تلقائية ذكية", "تصنيف النوايا", "لوحة تحكم متكاملة", "تقارير وتحليلات", "بث جماعي", "إدارة الصفحات"],
     gradientVar: "var(--gradient-smart-bot)",
-    color: "oklch(0.55 0.15 280)",
+    color: "var(--c-lavender-ink)",
   },
   {
     title: "قريباً",
@@ -38,7 +41,7 @@ const services = [
     icon: Sparkles,
     features: ["متجر إلكتروني", "حجوزات مواعيد", "منصة تسويق", "مساعد ذكي", "فواتير إلكترونية", "تطبيق موبايل"],
     gradientVar: "var(--gradient-coming-soon)",
-    color: "oklch(0.6 0.18 160)",
+    color: "var(--c-mint-ink)",
     comingSoon: true,
   },
 ]

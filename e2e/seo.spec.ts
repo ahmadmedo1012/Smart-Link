@@ -198,13 +198,14 @@ test.describe("r9 — إشارات الزحف والـ PWA المضافة", () =
 test("r13 — رؤوس head: theme-color للوضعين + Apple كاملة + format-detection", async ({ page }) => {
   await page.goto("/")
 
-  // theme-color يطابق توكن الخلفية رياضياً (r10-D: #000000/#fafafa)
+  // theme-color يطابق توكن الخلفية رياضياً (r10-D؛ m15: أرضيات مدارك —
+  // الليلي #070B16 والكريمي #FBFAF9 بدل الأسود/الرمادي القديمين)
   await expect(
     page.locator('meta[name="theme-color"][media="(prefers-color-scheme: dark)"]')
-  ).toHaveAttribute("content", "#000000")
+  ).toHaveAttribute("content", "#070B16")
   await expect(
     page.locator('meta[name="theme-color"][media="(prefers-color-scheme: light)"]')
-  ).toHaveAttribute("content", "#fafafa")
+  ).toHaveAttribute("content", "#FBFAF9")
 
   // زوج Apple (r9): capability + شريط الحالة + عنوان التطبيق
   await expect(page.locator('meta[name="apple-mobile-web-app-capable"]')).toHaveAttribute("content", "yes")

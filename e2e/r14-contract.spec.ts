@@ -20,15 +20,17 @@ test.describe("r14 — theme-color يتبع المستخدم", () => {
     await page.goto("/", { waitUntil: "load" })
     await hydrationGate(page)
     // النظام داكن + الموقع داكن (الافتراضي) → الشريط داكن
+    // m15: أرض مدارك الليلية #070B16 (كانت #000000)
     const metas = page.locator('meta[name="theme-color"]')
     await expect(metas).toHaveCount(2)
-    await expect(metas.first()).toHaveAttribute("content", "#000000")
-    await expect(metas.nth(1)).toHaveAttribute("content", "#000000")
+    await expect(metas.first()).toHaveAttribute("content", "#070B16")
+    await expect(metas.nth(1)).toHaveAttribute("content", "#070B16")
     // المستخدم يبدّل إلى الفاتح → الوسمان يتبعانه رغم بقاء OS داكناً
     await page.getByRole("button", { name: "تفعيل المظهر الفاتح" }).click()
     await expect(page.locator("html")).toHaveClass(/light/)
-    await expect(metas.first()).toHaveAttribute("content", "#fafafa")
-    await expect(metas.nth(1)).toHaveAttribute("content", "#fafafa")
+    // m15: الكريمي #FBFAF9 (كان #fafafa)
+    await expect(metas.first()).toHaveAttribute("content", "#FBFAF9")
+    await expect(metas.nth(1)).toHaveAttribute("content", "#FBFAF9")
   })
 })
 

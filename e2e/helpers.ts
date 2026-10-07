@@ -65,8 +65,17 @@ export const SUCCESS_BODY = JSON.stringify({
 })
 
 /** مسح axe-core بنفس وسوم a11y.spec — الوضعان يُفحصان عبر استدعاءات
- *  منفصلة بعد تبديل الثيم. */
+ *  منفصلة بعد تبديل الثيم.
+ *  r15: يُفحص بحالة prefers-reduced-motion — الموقع يدعمها أصلاً
+ *  (styles.css @media reduce يسقط كل animation/transition إلى 0.01ms).
+ *  لماذا: axe كان يفحص DOM «حية» أثناء حركات الدخول (reveal-up 0.6s,
+ *  menu-pop 0.2s) — عنصر عند opacity<0.5 يُقرأ تباينه مختلطاً نحو خلفية
+ *  الصفحة (#010101) فيفشل color-contrast بشكل متقطع (فلّاك) تحت التحميل.
+ *  التقييد يسقط الحركات لحالتها النهائية: لا انتظار، لا CSS مُحقن، ولا
+ *  ألوان مصطنعة — وبما أن reduce يغيّر المدة فقط لا اللون، يستحيل أن
+ *  يخفي انتهاكاً حقيقياً للوضع المستقر. */
 export async function axeScan(page: Page) {
+  await page.emulateMedia({ reducedMotion: "reduce" })
   const results = await new AxeBuilder({ page })
     .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"])
     .analyze()

@@ -12,7 +12,8 @@
 ## التقنيات
 
 - **Next.js 16** (App Router) — كل الصفحات Server Components، التفاعل في جزر عميلة صغيرة فقط
-- **Tailwind CSS v4** عبر `@theme` — توكنات لون العلامة `oklch` في الوضعين الفاتح والداكن (تباين AA)
+- **Tailwind CSS v4** عبر `@theme` — جسر توكنات **مدارك** (Madarek) في الوضعين: ليلي night/gold ‎`#070B16`/`#E9B44C`‎ ونهاري cream/copper ‎`#FBFAF9`/`#B57438`‎ (تباين AA)، تسع عائلات باستيل × {bg, ink, deep} في الوضعين، سلّما أنصاف 6–28 وحركة 80–720ms
+- **خط IBM Plex Sans Arabic** 400–700 مُستضاف ذاتيًا (`public/fonts/` — ‎12 ملف woff2: سانس عربي ar+la، مونو، سيريف مائل لاتيني) — بلا أي طلب خط خارجي
 - **TypeScript** صارم (يُتحقق منه في البناء)
 - **حركة CSS خالصة** — `animation-timeline`/keyframes مع حماية `prefers-reduced-motion`؛ **لا توجد مكتبة حركة إطلاقاً** (لا framer-motion — أُزيلت نهائياً في الجولة الخامسة)
 

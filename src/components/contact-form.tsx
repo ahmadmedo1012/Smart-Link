@@ -174,7 +174,7 @@ export function ContactForm() {
             placeholder="اسمك"
           />
           {fieldErrors.name && (
-            <p id="name-error" role="alert" className="text-xs mt-1.5 text-[var(--destructive)]">{fieldErrors.name}</p>
+            <p id="name-error" role="alert" className="text-xs mt-1.5 text-[var(--destructive-ink)]">{fieldErrors.name}</p>
           )}
         </div>
         <div>
@@ -192,7 +192,7 @@ export function ContactForm() {
             placeholder="بريدك الإلكتروني"
           />
           {fieldErrors.email && (
-            <p id="email-error" role="alert" className="text-xs mt-1.5 text-[var(--destructive)]">{fieldErrors.email}</p>
+            <p id="email-error" role="alert" className="text-xs mt-1.5 text-[var(--destructive-ink)]">{fieldErrors.email}</p>
           )}
         </div>
       </div>
@@ -228,7 +228,7 @@ export function ContactForm() {
           placeholder="اكتب رسالتك هنا…"
         />
         {fieldErrors.message && (
-          <p id="message-error" role="alert" className="text-xs mt-1.5 text-[var(--destructive)]">{fieldErrors.message}</p>
+          <p id="message-error" role="alert" className="text-xs mt-1.5 text-[var(--destructive-ink)]">{fieldErrors.message}</p>
         )}
       </div>
 
@@ -238,7 +238,10 @@ export function ContactForm() {
           tabIndex={-1}
           className="text-sm rounded-xl px-4 py-3 text-center border focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)]"
           style={{
-            color: "var(--destructive)",
+            /* -ink companions (Madarek §2.6): base values are fill-grade
+               (3.0–3.2:1 on light grounds) — status TEXT needs the
+               -deep/-ink variants for AA; washes keep deriving from base. */
+            color: "var(--destructive-ink)",
             background: "oklch(from var(--destructive) l c h / 0.1)",
             borderColor: "oklch(from var(--destructive) l c h / 0.25)",
           }}
@@ -268,7 +271,7 @@ export function ContactForm() {
         <div
           className="text-sm rounded-xl px-4 py-3 text-center border flex items-center justify-center gap-2"
           style={{
-            color: "var(--success)",
+            color: "var(--success-ink)",
             background: "oklch(from var(--success) l c h / 0.1)",
             borderColor: "oklch(from var(--success) l c h / 0.25)",
           }}

@@ -87,7 +87,7 @@ export default function GlobalError({
                 borderRadius: 12,
                 border: "1px solid rgba(255,255,255,0.14)",
                 background: "rgba(255,255,255,0.04)",
-                color: "#f5f5f7",
+                color: "#F2EFE6",
                 fontWeight: 700,
                 fontSize: 14,
                 textDecoration: "none",

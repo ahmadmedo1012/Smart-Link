@@ -14,8 +14,12 @@ import { HeroStats } from "@/components/hero-stat"
    grid drift, floating icons (lucide SVGs render server-side). */
 
 const ambientBlobs = [
+  /* Warm accent blob rides the GOLD hue (oklch ≈ hue 81 — #E9B44C is
+     oklch(0.80 0.134 81)); the former hue-45 orange sat in the retired
+     flame band (oklch hue 43–57 ≈ #FF6607/#FF8900). Cool night-hue
+     blobs stay as-is. */
   { size: 320, x: "-5%", y: "-8%", blur: "60px", color: "oklch(0.65 0.18 250 / 0.05)", opacity: 0.03 },
-  { size: 240, x: "72%", y: "20%", blur: "50px", color: "oklch(0.6 0.15 45 / 0.04)", opacity: 0.02 },
+  { size: 240, x: "72%", y: "20%", blur: "50px", color: "oklch(0.6 0.13 81 / 0.04)", opacity: 0.02 },
   { size: 200, x: "35%", y: "55%", blur: "40px", color: "oklch(0.55 0.14 300 / 0.025)", opacity: 0.015 },
   { size: 180, x: "12%", y: "70%", blur: "35px", color: "oklch(0.6 0.12 200 / 0.02)", opacity: 0.012 },
 ]

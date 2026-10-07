@@ -156,12 +156,14 @@
   --color-primary: var(--primary);
   --color-primary-text: var(--primary-text);
 
-  /* Radii already sit on the Madarek "Notion-soft" ladder (§1.2):
-     8 = --r-sm · 20 = --r-2xl · 28 = --r-3xl. The full 6/8/10/12/16/
-     20/28 ladder is declared as --r-* in :root below. */
+  /* Radii on the Madarek "Notion-soft" ladder (§1.2), CANONICAL
+     aliases: sm 8 = --r-sm · lg 12 = --r-lg · xl 16 = --r-xl. The full
+     6/8/10/12/16/20/28 ladder is declared as --r-* in :root below; the
+     former 20/28 steps stay reachable as rounded-[20px]/[28px]
+     arbitrary values and via --r-2xl/--r-3xl. */
   --radius-sm: 8px;
-  --radius-lg: 20px;
-  --radius-xl: 28px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
 
   /* m15: exact Madarek --ease-out (§4.2) — the exponential settle.
      (The pre-existing value 0.2,1 was a near-identical hand-tune.) */
@@ -201,21 +203,32 @@
      backgrounds + icon wells) — the gold at the original 15% wash. */
   --accent: rgb(233 180 76 / 0.15);
   --muted-foreground: #C3C8DC;
-  /* --destructive/--success/--warning = the Madarek -ink status values
-     (§1.6) — these tokens render TEXT, so the fill/stroke values stay
-     out: danger-ink #F0938F etc. The contact form derives its tinted
-     boxes via oklch(from …) so they follow automatically. */
+  /* Status tokens — see the family comment at --success below: base =
+     fill/stroke duty; -ink = text-grade variant. */
   --destructive: #F0938F;
+  --destructive-ink: #F0938F;
   /* r13 (a11y audit 1.4.11) recipe kept: a mixed border clears 3:1 in
      both themes — now mixing Madarek ink + Madarek card. */
   --input-border: color-mix(in oklab, var(--muted-foreground) 70%, var(--card));
   --border: #1B2444;
   --border-strong: #263052;
-  /* --ring = Madarek --state-focus-ring-color = --accent-strong dark
-     (§4.5, 7.87:1). Also tints the feature-card hover hairline. */
-  --ring: #C9962F;
+  /* --ring = Madarek dark focus ring: the gold accent itself #E9B44C
+     (§4.5, 10.39:1 on night — canonical dark value; strong gold #C9962F
+     stays on --accent-strong). Also tints the feature-card hover
+     hairline. */
+  --ring: #E9B44C;
+  /* --destructive/--success/--warning/--info = Madarek status BASE
+     values (§1.6 dark = the family -ink hues). Companions -ink = the
+     canonical text-grade variant (dark: identical to base; light theme
+     carries the family -deep) so small status TEXT keeps AA in both
+     modes while base keeps fill/stroke duty (showcase traffic-light
+     dots, input error border, oklch washes). */
   --success: #7FD39A;
+  --success-ink: #7FD39A;
   --warning: #ECC97D;
+  --warning-ink: #ECC97D;
+  --info: #8FBBF2;
+  --info-ink: #8FBBF2;
 
   /* ── Madarek accent family (§1.5 dark column), exact ── */
   --accent-solid: #E9B44C;
@@ -259,10 +272,18 @@
   --gradient-text-mid: #E9B44C;
   --gradient-text-end: #F5D48A;
 
-  /* ── Pastel section families consumed here (§1.4 dark column) ── */
+  /* ── Pastel section families (§1.4 dark column) — the full canonical
+     9: peach/lavender/mint consumed by service gradients today; sky/
+     yellow/rose/sand/grey ride the same bg/ink/deep triad pattern for
+     section parity with Madarek (status bases resolve to them). ── */
   --c-peach-bg: #2C1A16;  --c-peach-ink: #F2A07F;  --c-peach-deep: #FCD9C4;
   --c-lavender-bg: #221B3A;  --c-lavender-ink: #B7A0F4;  --c-lavender-deep: #DCD2F9;
   --c-mint-bg: #0F241C;  --c-mint-ink: #7FD39A;  --c-mint-deep: #C9EAD3;
+  --c-sky-bg: #14213A;  --c-sky-ink: #8FBBF2;  --c-sky-deep: #C9DCEE;
+  --c-yellow-bg: #2C2410;  --c-yellow-ink: #ECC97D;  --c-yellow-deep: #F8E5B5;
+  --c-rose-bg: #2C1620;  --c-rose-ink: #F0938F;  --c-rose-deep: #FACDD2;
+  --c-sand-bg: #241F14;  --c-sand-ink: #D9C18C;  --c-sand-deep: #EFE2C5;
+  --c-grey-bg: #161D33;  --c-grey-ink: #A9B0C8;  --c-grey-deep: #D5DAE8;
   --c-copper-bg: #2C2312;  --c-copper-ink: #E9B44C;  --c-copper-deep: #F5D48A;
 
   /* ── Radius ladder — Madarek "Notion-soft" (§1.2) ── */
@@ -325,15 +346,22 @@
   /* Copper wash at the original 12% (Smart-Link wash semantics). */
   --accent: rgb(181 116 56 / 0.12);
   --muted-foreground: #4F4D48;
-  --destructive: #6B2128;
+  /* Status base = canonical §2.6 light values (family -ink hues —
+     fills/strokes/dots); -ink companions = family -deep for TEXT. */
+  --destructive: #DD6E78;
+  --destructive-ink: #6B2128;
   --input-border: color-mix(in oklab, var(--muted-foreground) 80%, var(--card));
   --border: #E9E7E2;
   --border-strong: #D9D6D0;
   /* --ring = Madarek --state-focus-ring-color light = --accent-strong
      #5C3416 (10.29:1) — the AA focus ring Madarek pins. */
   --ring: #5C3416;
-  --success: #1F4F30;
-  --warning: #6B4C0B;
+  --success: #4FA66D;
+  --success-ink: #1F4F30;
+  --warning: #D6A330;
+  --warning-ink: #6B4C0B;
+  --info: #5C8FCE;
+  --info-ink: #1F3D63;
 
   /* ── Madarek accent family (§1.5 light column), exact ── */
   --accent-solid: #B57438;
@@ -375,10 +403,15 @@
   --gradient-text-mid: #B57438;
   --gradient-text-end: #9A5F25;
 
-  /* ── Pastel section families (§1.4 light column) ── */
+  /* ── Pastel section families (§1.4 light column) — full canonical 9 ── */
   --c-peach-bg: #FFE9DC;  --c-peach-ink: #E07856;  --c-peach-deep: #6B2D1A;
   --c-lavender-bg: #ECE6FA;  --c-lavender-ink: #8A6FE0;  --c-lavender-deep: #3F2D7A;
   --c-mint-bg: #DCF1E2;  --c-mint-ink: #4FA66D;  --c-mint-deep: #1F4F30;
+  --c-sky-bg: #DDEBF7;  --c-sky-ink: #5C8FCE;  --c-sky-deep: #1F3D63;
+  --c-yellow-bg: #FCF1CD;  --c-yellow-ink: #D6A330;  --c-yellow-deep: #6B4C0B;
+  --c-rose-bg: #FCE0E2;  --c-rose-ink: #DD6E78;  --c-rose-deep: #6B2128;
+  --c-sand-bg: #F1ECDF;  --c-sand-ink: #B59868;  --c-sand-deep: #5A4623;
+  --c-grey-bg: #EFECE7;  --c-grey-ink: #6B665E;  --c-grey-deep: #2D2A24;
   --c-copper-bg: #F4E4D2;  --c-copper-ink: #B57438;  --c-copper-deep: #5C3416;
 
   /* ── Shadows + elevation ladder (§1.9 light: soft two-layer). ── */
@@ -870,6 +903,44 @@
   }
 }
 
+/* ── Increased contrast (prefers-contrast: more) ── Madarek tokens.css
+   prefers-contrast port: elevation shadows collapse to SOLID RINGS,
+   glass surfaces go solid (no translucent fills), and hairlines/
+   borders strengthen. Token names adapted to the Smart-Link bridge:
+   --card is the surface role (Madarek --surface); --glass-bg-strong is
+   additionally solidified (0.92-alpha glass has no high-contrast
+   mode). Madarek's --rule/--surface-border/--surface-divider/
+   --ill-shadow lines are dropped — zero consumers exist here — and so
+   is the .illustration stroke rule (no illustration system in this
+   repo). Dark rides :root:not(.light), light rides .light — the same
+   split the token bridge itself uses. */
+@media (prefers-contrast: more) {
+  :root:not(.light) {
+    --elev-1: 0 0 0 1px rgba(255, 255, 255, 0.36);
+    --elev-2: 0 0 0 1.5px rgba(255, 255, 255, 0.44);
+    --elev-3: 0 0 0 2px rgba(255, 255, 255, 0.52);
+    --elev-4: 0 0 0 2.5px rgba(255, 255, 255, 0.60);
+    --elev-5: 0 0 0 3px rgba(255, 255, 255, 0.68);
+    --glass-bg: var(--card);
+    --glass-bg-strong: var(--card);
+    --glass-border: rgba(255, 255, 255, 0.36);
+    --border: rgba(255, 255, 255, 0.48);
+    --border-strong: rgba(255, 255, 255, 0.64);
+  }
+  .light {
+    --elev-1: 0 0 0 1px rgba(0, 0, 0, 0.32);
+    --elev-2: 0 0 0 1.5px rgba(0, 0, 0, 0.40);
+    --elev-3: 0 0 0 2px rgba(0, 0, 0, 0.48);
+    --elev-4: 0 0 0 2.5px rgba(0, 0, 0, 0.56);
+    --elev-5: 0 0 0 3px rgba(0, 0, 0, 0.64);
+    --glass-bg: var(--card);
+    --glass-bg-strong: var(--card);
+    --glass-border: rgba(0, 0, 0, 0.32);
+    --border: rgba(0, 0, 0, 0.42);
+    --border-strong: rgba(0, 0, 0, 0.60);
+  }
+}
+
 /* ═══════════════════════════════════════════════════════════════════
    m15 — MADAREK PATTERN BRIDGE (component alignment)
    Curated from refs/madarek-reference.md for the components Smart-Link
@@ -961,7 +1032,8 @@ h1, h2, h3, h4, h5, h6 {
 /* 6 ── Input focus halo (§5.3) ───────────────────────────────────────
    The contact form already carries the 16px iOS zoom floor (r13) and a
    2px --ring halo via utilities; the token bridge points --ring at the
-   Madarek --accent-strong values (10.29:1 light / 7.87:1 dark), which
-   completes the §4.5 input-focus recipe. Nothing further to add —
-   documented here so the pattern's home is findable. */
+   Madarek canonical focus values (light copper-deep #5C3416 10.29:1 ·
+   dark gold #E9B44C 10.39:1), which completes the §4.5 input-focus
+   recipe. Nothing further to add — documented here so the pattern's
+   home is findable. */
 

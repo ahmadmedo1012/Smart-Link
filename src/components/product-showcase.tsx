@@ -36,11 +36,11 @@ function SmartMenuShowcase() {
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           {/* Phone mockup */}
           <div className="reveal-scroll-strong order-2 lg:order-1 mx-auto w-full max-w-[320px]">
-            <div className="phone-tilt relative rounded-[2.5rem] border border-[var(--glass-border)] p-3 shadow-xl">
+            <div className="phone-tilt relative rounded-3xl border border-[var(--glass-border)] p-3 shadow-xl">
               {/* Phone notch */}
               <div className="absolute top-3 left-1/2 -translate-x-1/2 w-24 h-1.5 rounded-full bg-[var(--border)] z-10" aria-hidden="true" />
               <div
-                className="phone-frame relative overflow-hidden rounded-[2rem] bg-[var(--background)]"
+                className="phone-frame relative overflow-hidden rounded-2xl bg-[var(--background)]"
                 style={{ height: PHONE_FRAME_H }}
               >
                 <div className="phone-shift will-change-transform">
@@ -59,7 +59,7 @@ function SmartMenuShowcase() {
                   />
                 </div>
                 {/* Scroll hint */}
-                <div className="absolute bottom-3 left-1/2 -translate-x-1/2 px-3 py-1.5 rounded-full bg-[var(--glass-bg-strong)] backdrop-blur-md border border-[var(--glass-border)] text-[11px] text-[var(--muted-foreground)] pointer-events-none" aria-hidden="true">
+                <div className="absolute bottom-3 left-1/2 -translate-x-1/2 px-3 py-1.5 rounded-full bg-[var(--glass-bg-strong)] backdrop-blur-md border border-[var(--glass-border)] text-xs text-[var(--muted-foreground)] pointer-events-none" aria-hidden="true">
                   مرّر الصفحة لمشاهدة المنيو كاملاً
                 </div>
               </div>
@@ -73,7 +73,7 @@ function SmartMenuShowcase() {
               <span className="text-sm font-semibold text-[var(--foreground)]">Smart Menu</span>
               <span className="text-xs text-[var(--muted-foreground)]">المنيو الرقمي للمطاعم</span>
             </div>
-            <h2 className="reveal-scroll text-3xl md:text-4xl font-extrabold text-[var(--foreground)] mb-4 tracking-tight">
+            <h2 className="reveal-scroll text-3xl md:text-4xl font-extrabold text-[var(--foreground)] mb-4">
               منيو مطعمك، <span className="gradient-text">كما يراها عميلك فعلاً</span>
             </h2>
             <p className="reveal-scroll text-base text-[var(--muted-foreground)] leading-relaxed mb-7">
@@ -90,7 +90,7 @@ function SmartMenuShowcase() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="جرّب المنيو الحي — Smart Menu، رابط خارجي"
-              className="reveal-scroll group inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-[var(--primary)] text-white font-semibold text-sm shadow-glow hover:brightness-105 transition-all duration-200 active:scale-[0.97]"
+              className="reveal-scroll group inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-[var(--primary)] text-white font-semibold text-sm shadow-glow hover:brightness-105 transition-all duration-160 active:scale-[0.97]"
             >
               <span className="inline-flex items-center gap-2">
                 جرّب المنيو الحي <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-0.5" aria-hidden="true" />
@@ -117,7 +117,7 @@ function SmartBotShowcase() {
               <span className="text-sm font-semibold text-[var(--foreground)]">SmartBot</span>
               <span className="text-xs text-[var(--muted-foreground)]">البوت الذكي لفيسبوك</span>
             </div>
-            <h2 className="reveal-scroll text-3xl md:text-4xl font-extrabold text-[var(--foreground)] mb-4 tracking-tight">
+            <h2 className="reveal-scroll text-3xl md:text-4xl font-extrabold text-[var(--foreground)] mb-4">
               صفحتك على فيسبوك <span className="gradient-text">تردّ وأنت نائم</span>
             </h2>
             <p className="reveal-scroll text-base text-[var(--muted-foreground)] leading-relaxed mb-7">
@@ -134,7 +134,7 @@ function SmartBotShowcase() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="افتح SmartBot — رابط خارجي"
-              className="reveal-scroll group inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-[var(--primary)] text-white font-semibold text-sm shadow-glow hover:brightness-105 transition-all duration-200 active:scale-[0.97]"
+              className="reveal-scroll group inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-[var(--primary)] text-white font-semibold text-sm shadow-glow hover:brightness-105 transition-all duration-160 active:scale-[0.97]"
             >
               <span className="inline-flex items-center gap-2">
                 افتح SmartBot <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-0.5" aria-hidden="true" />
@@ -150,7 +150,7 @@ function SmartBotShowcase() {
                 <span className="w-3 h-3 rounded-full bg-[var(--destructive)] opacity-70" />
                 <span className="w-3 h-3 rounded-full bg-[var(--warning)] opacity-70" />
                 <span className="w-3 h-3 rounded-full bg-[var(--success)] opacity-70" />
-                <div className="flex-1 mx-3 px-3 py-1 rounded-lg bg-[var(--background)] text-[11px] text-[var(--muted-foreground)] text-center truncate" dir="ltr">
+                <div className="flex-1 mx-3 px-3 py-1 rounded-lg bg-[var(--background)] text-xs text-[var(--muted-foreground)] text-center truncate" dir="ltr">
                   bot.smart-link.ly
                 </div>
               </div>

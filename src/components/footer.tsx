@@ -2,6 +2,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { Smartphone, Bot, Mail, MapPin, Globe, MessageCircle, Share2 } from "lucide-react"
 import { BackToTop } from "@/components/back-to-top"
+import { CurrentYear } from "@/components/current-year"
 import { SITE } from "@/lib/site"
 
 /* r8: a full server component. The footer markup (links, contact list,
@@ -52,7 +53,7 @@ export function Footer() {
                   aria-label={s.label}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-11 h-11 rounded-xl bg-[var(--accent)] flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-[var(--primary)] hover:text-white transition-all duration-300"
+                  className="w-11 h-11 rounded-xl bg-[var(--accent)] flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-[var(--primary)] hover:text-white transition-all duration-240"
                 >
                   <s.icon className="w-4 h-4" />
                 </a>
@@ -73,8 +74,8 @@ export function Footer() {
                 <li key={l.label}>
                   {/* prefetch={false}: footer quick-links were firing duplicate
                       RSC prefetches that competed with LCP bandwidth. */}
-                  <Link href={l.href} prefetch={false} className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200 group inline-flex items-center gap-1.5 py-2.5 rounded">
-                    <span className="w-0 group-hover:w-1.5 h-1.5 rounded-full bg-primary transition-all duration-200" aria-hidden="true" />
+                  <Link href={l.href} prefetch={false} className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-160 group inline-flex items-center gap-1.5 py-2.5 rounded">
+                    <span className="w-0 group-hover:w-1.5 h-1.5 rounded-full bg-primary transition-all duration-160" aria-hidden="true" />
                     {l.label}
                   </Link>
                 </li>
@@ -96,7 +97,7 @@ export function Footer() {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={`${l.label} — رابط خارجي`}
-                    className="flex flex-col gap-0.5 text-sm text-muted-foreground hover:text-foreground transition-colors duration-200 group rounded py-1"
+                    className="flex flex-col gap-0.5 text-sm text-muted-foreground hover:text-foreground transition-colors duration-160 group rounded py-1"
                   >
                     <span className="flex items-center gap-2">
                       <l.icon className="w-3.5 h-3.5 text-primary group-hover:scale-110 transition-transform" />
@@ -143,7 +144,9 @@ export function Footer() {
       {/* Bottom bar */}
       <div className="border-t border-[var(--border)] py-5">
         <div className="container-base flex flex-col md:flex-row items-center justify-between gap-3">
-          <p className="text-xs text-muted-foreground">© {new Date().getFullYear()} SmartLink. جميع الحقوق محفوظة</p>
+          {/* r126 (P4-A3 §3.6): CurrentYear island — the year hydrates live
+              instead of freezing at build time (see current-year.tsx). */}
+          <p className="text-xs text-muted-foreground">© <CurrentYear buildYear={new Date().getFullYear()} /> SmartLink. جميع الحقوق محفوظة</p>
           <div className="flex items-center gap-4">
             <Link href="/privacy" className="text-xs text-muted-foreground hover:text-foreground transition-colors rounded inline-flex items-center min-h-[24px] py-1">سياسة الخصوصية</Link>
             <Link href="/terms" className="text-xs text-muted-foreground hover:text-foreground transition-colors rounded inline-flex items-center min-h-[24px] py-1">شروط الاستخدام</Link>

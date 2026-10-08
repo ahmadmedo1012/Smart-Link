@@ -124,9 +124,9 @@ function AnimatedStat({ value, label, icon: Icon }: { value: string; label: stri
   return (
     <div
       ref={ref}
-      className="glass-card rounded-xl p-4 text-center group transition-all duration-400 ease-[var(--ease-smooth)]"
+      className="glass-card rounded-xl p-4 text-center group transition-all duration-380 ease-[var(--ease-out)]"
     >
-      <div className="w-8 h-8 rounded-lg bg-[var(--card)] flex items-center justify-center mx-auto mb-2 group-hover:scale-110 transition-transform duration-200">
+      <div className="w-8 h-8 rounded-lg bg-[var(--card)] flex items-center justify-center mx-auto mb-2 group-hover:scale-110 transition-transform duration-160">
         <Icon className="w-4 h-4 text-primary-text" />
       </div>
       <div className="text-xl font-bold text-[var(--foreground)] tabular-nums tracking-tight min-w-16">{display}</div>

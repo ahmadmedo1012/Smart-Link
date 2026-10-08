@@ -36,7 +36,7 @@ export function FaqSection() {
           <div className="eyebrow-badge mb-5">
             <span>الأسئلة الشائعة</span>
           </div>
-          <h2 className="text-3xl md:text-5xl font-extrabold text-foreground mb-4 tracking-[-0.01em]">الأسئلة الشائعة</h2>
+          <h2 className="text-3xl md:text-5xl font-extrabold text-foreground mb-4">الأسئلة الشائعة</h2>
           <p className="text-muted-foreground text-base">إجابات لأكثر الأسئلة شيوعاً عن منصتنا</p>
         </div>
         <FaqAccordion faqs={faqs} className="reveal-scroll-stagger space-y-3" />

@@ -48,7 +48,7 @@ export default function AboutPage() {
           <div className="eyebrow-badge mb-6 reveal-up reveal-d1">
             <span>عن المنصة</span>
           </div>
-          <h1 className="text-5xl max-[360px]:text-4xl md:text-6xl font-extrabold tracking-tight text-foreground mb-4">
+          <h1 className="text-5xl max-[360px]:text-4xl md:text-6xl font-extrabold text-foreground mb-4">
             عن SmartLink
           </h1>
           <p className="text-lg text-muted-foreground leading-relaxed max-w-2xl mx-auto">
@@ -61,9 +61,9 @@ export default function AboutPage() {
           {values.map((item, i) => (
             <div
               key={item.title}
-              className={`reveal-up reveal-d${Math.min(i + 1, 4)} glass rounded-2xl p-6 hover:border-[var(--ring)]/30 transition-all duration-300 group`}
+              className={`reveal-up reveal-d${Math.min(i + 1, 4)} glass rounded-2xl p-6 hover:border-[var(--ring)]/30 transition-all duration-240 group`}
             >
-              <div className="w-10 h-10 rounded-xl bg-[var(--accent)] flex items-center justify-center mb-3 group-hover:scale-110 transition-transform duration-300">
+              <div className="w-10 h-10 rounded-xl bg-[var(--accent)] flex items-center justify-center mb-3 group-hover:scale-110 transition-transform duration-240">
                 <item.icon className="w-5 h-5 text-primary" />
               </div>
               <h2 className="font-bold text-foreground text-lg mb-1 group-hover:text-primary transition-colors">{item.title}</h2>
@@ -74,8 +74,8 @@ export default function AboutPage() {
 
         {/* Founder */}
         <div className="reveal-up reveal-d2 max-w-3xl mx-auto mb-10">
-          <div className="glass rounded-2xl p-6 md:p-8 flex flex-col md:flex-row items-start md:items-center gap-5 group hover:border-[var(--ring)]/30 transition-all duration-300">
-            <div className="w-16 h-16 rounded-2xl flex items-center justify-center shrink-0 border border-[var(--glass-border)] group-hover:scale-110 transition-transform duration-300" style={{ background: "var(--gradient-smart-menu)" }}>
+          <div className="glass rounded-2xl p-6 md:p-8 flex flex-col md:flex-row items-start md:items-center gap-5 group hover:border-[var(--ring)]/30 transition-all duration-240">
+            <div className="w-16 h-16 rounded-2xl flex items-center justify-center shrink-0 border border-[var(--glass-border)] group-hover:scale-110 transition-transform duration-240" style={{ background: "var(--gradient-smart-menu)" }}>
               <User className="w-8 h-8 text-primary" />
             </div>
             <div>
@@ -88,7 +88,7 @@ export default function AboutPage() {
 
         {/* Story */}
         <div className="reveal-scroll max-w-3xl mx-auto">
-          <h2 className="text-3xl font-bold text-foreground mb-4 tracking-tight">قصتنا</h2>
+          <h2 className="text-3xl font-bold text-foreground mb-4">قصتنا</h2>
           <p className="text-muted-foreground leading-relaxed mb-4">
             انطلقت SmartLink في <strong>20 نوفمبر 2025</strong> من رؤية واضحة: تقديم حلول رقمية متكاملة تلبي احتياجات السوق الليبي والعربي،
             بدءاً من المطاعم والمقاهي التي تحتاج لمنيو رقمي احترافي، إلى أصحاب الصفحات على فيسبوك
@@ -118,7 +118,7 @@ export default function AboutPage() {
           </p>
           <Link
             href="/contact"
-            className="group inline-flex items-center gap-2 px-5 py-3.5 rounded-xl bg-primary text-white font-semibold text-sm hover:brightness-105 transition-all duration-200 active:scale-[0.97] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--foreground)]"
+            className="group inline-flex items-center gap-2 px-5 py-3.5 rounded-xl bg-primary text-white font-semibold text-sm hover:brightness-105 transition-all duration-160 active:scale-[0.97]"
           >
             <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" /> تواصل معنا
           </Link>

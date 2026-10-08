@@ -51,16 +51,16 @@ function ServiceCard({ service }: { service: typeof services[number] }) {
 
   return (
     <div
-      className={`reveal-scroll-strong group relative rounded-[20px] border border-[var(--border)] bg-[var(--card)] overflow-hidden hover:border-[var(--ring)]/40 hover:shadow-glow-strong transition-all duration-500 flex flex-col h-full [perspective:800px] hover:[transform:rotateY(2deg)_rotateX(-2deg)]`}
+      className={`reveal-scroll-strong group relative rounded-2xl border border-[var(--border)] bg-[var(--card)] overflow-hidden hover:border-[var(--ring)]/40 hover:shadow-glow-strong transition-all duration-520 flex flex-col h-full [perspective:800px] hover:[transform:rotateY(2deg)_rotateX(-2deg)]`}
     >
       {/* Top accent gradient line */}
-      <div className="absolute top-0 left-0 right-0 h-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{ background: `linear-gradient(90deg, transparent, ${service.color}, transparent)` }} aria-hidden="true" />
+      <div className="absolute top-0 left-0 right-0 h-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-520" style={{ background: `linear-gradient(90deg, transparent, ${service.color}, transparent)` }} aria-hidden="true" />
 
       <div className="relative flex-1">
         <div className="relative p-7 md:p-8 flex flex-col flex-1">
           {/* Icon — scales on card hover */}
           <div
-            className="w-12 h-12 rounded-xl flex items-center justify-center mb-5 border border-[var(--glass-border)] group-hover:scale-[1.15] group-hover:-translate-y-1 transition-transform duration-300 ease-[var(--ease-smooth)]"
+            className="w-12 h-12 rounded-xl flex items-center justify-center mb-5 border border-[var(--glass-border)] group-hover:scale-[1.15] group-hover:-translate-y-1 transition-transform duration-240 ease-[var(--ease-out)]"
             style={{ background: service.gradientVar }}
           >
             <Icon className="w-6 h-6 text-[var(--primary)]" />
@@ -75,7 +75,7 @@ function ServiceCard({ service }: { service: typeof services[number] }) {
             {service.features.map((f) => (
               <li
                 key={f}
-                className="flex items-center gap-2.5 text-sm text-[var(--muted-foreground)] group-hover:text-[var(--foreground)] transition-colors duration-200"
+                className="flex items-center gap-2.5 text-sm text-[var(--muted-foreground)] group-hover:text-[var(--foreground)] transition-colors duration-160"
               >
                 <div className="w-1.5 h-1.5 rounded-full bg-[var(--primary)] shrink-0" />
                 <span>{f}</span>
@@ -95,13 +95,13 @@ function ServiceCard({ service }: { service: typeof services[number] }) {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={`زيارة الخدمة — ${service.title}، رابط خارجي`}
-                className="group/btn inline-flex items-center gap-2 px-5 py-3.5 rounded-xl bg-[var(--primary)] text-white text-sm font-semibold hover:brightness-105 transition-all duration-200 active:scale-[0.97] w-fit focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--foreground)]"
+                className="group/btn inline-flex items-center gap-2 px-5 py-3.5 rounded-xl bg-[var(--primary)] text-white text-sm font-semibold hover:brightness-105 transition-all duration-160 active:scale-[0.97] w-fit"
               >
                 زيارة الخدمة <ChevronLeft className="w-3.5 h-3.5 transition-transform group-hover/btn:-translate-x-0.5" />
               </a>
               {service.screenshot && (
                 <div className="flex gap-2">
-                  <a href={service.screenshot} target="_blank" rel="noopener noreferrer" aria-label={`${service.title} لقطة شاشة مكبرة`} className="block w-20 h-14 rounded-lg overflow-hidden border border-[var(--border)] hover:border-[var(--ring)]/40 transition-all duration-200 hover:scale-105">
+                  <a href={service.screenshot} target="_blank" rel="noopener noreferrer" aria-label={`${service.title} لقطة شاشة مكبرة`} className="block w-20 h-14 rounded-lg overflow-hidden border border-[var(--border)] hover:border-[var(--ring)]/40 transition-all duration-160 hover:scale-105">
                     <Image src={service.screenshot} alt={`${service.title} لقطة شاشة`} width={160} height={112} sizes="80px" className="w-full h-full object-cover" loading="lazy" />
                   </a>
                 </div>
@@ -127,7 +127,7 @@ export function ServicesSection() {
           <div className="eyebrow-badge mb-5">
             <span>خدماتنا</span>
           </div>
-          <h2 className="text-4xl md:text-5xl font-extrabold text-[var(--foreground)] mb-4 tracking-tight">منظومة متكاملة</h2>
+          <h2 className="text-4xl md:text-5xl font-extrabold text-[var(--foreground)] mb-4">منظومة متكاملة</h2>
           <p className="text-[var(--muted-foreground)] max-w-xl mx-auto text-base leading-relaxed">
             خدمات رقمية مصممة لتطوير أعمالك وزيادة مبيعاتك خطوة بخطوة
           </p>

@@ -7,12 +7,21 @@ export const SITE = {
   name: "SmartLink",
   url: "https://smart-link.ly",
 
-  email: "ahmedmedo1012@gmail.com",
+  /* r126 (P4-A3 §3.7): the PUBLIC contact identity moved onto the owned
+     domain (noreply@smart-link.ly — the address the domain already sends
+     from, verified in fromEmail) so no personal Gmail is advertised on
+     contact surfaces, JSON-LD or API error fallbacks. The owner's
+     personal inbox stays as the PRIVATE notification destination below
+     — it is never rendered. */
+  email: "noreply@smart-link.ly",
+
+  /** Private destination for contact-form notifications (the owner's
+      real inbox). Never displayed — public surfaces render SITE.email. */
+  ownerEmail: "ahmedmedo1012@gmail.com",
 
   /** Transactional from-address on the site's OWN domain (r13 — was the
       last domain literal living outside this file, hardcoded in the API
-      route). Resend requires an owned domain; SITE.email above is the
-      owner's personal inbox (the destination), this is the sender. */
+      route). Resend requires an owned domain. */
   fromEmail: "SmartLink <noreply@smart-link.ly>",
 
   whatsapp: {

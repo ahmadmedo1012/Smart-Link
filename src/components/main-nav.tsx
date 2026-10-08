@@ -50,8 +50,16 @@ function MagneticButton({ children, className }: { children: React.ReactNode; cl
        synthetic mousemove (a stuck ≤3.5px translate on iOS until a
        mouseleave that never comes) and the three listeners were dead
        weight on every phone anyway. Desktop-only decoration stays
-       desktop-only. */
-    if (!window.matchMedia("(hover: hover)").matches) return
+       desktop-only.
+       r126 (P4-A3 §2.6): prefers-reduced-motion joins the gate — the
+       CSS kill-switch only compresses this transition to 0.01ms, which
+       made the cursor-chase SNAP harder for RM users; every other JS
+       motion path already consults the same media query. */
+    if (
+      !window.matchMedia("(hover: hover)").matches ||
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    )
+      return
     /* Direct DOM transform — a state update per mousemove re-rendered the
        whole header; this path costs zero renders. */
     /* r8: rect is measured ONCE on mouseenter and cached — the old version
@@ -177,7 +185,7 @@ export function MainNav() {
   return (
     <header ref={headerRef}
       className={cn(
-        "fixed top-0 left-0 right-0 z-50 transition-[background,backdrop-filter,border-color] duration-[var(--move-base)]",
+        "fixed top-0 left-0 right-0 z-50 transition-[background,backdrop-filter,border-color] duration-240",
         scrolled
           ? "bg-[var(--background)]/80 backdrop-blur-xl border-b border-[var(--border)]"
           : "bg-transparent border-b border-transparent"
@@ -193,7 +201,7 @@ export function MainNav() {
             (600×409) at a display-appropriate size (was 150×38 — the
             optimizer was generating a 384w AVIF for a ~53px slot). */}
         <Link href="/" prefetch={false} className="flex items-center self-stretch group relative">
-          <Image src="/logo.png" alt="SmartLink — الرئيسية" width={120} height={82} sizes="(max-width: 768px) 48px, 54px" className="h-8 md:h-9 w-auto object-contain transition-transform duration-300 group-hover:scale-105" priority />
+          <Image src="/logo.png" alt="SmartLink — الرئيسية" width={120} height={82} sizes="(max-width: 768px) 48px, 54px" className="h-8 md:h-9 w-auto object-contain transition-transform duration-240 group-hover:scale-105" priority />
         </Link>
 
         {/* Desktop nav — r6: named landmark for screen readers */}
@@ -244,13 +252,13 @@ export function MainNav() {
                       tap on a touch laptop did nothing — the button now
                       toggles too (Escape still closes). */
                   onClick={() => setDesktopServicesOpen((v) => !v)}
-                  className="flex items-center gap-1.5 px-4 py-2.5 text-sm font-medium text-muted-foreground hover:text-foreground rounded-xl hover:bg-[var(--accent)] transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--ring)]"
+                  className="flex items-center gap-1.5 px-4 py-2.5 text-sm font-medium text-muted-foreground hover:text-foreground rounded-xl hover:bg-[var(--accent)] transition-all duration-160 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--ring)]"
                 >
                   {link.label}
                   {/* r6: removed dead group-hover/nav:rotate-180 — no parent
                       carries group/nav, so the class never fired; the inline
                       style below is what actually rotates the chevron. */}
-                  <ChevronDown className="w-3.5 h-3.5 transition-transform duration-200" style={{ transform: desktopServicesOpen ? "rotate(180deg)" : undefined }} />
+                  <ChevronDown className="w-3.5 h-3.5 transition-transform duration-160" style={{ transform: desktopServicesOpen ? "rotate(180deg)" : undefined }} />
                 </button>
                 {/* r13 (a11y audit P3): the menu stays in the DOM with
                     `hidden` — the old conditional unmount left
@@ -276,9 +284,9 @@ export function MainNav() {
                               target="_blank"
                               rel="noopener noreferrer"
                               aria-label={`${child.label} — رابط خارجي`}
-                              className="flex items-start gap-3 px-3 py-3 rounded-xl hover:bg-[var(--accent)] transition-all duration-200 group/item"
+                              className="flex items-start gap-3 px-3 py-3 rounded-xl hover:bg-[var(--accent)] transition-all duration-160 group/item"
                             >
-                              <div className="w-10 h-10 rounded-xl bg-[var(--accent)] flex items-center justify-center shrink-0 group-hover/item:scale-110 transition-transform duration-200">
+                              <div className="w-10 h-10 rounded-xl bg-[var(--accent)] flex items-center justify-center shrink-0 group-hover/item:scale-110 transition-transform duration-160">
                                 {Icon && <Icon className="w-5 h-5 text-primary" />}
                               </div>
                               <div className="min-w-0">
@@ -305,7 +313,7 @@ export function MainNav() {
                 prefetch={false}
                 aria-current={pathname === link.href ? "page" : undefined}
                 className={cn(
-                  "px-4 py-2.5 text-sm rounded-xl transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--ring)]",
+                  "px-4 py-2.5 text-sm rounded-xl transition-all duration-160 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--ring)]",
                   pathname === link.href
                     ? "text-foreground bg-[var(--accent)] font-semibold"
                     : "font-medium text-muted-foreground hover:text-foreground hover:bg-[var(--accent)]"
@@ -325,9 +333,9 @@ export function MainNav() {
                 aria-label={theme === "dark" ? "تفعيل المظهر الفاتح" : "تفعيل المظهر الداكن"}
                 /* r11 (E-E12/E-E13): هدف لمس 44px (كان 36px — p-2.5 + أيقونة
                    16px) بمعيار WCAG 2.5.5، و«الثيم»→«المظهر» (تعريب أصحّ). */
-                className="p-3 rounded-xl hover:bg-[var(--accent)] text-muted-foreground hover:text-foreground transition-all duration-200 active:scale-[0.97] focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--ring)]"
+                className="p-3 rounded-xl hover:bg-[var(--accent)] text-muted-foreground hover:text-foreground transition-all duration-160 active:scale-[0.97] focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--ring)]"
               >
-                <span className={cn("block transition-all duration-500 ease-[var(--ease-spring)]", theme === "dark" ? "rotate-0" : "rotate-180")}>
+                <span className={cn("block transition-all duration-520 ease-[var(--ease-spring)]", theme === "dark" ? "rotate-0" : "rotate-180")}>
                   {theme === "dark" ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
                 </span>
               </button>
@@ -342,7 +350,7 @@ export function MainNav() {
               aria-expanded={mobileOpen}
               aria-controls="mobile-menu"
               /* r11 (E-E12): 44px هدف لمس (كان 40px). */
-              className="md:hidden p-3 rounded-xl hover:bg-[var(--accent)] transition-all duration-200 active:scale-[0.97] focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--ring)]"
+              className="md:hidden p-3 rounded-xl hover:bg-[var(--accent)] transition-all duration-160 active:scale-[0.97] focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--ring)]"
             >
               {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
@@ -378,10 +386,10 @@ export function MainNav() {
                       onClick={() => setServicesOpen(!servicesOpen)}
                       aria-expanded={servicesOpen}
                       aria-controls="m-services"
-                      className="flex items-center justify-between w-full px-3 py-3 text-sm font-medium text-foreground rounded-xl hover:bg-[var(--accent)] transition-all duration-200"
+                      className="flex items-center justify-between w-full px-3 py-3 text-sm font-medium text-foreground rounded-xl hover:bg-[var(--accent)] transition-all duration-160"
                     >
                       {link.label}
-                      <ChevronDown className={cn("w-4 h-4 transition-transform duration-200", servicesOpen && "rotate-180")} />
+                      <ChevronDown className={cn("w-4 h-4 transition-transform duration-160", servicesOpen && "rotate-180")} />
                     </button>
                     <div id="m-services" className={cn("acc ms-3", servicesOpen && "open")}>
                           <div className="space-y-1 pb-1 pt-1">
@@ -392,7 +400,7 @@ export function MainNav() {
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 aria-label={`${child.label} — رابط خارجي`}
-                                className="flex items-center gap-3 px-3 py-2.5 text-sm text-muted-foreground hover:text-foreground rounded-xl hover:bg-[var(--accent)] transition-all duration-200"
+                                className="flex items-center gap-3 px-3 py-2.5 text-sm text-muted-foreground hover:text-foreground rounded-xl hover:bg-[var(--accent)] transition-all duration-160"
                               >
                                 {child.icon && <child.icon className="w-4 h-4 text-primary" />}
                                 <div>
@@ -412,7 +420,7 @@ export function MainNav() {
                     onClick={() => setMobileOpen(false)}
                     aria-current={pathname === link.href ? "page" : undefined}
                     className={cn(
-                      "flex items-center gap-3 px-3 py-3 text-sm rounded-xl transition-all duration-200",
+                      "flex items-center gap-3 px-3 py-3 text-sm rounded-xl transition-all duration-160",
                       pathname === link.href
                         ? "text-foreground bg-[var(--accent)] font-semibold"
                         : "font-medium text-foreground hover:bg-[var(--accent)]"

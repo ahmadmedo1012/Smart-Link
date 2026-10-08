@@ -32,7 +32,7 @@ export default function TermsPage() {
           <div className="eyebrow-badge mb-5 reveal-up reveal-d1">
             <span>الشروط</span>
           </div>
-          <h1 className="text-5xl md:text-6xl font-extrabold tracking-tight text-foreground">
+          <h1 className="text-5xl md:text-6xl font-extrabold text-foreground">
             شروط الاستخدام
           </h1>
         </div>

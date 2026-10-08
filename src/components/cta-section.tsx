@@ -21,7 +21,7 @@ export function CTASection() {
 
       <div className="reveal-scroll container-base relative">
         <div className="max-w-2xl mx-auto text-center">
-          <h2 className="text-4xl md:text-5xl font-extrabold text-foreground mb-4 tracking-tight">
+          <h2 className="text-4xl md:text-5xl font-extrabold text-foreground mb-4">
             جهز أعمالك للانطلاق الرقمي
           </h2>
           <p className="text-muted-foreground text-base mb-8 max-w-lg mx-auto leading-relaxed">
@@ -32,7 +32,7 @@ export function CTASection() {
               href={SITE.products.menu.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="group relative inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-primary text-white font-semibold text-sm transition-all duration-300 shadow-glow hover:shadow-glow-strong active:scale-[0.97] overflow-hidden focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--foreground)]"
+              className="group relative inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-primary text-white font-semibold text-sm transition-all duration-240 shadow-glow hover:shadow-glow-strong active:scale-[0.97] overflow-hidden"
             >
               <span className="relative z-10 flex items-center gap-2">
                 ابدأ التجربة <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
@@ -41,7 +41,7 @@ export function CTASection() {
             </a>
             <Link
               href="/contact"
-              className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl glass text-foreground font-semibold text-sm hover:bg-[var(--accent)] transition-all duration-200 active:scale-[0.97]"
+              className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl glass text-foreground font-semibold text-sm hover:bg-[var(--accent)] transition-all duration-160 active:scale-[0.97]"
             >
               تواصل معنا
             </Link>

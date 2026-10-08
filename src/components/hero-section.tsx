@@ -106,7 +106,7 @@ export function HeroSection() {
              35,033 px²). With headline + body painting at FCP the LCP
              lands at ~1.3s; the entrance cascade stays alive around them
              (eyebrow, CTAs, stats still reveal). */}
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-[-0.01em] sm:tracking-[-0.02em] leading-[1.25] mb-7">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold leading-[1.25] mb-7">
             {headingWords.map((word, i) => (
               <span key={word} className="block">
                 {i === 0 ? (
@@ -139,7 +139,7 @@ export function HeroSection() {
           >
             <Link
               href="#services"
-              className="group relative inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-[var(--primary)] text-white font-semibold text-sm transition-all duration-300 shadow-glow hover:shadow-glow-strong active:scale-[0.97] overflow-hidden focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--foreground)]"
+              className="group relative inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-[var(--primary)] text-white font-semibold text-sm transition-all duration-240 shadow-glow hover:shadow-glow-strong active:scale-[0.97] overflow-hidden"
             >
               <span className="relative z-10 flex items-center gap-2">
                 اكتشف خدماتنا <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
@@ -149,7 +149,7 @@ export function HeroSection() {
             <Link
               href="/about"
               prefetch={false}
-              className="group inline-flex items-center gap-2 px-7 py-3.5 rounded-xl glass text-[var(--foreground)] font-semibold text-sm hover:bg-[var(--accent)] transition-all duration-200 active:scale-[0.97]"
+              className="group inline-flex items-center gap-2 px-7 py-3.5 rounded-xl glass text-[var(--foreground)] font-semibold text-sm hover:bg-[var(--accent)] transition-all duration-160 active:scale-[0.97]"
             >
               تعرف علينا
             </Link>

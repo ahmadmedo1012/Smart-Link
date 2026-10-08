@@ -33,7 +33,7 @@ function StepCard({ step, index }: { step: typeof steps[number]; index: number }
 
       {/* Step badge */}
       <div className="relative inline-flex mb-5">
-        <div className="w-16 h-16 rounded-2xl bg-[var(--card)] border border-[var(--border)] flex items-center justify-center group-hover:scale-[1.12] group-hover:-translate-y-1 transition-transform duration-300 ease-[var(--ease-smooth)]">
+        <div className="w-16 h-16 rounded-2xl bg-[var(--card)] border border-[var(--border)] flex items-center justify-center group-hover:scale-[1.12] group-hover:-translate-y-1 transition-transform duration-240 ease-[var(--ease-out)]">
           <Icon className="w-8 h-8 text-[var(--primary)]" />
         </div>
         <div
@@ -56,7 +56,7 @@ export function HowItWorksSection() {
     <section id="how-it-works" className="section-padding relative">
       <div className="container-base">
         <div className="reveal-scroll text-center mb-14">
-          <h2 className="text-4xl md:text-5xl font-extrabold text-[var(--foreground)] mb-4 tracking-tight">كيف تعمل المنصة؟</h2>
+          <h2 className="text-4xl md:text-5xl font-extrabold text-[var(--foreground)] mb-4">كيف تعمل المنصة؟</h2>
           <p className="text-[var(--muted-foreground)] max-w-xl mx-auto text-base leading-relaxed">ثلاث خطوات بسيطة لتبدأ رحلتك الرقمية</p>
         </div>
         <div className="reveal-scroll-stagger grid md:grid-cols-3 gap-10 relative">

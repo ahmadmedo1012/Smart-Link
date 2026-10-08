@@ -33,7 +33,7 @@ export default function PrivacyPage() {
           <div className="eyebrow-badge mb-5 reveal-up reveal-d1">
             <span>الخصوصية</span>
           </div>
-          <h1 className="text-5xl md:text-6xl font-extrabold tracking-tight text-foreground">
+          <h1 className="text-5xl md:text-6xl font-extrabold text-foreground">
             سياسة الخصوصية
           </h1>
         </div>

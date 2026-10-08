@@ -25,7 +25,7 @@ export function FaqAccordion({
         return (
           <div
             key={i}
-            className="glass rounded-xl overflow-hidden transition-all duration-300 hover:border-[var(--ring)]/20"
+            className="glass rounded-xl overflow-hidden transition-all duration-240 hover:border-[var(--ring)]/20"
           >
         {/* r10 (a11y audit P2): the question is wrapped in an h3 so screen
             readers can jump between FAQ questions with the headings key —
@@ -41,7 +41,7 @@ export function FaqAccordion({
               >
                 {faq.q}
                 <ChevronLeft
-                  className={`w-4 h-4 shrink-0 transition-transform duration-300 ${isOpen ? "rotate-180 text-primary" : ""}`}
+                  className={`w-4 h-4 shrink-0 transition-transform duration-240 ${isOpen ? "rotate-180 text-primary" : ""}`}
                   aria-hidden="true"
                 />
               </button>

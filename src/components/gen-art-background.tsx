@@ -9,7 +9,16 @@
    - "blobs"  — concentric blob rings + star field (pricing)
    - "rings"  — wavy concentric rings + star field (contact — r6 moved the
      page's inline ~50-line copy of this generator into the shared
-     component, one seeded-RNG source of truth instead of two) */
+     component, one seeded-RNG source of truth instead of two)
+
+   r126 (P4-A3 §3.4): the accent color was the only off-palette literal in
+   src/ — a theme-blind oklch(0.55 0.01 260) cool-grey baked identically
+   onto night AND cream. Colors now ride the --genart-accent /
+   --genart-accent-dim tokens (dark neutral-500 #8E97B8 · light
+   neutral-500 #6F6C66, declared in styles.css per theme) via inline
+   style attributes — SVG presentation attributes cannot hold var(), but
+   style can, and the SVG is inline in the page so the cascade resolves
+   the right theme. */
 
 function mulberry32(s: number) {
   return function () {
@@ -22,19 +31,19 @@ function mulberry32(s: number) {
 
 const STAR_COUNT = 60
 
-function stars(rng: () => number, accent: string) {
+function stars(rng: () => number) {
   const lines: string[] = []
   for (let i = 0; i < STAR_COUNT; i++) {
     const x = rng() * 100
     const y = rng() * 100
     const sz = 0.3 + rng() * 1.5
     const op = 0.01 + rng() * 0.03
-    lines.push(`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${sz.toFixed(2)}" fill="${accent}" opacity="${op}" />`)
+    lines.push(`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${sz.toFixed(2)}" style="fill: var(--genart-accent)" opacity="${op}" />`)
   }
   return lines
 }
 
-function bandsArt(rng: () => number, accent: string) {
+function bandsArt(rng: () => number) {
   const lines: string[] = []
   for (let i = 0; i < 8; i++) {
     const y1 = i * 14 + rng() * 6
@@ -42,14 +51,14 @@ function bandsArt(rng: () => number, accent: string) {
     const xOff = rng() * 10
     const op = 0.02 + i * 0.003
     lines.push(
-      `<polygon points="${xOff},${y1} ${100 + xOff},${y1 - 4} ${100 + xOff},${y2 + 4} ${xOff},${y2}" fill="${accent}" opacity="${op}" />`
+      `<polygon points="${xOff},${y1} ${100 + xOff},${y1 - 4} ${100 + xOff},${y2 + 4} ${xOff},${y2}" style="fill: var(--genart-accent)" opacity="${op}" />`
     )
   }
-  lines.push(...stars(rng, accent))
+  lines.push(...stars(rng))
   return lines.join("\n")
 }
 
-function blobsArt(rng: () => number, accent: string, accentDim: string) {
+function blobsArt(rng: () => number) {
   const lines: string[] = []
   for (let band = 0; band < 8; band++) {
     const cx = 30 + rng() * 40
@@ -67,16 +76,16 @@ function blobsArt(rng: () => number, accent: string, accentDim: string) {
       d.push(`${i === 0 ? "M" : "L"}${x.toFixed(1)} ${y.toFixed(1)}`)
     }
     d.push("Z")
-    lines.push(`<path d="${d.join(" ")}" fill="none" stroke="${accent}" stroke-width="0.4" opacity="${op}" />`)
+    lines.push(`<path d="${d.join(" ")}" fill="none" style="stroke: var(--genart-accent)" stroke-width="0.4" opacity="${op}" />`)
     if (band % 3 === 0) {
-      lines.push(`<path d="${d.join(" ")} Z" fill="${accentDim}" stroke="none" />`)
+      lines.push(`<path d="${d.join(" ")} Z" style="fill: var(--genart-accent-dim)" stroke="none" />`)
     }
   }
-  lines.push(...stars(rng, accent))
+  lines.push(...stars(rng))
   return lines.join("\n")
 }
 
-function ringsArt(rng: () => number, accent: string) {
+function ringsArt(rng: () => number) {
   const lines: string[] = []
   for (let ring = 0; ring < 6; ring++) {
     const cx = 30 + rng() * 40
@@ -94,9 +103,9 @@ function ringsArt(rng: () => number, accent: string) {
       d.push(`${i === 0 ? "M" : "L"}${x.toFixed(1)} ${y.toFixed(1)}`)
     }
     d.push("Z")
-    lines.push(`<path d="${d.join(" ")}" fill="none" stroke="${accent}" stroke-width="0.4" opacity="${op}" />`)
+    lines.push(`<path d="${d.join(" ")}" fill="none" style="stroke: var(--genart-accent)" stroke-width="0.4" opacity="${op}" />`)
   }
-  lines.push(...stars(rng, accent))
+  lines.push(...stars(rng))
   return lines.join("\n")
 }
 
@@ -108,13 +117,12 @@ export function GenArtBackground({
   variant?: "bands" | "blobs" | "rings"
 }) {
   const rng = mulberry32(seed)
-  const accent = "oklch(0.55 0.01 260)"
   const paths =
     variant === "blobs"
-      ? blobsArt(rng, accent, "oklch(0.55 0.01 260 / 0.04)")
+      ? blobsArt(rng)
       : variant === "rings"
-        ? ringsArt(rng, accent)
-        : bandsArt(rng, accent)
+        ? ringsArt(rng)
+        : bandsArt(rng)
 
   return (
     <svg

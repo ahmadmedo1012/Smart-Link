@@ -88,7 +88,7 @@ export default function PricingPage() {
           <div className="eyebrow-badge mb-6 reveal-up reveal-d1">
             <span>الأسعار</span>
           </div>
-          <h1 className="text-5xl md:text-6xl font-extrabold tracking-tight text-foreground mb-4">
+          <h1 className="text-5xl md:text-6xl font-extrabold text-foreground mb-4">
             الخطط والأسعار
           </h1>
           <p className="text-lg text-muted-foreground">
@@ -103,11 +103,11 @@ export default function PricingPage() {
             return (
               <div
                 key={plan.title}
-                className={`reveal-up reveal-d${Math.min(i + 1, 4)} group relative rounded-[20px] border border-[var(--border)] bg-[var(--card)] overflow-hidden hover:border-[var(--ring)]/40 hover:shadow-glow-strong transition-all duration-500 flex flex-col`}
+                className={`reveal-up reveal-d${Math.min(i + 1, 4)} group relative rounded-2xl border border-[var(--border)] bg-[var(--card)] overflow-hidden hover:border-[var(--ring)]/40 hover:shadow-glow-strong transition-all duration-520 flex flex-col`}
               >
                 {/* Top accent line */}
-                <div className="absolute top-0 left-0 right-0 h-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{ background: `linear-gradient(90deg, transparent, ${plan.color}, transparent)` }} aria-hidden="true" />
-                <div className="absolute inset-0 opacity-10 group-hover:opacity-20 transition-opacity duration-500" style={{ background: plan.gradientVar }} aria-hidden="true" />
+                <div className="absolute top-0 left-0 right-0 h-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-520" style={{ background: `linear-gradient(90deg, transparent, ${plan.color}, transparent)` }} aria-hidden="true" />
+                <div className="absolute inset-0 opacity-10 group-hover:opacity-20 transition-opacity duration-520" style={{ background: plan.gradientVar }} aria-hidden="true" />
                 <div className="relative p-7 md:p-8 flex flex-col flex-1">
                   <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-5 border border-[var(--glass-border)]" style={{ background: plan.gradientVar }}>
                     <Icon className="w-6 h-6 text-[var(--primary)]" />
@@ -132,7 +132,7 @@ export default function PricingPage() {
                     href={plan.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="group inline-flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-primary text-white font-semibold text-sm hover:brightness-105 transition-all duration-200 active:scale-[0.97] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--foreground)]"
+                    className="group inline-flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-primary text-white font-semibold text-sm hover:brightness-105 transition-all duration-160 active:scale-[0.97]"
                   >
                     ابدأ الآن <ChevronLeft className="w-3.5 h-3.5 transition-transform group-hover:-translate-x-0.5" />
                   </a>
@@ -144,7 +144,7 @@ export default function PricingPage() {
 
         {/* Coming soon */}
         <div className="max-w-2xl mx-auto mb-16 reveal-up reveal-d4">
-          <div className="glass rounded-2xl p-8 text-center border border-dashed border-[var(--glass-border)] hover:border-[var(--ring)]/30 transition-all duration-300">
+          <div className="glass rounded-2xl p-8 text-center border border-dashed border-[var(--glass-border)] hover:border-[var(--ring)]/30 transition-all duration-240">
             <div className="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-4 border border-[var(--glass-border)]" style={{ background: "var(--gradient-coming-soon)" }}>
               <Sparkles className="w-7 h-7 text-[var(--primary)]" />
             </div>
@@ -154,7 +154,7 @@ export default function PricingPage() {
             </p>
             <Link
               href="/contact"
-              className="group inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[var(--primary)] text-white text-sm font-semibold hover:brightness-105 transition-all duration-200 active:scale-[0.97] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--foreground)]"
+              className="group inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[var(--primary)] text-white text-sm font-semibold hover:brightness-105 transition-all duration-160 active:scale-[0.97]"
             >
               تواصل معنا لمعرفة المزيد <ChevronLeft className="w-3.5 h-3.5 transition-transform group-hover:-translate-x-0.5" />
             </Link>

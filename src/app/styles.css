@@ -156,19 +156,29 @@
   --color-primary: var(--primary);
   --color-primary-text: var(--primary-text);
 
-  /* Radii on the Madarek "Notion-soft" ladder (§1.2), CANONICAL
-     aliases: sm 8 = --r-sm · lg 12 = --r-lg · xl 16 = --r-xl. The full
-     6/8/10/12/16/20/28 ladder is declared as --r-* in :root below; the
-     former 20/28 steps stay reachable as rounded-[20px]/[28px]
-     arbitrary values and via --r-2xl/--r-3xl. */
+  /* Radii on the Madarek "Notion-soft" ladder (§1.2). r126 (P4-A3
+     §2.4): the FULL ladder is bridged into Tailwind utilities — before,
+     rounded-2xl silently rendered Tailwind's default 16px (the same
+     value as rounded-xl) while sibling cards hardcoded rounded-[20px],
+     shipping two radii for equal-tier surfaces. rounded-md/2xl/3xl now
+     resolve to the canonical 10/20/28px; the --r-* spelling stays the
+     canonical token set in :root below. The product-showcase phone
+     frame's former 32/40px mockup corners snapped onto the ladder
+     (20/28 = 2xl/3xl) — no deliberate exceptions remain. */
   --radius-sm: 8px;
+  --radius-md: 10px;
   --radius-lg: 12px;
   --radius-xl: 16px;
+  --radius-2xl: 20px;
+  --radius-3xl: 28px;
 
   /* m15: exact Madarek --ease-out (§4.2) — the exponential settle.
-     (The pre-existing value 0.2,1 was a near-identical hand-tune.) */
+     (The pre-existing value 0.2,1 was a near-identical hand-tune.)
+     r126 (P4-A3 §2.3): --ease-spring carried the BOUNCE curve (1.56)
+     — the canonical Madarek spring pop is 1.36 (the same fork
+     smart-bot carried); pinned to the rubric value. */
   --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
-  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-spring: cubic-bezier(0.34, 1.36, 0.64, 1);
 }
 
 /* ═══════════════════════════════════════════════════════════════════
@@ -183,7 +193,6 @@
    ═══════════════════════════════════════════════════════════════════ */
 :root {
   --scroll-offset: 6rem;
-  --duration-base: 0.4s;
   color-scheme: dark;
 
   /* ── Core palette — Madarek night (§1.3/§1.7 dark) ── */
@@ -306,6 +315,14 @@
   --scrollbar-thumb: rgba(142, 151, 184, 0.20);
   --scrollbar-thumb-hover: rgba(142, 151, 184, 0.34);
 
+  /* ── GenArt stroke (r126, P4-A3 §3.4) — replaces the only off-palette
+     literal in src/ (theme-blind oklch(0.55 0.01 260)) with palette
+     neutrals: dark neutral-500 #8E97B8 / light neutral-500 #6F6C66.
+     Consumed by gen-art-background.tsx via inline style attributes
+     (SVG presentation attributes cannot hold var()). ── */
+  --genart-accent: #8E97B8;
+  --genart-accent-dim: rgb(142 151 184 / 0.04);
+
   /* ── Motion ladder (§4.1/§4.2/§4.3) — durations, easings, and the
      RTL direction multiplier for any X-axis motion. ── */
   --t-micro: 80ms;   --t-fast: 160ms;  --t-base: 240ms;
@@ -318,9 +335,6 @@
   --ease-spring: cubic-bezier(0.34, 1.36, 0.64, 1);
   --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
   --motion-direction: 1;
-
-  /* ── Motion (legacy Smart-Link alias) ── */
-  --move-base: 300ms;
 }
 
 /* ═══════════════════════════════════════════════════════════════════
@@ -428,6 +442,10 @@
   /* ── Scrollbar (§1.16 light) ── */
   --scrollbar-thumb: rgba(25, 25, 24, 0.16);
   --scrollbar-thumb-hover: rgba(25, 25, 24, 0.28);
+
+  /* ── GenArt stroke (light) — see the :root twin. ── */
+  --genart-accent: #6F6C66;
+  --genart-accent-dim: rgb(111 108 102 / 0.04);
 }
 
 @layer base {
@@ -460,7 +478,11 @@
   ::-webkit-scrollbar-track { background: transparent; }
   ::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: 999px; }
   ::-webkit-scrollbar-thumb:hover { background: var(--scrollbar-thumb-hover); }
-  *:focus-visible { outline: 2px solid var(--ring); outline-offset: 2px; border-radius: var(--radius-sm); }
+  /* r126 (P4-A3 §2.8): the border-radius mutation removed — a focus
+     ring must never reshape the element it decorates (Madarek base.css
+     pins outline-only); it had silently mutated every focused element
+     without an explicit Tailwind radius, e.g. bare prose links. */
+  *:focus-visible { outline: 2px solid var(--ring); outline-offset: 2px; }
   h1, h2, h3, h4 { text-wrap: balance; font-family: var(--font-heading); }
   p { text-wrap: pretty; }
 }
@@ -551,7 +573,9 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  /* r126 (P4-A3 §2.3): ladder + token — 160ms fast on the Madarek
+     bounce curve (the literal was the exact --ease-bounce value). */
+  transition: transform var(--t-fast) var(--ease-bounce);
 }
 
 /* ── Blob animations ── */
@@ -614,8 +638,11 @@
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .reveal-up { animation: reveal-up 0.6s cubic-bezier(0.16, 1, 0.2, 1) both; }
-  .reveal-blur { animation: reveal-blur 0.7s cubic-bezier(0.16, 1, 0.2, 1) both; }
+  /* r126 (P4-A3 §2.3): 500/600/700ms hand-tunes snapped onto the
+     ladder (520 slower / 720 cinema) and the near-miss bezier
+     (0.16,1,0.2,1) pinned to the canonical --ease-out (0.16,1,0.3,1). */
+  .reveal-up { animation: reveal-up var(--t-slower) var(--ease-out) both; }
+  .reveal-blur { animation: reveal-blur var(--t-cinema) var(--ease-out) both; }
 
   /* Explicit delay utilities — used for above-the-fold content so it
      paints pre-JS instead of waiting for framer-motion hydration. */
@@ -660,15 +687,17 @@
   to { opacity: 1; transform: translateY(0) scale(1); }
 }
 .menu-pop {
-  animation: menu-pop 0.2s cubic-bezier(0.16, 1, 0.2, 1) both;
+  animation: menu-pop var(--t-fast) var(--ease-out) both;
 }
-.menu-pop-fast { animation-duration: 0.15s; }
+.menu-pop-fast { animation-duration: var(--t-micro); }
 
 /* Height accordion without JS: grid-rows 0fr→1fr (mobile nav sub-menu) */
 .acc {
   display: grid;
   grid-template-rows: 0fr;
-  transition: grid-template-rows 0.2s cubic-bezier(0.16, 1, 0.2, 1);
+  /* r126: 240ms base by feel — panel expand/collapse is content
+     motion, one step up from the 160ms pointer-feedback class. */
+  transition: grid-template-rows var(--t-base) var(--ease-out);
 }
 .acc > * { overflow: hidden; min-height: 0; }
 .acc.open { grid-template-rows: 1fr; }
@@ -702,7 +731,7 @@
    hover: variants automatically; hand-written rules must opt in. */
 @media (hover: hover) {
   .group:hover .cta-shine {
-    animation: cta-shine 0.5s cubic-bezier(0.16, 1, 0.2, 1);
+    animation: cta-shine var(--t-slower) var(--ease-out);
   }
 }
 @keyframes cta-shine {
@@ -758,17 +787,17 @@
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {
     .reveal-scroll {
-      animation: reveal-up 0.6s cubic-bezier(0.16, 1, 0.2, 1) both;
+      animation: reveal-up var(--t-slower) var(--ease-out) both;
       animation-timeline: view();
       animation-range: entry 10% entry 80%;
     }
     .reveal-scroll-strong {
-      animation: reveal-up-strong 0.7s cubic-bezier(0.16, 1, 0.2, 1) both;
+      animation: reveal-up-strong var(--t-cinema) var(--ease-out) both;
       animation-timeline: view();
       animation-range: entry 0% entry 90%;
     }
     .reveal-scroll-stagger > * {
-      animation: reveal-up 0.5s cubic-bezier(0.16, 1, 0.2, 1) both;
+      animation: reveal-up var(--t-slower) var(--ease-out) both;
       animation-timeline: view();
       /* r9 (audit P3-9): default range for children beyond nth-child(6) —
          without it the 7th+ item of any future list rests at 50% progress
@@ -819,12 +848,12 @@
     }
     /* how-it-works: connecting line draw + step badge pop */
     .line-draw-scroll {
-      animation: border-draw 0.5s cubic-bezier(0.16, 1, 0.2, 1) both;
+      animation: border-draw var(--t-slower) var(--ease-out) both;
       animation-timeline: view();
       animation-range: entry 20% entry 80%;
     }
     .badge-pop {
-      animation: reveal-scale 0.4s cubic-bezier(0.16, 1, 0.2, 1) both;
+      animation: reveal-scale var(--t-slow) var(--ease-out) both;
       animation-timeline: view();
       animation-range: entry 20% entry 70%;
       display: inline-flex;
@@ -859,9 +888,11 @@
   -webkit-backdrop-filter: blur(20px);
   border: 1px solid var(--glass-border);
   box-shadow: var(--glass-shadow);
-  transition: transform var(--duration-base) var(--ease-smooth),
-              border-color var(--duration-base) var(--ease-smooth),
-              box-shadow var(--duration-base) var(--ease-smooth);
+  /* r126 (P4-A3 §2.3): --duration-base (0.4s) retired — the Madarek
+     slow step 380ms on the canonical settle curve. */
+  transition: transform var(--t-slow) var(--ease-out),
+              border-color var(--t-slow) var(--ease-out),
+              box-shadow var(--t-slow) var(--ease-out);
 }
 
 
@@ -870,11 +901,14 @@
   navigation: auto;
 }
 
+/* r126: cross-fades on the ladder (240ms base) with the canonical
+   --ease-out curve — the `ease-out` keyword is a different, gentler
+   bezier than Madarek's exponential settle. */
 ::view-transition-old(root) {
-  animation: 0.25s ease-out both fade-out;
+  animation: var(--t-base) var(--ease-out) both fade-out;
 }
 ::view-transition-new(root) {
-  animation: 0.3s ease-out both fade-in;
+  animation: var(--t-base) var(--ease-out) both fade-in;
 }
 
 @keyframes fade-in {
@@ -1011,14 +1045,13 @@
 
 /* 4 ── Arabic typography laws (§2.4/§0 — platform rulings 2 & 5) ─────
    NO letter-spacing on Arabic, ever: tracking breaks cursive joining.
-   Every Smart-Link heading is Arabic or mixed-script, and a dozen of
-   them carried tracking-tight/tracking-[-0.01em] utilities — unlayered
-   wins over the utilities layer, so the law is enforced globally.
-   (Digit runs like the hero-stat counters are NOT headings — their
-   tabular-nums tracking stays legal.) */
-h1, h2, h3, h4, h5, h6 {
-  letter-spacing: normal;
-}
+   r126 (P4-A3 §2.7): the 17 dead heading tracking-* utilities were
+   deleted at the source, and with them the unlayered
+   h1–h6 { letter-spacing: normal } belt that neutralized them — a
+   utility that contradicts what renders is a time bomb, not a guard.
+   The law now lives in the class lists: NEVER add tracking-* to an
+   Arabic heading. The one legal consumer is the hero-stat digit run
+   (a div — tabular-nums tracking on numerals is sanctioned). */
 
 /* 5 ── RTL motion direction (§4.3) ───────────────────────────────────
    Multiplier for any X-axis entrance motion. Declared for future

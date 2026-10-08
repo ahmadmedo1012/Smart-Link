@@ -61,7 +61,7 @@ export default function ContactPage() {
           <div className="eyebrow-badge mb-6 reveal-up reveal-d1">
             <span>تواصل</span>
           </div>
-          <h1 className="text-5xl md:text-6xl font-extrabold tracking-tight text-foreground mb-4">
+          <h1 className="text-5xl md:text-6xl font-extrabold text-foreground mb-4">
             تواصل معنا
           </h1>
           <p className="text-lg text-muted-foreground">
@@ -74,9 +74,9 @@ export default function ContactPage() {
           {contacts.map((item, i) => (
             <div
               key={item.title}
-              className={`reveal-up reveal-d${Math.min(i + 1, 4)} glass rounded-2xl p-5 text-center hover:border-[var(--ring)]/30 transition-all duration-300 group`}
+              className={`reveal-up reveal-d${Math.min(i + 1, 4)} glass rounded-2xl p-5 text-center hover:border-[var(--ring)]/30 transition-all duration-240 group`}
             >
-              <div className="w-9 h-9 rounded-xl bg-[var(--accent)] flex items-center justify-center mx-auto mb-2.5 group-hover:scale-110 transition-transform duration-300">
+              <div className="w-9 h-9 rounded-xl bg-[var(--accent)] flex items-center justify-center mx-auto mb-2.5 group-hover:scale-110 transition-transform duration-240">
                 <item.icon className="w-4.5 h-4.5 text-primary" />
               </div>
               <h2 className="font-bold text-foreground text-sm mb-1">{item.title}</h2>

@@ -50,6 +50,15 @@ const nextConfig: NextConfig = {
         source: "/images/:path*",
         headers: [{ key: "Cache-Control", value: "public, max-age=31536000, immutable" }],
       },
+      /* r126 (P4-A3 §3.8): the 12 IBM Plex woff2 (~329 KB) were the only
+         heavy assets revalidating on every visit while icons cached for a
+         year. Filenames are family-weight-style-script qualified, so a
+         file's bytes only ever change alongside a deploy that renames or
+         re-points them — safe for immutable. */
+      {
+        source: "/fonts/:path*",
+        headers: [{ key: "Cache-Control", value: "public, max-age=31536000, immutable" }],
+      },
       {
         source: "/favicon.ico",
         headers: [{ key: "Cache-Control", value: "public, max-age=86400" }],

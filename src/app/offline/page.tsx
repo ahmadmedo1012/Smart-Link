@@ -22,8 +22,11 @@ export const metadata: Metadata = {
 }
 
 export default function OfflinePage() {
+  /* r126 (P4-A3 §2.5): was <main> — the root layout already owns the
+     <main id="main-content"> landmark; a nested main is invalid HTML
+     and duplicated the landmark for every screen reader. */
   return (
-    <main className="min-h-dvh flex flex-col items-center justify-center bg-[var(--background)] px-6 text-center">
+    <section className="min-h-dvh flex flex-col items-center justify-center bg-[var(--background)] px-6 text-center">
       <WifiOff className="w-14 h-14 text-primary mb-6" aria-hidden="true" />
       <h1 className="font-[family-name:var(--font-heading)] text-3xl font-bold text-foreground mb-3">
         لا يوجد اتصال بالإنترنت
@@ -39,10 +42,10 @@ export default function OfflinePage() {
         href={SITE.whatsapp.url}
         target="_blank"
         rel="noopener noreferrer"
-        className="inline-flex items-center gap-2 rounded-xl bg-primary px-6 py-3 font-semibold text-white transition-all duration-200 active:scale-[0.97] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--foreground)]"
+        className="inline-flex items-center gap-2 rounded-xl bg-primary px-6 py-3 font-semibold text-white transition-all duration-160 active:scale-[0.97]"
       >
         تواصل عبر واتساب
       </a>
-    </main>
+    </section>
   )
 }

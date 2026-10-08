@@ -18,7 +18,10 @@ import {
   CONTACT_SUCCESS_MESSAGE,
 } from "@/lib/contact-rules"
 
-const OWNER_EMAIL = SITE.email
+/* r126 (P4-A3 §3.7): notifications still go to the owner's private
+   inbox — SITE.ownerEmail; SITE.email is now the on-domain PUBLIC
+   identity and would be a delivery dead-end as a destination. */
+const OWNER_EMAIL = SITE.ownerEmail
 /* r13: نطاق المرسل بات في مصدر الحقيقة الواحد مع باقي الثوابت
    التجارية — كان آخر حرف نطاق خارج SITE (route.ts:13). */
 const FROM_EMAIL = SITE.fromEmail

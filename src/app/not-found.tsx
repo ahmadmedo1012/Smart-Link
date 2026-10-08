@@ -42,7 +42,7 @@ export default function NotFound() {
       </div>
       <div className="text-center relative">
         <div className="reveal-blur">
-          <h1 className="text-9xl font-extrabold tracking-tight leading-none mb-2">
+          <h1 className="text-9xl font-extrabold leading-none mb-2">
             <span className="gradient-text">404</span>
           </h1>
         </div>
@@ -54,13 +54,13 @@ export default function NotFound() {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
             <Link
               href="/"
-              className="group inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[var(--primary)] text-white font-semibold text-sm hover:brightness-105 transition-all duration-200 active:scale-[0.98]"
+              className="group inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[var(--primary)] text-white font-semibold text-sm hover:brightness-105 transition-all duration-160 active:scale-[0.98]"
             >
               <Home className="w-4 h-4" aria-hidden="true" /> العودة للرئيسية
             </Link>
             <Link
               href="/contact"
-              className="group inline-flex items-center gap-2 px-6 py-3 rounded-xl glass text-[var(--foreground)] font-semibold text-sm hover:bg-[var(--accent)] transition-all duration-200"
+              className="group inline-flex items-center gap-2 px-6 py-3 rounded-xl glass text-[var(--foreground)] font-semibold text-sm hover:bg-[var(--accent)] transition-all duration-160"
             >
               <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" aria-hidden="true" /> تواصل معنا
             </Link>

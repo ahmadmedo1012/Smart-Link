@@ -17,15 +17,15 @@ function FeatureCard({ feature }: { feature: typeof features[number] }) {
 
   return (
     <div
-      className="reveal-scroll group relative rounded-[16px] border border-[var(--border)] bg-[var(--card)] p-6 hover:border-[var(--ring)]/30 hover:shadow-glow transition-all duration-500"
+      className="reveal-scroll group relative rounded-xl border border-[var(--border)] bg-[var(--card)] p-6 hover:border-[var(--ring)]/30 hover:shadow-glow transition-all duration-520"
     >
       {/* Hover accent bar */}
-      <div className="absolute top-0 left-4 right-4 h-[2px] rounded-full bg-[var(--primary)] scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-right" aria-hidden="true" />
+      <div className="absolute top-0 left-4 right-4 h-[2px] rounded-full bg-[var(--primary)] scale-x-0 group-hover:scale-x-100 transition-transform duration-520 origin-right" aria-hidden="true" />
 
-      <div className="w-11 h-11 rounded-xl bg-[var(--card)] border border-[var(--border)] flex items-center justify-center mb-4 group-hover:scale-110 group-hover:border-[var(--ring)]/30 transition-all duration-300">
+      <div className="w-11 h-11 rounded-xl bg-[var(--card)] border border-[var(--border)] flex items-center justify-center mb-4 group-hover:scale-110 group-hover:border-[var(--ring)]/30 transition-all duration-240">
         <Icon className="w-5 h-5 text-[var(--primary)]" />
       </div>
-      <h3 className="font-bold text-[var(--foreground)] mb-1.5 group-hover:text-primary transition-colors duration-300">{feature.title}</h3>
+      <h3 className="font-bold text-[var(--foreground)] mb-1.5 group-hover:text-primary transition-colors duration-240">{feature.title}</h3>
       <p className="text-sm text-[var(--muted-foreground)] leading-relaxed">{feature.description}</p>
     </div>
   )
@@ -37,7 +37,7 @@ export function FeaturesSection() {
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[var(--primary)]/[0.02] to-transparent pointer-events-none" aria-hidden="true" />
       <div className="container-base">
         <div className="reveal-scroll text-center mb-14">
-          <h2 className="text-4xl md:text-5xl font-extrabold text-[var(--foreground)] mb-4 tracking-tight">لماذا SmartLink؟</h2>
+          <h2 className="text-4xl md:text-5xl font-extrabold text-[var(--foreground)] mb-4">لماذا SmartLink؟</h2>
           <p className="text-[var(--muted-foreground)] max-w-xl mx-auto text-base leading-relaxed">
             منصة متكاملة تجمع القوة والتقنية والسهولة في مكان واحد
           </p>

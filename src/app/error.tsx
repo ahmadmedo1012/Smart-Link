@@ -28,7 +28,7 @@ export default function Error({
           <div className="w-16 h-16 rounded-2xl mx-auto mb-6 flex items-center justify-center border border-[var(--glass-border)]" style={{ background: "var(--accent)" }}>
             <AlertTriangle className="w-8 h-8 text-[var(--primary)]" aria-hidden="true" />
           </div>
-          <h1 ref={headingRef} tabIndex={-1} className="text-3xl font-extrabold tracking-tight text-foreground mb-3 outline-none">
+          <h1 ref={headingRef} tabIndex={-1} className="text-3xl font-extrabold text-foreground mb-3 outline-none">
             حدث خطأ غير متوقع
           </h1>
           <p className="text-muted-foreground leading-relaxed mb-8">
@@ -38,14 +38,14 @@ export default function Error({
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
             <button
               onClick={reset}
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-primary text-white font-semibold text-sm hover:brightness-105 transition-all duration-200 active:scale-[0.97]"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-primary text-white font-semibold text-sm hover:brightness-105 transition-all duration-160 active:scale-[0.97]"
             >
               <RefreshCw className="w-4 h-4" aria-hidden="true" />
               إعادة المحاولة
             </button>
             <Link
               href="/contact"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-[var(--glass-border)] bg-[var(--glass-bg)] text-foreground font-semibold text-sm hover:border-[var(--ring)]/40 transition-all duration-200"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-[var(--glass-border)] bg-[var(--glass-bg)] text-foreground font-semibold text-sm hover:border-[var(--ring)]/40 transition-all duration-160"
             >
               <Mail className="w-4 h-4" aria-hidden="true" />
               تواصل معنا

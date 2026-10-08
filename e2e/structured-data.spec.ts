@@ -34,7 +34,7 @@ test.describe("JSON-LD — الرئيسية", () => {
     expect(org).toBeTruthy()
 
     // انحدار r6: البريد الموحّد عبر كل الأسطح
-    expect(org.contactPoint.email).toBe("ahmedmedo1012@gmail.com")
+    expect(org.contactPoint.email).toBe("noreply@smart-link.ly")
     expect(org.contactPoint.availableLanguage).toContain("ar")
     expect(org.url).toBe("https://smart-link.ly")
     expect(org.logo["@type"]).toBe("ImageObject")

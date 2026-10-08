@@ -53,7 +53,7 @@ test.describe("نموذج الاتصال — الواجهة", () => {
         contentType: "application/json",
         body: JSON.stringify({
           error:
-            "خدمة البريد غير مهيأة حالياً. تواصل معنا مباشرة عبر واتساب 0910089975 أو ahmedmedo1012@gmail.com",
+            "خدمة البريد غير مهيأة حالياً. تواصل معنا مباشرة عبر واتساب 0910089975 أو noreply@smart-link.ly",
         }),
       })
     )
@@ -119,7 +119,7 @@ test.describe("عقد /api/contact", () => {
     expect(res.status()).toBe(503)
     const json = await res.json()
     expect(json.error).toContain("واتساب")
-    expect(json.error).toContain("ahmedmedo1012@gmail.com")
+    expect(json.error).toContain("noreply@smart-link.ly")
   })
 
   test("محدد المعدل — الحدود بالضبط: 1-5 تمر (503) والسادس 429 مع Retry-After (r10)", async ({ request }) => {

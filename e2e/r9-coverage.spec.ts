@@ -53,10 +53,10 @@ test.describe("r9 — عقد footer (روابط التواصل على كل صف�
       await expect(wa).toHaveAttribute("target", "_blank")
       await expect(wa).toHaveAttribute("rel", "noopener noreferrer")
 
-      // البريد
+      // البريد — r126: الهوية العامة على نطاق الموقع (SITE.email)
       await expect(footer.locator('a[href^="mailto:"]').first()).toHaveAttribute(
         "href",
-        /mailto:ahmedmedo1012@gmail\.com/
+        /mailto:noreply@smart-link\.ly/
       )
 
       // الصفحتان القانونيتان

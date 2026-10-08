@@ -1,10 +1,15 @@
 name: CI
 
 # r7: جودة المستودع تصبح ذاتية التحقق — كل دفعة أو PR تجتاز
-# lint ← build ← E2E (Playwright + axe-core) قبل أن تصل إلى main.
+# lint ← parity ← build ← E2E (Playwright + axe-core) قبل أن تصل إلى main.
 # r10 (security audit): الملف وُلد في r7 بتلف صامت «branches: ain]» بدل
 # «[main]» — GitHub تعامل معه بتساهل فاستمر التشغيل على main، لكن الفلتر
 # شكلياً لا يطابق شيئاً: أُصلح إلى [main] صريحاً.
+# r126 (P4-F3): أعيد التحقق بايت-ببايت (od -c + python hex) بعد ادعاء
+# تدقيق P4-A3 بالتلف: الفلتران سليمان فعلاً `[main]` منذ إصلاح r10
+# (8a9cdc4) — «التلف» كان أثر عرضٍ في أدوات الفحص يبتلع `[m` من مخرجات
+# cat/rg المضغوطة (الصف نفسه رآه تدقيق P4-A5 في مستودع آخر). أُضيفت
+# خطوة parity لـCI أدناه.
 on:
   push:
     branches: [main]
@@ -49,6 +54,12 @@ jobs:
 
       - name: Lint (ESLint صفر أخطاء)
         run: npm run lint
+
+      # r126 (P4-A3 §2.1): Madarek parity — سكربت node بلا تبعيات يقارن
+      # جسر التوكنات في styles.css بالقيم القانونية؛ أي انحراف لون/نصف
+      # قوس/حركة يفشل الدفعة قبل البناء أصلاً.
+      - name: Madarek parity snapshot
+        run: npm run test:parity
 
       - name: Playwright browser
         run: npx playwright install --with-deps chromium

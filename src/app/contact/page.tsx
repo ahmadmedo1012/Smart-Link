@@ -1,5 +1,8 @@
 import { Mail, MessageCircle, MapPin, Clock } from "lucide-react"
 import { GenArtBackground } from "@/components/gen-art-background"
+/* r128 F2b: the shared product chrome moved out of the RootLayout
+   (the landing owns its own world now) — this page renders it itself. */
+import { SiteChrome } from "@/components/site-chrome"
 import { ContactForm } from "@/components/contact-form"
 import { SITE } from "@/lib/site"
 import { pageMetadata } from "@/lib/seo"
@@ -50,6 +53,7 @@ const contacts = [
 
 export default function ContactPage() {
   return (
+    <SiteChrome>
     <div className="pt-28 pb-16 relative overflow-hidden">
       <script
         type="application/ld+json"
@@ -98,5 +102,6 @@ export default function ContactPage() {
         </div>
       </div>
     </div>
+    </SiteChrome>
   )
 }

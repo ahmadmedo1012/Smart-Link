@@ -2,6 +2,9 @@ import { Check, Smartphone, Bot, ChevronLeft, Sparkles } from "lucide-react"
 import { SITE } from "@/lib/site"
 import Link from "next/link"
 import { GenArtBackground } from "@/components/gen-art-background"
+/* r128 F2b: the shared product chrome moved out of the RootLayout
+   (the landing owns its own world now) — this page renders it itself. */
+import { SiteChrome } from "@/components/site-chrome"
 import { FaqAccordion } from "@/components/faq-accordion"
 import { pageMetadata } from "@/lib/seo"
 import { breadcrumbJsonLd, faqJsonLd } from "@/lib/schema"
@@ -77,6 +80,7 @@ const jsonLd = [
 
 export default function PricingPage() {
   return (
+    <SiteChrome>
     <div className="pt-28 pb-16 relative overflow-hidden">
       <script
         type="application/ld+json"
@@ -168,5 +172,6 @@ export default function PricingPage() {
         </div>
       </div>
     </div>
+    </SiteChrome>
   )
 }

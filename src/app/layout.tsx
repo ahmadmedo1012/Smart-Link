@@ -2,8 +2,6 @@ import type { Metadata, Viewport } from "next"
 import { ThemeProvider } from "@/components/theme-provider"
 import { ThemeColorSync } from "@/components/theme-color-sync"
 import { LazyAnalytics } from "@/components/lazy-analytics"
-import { MainNav } from "@/components/main-nav"
-import { Footer } from "@/components/footer"
 import { organizationJsonLd, websiteJsonLd, servicesJsonLd } from "@/lib/schema"
 import { OG_IMAGE } from "@/lib/seo"
 import { SITE } from "@/lib/site"
@@ -129,18 +127,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <a href="#main-content" className="pointer-events-auto fixed opacity-0 focus:opacity-100 focus:fixed focus:top-4 focus:right-4 focus:z-[100] focus:px-4 focus:py-2 focus:rounded-xl focus:bg-[var(--primary)] focus:text-[var(--primary-fg)] focus:text-sm focus:font-semibold focus:shadow-lg focus:outline-none transition-opacity duration-160">
           تخطَّ إلى المحتوى الرئيسي
         </a>
-        {/* r8: scroll progress bar is now a pure CSS scroll-driven
-            animation (scroll(root) timeline, see styles.css) — zero JS,
-            zero listeners, zero hydration. Browsers without scroll
-            timelines keep a static (invisible) bar: decorative, safe. */}
-        <div className="scroll-progress" aria-hidden="true" />
+        {/* r8: the product scroll-progress ribbon moved to SiteChrome
+            (r128 F2b) — the landing renders its own imperative --p bar
+            instead, so the two never stack. */}
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
           <ThemeColorSync />
-          <MainNav />
-          <main id="main-content" className="flex-1">
-            {children}
-          </main>
-          <Footer />
+          {children}
           <LazyAnalytics />
         </ThemeProvider>
       </body>

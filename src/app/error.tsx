@@ -2,6 +2,9 @@
 import { useEffect, useRef } from "react"
 import Link from "next/link"
 import { AlertTriangle, RefreshCw, Mail } from "lucide-react"
+/* r128 F2b: the shared product chrome moved out of the RootLayout
+   (the landing owns its own world now) — this page renders it itself. */
+import { SiteChrome } from "@/components/site-chrome"
 
 /* Route-segment error boundary — Arabic UX, brand tokens, no layout re-mount.
    r9 (a11y audit A6): focus moves to the heading when the boundary mounts —
@@ -22,6 +25,7 @@ export default function Error({
   }, [error])
 
   return (
+    <SiteChrome>
     <div className="pt-28 pb-16 relative overflow-hidden">
       <div className="container-base relative">
         <div className="max-w-xl mx-auto text-center glass rounded-2xl p-10 reveal-up">
@@ -54,5 +58,6 @@ export default function Error({
         </div>
       </div>
     </div>
+    </SiteChrome>
   )
 }

@@ -1,16 +1,15 @@
-import { FaqAccordion } from "@/components/faq-accordion"
+import { ChevronDown } from "lucide-react"
+import { RevealCssClass } from "@/hooks/useReveal"
 import { faqJsonLd } from "@/lib/schema"
 
-/* Server component (r6): section chrome + FAQPage structured data render
-   on the server; FaqAccordion is the only client island — identical
-   architecture to /pricing. The previous version was a full client
-   component with its own accordion that animated a FIXED maxHeight of
-   200px: any answer taller than that (small screens, long text wraps)
-   was silently clipped. The shared .acc grid-rows island auto-sizes to
-   content, carries aria-controls/aria-labelledby wiring, and costs the
-   home bundle one island instead of a bespoke implementation. */
+/* r128 Stage B (F2b) — the compact FAQ that follows the finale, ln-styled
+ * per the task mandate. The home's six real Q&As move here verbatim
+ * (folded from faq-section.tsx — r9/r10 content audits preserved), the
+ * FAQPage JSON-LD rides along (rich-results parity with /pricing), and
+ * the interaction drops from a client accordion island to native
+ * <details>/<summary>: zero JS, keyboard-native, reduced-motion-safe. */
 
-const faqs = [
+const FAQS = [
   { q: "ما هي منصة SmartLink؟", a: "SmartLink هي منصة رقمية متكاملة تجمع عدة خدمات ذكية تحت مظلة واحدة. حالياً نقدم خدمة Smart Menu (المنيو الرقمي للمطاعم) وSmartBot (البوت الذكي لفيسبوك)، مع خطط لإطلاق المزيد من الخدمات قريباً." },
   { q: "هل الخدمة مجانية؟", a: "نعم، يمكنك البدء مجاناً تماماً بدون بطاقة ائتمان. نوفر خططاً مجانية للخدمات الأساسية، وستُطلَق قريباً خطط مدفوعة لميزات متقدمة وتحليلات أكثر." },
   { q: "هل تدعمون اللغة العربية؟", a: "بالتأكيد، المنصة بالكامل باللغة العربية مع دعم اللهجة الليبية في البوت الذكي. واجهات المستخدم، لوحات التحكم، والدعم الفني — كلها بالعربية." },
@@ -19,27 +18,34 @@ const faqs = [
   { q: "ما هي طرق الدعم المتاحة؟", a: "نقدم دعماً فنياً عبر واتساب، البريد الإلكتروني، وفريق متخصص لمساعدتك في أي استفسار أو مشكلة تقنية." },
 ]
 
-/* Rich results: the homepage's six real Q&As become FAQPage-eligible
-   (parity with /pricing, which already shipped this schema).
-   r10: shared builder from lib/schema. */
-const faqLd = faqJsonLd(faqs)
+const faqLd = faqJsonLd(FAQS)
 
-export function FaqSection() {
+export function LandingFaq() {
   return (
-    <section id="faq" className="section-padding relative">
+    <section className="ln-faq" aria-label="الأسئلة الشائعة">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }}
       />
-      <div className="container-base max-w-2xl">
-        <div className="reveal-scroll text-center mb-12">
-          <div className="eyebrow-badge mb-5">
-            <span>الأسئلة الشائعة</span>
-          </div>
-          <h2 className="text-3xl md:text-5xl font-extrabold text-foreground mb-4">الأسئلة الشائعة</h2>
-          <p className="text-muted-foreground text-base">إجابات لأكثر الأسئلة شيوعاً عن منصتنا</p>
-        </div>
-        <FaqAccordion faqs={faqs} className="reveal-scroll-stagger space-y-3" />
+      <div className="ln-faq-head">
+        <span className="ln-label">{"07 — الأسئلة الشائعة"}</span>
+        <RevealCssClass as="h2" className="ln-chapter-title" delay={1}>
+          الأسئلة <em>الشائعة</em>
+        </RevealCssClass>
+        <RevealCssClass as="p" className="ln-chapter-lede" delay={2}>
+          إجابات لأكثر الأسئلة شيوعاً عن منصتنا.
+        </RevealCssClass>
+      </div>
+      <div className="ln-faq-list">
+        {FAQS.map((f, i) => (
+          <RevealCssClass as="details" className="ln-faq-item" key={f.q} delay={((i % 5) + 1) as 1 | 2 | 3 | 4 | 5}>
+            <summary className="ln-faq-q">
+              {f.q}
+              <ChevronDown size={18} aria-hidden="true" />
+            </summary>
+            <p className="ln-faq-a">{f.a}</p>
+          </RevealCssClass>
+        ))}
       </div>
     </section>
   )

@@ -1,6 +1,9 @@
 import { Bot, Smartphone, Globe, Layers, ArrowLeft, User, Quote } from "lucide-react"
 import Link from "next/link"
 import { GenArtBackground } from "@/components/gen-art-background"
+/* r128 F2b: the shared product chrome moved out of the RootLayout
+   (the landing owns its own world now) — this page renders it itself. */
+import { SiteChrome } from "@/components/site-chrome"
 import { pageMetadata } from "@/lib/seo"
 import { breadcrumbJsonLd } from "@/lib/schema"
 /* r9 (perf): LCP surgery generalized from the r8 hero — h1 and the
@@ -37,6 +40,7 @@ const breadcrumbLd = breadcrumbJsonLd([
 
 export default function AboutPage() {
   return (
+    <SiteChrome>
     <div className="pt-28 pb-16 relative overflow-hidden">
       <script
         type="application/ld+json"
@@ -125,5 +129,6 @@ export default function AboutPage() {
         </div>
       </div>
     </div>
+    </SiteChrome>
   )
 }

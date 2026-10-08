@@ -1,6 +1,9 @@
 import type { Metadata } from "next"
 import { WifiOff } from "lucide-react"
 import { SITE } from "@/lib/site"
+/* r128 F2b: the shared product chrome moved out of the RootLayout
+   (the landing owns its own world now) — this page renders it itself. */
+import { SiteChrome } from "@/components/site-chrome"
 
 /* r14 (M7): صفحة أداة لا محتوى — تُخدَم من كاش الـSW عند انقطاع الشبكة
    للتطبيق المثبت (WebAPK/iOS home-screen). سابقة 404 متبعة عن قصد:
@@ -26,6 +29,7 @@ export default function OfflinePage() {
      <main id="main-content"> landmark; a nested main is invalid HTML
      and duplicated the landmark for every screen reader. */
   return (
+    <SiteChrome>
     <section className="min-h-dvh flex flex-col items-center justify-center bg-[var(--background)] px-6 text-center">
       <WifiOff className="w-14 h-14 text-primary mb-6" aria-hidden="true" />
       <h1 className="font-[family-name:var(--font-heading)] text-3xl font-bold text-foreground mb-3">
@@ -47,5 +51,6 @@ export default function OfflinePage() {
         تواصل عبر واتساب
       </a>
     </section>
+    </SiteChrome>
   )
 }

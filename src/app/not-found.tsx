@@ -1,6 +1,9 @@
 import Link from "next/link"
 import { ArrowLeft, Home } from "lucide-react"
 import type { Metadata } from "next"
+/* r128 F2b: the shared product chrome moved out of the RootLayout
+   (the landing owns its own world now) — this page renders it itself. */
+import { SiteChrome } from "@/components/site-chrome"
 
 /* r6: real page title for the 404 route (was falling back to the root
    default — tab/history showed the home title on a dead URL).
@@ -36,6 +39,7 @@ export const metadata: Metadata = {
    library to all pages. */
 export default function NotFound() {
   return (
+    <SiteChrome>
     <div className="min-h-[80dvh] pt-16 md:pt-[72px] flex items-center justify-center relative overflow-hidden">
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-[var(--primary)]/5 blur-[90px]" aria-hidden="true" />
@@ -68,5 +72,6 @@ export default function NotFound() {
         </div>
       </div>
     </div>
+    </SiteChrome>
   )
 }

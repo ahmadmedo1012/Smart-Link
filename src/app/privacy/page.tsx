@@ -3,6 +3,9 @@
 import { pageMetadata } from "@/lib/seo"
 import { SITE } from "@/lib/site"
 import { breadcrumbJsonLd } from "@/lib/schema"
+/* r128 F2b: the shared product chrome moved out of the RootLayout
+   (the landing owns its own world now) — this page renders it itself. */
+import { SiteChrome } from "@/components/site-chrome"
 
 export const metadata = pageMetadata({
   /* r10 (SEO audit P2): expanded toward the SERP window + names the
@@ -20,6 +23,7 @@ const breadcrumbLd = breadcrumbJsonLd([
 
 export default function PrivacyPage() {
   return (
+    <SiteChrome>
     <div className="pt-28 pb-16 relative overflow-hidden">
       <script
         type="application/ld+json"
@@ -138,5 +142,6 @@ export default function PrivacyPage() {
         </div>
       </div>
     </div>
+    </SiteChrome>
   )
 }

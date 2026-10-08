@@ -582,25 +582,38 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
 
 // ── report ───────────────────────────────────────────────────────────────────
 
-if (failures.length > 0) {
-  console.error(`✗ Madarek parity snapshot FAILED (${failures.length} assertion(s)):`);
-  for (const f of failures) console.error(`  • ${f}`);
-  process.exit(1);
-}
+// r128-F2b: the report's exit gate moved BELOW the on-accent block — it
+// used to run before the last two checks, so their failures could never
+// fail the suite (a dead-code defect: the gate printed a false green at
+// 286/287 during the F2b assembly). Same assertions, honest exit order.
 
 // r126-W3d: on-accent ink consumption gate — the m15 doctrine finally wired.
 // styles.css documents that filled CTAs carry --primary-fg ink because
 // white-on-gold measures 1.89:1 (dark) / 3.8:1 (light). This gate makes the
 // regression class (text-white sneaking back onto a gold fill) impossible.
+// r128-F2b: the home's six gold marketing CTAs moved into the Orbit-Ink
+// landing world (r128 R4) — their fills are .ln-btn-gold pills whose ink
+// is carried by src/app/landing.css (color: var(--ln-ink) on the lime
+// fill), so the tsx count splits per surface: the product pages keep
+// their --primary-fg CTAs (floor 9 = the 9 surviving product surfaces),
+// and the landing contributes its gold-pill class sites (floor 3).
 {
   const tssx = readdirSync(new URL('../src', import.meta.url), { recursive: true })
     .filter((f) => String(f).endsWith('.tsx'))
     .map((f) => readFileSync(new URL(`../src/${f}`, import.meta.url), 'utf8'))
     .join('\n');
   const onAccent = (tssx.match(/text-\[var\(--primary-fg\)\]/g) ?? []).length;
-  check(onAccent >= 13, `--primary-fg must be consumed by >=13 on-accent CTAs (found ${onAccent})`);
+  const landingGold = (tssx.match(/ln-btn-gold/g) ?? []).length;
+  check(onAccent >= 9 && landingGold >= 3,
+    `on-accent ink doctrine: >=9 --primary-fg CTAs on product surfaces and >=3 ln-btn-gold pills on the landing (found ${onAccent} + ${landingGold})`);
   check(!/bg-(primary|\[var\(--primary\)\])[^"']*text-white/.test(tssx),
     'no text-white may ride a gold/primary fill — use text-[var(--primary-fg)]');
+}
+
+if (failures.length > 0) {
+  console.error(`✗ Madarek parity snapshot FAILED (${failures.length} assertion(s)):`);
+  for (const f of failures) console.error(`  • ${f}`);
+  process.exit(1);
 }
 
 console.log(`✓ Madarek parity snapshot: ${passed} assertions passed (src/app/styles.css == canonical tokens.css values)`);

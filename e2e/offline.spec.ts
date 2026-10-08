@@ -79,11 +79,24 @@ test.describe("offline — سلوك Service Worker", () => {
     try {
       // (1) التسجيل والانتظار حتى النشاط (install يجلب /offline للكاش)
       await page.goto("/", { waitUntil: "load" })
-      await page.evaluate(() => navigator.serviceWorker.ready)
-      const reg = await page.evaluate(
-        () => navigator.serviceWorker.controller?.scriptURL ?? null
-      )
-      expect(reg, "الـSW يتحكم في الصفحة بعد التفعيل").toContain("/sw.js")
+      /* P4-W3c (A3): سباق controller-after-ready — navigator.serviceWorker.ready
+         تَعِد بعامل نشط، لكن controller لا يُضبط إلا بعد اكتمال clients.claim()
+         داخل activate. القراءة أحادية اللقطة بعد ready كانت تمر أحياناً وتفشل
+         أحياناً (الـflake الوحيد في الجناح كلهً: 294/295 مرتين متتاليتين).
+         الانتظار الحتمي: استطلاع poll على controller نفسه حتى تتضح الملكية —
+         يفشل فقط إذا لم يتفعّل الـSW فعلاً خلال 15 ثانية (فشل حقيقي، لا سباق). */
+      await expect
+        .poll(
+          () =>
+            page.evaluate(
+              () => navigator.serviceWorker.controller?.scriptURL ?? null
+            ),
+          {
+            timeout: 15_000,
+            message: "الـSW يتفعّل ويستولي على الصفحة (clients.claim بعد activate)",
+          }
+        )
+        .toContain("/sw.js")
 
       // (2) انقطاع الشبكة → الملاحة تُخدَم من كاش الأوفلاين
       await context.setOffline(true)

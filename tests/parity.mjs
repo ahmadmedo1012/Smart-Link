@@ -44,6 +44,11 @@
  *   - the *:focus-visible contract (2px --ring outline, offset 2px, and
  *     NO border-radius mutation — the r126 unification).
  *
+ * P4-W3c (A1): the @theme easing bridge is pinned at its full canonical
+ * width — THEME_EASE now carries all 7 utility-generating entries
+ * (was 2: smooth/spring), so a renamed curve or a reverted Tailwind
+ * override can no longer pass.
+ *
  * Token-name bridge (smart-link keeps its own shadcn/utility vocabulary):
  *   ground --bg → --background · surface --surface → --card
  *   ink --text → --foreground · ink-secondary → --muted-foreground
@@ -375,8 +380,19 @@ const THEME_COLORS = {
   '--color-primary-text': 'var(--primary-text)',
 };
 const THEME_EASE = {
+  // P4-W3c (A1): the FULL canonical easing set rides the Tailwind utility
+  // namespace — ease-in/-out override Tailwind's non-canonical defaults
+  // (same doctrine as the r126 shadow-xs..2xl → --elev-1..5 bridge:
+  // a bare `ease-out` can never render an off-system curve). All seven
+  // mirror the :root EASINGS table (smooth = smart-link's utility alias
+  // for the Madarek exponential settle).
   '--ease-smooth': 'cubic-bezier(0.16, 1, 0.3, 1)',
+  '--ease-out': 'cubic-bezier(0.16, 1, 0.3, 1)',
+  '--ease-in': 'cubic-bezier(0.7, 0, 0.84, 0)',
+  '--ease-soft': 'cubic-bezier(0.22, 1, 0.36, 1)',
+  '--ease-spring-soft': 'cubic-bezier(0.34, 1.18, 0.64, 1)',
   '--ease-spring': 'cubic-bezier(0.34, 1.36, 0.64, 1)', // r126: was the bounce 1.56 fork
+  '--ease-bounce': 'cubic-bezier(0.34, 1.56, 0.64, 1)',
 };
 
 // ── r126: the 12-face @font-face manifest (m15 IBM Plex port) ───────────────

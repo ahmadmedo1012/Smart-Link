@@ -1,3 +1,9 @@
+/* r128 Stage A (F2a): the Orbit-Ink landing layer (PORT-KIT §1–§4) —
+   scoped under the `.landing` wrapper so the product token pins in
+   styles.css stay untouched. The landing paints Orbit-Ink in BOTH
+   themes (r128 R4, intentional dark stage). Stage B rebuilds the
+   page sections on top of this layer. */
+import "./landing.css"
 import { HeroSection } from "@/components/hero-section"
 import { ServicesSection } from "@/components/services-section"
 import { ProductShowcase } from "@/components/product-showcase"
@@ -14,7 +20,7 @@ import { CTASection } from "@/components/cta-section"
    framer-motion in the critical path. */
 export default function Home() {
   return (
-    <>
+    <div className="landing">
       <HeroSection />
       <ServicesSection />
       <ProductShowcase />
@@ -22,6 +28,6 @@ export default function Home() {
       <HowItWorksSection />
       <FaqSection />
       <CTASection />
-    </>
+    </div>
   )
 }

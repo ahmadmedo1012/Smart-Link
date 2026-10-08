@@ -11,7 +11,13 @@ import { SiteChrome } from "@/components/site-chrome"
    to carry the ROOT layout's `index, follow` alongside Next's own noindex
    — two contradictory robots directives — plus a canonical to "/" and the
    HOME's OG card on every dead URL. Page-level robots wins the merge, and
-   the description replaces the inherited home text. */
+   the description replaces the inherited home text.
+
+   r128 F6 (A4 §6): de-gradient — the 90px blur glow is retired (flat token
+   ground), the gradient-text numeral becomes flat accent ink in the mono
+   machine-voice (numerals = Latin run, §7 typography), and the ghost CTA
+   swaps its glass for the flat hairline card. Reveal verbs stay (canonical
+   motion family). */
 export const metadata: Metadata = {
   title: "الصفحة غير موجودة",
   description: "الصفحة التي تبحث عنها غير متوفرة أو تم نقلها إلى عنوان آخر.",
@@ -41,13 +47,11 @@ export default function NotFound() {
   return (
     <SiteChrome>
     <div className="min-h-[80dvh] pt-16 md:pt-[72px] flex items-center justify-center relative overflow-hidden">
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-[var(--primary)]/5 blur-[90px]" aria-hidden="true" />
-      </div>
       <div className="text-center relative">
         <div className="reveal-blur">
           <h1 className="text-9xl font-extrabold leading-none mb-2">
-            <span className="gradient-text">404</span>
+            {/* r128 F6: flat accent ink + mono voice (was gradient-text) */}
+            <span className="ln-mono text-[var(--primary-text)]">404</span>
           </h1>
         </div>
         <div className="reveal-up reveal-d2">
@@ -64,7 +68,7 @@ export default function NotFound() {
             </Link>
             <Link
               href="/contact"
-              className="group inline-flex items-center gap-2 px-6 py-3 rounded-xl glass text-[var(--foreground)] font-semibold text-sm hover:bg-[var(--accent)] transition-all duration-160"
+              className="group inline-flex items-center gap-2 px-6 py-3 ln-card rounded-full text-[var(--foreground)] font-semibold text-sm"
             >
               <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" aria-hidden="true" /> تواصل معنا
             </Link>

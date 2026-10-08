@@ -587,6 +587,164 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
 // fail the suite (a dead-code defect: the gate printed a false green at
 // 286/287 during the F2b assembly). Same assertions, honest exit order.
 
+// ── r128 F6 · landing layer (src/app/landing.css) ───────────────────────────
+// Wave-2 (83dc8b1+7a1fac7) landed the Madarek-journey landing as its own css
+// file scoped `.landing` (R4); the 287 product-token pins above say nothing
+// about that layer. This block pins the LANDING surface so the Orbit-Ink
+// world cannot drift either: the --ln-* token values (PORT-KIT §1), the
+// marquee loop arithmetic (R3: 48px track gap, keyframes seam 50%+24px =
+// half the gap), the --sp scroll-progress consumers, the R2 scroll-spy
+// selector family, the R7 grain veil, the R3 marquee RM off-switch, and
+// the R4 scope isolation in both directions. Same harness: pin() resolves
+// var() chains inside the merged .landing scope (two exact-`.landing`
+// blocks), check() for structural assertions.
+{
+  const lcss = readFileSync(new URL('../src/app/landing.css', import.meta.url), 'utf8')
+    .replace(/\/\*[\s\S]*?\*\//g, ' ');
+  const landingScope = Object.assign(
+    {},
+    ...allTopLevelBlocks(lcss, '.landing').map(parseDecls)
+  );
+
+  // 1 ── the --ln-* token surface (canonical Orbit-Ink, PORT-KIT §1).
+  //     The motion aliases pin the CHAIN (var(--t-*)/var(--ease-*)) —
+  //     those tokens are not redefined inside .landing, so resolve()
+  //     leaves the reference verbatim; --ln-t-reveal resolves through
+  //     the in-scope 360ms bridge to its canonical value.
+  pinAll(landingScope, 'landing', {
+    '--ln-ink':         '#252A3E',
+    '--ln-ink-2':       '#1C2032',
+    '--ln-cream':       '#F5F3E7',
+    '--ln-cream-dim':   '#C9C6B4',
+    '--ln-lime':        '#DFEDB2',
+    '--ln-lime-deep':   '#B9D778',
+    '--ln-violet':      '#7A6BF2',
+    '--ln-violet-deep': '#4E2FB8',
+    '--ln-line':        'rgba(245, 243, 231, 0.14)',
+    '--ln-line-soft':   'rgba(245, 243, 231, 0.07)',
+    '--ln-grain-op':    '0.05',
+    '--ln-radius-pill': 'var(--r-full)',
+    '--ln-h1':          'clamp(2.75rem, 8.2vw, 6.75rem)',
+    '--ln-dur-marquee': '42s',
+    '--ln-t-fast':      'var(--t-fast)',
+    '--ln-t-base':      'var(--t-base)',
+    '--ln-t-slow':      'var(--t-slow)',
+    '--ln-t-cinema':    'var(--t-cinema)',
+    '--ln-t-reveal':    '360ms',
+    '--ln-ease':        'var(--ease)',
+    '--ln-ease-out':    'var(--ease-out)',
+    '--ln-ease-soft':   'var(--ease-soft)',
+    '--ln-ease-spring': 'var(--ease-spring)',
+    '--ln-ease-linear': 'linear',
+  });
+
+  // 2 ── the marquee loop (R3): seamless RTL duplicate-list loop.
+  const marqueeKf = topLevelBlock(lcss, '@keyframes ln-marquee');
+  check(
+    /from\s*\{[^}]*translateX\(0\)/.test(marqueeKf),
+    'landing @keyframes ln-marquee: from translateX(0)'
+  );
+  check(
+    /to\s*\{[^}]*translateX\(calc\(50%\s*\+\s*24px\)\)/.test(marqueeKf),
+    'landing @keyframes ln-marquee: to translateX(calc(50% + 24px)) — the seam is HALF the track gap'
+  );
+  const track = topLevelBlock(lcss, '.landing .ln-marquee-track');
+  check(/gap:\s*48px/.test(track), 'landing .ln-marquee-track: 48px track gap (lockstep with the +24px seam)');
+  check(
+    /animation:\s*ln-marquee\s+var\(--ln-dur-marquee\)\s+var\(--ln-ease-linear\)\s+infinite/.test(track),
+    'landing .ln-marquee-track: animation ln-marquee var(--ln-dur-marquee) var(--ln-ease-linear) infinite'
+  );
+
+  // 3 ── --sp consumers: the useSectionProgress scrub surface. The
+  //     chapter wash and the journey light path are the two canonical
+  //     producers-to-css contracts.
+  check(
+    /opacity:\s*calc\(var\(--sp,\s*0\)\s*\*\s*0\.5\)/.test(topLevelBlock(lcss, '.landing .ln-chapter::before')),
+    'landing --sp consumer: .ln-chapter::before opacity calc(var(--sp, 0) * 0.5)'
+  );
+  check(
+    /stroke-dashoffset:\s*calc\(1\s*-\s*var\(--sp,\s*0\)\)/.test(topLevelBlock(lcss, '.landing .ln-journey-path-light')),
+    'landing --sp consumer: .ln-journey-path-light stroke-dashoffset calc(1 - var(--sp, 0))'
+  );
+
+  // 4 ── scroll-spy selectors (R2): the observer writes
+  //     header[data-active-section]; these six selectors are the css half
+  //     of the contract, on the shipped anchor set.
+  for (const anchor of ['trust', 'products', 'journey', 'progress', 'platforms', 'roles']) {
+    check(
+      lcss.includes(`.landing header[data-active-section="${anchor}"] .landing-nav-link[href="#${anchor}"]`),
+      `landing scroll-spy selector for #${anchor} (R2)`
+    );
+  }
+
+  // 5 ── the grain veil (R7): fixed, inert, riding --ln-grain-op.
+  const grain = topLevelBlock(lcss, '.landing .ln-grain');
+  check(
+    /opacity:\s*var\(--ln-grain-op\)/.test(grain),
+    'landing .ln-grain: opacity var(--ln-grain-op)'
+  );
+  check(
+    /position:\s*fixed/.test(grain) && /pointer-events:\s*none/.test(grain),
+    'landing .ln-grain: fixed veil, pointer-events none'
+  );
+
+  // 6 ── the marquee RM off-switch (R3): the one raw-duration loop that
+  //     the --ln-t-* alias zeroing cannot reach.
+  const lrm = allTopLevelBlocks(lcss, '@media (prefers-reduced-motion: reduce)').join('\n');
+  check(
+    /\.ln-marquee-track\s*\{[^}]*animation:\s*none/.test(lrm),
+    'landing marquee RM off-switch: .ln-marquee-track { animation: none } under prefers-reduced-motion: reduce'
+  );
+
+  // 7 ── R4 scope isolation, both directions: the product css declares
+  //     no --ln-* tokens, and every --ln-* declaration in landing.css
+  //     lives inside a .landing-scoped (or at-rule-nested) block.
+  check(
+    !/--ln-[\w-]+\s*:/.test(css),
+    'R4 isolation: product styles.css declares no --ln-* tokens'
+  );
+  {
+    let leak = null;
+    let i = 0;
+    while (i < lcss.length) {
+      const open = lcss.indexOf('{', i);
+      if (open === -1) break;
+      let depth = 1;
+      let j = open + 1;
+      while (j < lcss.length && depth > 0) {
+        if (lcss[j] === '{') depth += 1;
+        else if (lcss[j] === '}') depth -= 1;
+        j += 1;
+      }
+      const prelude = lcss.slice(i, open).split(/[;}]/).pop().trim();
+      if (!prelude.startsWith('.landing') && !prelude.startsWith('@') && /--ln-[\w-]+\s*:/.test(lcss.slice(open + 1, j - 1))) {
+        leak = prelude;
+        break;
+      }
+      i = j;
+    }
+    check(
+      leak === null,
+      `R4 isolation: every --ln-* declaration in landing.css is .landing-scoped (leaked via: ${leak})`
+    );
+  }
+
+  // 8 ── NEGATIVE CONTROL — the new landing pins must have teeth: pin()
+  //     against a scope carrying a DRIFTED --ln-ink has to record a
+  //     failure. The planted failure is then retracted so the control
+  //     itself never fails the suite.
+  {
+    const before = failures.length;
+    const passedBefore = passed;
+    pin({ ...landingScope, '--ln-ink': '#070B16' }, 'landing-neg', '--ln-ink', '#252A3E');
+    check(
+      failures.length === before + 1 && passed === passedBefore,
+      'negative control: a drifted --ln-ink value FAILS the landing pin'
+    );
+    failures.length = before;
+  }
+}
+
 // r126-W3d: on-accent ink consumption gate — the m15 doctrine finally wired.
 // styles.css documents that filled CTAs carry --primary-fg ink because
 // white-on-gold measures 1.89:1 (dark) / 3.8:1 (light). This gate makes the
@@ -616,4 +774,4 @@ if (failures.length > 0) {
   process.exit(1);
 }
 
-console.log(`✓ Madarek parity snapshot: ${passed} assertions passed (src/app/styles.css == canonical tokens.css values)`);
+console.log(`✓ Madarek parity snapshot: ${passed} assertions passed (styles.css product tokens + landing.css Orbit-Ink layer == canonical values)`);

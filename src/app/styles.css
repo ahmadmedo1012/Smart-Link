@@ -1101,3 +1101,129 @@
    #E9B44C), which completes the §4.5 input-focus recipe. Nothing
    further to add — documented here so the pattern's home is findable. */
 
+/* ════════════════════════════════════════════════════════════════════
+   r128 F6 · INNER-PAGE ln-PATTERN BRIDGE (A4 §6 secondary-pages wave)
+   ════════════════════════════════════════════════════════════════════
+   The landing keeps its own Orbit-Ink world (src/app/landing.css, every
+   rule scoped .landing — R4). These globals carry the same PATTERNS onto
+   the product token world for the secondary pages (about/pricing/
+   contact/privacy/terms/404): mono machine voice, technical section
+   label, chapter-head anatomy, flat hairline cards (border-shift only —
+   no shadow, no glass, no gradient wash), and the flat stat cell.
+   Names are shared with landing.css on purpose (same anatomy, two
+   skins): on the landing the .landing-scoped rules (0,2,0) win over
+   these (0,1,0), so the landing renders byte-identical. No new tokens —
+   only existing product tokens, so no parity pin moves. ───────────── */
+
+/* mono machine-voice — Latin runs and numerals (§7 typography). Arabic
+   runs fall through the --font-mono stack to IBM Plex Sans Arabic, the
+   same chain the landing rides. Size/weight/color stay at the call
+   site so display-size consumers (prices, the 404 numeral) can scale
+   the voice without fighting a utility. */
+.ln-mono {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+/* technical section label — the landing eyebrow, product-skinned:
+   mono 12px/500, 0.08em tracking (Latin-safe — no Arabic tracking per
+   §4 ruling 4; Arabic label words render in the sans run of the mono
+   stack), accent ink per the m15 accent-as-text doctrine. */
+.ln-label {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  color: var(--primary-text);
+  font-variant-numeric: tabular-nums;
+  margin-block-end: 14px;
+}
+
+/* chapter-head anatomy (landing.css .ln-chapter-head family): a
+   start-aligned grid — label / title / lede. The title carries the
+   em-anchor device: base rides the secondary ink, <em> lifts the
+   keyword to full ink (a non-color hierarchy device). */
+.ln-chapter-head {
+  display: grid;
+  gap: 1.25rem;
+  margin-block-end: clamp(2rem, 4.5vh, 3.5rem);
+}
+.ln-chapter-title {
+  margin: 0;
+  font-size: clamp(1.75rem, 3.2vw, 3rem);
+  line-height: 1.22;
+  font-weight: 700;
+  letter-spacing: 0; /* no Arabic tracking (§2.4 ruling) */
+  color: var(--muted-foreground);
+  max-inline-size: 22ch;
+  text-wrap: balance;
+}
+.ln-chapter-title em {
+  font-style: normal;
+  color: var(--foreground);
+}
+.ln-chapter-lede {
+  margin: 0;
+  max-inline-size: 62ch;
+  font-size: clamp(15px, 1.4vw, 16.5px);
+  line-height: 1.6;
+  color: var(--muted-foreground);
+}
+
+/* flat hairline card — the secondary-pages replacement for the glass
+   card on marketing surfaces: product card ground, hairline border,
+   border-shift ONLY on hover (no lift, no shadow, no glass — A4 §6
+   "hairline cards border-shift-only"). Hover sits inside the r14
+   sticky-hover guard. */
+.ln-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  transition: border-color var(--t-slow) var(--ease-out);
+}
+@media (hover: hover) {
+  .ln-card:hover {
+    border-color: var(--border-strong);
+  }
+}
+/* dashed variant (the /pricing coming-soon card keeps its dashed
+   hairline) — a sibling class, NOT the border-dashed utility: this
+   bridge is unlayered CSS, which beats Tailwind's layered utilities,
+   so the shorthand in .ln-card would swallow border-style from
+   utilities. Declared after .ln-card so same-origin order wins. */
+.ln-card--dashed {
+  border-style: dashed;
+}
+
+/* flat stat cell (landing.css .ln-stat family, product skin) — carries
+   the CountUp figure on /about. Mono value, tabular numerals, LTR
+   direction so "+500" reads prefix-first. */
+.ln-stat {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  padding: 1.25rem;
+  transition: border-color var(--t-base) var(--ease);
+}
+@media (hover: hover) {
+  .ln-stat:hover {
+    border-color: var(--border-strong);
+  }
+}
+.ln-stat-value {
+  font-family: var(--font-mono);
+  font-size: 40px;
+  font-weight: 500;
+  color: var(--foreground);
+  font-variant-numeric: tabular-nums;
+  line-height: 1.1;
+  direction: ltr;
+}
+.ln-stat-label {
+  margin-block-start: 8px;
+  color: var(--foreground);
+  font-size: 14px;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+

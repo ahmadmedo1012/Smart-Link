@@ -4,6 +4,11 @@ import { GenArtBackground } from "@/components/gen-art-background"
    (the landing owns its own world now) — this page renders it itself. */
 import { SiteChrome } from "@/components/site-chrome"
 import { ContactForm } from "@/components/contact-form"
+/* r128 F6 (A4 §6): flat-diet on the shells — the info cards and the
+   form island lost their glass for flat hairline + border-shift
+   (.ln-card, styles.css bridge). The ContactForm island itself is
+   byte-untouched: the r13-hardened focus/error/success contract (and
+   the 16px iOS zoom floor) must not regress. */
 import { SITE } from "@/lib/site"
 import { pageMetadata } from "@/lib/seo"
 import { breadcrumbJsonLd } from "@/lib/schema"
@@ -73,12 +78,13 @@ export default function ContactPage() {
           </p>
         </div>
 
-        {/* Contact info cards — CSS reveal (paints pre-JS, above fold) */}
+        {/* Contact info cards — CSS reveal (paints pre-JS, above fold).
+            r128 F6: flat hairline cards, border-shift only. */}
         <div className="grid md:grid-cols-4 gap-4 max-w-3xl mx-auto mb-10">
           {contacts.map((item, i) => (
             <div
               key={item.title}
-              className={`reveal-up reveal-d${Math.min(i + 1, 4)} glass rounded-2xl p-5 text-center hover:border-[var(--ring)]/30 transition-all duration-240 group`}
+              className={`reveal-up reveal-d${Math.min(i + 1, 4)} ln-card rounded-2xl p-5 text-center group`}
             >
               <div className="w-9 h-9 rounded-xl bg-[var(--accent)] flex items-center justify-center mx-auto mb-2.5 group-hover:scale-110 transition-transform duration-240">
                 <item.icon className="w-4.5 h-4.5 text-primary" />
@@ -93,9 +99,10 @@ export default function ContactPage() {
           ))}
         </div>
 
-        {/* Form — the page's only client island (r9) */}
+        {/* Form — the page's only client island (r9). Flat shell (F6);
+           the island's internals are untouched. */}
         <div className="max-w-xl mx-auto reveal-up reveal-d3">
-          <div className="glass rounded-2xl p-6 md:p-8">
+          <div className="ln-card rounded-2xl p-6 md:p-8">
             <h2 className="font-bold text-foreground text-lg mb-5">أرسل رسالة</h2>
             <ContactForm />
           </div>

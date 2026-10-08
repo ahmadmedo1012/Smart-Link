@@ -10,6 +10,13 @@ import { pageMetadata } from "@/lib/seo"
 import { breadcrumbJsonLd, faqJsonLd } from "@/lib/schema"
 // Server component — the FAQ accordion is the only client island;
 // entrance motion is CSS reveal (paints pre-JS). Zero framer-motion.
+//
+// r128 F6 (A4 §6): flat-diet on the plan cards — the gradient washes,
+// the gradient top-accent line and the glow hover are gone; cards are
+// hairline + border-shift (.ln-card), the pastel family survives ONLY
+// as flat icon wells (à la the landing megamenu ico tones), the price
+// speaks in the mono machine-voice (.ln-mono), the eyebrow is the
+// ln-label technical label, and CTAs are pills. FAQ stays untouched.
 
 export const metadata = pageMetadata({
   /* r10 (SEO audit P2): expanded toward the SERP window with the
@@ -29,7 +36,9 @@ const plans = [
     icon: Smartphone,
     price: "مجاني",
     period: "الخطة الأساسية",
-    gradientVar: "var(--gradient-smart-menu)",
+    /* the pastel family as flat tone wells only (A4 §6) */
+    well: "var(--c-peach-bg)",
+    wellInk: "var(--c-peach-ink)",
     features: [
       "منيو رقمي تفاعلي غير محدود العناصر",
       "طلبات عبر واتساب",
@@ -38,7 +47,6 @@ const plans = [
       "إحصائيات أساسية",
       "دعم فني عبر البريد",
     ],
-    color: "var(--c-peach-ink)",
   },
   {
     title: "SmartBot",
@@ -47,7 +55,8 @@ const plans = [
     icon: Bot,
     price: "مجاني",
     period: "الخطة الأساسية",
-    gradientVar: "var(--gradient-smart-bot)",
+    well: "var(--c-lavender-bg)",
+    wellInk: "var(--c-lavender-ink)",
     features: [
       "ردود تلقائية ذكية",
       "تصنيف النوايا الأساسي",
@@ -56,7 +65,6 @@ const plans = [
       "إدارة صفحة واحدة",
       "دعم فني عبر البريد",
     ],
-    color: "var(--c-lavender-ink)",
   },
 ]
 
@@ -89,9 +97,7 @@ export default function PricingPage() {
       <GenArtBackground seed={77} variant="blobs" />
       <div className="container-base relative">
         <div className="max-w-3xl mx-auto text-center mb-14">
-          <div className="eyebrow-badge mb-6 reveal-up reveal-d1">
-            <span>الأسعار</span>
-          </div>
+          <span className="ln-label reveal-up reveal-d1">الأسعار</span>
           <h1 className="text-5xl md:text-6xl font-extrabold text-foreground mb-4">
             الخطط والأسعار
           </h1>
@@ -100,57 +106,58 @@ export default function PricingPage() {
           </p>
         </div>
 
-        {/* Pricing cards — CSS reveal (LCP element, paints pre-JS) */}
+        {/* Pricing cards — CSS reveal (LCP element, paints pre-JS).
+            r128 F6: flat hairline cards, border-shift only. */}
         <div className="grid md:grid-cols-2 gap-6 lg:gap-8 max-w-4xl mx-auto mb-16">
           {plans.map((plan, i) => {
             const Icon = plan.icon
             return (
               <div
                 key={plan.title}
-                className={`reveal-up reveal-d${Math.min(i + 1, 4)} group relative rounded-2xl border border-[var(--border)] bg-[var(--card)] overflow-hidden hover:border-[var(--ring)]/40 hover:shadow-glow-strong transition-all duration-520 flex flex-col`}
+                className={`reveal-up reveal-d${Math.min(i + 1, 4)} ln-card group relative rounded-2xl p-7 md:p-8 flex flex-col`}
               >
-                {/* Top accent line */}
-                <div className="absolute top-0 left-0 right-0 h-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-520" style={{ background: `linear-gradient(90deg, transparent, ${plan.color}, transparent)` }} aria-hidden="true" />
-                <div className="absolute inset-0 opacity-10 group-hover:opacity-20 transition-opacity duration-520" style={{ background: plan.gradientVar }} aria-hidden="true" />
-                <div className="relative p-7 md:p-8 flex flex-col flex-1">
-                  <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-5 border border-[var(--glass-border)]" style={{ background: plan.gradientVar }}>
-                    <Icon className="w-6 h-6 text-[var(--primary)]" />
-                  </div>
-                  <h2 className="text-xl font-bold text-foreground mb-1">{plan.title}</h2>
-                  <p className="text-sm text-[var(--primary-text)] font-medium mb-2">{plan.subtitle}</p>
-                  <div className="mb-6">
-                    <span className="text-4xl font-extrabold text-foreground">{plan.price}</span>
-                    <span className="text-sm text-muted-foreground ms-2">{plan.period}</span>
-                  </div>
-                  <ul className="space-y-3 mb-8 flex-1">
-                    {plan.features.map((f, fi) => (
-                      <li key={fi} className="flex items-center gap-2.5 text-sm text-muted-foreground">
-                        <div className="w-5 h-5 rounded-full bg-[var(--accent)] flex items-center justify-center shrink-0">
-                          <Check className="w-3 h-3 text-primary" />
-                        </div>
-                        <span>{f}</span>
-                      </li>
-                    ))}
-                  </ul>
-                  <a
-                    href={plan.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="group inline-flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-primary text-[var(--primary-fg)] font-semibold text-sm hover:brightness-105 transition-all duration-160 active:scale-[0.97]"
-                  >
-                    ابدأ الآن <ChevronLeft className="w-3.5 h-3.5 transition-transform group-hover:-translate-x-0.5" />
-                  </a>
+                {/* flat tone well — the pastel family's only survivor */}
+                <div
+                  className="w-12 h-12 rounded-xl flex items-center justify-center mb-5"
+                  style={{ background: plan.well, color: plan.wellInk }}
+                >
+                  <Icon className="w-6 h-6" aria-hidden="true" />
                 </div>
+                <h2 className="text-xl font-bold text-foreground mb-1">{plan.title}</h2>
+                <p className="text-sm text-[var(--primary-text)] font-medium mb-2">{plan.subtitle}</p>
+                <div className="mb-6">
+                  {/* mono machine-voice price (ln-mono pattern) */}
+                  <span className="ln-mono text-4xl font-extrabold text-foreground">{plan.price}</span>
+                  <span className="text-sm text-muted-foreground ms-2">{plan.period}</span>
+                </div>
+                <ul className="space-y-3 mb-8 flex-1">
+                  {plan.features.map((f, fi) => (
+                    <li key={fi} className="flex items-center gap-2.5 text-sm text-muted-foreground">
+                      <div className="w-5 h-5 rounded-full bg-[var(--accent)] flex items-center justify-center shrink-0">
+                        <Check className="w-3 h-3 text-primary" />
+                      </div>
+                      <span>{f}</span>
+                    </li>
+                  ))}
+                </ul>
+                <a
+                  href={plan.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group inline-flex items-center justify-center gap-2 w-full py-3 rounded-full bg-primary text-[var(--primary-fg)] font-semibold text-sm hover:brightness-105 transition-all duration-160 active:scale-[0.97]"
+                >
+                  ابدأ الآن <ChevronLeft className="w-3.5 h-3.5 transition-transform group-hover:-translate-x-0.5" />
+                </a>
               </div>
             )
           })}
         </div>
 
-        {/* Coming soon */}
+        {/* Coming soon — flat dashed hairline (was glass + gradient well) */}
         <div className="max-w-2xl mx-auto mb-16 reveal-up reveal-d4">
-          <div className="glass rounded-2xl p-8 text-center border border-dashed border-[var(--glass-border)] hover:border-[var(--ring)]/30 transition-all duration-240">
-            <div className="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-4 border border-[var(--glass-border)]" style={{ background: "var(--gradient-coming-soon)" }}>
-              <Sparkles className="w-7 h-7 text-[var(--primary)]" />
+          <div className="ln-card ln-card--dashed rounded-2xl p-8 text-center">
+            <div className="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-4 bg-[var(--accent)]">
+              <Sparkles className="w-7 h-7 text-primary" />
             </div>
             <h2 className="text-2xl font-bold text-foreground mb-2">قريباً — خطط مدفوعة</h2>
             <p className="text-muted-foreground max-w-md mx-auto mb-6">
@@ -158,7 +165,7 @@ export default function PricingPage() {
             </p>
             <Link
               href="/contact"
-              className="group inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[var(--primary)] text-[var(--primary-fg)] text-sm font-semibold hover:brightness-105 transition-all duration-160 active:scale-[0.97]"
+              className="group inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-primary text-[var(--primary-fg)] text-sm font-semibold hover:brightness-105 transition-all duration-160 active:scale-[0.97]"
             >
               تواصل معنا لمعرفة المزيد <ChevronLeft className="w-3.5 h-3.5 transition-transform group-hover:-translate-x-0.5" />
             </Link>

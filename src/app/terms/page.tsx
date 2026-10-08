@@ -6,6 +6,10 @@ import { breadcrumbJsonLd } from "@/lib/schema"
 /* r128 F2b: the shared product chrome moved out of the RootLayout
    (the landing owns its own world now) — this page renders it itself. */
 import { SiteChrome } from "@/components/site-chrome"
+/* r128 F6 (A4 §6, lowest-touch): the ambient blur blob is retired — the
+   flat token ground carries the page; the eyebrow badge becomes the
+   ln-label mono label; prose tokens stay exactly as shipped (legal
+   pages stay quiet — no new motion). */
 
 export const metadata = pageMetadata({
   /* r10 (SEO audit P2): expanded toward the SERP window. */
@@ -28,14 +32,9 @@ export default function TermsPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
       />
-      <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[400px] rounded-full bg-[var(--primary)]/5 blur-[75px]" />
-      </div>
       <div className="container-base max-w-3xl mx-auto relative">
         <div className="text-center mb-10">
-          <div className="eyebrow-badge mb-5 reveal-up reveal-d1">
-            <span>الشروط</span>
-          </div>
+          <span className="ln-label reveal-up reveal-d1">الشروط</span>
           <h1 className="text-5xl md:text-6xl font-extrabold text-foreground">
             شروط الاستخدام
           </h1>

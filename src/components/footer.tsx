@@ -29,10 +29,13 @@ export function Footer() {
 
       <div className="container-base py-16 relative">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
-          {/* Brand */}
+          {/* Brand — r131 (A10 F1): dual-variant wordmark (gold on night,
+              copper on cream via the .light class — see main-nav.tsx;
+              display:none drops the inactive variant from the a11y tree). */}
           <div>
             <div className="flex items-center gap-2.5 mb-4">
-              <Image src="/logo.png" alt="SmartLink" width={118} height={80} sizes="43px" className="h-7 w-auto object-contain" loading="lazy" />
+              <Image src="/logo.png" alt="SmartLink" width={118} height={80} sizes="43px" className="logo-dark h-7 w-auto object-contain" loading="lazy" />
+              <Image src="/logo-light.png" alt="SmartLink" width={118} height={80} sizes="43px" className="logo-light h-7 w-auto object-contain" loading="lazy" />
             {/* r9: width/height now match the source aspect ratio (600×409) —
                 the 130×32 declaration reserved a 4:1 box for a 1.47:1 image
                 (r8 fixed this in main-nav but missed the footer). */}

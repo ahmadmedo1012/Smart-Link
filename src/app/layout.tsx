@@ -72,6 +72,22 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="ar" dir="rtl" suppressHydrationWarning>
       <head>
+        {/* r131 (A10 F3/F4 — r130 SO ruling): pre-paint theme boot. Dark
+            default; light ONLY when explicitly stored — the same one
+            resolution path the ThemeProvider now uses (enableSystem is
+            off below), so the class the boot script paints is always
+            the class next-themes keeps. Closes the stored-light dark
+            flash (next-themes applies the class from its body-position
+            script — later than head) and guarantees html.light exists
+            before the header parses (the dual-variant logo + theme
+            surfaces key off it). Legacy stored "system" values (from
+            the enableSystem era) resolve to the dark default here,
+            exactly as the provider treats them. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var t=localStorage.getItem('theme');if(t==='light'){document.documentElement.classList.add('light')}else{document.documentElement.classList.add('dark')}}catch(e){document.documentElement.classList.add('dark')}})();`,
+          }}
+        />
         {/* m15: first-paint font preloads — the only two faces the hero
             paints with (body 400 + headings/CTA 700, arabic subsets).
             crossorigin is mandatory for font fetches even same-origin. */}
@@ -124,13 +140,24 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       <body className="min-h-dvh flex flex-col antialiased overflow-x-clip bg-[var(--background)]">
-        <a href="#main-content" className="pointer-events-auto fixed opacity-0 focus:opacity-100 focus:fixed focus:top-4 focus:right-4 focus:z-[100] focus:px-4 focus:py-2 focus:rounded-xl focus:bg-[var(--primary)] focus:text-[var(--primary-fg)] focus:text-sm focus:font-semibold focus:shadow-lg focus:outline-none transition-opacity duration-160">
+        {/* r131 (A12 P3): skip link rides the logical focus:start-4
+            (was the physical focus:right-4 — renders identically in
+            RTL, but logical props are the fleet rule). */}
+        <a href="#main-content" className="pointer-events-auto fixed opacity-0 focus:opacity-100 focus:fixed focus:top-4 focus:start-4 focus:z-[100] focus:px-4 focus:py-2 focus:rounded-xl focus:bg-[var(--primary)] focus:text-[var(--primary-fg)] focus:text-sm focus:font-semibold focus:shadow-lg focus:outline-none transition-opacity duration-160">
           تخطَّ إلى المحتوى الرئيسي
         </a>
         {/* r8: the product scroll-progress ribbon moved to SiteChrome
             (r128 F2b) — the landing renders its own imperative --p bar
             instead, so the two never stack. */}
-        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
+        {/* r131 (A10 F3 — r130 SO ruling; F9b hardening): enableSystem
+            OFF, now EXPLICIT — next-themes v0.4.6 defaults enableSystem
+            to true, so the F9 edit that dropped the old truthy prop was
+            a runtime no-op (OS resolution stayed live: a legacy stored
+            "system" value could still flip the class post-hydration,
+            contradicting the boot script's dark). With the prop off,
+            one resolution path holds for every stored value: boot
+            script == provider, both dark-default, OS never consulted. */}
+        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
           <ThemeColorSync />
           {children}
           <LazyAnalytics />

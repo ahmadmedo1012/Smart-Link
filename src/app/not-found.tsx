@@ -57,7 +57,10 @@ export default function NotFound() {
           </h1>
         </div>
         <div className="reveal-up reveal-d-2">
-          <h2 className="text-2xl font-bold text-[var(--foreground)] mb-2">الصفحة غير موجودة</h2>
+          {/* r131 (A3 D1): the title rides the --fs-display-md rung
+              clamp(28px→40px) — was raw text-2xl 24px, a step below the
+              canonical display scale (W1-I §7). */}
+          <h2 className="text-[length:var(--fs-display-md)] font-bold text-[var(--foreground)] mb-2">الصفحة غير موجودة</h2>
           <p className="text-[var(--muted-foreground)] mb-8 max-w-md mx-auto">
             عذراً، الصفحة التي تبحث عنها غير متوفرة أو تم نقلها.
           </p>

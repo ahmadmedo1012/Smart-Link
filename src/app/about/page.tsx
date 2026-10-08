@@ -116,12 +116,12 @@ export default function AboutPage() {
             <h2 id="about-story" className="ln-chapter-title reveal-up reveal-d-1">قصتنا</h2>
           </div>
           <div className="reveal-scroll">
-            <p className="text-muted-foreground leading-relaxed mb-4">
+            <p className="text-muted-foreground mb-4">
               انطلقت SmartLink في <strong>20 نوفمبر 2025</strong> من رؤية واضحة: تقديم حلول رقمية متكاملة تلبي احتياجات السوق الليبي والعربي،
               بدءاً من المطاعم والمقاهي التي تحتاج لمنيو رقمي احترافي، إلى أصحاب الصفحات على فيسبوك
               الذين يبحثون عن أتمتة ذكية لردودهم.
             </p>
-            <p className="text-muted-foreground leading-relaxed mb-4">
+            <p className="text-muted-foreground mb-4">
               بصفتنا <strong>أول منصة ليبية</strong> متخصصة في إنشاء المنيو الرقمي التفاعلي، نسعى لأن تكون SmartLink
               المنصة الرقمية الأولى للأعمال في ليبيا والعالم العربي.
             </p>
@@ -139,7 +139,7 @@ export default function AboutPage() {
               </p>
             </div>
 
-            <p className="text-muted-foreground leading-relaxed mb-4">
+            <p className="text-muted-foreground mb-4">
               اليوم، نحن منصة متنامية، ونعمل باستمرار على تطوير خدماتنا
               وإضافة المزيد من الحلول المبتكرة — من البوت الذكي لفيسبوك إلى خدمات قادمة تطمح لتغيير
               مشهد الأعمال الرقمية في المنطقة.

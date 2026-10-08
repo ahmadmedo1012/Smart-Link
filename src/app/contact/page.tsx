@@ -90,7 +90,9 @@ export default function ContactPage() {
               <div className="w-9 h-9 rounded-xl bg-[var(--accent)] flex items-center justify-center mx-auto mb-2.5 group-hover:scale-110 transition-transform duration-240">
                 <item.icon className="w-4.5 h-4.5 text-primary" />
               </div>
-              <h2 className="font-bold text-foreground text-sm mb-1">{item.title}</h2>
+              {/* r131 (A3 D1): card H2s consume the --fs-body rung (15px,
+                  was raw text-sm 14px — off the body scale). */}
+              <h2 className="font-bold text-foreground text-[length:var(--fs-body)] mb-1">{item.title}</h2>
               {item.href ? (
                 <a href={item.href} className="text-xs text-primary-text hover:underline underline-offset-2 rounded inline-flex items-center py-2">{item.desc}</a>
               ) : (
@@ -104,7 +106,7 @@ export default function ContactPage() {
            the island's internals are untouched. */}
         <div className="max-w-xl mx-auto reveal-up reveal-d-3">
           <div className="ln-card rounded-2xl p-6 md:p-8">
-            <h2 className="font-bold text-foreground text-lg mb-5">أرسل رسالة</h2>
+            <h2 className="font-bold text-foreground text-[length:var(--fs-h3)] mb-5">أرسل رسالة</h2>
             <ContactForm />
           </div>
         </div>

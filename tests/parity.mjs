@@ -341,16 +341,16 @@ const SCROLLBAR_LIGHT = {
 const GENART_DARK = { '--genart-accent': '#8E97B8', '--genart-accent-dim': 'rgb(142 151 184 / 0.04)' };
 const GENART_LIGHT = { '--genart-accent': '#6F6C66', '--genart-accent-dim': 'rgb(111 108 102 / 0.04)' };
 const GRADIENTS_DARK = {
-  '--gradient-text-mid': '#E9B44C',
-  '--gradient-text-end': '#F5D48A',
+  /* (r131 A3 D3: --gradient-text-mid/end removed with the dead
+     @utility gradient-text — the tokens had zero consumers since the
+     r128 flat-diet; pinning deleted tokens is how drift hides.) */
   '--grid-line': 'rgb(233 180 76 / 0.1)',
   '--gradient-smart-menu': 'linear-gradient(135deg, rgb(242 160 127 / 0.25), rgb(242 160 127 / 0.1))',
   '--gradient-smart-bot': 'linear-gradient(135deg, rgb(183 160 244 / 0.25), rgb(183 160 244 / 0.1))',
   '--gradient-coming-soon': 'linear-gradient(135deg, rgb(127 211 154 / 0.25), rgb(127 211 154 / 0.1))',
 };
 const GRADIENTS_LIGHT = {
-  '--gradient-text-mid': '#B57438',
-  '--gradient-text-end': '#9A5F25',
+  /* (r131 A3 D3: light --gradient-text-mid/end twins removed likewise.) */
   '--grid-line': 'rgb(181 116 56 / 0.06)',
   '--gradient-smart-menu': 'linear-gradient(135deg, rgb(224 120 86 / 0.15), rgb(224 120 86 / 0.06))',
   '--gradient-smart-bot': 'linear-gradient(135deg, rgb(138 111 224 / 0.15), rgb(138 111 224 / 0.06))',
@@ -1100,13 +1100,15 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
     '--motion-duration-ambient-cinema': '9s',
     '--motion-duration-ambient-scene': '22s',
   });
-  // the raw ambient loops bind bands (no raw 2s/3s/4s/20s survivors)
+  // the raw ambient loops bind bands (no raw 2s/3s/4s/20s survivors).
+  // r131 (A3 D3): the blob-pulse/float-icon clauses are retired with
+  // their dead rules — nav-shimmer (MainNav scrolled shimmer-bar) and
+  // grid-drift are the surviving ambient consumers; the bands
+  // themselves stay pinned above in the r130 table.
   check(
     /nav-shimmer\s+var\(--motion-duration-ambient\)/.test(css)
-      && /blob-pulse\s+var\(--motion-duration-ambient-slow\)/.test(css)
-      && /float-icon\s+var\(--motion-duration-ambient-drift\)/.test(css)
       && /grid-drift\s+var\(--motion-duration-ambient-scene\)/.test(css),
-    'ambient loops: nav-shimmer/blob-pulse/float-icon/grid-drift bind --motion-duration-ambient* bands'
+    'ambient loops: nav-shimmer/grid-drift bind --motion-duration-ambient* bands'
   );
   // the RM belt resets DELAYS (W1-G F-5 / SL-P2-3, canonical base.css:317/320)
   {
@@ -1163,6 +1165,211 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
       'no font-extrabold — IBM Plex tops out at 700 (800 asks for a cut that does not exist)'
     );
   }
+}
+
+// ── r131 F9 · type-scale CONSUMPTION pins (A3 D1/D4/D5 + D2/D3/D6/D7,
+//    A10 themes, A12 logical props) ──────────────────────────────────────────
+// Headline lesson (A3 §2 D1): the 434 value pins could not catch a
+// DECLARED-BUT-UNCONSUMED token — r130 landed the full --fs-* ladder
+// and then only 2 of 26 rungs were consumed while every inner heading
+// kept riding raw Tailwind text-* steps. These pins assert CONSUMPTION
+// (positive: the token appears at the defect site) plus negative sweeps
+// (the retired raw steps may not come back), so the gap class that let
+// the P1-1 defect survive four rounds is closed for the type scale.
+{
+  // comment-aware read: the negative sweeps below ban raw Tailwind steps
+  // and retired class names from the CODE — r131 fix comments legitimately
+  // cite them as history ("was raw text-xl 20px"), so strip /* */ and //
+  // the same way the harness strips styles.css comments before matching.
+  const read = (p) => {
+    const raw = readFileSync(new URL(`../src/${p}`, import.meta.url), 'utf8');
+    return raw.replace(/\/\*[\s\S]*?\*\//g, ' ').replace(/\/\/.*$/gm, ' ');
+  };
+  const privacy = read('app/privacy/page.tsx');
+  const terms = read('app/terms/page.tsx');
+  const pricing = read('app/pricing/page.tsx');
+  const contact = read('app/contact/page.tsx');
+  const notFound = read('app/not-found.tsx');
+  const faq = read('components/faq-accordion.tsx');
+  const layout = read('app/layout.tsx');
+  const mainNav = read('components/main-nav.tsx');
+  const backToTop = read('components/back-to-top.tsx');
+
+  // A ── legal pages (D1+D5): H2s consume --fs-h2; prose inherits the
+  //     body 15/1.65 rule; 72ch reading measure (no leading-relaxed,
+  //     no max-w-3xl — both were silently undoing the r130 body fix).
+  for (const [name, src] of [['privacy', privacy], ['terms', terms]]) {
+    check(
+      src.includes('text-[length:var(--fs-h2)] font-bold'),
+      `${name}: all section H2s consume the --fs-h2 22px rung (A3 D1)`
+    );
+    check(
+      !/text-xl/.test(src),
+      `${name}: no raw text-xl step on legal H2s (A3 D1 negative sweep)`
+    );
+    check(
+      !/leading-relaxed/.test(src),
+      `${name}: prose inherits the canonical 15/1.65 body rule — no leading-relaxed 1.625 override (A3 D5)`
+    );
+    check(
+      src.includes('max-w-[72ch]'),
+      `${name}: legal prose measure is 72ch (was max-w-3xl 768px ≈ 100+ ch/line at 15px) (A3 D5)`
+    );
+  }
+
+  // B ── /pricing (D1+D4): one section-head grammar (ln-chapter-head
+  //     anatomy: label + title + lede) with the title on the --fs-h2
+  //     rung; card H2s on --fs-h3; the price on the metric ladder.
+  check(
+    !/text-2xl/.test(pricing),
+    'pricing: no raw text-2xl step (was the centered bare section h2s — A3 D1/D4 negative sweep)'
+  );
+  check(
+    !/text-4xl/.test(pricing),
+    'pricing: no raw text-4xl price (was 36px, off the metric ladder 22/30/44 — A3 D4 negative sweep)'
+  );
+  check(
+    pricing.includes('text-[length:var(--fs-h2)] font-bold text-foreground'),
+    'pricing: section-head titles consume the --fs-h2 rung inside ln-chapter-head (A3 D1/D4)'
+  );
+  check(
+    pricing.includes('text-[length:var(--fs-h3)] font-bold text-foreground'),
+    'pricing: plan-card H2s consume the --fs-h3 card-title rung (A3 D1)'
+  );
+  check(
+    pricing.includes('ln-mono text-[length:var(--fs-metric-lg)] font-bold'),
+    'pricing: the price rides the --fs-metric-lg 30px mono tnum rung (A3 D4)'
+  );
+  check(
+    (pricing.match(/ln-chapter-head/g) ?? []).length >= 3
+      && /ln-label[^>]*>01 — القادم/.test(pricing)
+      && /ln-label[^>]*>02 — الأسئلة/.test(pricing),
+    'pricing: coming-soon + FAQ section heads ride the ln-chapter-head anatomy with numbered ln-labels (A3 D4)'
+  );
+  check(
+    !/text-center mb-8/.test(pricing),
+    'pricing: no centered bare section head survives (A3 D4 negative sweep)'
+  );
+
+  // C ── /contact + 404 (D1): card H2s on --fs-body, the form H2 on
+  //     --fs-h3, the 404 title on the --fs-display-md fluid rung.
+  check(
+    contact.includes('text-[length:var(--fs-body)]'),
+    'contact: info-card H2s consume the --fs-body 15px rung (was raw text-sm 14px) (A3 D1)'
+  );
+  check(
+    !/font-bold text-foreground text-sm/.test(contact),
+    'contact: no raw text-sm on card H2s (A3 D1 negative sweep)'
+  );
+  check(
+    contact.includes('text-[length:var(--fs-h3)]'),
+    'contact: the form H2 consumes the --fs-h3 rung (A3 D1)'
+  );
+  check(
+    notFound.includes('text-[length:var(--fs-display-md)] font-bold'),
+    '404: the title rides the --fs-display-md rung clamp(28px→40px) (was raw text-2xl 24px) (A3 D1)'
+  );
+  check(
+    !/text-2xl/.test(notFound),
+    '404: no raw text-2xl step on the title (A3 D1 negative sweep)'
+  );
+
+  // D ── FaqAccordion (D1+D2): flat ln-card, question on --fs-body/600.
+  check(
+    faq.includes('ln-card rounded-2xl overflow-hidden'),
+    'faq: the last glass content surface is flat .ln-card (hairline + border-shift hover, A3 D2)'
+  );
+  check(
+    !/glass/.test(faq),
+    'faq: no glass surface survives on the accordion (A3 D2 negative sweep)'
+  );
+  check(
+    faq.includes('text-[length:var(--fs-body)] font-semibold'),
+    'faq: the question consumes the --fs-body rung at weight 600 (was raw text-sm 14px/500, A3 D1)'
+  );
+  check(
+    !/text-sm font-medium/.test(faq),
+    'faq: no raw text-sm/500 question run (A3 D1 negative sweep)'
+  );
+
+  // E ── dead-CSS sweep (D3): the deleted r128-era families may not
+  //     return; the surviving mechanism families stay.
+  check(
+    !/\.blob-[0-3]/.test(css) && !/blob-pulse/.test(css)
+      && !/\.floating-icon-[0-5]/.test(css) && !/float-icon/.test(css)
+      && !/cta-shine/.test(css) && !/\.hero-section/.test(css)
+      && !/\.hero-content/.test(css) && !/showcase-tl/.test(css)
+      && !/phone-frame/.test(css) && !/phone-shift/.test(css)
+      && !/phone-tilt/.test(css) && !/browser-parallax/.test(css)
+      && !/line-draw-scroll/.test(css) && !/badge-pop/.test(css)
+      && !/reveal-scroll-strong/.test(css) && !/reveal-scroll-stagger/.test(css)
+      && !/border-draw/.test(css),
+    'dead-CSS sweep: no blob/floating-icon/cta-shine/view-timeline family survives (A3 D3)'
+  );
+  check(
+    !/@utility gradient-text/.test(css) && !/gradient-text-mid/.test(css)
+      && !/@utility section-padding/.test(css) && !/@utility glass-card/.test(css)
+      && !/\.glass-card/.test(css) && !/--gradient-text-end/.test(css),
+    'dead-CSS sweep: gradient-text/section-padding/glass-card utilities + their tokens are gone (A3 D3)'
+  );
+  check(
+    /\.reveal-scroll\s*\{/.test(css) && /\.menu-pop\s*\{/.test(css)
+      && /\.acc\s*\{/.test(css) && /\.shimmer-bar\s*\{/.test(css)
+      && /\.magnetic-btn\s*\{/.test(css) && /\.grid-drift\s*\{/.test(css),
+    'dead-CSS sweep: the LIVE mechanism families stay (reveal-scroll/menu-pop/acc/shimmer-bar/magnetic-btn/grid-drift)'
+  );
+
+  // F ── label halo + stat radius (D7): the halo follows the label's
+  //     own ink per theme; .ln-stat joins its 20px siblings.
+  pin(dark, 'dark', '--label-halo', '#E9B44C');
+  pin(light, 'light', '--label-halo', '#5C3416');
+  check(
+    /\.ln-stat\s*\{[^}]*border-radius:\s*var\(--r-2xl\)/.test(css),
+    '.ln-stat: radius rides var(--r-2xl) 20px — landing + ln-card sibling parity (A3 D7)'
+  );
+
+  // G ── A10 themes: one resolution path (boot script + enableSystem
+  //     explicitly off), toggle keys off resolvedTheme, copper wordmark
+  //     on cream.
+  check(
+    /enableSystem=\{false\}/.test(layout),
+    'theme: enableSystem EXPLICITLY off — next-themes v0.4.6 defaults it true, so omission is not off (r130 SO ruling: one resolution path, boot script == provider, both dark-default)'
+  );
+  check(
+    /localStorage\.getItem\('theme'\)/.test(layout)
+      && /classList\.add\('light'\)/.test(layout)
+      && /classList\.add\('dark'\)/.test(layout),
+    'theme: pre-paint boot script in <head> reads the stored key and paints .light/.dark before first paint'
+  );
+  check(
+    /resolvedTheme === "dark" \? "light" : "dark"/.test(mainNav)
+      && !/theme === "dark"/.test(mainNav),
+    'theme: the toggle keys off resolvedTheme (never the raw theme string) — A10 SL-2'
+  );
+  check(
+    /\.logo-light\s*\{\s*display:\s*none;\s*\}/.test(css)
+      && /\.light \.logo-light\s*\{[^}]*display:\s*block/.test(css)
+      && /\.light \.logo-dark\s*\{[^}]*display:\s*none/.test(css),
+    'logo: dual-variant wordmark — gold (default/no-JS) vs copper selected by .light (A10 F1)'
+  );
+  check(
+    mainNav.includes('logo-light.png') && read('components/footer.tsx').includes('logo-light.png'),
+    'logo: nav + footer both render the dual-variant wordmark (A10 F1)'
+  );
+
+  // H ── A12 logical props: skip-link / dropdown / back-to-top.
+  check(
+    layout.includes('focus:start-4') && !/focus:right-4/.test(layout),
+    'a12: skip link rides focus:start-4 (logical, was physical right-4)'
+  );
+  check(
+    mainNav.includes('top-full end-0') && !/top-full right-0/.test(mainNav),
+    'a12: services dropdown anchors at end-0 (logical, was physical right-0)'
+  );
+  check(
+    backToTop.includes('fixed bottom-6 end-6') && !/bottom-6 right-6/.test(backToTop),
+    'a12: back-to-top rides the end-6 logical corner (was physical right-6)'
+  );
 }
 
 if (failures.length > 0) {

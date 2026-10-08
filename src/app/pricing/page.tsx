@@ -16,7 +16,14 @@ import { breadcrumbJsonLd, faqJsonLd } from "@/lib/schema"
 // hairline + border-shift (.ln-card), the pastel family survives ONLY
 // as flat icon wells (à la the landing megamenu ico tones), the price
 // speaks in the mono machine-voice (.ln-mono), the eyebrow is the
-// ln-label technical label, and CTAs are pills. FAQ stays untouched.
+// ln-label technical label, and CTAs are pills.
+//
+// r131 (A3 D1/D4): the page's three section-head grammars (centered
+// bare h2 / card h2 / raw 36px mono price) unify — the coming-soon and
+// FAQ section heads ride the ln-chapter-head anatomy (label + title +
+// lede) with the title on the --fs-h2 rung; plan card H2s consume
+// --fs-h3; the price moves onto the metric ladder (--fs-metric-lg 30px,
+// mono tnum) instead of the raw text-4xl step.
 
 export const metadata = pageMetadata({
   /* r10 (SEO audit P2): expanded toward the SERP window with the
@@ -125,11 +132,14 @@ export default function PricingPage() {
                 >
                   <Icon className="w-6 h-6" aria-hidden="true" />
                 </div>
-                <h2 className="text-xl font-bold text-foreground mb-1">{plan.title}</h2>
+                <h2 className="text-[length:var(--fs-h3)] font-bold text-foreground mb-1">{plan.title}</h2>
                 <p className="text-sm text-[var(--primary-text)] font-medium mb-2">{plan.subtitle}</p>
                 <div className="mb-6">
-                  {/* mono machine-voice price (ln-mono pattern) */}
-                  <span className="ln-mono text-4xl font-bold text-foreground">{plan.price}</span>
+                  {/* mono machine-voice price (ln-mono pattern) — r131 D4:
+                      the --fs-metric-lg 30px rung (was raw text-4xl 36px,
+                      off the metric ladder 22/30/44); ln-mono carries the
+                      tabular-nums. */}
+                  <span className="ln-mono text-[length:var(--fs-metric-lg)] font-bold text-foreground">{plan.price}</span>
                   <span className="text-sm text-muted-foreground ms-2">{plan.period}</span>
                 </div>
                 <ul className="space-y-3 mb-8 flex-1">
@@ -155,16 +165,22 @@ export default function PricingPage() {
           })}
         </div>
 
-        {/* Coming soon — flat dashed hairline (was glass + gradient well) */}
+        {/* Coming soon — flat dashed hairline (was glass + gradient well).
+            r131 D4: the centered bare h2 becomes the ln-chapter-head
+            anatomy (label + title + lede, start-aligned like every
+            /about chapter); the card keeps the icon well + CTA. */}
         <div className="max-w-2xl mx-auto mb-16 reveal-up reveal-d-4">
-          <div className="ln-card ln-card--dashed rounded-2xl p-8 text-center">
-            <div className="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-4 bg-[var(--accent)]">
-              <Sparkles className="w-7 h-7 text-primary" />
-            </div>
-            <h2 className="text-2xl font-bold text-foreground mb-2">قريباً — خطط مدفوعة</h2>
-            <p className="text-muted-foreground max-w-md mx-auto mb-6">
+          <div className="ln-chapter-head">
+            <span className="ln-label reveal-up reveal-d-1">01 — القادم</span>
+            <h2 className="text-[length:var(--fs-h2)] font-bold text-foreground reveal-up reveal-d-1">قريباً — خطط مدفوعة</h2>
+            <p className="ln-chapter-lede">
               نعمل على إطلاق خطط مدفوعة بميزات حصرية: تحليلات متقدمة، دعم فني ذو أولوية، عدد غير محدود من العناصر، والمزيد
             </p>
+          </div>
+          <div className="ln-card ln-card--dashed rounded-2xl p-8 text-center">
+            <div className="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-5 bg-[var(--accent)]">
+              <Sparkles className="w-7 h-7 text-primary" />
+            </div>
             <Link
               href="/contact"
               className="group inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-primary text-[var(--primary-fg)] text-sm font-semibold hover:bg-[var(--accent-hover)] transition-all duration-160 active:scale-[0.97]"
@@ -174,9 +190,15 @@ export default function PricingPage() {
           </div>
         </div>
 
-        {/* FAQ — the only client island on this page (CSS accordion) */}
+        {/* FAQ — the only client island on this page (CSS accordion).
+            r131 D4: the last centered bare h2 unifies on the chapter-head
+            anatomy (label + title + lede); title rides the --fs-h2 rung. */}
         <div className="max-w-2xl mx-auto">
-          <h2 className="text-2xl font-bold text-foreground text-center mb-8">أسئلة شائعة</h2>
+          <div className="ln-chapter-head">
+            <span className="ln-label reveal-up reveal-d-1">02 — الأسئلة</span>
+            <h2 className="text-[length:var(--fs-h2)] font-bold text-foreground reveal-up reveal-d-1">أسئلة شائعة</h2>
+            <p className="ln-chapter-lede">إجابات سريعة عن الخطط والأسعار قبل أن تبدأ</p>
+          </div>
           <FaqAccordion faqs={faqs} />
         </div>
       </div>

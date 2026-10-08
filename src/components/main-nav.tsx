@@ -109,7 +109,11 @@ export function MainNav() {
     () => false
   )
   const pathname = usePathname()
-  const { theme, setTheme } = useTheme()
+  /* r131 (A10 SL-2): the toggle keys off resolvedTheme (was `theme`) —
+     with any legacy stored "system" value the raw theme string could
+     misreport the icon/aria-label; resolvedTheme is always the class
+     actually painted (the family pattern: SO/SB/SM). */
+  const { resolvedTheme, setTheme } = useTheme()
   const headerRef = useRef<HTMLDivElement>(null)
   /* r11 (محاكاة لوحة مفاتيح — B1-K1/B2/E-E9): إصلاح النموذج التفاعلي
      للقائمة المنسدلة. المشكلة القديمة كانت آلية معطوبة من ثلاث جهات:
@@ -203,9 +207,16 @@ export function MainNav() {
             route on every page (three duplicate RSC prefetches measured on
             first load). The logo dimensions now match the source ratio
             (600×409) at a display-appropriate size (was 150×38 — the
-            optimizer was generating a 384w AVIF for a ~53px slot). */}
+            optimizer was generating a 384w AVIF for a ~53px slot).
+            r131 (A10 F1): dual-variant wordmark — gold on night, copper
+            recolor on cream (logo-light.png, alpha-identical), selected
+            by the .light class via styles.css (flash-free: the head boot
+            script paints the class before this parses). display:none
+            removes the inactive variant from the a11y tree, so both
+            images may carry the same alt. */}
         <Link href="/" prefetch={false} className="flex items-center self-stretch group relative">
-          <Image src="/logo.png" alt="SmartLink — الرئيسية" width={120} height={82} sizes="(max-width: 768px) 48px, 54px" className="h-8 md:h-9 w-auto object-contain transition-transform duration-240 group-hover:scale-105" priority />
+          <Image src="/logo.png" alt="SmartLink — الرئيسية" width={120} height={82} sizes="(max-width: 768px) 48px, 54px" className="logo-dark h-8 md:h-9 w-auto object-contain transition-transform duration-240 group-hover:scale-105" priority />
+          <Image src="/logo-light.png" alt="SmartLink — الرئيسية" width={120} height={82} sizes="(max-width: 768px) 48px, 54px" className="logo-light h-8 md:h-9 w-auto object-contain transition-transform duration-240 group-hover:scale-105" priority />
         </Link>
 
         {/* Desktop nav — r6: named landmark for screen readers */}
@@ -271,12 +282,14 @@ export function MainNav() {
                     aria-valid-attr-value incomplete). Same visual:
                     display:none cancels the menu-pop animation, removing
                     hidden restarts it. */}
+                {/* r131 (A12 P3): end-0 logical anchor (was physical
+                    right-0) — the fleet logical-prop rule. */}
                 <div
                   id="services-menu"
                   role="group"
                   aria-labelledby="services-button"
                   hidden={!desktopServicesOpen}
-                  className="menu-pop menu-pop-fast absolute top-full right-0 mt-2 w-80"
+                  className="menu-pop menu-pop-fast absolute top-full end-0 mt-2 w-80"
                 >
                     <div className="glass-strong rounded-2xl p-2 shadow-xl">
                         {link.children.map((child) => {
@@ -333,14 +346,14 @@ export function MainNav() {
           {mounted && (
             <MagneticButton>
               <button
-                onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-                aria-label={theme === "dark" ? "تفعيل المظهر الفاتح" : "تفعيل المظهر الداكن"}
+                onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
+                aria-label={resolvedTheme === "dark" ? "تفعيل المظهر الفاتح" : "تفعيل المظهر الداكن"}
                 /* r11 (E-E12/E-E13): هدف لمس 44px (كان 36px — p-2.5 + أيقونة
                    16px) بمعيار WCAG 2.5.5، و«الثيم»→«المظهر» (تعريب أصحّ). */
                 className="p-3 rounded-xl hover:bg-[var(--accent)] text-muted-foreground hover:text-foreground transition-all duration-160 active:scale-[0.97] focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--ring)]"
               >
-                <span className={cn("block transition-all duration-520 ease-spring", theme === "dark" ? "rotate-0" : "rotate-180")}>
-                  {theme === "dark" ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+                <span className={cn("block transition-all duration-520 ease-spring", resolvedTheme === "dark" ? "rotate-0" : "rotate-180")}>
+                  {resolvedTheme === "dark" ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
                 </span>
               </button>
             </MagneticButton>

@@ -7,7 +7,13 @@ import { ChevronLeft } from "lucide-react"
    in its initial JS — matches the .acc pattern used by the mobile nav.
    r6: also the home FAQ island (replaced a homegrown fixed-maxHeight
    variant that clipped long answers); optional className lets the host
-   section attach reveal/stagger utilities. */
+   section attach reveal/stagger utilities.
+
+   r131 (A3 D1/D2): the last glass content surface goes flat — the item
+   rides .ln-card (hairline + border-shift hover, rounded-2xl sibling
+   parity with the plan/info cards), and the question rides the --fs-body
+   rung at 600 (15px/semibold, was the button's raw text-sm 14px/500
+   overriding the h3 wrapper — the audit's "FAQ q" rung). */
 
 export function FaqAccordion({
   faqs,
@@ -25,7 +31,7 @@ export function FaqAccordion({
         return (
           <div
             key={i}
-            className="glass rounded-xl overflow-hidden transition-all duration-240 hover:border-[var(--ring)]/20"
+            className="ln-card rounded-2xl overflow-hidden"
           >
         {/* r10 (a11y audit P2): the question is wrapped in an h3 so screen
             readers can jump between FAQ questions with the headings key —
@@ -34,7 +40,7 @@ export function FaqAccordion({
             <h3 className="text-base font-semibold">
               <button
                 onClick={() => setOpen(isOpen ? null : i)}
-                className="w-full px-5 py-4 flex items-center justify-between text-start text-sm font-medium text-foreground hover:bg-[var(--accent)]/30 transition-colors"
+                className="w-full px-5 py-4 flex items-center justify-between text-start text-[length:var(--fs-body)] font-semibold text-foreground hover:bg-[var(--accent)]/30 transition-colors"
                 aria-expanded={isOpen}
                 aria-controls={`faq-panel-${i}`}
                 id={`faq-button-${i}`}

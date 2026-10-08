@@ -249,11 +249,12 @@
   --border: #1B2444;
   --border-strong: #263052;
   /* --ring = Madarek dark focus ring: the canonical cascade resolves
-     dark --state-focus-ring-color → --accent-strong #C9962F (r127-A6:
-     Smart-Menu/Bot/Order all paint the strong gold — the former
-     #E9B44C here was the one fleet outlier, wrongly pinned as
-     "canonical" by parity.mjs until r127-F6). 7.38:1 on night — AA
-     (and AAA ≥7:1). Also tints the feature-card hover hairline. */
+     dark --state-focus-ring-color → var(--accent) = #E9B44C (r130
+     re-adjudication, verified against madarek tokens.css:233 directly —
+     supersedes the r127-F6 reading, which pointed here at --accent-strong
+     #C9962F and started the r127↔r130 flip-flop; the strong-gold path
+     is the LIGHT-side resolver only). #E9B44C measures 10.4:1 on the
+     night ground — AAA. Also tints the feature-card hover hairline. */
   --ring: #E9B44C;
   /* --destructive/--success/--warning/--info = Madarek status BASE
      values (§1.6 dark = the family -ink hues). Companions -ink = the
@@ -316,10 +317,10 @@
   /* ── Grid pattern — gold hairline at the original 10% ── */
   --grid-line: rgb(233 180 76 / 0.1);
 
-  /* ── Gradient-text stops — gold → accent-hover gold (§1.5 dark);
-     10.3:1+ on the night ground (large-text AA everywhere it paints). ── */
-  --gradient-text-mid: #E9B44C;
-  --gradient-text-end: #F5D48A;
+  /* (r131 A3 D3: the --gradient-text-mid/end stops are deleted with the
+     dead @utility gradient-text — zero TSX consumers since the r128
+     flat-diet retired the last gradient-text site; the tokens were
+     shipping 4 dead declarations per theme.) */
 
   /* ── Pastel section families (§1.4 dark column) — the full canonical
      9: peach/lavender/mint consumed by service gradients today; sky/
@@ -420,17 +421,23 @@
   --text-muted: #8E97B8;
   --text-faint: #7A83A0;
 
-  /* r130 (W1-D P1-2): the ln-label lime halo (canonical landing P4-18
-     device) on product pages — theme-independent decorative glow at
-     0.12 alpha, blurred 6px. */
-  --label-halo: #DFEDB2;
+  /* ── r130 (W1-D P1-2): the ln-label halo (canonical landing P4-18
+     device) on product pages — a 0.12-alpha blurred ellipse behind
+     the label. r131 (A3 D7): the hue now follows the label's own ink —
+     the landing pairs a lime halo with lime label text; the product
+     pages label in accent ink (gold/copper), so the halo rides
+     --primary-text and flips with the theme (gold #E9B44C on night ·
+     copper #5C3416 on cream) instead of the landing's lime — same
+     device, same-hue pairing. */
+  --label-halo: var(--primary-text);
 
   /* ── r130 (W1-G SL-P1-1): canonical semantic motion layer ──
      Madarek tokens.css:177-184 + 204-209, verbatim. Ladder aliases +
      the four semantic durations + the six ambient bands for
      continuous decorative loops (the former raw 2s/3s/4s/20s loops
-     bind bands below — see nav-shimmer/blob-pulse/float-icon/
-     grid-drift). */
+     bind bands below — see nav-shimmer + grid-drift; the blob-pulse/
+     float-icon consumers were deleted in the r131 dead-CSS sweep
+     [A3 D3], the bands stay declared for future ambient loops). */
   --motion-duration-micro:   var(--t-micro);   /*  80ms */
   --motion-duration-short:   var(--t-fast);    /* 160ms */
   --motion-duration-medium:  var(--t-base);    /* 240ms */
@@ -533,11 +540,8 @@
   /* ── Grid pattern — copper hairline at the original 6% ── */
   --grid-line: rgb(181 116 56 / 0.06);
 
-  /* ── Gradient-text stops — copper → accent-hover copper-deep (§1.5):
-     3.65:1 → 5.2:1 on cream. Every gradient-text site is display-size
-     (h1 36–72px, showcase h2 30–36px, 404) — large-text AA ≥3:1 ✓. ── */
-  --gradient-text-mid: #B57438;
-  --gradient-text-end: #9A5F25;
+  /* (r131 A3 D3: the light --gradient-text-mid/end twins are deleted
+     with the dead @utility gradient-text — see the :root note.) */
 
   /* ── Pastel section families (§1.4 light column) — full canonical 9 ── */
   --c-peach-bg: #FFE9DC;  --c-peach-ink: #E07856;  --c-peach-deep: #6B2D1A;
@@ -662,25 +666,11 @@
   box-shadow: var(--glass-shadow-lg);
 }
 
-@utility gradient-text {
-  color: var(--primary);
-  background-image: linear-gradient(135deg, var(--primary), var(--gradient-text-mid), var(--gradient-text-end));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-@utility section-padding {
-  padding-top: 7rem;
-  padding-bottom: 7rem;
-}
-
-@media (width <= 768px) {
-  .section-padding {
-    padding-top: 4.5rem;
-    padding-bottom: 4.5rem;
-  }
-}
+/* (r131 A3 D3 — dead-CSS sweep): the r128-era @utility gradient-text
+   and @utility section-padding are deleted — zero TSX consumers since
+   the landing rebuild moved every hero/showcase surface into the
+   .landing-scoped sheet; the utilities were shipping ~30 lines of
+   dead layer rules on every page.) */
 
 /* ── Pure CSS animations with spring-like cubic-beziers ── */
 
@@ -729,53 +719,12 @@
   transition: transform var(--t-fast) var(--ease-bounce);
 }
 
-/* ── Blob animations ── r130 (W1-G SL-P1-1): raw durations bound to the
-   ambient ladder — blob-pulse is a slow opacity breathe → the 3.6s
-   ambient-slow band (was a raw 3s). */
-.blob-0, .blob-1, .blob-2, .blob-3 {
-  animation: blob-pulse var(--motion-duration-ambient-slow) ease-in-out infinite;
-}
-.blob-1 { animation-delay: 1s; }
-.blob-2 { animation-delay: 2s; }
-/* r11 (تدقيق كود): البطل يرسم 4 blobs بينما CSS يحرّك 3 فقط —
-   الرابع كان ساكناً بصمت منذ r8. الآن مُحرَّك بطور متوسط. */
-.blob-3 { animation-delay: 1.5s; }
-
-@keyframes blob-pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.7; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .blob-0, .blob-1, .blob-2 { animation: none; }
-}
-
-/* ── Floating icon drift ── r130 (W1-G SL-P1-1): a positional drift →
-   the 6s ambient-drift band (was a raw 4s). */
-.floating-icon-0, .floating-icon-1, .floating-icon-2,
-.floating-icon-3, .floating-icon-4, .floating-icon-5 {
-  animation: float-icon var(--motion-duration-ambient-drift) ease-in-out infinite;
-}
-.floating-icon-1 { animation-delay: 0.6s; }
-.floating-icon-2 { animation-delay: 1.2s; }
-.floating-icon-3 { animation-delay: 0.3s; }
-.floating-icon-4 { animation-delay: 0.9s; }
-.floating-icon-5 { animation-delay: 0.4s; }
-
-@keyframes float-icon {
-  0%, 100% { transform: translateY(0) translateX(0); }
-  50% { transform: translateY(-12px) translateX(6px); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .floating-icon-0, .floating-icon-1, .floating-icon-2,
-  .floating-icon-3, .floating-icon-4, .floating-icon-5 { animation: none; }
-}
-
-@keyframes border-draw {
-  0% { width: 0; }
-  100% { width: 100%; }
-}
+/* (r131 A3 D3 — dead-CSS sweep): the .blob-0..3 + blob-pulse and
+   .floating-icon-0..5 + float-icon families are deleted — their
+   consumers (the r128 hero blobs / floating icon field) were removed
+   in the r128 landing rebuild and the rules have shipped dead since.
+   The ambient-duration bands they demonstrated live on in nav-shimmer
+   and grid-drift.) */
 
 /* ── Reveal animation utilities ── */
 @keyframes reveal-up {
@@ -892,32 +841,12 @@
 @media (prefers-reduced-motion: reduce) {
   .menu-pop, .menu-pop-fast { animation: none; }
   .acc { transition: none; }
-  .blob-0, .blob-1, .blob-2, .blob-3 { animation: none; }
 }
 
-/* ── CTA shine sweep (replaces framer-motion whileHover) ── */
-.cta-shine {
-  position: absolute;
-  inset: 0;
-  background: rgb(255 255 255 / 0.1);
-  transform: translateX(-100%);
-  pointer-events: none;
-}
-/* r14 (M5): behind (hover:hover) — the last unguarded :hover rule;
-   iOS sticky-hover fired the sweep on tap. Tailwind guards all its
-   hover: variants automatically; hand-written rules must opt in. */
-@media (hover: hover) {
-  .group:hover .cta-shine {
-    animation: cta-shine var(--t-slower) var(--ease-out);
-  }
-}
-@keyframes cta-shine {
-  from { transform: translateX(-100%); }
-  to { transform: translateX(100%); }
-}
-@media (prefers-reduced-motion: reduce) {
-  .group:hover .cta-shine { animation: none; }
-}
+/* (r131 A3 D3 — dead-CSS sweep): the .cta-shine sweep family is deleted
+   with the hero CTA it decorated (the landing gold pills carry their own
+   sheen in landing.css now) — the base class, the (hover:hover) gate,
+   the keyframes and the RM kill all shipped with zero consumers. */
 
 /* ── Grid pattern drift (CSS keyframes — the old framer-motion version
      animated a transparent child, so the drift never actually rendered) ── */
@@ -938,104 +867,21 @@
      whileInView/useScroll in every below-fold section).
      Chrome 115+/Safari 17.2+: animated; Firefox/older: static-visible
      fallback via @supports. animation-delay is ignored with view()
-     timelines, so staggering uses shifted animation-range offsets. ══ */
-@keyframes reveal-up-strong {
-  from { opacity: 0; transform: translateY(40px); }
-  to { opacity: 1; transform: none; }
-}
-@keyframes hero-parallax {
-  from { transform: scale(1); opacity: 1; }
-  to { transform: scale(0.95); opacity: 0.5; }
-}
-@keyframes tilt-x {
-  0% { rotate: 8deg; }
-  50% { rotate: 0deg; }
-  100% { rotate: -8deg; }
-}
-@keyframes parallax-y {
-  from { transform: translateY(60px); }
-  to { transform: translateY(-60px); }
-}
-/* Exact JS-parity shift: 100cqh = frame height (size container),
-   100% = image height → translate = -(image − frame), fully responsive. */
-@keyframes phone-shift {
-  from { transform: translateY(0); }
-  to { transform: translateY(calc(100cqh - 100%)); }
-}
-
+     timelines, so staggering uses shifted animation-range offsets.
+     (r131 A3 D3 — dead-CSS sweep: the r128-era view-timeline families —
+     .reveal-scroll-strong/.reveal-scroll-stagger stagger ranges,
+     .hero-section/.hero-content parallax, .showcase-tl,
+     .phone-frame/.phone-shift/.phone-tilt, .browser-parallax,
+     .line-draw-scroll, .badge-pop + the reveal-up-strong/hero-parallax/
+     tilt-x/parallax-y/phone-shift keyframes — are deleted with the
+     hero/showcase components that consumed them. .reveal-scroll lives
+     on: /about story prose still rides it.) ══ */
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {
     .reveal-scroll {
       animation: reveal-up var(--t-slower) var(--ease-out) both;
       animation-timeline: view();
       animation-range: entry 10% entry 80%;
-    }
-    .reveal-scroll-strong {
-      animation: reveal-up-strong var(--t-cinema) var(--ease-out) both;
-      animation-timeline: view();
-      animation-range: entry 0% entry 90%;
-    }
-    .reveal-scroll-stagger > * {
-      animation: reveal-up var(--t-slower) var(--ease-out) both;
-      animation-timeline: view();
-      /* r9 (audit P3-9): default range for children beyond nth-child(6) —
-         without it the 7th+ item of any future list rests at 50% progress
-         (the exact bug class r8 fixed in the hero). */
-      animation-range: entry 40% entry 95%;
-    }
-    .reveal-scroll-stagger > *:nth-child(1) { animation-range: entry 0%  entry 55%; }
-    .reveal-scroll-stagger > *:nth-child(2) { animation-range: entry 10% entry 65%; }
-    .reveal-scroll-stagger > *:nth-child(3) { animation-range: entry 20% entry 75%; }
-    .reveal-scroll-stagger > *:nth-child(4) { animation-range: entry 30% entry 85%; }
-    .reveal-scroll-stagger > *:nth-child(5) { animation-range: entry 40% entry 95%; }
-    .reveal-scroll-stagger > *:nth-child(6) { animation-range: entry 50% cover 60%; }
-
-    /* r8: hero parallax — the last piece of hero JS is gone. The section
-       names its own timeline; the content scales 1 → 0.95 and fades to 0.5
-       as the hero scrolls out of view (was a rAF scroll listener in
-       hero-section.tsx). Mirrors the .showcase-tl pattern below. */
-    .hero-section { view-timeline-name: --hero; }
-    .hero-content {
-      animation: hero-parallax linear both;
-      animation-timeline: --hero;
-      /* exit range: progress is 0 while the hero is INSIDE the viewport
-         and only advances as it scrolls OUT — matching the JS version's
-         -rect.top/height mapping. The default cover range put "rest" at
-         ~50% progress (opacity 0.75 at load) — a real color-contrast
-         regression caught by the axe suite. */
-      animation-range: exit 0% cover 100%;
-    }
-
-    /* Section-scoped timelines for the product showcase (each section
-       names its own --showcase; the name is visible to descendants). */
-    .showcase-tl { view-timeline-name: --showcase; }
-    .phone-frame { container-type: size; }
-    .phone-shift {
-      animation: phone-shift both linear;
-      animation-timeline: --showcase;
-      animation-range: cover 10% cover 85%;
-    }
-    .phone-tilt {
-      animation: tilt-x both linear;
-      animation-timeline: --showcase;
-      animation-range: cover 0% cover 100%;
-    }
-    .browser-parallax {
-      animation: parallax-y both linear;
-      animation-timeline: --showcase;
-      animation-range: cover 0% cover 100%;
-    }
-    /* how-it-works: connecting line draw + step badge pop */
-    .line-draw-scroll {
-      animation: border-draw var(--t-slower) var(--ease-out) both;
-      animation-timeline: view();
-      animation-range: entry 20% entry 80%;
-    }
-    .badge-pop {
-      animation: reveal-scale var(--t-slow) var(--ease-out) both;
-      animation-timeline: view();
-      animation-range: entry 20% entry 70%;
-      display: inline-flex;
     }
   }
 }
@@ -1046,18 +892,13 @@
    canonical ln-label device; zero TSX consumers remain. The r10 DRY
    block that lived here is retired with it. */
 
-@utility glass-card {
-  background: var(--glass-bg);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid var(--glass-border);
-  box-shadow: var(--glass-shadow);
-  /* r126 (P4-A3 §2.3): --duration-base (0.4s) retired — the Madarek
-     slow step 380ms on the canonical settle curve. */
-  transition: transform var(--t-slow) var(--ease-out),
-              border-color var(--t-slow) var(--ease-out),
-              box-shadow var(--t-slow) var(--ease-out);
-}
+/* (r131 A3 D3 — dead-CSS sweep): the @utility glass-card is deleted —
+   every content surface migrated to .ln-card in the r128 flat-diet
+   (F6) and the last glass survivor (the /pricing FAQ accordion) went
+   flat in r131 (D2); the only glass that remains is the canonical
+   overlay glass (glass/glass-strong on MainNav dropdowns + mobile
+   menu). The r128 pattern-bridge hover/press rules for .glass-card
+   are retired with it. */
 
 
 /* ── View Transitions API ── */
@@ -1229,20 +1070,10 @@
 
 /* 3 ── Card pattern (§5.4 .card.interactive) ─────────────────────────
    Hover = warm hairline strengthens + --shadow-card-h elevation + a
-   2px lift; press = 0.995 scale with the micro snap. The .glass-card
-   utility (hero stat cards) already transitions border/shadow/transform
-   at its own cadence — these rules only add the Madarek target states. */
-@media (hover: hover) {
-  .glass-card:hover {
-    border-color: var(--border-strong);
-    box-shadow: var(--shadow-card-h);
-    transform: translateY(-2px);
-  }
-}
-.glass-card:active {
-  transform: scale(0.995);
-  transition-duration: var(--t-micro);
-}
+   2px lift; press = 0.995 scale with the micro snap. (r131 A3 D3: the
+   .glass-card target rules are retired with the dead utility — the
+   flat .ln-card/.ln-stat surfaces carry their own border-shift
+   transitions in the ln-pattern bridge below.) */
 
 /* 4 ── Arabic typography laws (§2.4/§0 — platform rulings 2 & 5) ─────
    NO letter-spacing on Arabic, ever: tracking breaks cursive joining.
@@ -1256,9 +1087,10 @@
 
 /* 5 ── RTL motion direction (§4.3) ───────────────────────────────────
    Multiplier for any X-axis entrance motion. Declared for future
-   consumers; today's X-motion (cta-shine sweep, nav-shimmer) is
-   symmetric so the physical sweep reads identically in both
-   directions — no rewrite needed. */
+   consumers; today's X-motion (nav-shimmer sweep) is symmetric so the
+   physical sweep reads identically in both directions — no rewrite
+   needed. (r131 A3 D3: the cta-shine consumer is deleted with the
+   dead-CSS sweep.) */
 [dir="rtl"] {
   --motion-direction: -1;
 }
@@ -1266,10 +1098,11 @@
 /* 6 ── Input focus halo (§5.3) ───────────────────────────────────────
    The contact form already carries the 16px iOS zoom floor (r13) and a
    2px --ring halo via utilities; the token bridge points --ring at the
-   Madarek canonical focus values (light copper-deep #5C3416 10.29:1 ·
-   dark strong gold #C9962F 7.38:1 — r127-F6: was the off-canonical
-   #E9B44C), which completes the §4.5 input-focus recipe. Nothing
-   further to add — documented here so the pattern's home is findable. */
+   r130 re-adjudicated canonical focus values (dark var(--accent)
+   #E9B44C ~10.4:1 on night · light --accent-strong copper-deep #5C3416
+   10.29:1 on cream), which completes the §4.5 input-focus recipe.
+   Nothing further to add — documented here so the pattern's home is
+   findable. */
 
 /* ════════════════════════════════════════════════════════════════════
    r128 F6 · INNER-PAGE ln-PATTERN BRIDGE (A4 §6 secondary-pages wave)
@@ -1301,10 +1134,13 @@
    mono 12px/500, 0.08em tracking (Latin-safe — no Arabic tracking per
    §4 ruling 4; Arabic label words render in the sans run of the mono
    stack), accent ink per the m15 accent-as-text doctrine.
-   r130 (W1-D P1-2): the canonical lime halo ::before (landing P4-18
-   device, landing.css:145-155) ports to the product skin — a 12%-alpha
-   blurred lime ellipse behind the label, so one label device serves
-   every inner page (the glass eyebrow-badge is retired). */
+   r130 (W1-D P1-2): the canonical halo ::before (landing P4-18 device,
+   landing.css:145-155) ports to the product skin — a 12%-alpha
+   blurred ellipse behind the label, so one label device serves every
+   inner page (the glass eyebrow-badge is retired).
+   r131 (A3 D7): the halo hue follows the label's own ink (--label-halo
+   chains --primary-text — gold on night, copper on cream); the
+   landing's lime pairing stays lime, each world in its own hue.) */
 .ln-label {
   display: block;
   position: relative;
@@ -1409,11 +1245,14 @@
 
 /* flat stat cell (landing.css .ln-stat family, product skin) — carries
    the CountUp figure on /about. Mono value, tabular numerals, LTR
-   direction so "+500" reads prefix-first. */
+   direction so "+500" reads prefix-first.
+   r131 (A3 D7): radius rides var(--r-2xl) 20px — sibling parity with
+   the landing .ln-stat (landing.css) and the .ln-card rounded-2xl
+   surfaces it sits beside on /about (was a lone 1rem/16px). */
 .ln-stat {
   background: var(--card);
   border: 1px solid var(--border);
-  border-radius: 1rem;
+  border-radius: var(--r-2xl);
   padding: 1.25rem;
   transition: border-color var(--t-base) var(--ease);
 }
@@ -1439,4 +1278,22 @@
   font-weight: 600;
   overflow-wrap: anywhere;
 }
+
+/* ════════════════════════════════════════════════════════════════
+   r131 (A10 F1/SL-1) · DUAL-VARIANT BRAND WORDMARK
+   ════════════════════════════════════════════════════════════════
+   The family canon is gold-on-night / copper-on-cream; the raster
+   wordmark (public/logo.png) ships a single gold variant that measures
+   1.79:1 on the cream ground. There is no SVG source to recolor via
+   tokens, so the light world gets an alpha-identical copper recolor
+   (public/logo-light.png — same geometry, copper #B57438 ink ≈3.7:1 on
+   cream) selected purely by the theme class. The pre-paint boot script
+   (layout.tsx) guarantees html.light is set before the header parses,
+   so the swap is flash-free; with no JS (no class ever lands) the dark
+   gold variant alone renders — the no-JS contract keeps exactly one
+   visible logo. Both variants keep their alt text: display:none removes
+   the hidden one from the accessibility tree automatically. */
+.logo-light { display: none; }
+.light .logo-light { display: block; }
+.light .logo-dark { display: none; }
 

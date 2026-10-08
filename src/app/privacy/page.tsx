@@ -9,7 +9,11 @@ import { SiteChrome } from "@/components/site-chrome"
 /* r128 F6 (A4 §6, lowest-touch): the ambient blur blob is retired — the
    flat token ground carries the page; the eyebrow badge becomes the
    ln-label mono label; prose tokens stay exactly as shipped (legal
-   pages stay quiet — no new motion). */
+   pages stay quiet — no new motion).
+   r131 (A3 D1/D5): the section H2s now consume the --fs-h2 rung (22px,
+   was raw text-xl 20px — the type-scale root cause) and the prose rides
+   the canonical 15/1.65 body rule (was leading-relaxed 1.625) inside a
+   72ch reading measure (was max-w-3xl 768px ≈ 100+ ch/line). */
 
 export const metadata = pageMetadata({
   /* r10 (SEO audit P2): expanded toward the SERP window + names the
@@ -33,7 +37,7 @@ export default function PrivacyPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
       />
-      <div className="container-base max-w-3xl mx-auto relative">
+      <div className="container-base max-w-[72ch] mx-auto relative">
         {/* r130 (W1-D P1-2): the page head unifies on the canonical
             ln-chapter-head anatomy (label / title, like /about) — was a
             centered text-5xl/6xl 800-weight header. Legal pages stay
@@ -43,17 +47,17 @@ export default function PrivacyPage() {
           <h1 className="ln-page-title">سياسة <em>الخصوصية</em></h1>
         </div>
         <div
-          className="space-y-6 text-muted-foreground leading-relaxed"
+          className="space-y-6 text-muted-foreground"
         >
           <p className="text-sm">آخر تحديث: سبتمبر 2026</p>
 
           <section>
-            <h2 className="text-xl font-bold text-foreground mt-6 mb-2">المقدمة</h2>
+            <h2 className="text-[length:var(--fs-h2)] font-bold text-foreground mt-6 mb-2">المقدمة</h2>
             <p>SmartLink هي منصة رقمية ليبية تقدم حلولاً مبتكرة للأعمال، بما في ذلك المنيو الرقمي للمطاعم (Smart Menu) والبوت الذكي لفيسبوك (SmartBot). نحن ملتزمون بحماية خصوصية مستخدمينا. توضح سياسة الخصوصية هذه كيفية جمع واستخدام وحماية معلوماتك الشخصية عند استخدامك لمنصتنا.</p>
           </section>
 
           <section>
-            <h2 className="text-xl font-bold text-foreground mt-6 mb-2">البيانات التي نجمعها</h2>
+            <h2 className="text-[length:var(--fs-h2)] font-bold text-foreground mt-6 mb-2">البيانات التي نجمعها</h2>
             <p>قد نجمع الأنواع التالية من البيانات:</p>
             <ul className="list-disc ms-5 mt-2 space-y-1">
               <li>الاسم الكامل</li>
@@ -71,7 +75,7 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="text-xl font-bold text-foreground mt-6 mb-2">كيف نستخدم بياناتك</h2>
+            <h2 className="text-[length:var(--fs-h2)] font-bold text-foreground mt-6 mb-2">كيف نستخدم بياناتك</h2>
             <p>نستخدم البيانات التي نجمعها للأغراض التالية:</p>
             <ul className="list-disc ms-5 mt-2 space-y-1">
               <li>تقديم الخدمات وتحسينها (المنيو الرقمي، البوت الذكي)</li>
@@ -83,7 +87,7 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="text-xl font-bold text-foreground mt-6 mb-2">مشاركة البيانات</h2>
+            <h2 className="text-[length:var(--fs-h2)] font-bold text-foreground mt-6 mb-2">مشاركة البيانات</h2>
             <p>نحن لا نشارك معلوماتك الشخصية مع أطراف ثالثة لأغراض تسويقية أو تجارية. قد نشارك بياناتك فقط عند الاقتضاء القانوني، مثل الامتثال لأمر قضائي أو طلب قانوني من السلطات المختصة في ليبيا.</p>
             {/* r11 (E-EC1b — تناقض قانوني): البنود أعلاه كانت تقول «لا
                 مشاركة مع أطراف ثالثة» بينما نموذج التواصل يمرّ فعلياً عبر
@@ -93,12 +97,12 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="text-xl font-bold text-foreground mt-6 mb-2">الاحتفاظ بالبيانات</h2>
+            <h2 className="text-[length:var(--fs-h2)] font-bold text-foreground mt-6 mb-2">الاحتفاظ بالبيانات</h2>
             <p>نحتفظ ببيانات حسابك واستخدامك طوال مدة استخدامك للخدمة ولمدة 12 شهراً إضافية بعد إلغاء حسابك أو توقفك عن استخدام المنصة، وذلك لأغراض قانونية وتشغيلية. بعد هذه المدة، يتم حذف بياناتك بشكل آمن أو إخفاء هويتها. أما رسائل نموذج التواصل فتصل مباشرة إلى بريدنا الإلكتروني، ونحتفظ بها ما دامت لازمة للرد والمتابعة، ويحق لك طلب حذفها في أي وقت بمراسلتنا.</p>
           </section>
 
           <section>
-            <h2 className="text-xl font-bold text-foreground mt-6 mb-2">حقوق المستخدم</h2>
+            <h2 className="text-[length:var(--fs-h2)] font-bold text-foreground mt-6 mb-2">حقوق المستخدم</h2>
             <p>نحن نسعى لتوفير مستوى حماية يتوافق مع المعايير العالمية مثل اللائحة العامة لحماية البيانات (GDPR). تشمل حقوقك:</p>
             <ul className="list-disc ms-5 mt-2 space-y-1">
               <li>حق الوصول إلى بياناتك الشخصية</li>
@@ -110,7 +114,7 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="text-xl font-bold text-foreground mt-6 mb-2">الإجراءات الأمنية</h2>
+            <h2 className="text-[length:var(--fs-h2)] font-bold text-foreground mt-6 mb-2">الإجراءات الأمنية</h2>
             <p>نطبق إجراءات أمنية شاملة لحماية بياناتك، بما في ذلك:</p>
             <ul className="list-disc ms-5 mt-2 space-y-1">
               <li>التشفير في نقل البيانات باستخدام بروتوكول TLS</li>
@@ -121,23 +125,23 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="text-xl font-bold text-foreground mt-6 mb-2">النقل الدولي للبيانات</h2>
+            <h2 className="text-[length:var(--fs-h2)] font-bold text-foreground mt-6 mb-2">النقل الدولي للبيانات</h2>
             <p>بياناتك تُخزن على خوادم آمنة قد تكون موجودة داخل ليبيا أو خارجها. عند نقل بياناتك دولياً، نحرص على تطبيق مستويات حماية مناسبة تضمن سرية وأمان معلوماتك.</p>
           </section>
 
           <section>
-            <h2 className="text-xl font-bold text-foreground mt-6 mb-2">التغييرات على السياسة</h2>
+            <h2 className="text-[length:var(--fs-h2)] font-bold text-foreground mt-6 mb-2">التغييرات على السياسة</h2>
             <p>قد نقوم بتحديث سياسة الخصوصية هذه من وقت لآخر. سنقوم بإشعارك بالتغييرات الجوهرية عبر البريد الإلكتروني أو من خلال المنصة. يُرجى مراجعة هذه الصفحة دورياً للاطلاع على أحدث التحديثات.</p>
           </section>
 
           <section>
-            <h2 className="text-xl font-bold text-foreground mt-6 mb-2">اتصل بنا</h2>
+            <h2 className="text-[length:var(--fs-h2)] font-bold text-foreground mt-6 mb-2">اتصل بنا</h2>
             <p>لأي استفسارات أو مخاوف بخصوص سياسة الخصوصية هذه، يرجى التواصل معنا على:</p>
             <p className="mt-1 font-medium text-foreground">{SITE.email}</p>
           </section>
 
           <section>
-            <h2 className="text-xl font-bold text-foreground mt-6 mb-2">القانون المطبق</h2>
+            <h2 className="text-[length:var(--fs-h2)] font-bold text-foreground mt-6 mb-2">القانون المطبق</h2>
             <p>تخضع سياسة الخصوصية هذه وتُفسر وفقاً لقوانين دولة ليبيا.</p>
           </section>
         </div>

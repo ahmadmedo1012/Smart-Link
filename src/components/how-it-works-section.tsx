@@ -37,7 +37,7 @@ function StepCard({ step, index }: { step: typeof steps[number]; index: number }
           <Icon className="w-8 h-8 text-[var(--primary)]" />
         </div>
         <div
-          className="absolute -top-1.5 -right-1.5 w-7 h-7 rounded-full bg-[var(--primary)] text-white text-xs font-bold flex items-center justify-center"
+          className="absolute -top-1.5 -right-1.5 w-7 h-7 rounded-full bg-[var(--primary)] text-[var(--primary-fg)] text-xs font-bold flex items-center justify-center"
           style={{ boxShadow: "0 0 12px var(--primary)" }}
           aria-hidden="true"
         >

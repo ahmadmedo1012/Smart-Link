@@ -95,7 +95,7 @@ function ServiceCard({ service }: { service: typeof services[number] }) {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={`زيارة الخدمة — ${service.title}، رابط خارجي`}
-                className="group/btn inline-flex items-center gap-2 px-5 py-3.5 rounded-xl bg-[var(--primary)] text-white text-sm font-semibold hover:bg-[var(--accent-hover)] transition-all duration-160 active:scale-[0.97] w-fit"
+                className="group/btn inline-flex items-center gap-2 px-5 py-3.5 rounded-xl bg-[var(--primary)] text-[var(--primary-fg)] text-sm font-semibold hover:bg-[var(--accent-hover)] transition-all duration-160 active:scale-[0.97] w-fit"
               >
                 زيارة الخدمة <ChevronLeft className="w-3.5 h-3.5 transition-transform group-hover/btn:-translate-x-0.5" />
               </a>

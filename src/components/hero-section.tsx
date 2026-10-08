@@ -139,7 +139,7 @@ export function HeroSection() {
           >
             <Link
               href="#services"
-              className="group relative inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-[var(--primary)] hover:bg-[var(--accent-hover)] text-white font-semibold text-sm transition-all duration-240 shadow-glow hover:shadow-glow-strong active:scale-[0.97] overflow-hidden"
+              className="group relative inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-[var(--primary)] hover:bg-[var(--accent-hover)] text-[var(--primary-fg)] font-semibold text-sm transition-all duration-240 shadow-glow hover:shadow-glow-strong active:scale-[0.97] overflow-hidden"
             >
               <span className="relative z-10 flex items-center gap-2">
                 اكتشف خدماتنا <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />

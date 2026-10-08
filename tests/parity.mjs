@@ -55,7 +55,7 @@
  *   accent --accent → --accent-solid (their --accent is the 15% wash twin)
  *   danger --danger → --destructive / --destructive-ink
  */
-import { readFileSync, existsSync } from 'node:fs';
+import { readFileSync, existsSync, readdirSync } from 'node:fs';
 
 const css = readFileSync(new URL('../src/app/styles.css', import.meta.url), 'utf8').replace(
   /\/\*[\s\S]*?\*\//g,
@@ -539,4 +539,20 @@ if (failures.length > 0) {
   for (const f of failures) console.error(`  • ${f}`);
   process.exit(1);
 }
+
+// r126-W3d: on-accent ink consumption gate — the m15 doctrine finally wired.
+// styles.css documents that filled CTAs carry --primary-fg ink because
+// white-on-gold measures 1.89:1 (dark) / 3.8:1 (light). This gate makes the
+// regression class (text-white sneaking back onto a gold fill) impossible.
+{
+  const tssx = readdirSync(new URL('../src', import.meta.url), { recursive: true })
+    .filter((f) => String(f).endsWith('.tsx'))
+    .map((f) => readFileSync(new URL(`../src/${f}`, import.meta.url), 'utf8'))
+    .join('\n');
+  const onAccent = (tssx.match(/text-\[var\(--primary-fg\)\]/g) ?? []).length;
+  check(onAccent >= 13, `--primary-fg must be consumed by >=13 on-accent CTAs (found ${onAccent})`);
+  check(!/bg-(primary|\[var\(--primary\)\])[^"']*text-white/.test(tssx),
+    'no text-white may ride a gold/primary fill — use text-[var(--primary-fg)]');
+}
+
 console.log(`✓ Madarek parity snapshot: ${passed} assertions passed (src/app/styles.css == canonical tokens.css values)`);

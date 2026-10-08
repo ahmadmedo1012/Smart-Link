@@ -90,7 +90,7 @@ function SmartMenuShowcase() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="جرّب المنيو الحي — Smart Menu، رابط خارجي"
-              className="reveal-scroll group inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-[var(--primary)] text-white font-semibold text-sm shadow-glow hover:bg-[var(--accent-hover)] transition-all duration-160 active:scale-[0.97]"
+              className="reveal-scroll group inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-[var(--primary)] text-[var(--primary-fg)] font-semibold text-sm shadow-glow hover:bg-[var(--accent-hover)] transition-all duration-160 active:scale-[0.97]"
             >
               <span className="inline-flex items-center gap-2">
                 جرّب المنيو الحي <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-0.5" aria-hidden="true" />
@@ -134,7 +134,7 @@ function SmartBotShowcase() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="افتح SmartBot — رابط خارجي"
-              className="reveal-scroll group inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-[var(--primary)] text-white font-semibold text-sm shadow-glow hover:bg-[var(--accent-hover)] transition-all duration-160 active:scale-[0.97]"
+              className="reveal-scroll group inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-[var(--primary)] text-[var(--primary-fg)] font-semibold text-sm shadow-glow hover:bg-[var(--accent-hover)] transition-all duration-160 active:scale-[0.97]"
             >
               <span className="inline-flex items-center gap-2">
                 افتح SmartBot <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-0.5" aria-hidden="true" />

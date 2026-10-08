@@ -74,7 +74,7 @@ export function HeroSection() {
       {/* Animated grid pattern — CSS drift (fixed: the old motion.div animated
           a transparent child, so the drift never actually rendered) */}
       <div
-        className="grid-drift absolute inset-0 z-0 pointer-events-none opacity-[0.03]"
+        className="grid-drift absolute inset-0 z-0 pointer-events-none opacity-[0.05]"
         aria-hidden="true"
         style={{
           backgroundImage: `linear-gradient(var(--grid-line) 1px, transparent 1px), linear-gradient(90deg, var(--grid-line) 1px, transparent 1px)`,
@@ -114,7 +114,10 @@ export function HeroSection() {
                 ) : i === 1 ? (
                   <span className="text-[var(--foreground)]">{word}</span>
                 ) : (
-                  <span className="text-[var(--muted-foreground)]">{word}</span>
+                  /* r126-VLM: third line rode muted grey — washed out vs the
+                     sand headlines of the sibling apps (VLM 7/10 coherence).
+                     Full foreground weight now; grey stays on the sub-text. */
+                  <span className="text-[var(--foreground)]">{word}</span>
                 )}
               </span>
             ))}

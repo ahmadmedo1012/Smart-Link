@@ -373,9 +373,14 @@ const EASINGS = {
 
 const THEME_FONTS = {
   '--font-sans': '"IBM Plex Sans Arabic", "Tajawal", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif',
-  '--font-heading': '"IBM Plex Sans Arabic", "Tajawal", system-ui, sans-serif',
+  // r129 (A10): --font-heading = the canonical --font-display stack
+  // (Madarek tokens.css:49) — the never-loaded Tajawal entry is gone;
+  // --font-mono = the canonical pure stack (tokens.css:51) — the
+  // Arabic-capable chains now live at their consumers (landing --ln-mono
+  // + the secondary-page .ln-mono/.ln-label/.ln-stat-value rules).
+  '--font-heading': '"IBM Plex Sans Arabic", system-ui, sans-serif',
   '--font-serif': '"IBM Plex Serif", Georgia, serif',
-  '--font-mono': '"IBM Plex Mono", "IBM Plex Sans Arabic", ui-monospace, "SFMono-Regular", monospace',
+  '--font-mono': '"IBM Plex Mono", ui-monospace, "SFMono-Regular", monospace',
 };
 const THEME_RADIUS = {
   // r127-F6: --radius-xs joins the bridge (was runtime --r-xs only —
@@ -622,7 +627,7 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
     '--ln-violet-deep': '#4E2FB8',
     '--ln-line':        'rgba(245, 243, 231, 0.14)',
     '--ln-line-soft':   'rgba(245, 243, 231, 0.07)',
-    '--ln-grain-op':    '0.05',
+    '--ln-grain-op':    '0.075', /* r129: canonical landing-local P3-22 lift (Madarek landing.css:58) — ruling adopted over PORT-KIT R7's 0.05 */
     '--ln-radius-pill': 'var(--r-full)',
     '--ln-h1':          'clamp(2.75rem, 8.2vw, 6.75rem)',
     '--ln-dur-marquee': '42s',
@@ -742,6 +747,290 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
       'negative control: a drifted --ln-ink value FAILS the landing pin'
     );
     failures.length = before;
+  }
+}
+
+// ── r129 F1 · canonical differential fixes (audits/r129/smartlink- ──────────
+//    differential.md §6 pins 1-24 + the OrbitScene port-triplet pins + the
+//    token-matrix fixes + the ruling-gated items ruled CANONICAL). Every
+//    r129 fix is pinned here: the micro-depth family, the P4-10 measures,
+//    the compact header CTA, the 1080 burger, the skip link + universal
+//    focus ring, the constellation anatomy (6 rings / 8px pins / cream
+//    0.65 idle / resting cycle / browse strip), the OrbitScene canvas
+//    port (palette triplets, rad/ms omegas, DPR cap, intro key), and the
+//    styles.css token additions (gold family, --ease-spring-snappy,
+//    --hover-lift, canonical font stacks).
+{
+  const lcss = readFileSync(new URL('../src/app/landing.css', import.meta.url), 'utf8')
+    .replace(/\/\*[\s\S]*?\*\//g, ' ');
+  const read = (p) => readFileSync(new URL(`../src/components/landing/${p}`, import.meta.url), 'utf8');
+  const pageSrc = readFileSync(new URL('../src/app/page.tsx', import.meta.url), 'utf8');
+  const productsSrc = read('ProductsSection.tsx');
+  const rolesSrc = read('RolesSection.tsx');
+  const progressSrc = read('ProgressSection.tsx');
+  const platformsSrc = read('PlatformsSection.tsx');
+  const finaleSrc = read('FinaleCta.tsx');
+  const faqSrc = read('LandingFaq.tsx');
+  const footerSrc = read('LandingFooter.tsx');
+  const orbitSrc = read('OrbitScene.tsx');
+  const lrm129 = allTopLevelBlocks(lcss, '@media (prefers-reduced-motion: reduce)').join('\n');
+
+  // A ── P4-18 label halo + the resting micro-depth family (P3-28..35).
+  check(
+    /radial-gradient\(ellipse at center, var\(--ln-lime\) 0%, transparent 70%\)/.test(topLevelBlock(lcss, '.landing .ln-label::before')),
+    'landing .ln-label::before: lime halo radial (P4-18)'
+  );
+  check(
+    allTopLevelBlocks(lcss, '.landing .ln-label').some((b) => /position:\s*relative/.test(b)),
+    'landing .ln-label: position relative (P4-18 halo anchor)'
+  );
+  check(
+    /box-shadow:\s*0 1px 2px rgba\(0,\s*0,\s*0,\s*0\.06\)/.test(topLevelBlock(lcss, '.landing .ln-station-card'))
+      || allTopLevelBlocks(lcss, '.landing .ln-station-card').some((b) => /box-shadow:\s*0 1px 2px rgba\(0,\s*0,\s*0,\s*0\.06\)/.test(b)),
+    'landing .ln-station-card: resting shadow 0 1px 2px rgba(0,0,0,0.06) (P3-28)'
+  );
+  check(
+    /box-shadow:\s*0 1px 2px rgba\(0,\s*0,\s*0,\s*0\.06\)/.test(topLevelBlock(lcss, '.landing .ln-stat')),
+    'landing .ln-stat: resting shadow 0 1px 2px rgba(0,0,0,0.06) (P3-30)'
+  );
+  check(
+    /inset 0 1px 0 rgba\(245,\s*243,\s*231,\s*0\.04\)/.test(topLevelBlock(lcss, '.landing .ln-progress-visual')),
+    'landing .ln-progress-visual: inset top-light (P3-29)'
+  );
+  check(
+    /box-shadow:\s*0 1px 2px rgba\(0,\s*0,\s*0,\s*0\.06\)/.test(topLevelBlock(lcss, '.landing .ln-role-row:hover')),
+    'landing .ln-role-row:hover: shadow 0 1px 2px rgba(0,0,0,0.06) (P3-35)'
+  );
+
+  // B ── P4-10 effective measures.
+  check(
+    /max-inline-size:\s*20ch/.test(topLevelBlock(lcss, '.landing .ln-hero-title')),
+    'landing .ln-hero-title: max-inline-size 20ch (P4-10)'
+  );
+  check(
+    /max-inline-size:\s*72ch/.test(topLevelBlock(lcss, '.landing .ln-hero-sub')),
+    'landing .ln-hero-sub: max-inline-size 72ch (P4-10)'
+  );
+  check(
+    /max-inline-size:\s*72ch/.test(topLevelBlock(lcss, '.landing .ln-chapter-lede')),
+    'landing .ln-chapter-lede: max-inline-size 72ch (P4-10)'
+  );
+  check(
+    /max-inline-size:\s*72ch/.test(topLevelBlock(lcss, '.landing .ln-cta-lede')),
+    'landing .ln-cta-lede: max-inline-size 72ch (P4-10)'
+  );
+
+  // C ── burger breakpoint 1080 + the 1081 guard (P0-10).
+  check(
+    lcss.includes('@media (max-width: 1080px)') && !/max-width:\s*1024px[^@]*landing-nav-links/.test(lcss),
+    'landing burger breakpoint: 1080px (canonical), not 1024px'
+  );
+  check(
+    lcss.includes('@media (min-width: 1081px)'),
+    'landing burger guard: min-width 1081px hides the mobile menu'
+  );
+
+  // D ── the compact header CTA pair (P0-1, ruling): 44px / 12px /
+  //     --ln-line ghost / flat lime, non-magnetic, no sheen.
+  check(
+    /min-block-size:\s*44px/.test(topLevelBlock(lcss, '.landing .landing-header-cta .ln-btn-ghost'))
+      && /font-size:\s*12px/.test(topLevelBlock(lcss, '.landing .landing-header-cta .ln-btn-ghost'))
+      && /border-color:\s*var\(--ln-line\)/.test(topLevelBlock(lcss, '.landing .landing-header-cta .ln-btn-ghost')),
+    'landing header CTA ghost: 44px / 12px / --ln-line hairline (canonical compact re-skin)'
+  );
+  check(
+    /min-block-size:\s*44px/.test(topLevelBlock(lcss, '.landing .landing-header-cta .ln-btn-gold'))
+      && /font-size:\s*12px/.test(topLevelBlock(lcss, '.landing .landing-header-cta .ln-btn-gold'))
+      && /transform:\s*none/.test(topLevelBlock(lcss, '.landing .landing-header-cta .ln-btn-gold')),
+    'landing header CTA primary: 44px / 12px / flat (no magnetic translate)'
+  );
+  check(
+    /\.landing-header-cta \.ln-btn-gold::after\s*\{[^}]*display:\s*none/.test(lcss),
+    'landing header CTA primary: hero sheen ::after disabled'
+  );
+
+  // E ── universal cream focus ring + skip link (P2 rows 18/19).
+  check(
+    /outline:\s*2px solid var\(--ln-cream\)/.test(topLevelBlock(lcss, '.landing :focus-visible'))
+      && /outline-offset:\s*3px/.test(topLevelBlock(lcss, '.landing :focus-visible')),
+    'landing universal focus ring: 2px cream, offset 3px'
+  );
+  const skip = topLevelBlock(lcss, '.landing .ln-skip-link');
+  check(
+    /background:\s*var\(--ln-lime\)/.test(skip) && /z-index:\s*2100/.test(skip),
+    'landing .ln-skip-link: lime pill above the grain veil (z-2100)'
+  );
+  check(
+    /body > a\[href="#main-content"\]\s*\{\s*display:\s*none/.test(lcss),
+    'landing route: the layout global gold skip pill is hidden (canonical lime pill owns the route)'
+  );
+
+  // F ── edge/a11y family: safe-area, RM active, @390, landscape.
+  check(
+    /env\(safe-area-inset-bottom/.test(lcss),
+    'landing .landing-mobile-menu: safe-area padding-block-end (P4-06)'
+  );
+  check(
+    /\.ln-btn-gold:active[^}]*transform:\s*none/.test(lrm129),
+    'landing RM P4-07: :active transforms disabled under prefers-reduced-motion'
+  );
+  check(
+    /@media \(max-width: 390px\)[^@]*\.ln-trust-inner[^}]*font-size:\s*12\.5px/.test(lcss),
+    'landing @390 trust band tightening'
+  );
+  check(
+    lcss.includes('@media (max-height: 560px) and (orientation: landscape)'),
+    'landing landscape-phone hero compression block (P2-14)'
+  );
+
+  // G ── interaction tails: footer underline (P4-13), scroll invite (P4-12).
+  check(
+    /text-underline-offset:\s*4px/.test(topLevelBlock(lcss, '.landing .landing-footer-link:hover')),
+    'landing footer link hover underline (P4-13)'
+  );
+  check(
+    /scaleY\(1\.3\)/.test(topLevelBlock(lcss, '.landing .ln-hero-scroll:hover .ln-hero-scroll-line')),
+    'landing scroll-invite hover scaleY(1.3) (P4-12)'
+  );
+  check(
+    /\.landing-progress\s*\{[^}]*opacity:\s*1\s*!important/.test(lcss),
+    'landing progress ribbon: opacity 1 !important guard (P3-32)'
+  );
+
+  // H ── TSX structural pins (P0-12 / P0-13 / P0-14).
+  check(
+    !/<div>\s*<p className="ln-role-desc"/.test(rolesSrc),
+    'roles rows: desc + quote are direct li children (canonical grid placement — no wrapper div)'
+  );
+  check(
+    /ln-stat-unit/.test(progressSrc),
+    'progress stats ride the canonical .ln-stat-unit span for suffixes'
+  );
+  check(
+    /LibyaFlag size=\{14\}/.test(footerSrc),
+    'landing footer bottom cluster: 14px LibyaFlag glyph (P0-14)'
+  );
+
+  // I ── the products constellation anatomy (P0-11 + P1-4, ruling CANONICAL).
+  check(
+    /DOT_SIZE/.test(productsSrc) && /inlineSize:\s*8/.test(productsSrc),
+    'products constellation dots: 8×8px canonical pins (not 13px)'
+  );
+  check(
+    !/rgba\(245,\s*243,\s*231,\s*0\.45\)/.test(productsSrc),
+    'products constellation idle dots ≥ canonical 0.65 alpha (P2-13)'
+  );
+  check(
+    productsSrc.includes('rgba(245,243,231,0.65)') && !/var\(--ln-lime\)"?,\s*$/.test(productsSrc.split('DOT_REST')[0]),
+    'products constellation: uniform cream 0.65 idle — no permanently-lime dots (one-pop lime roster)'
+  );
+  check(
+    /RING_COUNT = 6/.test(productsSrc) && /RING_STEP = 36/.test(productsSrc) && /RING_BASE = 66/.test(productsSrc),
+    'products constellation: six concentric rings on the 36-unit module (66…246)'
+  );
+  check(
+    /REST_CYCLE_MS = 4000/.test(productsSrc) && /is-resting/.test(productsSrc),
+    'products constellation: ~4s resting-life cycle (is-resting, RM-gated, IO-paused)'
+  );
+  check(
+    /scale\(1\.45\)/.test(topLevelBlock(lcss, '.landing .ln-constellation-dot.is-resting')),
+    'landing .ln-constellation-dot.is-resting: scale 1.45 + flat ring (canonical)'
+  );
+  check(
+    /ln-constellation-browse/.test(productsSrc) && /ln-constellation-cta/.test(productsSrc),
+    'products constellation: registry CTA strip + browse pill (canonical anatomy)'
+  );
+  check(
+    /min-block-size:\s*46px/.test(topLevelBlock(lcss, '.landing .ln-constellation-browse')),
+    'landing .ln-constellation-browse: the canonical 46px ghost pill'
+  );
+  check(
+    /role="status"/.test(productsSrc),
+    'products constellation tip: React-state role=status (canonical, anchored at the node)'
+  );
+
+  // J ── marquee fill (P2-10): ≥15 items so one copy fills ≥2200px.
+  {
+    const block = pageSrc.match(/MARQUEE_ITEMS = \[([\s\S]*?)\]/)?.[1] ?? '';
+    const items = (block.match(/"/g) ?? []).length / 2;
+    check(items >= 15, `landing marquee: ≥15 items so the ×2 track fills ≥2200px viewports (found ${items})`);
+  }
+
+  // K ── chapter labels: canonical sequence (ruling-gated → CANONICAL).
+  check(rolesSrc.includes('04 — المجتمع'), "roles chapter label: '04 — المجتمع' (canonical sequence)");
+  check(finaleSrc.includes('05 — الوصول'), "finale CTA label: '05 — الوصول' (canonical sequence)");
+  check(!platformsSrc.includes('className="ln-label"'), 'platforms chapter carries NO ln-label (canonical campus is unlabelled)');
+  check(faqSrc.includes('06 — الأسئلة'), 'faq label follows the canonical sequence (06)');
+
+  // L ── main landmark: focusable skip target (P0-28).
+  check(
+    /tabIndex=\{-1\}/.test(pageSrc) && /id="main"/.test(pageSrc),
+    'landing main: id="main" + tabIndex -1 (focusable skip target)'
+  );
+
+  // M ── the OrbitScene canvas port — palette triplets + engine constants.
+  check(orbitSrc.includes('245,243,231'), 'OrbitScene: cream triplet 245,243,231 hardcoded (canvas cannot read CSS vars)');
+  check(orbitSrc.includes('223,237,178'), 'OrbitScene: lime triplet 223,237,178 hardcoded');
+  check(orbitSrc.includes('122,107,242'), 'OrbitScene: violet triplet 122,107,242 hardcoded');
+  check(orbitSrc.includes('0.00016'), 'OrbitScene: omega in rad/ms (0.00016 inner ring — never rescaled)');
+  check(/biasX/.test(orbitSrc) && pageSrc.includes('biasX={-0.35}'), 'OrbitScene: biasX prop + hero mount biasX={-0.35} (RTL physical sign)');
+  check(orbitSrc.includes('smartlink.intro.seen'), "OrbitScene: per-product sessionStorage intro key 'smartlink.intro.seen'");
+  check(
+    /Math\.min\(window\.devicePixelRatio \|\| 1, 1\.5\)/.test(orbitSrc),
+    'OrbitScene: DPR hard cap 1.5 (retina paints ≤2.25× CSS px)'
+  );
+  check(orbitSrc.includes('TRAIL_MAX = 16'), 'OrbitScene: TRAIL_MAX 16 ring buffer (visual diet)');
+  check(orbitSrc.includes("'80px 0px'"), "OrbitScene: IntersectionObserver rootMargin '80px 0px' (offscreen pause)");
+  check(orbitSrc.includes('prefers-reduced-motion: reduce') && orbitSrc.includes('drawStatic'), 'OrbitScene: reduced-motion → single drawStatic() composed frame');
+  check(
+    !existsSync(new URL('../src/components/landing/HeroOrbits.tsx', import.meta.url)) && !pageSrc.includes('HeroOrbits'),
+    'the flat HeroOrbits SVG is retired from the render path (file deleted, no references)'
+  );
+
+  // N ── the OrbitScene CSS contract (entrance, dim, calm, RM off-switch).
+  check(
+    /animation:\s*ln-scene-in var\(--ln-t-slow\) var\(--ln-ease-out\) var\(--ln-t-fast\) forwards/.test(topLevelBlock(lcss, '.landing .ln-hero-canvas')),
+    'landing .ln-hero-canvas: 380ms entrance + 160ms delay (ln-scene-in, forwards)'
+  );
+  check(
+    /\.ln-hero-canvas\s*\{[^}]*--ln-canvas-op:\s*0\.35;\s*animation-name:\s*ln-scene-in-dim/.test(lcss),
+    'landing ≤768px canvas dim: --ln-canvas-op 0.35 + ln-scene-in-dim (decorative recedes, text wins)'
+  );
+  check(
+    /\[data-intro-seen='true'\] \.ln-hero-canvas\s*\{[^}]*animation-duration:\s*var\(--ln-t-fast\)/.test(lcss),
+    'landing returning-visitor calm: [data-intro-seen] canvas entrance snaps to t-fast, no delay'
+  );
+  check(
+    /\.ln-hero-canvas\s*\{[^}]*animation:\s*none/.test(lrm129),
+    'landing RM off-switch: .ln-hero-canvas animation none under reduced motion'
+  );
+
+  // O ── token fixes (token-matrix SL rows): the canonical gold family,
+  //     --brand-purple, --ease-spring-snappy, --hover-lift — plus the
+  //     canonical font stacks (pinned via THEME_FONTS above) and the
+  //     landing-local Arabic-capable --ln-mono chain.
+  pin(dark, 'dark', '--gold', '#E9B44C');
+  pin(light, 'light', '--gold', '#D6A330');
+  pin(dark, 'dark', '--gold-ink', '#ECC97D');
+  pin(light, 'light', '--gold-ink', '#6B4C0B');
+  pin(dark, 'dark', '--gold-soft', '#2C2410');
+  pin(light, 'light', '--gold-soft', '#FCF1CD');
+  pin(dark, 'dark', '--brand-purple', '#B7A0F4');
+  pin(light, 'light', '--brand-purple', '#8A6FE0');
+  pin(dark, 'dark', '--hover-lift', '-1px');
+  pin(light, 'light', '--hover-lift', '-1px');
+  pin(dark, 'dark', '--hover-lift-lg', '-3px');
+  pin(light, 'light', '--hover-lift-lg', '-3px');
+  pin(dark, 'dark', '--ease-spring-snappy', 'cubic-bezier(0.5, 1.6, 0.4, 1)');
+  pin(light, 'light', '--ease-spring-snappy', 'cubic-bezier(0.5, 1.6, 0.4, 1)');
+  pin(dark, 'dark', '--ring', '#C9962F'); // r129 ruling: the strong gold STAYS
+  {
+    const landingScope129 = Object.assign(
+      {},
+      ...allTopLevelBlocks(lcss, '.landing').map(parseDecls)
+    );
+    pin(landingScope129, 'landing', '--ln-mono', "'IBM Plex Mono', 'IBM Plex Sans Arabic', ui-monospace, monospace");
+    pin(landingScope129, 'landing', '--ln-grain-op', '0.075');
   }
 }
 

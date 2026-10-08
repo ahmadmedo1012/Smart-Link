@@ -1,8 +1,11 @@
 import { MessageCircle, Bot, QrCode, Link2 } from "lucide-react"
 import { RevealCssClass } from "@/hooks/useReveal"
 
-/* r128 Stage B (F2b) — Chapter 04 «المنصّات»: the ground plate
- * (campus→platforms per PORT-KIT §6). Smart-Link's ground is not a
+/* r129 — Chapter (unnumbered) «المنصّات»: the ground plate (campus→
+ * platforms per PORT-KIT §6). r129 ruling: the canonical campus chapter
+ * carries NO ln-label, so this one doesn't either — the sequence stays
+ * 01 الاكتشاف · 02 الربط · 03 التقدّم · (platforms unlabelled) ·
+ * 04 المجتمع · 05 الوصول (+ 06 الأسئلة). Smart-Link's ground is not a
  * campus photo (no new image binaries; the flat grammar needs none) —
  * it is the channel world the products live on. Flat ink-2 band,
  * hairline cells, tone-coded wells. Every cell traces to shipped copy:
@@ -36,7 +39,9 @@ export function PlatformsSection() {
   return (
     <section id="platforms" className="ln-chapter ln-platforms">
       <div className="ln-chapter-head">
-        <span className="ln-label">{"04 — المنصّات"}</span>
+        {/* r129: NO ln-label — the canonical campus chapter is unlabelled
+            (ruling: adopt canonical). Title + lede stay: the channel
+            cells need their headline. */}
         <RevealCssClass as="h2" className="ln-chapter-title" delay={1}>
           أينما كان <em>جمهورك</em>
         </RevealCssClass>

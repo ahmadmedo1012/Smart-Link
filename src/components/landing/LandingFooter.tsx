@@ -1,11 +1,13 @@
 import Link from "next/link"
 import { SITE } from "@/lib/site"
+import { LibyaFlag } from "@/components/landing/LibyaFlag"
 
-/* r128 Stage B (F2b) — the landing footer (canonical landing.css:1486
- * ground-plate family). Flat ink-2 plate, hairline seam, four columns of
- * REAL destinations only: journey anchors, the two live products, the
+/* r129 — the landing footer (canonical landing.css:1486 ground-plate
+ * family). Flat ink-2 plate, hairline seam, four columns of REAL
+ * destinations only: journey anchors, the two live products, the
  * site's own pages and legal routes. Bottom bar signs with the brand +
- * year (Madarek signs with its university; SmartLink signs with itself). */
+ * year + the canonical 14px LibyaFlag glyph (r129 P0-14: Madarek
+ * LandingPage.tsx:772-774 — «صُنع في ليبيا» rode text only). */
 
 export function LandingFooter() {
   const year = new Date().getFullYear()
@@ -67,7 +69,9 @@ export function LandingFooter() {
         </div>
         <div className="landing-footer-bottom">
           <span>© {year} SmartLink</span>
-          <span className="ln-footer-cluster">صُنع في ليبيا</span>
+          <span className="ln-footer-cluster">
+            <LibyaFlag size={14} /> صُنع في ليبيا
+          </span>
         </div>
       </div>
     </footer>

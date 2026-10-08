@@ -18,7 +18,9 @@ import { SITE } from "@/lib/site"
      rules read it there);
    · megamenu with tone-coded icon wells (Escape + onBlur close, focus
      return to the trigger);
-   · burger + mobile drawer ≤1024px.
+   · burger + mobile drawer ≤1080px (r129 P0-10: the canonical
+     breakpoint — was 1024; the 1025–1080px band now folds into the
+     drawer like the canonical header).
    The product MainNav keeps serving every non-landing surface. */
 
 const SPY_SECTIONS = "#trust, #products, #journey, #progress, #platforms, #roles"

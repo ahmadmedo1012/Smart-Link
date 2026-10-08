@@ -7,7 +7,9 @@
    The page stays a SERVER component — the h1 and hero sub render inline
    (instant-paint LCP doctrine, r8/r9); client islands are exactly:
    LandingHeader (chrome/spy/menus), HeroDepthLayer (parallax),
-   MagneticGoldLink (CTA pull), JourneySection (light path + --sp),
+   OrbitScene (r129: the REAL canvas engine replaces the retired flat
+   SVG orbit chart), MagneticGoldLink (CTA pull), JourneySection (light
+   path + --sp), ProductsSection (r129: resting-life constellation),
    ProgressSection (--sp + CountUp), and the RevealCssClass observers. */
 import "./landing.css"
 import { Fragment } from "react"
@@ -17,7 +19,7 @@ import { CountUp } from "@/components/ui/CountUp"
 import { SITE } from "@/lib/site"
 import { LandingHeader } from "@/components/landing/LandingHeader"
 import { HeroDepthLayer } from "@/components/landing/HeroDepthLayer"
-import { HeroOrbits } from "@/components/landing/HeroOrbits"
+import { OrbitScene } from "@/components/landing/OrbitScene"
 import { MagneticGoldLink } from "@/components/landing/MagneticGoldLink"
 import { LandingMarquee } from "@/components/landing/LandingMarquee"
 import { ProductsSection } from "@/components/landing/ProductsSection"
@@ -31,7 +33,11 @@ import { LandingFooter } from "@/components/landing/LandingFooter"
 
 /* Marquee vocabulary — the real product/service names from the services
    registry (two live products + their shipped feature list), ×2 by the
-   marquee kit for the seamless 42s RTL loop. */
+   marquee kit for the seamless 42s RTL loop. r129 (P2-10): grown to 15
+   entries so ONE copy (≈2.7–3.2k px) still fills ≥2200px viewports —
+   the seam math assumes copy-1 ≥ viewport. The three additions are the
+   platform's own published claims (one account, Arabic-first, 24/7
+   WhatsApp support). */
 const MARQUEE_ITEMS = [
   "Smart Menu",
   "المنيو الرقمي للمطاعم",
@@ -45,6 +51,9 @@ const MARQUEE_ITEMS = [
   "تصنيف النوايا",
   "بث جماعي",
   "إدارة الصفحات",
+  "حساب واحد لكل الخدمات",
+  "واجهة عربية بالكامل",
+  "دعم واتساب 24/7",
 ]
 
 /* Trust band — the four REAL platform figures (the values every surface
@@ -59,16 +68,25 @@ const TRUST_STATS = [
 export default function Home() {
   return (
     <div className="landing">
+      {/* r129 P2-2 (canonical P3-24): the landing's own skip link — lime
+          pill, centered, ABOVE the grain veil (z-2100). First Tab stop;
+          the layout's global gold pill is hidden on this route. */}
+      <a href="#main" className="ln-skip-link">تخطَّ إلى المحتوى</a>
+
       <LandingHeader />
 
-      <main id="main-content">
+      {/* r129 P0-28: id="main" + tabIndex — the canonical skip-target
+          anatomy (LandingPage.tsx:340); the attribute makes programmatic
+          focus land cleanly after the skip. */}
+      <main id="main" tabIndex={-1}>
         {/* ═══ الفصل ٠ — المدار: the hero sky ═══ */}
         <section className="ln-hero" aria-label="SmartLink — منصّة الروابط الذكية">
-          {/* living sky: starfield depth plane + the products' orbit chart
-              (flat SVG grammar — thin 1px cream/lime lines, nodes, horizon) */}
+          {/* living sky: starfield depth plane + the REAL OrbitScene
+              canvas engine (r129 port of Madarek's OrbitScene.tsx —
+              fails safe to the CSS sky gradients below it) */}
           <div className="ln-hero-sky" aria-hidden="true">
             <HeroDepthLayer />
-            <HeroOrbits className="ln-hero-canvas" />
+            <OrbitScene className="ln-hero-canvas" biasX={-0.35} />
           </div>
 
           <div className="ln-hero-content">

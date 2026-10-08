@@ -1,14 +1,20 @@
 import { Store, Bot } from "lucide-react"
 import { RevealCssClass } from "@/hooks/useReveal"
 
-/* r128 Stage B (F2b) — Chapter 05 «المجتمع»: the roles ledger
- * (canonical LandingPage.tsx:616-676 anatomy, PORT-KIT §6 mapping:
- * Link = creator/business). Smart-Link's two real audience segments —
- * restaurant owners (Smart Menu) and Facebook page owners (SmartBot).
- * Desc + quote fold shipped copy from the services/showcase sections;
- * the canonical wider-system trio is intentionally dropped: the
- * coming-soon services already live in the products constellation
- * (repeating them here would violate the ×5-repetition lesson). */
+/* r129 — Chapter 04 «المجتمع» (canonical numbering — the platforms
+ * chapter now rides unlabelled like the canonical campus): the roles
+ * ledger (canonical LandingPage.tsx:616-676 anatomy, PORT-KIT §6
+ * mapping: Link = creator/business). Smart-Link's two real audience
+ * segments — restaurant owners (Smart Menu) and Facebook page owners
+ * (SmartBot). Desc + quote fold shipped copy from the
+ * services/showcase sections; the canonical wider-system trio is
+ * intentionally dropped: the coming-soon services already live in the
+ * products constellation (repeating them here would violate the
+ * ×5-repetition lesson).
+ * r129 P0-12: desc-p + blockquote are DIRECT li children (canonical
+ * structure) — the old <div> wrapper put the quote in column 2 under
+ * the desc; auto-placement now lands it in column 1 under the role
+ * key, matching the canonical desktop layout of every row. */
 
 const ROLES = [
   {
@@ -27,7 +33,7 @@ export function RolesSection() {
   return (
     <section id="roles" className="ln-chapter ln-roles">
       <div className="ln-chapter-head">
-        <span className="ln-label">{"05 — المجتمع"}</span>
+        <span className="ln-label">{"04 — المجتمع"}</span>
         <RevealCssClass as="h2" className="ln-chapter-title" delay={1}>
           جمهوران <em>وتجربة واحدة</em>
         </RevealCssClass>
@@ -46,13 +52,13 @@ export function RolesSection() {
               <span className="ln-role-name">{r.name}</span>
               <span className="ln-role-index ln-mono">{r.index}</span>
             </span>
-            <div>
-              <p className="ln-role-desc">{r.desc}</p>
-              <blockquote className="ln-role-quote">
-                <span className="ln-role-quote-mark" aria-hidden="true">”</span>
-                {r.quote}
-              </blockquote>
-            </div>
+            {/* r129 P0-12: three direct grid children — key / desc / quote
+                (canonical); the quote auto-places into column 1. */}
+            <p className="ln-role-desc">{r.desc}</p>
+            <blockquote className="ln-role-quote">
+              <span className="ln-role-quote-mark" aria-hidden="true">”</span>
+              {r.quote}
+            </blockquote>
           </RevealCssClass>
         ))}
       </ul>

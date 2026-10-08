@@ -4,10 +4,11 @@ import { RevealCssClass } from "@/hooks/useReveal"
 import { MagneticGoldLink } from "@/components/landing/MagneticGoldLink"
 import { SITE } from "@/lib/site"
 
-/* r128 Stage B (F2b) — Chapter 06 «الوصول»: the starting point
- * (canonical LandingPage.tsx:698-727 anatomy). Converging orbit rings,
- * magnetic gold CTA (useMagnetic(7)) + ghost. Copy folds the home's
- * shipped CTA section (أكثر من 500 عميل… / ابدأ التجربة / تواصل معنا). */
+/* r129 — Chapter 05 «الوصول» (canonical numbering — was 06 before the
+ * platforms chapter went unlabelled): the starting point (canonical
+ * LandingPage.tsx:698-727 anatomy). Converging orbit rings, magnetic
+ * gold CTA (useMagnetic(7)) + ghost. Copy folds the home's shipped CTA
+ * section (أكثر من 500 عميل… / ابدأ التجربة / تواصل معنا). */
 
 export function FinaleCta() {
   const year = new Date().getFullYear()
@@ -21,7 +22,7 @@ export function FinaleCta() {
         <span className="ln-cta-orbit o2" />
       </div>
       <div className="ln-cta-inner">
-        <span className="ln-label">{"06 — الوصول · ACCESS"}</span>
+        <span className="ln-label">{"05 — الوصول · ACCESS"}</span>
         <RevealCssClass as="h2" className="ln-cta-title" delay={1}>
           رابطك الأول <em>يبدأ من هنا</em>
         </RevealCssClass>

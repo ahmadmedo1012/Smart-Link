@@ -49,11 +49,12 @@
  * (was 2: smooth/spring), so a renamed curve or a reverted Tailwind
  * override can no longer pass.
  *
- * r127-F6 (A6 drift wave): (1) the WRONG dark-ring pin is corrected —
- *   --ring dark is now #C9962F (canonical cascade: dark
- *   --state-focus-ring-color → --accent-strong; fleet-convergent with
- *   Smart-Menu/Bot/Order), was the off-canonical #E9B44C that made
- *   convergence impossible without a test change; (2) the
+ * r130 ruling (supersedes r127-F6/r129): the dark-ring question was
+ *   re-adjudicated against madarek tokens.css DIRECTLY — dark
+ *   --state-focus-ring-color: var(--accent) → #E9B44C (gold, NOT
+ *   strong-gold; --accent-strong is only the LIGHT-side resolver via
+ *   --c-copper-deep #5C3416). All 5 repos now converge on
+ *   dark #E9B44C / light #5C3416. (2) the
  *   prefers-reduced-motion TOKEN-zeroing layer (:root --t-* → 0ms,
  *   canonical layer 1 — the belt was already there) + the belt itself
  *   are pinned; (3) the @theme --radius-xs 6px bridge joins
@@ -274,10 +275,10 @@ const BRIDGE_DARK = {
   '--primary': '#E9B44C', // Madarek --accent dark (gold)
   '--primary-text': '#E9B44C', // Madarek --accent-ink dark (10.3:1 as text)
   '--primary-fg': '#05070F', // Madarek --accent-fg dark (text ON gold)
-  // r127-F6: corrected pin — canonical cascade resolves dark
-  // --state-focus-ring-color → --accent-strong (7.38:1 on night);
-  // the old #E9B44C pin enshrined the one fleet outlier as "canonical".
-  '--ring': '#C9962F',
+  // r130: re-adjudicated vs madarek tokens.css:233 — dark ring resolves
+  // through var(--accent) = #E9B44C (gold). The r127/r129 "#C9962F
+  // cascade" reading conflated the LIGHT-side --accent-strong path.
+  '--ring': '#E9B44C',
   '--accent': 'rgb(233 180 76 / 0.15)', // translucent wash semantics
   '--input-border': 'color-mix(in oklab, #C3C8DC 70%, #0D1428)', // resolved r13 3:1 border recipe
 };
@@ -1023,7 +1024,7 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
   pin(light, 'light', '--hover-lift-lg', '-3px');
   pin(dark, 'dark', '--ease-spring-snappy', 'cubic-bezier(0.5, 1.6, 0.4, 1)');
   pin(light, 'light', '--ease-spring-snappy', 'cubic-bezier(0.5, 1.6, 0.4, 1)');
-  pin(dark, 'dark', '--ring', '#C9962F'); // r129 ruling: the strong gold STAYS
+  pin(dark, 'dark', '--ring', '#E9B44C'); // r130 ruling: gold, per madarek tokens.css:233 cascade
   {
     const landingScope129 = Object.assign(
       {},
@@ -1055,6 +1056,113 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
     `on-accent ink doctrine: >=9 --primary-fg CTAs on product surfaces and >=3 ln-btn-gold pills on the landing (found ${onAccent} + ${landingGold})`);
   check(!/bg-(primary|\[var\(--primary\)\])[^"']*text-white/.test(tssx),
     'no text-white may ride a gold/primary fill — use text-[var(--primary-fg)]');
+}
+
+// ── r130 W2-6 · canonical differential pins ──────────────────────────────────
+// Round-130 Wave-2 additions (audit W1-D + W1-G + W1-H smart-link rows).
+// Headline lesson: the 404 value pins could not catch a MISSING RULE —
+// the ≤560px constellation-CTA stacking defect (W1-D P1-1) survived four
+// rounds because no pin asserted rule PRESENCE inside the media block.
+// These pins are rule-presence (regex against the media block), token-
+// presence (pin values), and negative TSX sweeps.
+{
+  const lcss130 = readFileSync(new URL('../src/app/landing.css', import.meta.url), 'utf8')
+    .replace(/\/\*[\s\S]*?\*\//g, ' ');
+
+  // A ── rule-presence: the two ≤560px constellation-CTA stacking rules
+  //     (canonical landing.css:1708-1709, ported r130 W1-D P1-1).
+  const block560 = allTopLevelBlocks(lcss130, '@media (max-width: 560px)').join('\n');
+  check(
+    /\.ln-constellation-cta\s*\{[^}]*flex-direction:\s*column[^}]*align-items:\s*stretch[^}]*text-align:\s*center/.test(block560),
+    '560px rule presence: .ln-constellation-cta { flex-direction: column; align-items: stretch; text-align: center }'
+  );
+  check(
+    /\.ln-constellation-browse\s*\{[^}]*justify-content:\s*center/.test(block560),
+    '560px rule presence: .ln-constellation-browse { justify-content: center }'
+  );
+
+  // B ── the --motion-duration semantic layer (W1-G SL-P1-1): ladder
+  //     aliases + the four semantic durations + the six ambient bands.
+  //     pin() resolves the var() ladder aliases to their raw values.
+  pinAll(dark, 'dark', {
+    '--motion-duration-micro': '80ms',
+    '--motion-duration-short': '160ms',
+    '--motion-duration-medium': '240ms',
+    '--motion-duration-long': '380ms',
+    '--motion-duration-page': '320ms',
+    '--motion-duration-reveal': '360ms',
+    '--motion-duration-stat': '700ms',
+    '--motion-duration-skeleton': '1200ms',
+    '--motion-duration-ambient-pulse': '1.6s',
+    '--motion-duration-ambient': '2.4s',
+    '--motion-duration-ambient-slow': '3.6s',
+    '--motion-duration-ambient-drift': '6s',
+    '--motion-duration-ambient-cinema': '9s',
+    '--motion-duration-ambient-scene': '22s',
+  });
+  // the raw ambient loops bind bands (no raw 2s/3s/4s/20s survivors)
+  check(
+    /nav-shimmer\s+var\(--motion-duration-ambient\)/.test(css)
+      && /blob-pulse\s+var\(--motion-duration-ambient-slow\)/.test(css)
+      && /float-icon\s+var\(--motion-duration-ambient-drift\)/.test(css)
+      && /grid-drift\s+var\(--motion-duration-ambient-scene\)/.test(css),
+    'ambient loops: nav-shimmer/blob-pulse/float-icon/grid-drift bind --motion-duration-ambient* bands'
+  );
+  // the RM belt resets DELAYS (W1-G F-5 / SL-P2-3, canonical base.css:317/320)
+  {
+    const rm130 = allTopLevelBlocks(css, '@media (prefers-reduced-motion: reduce)').join('\n');
+    check(
+      /animation-delay:\s*0s\s*!important/.test(rm130) && /transition-delay:\s*0s\s*!important/.test(rm130),
+      'RM belt resets animation-delay + transition-delay to 0s !important'
+    );
+  }
+
+  // C ── muted text tiers (W1-H SL-1): --text-muted/--text-faint both
+  //     themes + the ::placeholder faint tier.
+  pin(dark, 'dark', '--text-muted', '#8E97B8');
+  pin(dark, 'dark', '--text-faint', '#7A83A0');
+  pin(light, 'light', '--text-muted', '#6E6C65');
+  pin(light, 'light', '--text-faint', '#74706A');
+  check(
+    /::placeholder\s*\{[^}]*color:\s*var\(--text-faint\)[^}]*opacity:\s*1/.test(css),
+    'placeholder tier: ::placeholder { color: var(--text-faint); opacity: 1 } (canonical base.css:144-146)'
+  );
+
+  // D ── display-scale tokens support the unified page heads (W1-D §1):
+  //     --fs-display-lg drives .ln-page-title; --sp-* ladder present.
+  pin(dark, 'dark', '--fs-display-lg', 'clamp(34px, 4.8vw, 56px)');
+  pin(dark, 'dark', '--fs-h2', '22px');
+  pin(dark, 'dark', '--sp-4', '16px');
+  check(
+    /\.ln-page-title\s*\{[^}]*font-size:\s*var\(--fs-display-lg\)[^}]*font-weight:\s*700/.test(css),
+    'ln-page-title: rides --fs-display-lg at weight 700 (Plex has no 800 cut)'
+  );
+
+  // E ── canonical reveal family (W1-D P2-11): 14px transition + 80ms
+  //     steps + IO-gated .in-view — the on-load 24px/120ms animation is
+  //     retired (keyframes stay for the scroll-driven family).
+  check(
+    /\.reveal-up\s*\{[^}]*translateY\(14px\)[^}]*transition:/.test(css)
+      && /\.reveal-up\.in-view\s*\{[^}]*opacity:\s*1/.test(css)
+      && /\.reveal-d-1\.in-view\s*\{[^}]*transition-delay:\s*80ms/.test(css),
+    'reveal family: transition-based 14px / 80ms steps, IO-gated .in-view (canonical polish.css:470-488)'
+  );
+
+  // F ── negative TSX sweeps: hover recipe + weight honesty.
+  {
+    const tssx130 = readdirSync(new URL('../src', import.meta.url), { recursive: true })
+      .filter((f) => String(f).endsWith('.tsx'))
+      .map((f) => readFileSync(new URL(`../src/${f}`, import.meta.url), 'utf8'))
+      .join('\n');
+    check(
+      !/brightness-105/.test(tssx130),
+      'no hover:brightness-105 — the hover recipe is the --accent-hover background shift'
+    );
+    check(
+      !/font-extrabold/.test(tssx130),
+      'no font-extrabold — IBM Plex tops out at 700 (800 asks for a cut that does not exist)'
+    );
+  }
 }
 
 if (failures.length > 0) {

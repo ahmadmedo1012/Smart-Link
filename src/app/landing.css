@@ -518,12 +518,12 @@
 /* ── 0k · reveal family — canonical polish.css:470-488 ───────────────
    The CSS half of the useReveal/RevealCssClass port (§2 of the kit):
    `.in-view` is written by the observer; d1-d5 become transition
-   delays. Scoped .landing, with one required adaptation — the repo's
-   global .reveal-up (styles.css) is an on-load ANIMATION utility; its
-   `both` fill would pin opacity/transform forever and defeat the
-   observer gating. animation:none kills it inside the landing only. */
+   delays. Scoped .landing: the repo-global .reveal-up (styles.css)
+   was converted to this same canonical family in r130 (14px / 80ms
+   transition steps, IO-gated), so this block is now a redundant
+   restatement — kept because the landing world stays self-contained
+   (R4) and immune to any future product-layer drift. */
 .landing .reveal-up {
-  animation: none; /* neutralizes the repo-global auto-play utility */
   opacity: 0;
   transform: translateY(14px);
   transition:
@@ -1786,6 +1786,12 @@
   .landing .ln-hero-actions .ln-btn-ghost,
   .landing .ln-hero-actions .ln-btn-text { inline-size: 100%; }
   .landing .ln-constellation-strip { grid-template-columns: 1fr; }
+  /* r130 (W1-D P1-1): canonical landing.css:1708-1709, verbatim — the
+     registry CTA strip stacks (mono line above, browse pill below,
+     stretched + centered) instead of the wrapped space-between row
+     that squeezed the pill to the inline-start at ≤560px. */
+  .landing .ln-constellation-cta { flex-direction: column; align-items: stretch; text-align: center; }
+  .landing .ln-constellation-browse { justify-content: center; }
   /* GAP-5: 2×2 at 390px was a solid text block — give the numbers room */
   .landing .ln-progress-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--sp-5) var(--sp-3); }
   .landing .ln-stat-value { font-size: 28px; }

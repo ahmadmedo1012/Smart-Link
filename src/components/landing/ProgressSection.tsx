@@ -12,14 +12,16 @@ import { CountUp } from "@/components/ui/CountUp"
  * surface of this site already publishes (hero stats, about, CTA).
  * NEVER Madarek's numbers. */
 
-/* r129 P0-13: the unit glyph rides the canonical .ln-stat-unit span
- * (24px, cream-dim) — canonical anatomy is CountUp number + unit span
- * (LandingPage.tsx:533-551); whole-string stats rendered the unit at
- * the full 40px cream, one size-class louder than canonical. */
+/* r129 P0-13 + r130 (W1-D P2-3): EVERY unit glyph rides the canonical
+ * .ln-stat-unit span (24px, cream-dim) — canonical anatomy is CountUp
+ * number + unit span (LandingPage.tsx:533-551); whole-string stats
+ * rendered the unit at the full 40px cream, one size-class louder than
+ * canonical. r129 fixed only "99.9%"; the K suffixes rode the CountUp
+ * string ("+10K"/"+50K" → the K painted at 40px) until now. */
 const STATS: Array<{ value: string; unit: string; label: string; note: string }> = [
   { value: "+500", unit: "", label: "عميل نشط", note: "يعتمدون على منصّة SmartLink" },
-  { value: "+10K", unit: "", label: "منيو رقمي", note: "عبر خدمة Smart Menu" },
-  { value: "+50K", unit: "", label: "رد آلي", note: "أرسلها SmartBot نيابةً عنهم" },
+  { value: "+10", unit: "K", label: "منيو رقمي", note: "عبر خدمة Smart Menu" },
+  { value: "+50", unit: "K", label: "رد آلي", note: "أرسلها SmartBot نيابةً عنهم" },
   { value: "99.9", unit: "%", label: "جهوزية المنصّة", note: "التزام تشغيلي معلن" },
 ]
 

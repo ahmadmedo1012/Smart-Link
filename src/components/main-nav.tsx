@@ -187,14 +187,18 @@ export function MainNav() {
       className={cn(
         "fixed top-0 left-0 right-0 z-50 transition-[background,backdrop-filter,border-color] duration-240",
         scrolled
-          ? "bg-[var(--background)]/80 backdrop-blur-xl border-b border-[var(--border)]"
+          /* r130 (W1-D P2-15): canonical topbar chrome — 0.86 alpha +
+             16px --glass-blur (was 80%/blur-xl-24px: a busy hero bled
+             through the veil). */
+          ? "bg-[var(--background)]/86 backdrop-blur-[16px] border-b border-[var(--border)]"
           : "bg-transparent border-b border-transparent"
       )}
     >
       {/* Shimmer bar on scroll */}
       {scrolled && <div className="shimmer-bar" aria-hidden="true" />}
 
-      <div className="container-base flex items-center justify-between h-16 md:h-[72px]">
+      {/* r130 (W1-D P2-15): canonical --topbar-h 64px (was h-16 + md:72). */}
+      <div className="container-base flex items-center justify-between h-16">
         {/* r8: prefetch={false} — the logo Link was prefetching the CURRENT
             route on every page (three duplicate RSC prefetches measured on
             first load). The logo dimensions now match the source ratio

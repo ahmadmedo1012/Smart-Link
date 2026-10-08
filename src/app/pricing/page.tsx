@@ -96,12 +96,14 @@ export default function PricingPage() {
       />
       <GenArtBackground seed={77} variant="blobs" />
       <div className="container-base relative">
-        <div className="max-w-3xl mx-auto text-center mb-14">
-          <span className="ln-label reveal-up reveal-d1">الأسعار</span>
-          <h1 className="text-5xl md:text-6xl font-extrabold text-foreground mb-4">
-            الخطط والأسعار
-          </h1>
-          <p className="text-lg text-muted-foreground">
+        {/* r130 (W1-D P1-2): the page head unifies on the canonical
+            ln-chapter-head anatomy (label / title / lede, like /about) —
+            was a centered text-5xl/6xl 800-weight header. The title
+            rides the display clamp (34→56px, 700 — Plex has no 800). */}
+        <div className="ln-chapter-head max-w-3xl">
+          <span className="ln-label reveal-up reveal-d-1">الأسعار</span>
+          <h1 className="ln-page-title"><em>الخطط</em> والأسعار</h1>
+          <p className="ln-chapter-lede">
             اختر الخطة المناسبة لأعمالك — ابدأ مجاناً وطور خدماتك معنا
           </p>
         </div>
@@ -114,7 +116,7 @@ export default function PricingPage() {
             return (
               <div
                 key={plan.title}
-                className={`reveal-up reveal-d${Math.min(i + 1, 4)} ln-card group relative rounded-2xl p-7 md:p-8 flex flex-col`}
+                className={`reveal-up reveal-d-${Math.min(i + 1, 4)} ln-card group relative rounded-2xl p-7 md:p-8 flex flex-col`}
               >
                 {/* flat tone well — the pastel family's only survivor */}
                 <div
@@ -127,7 +129,7 @@ export default function PricingPage() {
                 <p className="text-sm text-[var(--primary-text)] font-medium mb-2">{plan.subtitle}</p>
                 <div className="mb-6">
                   {/* mono machine-voice price (ln-mono pattern) */}
-                  <span className="ln-mono text-4xl font-extrabold text-foreground">{plan.price}</span>
+                  <span className="ln-mono text-4xl font-bold text-foreground">{plan.price}</span>
                   <span className="text-sm text-muted-foreground ms-2">{plan.period}</span>
                 </div>
                 <ul className="space-y-3 mb-8 flex-1">
@@ -144,7 +146,7 @@ export default function PricingPage() {
                   href={plan.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group inline-flex items-center justify-center gap-2 w-full py-3 rounded-full bg-primary text-[var(--primary-fg)] font-semibold text-sm hover:brightness-105 transition-all duration-160 active:scale-[0.97]"
+                  className="group inline-flex items-center justify-center gap-2 w-full py-3 rounded-full bg-primary text-[var(--primary-fg)] font-semibold text-sm hover:bg-[var(--accent-hover)] transition-all duration-160 active:scale-[0.97]"
                 >
                   ابدأ الآن <ChevronLeft className="w-3.5 h-3.5 transition-transform group-hover:-translate-x-0.5" />
                 </a>
@@ -154,7 +156,7 @@ export default function PricingPage() {
         </div>
 
         {/* Coming soon — flat dashed hairline (was glass + gradient well) */}
-        <div className="max-w-2xl mx-auto mb-16 reveal-up reveal-d4">
+        <div className="max-w-2xl mx-auto mb-16 reveal-up reveal-d-4">
           <div className="ln-card ln-card--dashed rounded-2xl p-8 text-center">
             <div className="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-4 bg-[var(--accent)]">
               <Sparkles className="w-7 h-7 text-primary" />
@@ -165,7 +167,7 @@ export default function PricingPage() {
             </p>
             <Link
               href="/contact"
-              className="group inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-primary text-[var(--primary-fg)] text-sm font-semibold hover:brightness-105 transition-all duration-160 active:scale-[0.97]"
+              className="group inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-primary text-[var(--primary-fg)] text-sm font-semibold hover:bg-[var(--accent-hover)] transition-all duration-160 active:scale-[0.97]"
             >
               تواصل معنا لمعرفة المزيد <ChevronLeft className="w-3.5 h-3.5 transition-transform group-hover:-translate-x-0.5" />
             </Link>

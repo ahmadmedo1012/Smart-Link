@@ -254,7 +254,7 @@
      #E9B44C here was the one fleet outlier, wrongly pinned as
      "canonical" by parity.mjs until r127-F6). 7.38:1 on night — AA
      (and AAA ≥7:1). Also tints the feature-card hover hairline. */
-  --ring: #C9962F;
+  --ring: #E9B44C;
   /* --destructive/--success/--warning/--info = Madarek status BASE
      values (§1.6 dark = the family -ink hues). Companions -ink = the
      canonical text-grade variant (dark: identical to base; light theme
@@ -381,6 +381,77 @@
   --hover-lift: -1px;
   --hover-lift-lg: -3px;
   --motion-direction: 1;
+
+  /* ── r130 (W1-D §1 / W1-H SL-1): canonical type + spacing scales ──
+     Madarek tokens.css:17-27/64-92, verbatim. The product layer
+     shipped no fs/sp rungs (they existed only inside .landing), so
+     inner-page H1s rode fixed Tailwind text-5xl/6xl steps (48/60px,
+     no fluidity). The .ln-page-title head rung (see the F6 bridge)
+     consumes --fs-display-lg; the rest land for future consumers. */
+  --sp-1: 4px;   --sp-2: 8px;   --sp-3: 12px;  --sp-4: 16px;
+  --sp-5: 20px;  --sp-6: 24px;  --sp-7: 32px;  --sp-8: 40px;
+  --sp-9: 48px;  --sp-10: 56px; --sp-11: 72px; --sp-12: 96px;
+  --sp-13: 128px; --sp-14: 160px; --sp-15: 192px; --sp-16: 240px;
+  --fs-eyebrow: 12px;
+  --fs-mega:       clamp(48px, 8.4vw, 104px);
+  --fs-display-xl: clamp(40px, 6.0vw, 72px);
+  --fs-display-lg: clamp(34px, 4.8vw, 56px);
+  --fs-display-md: clamp(28px, 3.6vw, 40px);
+  --fs-h1: 30px;
+  --fs-h2: 22px;
+  --fs-h3: 18px;
+  --fs-body-lg: 17px;
+  --fs-body:    15px;
+  --fs-body-md: 15px;
+  --fs-sm:      13px;
+  --fs-xs:      12px;
+  --fs-xxs:     11px;
+  --fs-metric-xl: 44px;
+  --fs-metric-lg: 30px;
+  --fs-metric-md: 22px;
+
+  /* ── r130 (W1-H SL-1): canonical muted-text tiers ──
+     --muted-foreground was the ONLY text tier (pinned to canonical
+     --text-secondary). The muted + faint rungs land now — values are
+     the Madarek night scope: mist ink #8E97B8 = 6.80:1 on --bg,
+     faint #7A83A0 = 5.22:1 (both AA on every night text surface).
+     .light carries the cream-scope twins (T3-F4 WCAG-fixed values).
+     ::placeholder rides --text-faint (canonical base.css:144-146). */
+  --text-muted: #8E97B8;
+  --text-faint: #7A83A0;
+
+  /* r130 (W1-D P1-2): the ln-label lime halo (canonical landing P4-18
+     device) on product pages — theme-independent decorative glow at
+     0.12 alpha, blurred 6px. */
+  --label-halo: #DFEDB2;
+
+  /* ── r130 (W1-G SL-P1-1): canonical semantic motion layer ──
+     Madarek tokens.css:177-184 + 204-209, verbatim. Ladder aliases +
+     the four semantic durations + the six ambient bands for
+     continuous decorative loops (the former raw 2s/3s/4s/20s loops
+     bind bands below — see nav-shimmer/blob-pulse/float-icon/
+     grid-drift). */
+  --motion-duration-micro:   var(--t-micro);   /*  80ms */
+  --motion-duration-short:   var(--t-fast);    /* 160ms */
+  --motion-duration-medium:  var(--t-base);    /* 240ms */
+  --motion-duration-long:    var(--t-slow);    /* 380ms */
+  --motion-duration-page:    320ms;
+  --motion-duration-reveal:  360ms;
+  --motion-duration-stat:    700ms;
+  --motion-duration-skeleton: 1200ms;
+  --motion-duration-ambient-pulse:  1.6s;
+  --motion-duration-ambient:        2.4s;
+  --motion-duration-ambient-slow:   3.6s;
+  --motion-duration-ambient-drift:  6s;
+  --motion-duration-ambient-cinema: 9s;
+  --motion-duration-ambient-scene:  22s;
+
+  /* ── r130 (W1-D P2-10): canonical input-focus recipe (tokens.css:237/
+     253) — 3px 22%-alpha accent halo (an interaction ring, not an
+     elevation) + accent border. The contact form consumes both via
+     focus:shadow-[var(--state-input-focus-halo)]. */
+  --state-input-focus-halo: 0 0 0 3px color-mix(in srgb, var(--primary) 22%, transparent);
+  --state-input-focus-border: var(--primary);
 }
 
 /* ═══════════════════════════════════════════════════════════════════
@@ -497,6 +568,13 @@
   /* ── GenArt stroke (light) — see the :root twin. ── */
   --genart-accent: #6F6C66;
   --genart-accent-dim: rgb(111 108 102 / 0.04);
+
+  /* ── r130 (W1-H SL-1): muted-text tiers, cream scope (Madarek light
+     tokens.css:487/492 — T3-F4 WCAG-fixed values: muted #6E6C65 =
+     5.04:1 on cream, faint #74706A = 4.72:1 — AA-safe even for
+     placeholder/hint text). */
+  --text-muted: #6E6C65;
+  --text-faint: #74706A;
 }
 
 @layer base {
@@ -512,6 +590,10 @@
     background: var(--background);
     color: var(--foreground);
     font-family: var(--font-sans);
+    /* r130 W3-A fix: consume the 15px body rung + canonical 1.65 leading
+       (was inheriting 16px/1.5 — one rung above reference) */
+    font-size: var(--fs-body);
+    line-height: 1.65;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     /* r14 (M5): fallback where overflow-x:clip is unsupported — the
@@ -525,10 +607,28 @@
   /* m15: Madarek §2.6 selection — accent at 28% over the ground,
      text keeps its theme ink. */
   ::selection { background: color-mix(in srgb, var(--primary) 28%, transparent); color: var(--foreground); }
-  ::-webkit-scrollbar { width: 5px; height: 5px; }
-  ::-webkit-scrollbar-track { background: transparent; }
-  ::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: 999px; }
-  ::-webkit-scrollbar-thumb:hover { background: var(--scrollbar-thumb-hover); }
+  /* r130 (W1-H SL-1): canonical placeholder tier (Madarek base.css:144-
+     146) — placeholder/hint text rides --text-faint with opacity 1
+     (undoes Firefox's 0.54 fade; the tier itself is the dimmer). */
+  ::placeholder { color: var(--text-faint); opacity: 1; }
+  /* r130 (W1-D P2-14): canonical scrollbar (Madarek polish.css:5200-
+     5213) — standard properties first (Firefox + spec), then the
+     token-driven 10px webkit rail: a 2px transparent border with
+     background-clip: padding-box reads as a calm rounded hairline
+     inset into the rail instead of a solid slab. Was: 5px webkit-only. */
+  * { scrollbar-width: thin; scrollbar-color: var(--scrollbar-thumb) transparent; }
+  *::-webkit-scrollbar { inline-size: 10px; block-size: 10px; }
+  *::-webkit-scrollbar-track { background: transparent; }
+  *::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-thumb);
+    border-radius: var(--r-full);
+    border: 2px solid transparent;
+    background-clip: padding-box;
+  }
+  *::-webkit-scrollbar-thumb:hover {
+    background: var(--scrollbar-thumb-hover);
+    background-clip: padding-box;
+  }
   /* r126 (P4-A3 §2.8): the border-radius mutation removed — a focus
      ring must never reshape the element it decorates (Madarek base.css
      pins outline-only); it had silently mutated every focused element
@@ -615,7 +715,7 @@
     color-mix(in srgb, var(--primary) 30%, transparent) 60%,
     transparent 100%
   );
-  animation: nav-shimmer 2s ease-in-out infinite;
+  animation: nav-shimmer var(--motion-duration-ambient) ease-in-out infinite;
 }
 
 /* ── Magnetic button base ── */
@@ -629,9 +729,11 @@
   transition: transform var(--t-fast) var(--ease-bounce);
 }
 
-/* ── Blob animations ── */
+/* ── Blob animations ── r130 (W1-G SL-P1-1): raw durations bound to the
+   ambient ladder — blob-pulse is a slow opacity breathe → the 3.6s
+   ambient-slow band (was a raw 3s). */
 .blob-0, .blob-1, .blob-2, .blob-3 {
-  animation: blob-pulse 3s ease-in-out infinite;
+  animation: blob-pulse var(--motion-duration-ambient-slow) ease-in-out infinite;
 }
 .blob-1 { animation-delay: 1s; }
 .blob-2 { animation-delay: 2s; }
@@ -648,10 +750,11 @@
   .blob-0, .blob-1, .blob-2 { animation: none; }
 }
 
-/* ── Floating icon drift ── */
+/* ── Floating icon drift ── r130 (W1-G SL-P1-1): a positional drift →
+   the 6s ambient-drift band (was a raw 4s). */
 .floating-icon-0, .floating-icon-1, .floating-icon-2,
 .floating-icon-3, .floating-icon-4, .floating-icon-5 {
-  animation: float-icon 4s ease-in-out infinite;
+  animation: float-icon var(--motion-duration-ambient-drift) ease-in-out infinite;
 }
 .floating-icon-1 { animation-delay: 0.6s; }
 .floating-icon-2 { animation-delay: 1.2s; }
@@ -688,19 +791,42 @@
   to { opacity: 1; filter: blur(0); transform: translateY(0); }
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  /* r126 (P4-A3 §2.3): 500/600/700ms hand-tunes snapped onto the
-     ladder (520 slower / 720 cinema) and the near-miss bezier
-     (0.16,1,0.2,1) pinned to the canonical --ease-out (0.16,1,0.3,1). */
-  .reveal-up { animation: reveal-up var(--t-slower) var(--ease-out) both; }
-  .reveal-blur { animation: reveal-blur var(--t-cinema) var(--ease-out) both; }
+/* ── Reveal family — r130 (W1-D P2-11): canonical polish.css:470-488 ──
+   The on-load ANIMATION mechanism (translateY 24px keyframes, 120ms
+   delay steps) is retired: the family is now TRANSITION-based (14px,
+   80ms steps) gated by a one-shot IntersectionObserver that writes
+   .in-view (components/reveal-observer.tsx → the useReveal shared
+   belt — mount check, fling-hardening, scrollend/resize/fonts
+   reconcile). The @keyframes stay: the scroll-driven .reveal-scroll
+   family (below) consumes them. */
+.reveal-up {
+  opacity: 0;
+  transform: translateY(14px);
+  transition:
+    opacity var(--t-slower) var(--ease-out),
+    transform var(--t-slower) var(--ease-out);
+}
+.reveal-up.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+.reveal-d-1.in-view { transition-delay: 80ms; }
+.reveal-d-2.in-view { transition-delay: 160ms; }
+.reveal-d-3.in-view { transition-delay: 240ms; }
+.reveal-d-4.in-view { transition-delay: 320ms; }
+.reveal-d-5.in-view { transition-delay: 400ms; }
+@media (prefers-reduced-motion: reduce) {
+  .reveal-up { opacity: 1; transform: none; }
+}
+/* no-JS contract (same doctrine as the .acc scripting:none rule): a
+   scripting:none browser reveals everything — content must never stay
+   hidden behind a one-shot that can never fire. */
+@media (scripting: none) {
+  .reveal-up { opacity: 1; transform: none; }
+}
 
-  /* Explicit delay utilities — used for above-the-fold content so it
-     paints pre-JS instead of waiting for framer-motion hydration. */
-  .reveal-d1 { animation-delay: 0.12s; }
-  .reveal-d2 { animation-delay: 0.22s; }
-  .reveal-d3 { animation-delay: 0.32s; }
-  .reveal-d4 { animation-delay: 0.42s; }
+@media (prefers-reduced-motion: no-preference) {
+  .reveal-blur { animation: reveal-blur var(--t-cinema) var(--ease-out) both; }
 }
 
 /* ── Scroll progress bar (r8) — pure CSS scroll-driven animation ──
@@ -800,7 +926,9 @@
   to { background-position: -60px -60px; }
 }
 .grid-drift {
-  animation: grid-drift 20s linear infinite;
+  /* r130 (W1-G SL-P1-1): backdrop scene drift → the 22s ambient-scene
+     band (was a raw 20s). */
+  animation: grid-drift var(--motion-duration-ambient-scene) linear infinite;
 }
 @media (prefers-reduced-motion: reduce) {
   .grid-drift { animation: none; }
@@ -913,25 +1041,10 @@
 }
 
 
-/* r10 (code audit — DRY): the section eyebrow badge class string was
-   copy-pasted in 8 places; any visual tweak meant 8 edits that could
-   drift. Margins (mb-*) and reveal utilities stay at the call site. */
-@utility eyebrow-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.375rem 1rem;
-  border-radius: 9999px;
-  border: 1px solid var(--glass-border);
-  background: var(--glass-bg);
-  -webkit-backdrop-filter: blur(4px);
-  backdrop-filter: blur(4px);
-  font-size: 0.75rem;
-  line-height: 1rem;
-  /* m15: Madarek label/pill weight (§5.8 — 12px/600) */
-  font-weight: 600;
-  color: var(--primary-text);
-}
+/* r130 (W1-D P1-2): the @utility eyebrow-badge (glass pill label) is
+   DELETED — its last consumer (the /contact head) was unified on the
+   canonical ln-label device; zero TSX consumers remain. The r10 DRY
+   block that lived here is retired with it. */
 
 @utility glass-card {
   background: var(--glass-bg);
@@ -983,11 +1096,37 @@
   :root {
     --t-micro: 0ms;   --t-fast: 0ms;   --t-base: 0ms;
     --t-slow: 0ms;    --t-slower: 0ms; --t-cinema: 0ms;
+    /* r130 (W1-G): canonical motion.css semantic RM layer — the
+       --motion-duration-* family collapses (page/reveal keep the
+       80ms cross-fade affordance; stat/skeleton and the ambient
+       bands are decorative → 0). Belt-independent ownership, the
+       same doctrine as Madarek motion.css:31-47. The landing keeps
+       its own local 0ms reveal convention (landing.css RM block). */
+    --motion-duration-micro: 0ms;
+    --motion-duration-short: 0ms;
+    --motion-duration-medium: 0ms;
+    --motion-duration-long: 0ms;
+    --motion-duration-page: 80ms;
+    --motion-duration-reveal: 80ms;
+    --motion-duration-stat: 0ms;
+    --motion-duration-skeleton: 0ms;
+    --motion-duration-ambient-pulse: 0ms;
+    --motion-duration-ambient: 0ms;
+    --motion-duration-ambient-slow: 0ms;
+    --motion-duration-ambient-drift: 0ms;
+    --motion-duration-ambient-cinema: 0ms;
+    --motion-duration-ambient-scene: 0ms;
   }
+  /* r130 (W1-G F-5 / SL-P2-3): the belt now also resets DELAYS — port
+     of the canonical base.css:317/320 + smart-menu globals belt.
+     Without it, a `both`-fill animation with a raw stagger delay
+     hides its content sequentially for the full delay under RM. */
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
+    animation-delay: 0s !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+    transition-delay: 0s !important;
     scroll-behavior: auto !important;
   }
   /* r9 (audit A7): the universal kill-switch missed view transitions —
@@ -1161,9 +1300,14 @@
 /* technical section label — the landing eyebrow, product-skinned:
    mono 12px/500, 0.08em tracking (Latin-safe — no Arabic tracking per
    §4 ruling 4; Arabic label words render in the sans run of the mono
-   stack), accent ink per the m15 accent-as-text doctrine. */
+   stack), accent ink per the m15 accent-as-text doctrine.
+   r130 (W1-D P1-2): the canonical lime halo ::before (landing P4-18
+   device, landing.css:145-155) ports to the product skin — a 12%-alpha
+   blurred lime ellipse behind the label, so one label device serves
+   every inner page (the glass eyebrow-badge is retired). */
 .ln-label {
   display: block;
+  position: relative;
   /* r129: mixed-script chain declared at the consumer (see .ln-mono) —
      Arabic label words render in the sans run, mono numerals stay mono. */
   font-family: "IBM Plex Mono", "IBM Plex Sans Arabic", ui-monospace, monospace;
@@ -1173,6 +1317,16 @@
   color: var(--primary-text);
   font-variant-numeric: tabular-nums;
   margin-block-end: 14px;
+}
+.ln-label::before {
+  content: '';
+  position: absolute;
+  inset: -4px 0;
+  background: radial-gradient(ellipse at center, var(--label-halo) 0%, transparent 70%);
+  opacity: 0.12;
+  filter: blur(6px);
+  pointer-events: none;
+  z-index: -1;
 }
 
 /* chapter-head anatomy (landing.css .ln-chapter-head family): a
@@ -1195,6 +1349,29 @@
   text-wrap: balance;
 }
 .ln-chapter-title em {
+  font-style: normal;
+  color: var(--foreground);
+}
+
+/* r130 (W1-D P1-2): the PAGE-head H1 rung — one heading grammar for
+   every inner page (about/pricing/contact/privacy/terms). Rides the
+   canonical display scale (--fs-display-lg = clamp(34px, 4.8vw, 56px),
+   Madarek tokens.css:68) instead of fixed Tailwind text-5xl/6xl steps
+   (48/60px, no fluidity, 60px over the canonical max). Weight 700 —
+   Plex has NO 800 cut (font-extrabold resolves to the real 700, so
+   asking for it is token-dishonest). Same muted + em-anchor device as
+   the chapter title. */
+.ln-page-title {
+  margin: 0;
+  font-size: var(--fs-display-lg);
+  line-height: 1.15;
+  font-weight: 700;
+  letter-spacing: 0; /* no Arabic tracking (§2.4 ruling) */
+  color: var(--muted-foreground);
+  max-inline-size: 22ch;
+  text-wrap: balance;
+}
+.ln-page-title em {
   font-style: normal;
   color: var(--foreground);
 }

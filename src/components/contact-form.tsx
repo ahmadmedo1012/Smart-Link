@@ -34,9 +34,13 @@ type FieldErrors = { name?: string; email?: string; message?: string }
    r13 (a11y audit P2 ×2): placeholder/50 measured 1.99:1 in light mode
    (real visible text in the ONLY conversion path — axe can't see
    ::placeholder at all); the RESTING border used --border at 1.10:1
-   (WCAG 1.4.11) — now --input-border, which clears 3:1 in both themes. */
+   (WCAG 1.4.11) — now --input-border, which clears 3:1 in both themes.
+   r130 (W1-D P2-10 / W1-H SL-1): focus = the canonical recipe — accent
+   border + 3px 22%-alpha halo (--state-input-focus-halo, Madarek
+   tokens.css:237) replaces the 2px solid --ring; placeholder rides the
+   --text-faint tier (canonical ::placeholder). */
 const inputBase =
-  "w-full px-4 py-2.5 rounded-xl bg-[var(--card)] border text-foreground text-base focus:outline-none focus:border-[var(--ring)] focus:ring-2 focus:ring-[var(--ring)] transition-all placeholder:text-muted-foreground"
+  "w-full px-4 py-2.5 rounded-xl bg-[var(--card)] border text-foreground text-base focus:outline-none focus:border-[var(--state-input-focus-border)] focus:shadow-[var(--state-input-focus-halo)] transition-all placeholder:text-[var(--text-faint)]"
 
 export function ContactForm() {
   const [sent, setSent] = useState(false)

@@ -46,15 +46,17 @@ export const metadata: Metadata = {
 export default function NotFound() {
   return (
     <SiteChrome>
-    <div className="min-h-[80dvh] pt-16 md:pt-[72px] flex items-center justify-center relative overflow-hidden">
+    {/* r130 (W1-D P2-15): pt aligns with the canonical 64px topbar (the
+        old md:pt-[72px] compensated the retired 72px desktop height). */}
+    <div className="min-h-[80dvh] pt-16 flex items-center justify-center relative overflow-hidden">
       <div className="text-center relative">
         <div className="reveal-blur">
-          <h1 className="text-9xl font-extrabold leading-none mb-2">
+          <h1 className="text-9xl font-bold leading-none mb-2">
             {/* r128 F6: flat accent ink + mono voice (was gradient-text) */}
             <span className="ln-mono text-[var(--primary-text)]">404</span>
           </h1>
         </div>
-        <div className="reveal-up reveal-d2">
+        <div className="reveal-up reveal-d-2">
           <h2 className="text-2xl font-bold text-[var(--foreground)] mb-2">الصفحة غير موجودة</h2>
           <p className="text-[var(--muted-foreground)] mb-8 max-w-md mx-auto">
             عذراً، الصفحة التي تبحث عنها غير متوفرة أو تم نقلها.
@@ -62,7 +64,7 @@ export default function NotFound() {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
             <Link
               href="/"
-              className="group inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[var(--primary)] text-[var(--primary-fg)] font-semibold text-sm hover:brightness-105 transition-all duration-160 active:scale-[0.98]"
+              className="group inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[var(--primary)] text-[var(--primary-fg)] font-semibold text-sm hover:bg-[var(--accent-hover)] transition-all duration-160 active:scale-[0.98]"
             >
               <Home className="w-4 h-4" aria-hidden="true" /> العودة للرئيسية
             </Link>

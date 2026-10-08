@@ -74,8 +74,10 @@ export function Footer() {
                 <li key={l.label}>
                   {/* prefetch={false}: footer quick-links were firing duplicate
                       RSC prefetches that competed with LCP bandwidth. */}
-                  <Link href={l.href} prefetch={false} className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-160 group inline-flex items-center gap-1.5 py-2.5 rounded">
-                    <span className="w-0 group-hover:w-1.5 h-1.5 rounded-full bg-primary transition-all duration-160" aria-hidden="true" />
+                  {/* r130 (W1-D P2-16): the dot-grow device is retired —
+                      canonical link-hover doctrine (landing footer,
+                      P4-13): color shift + underline 2px / offset 4px. */}
+                  <Link href={l.href} prefetch={false} className="text-sm text-muted-foreground hover:text-foreground hover:underline decoration-2 underline-offset-4 transition-colors duration-160 py-2.5 rounded">
                     {l.label}
                   </Link>
                 </li>

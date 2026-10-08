@@ -9,7 +9,7 @@ import { pageMetadata } from "@/lib/seo"
 import { breadcrumbJsonLd } from "@/lib/schema"
 /* r9 (perf): LCP surgery generalized from the r8 hero — h1 and the
    intro paragraph now paint at FCP (no reveal animation). The eyebrow
-   label keeps reveal-d1 so the entrance cascade stays alive around the
+   label keeps reveal-d-1 so the entrance cascade stays alive around the
    instantly-painted text, exactly like the home hero.
 
    r128 F6 (A4 §6): chapter anatomy — the page now reads as chapters
@@ -55,10 +55,13 @@ export default function AboutPage() {
       <div className="container-base relative">
         {/* Chapter head — the page head (ln-chapter anatomy, r128 F6).
             LCP doctrine holds: h1 + lede render inline, only the label
-            rides the reveal ladder. */}
+            rides the reveal ladder. r130 (W1-D P1-2): the H1 moves to the
+            ln-page-title display rung (clamp 34→56px, 700) so all five
+            inner pages share ONE head grammar; chapter H2s keep the
+            ln-chapter-title rung. */}
         <div className="ln-chapter-head max-w-3xl">
-          <span className="ln-label reveal-up reveal-d1">عن المنصة</span>
-          <h1 className="ln-chapter-title">عن <em>SmartLink</em></h1>
+          <span className="ln-label reveal-up reveal-d-1">عن المنصة</span>
+          <h1 className="ln-page-title">عن <em>SmartLink</em></h1>
           <p className="ln-chapter-lede">
             SmartLink منصة رقمية ليبية متكاملة تهدف إلى توفير حلول ذكية للأعمال في العالم العربي.
             نؤمن بأن التكنولوجيا يجب أن تكون سهلة، متاحة، وفعالة للجميع.
@@ -68,14 +71,14 @@ export default function AboutPage() {
         {/* Chapter 01 — القيم */}
         <section className="mb-14" aria-labelledby="about-values">
           <div className="ln-chapter-head max-w-3xl">
-            <span className="ln-label reveal-up reveal-d1">01 — القيم</span>
-            <h2 id="about-values" className="ln-chapter-title reveal-up reveal-d1">قيمنا</h2>
+            <span className="ln-label reveal-up reveal-d-1">01 — القيم</span>
+            <h2 id="about-values" className="ln-chapter-title reveal-up reveal-d-1">قيمنا</h2>
           </div>
           <div className="grid md:grid-cols-2 gap-5 max-w-3xl">
             {values.map((item, i) => (
               <div
                 key={item.title}
-                className={`reveal-up reveal-d${Math.min(i + 1, 4)} ln-card rounded-2xl p-6 group`}
+                className={`reveal-up reveal-d-${Math.min(i + 1, 4)} ln-card rounded-2xl p-6 group`}
               >
                 <div className="w-10 h-10 rounded-xl bg-[var(--accent)] flex items-center justify-center mb-3 group-hover:scale-110 transition-transform duration-240">
                   <item.icon className="w-5 h-5 text-primary" />
@@ -90,10 +93,10 @@ export default function AboutPage() {
         {/* Chapter 02 — المؤسس */}
         <section className="mb-14" aria-labelledby="about-founder">
           <div className="ln-chapter-head max-w-3xl">
-            <span className="ln-label reveal-up reveal-d1">02 — المؤسس</span>
-            <h2 id="about-founder" className="ln-chapter-title reveal-up reveal-d1">المؤسس</h2>
+            <span className="ln-label reveal-up reveal-d-1">02 — المؤسس</span>
+            <h2 id="about-founder" className="ln-chapter-title reveal-up reveal-d-1">المؤسس</h2>
           </div>
-          <div className="reveal-up reveal-d2 max-w-3xl">
+          <div className="reveal-up reveal-d-2 max-w-3xl">
             <div className="ln-card rounded-2xl p-6 md:p-8 flex flex-col md:flex-row items-start md:items-center gap-5 group">
               <div className="w-16 h-16 rounded-2xl flex items-center justify-center shrink-0 bg-[var(--accent)] group-hover:scale-110 transition-transform duration-240">
                 <User className="w-8 h-8 text-primary" />
@@ -109,8 +112,8 @@ export default function AboutPage() {
         {/* Chapter 03 — قصتنا */}
         <section className="max-w-3xl" aria-labelledby="about-story">
           <div className="ln-chapter-head">
-            <span className="ln-label reveal-up reveal-d1">03 — قصتنا</span>
-            <h2 id="about-story" className="ln-chapter-title reveal-up reveal-d1">قصتنا</h2>
+            <span className="ln-label reveal-up reveal-d-1">03 — قصتنا</span>
+            <h2 id="about-story" className="ln-chapter-title reveal-up reveal-d-1">قصتنا</h2>
           </div>
           <div className="reveal-scroll">
             <p className="text-muted-foreground leading-relaxed mb-4">
@@ -152,7 +155,7 @@ export default function AboutPage() {
 
             <Link
               href="/contact"
-              className="group inline-flex items-center gap-2 px-5 py-3.5 rounded-xl bg-primary text-[var(--primary-fg)] font-semibold text-sm hover:brightness-105 transition-all duration-160 active:scale-[0.97]"
+              className="group inline-flex items-center gap-2 px-5 py-3.5 rounded-xl bg-primary text-[var(--primary-fg)] font-semibold text-sm hover:bg-[var(--accent-hover)] transition-all duration-160 active:scale-[0.97]"
             >
               <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" /> تواصل معنا
             </Link>

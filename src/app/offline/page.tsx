@@ -46,7 +46,9 @@ export default function OfflinePage() {
         href={SITE.whatsapp.url}
         target="_blank"
         rel="noopener noreferrer"
-        className="inline-flex items-center gap-2 rounded-xl bg-primary px-6 py-3 font-semibold text-[var(--primary-fg)] transition-all duration-160 active:scale-[0.97]"
+        /* r130 (W1-D P2-9): the canonical filled-CTA hover — an
+           --accent-hover background shift (was: no hover state at all). */
+        className="inline-flex items-center gap-2 rounded-xl bg-primary px-6 py-3 font-semibold text-[var(--primary-fg)] transition-all duration-160 hover:bg-[var(--accent-hover)] active:scale-[0.97]"
       >
         تواصل عبر واتساب
       </a>

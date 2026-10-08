@@ -33,11 +33,13 @@ export default function TermsPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
       />
       <div className="container-base max-w-3xl mx-auto relative">
-        <div className="text-center mb-10">
-          <span className="ln-label reveal-up reveal-d1">الشروط</span>
-          <h1 className="text-5xl md:text-6xl font-extrabold text-foreground">
-            شروط الاستخدام
-          </h1>
+        {/* r130 (W1-D P1-2): the page head unifies on the canonical
+            ln-chapter-head anatomy (label / title, like /about) — was a
+            centered text-5xl/6xl 800-weight header. Legal pages stay
+            quiet: no lede copy is invented, the head is label + title. */}
+        <div className="ln-chapter-head">
+          <span className="ln-label reveal-up reveal-d-1">الشروط</span>
+          <h1 className="ln-page-title">شروط <em>الاستخدام</em></h1>
         </div>
         <div
           className="space-y-6 text-muted-foreground leading-relaxed"

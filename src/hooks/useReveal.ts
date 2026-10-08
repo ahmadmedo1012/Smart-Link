@@ -57,6 +57,10 @@ interface RevealEntry {
   reveal: () => void;
 }
 
+/** Live element set — registerEl is idempotent (the RevealObserver
+ *  island and a per-element hook must never double-register). */
+const liveEls = new WeakSet<HTMLElement>();
+
 /**
  * One observer per options combination — every entry registered with
  * the same threshold/rootMargin shares a single IntersectionObserver
@@ -186,6 +190,7 @@ const getBucket = (threshold: number, rootMargin: string): ObserverBucket => {
 
 const unregister = (entry: RevealEntry) => {
   registry.delete(entry);
+  liveEls.delete(entry.el);
   for (const [key, bucket] of [...buckets]) {
     if (!bucket.entries.delete(entry)) continue;
     if (bucket.entries.size === 0) {
@@ -197,6 +202,93 @@ const unregister = (entry: RevealEntry) => {
   if (registry.size === 0) detachBelt();
 };
 
+/**
+ * registerEl — the shared-belt registration behind BOTH consumers of
+ * the belt: the useReveal hook (per-ref, landing) and registerDomReveals
+ * (query-based, product pages). Identical semantics to the former
+ * inline hook body: RM → reveal now; mount check → reveal now; no IO
+ * support → reveal now; otherwise observe (one-shot default).
+ * Returns an unregister cleanup.
+ */
+function registerEl(
+  el: HTMLElement,
+  opts?: { threshold?: number; rootMargin?: string; once?: boolean }
+): () => void {
+  if (liveEls.has(el)) return () => unregisterEntryOf(el);
+
+  // Honour reduced-motion preference — show content immediately, no animation
+  const reducedMotion =
+    typeof window !== 'undefined' &&
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reducedMotion) {
+    el.classList.add('in-view');
+    return () => {};
+  }
+
+  const once = opts?.once !== false;
+  const threshold = opts?.threshold ?? 0.12;
+  const rootMargin = opts?.rootMargin ?? '0px 0px -8% 0px';
+
+  const entry: RevealEntry = {
+    el,
+    once,
+    settled: false,
+    reveal: () => {
+      if (entry.settled) return;
+      entry.settled = true;
+      el.classList.add('in-view');
+      unregister(entry); // one-shot ⇒ leaves the observer + belt
+    },
+  };
+
+  // (a) Mount check — already visible at the fold, or scrolled past
+  // (scroll-restoration / anchor deep-link): reveal now. Mirrors the
+  // platform <Reveal> component's above-the-fold clause.
+  if (el.getBoundingClientRect().top < window.innerHeight) {
+    entry.reveal();
+    return () => {};
+  }
+
+  if (typeof IntersectionObserver === 'undefined') {
+    entry.reveal();
+    return () => {};
+  }
+
+  const bucket = getBucket(threshold, rootMargin);
+  registry.add(entry);
+  liveEls.add(el);
+  bucket.entries.add(entry);
+  bucket.obs.observe(el);
+  attachBelt();
+
+  return () => unregister(entry);
+}
+
+const unregisterEntryOf = (el: HTMLElement) => {
+  for (const entry of registry) {
+    if (entry.el === el) unregister(entry);
+  }
+};
+
+/**
+ * registerDomReveals — belt-register every `.reveal-up` element under
+ * `root` (default: document). The product pages are server components:
+ * their reveal targets can't call the useReveal hook, so the mounted
+ * <RevealObserver /> island (components/reveal-observer.tsx, r130)
+ * hands them all to the SAME belt — mount check, fling-hardening,
+ * scrollend/resize/fonts reconcile — instead of a second observer
+ * system. Elements already revealed (.in-view) are skipped.
+ */
+export function registerDomReveals(root: ParentNode = document): () => void {
+  const els = Array.from(
+    root.querySelectorAll<HTMLElement>('.reveal-up:not(.in-view)')
+  );
+  const cleanups = els.map((el) => registerEl(el));
+  return () => {
+    for (const cleanup of cleanups) cleanup();
+  };
+}
+
 export function useReveal<T extends HTMLElement = HTMLElement>(options?: {
   threshold?: number;
   rootMargin?: string;
@@ -207,53 +299,11 @@ export function useReveal<T extends HTMLElement = HTMLElement>(options?: {
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-
-    // Honour reduced-motion preference — show content immediately, no animation
-    const reducedMotion =
-      typeof window !== 'undefined' &&
-      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-    if (reducedMotion) {
-      el.classList.add('in-view');
-      return;
-    }
-
-    const once = options?.once !== false;
-    const threshold = options?.threshold ?? 0.12;
-    const rootMargin = options?.rootMargin ?? '0px 0px -8% 0px';
-
-    const entry: RevealEntry = {
-      el,
-      once,
-      settled: false,
-      reveal: () => {
-        if (entry.settled) return;
-        entry.settled = true;
-        el.classList.add('in-view');
-        unregister(entry); // one-shot ⇒ leaves the observer + belt
-      },
-    };
-
-    // (a) Mount check — already visible at the fold, or scrolled past
-    // (scroll-restoration / anchor deep-link): reveal now. Mirrors the
-    // platform <Reveal> component's above-the-fold clause.
-    if (el.getBoundingClientRect().top < window.innerHeight) {
-      entry.reveal();
-      return;
-    }
-
-    if (typeof IntersectionObserver === 'undefined') {
-      entry.reveal();
-      return;
-    }
-
-    const bucket = getBucket(threshold, rootMargin);
-    registry.add(entry);
-    bucket.entries.add(entry);
-    bucket.obs.observe(el);
-    attachBelt();
-
-    return () => unregister(entry);
+    return registerEl(el, {
+      threshold: options?.threshold,
+      rootMargin: options?.rootMargin,
+      once: options?.once,
+    });
   }, [options?.threshold, options?.rootMargin, options?.once]);
 
   return ref;

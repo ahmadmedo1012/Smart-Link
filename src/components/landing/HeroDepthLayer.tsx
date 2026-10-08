@@ -13,6 +13,12 @@ import { useEffect, useRef } from "react"
  * Perf: one passive scroll listener + one rAF. The canonical component
  * consumed Madarek's useReducedMotion hook; this port reads the media
  * query inline (the repo's port convention) — semantics byte-equal.
+ *
+ * r130 (W1-D P2-17): the port now SUBSCRIBES to the media query (the
+ * canonical hook re-runs on preference change) — toggling OS
+ * reduce-motion mid-session attaches/detaches the parallax live
+ * instead of leaving the starfield running until reload; turning RM
+ * ON also clears the last translate3d offset so the layer snaps home.
  */
 
 type Star = { cx: number; cy: number; r: number; op: number }
@@ -41,8 +47,7 @@ export function HeroDepthLayer() {
   const stars = makeStars(STAR_COUNT, 42)
 
   useEffect(() => {
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches
-    if (reduced) return
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)")
 
     const onScroll = () => {
       if (!raf.current) raf.current = requestAnimationFrame(tick)
@@ -59,13 +64,34 @@ export function HeroDepthLayer() {
       }
     }
 
-    window.addEventListener("scroll", onScroll, { passive: true })
-    // Initial sample so the layer starts at the right position.
-    tick()
-
-    return () => {
+    const attach = () => {
+      window.addEventListener("scroll", onScroll, { passive: true })
+      // Initial sample so the layer starts at the right position.
+      tick()
+    }
+    const detach = () => {
       window.removeEventListener("scroll", onScroll)
       if (raf.current) cancelAnimationFrame(raf.current)
+      raf.current = 0
+      // RM ON mid-session: drop the last parallax offset — the
+      // starfield must not freeze mid-translate for the rest of the
+      // session (the belt can't reach an inline style).
+      if (ref.current) ref.current.style.transform = ""
+    }
+
+    if (!mq.matches) attach()
+
+    // mid-session preference toggle: attach/detach live (canonical
+    // useReducedMotion re-runs its effect on the same change).
+    const onChange = (e: MediaQueryListEvent) => {
+      if (e.matches) detach()
+      else attach()
+    }
+    mq.addEventListener("change", onChange)
+
+    return () => {
+      mq.removeEventListener("change", onChange)
+      detach()
     }
   }, [])
 

@@ -41,8 +41,8 @@ const breadcrumbLd = breadcrumbJsonLd([
    page.
 
    r9 (perf): the LCP surgery from the r8 hero is applied here too — h1
-   and the intro paragraph paint at FCP; the eyebrow badge keeps
-   reveal-d1 so the entrance cascade stays alive around them.
+   and the intro paragraph paint at FCP; the mono label keeps
+   reveal-d-1 so the entrance cascade stays alive around them.
 
    r9 (content audit C1/C7): the support-hours contradiction ("24/7 - الدوام
    الرسمي: 9ص - 9م" in one line) is now two honest facts, and the page name
@@ -66,14 +66,15 @@ export default function ContactPage() {
       />
       <GenArtBackground seed={303} variant="rings" />
       <div className="container-base relative">
-        <div className="max-w-3xl mx-auto text-center mb-14">
-          <div className="eyebrow-badge mb-6 reveal-up reveal-d1">
-            <span>تواصل</span>
-          </div>
-          <h1 className="text-5xl md:text-6xl font-extrabold text-foreground mb-4">
-            تواصل معنا
-          </h1>
-          <p className="text-lg text-muted-foreground">
+        {/* r130 (W1-D P1-2): the page head unifies on the canonical
+            ln-chapter-head anatomy (label / title / lede, like /about) —
+            was a centered text-5xl/6xl 800-weight header behind a
+            GLASS eyebrow-badge pill; the label device is now the mono
+            ln-label (with the canonical lime halo), one device site-wide. */}
+        <div className="ln-chapter-head max-w-3xl">
+          <span className="ln-label reveal-up reveal-d-1">تواصل</span>
+          <h1 className="ln-page-title"><em>تواصل</em> معنا</h1>
+          <p className="ln-chapter-lede">
             فريقنا جاهز لمساعدتك — تواصل معنا بأي طريقة من الطرق التالية
           </p>
         </div>
@@ -84,7 +85,7 @@ export default function ContactPage() {
           {contacts.map((item, i) => (
             <div
               key={item.title}
-              className={`reveal-up reveal-d${Math.min(i + 1, 4)} ln-card rounded-2xl p-5 text-center group`}
+              className={`reveal-up reveal-d-${Math.min(i + 1, 4)} ln-card rounded-2xl p-5 text-center group`}
             >
               <div className="w-9 h-9 rounded-xl bg-[var(--accent)] flex items-center justify-center mx-auto mb-2.5 group-hover:scale-110 transition-transform duration-240">
                 <item.icon className="w-4.5 h-4.5 text-primary" />
@@ -101,7 +102,7 @@ export default function ContactPage() {
 
         {/* Form — the page's only client island (r9). Flat shell (F6);
            the island's internals are untouched. */}
-        <div className="max-w-xl mx-auto reveal-up reveal-d3">
+        <div className="max-w-xl mx-auto reveal-up reveal-d-3">
           <div className="ln-card rounded-2xl p-6 md:p-8">
             <h2 className="font-bold text-foreground text-lg mb-5">أرسل رسالة</h2>
             <ContactForm />

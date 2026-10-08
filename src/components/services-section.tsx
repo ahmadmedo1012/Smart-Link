@@ -60,7 +60,7 @@ function ServiceCard({ service }: { service: typeof services[number] }) {
         <div className="relative p-7 md:p-8 flex flex-col flex-1">
           {/* Icon — scales on card hover */}
           <div
-            className="w-12 h-12 rounded-xl flex items-center justify-center mb-5 border border-[var(--glass-border)] group-hover:scale-[1.15] group-hover:-translate-y-1 transition-transform duration-240 ease-[var(--ease-out)]"
+            className="w-12 h-12 rounded-xl flex items-center justify-center mb-5 border border-[var(--glass-border)] group-hover:scale-[1.15] group-hover:-translate-y-1 transition-transform duration-240 ease-out"
             style={{ background: service.gradientVar }}
           >
             <Icon className="w-6 h-6 text-[var(--primary)]" />
@@ -95,7 +95,7 @@ function ServiceCard({ service }: { service: typeof services[number] }) {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={`زيارة الخدمة — ${service.title}، رابط خارجي`}
-                className="group/btn inline-flex items-center gap-2 px-5 py-3.5 rounded-xl bg-[var(--primary)] text-white text-sm font-semibold hover:brightness-105 transition-all duration-160 active:scale-[0.97] w-fit"
+                className="group/btn inline-flex items-center gap-2 px-5 py-3.5 rounded-xl bg-[var(--primary)] text-white text-sm font-semibold hover:bg-[var(--accent-hover)] transition-all duration-160 active:scale-[0.97] w-fit"
               >
                 زيارة الخدمة <ChevronLeft className="w-3.5 h-3.5 transition-transform group-hover/btn:-translate-x-0.5" />
               </a>

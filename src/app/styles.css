@@ -176,9 +176,22 @@
      (The pre-existing value 0.2,1 was a near-identical hand-tune.)
      r126 (P4-A3 §2.3): --ease-spring carried the BOUNCE curve (1.56)
      — the canonical Madarek spring pop is 1.36 (the same fork
-     smart-bot carried); pinned to the rubric value. */
+     smart-bot carried); pinned to the rubric value.
+     P4-W3c: the FULL canonical easing set rides the utility namespace —
+     ease-in/-out override Tailwind's non-canonical defaults with the
+     Madarek curves (the same doctrine as the r126 shadow-xs..2xl →
+     --elev-1..5 bridge: a bare `ease-out` can never render an
+     off-system curve). The named utilities replace the
+     ease-[var(--ease-*)] arbitrary spellings (identical values, no
+     :root-resolvability caveats); the :root --ease-* tokens below
+     remain the runtime side for hand-written CSS. */
   --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-spring: cubic-bezier(0.34, 1.36, 0.64, 1);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in: cubic-bezier(0.7, 0, 0.84, 0);
+  --ease-soft: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-spring-soft: cubic-bezier(0.34, 1.18, 0.64, 1);
+  --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 /* ═══════════════════════════════════════════════════════════════════

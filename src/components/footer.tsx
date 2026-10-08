@@ -53,7 +53,7 @@ export function Footer() {
                   aria-label={s.label}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-11 h-11 rounded-xl bg-[var(--accent)] flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-[var(--primary)] hover:text-white transition-all duration-240"
+                  className="w-11 h-11 rounded-xl bg-[var(--accent-soft)] flex items-center justify-center text-[var(--accent-strong)] hover:bg-[var(--accent-hover)] hover:text-[var(--accent-fg)] transition-all duration-240"
                 >
                   <s.icon className="w-4 h-4" />
                 </a>
@@ -117,20 +117,20 @@ export function Footer() {
             <h3 className="text-sm font-bold text-foreground mb-4">اتصل بنا</h3>
             <ul className="space-y-3">
               <li className="flex items-center gap-2 text-sm text-muted-foreground">
-                <div className="w-8 h-8 rounded-lg bg-[var(--accent)] flex items-center justify-center shrink-0">
-                  <Mail className="w-3.5 h-3.5 text-primary" />
+                <div className="w-8 h-8 rounded-lg bg-[var(--accent-soft)] flex items-center justify-center shrink-0">
+                  <Mail className="w-3.5 h-3.5 text-[var(--accent-strong)]" />
                 </div>
                 <a href={`mailto:${SITE.email}`} className="hover:text-foreground transition-colors inline-flex items-center py-2.5 rounded">{SITE.email}</a>
               </li>
               <li className="flex items-center gap-2 text-sm text-muted-foreground">
-                <div className="w-8 h-8 rounded-lg bg-[var(--accent)] flex items-center justify-center shrink-0">
-                  <MapPin className="w-3.5 h-3.5 text-primary" />
+                <div className="w-8 h-8 rounded-lg bg-[var(--accent-soft)] flex items-center justify-center shrink-0">
+                  <MapPin className="w-3.5 h-3.5 text-[var(--accent-strong)]" />
                 </div>
                 ليبيا
               </li>
               <li className="flex items-center gap-2 text-sm">
-                <div className="w-8 h-8 rounded-lg bg-[var(--accent)] flex items-center justify-center shrink-0">
-                  <MessageCircle className="w-3.5 h-3.5 text-primary" />
+                <div className="w-8 h-8 rounded-lg bg-[var(--accent-soft)] flex items-center justify-center shrink-0">
+                  <MessageCircle className="w-3.5 h-3.5 text-[var(--accent-strong)]" />
                 </div>
                 <a href={SITE.whatsapp.url} target="_blank" rel="noopener noreferrer" className="text-primary-text hover:underline underline-offset-2 transition-all inline-flex items-center py-2.5 rounded" dir="ltr">
                   {SITE.whatsapp.display}

@@ -335,7 +335,7 @@ export function MainNav() {
                    16px) بمعيار WCAG 2.5.5، و«الثيم»→«المظهر» (تعريب أصحّ). */
                 className="p-3 rounded-xl hover:bg-[var(--accent)] text-muted-foreground hover:text-foreground transition-all duration-160 active:scale-[0.97] focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--ring)]"
               >
-                <span className={cn("block transition-all duration-520 ease-[var(--ease-spring)]", theme === "dark" ? "rotate-0" : "rotate-180")}>
+                <span className={cn("block transition-all duration-520 ease-spring", theme === "dark" ? "rotate-0" : "rotate-180")}>
                   {theme === "dark" ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
                 </span>
               </button>

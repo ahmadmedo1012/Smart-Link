@@ -49,6 +49,17 @@
  * (was 2: smooth/spring), so a renamed curve or a reverted Tailwind
  * override can no longer pass.
  *
+ * r127-F6 (A6 drift wave): (1) the WRONG dark-ring pin is corrected —
+ *   --ring dark is now #C9962F (canonical cascade: dark
+ *   --state-focus-ring-color → --accent-strong; fleet-convergent with
+ *   Smart-Menu/Bot/Order), was the off-canonical #E9B44C that made
+ *   convergence impossible without a test change; (2) the
+ *   prefers-reduced-motion TOKEN-zeroing layer (:root --t-* → 0ms,
+ *   canonical layer 1 — the belt was already there) + the belt itself
+ *   are pinned; (3) the @theme --radius-xs 6px bridge joins
+ *   THEME_RADIUS (was: runtime --r-xs only, rounded-xs fell to the
+ *   Tailwind 2px default).
+ *
  * Token-name bridge (smart-link keeps its own shadcn/utility vocabulary):
  *   ground --bg → --background · surface --surface → --card
  *   ink --text → --foreground · ink-secondary → --muted-foreground
@@ -263,7 +274,10 @@ const BRIDGE_DARK = {
   '--primary': '#E9B44C', // Madarek --accent dark (gold)
   '--primary-text': '#E9B44C', // Madarek --accent-ink dark (10.3:1 as text)
   '--primary-fg': '#05070F', // Madarek --accent-fg dark (text ON gold)
-  '--ring': '#E9B44C', // --state-focus-ring-color dark (10.39:1)
+  // r127-F6: corrected pin — canonical cascade resolves dark
+  // --state-focus-ring-color → --accent-strong (7.38:1 on night);
+  // the old #E9B44C pin enshrined the one fleet outlier as "canonical".
+  '--ring': '#C9962F',
   '--accent': 'rgb(233 180 76 / 0.15)', // translucent wash semantics
   '--input-border': 'color-mix(in oklab, #C3C8DC 70%, #0D1428)', // resolved r13 3:1 border recipe
 };
@@ -364,6 +378,9 @@ const THEME_FONTS = {
   '--font-mono': '"IBM Plex Mono", "IBM Plex Sans Arabic", ui-monospace, "SFMono-Regular", monospace',
 };
 const THEME_RADIUS = {
+  // r127-F6: --radius-xs joins the bridge (was runtime --r-xs only —
+  // rounded-xs silently rendered Tailwind's 2px default).
+  '--radius-xs': '6px',
   '--radius-sm': '8px', '--radius-md': '10px', '--radius-lg': '12px',
   '--radius-xl': '16px', '--radius-2xl': '20px', '--radius-3xl': '28px',
 };
@@ -531,6 +548,37 @@ const focusRule = css.match(/\*:focus-visible\s*\{([^}]*)\}/)?.[1] ?? '';
 check(/outline:\s*2px solid var\(--ring\)/.test(focusRule), '*:focus-visible must paint the canonical 2px var(--ring) outline');
 check(/outline-offset:\s*2px/.test(focusRule), '*:focus-visible must keep the 2px outline offset');
 check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-radius (r126 unification — outline only)');
+
+// r127-F6: prefers-reduced-motion — the full canonical shape, pinned.
+// A6 found Link shipped the universal belt but NOT layer 1 (zeroing the
+// --t-* ladder): the belt clamps CSS animation/transition properties,
+// while consumers reading var(--t-*) durations directly kept animating.
+// Both layers are now asserted, so neither can silently regress.
+{
+  const rmReduceBlocks = allTopLevelBlocks(css, '@media (prefers-reduced-motion: reduce)');
+  check(
+    rmReduceBlocks.some(
+      (b) => /animation-duration:\s*0\.01ms\s*!important/.test(b) && /transition-duration:\s*0\.01ms\s*!important/.test(b)
+    ),
+    'the universal RM belt (animation/transition → 0.01ms !important) must stay'
+  );
+  const rmZeroDecls = rmReduceBlocks
+    .map((b) => {
+      try {
+        return parseDecls(topLevelBlock(b, ':root'));
+      } catch {
+        return null;
+      }
+    })
+    .find((d) => d !== null && d['--t-micro'] !== undefined);
+  check(
+    rmZeroDecls !== undefined,
+    'a prefers-reduced-motion: reduce block must zero the --t-* duration ladder (:root layer 1)'
+  );
+  if (rmZeroDecls) {
+    for (const t of Object.keys(MOTION)) pin(rmZeroDecls, 'rm-zero', t, '0ms');
+  }
+}
 
 // ── report ───────────────────────────────────────────────────────────────────
 

@@ -38,7 +38,7 @@ npm run dev        # خادم التطوير
 npm run build      # بناء إنتاجي (يعمل tsc تلقائياً)
 npm run start      # تشغيل بناء الإنتاج محلياً
 npm run lint       # ESLint (صفر أخطاء)
-npm run test:parity # لقطة تكافؤ مدارك — 271 تثبيت توكن (node صِرف)
+npm run test:parity # لقطة تكافؤ مدارك — 287 تثبيت توكن (node صِرف)
 npm run test:e2e   # جناح E2E الكامل (build أولاً)
 ```
 
@@ -70,13 +70,13 @@ playwright.config.ts  # webServer = next start على بناء إنتاجي
 
 ## الاختبارات (r7 → r126)
 
-جناح E2E داخل المستودع — **295 اختباراً** في 23 ملف مواصفات تحت `e2e/`، يُشغّل على بناء إنتاجي (`next start`) عبر Playwright + axe-core، إلى جانب لقطة تكافؤ توكنات مدارك (r126: **271 تثبيتاً** عبر `npm run test:parity` — تُفرض في CI):
+جناح E2E داخل المستودع — **295 اختباراً** في 23 ملف مواصفات تحت `e2e/`، يُشغّل على بناء إنتاجي (`next start`) عبر Playwright + axe-core، إلى جانب لقطة تكافؤ توكنات مدارك (r127: **287 تثبيتاً** عبر `npm run test:parity` — تُفرض في CI):
 
 ```bash
 npx playwright install chromium   # مرة واحدة
 npm run build                     # البناء أولاً (webServer يشغّل next start)
 npm run test:e2e                  # 295/295 يجب أن تمرّ
-npm run test:parity               # 271/271 توكن يجب أن يطابق القانوني
+npm run test:parity               # 287/287 توكن يجب أن يطابق القانوني
 ```
 
 التغطية:

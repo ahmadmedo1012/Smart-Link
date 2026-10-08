@@ -157,14 +157,19 @@
   --color-primary-text: var(--primary-text);
 
   /* Radii on the Madarek "Notion-soft" ladder (§1.2). r126 (P4-A3
-     §2.4): the FULL ladder is bridged into Tailwind utilities — before,
+     §2.4): the ladder is bridged into Tailwind utilities — before,
      rounded-2xl silently rendered Tailwind's default 16px (the same
      value as rounded-xl) while sibling cards hardcoded rounded-[20px],
      shipping two radii for equal-tier surfaces. rounded-md/2xl/3xl now
      resolve to the canonical 10/20/28px; the --r-* spelling stays the
      canonical token set in :root below. The product-showcase phone
      frame's former 32/40px mockup corners snapped onto the ladder
-     (20/28 = 2xl/3xl) — no deliberate exceptions remain. */
+     (20/28 = 2xl/3xl) — no deliberate exceptions remain.
+     r127 (A6 P4): --radius-xs joins the bridge (literal, like its
+     siblings — mode-invariant) — rounded-xs used to fall through to
+     Tailwind's 2px default while the runtime --r-xs 6px rung existed;
+     now the ladder is bridged at FULL width, xs through 3xl. */
+  --radius-xs: 6px;
   --radius-sm: 8px;
   --radius-md: 10px;
   --radius-lg: 12px;
@@ -234,11 +239,13 @@
   --input-border: color-mix(in oklab, var(--muted-foreground) 70%, var(--card));
   --border: #1B2444;
   --border-strong: #263052;
-  /* --ring = Madarek dark focus ring: the gold accent itself #E9B44C
-     (§4.5, 10.39:1 on night — canonical dark value; strong gold #C9962F
-     stays on --accent-strong). Also tints the feature-card hover
-     hairline. */
-  --ring: #E9B44C;
+  /* --ring = Madarek dark focus ring: the canonical cascade resolves
+     dark --state-focus-ring-color → --accent-strong #C9962F (r127-A6:
+     Smart-Menu/Bot/Order all paint the strong gold — the former
+     #E9B44C here was the one fleet outlier, wrongly pinned as
+     "canonical" by parity.mjs until r127-F6). 7.38:1 on night — AA
+     (and AAA ≥7:1). Also tints the feature-card hover hairline. */
+  --ring: #C9962F;
   /* --destructive/--success/--warning/--info = Madarek status BASE
      values (§1.6 dark = the family -ink hues). Companions -ink = the
      canonical text-grade variant (dark: identical to base; light theme
@@ -935,6 +942,17 @@
 
 /* ── Reduced motion ── */
 @media (prefers-reduced-motion: reduce) {
+  /* r127 (A6 P4): canonical layer 1 — zero the --t-* duration ladder
+     itself. The universal belt below only clamps CSS animation/
+     transition PROPERTIES; any consumer reading var(--t-*) durations
+     directly (inline styles, a future island) kept animating at full
+     speed. Smart-Menu/SmartBot/Smart-Order all zero the ladder — this
+     closes the last fleet gap. Easings and --motion-direction stay
+     (curves/direction are harmless at 0ms). */
+  :root {
+    --t-micro: 0ms;   --t-fast: 0ms;   --t-base: 0ms;
+    --t-slow: 0ms;    --t-slower: 0ms; --t-cinema: 0ms;
+  }
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
@@ -1079,7 +1097,7 @@
    The contact form already carries the 16px iOS zoom floor (r13) and a
    2px --ring halo via utilities; the token bridge points --ring at the
    Madarek canonical focus values (light copper-deep #5C3416 10.29:1 ·
-   dark gold #E9B44C 10.39:1), which completes the §4.5 input-focus
-   recipe. Nothing further to add — documented here so the pattern's
-   home is findable. */
+   dark strong gold #C9962F 7.38:1 — r127-F6: was the off-canonical
+   #E9B44C), which completes the §4.5 input-focus recipe. Nothing
+   further to add — documented here so the pattern's home is findable. */
 

@@ -111,11 +111,15 @@
 }
 
 /* mono machine-voice — Latin runs, numerals, coordinates (Arabic runs
-   continue in the brand sans via the --ln-mono fallback chain) */
+   continue in the brand sans via the --ln-mono fallback chain).
+   r133 (R12 / A7 §3 / A8 N2): letter-spacing 0.08em → 0 — every live
+   run of this voice mixes Arabic (hero eyebrow «ليبيا», trust band
+   «عميل نشط», products note «خدمات · منظومة SmartLink»); tracking
+   breaks cursive joining. tabular-nums keeps the alignment role. */
 .landing .ln-mono {
   font-family: var(--ln-mono);
   font-size: 12px;
-  letter-spacing: 0.08em;
+  letter-spacing: 0;
   color: var(--ln-cream-dim);
   font-variant-numeric: tabular-nums;
   direction: ltr;
@@ -124,13 +128,15 @@
 
 /* technical section label — «01 — رحلة الربط». Direction-neutral
    (inherits RTL) so the Latin numeral opens the reading; tabular
-   numerals keep the indexes aligned across chapters. */
+   numerals keep the indexes aligned across chapters.
+   r133 (R12): letter-spacing 0 — mixed-script runs (the Arabic word
+   was tracked ~1px at 12px); mirrors the product-skin twin. */
 .landing .ln-label {
   display: block;
   font-family: var(--ln-mono);
   font-size: 12px;
   font-weight: var(--fw-medium);
-  letter-spacing: 0.08em;
+  letter-spacing: 0;
   color: var(--ln-lime);
   font-variant-numeric: tabular-nums;
   direction: inherit;
@@ -380,13 +386,15 @@
 .landing .ln-btn-gold:hover::after { opacity: 1; }
 .landing .ln-btn-gold.xl { padding: 12px 34px; font-size: 16px; min-block-size: 48px; }
 
-/* the outline pill — transparent, 1px hairline, faint tracking; hover is
-   a quiet tint, never a lime fill (VLM R3-W5 lime roster) */
+/* the outline pill — transparent, 1px hairline; hover is
+   a quiet tint, never a lime fill (VLM R3-W5 lime roster).
+   r133 (R12): the faint 0.01em tracking dropped — Arabic labels. */
 .landing .ln-btn-ghost {
   padding: 10px 24px;
   font-size: 15px;
   min-block-size: 46px;
-  letter-spacing: 0.01em;
+  /* r133 (R12): 0.01em → 0 — the pill labels are Arabic («تواصل معنا»); */
+  letter-spacing: 0;
   background: transparent;
   color: var(--ln-cream);
   /* GAP-3: the old 0.14 hairline read as a disabled field — the pill
@@ -520,6 +528,16 @@
 .landing .reveal-d-4.in-view { transition-delay: 320ms; }
 .landing .reveal-d-5.in-view { transition-delay: 400ms; }
 @media (prefers-reduced-motion: reduce) {
+  .landing .reveal-up { opacity: 1; transform: none; }
+}
+/* r133 (A7 §1 / A6 probe): the no-JS contract. styles.css ships
+   `@media (scripting: none) { .reveal-up { opacity: 1 } }` at (0,1,0) —
+   the landing's own (0,2,0) `.landing .reveal-up` defeated it, so a
+   no-JS visitor never saw any below-fold chapter (empirical probe:
+   computed opacity 0 on #products h2 / .ln-cta-title). This clause
+   matches the specificity and restores the documented belt contract
+   (content must never stay hidden — same law as the RM block above). */
+@media (scripting: none) {
   .landing .reveal-up { opacity: 1; transform: none; }
 }
 
@@ -872,7 +890,7 @@
 .landing .ln-hero-scroll:hover .ln-hero-scroll-line {
   transform: scaleY(1.3);
 }
-.landing .ln-hero-scroll .ln-mono { font-size: 11.5px; letter-spacing: 0.22em; }
+.landing .ln-hero-scroll .ln-mono { font-size: 11.5px; letter-spacing: 0; } /* r133 (R12): pure Arabic «تابع الرحلة» — 0.22em ≈ 2.5px gaps broke the joins */
 .landing .ln-hero-scroll-line {
   inline-size: 1px;
   block-size: 42px;
@@ -1070,8 +1088,11 @@
   color: var(--ln-cream);
 }
 .landing .ln-constellation-browse svg { transition: transform var(--ln-t-fast) var(--ln-ease-out); }
-/* P4-26 (canonical): direction-aware arrow — RTL points left. */
-.landing .ln-constellation-browse:hover svg { transform: translateX(3px); }
+/* P4-26: direction-aware arrow — RTL points left, so the hover nudge
+   must move LEFT (−3px). r133 (A7 §4-7): physical translateX(3px)
+   always moved right — backwards for the RTL arrow (mirrors the
+   inner-page group-hover:-translate-x-0.5 pattern). */
+.landing .ln-constellation-browse:hover svg { transform: translateX(-3px); }
 
 .landing .ln-products-note {
   max-inline-size: 1180px;
@@ -1280,7 +1301,7 @@
   text-align: center;
   color: var(--ln-cream-dim);
 }
-.landing .ln-progress-label .ln-mono { font-size: 11.5px; letter-spacing: 0.2em; }
+.landing .ln-progress-label .ln-mono { font-size: 11.5px; letter-spacing: 0; } /* r133 (R12): «المنظومة تتّسع» — Arabic run */
 
 .landing .ln-progress-copy { display: grid; gap: var(--sp-4); }
 .landing .ln-progress-copy .ln-chapter-title { max-inline-size: 18ch; }

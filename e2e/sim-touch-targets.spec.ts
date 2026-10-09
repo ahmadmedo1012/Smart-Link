@@ -29,7 +29,7 @@ function expectAtLeast44(box: { width: number; height: number } | null, what: st
 test.describe("r14 — أهداف اللمس الأساسية ≥ 44×44 (حراسة إصلاحات r11)", () => {
   test.use({ viewport: MOBILE_VIEWPORT })
 
-  test("البرغر ومبدّل المظهر ≥ 44×44 على كل الصفحات", async ({ page }) => {
+  test("البرغر (كل الصفحات) ومبدّل المظهر (صفحات المنتج) ≥ 44×44", async ({ page }) => {
     for (const p of PAGES) {
       await page.goto(p.path, { waitUntil: "load" })
       await hydrationGate(page)
@@ -39,15 +39,19 @@ test.describe("r14 — أهداف اللمس الأساسية ≥ 44×44 (حرا
           .boundingBox(),
         `${p.path}: زر القائمة`
       )
-      expectAtLeast44(
-        await page.getByRole("button", { name: /تفعيل المظهر/ }).boundingBox(),
-        `${p.path}: مبدّل المظهر`
-      )
+      /* r133 (A7 §1 re-base): المبدّل كروم منتج — يقاس على الصفحات
+         الداخلية فقط (الرئيسية بلا مبدّل منذ r128؛ برجرها 48px). */
+      if (p.path !== "/") {
+        expectAtLeast44(
+          await page.getByRole("button", { name: /تفعيل المظهر/ }).boundingBox(),
+          `${p.path}: مبدّل المظهر`
+        )
+      }
     }
   })
 
-  test("زر العودة للأعلى ≥ 44×44 (بعد التمرير)", async ({ page }) => {
-    await page.goto("/", { waitUntil: "load" })
+  test("زر العودة للأعلى ≥ 44×44 (بعد التمرير — كروم المنتج على /about)", async ({ page }) => {
+    await page.goto("/about", { waitUntil: "load" })
     await hydrationGate(page)
     await page.evaluate(() => window.scrollTo(0, 900))
     const btn = page.getByRole("button", { name: "العودة للأعلى" })

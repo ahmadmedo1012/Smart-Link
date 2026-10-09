@@ -175,6 +175,7 @@ Automatic via the GitHub → Vercel integration (project `smartlink`). Every pus
 | 🍽️ **Smart Menu / سمارت منيو** | Digital menu & WhatsApp ordering for restaurants | [github.com/ahmadmedo1012/Smart-Menu](https://github.com/ahmadmedo1012/Smart-Menu) | [menu.smart-link.ly](https://menu.smart-link.ly) |
 | 🤖 **SmartBot / سمارت بوت** | Messenger bot & automation for Facebook pages | [github.com/ahmadmedo1012/SmartBot](https://github.com/ahmadmedo1012/SmartBot) | [bot.smart-link.ly](https://bot.smart-link.ly) |
 | 🛍️ **Smart Order / سمارت أوردر** | Digital storefront, orders & delivery for businesses | [github.com/ahmadmedo1012/Smart-Order](https://github.com/ahmadmedo1012/Smart-Order) | [order.smart-link.ly](https://order.smart-link.ly) |
+
 ## License
 
 This project is **proprietary software** — all rights reserved © 2026 Ahmad Medo (ahmadmedo1012). Viewing or cloning this repository grants no right to use, copy, modify, publish, or redistribute it without prior written permission from the copyright holder.

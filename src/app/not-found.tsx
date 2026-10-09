@@ -51,6 +51,11 @@ export default function NotFound() {
     <div className="min-h-[80dvh] pt-16 flex items-center justify-center relative overflow-hidden">
       <div className="text-center relative">
         <div className="reveal-blur">
+          {/* documented display-art (r133 A7 §2.3): the 404 numeral rides
+              raw text-9xl 128px INTENTIONALLY off the ladder — a poster
+              numeral, not a reading rung. Do NOT tokenize to --fs-mega
+              (max 104px — a real 24px visual change). Pinned in
+              tests/parity.mjs §r133. */}
           <h1 className="text-9xl font-bold leading-none mb-2">
             {/* r128 F6: flat accent ink + mono voice (was gradient-text) */}
             <span className="ln-mono text-[var(--primary-text)]">404</span>

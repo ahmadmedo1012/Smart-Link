@@ -1,5 +1,5 @@
 import { test, expect, allowResourceNoise } from "./fixtures"
-import { axeScan } from "./helpers"
+import { axeScan, hydrationGate } from "./helpers"
 
 /* r10 (testing audit G5 + a11y audit E): the whole axe suite runs on
    the STATIC page — but the a11y findings of r10 lived exactly where
@@ -10,16 +10,20 @@ import { axeScan } from "./helpers"
 
 
 test.describe("r10 — axe على الحالات التفاعلية (كان أعمى لها)", () => {
-  test("القائمة المنسدلة «خدماتنا» مفتوحة → صفر انتهاكات", async ({ page }) => {
-    await page.goto("/", { waitUntil: "domcontentloaded" })
+  /* r133 (A7 §1 re-base): القائمة المنسدلة كروم منتج — تستهدف /about
+     (الرئيسية لها مِغامينو «المنصّة» الخاص، محروس في navigation.spec). */
+  test("القائمة المنسدلة «خدماتنا» مفتوحة → صفر انتهاكات (كروم المنتج على /about)", async ({ page }) => {
+    await page.goto("/about", { waitUntil: "domcontentloaded" })
+    await hydrationGate(page)
     await page.getByRole("button", { name: /خدماتنا/ }).hover()
     await expect(page.locator(".menu-pop").first()).toBeVisible()
     expect(await axeScan(page)).toEqual([])
   })
 
-  test("قائمة الجوال مفتوحة → صفر انتهاكات", async ({ page }) => {
+  test("قائمة الجوال مفتوحة → صفر انتهاكات (درج الرئيسية)", async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 812 })
     await page.goto("/", { waitUntil: "domcontentloaded" })
+    await hydrationGate(page)
     await page.getByRole("button", { name: "فتح القائمة" }).click()
     await expect(page.locator("nav[aria-label='قائمة الجوال']")).toBeVisible()
     expect(await axeScan(page)).toEqual([])

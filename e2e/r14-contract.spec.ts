@@ -15,9 +15,11 @@ import { hydrationGate } from "./helpers"
 
 /* ═══ 1) theme-color الديناميكي ═══ */
 test.describe("r14 — theme-color يتبع المستخدم", () => {
+  /* r133 (A7 §1 re-base): المبدّل كروم منتج — الاختبار يستهدف /about
+     (الرئيسية بلا مبدّل منذ r128؛ ThemeColorSync نفسه يعمل على كل الصفحات). */
   test("OS داكن + المستخدم يبدّل للفاتح → الوسمان يتبعانه (لا OS)", async ({ page }) => {
     await page.emulateMedia({ colorScheme: "dark" })
-    await page.goto("/", { waitUntil: "load" })
+    await page.goto("/about", { waitUntil: "load" })
     await hydrationGate(page)
     // النظام داكن + الموقع داكن (الافتراضي) → الشريط داكن
     // m15: أرض مدارك الليلية #070B16 (كانت #000000)

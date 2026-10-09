@@ -148,18 +148,21 @@ export default function PricingPage() {
                   <Icon className="w-6 h-6" aria-hidden="true" />
                 </div>
                 <h2 className="text-[length:var(--fs-h3)] font-bold text-foreground mb-1">{plan.title}</h2>
-                <p className="text-sm text-[var(--primary-text)] font-medium mb-2">{plan.subtitle}</p>
+                {/* r133 (A7 §2.2 / R16): the plan card's prose trio — subtitle,
+                    period and features — rides --fs-body 15px (was raw
+                    text-sm 14px — the UI-chrome rung). */}
+                <p className="text-[length:var(--fs-body)] text-[var(--primary-text)] font-medium mb-2">{plan.subtitle}</p>
                 <div className="mb-6">
                   {/* mono machine-voice price (ln-mono pattern) — r131 D4:
                       the --fs-metric-lg 30px rung (was raw text-4xl 36px,
                       off the metric ladder 22/30/44); ln-mono carries the
                       tabular-nums. */}
                   <span className="ln-mono text-[length:var(--fs-metric-lg)] font-bold text-foreground">{plan.price}</span>
-                  <span className="text-sm text-muted-foreground ms-2">{plan.period}</span>
+                  <span className="text-[length:var(--fs-body)] text-muted-foreground ms-2">{plan.period}</span>
                 </div>
                 <ul className="space-y-3 mb-8 flex-1">
                   {plan.features.map((f, fi) => (
-                    <li key={fi} className="flex items-center gap-2.5 text-sm text-muted-foreground">
+                    <li key={fi} className="flex items-center gap-2.5 text-[length:var(--fs-body)] text-muted-foreground">
                       <div className="w-5 h-5 rounded-full bg-[var(--accent)] flex items-center justify-center shrink-0">
                         <Check className="w-3 h-3 text-primary" />
                       </div>

@@ -60,10 +60,17 @@ async function shot(page: Page, name: string) {
   })
 }
 
-/** كل صور الصفحة محمّلة فعلاً (complete + naturalWidth>0) بعد التمرير */
+/** كل صور الصفحة المحمّلة فعلاً (complete + naturalWidth>0) بعد التمرير.
+ *
+ * r133 (re-base): الصور المصيَّرة فقط — الصورة غير المصيَّرة ليست
+ * مدركة للمستخدم أصلاً. النسخة الخاملة من الشعار المزدوج في الفوتر
+ * (display:none + loading="lazy" — قانون موثّق) لا يُشغّل كروم تحميلها
+ * إطلاقاً: complete:false إلى الأبد بينما لا يراها مستخدم — قياسها
+ * فشل متقطع لا معنى له. عند قلب المظهر تصير مرئية وتُحمّل حينها. */
 async function assertImagesLoaded(page: Page, label: string) {
   const broken = await page.evaluate(() =>
     Array.from(document.querySelectorAll("img"))
+      .filter((i) => i.getClientRects().length > 0)
       .filter((i) => !(i.complete && i.naturalWidth > 0))
       .map((i) => i.currentSrc || i.getAttribute("src") || "(no src)")
   )
@@ -114,10 +121,17 @@ test.describe("MOBILE 375×812 — الصفحات الست", () => {
       await expect(mobileNav).toBeHidden()
 
       // (ج) الفتح: القائمة + روابطها مرئية
+      /* r133 (A7 §1 re-base): درج ال landing يحمل مراسي الرحلة +
+         /contact (لا روابط /about//pricing)؛ قائمة المنتج تحمل
+         الروابط الداخلية الكاملة. */
+      const drawerHrefs =
+        p.path === "/"
+          ? ["#products", "#journey", "/contact"]
+          : ["/about", "/pricing", "/contact"]
       await burger.click()
       await expect(mobileNav).toBeVisible()
       await expect(burger).toHaveAttribute("aria-expanded", "true")
-      for (const href of ["/about", "/pricing", "/contact"]) {
+      for (const href of drawerHrefs) {
         await expect(mobileNav.locator(`a[href="${href}"]`), `رابط ${href} في قائمة الجوال`).toBeVisible()
       }
 
@@ -229,8 +243,19 @@ test.describe("DESKTOP 1280×800 — لقطات داكن + فاتح", () => {
       await expect(page.locator("html")).toHaveClass(/(^|\s)dark(\s|$)/)
       await shot(page, `${slug(p.path)}-dark`)
 
-      // التبديل إلى الفاتح عبر اسم الوصول (aria-label) ثم مهلة 300ms
-      await page.getByRole("button", { name: "تفعيل المظهر الفاتح" }).click()
+      /* r133 (A7 §1 re-base): التبديل إلى الفاتح — زر كروم المنتج، وفي
+         الرئيسية (بلا مبدّل منذ r128) مفتاح التخزين + قلب الفئة يدوياً:
+         ال landing يرسم نفس المرحلة في الوضعين، واللقطة تحرّس ظهور أي
+         قواعد light مستقبلية على html.light حقيقي. */
+      if (p.path === "/") {
+        await page.evaluate(() => {
+          localStorage.setItem("theme", "light")
+          document.documentElement.classList.add("light")
+          document.documentElement.classList.remove("dark")
+        })
+      } else {
+        await page.getByRole("button", { name: "تفعيل المظهر الفاتح" }).click()
+      }
       await expect(page.locator("html")).toHaveClass(/(^|\s)light(\s|$)/)
       await page.waitForTimeout(300)
       await shot(page, `${slug(p.path)}-light`)
@@ -246,10 +271,18 @@ test.describe("MOBILE 375×812 — لقطات الوضع الفاتح", () => {
 
   for (const p of PAGES) {
     test(`${p.path} — لقطة fullPage فاتح (jpeg q60)`, async ({ page }) => {
-      await page.goto(p.path, { waitUntil: "load" })
-      await hydrationGate(page)
-      await page.getByRole("button", { name: "تفعيل المظهر الفاتح" }).click()
-      await expect(page.locator("html")).toHaveClass(/(^|\s)light(\s|$)/)
+      /* r133 (A7 §1 re-base): كالأعلى — الرئيسية بلا مبدّل؛ الوضع
+         الفاتح عبر مفتاح التخزين قبل التحميل. */
+      if (p.path === "/") {
+        await page.addInitScript(() => localStorage.setItem("theme", "light"))
+        await page.goto(p.path, { waitUntil: "load" })
+        await expect(page.locator("html")).toHaveClass(/(^|\s)light(\s|$)/)
+      } else {
+        await page.goto(p.path, { waitUntil: "load" })
+        await hydrationGate(page)
+        await page.getByRole("button", { name: "تفعيل المظهر الفاتح" }).click()
+        await expect(page.locator("html")).toHaveClass(/(^|\s)light(\s|$)/)
+      }
       await page.waitForTimeout(300)
       await scrollThrough(page)
       await shot(page, `mobile-${slug(p.path)}`)
@@ -304,12 +337,17 @@ test.describe("LINK SWEEP — desktop 1280×800", () => {
       await page.goto(p.path, { waitUntil: "load" })
       await hydrationGate(page)
 
+      /* r133 (re-base): عقيدة «ما يُدركه المستخدم فقط» — الروابط
+         المصيَّرة وحدها. حبوبة التخطّي الذهبية العامة (href="#main-content")
+         يخفيها landing.css على الرئيسية (قرار r129 P2-2 — الرئيسية تملك
+         حبوبتها الجيرية الخاصة → #main)؛ عنصر display:none بلا صناديق
+         وهدف مرساته لا وجود له في عالم ال landing أصلاً — عمداً. */
       const hrefs = await page.evaluate(() =>
         Array.from(
           new Set(
-            Array.from(document.querySelectorAll("a[href]")).map(
-              (a) => a.getAttribute("href") ?? ""
-            )
+            Array.from(document.querySelectorAll("a[href]"))
+              .filter((a) => a.getClientRects().length > 0)
+              .map((a) => a.getAttribute("href") ?? "")
           )
         )
       )
@@ -391,10 +429,17 @@ test.describe("IMAGES — الوضع الفاتح", () => {
   test.use({ viewport: { width: 1280, height: 800 } })
   for (const p of PAGES) {
     test(`${p.path} — كل الصور محمّلة (light)`, async ({ page }) => {
-      await page.goto(p.path, { waitUntil: "load" })
-      await hydrationGate(page)
-      await page.getByRole("button", { name: "تفعيل المظهر الفاتح" }).click()
-      await expect(page.locator("html")).toHaveClass(/(^|\s)light(\s|$)/)
+      /* r133 (A7 §1 re-base): كالأعلى — الرئيسية بلا مبدّل. */
+      if (p.path === "/") {
+        await page.addInitScript(() => localStorage.setItem("theme", "light"))
+        await page.goto(p.path, { waitUntil: "load" })
+        await expect(page.locator("html")).toHaveClass(/(^|\s)light(\s|$)/)
+      } else {
+        await page.goto(p.path, { waitUntil: "load" })
+        await hydrationGate(page)
+        await page.getByRole("button", { name: "تفعيل المظهر الفاتح" }).click()
+        await expect(page.locator("html")).toHaveClass(/(^|\s)light(\s|$)/)
+      }
       await page.waitForTimeout(300)
       await scrollThrough(page)
       await assertImagesLoaded(page, `${p.path} light`)

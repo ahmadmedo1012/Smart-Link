@@ -70,9 +70,16 @@ export function allowResourceNoise(errors: ConsoleErrors, pattern: RegExp) {
 
 export { expect }
 
-/** الصفحات الست + عناوينها — مصدر واحد للحقيقة لكل specs الصفحات/SEO/a11y */
+/** الصفحات الست + عناوينها — مصدر واحد للحقيقة لكل specs الصفحات/SEO/a11y
+ *
+ * r133 (A7 §1 re-base): r128 Stage B (F2b) نقل كروم المنتج (MainNav/
+ * Footer/BackToTop/مبدّل المظهر) من ال landing إلى الصفحات الداخلية —
+ * الرئيسية صارت عالم Orbit-Ink خاصاً بها (LandingHeader/LandingFooter).
+ * عنوان h1 للرئيسية هو نص الهيرو الحقيقي «كلُّ عملٍ يبدأ رابطًا ويصبح
+ * منظومةً» (page.tsx:99-102) — لا يحمل كلمة SmartLink إطلاقاً. كل spec
+ * يبني على هذه المصفوفة يرث العقد المصحّح تلقائياً. */
 export const PAGES = [
-  { path: "/", h1: /SmartLink/, title: /SmartLink — منصة رقمية متكاملة/ },
+  { path: "/", h1: /كلُّ عملٍ يبدأ رابطًا/, title: /SmartLink — منصة رقمية متكاملة/ },
   { path: "/about", h1: /عن SmartLink/, title: /عن SmartLink — منصة ليبية متكاملة \| SmartLink/ },
   { path: "/pricing", h1: /الخطط والأسعار/, title: /الخطط والأسعار — ابدأ مجاناً اليوم \| SmartLink/ },
   { path: "/contact", h1: /تواصل معنا/, title: /تواصل معنا — فريق SmartLink جاهز للمساعدة \| SmartLink/ },

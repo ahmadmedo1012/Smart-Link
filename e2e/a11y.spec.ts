@@ -25,9 +25,19 @@ test.describe("axe-core — صفر انتهاكات في الوضعين", () => 
 
   for (const p of PAGES) {
     test(`${p.path} — الوضع الفاتح (بعد التبديل)`, async ({ page }) => {
+      /* r133 (A7 §1 re-base): الرئيسية بلا مبدّل مظهر منذ r128 (كروم
+         المنتج انتقل للصفحات الداخلية). ال landing يرسم Orbit-Ink في
+         الوضعين معاً (مرحلة داكنة عمداً) — لكن العقد يظل: html.light
+         حقيقي أثناء المسح (لو أضاف ال landing يوماً قواعد light، يمسكها
+         المسح هنا). الوضع يُضبط عبر مفتاح التخزين بدل الزر المعدوم. */
+      if (p.path === "/") {
+        await page.addInitScript(() => localStorage.setItem("theme", "light"))
+      } else {
+        await page.goto(p.path, { waitUntil: "networkidle" })
+        // بدّل إلى الفاتح كما يفعل المستخدم
+        await page.getByRole("button", { name: "تفعيل المظهر الفاتح" }).click()
+      }
       await page.goto(p.path, { waitUntil: "networkidle" })
-      // بدّل إلى الفاتح كما يفعل المستخدم
-      await page.getByRole("button", { name: "تفعيل المظهر الفاتح" }).click()
       await expect(page.locator("html")).toHaveClass(/light/)
       // رسومات الخلفية التوليدية تحتاج إطاراً لتتطلب
       await page.waitForTimeout(300)
@@ -54,10 +64,18 @@ test.describe("axe-core — جوال 375×812 في الوضع الفاتح (r14)
   for (const p of PAGES) {
     test(`${p.path} — جوال فاتح بلا انتهاكات WCAG 2.1 AA`, async ({ page }) => {
       await page.setViewportSize({ width: 375, height: 812 })
-      await page.goto(p.path, { waitUntil: "load" })
-      await hydrationGate(page)
-      await page.getByRole("button", { name: "تفعيل المظهر الفاتح" }).click()
-      await expect(page.locator("html")).toHaveClass(/light/)
+      /* r133 (A7 §1 re-base): كالأعلى — الرئيسية بلا مبدّل؛ الوضع الفاتح
+         عبر مفتاح التخزين (ال landing يرسم نفس المرحلة في الوضعين). */
+      if (p.path === "/") {
+        await page.addInitScript(() => localStorage.setItem("theme", "light"))
+        await page.goto(p.path, { waitUntil: "load" })
+        await expect(page.locator("html")).toHaveClass(/light/)
+      } else {
+        await page.goto(p.path, { waitUntil: "load" })
+        await hydrationGate(page)
+        await page.getByRole("button", { name: "تفعيل المظهر الفاتح" }).click()
+        await expect(page.locator("html")).toHaveClass(/light/)
+      }
       await page.waitForTimeout(300)
       const violations = await axeScan(page)
       expect(

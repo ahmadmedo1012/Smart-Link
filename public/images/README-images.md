@@ -1,17 +1,14 @@
-# Image Asset Specification — SmartLink
+# Image Asset Disposition — SmartLink
 
-No API key configured for image generation. Placeholder spec below.
+r133 (A7 §4-6): sections 1–3 (hero-visual / feature-*.png placeholder
+specs and the og-smartlink.svg "DONE" note) described assets that never
+existed or were deleted in r9 — trimmed. What actually ships in
+`public/` today: the two logo wordmark PNGs, favicon/apple-touch/icon
+icons (incl. the r133 maskable-192), `og-smartlink.jpg`, the 10 woff2
+fonts, `sw.js` and this note. This directory (`public/images/`) is empty
+of binaries on purpose.
 
-## 1. Hero background — `hero-visual.png` (1200×675px / 16:9)
-Dark tech editorial, deep navy canvas, warm orange (#ff8b1a) accent glow, floating glassmorphism panels, node connection graph suggesting digital ecosystem. No text. Cinematic grade.
-
-## 2. Feature section visuals — `feature-*.png` (800×600px)
-3–4 images: abstract tech compositions matching the palette. One per feature card. Clean, product-adjacent (interface mockups, data visualization hints, network nodes).
-
-## 3. OG Card — `og-smartlink.svg` ✅ DONE
-Enhanced with: node visualization, glass service pills, dual accent glow, orbital rings.
-
-## 4. Services screenshots — DELETED (r132)
+## r132 deletion history (kept — the accurate part of the old doc)
 
 `smart-menu.jpg` (203 KB) + `smart-bot.jpg` (53 KB) shipped since the
 early rounds with **zero `src/` consumers** — no page, component, or
@@ -32,7 +29,3 @@ r132 disposition:
 
 `og-smartlink.jpg` (repo root) is untouched — it is the live OG/Twitter
 + JSON-LD card (JPEG stays JPEG for crawler compatibility).
-
----
-
-**To generate:** configure Fal.ai or OpenAI key in Settings > Media Providers, then request regeneration via this skill.

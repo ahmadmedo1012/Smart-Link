@@ -31,32 +31,30 @@ test.describe("أسئلة JSON — أكورديون الرئيسية و/الأس
     await expect(second).toHaveAttribute("aria-expanded", "false")
   })
 
-  test("/ — أكورديون الأسئلة يفتح ويغلق بإدارة التركيز الصحيحة", async ({ page }) => {
+  /* r133 (A7 §1 re-base): أسئلة الرئيسية انتقلت من جزيرة الأكورديون
+     إلى <details>/<summary> أصلي (LandingFaq — صفر JS، لوحة مفاتيح
+     أصيلة، آمنة تحت reduced-motion). العقد الجديد: الأسئلة الستة
+     موجودة، والفتح/الإغلاق بسمة open الأصلية، والإجابة كاملة ظاهرة. */
+  test("/ — أسئلة ال landing الأصلية <details>: ستة أسئلة تفتح وتغلق", async ({ page }) => {
     await page.goto("/", { waitUntil: "networkidle" })
-    await page.locator("#faq").scrollIntoViewIfNeeded()
+    const items = page.locator("details.ln-faq-item")
+    await expect(items).toHaveCount(6)
 
-    const first = page.locator("#faq-button-0")
-    await expect(first).toBeVisible()
-    await first.click() // يغلق الافتراضي المفتوح
-    await expect(first).toHaveAttribute("aria-expanded", "false")
-    await expect(page.locator("#faq-panel-0")).toBeHidden()
-    await first.click() // يعيد فتحه
-    await expect(first).toHaveAttribute("aria-expanded", "true")
+    const first = items.nth(0)
+    await first.locator("summary").scrollIntoViewIfNeeded()
+    // مغلق افتراضياً ← الفتح بالنقر على السؤال (summary أصيل)
+    await expect(first).not.toHaveAttribute("open")
+    await first.locator("summary").click()
+    await expect(first).toHaveAttribute("open")
+    await expect(first.locator(".ln-faq-a")).toBeVisible()
 
-    // انتظار اكتمال انتقال grid-rows (0.2s) قبل قياس عدم القص
-    await page.waitForTimeout(500)
     // الإجابة كاملة غير مقصوصة: ارتفاع المحتوى الفعلي == ارتفاع الصندوق
-    const panel = page.locator("#faq-panel-0")
-    const unclipped = await panel.evaluate((el) => {
-      const inner = el.firstElementChild as HTMLElement
-      return inner.scrollHeight > 0 && el.clientHeight >= inner.scrollHeight - 1
-    })
-    expect(unclipped, "الإجابة يجب ألا تُقص (انحدار r6)").toBe(true)
-  })
+    await page.waitForTimeout(300)
+    const unclipped = await first.locator(".ln-faq-a").evaluate((el) => el.scrollHeight > 0 && el.clientHeight >= el.scrollHeight - 1)
+    expect(unclipped, "الإجابة يجب ألا تُقص").toBe(true)
 
-  test("/ — الأسئلة الستة كلها موجودة في الواجهة", async ({ page }) => {
-    await page.goto("/", { waitUntil: "networkidle" })
-    const buttons = page.locator('[id^="faq-button-"]')
-    await expect(buttons).toHaveCount(6)
+    // الإغلاق بالنقر مجدداً
+    await first.locator("summary").click()
+    await expect(first).not.toHaveAttribute("open")
   })
 })

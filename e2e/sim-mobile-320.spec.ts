@@ -42,8 +42,26 @@ test.describe("r14 — 320×562: reflow بلا تمرير أفقي (WCAG 1.4.10)
 test.describe("r14 — لمس حقيقي (320×568)", () => {
   test.use({ viewport: { width: 320, height: 568 }, hasTouch: true, isMobile: true })
 
-  test("فتح القائمة بقلمسة والتنقل بقلمسة + قفل تمرير الجسد في سياق لمس", async ({ page }) => {
+  /* r133 (A7 §1 re-base): درج ال landing لوحة داخل هيدر sticky (لا
+     تحتاج قفل جسد — عقلية Madarek الأصلية) وروابطه مراسي الرحلة
+     + /contact. عقد اللمس: لمسة تفتح، لمسة رابط تنقل وتغلق. */
+  test("درج الرئيسية: لمسة تفتح + لمسة رابط تنقّل وتغلق (بدون قفل جسد)", async ({ page }) => {
     await page.goto("/", { waitUntil: "load" })
+    await hydrationGate(page)
+    const burger = page.getByRole("button", { name: /فتح القائمة|إغلاق القائمة/ })
+    await burger.tap()
+    const mobileNav = page.locator('nav[aria-label="قائمة الجوال"]')
+    await expect(mobileNav).toBeVisible()
+    await expect(burger).toHaveAttribute("aria-expanded", "true")
+    await mobileNav.locator('a[href="/contact"]').tap()
+    await expect(page).toHaveURL(/\/contact$/)
+    await expect(mobileNav).toBeHidden()
+  })
+
+  /* عقد r5 الأصلي كاملاً (قفل position:fixed داخل cssText مع
+     overflow:hidden) — قائمة المنتج على /about (كروم المنتج). */
+  test("قائمة المنتج: فتح بقلمسة + قفل تمرير الجسد في سياق لمس + تنقل", async ({ page }) => {
+    await page.goto("/about", { waitUntil: "load" })
     await hydrationGate(page)
     const burger = page.getByRole("button", { name: /فتح القائمة|إغلاق القائمة/ })
     await burger.tap()
@@ -58,8 +76,8 @@ test.describe("r14 — لمس حقيقي (320×568)", () => {
     await expect
       .poll(() => page.evaluate(() => document.body.style.position))
       .toBe("fixed")
-    await mobileNav.locator('a[href="/about"]').tap()
-    await expect(page).toHaveURL(/\/about$/)
+    await mobileNav.locator('a[href="/pricing"]').tap()
+    await expect(page).toHaveURL(/\/pricing$/)
     await expect(mobileNav).toBeHidden()
   })
 

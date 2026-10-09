@@ -22,7 +22,7 @@ test.describe("r9 — prefers-reduced-motion", () => {
   test("العدّاد لا يُصفِّر إلى 0 بعد الإدخال في viewport (انحدار r8/r5)", async ({ page }) => {
     await page.emulateMedia({ reducedMotion: "reduce" })
     await page.goto("/", { waitUntil: "networkidle" })
-    await page.locator("text=عميل نشط").scrollIntoViewIfNeeded()
+    await page.locator("text=عميل نشط").first().scrollIntoViewIfNeeded()
     await page.waitForTimeout(600)
     // في reduced-motion القيم النهائية تبقى — لا عودة إلى الأصفار
     await expect(page.locator("text=+500").first()).toBeVisible()
@@ -43,8 +43,11 @@ test.describe("r9 — مسح axe على viewport الجوال (375×812)", () =>
 })
 
 test.describe("r9 — عقد footer (روابط التواصل على كل صفحة)", () => {
-  for (const p of PAGES) {
-    test(`${p.path} — واتساب/بريد/قانونية/منتجان بـ target وrel`, async ({ page }) => {
+  /* r133 (A7 §1 re-base): الفوتوران — صفحات المنتج تحمل فوتور المنتج
+     (واتساب/بريد/اجتماعية)، والرئيسية تحمل LandingFooter (أعمدة الرحلة
+     الحقيقية + المنتجان الخارجيان + القانونية). عقد كل سطح على حقيقته. */
+  for (const p of PAGES.filter((x) => x.path !== "/")) {
+    test(`${p.path} — واتساب/بريد/قانونية/منتجان بـ target وrel (فوتور المنتج)`, async ({ page }) => {
       await page.goto(p.path, { waitUntil: "domcontentloaded" })
       const footer = page.getByRole("contentinfo")
 
@@ -74,6 +77,31 @@ test.describe("r9 — عقد footer (روابط التواصل على كل صف�
       }
     })
   }
+
+  test("/ — عقد LandingFooter: أقسام الرحلة + المنتجان + القانونية + سطر الحقوق", async ({ page }) => {
+    await page.goto("/", { waitUntil: "domcontentloaded" })
+    const footer = page.getByRole("contentinfo")
+
+    // الأعمدة الأربعة بوجهاتها الحقيقية (r129 — لا روابط ميتة)
+    for (const href of ["#products", "#journey", "#progress", "#platforms", "#roles"]) {
+      await expect(footer.locator(`a[href="${href}"]`), `مرساة ${href}`).toHaveAttribute("href", href)
+    }
+    for (const href of ["/about", "/pricing", "/contact", "/privacy", "/terms"]) {
+      await expect(footer.locator(`a[href="${href}"]`), `رابط ${href}`).toHaveAttribute("href", href)
+    }
+
+    // المنتجان الخارجيان بـ target/rel آمنين
+    for (const href of ["https://menu.smart-link.ly", "https://bot.smart-link.ly"] as const) {
+      const link = footer.locator(`a[href="${href}"]`).first()
+      await expect(link).toHaveAttribute("target", "_blank")
+      await expect(link).toHaveAttribute("rel", "noopener noreferrer")
+    }
+
+    // سطر الحقوق الكنسي: © السنة SmartLink + صُنع في ليبيا
+    const year = new Date().getFullYear()
+    await expect(footer.getByText(`© ${year} SmartLink`)).toBeVisible()
+    await expect(footer.getByText("صُنع في ليبيا")).toBeVisible()
+  })
 })
 
 test.describe("r9 — صمود no-JS (الموقع SSR-first بلا جافاسكريبت)", () => {
@@ -83,8 +111,10 @@ test.describe("r9 — صمود no-JS (الموقع SSR-first بلا جافاسك
     await page.goto("http://localhost:3000/", { waitUntil: "domcontentloaded" })
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible()
     await expect(page.locator("text=+500").first()).toBeVisible()
-    // التنقل الديكوري لا يكسر الصفحة: h2 أقسام موجودة
-    await expect(page.getByRole("heading", { name: /منظومة متكاملة/ })).toBeVisible()
+    // التنقل الديكوري لا يكسر الصفحة: عنوان فصل حقيقي موجود
+    /* r133 (A7 §1): عنوان الفصل الكنسي لمدارات المنتجات (كان «منظومة
+       متكاملة» قبل بناء Orbit-Ink في r128). */
+    await expect(page.getByRole("heading", { name: /منتجان نشطان/ })).toBeVisible()
     await ctx.close()
   })
 
@@ -102,8 +132,10 @@ test.describe("r9 — صمود no-JS (الموقع SSR-first بلا جافاسك
    copyright line had zero coverage (the r9 contract covered
    whatsapp/email/legal/products only). */
 test.describe("r10 — عقد الفوتر: الاجتماعية والروابط السريعة والحقوق", () => {
-  test("روابط فيسبوك/إنستغرام بـ aria-label وtarget/rel آمنين", async ({ page }) => {
-    await page.goto("/", { waitUntil: "domcontentloaded" })
+  /* r133 (A7 §1 re-base): هذه عناصر فوتور المنتج — انتقلت معه إلى
+     الصفحات الداخلية (LandingFooter لا يحمل اجتماعية/روابط سريعة). */
+  test("روابط فيسبوك/إنستغرام بـ aria-label وtarget/rel آمنين (فوتور المنتج)", async ({ page }) => {
+    await page.goto("/about", { waitUntil: "domcontentloaded" })
     const fb = page.locator("footer a[aria-label='فيسبوك']")
     const ig = page.locator("footer a[aria-label='إنستغرام']")
     await expect(fb).toHaveAttribute("href", "https://www.facebook.com/profile.php?id=61591502614404")
@@ -115,14 +147,14 @@ test.describe("r10 — عقد الفوتر: الاجتماعية والرواب�
   })
 
   test("الروابط السريعة الأربعة تشير لمساراتها الصحيحة", async ({ page }) => {
-    await page.goto("/", { waitUntil: "domcontentloaded" })
+    await page.goto("/about", { waitUntil: "domcontentloaded" })
     const quick = page.locator("footer h3:text('روابط سريعة') + ul a")
     const hrefs = await quick.evaluateAll((els) => els.map((e) => (e as HTMLAnchorElement).getAttribute("href")))
     expect(hrefs).toEqual(["/", "/about", "/contact", "/pricing"])
   })
 
   test("سطر الحقوق بصيغة © سنة SmartLink", async ({ page }) => {
-    await page.goto("/", { waitUntil: "domcontentloaded" })
+    await page.goto("/about", { waitUntil: "domcontentloaded" })
     const year = new Date().getFullYear()
     await expect(page.locator("footer p", { hasText: new RegExp(`© ${year} SmartLink`) })).toBeVisible()
   })

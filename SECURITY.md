@@ -14,7 +14,7 @@
 **عربي —** لا تفتح Issue عامًا للثغرات الأمنية أبدًا. أرسل التفاصيل **بشكل خاص** إلى
 `ahmadmedo1012@gmail.com` (المشرف: أحمد مدو)، أو عبر خاصية «الإبلاغ الخاص عن الثغرات»
 (Private vulnerability reporting) في إعدادات المستودع فور تفعيلها. أرفق وصفًا للثغرة،
-خطوات إعادة الإنتاج، والأثر المتوقع. زمن الرد المستهدف: ٧٢ ساعة.
+خطوات إعادة الإنتاج، والأثر المتوقع. زمن الرد المستهدف: 72 ساعة.
 
 **English —** Never open a public issue for a security vulnerability. Report
 **privately** to `ahmadmedo1012@gmail.com` (maintainer: Ahmad Medo), or via the

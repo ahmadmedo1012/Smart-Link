@@ -1478,6 +1478,105 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
   );
 }
 
+/* ═══ r133 F6 · A7 tail: the 14px split (R16), letter-spacing law (R12),
+   404 display-art pin, dead-duplicate delete, CountUp separator, browse
+   arrow direction, maskable-192 ═════════════════════════════════════ */
+{
+  const read = (p) => {
+    const raw = readFileSync(new URL(`../src/${p}`, import.meta.url), 'utf8');
+    return raw.replace(/\/\*[\s\S]*?\*\//g, ' ').replace(/\/\/.*$/gm, ' ');
+  };
+  const faq = read('components/faq-accordion.tsx');
+  const about = read('app/about/page.tsx');
+  const footerProd = read('components/footer.tsx');
+  const pricing = read('app/pricing/page.tsx');
+  const mainNav = read('components/main-nav.tsx');
+  const contactForm = read('components/contact-form.tsx');
+  const terms = read('app/terms/page.tsx');
+  const privacy = read('app/privacy/page.tsx');
+  const notFound = read('app/not-found.tsx');
+  const countUp = read('components/ui/CountUp.tsx');
+  const landingCss = readFileSync(new URL('../src/app/landing.css', import.meta.url), 'utf8').replace(/\/\*[\s\S]*?\*\//g, ' ');
+  const stylesCss = readFileSync(new URL('../src/app/styles.css', import.meta.url), 'utf8').replace(/\/\*[\s\S]*?\*\//g, ' ');
+  const manifest = readFileSync(new URL('../public/manifest.webmanifest', import.meta.url), 'utf8');
+  const count = (s, re) => (s.match(re) || []).length;
+  const FS_BODY = /text-\[length:var\(--fs-body\)\]/g;
+
+  // 1 ── R16 the 14px split: prose rides --fs-body 15px; 14px stays a
+  //     DOCUMENTED UI-chrome rung. The prose files carry ZERO code
+  //     text-sm; the chrome list is FROZEN by exact count (a new prose
+  //     text-sm — or a dropped chrome site — flips a count and fails).
+  check(count(faq, /\btext-sm\b/g) === 0 && count(faq, FS_BODY) === 2,
+    'r16 prose: faq-accordion answer + question ride --fs-body (zero code text-sm)');
+  check(count(about, /\btext-sm\b/g) === 0 && count(about, /\btext-base\b/g) === 0 && count(about, FS_BODY) === 4,
+    'r16 prose: about values-desc/founder pair/quote-mobile ride --fs-body (no raw text-sm/text-base)');
+  check(count(pricing, /\btext-sm\b/g) === 0 && count(pricing, FS_BODY) === 3,
+    'r16 prose: pricing subtitle/period/features ride --fs-body (zero code text-sm)');
+  check(count(footerProd, FS_BODY) === 1,
+    'r16 prose: footer brand blurb rides --fs-body');
+  check(count(footerProd, /\btext-sm\b/g) === 8,
+    'r16 chrome freeze: footer keeps EXACTLY its 8 sanctioned 14px chrome sites (heads/links/contact rows)');
+  check(count(mainNav, /\btext-sm\b/g) === 6,
+    'r16 chrome freeze: main-nav keeps EXACTLY its 6 sanctioned 14px chrome sites (nav/megamenu/mobile)');
+  check(count(contactForm, /\btext-sm\b/g) === 6 && count(contactForm, /\btext-base\b/g) === 1,
+    'r16 chrome freeze: contact-form keeps its 6 label/status 14px sites + the ONE 16px iOS-zoom-floor input (r10)');
+  check(count(terms, /\btext-sm\b/g) === 1 && count(privacy, /\btext-sm\b/g) === 1,
+    'r16 chrome freeze: terms/privacy keep their single 14px timestamp each');
+  check(!/--fs-body-md/.test(stylesCss),
+    'r133 A7 §2.1: the dead --fs-body-md 15px duplicate stays deleted (zero consumers, unpinned)');
+
+  // 2 ── R12 the Arabic letter-spacing law on the ln-label/ln-mono
+  //     devices (madarek A8-N2 twin — the propagation source fixed in
+  //     the same round). tabular-nums keeps the alignment role.
+  check(/\.landing \.ln-mono\s*\{[^}]*letter-spacing:\s*0[;\s]/.test(landingCss),
+    'r12: .landing .ln-mono letter-spacing 0 (hero eyebrow/trust/products-note mix Arabic)');
+  check(/\.landing \.ln-label\s*\{[^}]*letter-spacing:\s*0[;\s]/.test(landingCss),
+    'r12: .landing .ln-label letter-spacing 0 (mixed-script chapter labels)');
+  check(/\.ln-label\s*\{[^}]*letter-spacing:\s*0[;\s]/.test(stylesCss),
+    'r12: product .ln-label twin letter-spacing 0 (inner-page heads)');
+  check(/\.landing \.ln-hero-scroll \.ln-mono\s*\{[^}]*letter-spacing:\s*0/.test(landingCss),
+    'r12: hero-scroll «تابع الرحلة» letter-spacing 0 (was 0.22em on pure Arabic)');
+  check(/\.landing \.ln-progress-label \.ln-mono\s*\{[^}]*letter-spacing:\s*0/.test(landingCss),
+    'r12: progress-label «المنظومة تتّسع» letter-spacing 0 (was 0.2em)');
+  check(/\.landing \.ln-btn-ghost\s*\{[^}]*letter-spacing:\s*0/.test(landingCss),
+    'r12: ghost-pill labels letter-spacing 0 (Arabic «تواصل معنا» — was 0.01em)');
+  check(!/letter-spacing:\s*0\.(08|22|2|01)em/.test(landingCss)
+      && !/letter-spacing:\s*0\.08em/.test(stylesCss),
+    'r12 negative sweep: no tracked .ln-* device declarations survive in either sheet');
+
+  // 3 ── A7 §2.3: the 404 numeral is DOCUMENTED display-art — raw
+  //     text-9xl 128px, intentionally off the ladder; do not tokenize.
+  check(/text-9xl font-bold leading-none/.test(notFound),
+    '404 numeral: keeps raw text-9xl 128px display-art (off-ladder by design — --fs-mega max 104px would be a 24px visual change)');
+
+  // 4 ── A7 §4-1: CountUp separator stability — the mid-animation
+  //     formatter must use the same decimal separator as the settled
+  //     value string (en dot; ar-LY renders "99,9" → final-frame flip).
+  check(/new Intl\.NumberFormat\('en',/.test(countUp) && !/ar-LY/.test(countUp),
+    'CountUp: formatter locale en — no comma-decimal mid-stat flip on 99.9');
+
+  // 5 ── A7 §4-7: the constellation browse arrow nudges LEFT on hover
+  //     (RTL forward), not the physical translateX(3px) right.
+  check(/\.ln-constellation-browse:hover svg\s*\{\s*transform:\s*translateX\(-3px\)/.test(landingCss),
+    'landing browse arrow: hover nudge translateX(-3px) — LEFT, the RTL forward direction');
+
+  // 6 ── A7 §1 (A6 probe): the no-JS reveal contract — the landing's
+  //     (0,2,0) .landing .reveal-up must carry its OWN scripting:none
+  //     reveal clause (the styles.css (0,1,0) one alone loses the
+  //     cascade; without this a no-JS visitor sees no below-fold
+  //     chapter — empirical probe on #products h2).
+  const landingNoJs = /@media \(scripting: none\)\s*\{\s*\.landing \.reveal-up\s*\{\s*opacity:\s*1;\s*transform:\s*none;?\s*\}/.test(landingCss);
+  check(landingNoJs,
+    'landing no-JS: @media (scripting: none) reveals .landing .reveal-up at matching specificity (content must never stay hidden)');
+
+  // 7 ── A11/A7 §4-4: maskable-192 joins the manifest (safe-zone twin
+  //     of the 512 art; SB ships both sizes too).
+  check(manifest.includes('/icon-192-maskable.png') && manifest.includes('"purpose": "maskable"'),
+    'manifest: the 192x192 maskable icon entry ships next to its 512 twin');
+  check(existsSync(new URL('../public/icon-192-maskable.png', import.meta.url)),
+    'public/icon-192-maskable.png must exist on disk (the manifest points at it)');
+}
+
 if (failures.length > 0) {
   console.error(`✗ Madarek parity snapshot FAILED (${failures.length} assertion(s)):`);
   for (const f of failures) console.error(`  • ${f}`);

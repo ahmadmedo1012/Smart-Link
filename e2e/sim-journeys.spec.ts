@@ -10,46 +10,60 @@ import { SUCCESS_BODY } from "./helpers"
  *   - أخطاء console تُجمع تلقائياً عبر fixtures.ts وتُفحص في نهاية كل رحلة
  *
  * الملاحظات المكتشفة بالعين (source of truth من الـ probes):
- *   - nav الرئيسي (banner): الرئيسية(/) · خدماتنا (dropdown hover) · الأسعار(/pricing) · عن SmartLink(/about) · تواصل معنا(/contact)
+ *   - الرئيسية (r128+): هيدر ال landing (banner): المنصّة (مِغامينو) ·
+ *     المنتجات · الرحلة · النتائج · تواصل معنا(/contact) · ابدأ مجاناً
+ *     (خارجي). الفوتر (contentinfo): أعمدة الرحلة/المنظومة/المؤسسة —
+ *     يوقّع «© السنة SmartLink» + «صُنع في ليبيا».
+ *   - صفحات المنتج (التنقل الرئيسي): الرئيسية(/) · خدماتنا (dropdown
+ *     hover) · الأسعار(/pricing) · عن SmartLink(/about) · تواصل معنا(/contact)
  *   - الفوتر (contentinfo) يضيف: الخطط والأسعار · سياسة الخصوصية(/privacy) · شروط الاستخدام(/terms)
- *   - مفتاح المظهر: aria-label «تفعيل المظهر الفاتح» (حالة dark) ↔ «تفعيل المظهر الداكن» (حالة light)
- *   - زر العودة للأعلى: aria-label «العودة للأعلى»
+ *   - مفتاح المظهر: aria-label «تفعيل المظهر الفاتح» (حالة dark) ↔ «تفعيل المظهر الداكن» (حالة light) — كروم منتج
+ *   - زر العودة للأعلى: aria-label «العودة للأعلى» — كروم منتج
  *   - نجاح النموذج: يعرض الخادم message — عقد النجاح الحقيقي
  *     { success: true, message: "تم استلام رسالتك بنجاح. سنتواصل معك قريباً." } (كما في contact-success.spec)
  */
 
 /* ────────────────────────────────────────────────────────────────
- * ج1 — «زائر أول مرة»: هبوط ← h1 ← تمرير للفوتر ← جولة عبر كل روابط الـ nav
+ * ج1 — «زائر أول مرة»: هبوط ← h1 ← تمرير للفوتر ← جولة عبر روابط الموقع
  * ──────────────────────────────────────────────────────────────── */
-test("ج1 «زائر أول مرة»: الهبوط + الفوتر + كل صفحات الـ nav الرئيسي", async ({ page, consoleErrors }) => {
+test("ج1 «زائر أول مرة»: الهبوط + الفوتر + كل صفحات الموقع", async ({ page, consoleErrors }) => {
   await page.goto("/")
 
   // h1 ظاهر فور الهبوط (r12: مهلة كريمة 15s — رحلات المستخدم تُقاس
   // بالتجربة لا بالميلي ثانية، والجهاز المشترك يرتفع ضغطه إلى 7+)
   const h1 = page.locator("h1").first()
   await expect(h1).toBeVisible({ timeout: 15_000 })
-  await expect(h1).toContainText("SmartLink")
+  /* r133 (A7 §1): هيرو Orbit-Ink — h1 الرئيسية لا يحمل اسم العلامة */
+  await expect(h1).toContainText("كلُّ عملٍ يبدأ")
 
   // تمرير حتى أسفل الصفحة → الفوتر (contentinfo) ظاهر
   await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight))
   const footer = page.getByRole("contentinfo")
   await expect(footer).toBeVisible({ timeout: 15_000 })
-  await expect(footer).toContainText("جميع الحقوق محفوظة")
+  /* r133: توقيع LandingFooter الكنسي — لا «جميع الحقوق محفوظة» هنا */
+  const year = new Date().getFullYear()
+  await expect(footer.getByText(`© ${year} SmartLink`)).toBeVisible()
+  await expect(footer.getByText("صُنع في ليبيا")).toBeVisible()
 
-  // جولة عبر كل رابط في nav الرئيسي (ما يراه الزائر في الترويسة)
+  // جولة عبر كل صفحة داخلية (فوتر ال landing يغطيها كلها)
+  /* r133: العنوان يُنتظر بعقده (toHaveTitle) — الموجّه من جانب العميل
+     يحدّث document.title بشكل غير متزامن؛ قراءة فورية بعد ظهور h1
+     التقطت عنواناً فارغاً مرة (سباق، لا انحدار). */
   const navPages = [
-    { name: "الرئيسية", url: "/", h1: /SmartLink/ },
-    { name: "الأسعار", url: "/pricing", h1: /الخطط والأسعار/ },
-    { name: "عن SmartLink", url: "/about", h1: /عن SmartLink/ },
-    { name: "تواصل معنا", url: "/contact", h1: /تواصل معنا/ },
+    { name: "الخطط والأسعار", url: "/pricing", h1: /الخطط والأسعار/, title: /الخطط والأسعار .*\| SmartLink/ },
+    { name: "عن SmartLink", url: "/about", h1: /عن SmartLink/, title: /عن SmartLink .*\| SmartLink/ },
+    { name: "تواصل معنا", url: "/contact", h1: /تواصل معنا/, title: /تواصل معنا .*\| SmartLink/ },
+    { name: "سياسة الخصوصية", url: "/privacy", h1: /سياسة الخصوصية/, title: /سياسة الخصوصية .*\| SmartLink/ },
+    { name: "شروط الاستخدام", url: "/terms", h1: /شروط الاستخدام/, title: /شروط الاستخدام .*\| SmartLink/ },
   ] as const
   const titles: string[] = []
 
   for (const nav of navPages) {
-    await page.getByRole("banner").getByRole("link", { name: nav.name, exact: true }).click()
+    await page.getByRole("contentinfo").getByRole("link", { name: nav.name, exact: true }).click()
     await page.waitForURL(`**${nav.url}`)
     await expect(page.locator("h1").first()).toBeVisible({ timeout: 15_000 })
     await expect(page.locator("h1").first()).toContainText(nav.h1)
+    await expect(page).toHaveTitle(nav.title, { timeout: 10_000 })
     titles.push(await page.title())
   }
 
@@ -65,8 +79,9 @@ test("ج1 «زائر أول مرة»: الهبوط + الفوتر + كل صفح�
 test("ج2 «عميل مهتم»: الأسعار + FAQ + إرسال النموذج (mocked 200) + العودة", async ({ page, consoleErrors }) => {
   await page.goto("/")
 
-  // يذهب من الرئيسية إلى الأسعار عبر الـ nav
-  await page.getByRole("banner").getByRole("link", { name: "الأسعار", exact: true }).click()
+  // يذهب من الرئيسية إلى الأسعار عبر فوتر ال landing (الرئيسية بلا
+  // رابط «الأسعار» في الهيدر — عمود «المنظومة» في الفوتر يحمله)
+  await page.getByRole("contentinfo").getByRole("link", { name: "الخطط والأسعار", exact: true }).click()
   await page.waitForURL("**/pricing")
   await expect(page.locator("h1").first()).toContainText("الخطط والأسعار")
 
@@ -117,10 +132,10 @@ test("ج2 «عميل مهتم»: الأسعار + FAQ + إرسال النموذ�
   await expect(page.getByText("تم استلام رسالتك بنجاح. سنتواصل معك قريباً.")).toBeVisible()
   await expect(page.getByText("تم الإرسال ✓")).toBeVisible()
 
-  // يعود إلى الرئيسية — الموقع ما زال يعمل
+  // يعود إلى الرئيسية — الموقع ما زال يعمل (كروم المنتج على /contact)
   await page.getByRole("banner").getByRole("link", { name: "الرئيسية", exact: true }).click()
   await page.waitForURL("**/")
-  await expect(page.locator("h1").first()).toContainText("SmartLink")
+  await expect(page.locator("h1").first()).toContainText("كلُّ عملٍ يبدأ")
 
   await expect(consoleErrors, consoleErrors.join("\n")).toEqual([])
 })
@@ -130,7 +145,7 @@ test("ج2 «عميل مهتم»: الأسعار + FAQ + إرسال النموذ�
  * ──────────────────────────────────────────────────────────────── */
 test("ج3 «روابط مباشرة»: كل الصفحات الست عبر goto مباشر", async ({ page, consoleErrors }) => {
   const pages = [
-    { url: "/", h1: /SmartLink/, content: "Smart Menu" },
+    { url: "/", h1: /كلُّ عملٍ يبدأ رابطًا/, content: "Smart Menu" },
     { url: "/about", h1: /عن SmartLink/, content: "SmartLink" },
     { url: "/pricing", h1: /الخطط والأسعار/, content: "مجاني" },
     { url: "/contact", h1: /تواصل معنا/, content: "إرسال الرسالة" },
@@ -156,13 +171,12 @@ test("ج3 «روابط مباشرة»: كل الصفحات الست عبر goto 
  * ج4 — «زر الرجوع/التقدم»: الرئيسية ← عن ← الأسعار ثم back×2 + forward
  * ──────────────────────────────────────────────────────────────── */
 test("ج4 «زر الرجوع/التقدم»: التاريخ يعمل بالاتجاهين", async ({ page, consoleErrors }) => {
-  await page.goto("/")
-  await expect(page.locator("h1").first()).toContainText("SmartLink")
-
-  // الرئيسية → عن SmartLink → الأسعار (تنقّل مستخدم حقيقي بالنقر)
-  await page.getByRole("banner").getByRole("link", { name: "عن SmartLink", exact: true }).click()
-  await page.waitForURL("**/about")
+  /* r133 (A7 §1): رحلة مستخدم حقيقي عبر كروم المنتج — دخول مباشر لـ
+     /about (رابط محفوظ/إعلان) ثم التنقل بالترويسة. */
+  await page.goto("/about")
   await expect(page.locator("h1").first()).toContainText("عن SmartLink")
+
+  // عن SmartLink → الأسعار (تنقّل مستخدم حقيقي بالنقر)
   await page.getByRole("banner").getByRole("link", { name: "الأسعار", exact: true }).click()
   await page.waitForURL("**/pricing")
   await expect(page.locator("h1").first()).toContainText("الخطط والأسعار")
@@ -172,15 +186,10 @@ test("ج4 «زر الرجوع/التقدم»: التاريخ يعمل بالات
   await page.waitForURL("**/about")
   await expect(page.locator("h1").first()).toContainText("عن SmartLink")
 
-  // رجوع ← الرئيسية
-  await page.goBack()
-  await page.waitForURL("**/")
-  await expect(page.locator("h1").first()).toContainText("SmartLink")
-
-  // تقدم ← عن SmartLink
+  // تقدّم ← الأسعار
   await page.goForward()
-  await page.waitForURL("**/about")
-  await expect(page.locator("h1").first()).toContainText("عن SmartLink")
+  await page.waitForURL("**/pricing")
+  await expect(page.locator("h1").first()).toContainText("الخطط والأسعار")
 
   await expect(consoleErrors, consoleErrors.join("\n")).toEqual([])
 })
@@ -188,8 +197,9 @@ test("ج4 «زر الرجوع/التقدم»: التاريخ يعمل بالات
 /* ────────────────────────────────────────────────────────────────
  * ج5 — «تبديل المظهر»: زر المظهر ← light ← persists ← رجوع dark
  * ──────────────────────────────────────────────────────────────── */
-test("ج5 «تبديل المظهر»: التبديل + الاستمرارية عبر الصفحات", async ({ page, consoleErrors }) => {
-  await page.goto("/")
+test("ج5 «تبديل المظهر»: التبديل + الاستمرارية عبر الصفحات (كروم المنتج)", async ({ page, consoleErrors }) => {
+  /* r133 (A7 §1): المبدّل كروم منتج — الرحلة تبدأ من /about. */
+  await page.goto("/about")
 
   // الوضع الافتراضي: dark على <html>
   const htmlClass = () => page.evaluate(() => document.documentElement.className)
@@ -230,7 +240,7 @@ test("ج6 «رابط ميت»: صفحة 404 عربية + العودة للرئي
   await expect(backHome).toBeVisible()
   await backHome.click()
   await page.waitForURL("**/")
-  await expect(page.locator("h1").first()).toContainText("SmartLink")
+  await expect(page.locator("h1").first()).toContainText("كلُّ عملٍ يبدأ")
 
   // فحص console: رسالة المتصفح «Failed to load resource: 404» متوقَّعة
   // حتماً لرابط ميت (فشل تحميل الوثيقة نفسها — سلوك المتصفح لا خطأ الموقع)،
@@ -266,8 +276,9 @@ test("ج7 «سفينة سليمة»: RTL + lang=ar + viewport على كل الص
 /* ────────────────────────────────────────────────────────────────
  * ج8 — «العودة للأعلى»: تمرير عميق ← زر يظهر ← نقرة ← القمة
  * ──────────────────────────────────────────────────────────────── */
-test("ج8 «العودة للأعلى»: الزر يظهر بعد التمرير ويعيد للقمة", async ({ page, consoleErrors }) => {
-  await page.goto("/")
+test("ج8 «العودة للأعلى»: الزر يظهر بعد التمرير ويعيد للقمة (كروم المنتج)", async ({ page, consoleErrors }) => {
+  /* r133 (A7 §1): زر العودة كروم منتج — الرحلة على /about. */
+  await page.goto("/about")
   await expect(page.locator("h1").first()).toBeVisible()
 
   // تمرير عميق بعجلة الفأرة (كما يفعل مستخدم حقيقي)
@@ -292,10 +303,11 @@ test("ج8 «العودة للأعلى»: الزر يظهر بعد التمرير
 })
 
 /* ────────────────────────────────────────────────────────────────
- * ج+ — «خدماتنا» في الترويسة: hover يعمل · لوحة المفاتيح لا (FINDING)
+ * ج+ — «خدماتنا» في ترويسة المنتج: hover يعمل · لوحة المفاتيح لا (FINDING)
  * ──────────────────────────────────────────────────────────────── */
-test("ج+ قائمة «خدماتنا»: تفتح بالماوس وتعرض رابطي الخدمتين", async ({ page, consoleErrors }) => {
-  await page.goto("/")
+test("ج+ قائمة «خدماتنا»: تفتح بالماوس وتعرض رابطي الخدمتين (كروم المنتج على /about)", async ({ page, consoleErrors }) => {
+  /* r133 (A7 §1): القائمة المنسدلة كروم منتج — تستهدف /about. */
+  await page.goto("/about")
 
   const servicesBtn = page.getByRole("button", { name: "خدماتنا" })
   /* r13: aria-haspopup حُذف — كان يَعِد بنمط menu (أسهم تنقل) بينما

@@ -417,8 +417,9 @@ test.describe("r11-B2 — مستخدم لوحة مفاتيح فقط (/, /contact
     expectNoCrash(consoleErrors)
   })
 
-  test("15) مبدّل المظهر: Tab يصل، Enter/Space يفعّل", async ({ page, consoleErrors }) => {
-    await page.goto("/", { waitUntil: "networkidle" })
+  test("15) مبدّل المظهر: Tab يصل، Enter/Space يفعّل (كروم المنتج على /about)", async ({ page, consoleErrors }) => {
+    /* r133 (A7 §1): المبدّل كروم منتج — الرئيسية بلا مبدّل منذ r128. */
+    await page.goto("/about", { waitUntil: "networkidle" })
     await expect(page.locator("html")).toHaveClass(/dark/)
 
     let reached = false
@@ -438,9 +439,12 @@ test.describe("r11-B2 — مستخدم لوحة مفاتيح فقط (/, /contact
     expectNoCrash(consoleErrors)
   })
 
-  test("16) قائمة الجوال: فتح بلوحة المفاتيح، Escape — أين يهبط التركيز؟", async ({ page, consoleErrors }) => {
+  test("16) قائمة الجوال: فتح بلوحة المفاتيح، Escape — أين يهبط التركيز؟ (كروم المنتج على /about)", async ({ page, consoleErrors }) => {
+    /* r133 (A7 §1): عقد لوحة المفاتيح الكامل (Escape + إعادة التركيز +
+       قفل الجسد) لعنة قائمة المنتج — درج ال landing لوحة داخل هيدر
+       sticky بعقد أبسط (محروس في navigation.spec). */
     await page.setViewportSize({ width: 375, height: 812 })
-    await page.goto("/", { waitUntil: "networkidle" })
+    await page.goto("/about", { waitUntil: "networkidle" })
     const burger = page.getByRole("button", { name: /فتح القائمة|إغلاق القائمة/ })
     await burger.focus()
 
@@ -475,8 +479,9 @@ test.describe("r11-B2 — مستخدم لوحة مفاتيح فقط (/, /contact
     expectNoCrash(consoleErrors)
   })
 
-  test("17) زر العودة للأعلى: قابل للوصول بالكيبورد + Enter يمرّر للأعلى", async ({ page, consoleErrors }) => {
-    await page.goto("/", { waitUntil: "networkidle" })
+  test("17) زر العودة للأعلى: قابل للوصول بالكيبورد + Enter يمرّر للأعلى (كروم المنتج على /about)", async ({ page, consoleErrors }) => {
+    /* r133 (A7 §1): زر العودة كروم منتج — الرئيسية بلا زر منذ r128. */
+    await page.goto("/about", { waitUntil: "networkidle" })
     await page.evaluate(() => window.scrollTo(0, 900))
     const btn = page.getByRole("button", { name: "العودة للأعلى" })
     await expect(btn).toBeVisible()

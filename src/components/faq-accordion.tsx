@@ -37,7 +37,7 @@ export function FaqAccordion({
             readers can jump between FAQ questions with the headings key —
             a bare button is invisible to heading navigation. Button keeps
             aria-expanded/aria-controls exactly as before. */}
-            <h3 className="text-base font-semibold">
+            <h3 className="font-semibold">
               <button
                 onClick={() => setOpen(isOpen ? null : i)}
                 className="w-full px-5 py-4 flex items-center justify-between text-start text-[length:var(--fs-body)] font-semibold text-foreground hover:bg-[var(--accent)]/30 transition-colors"
@@ -54,7 +54,7 @@ export function FaqAccordion({
             </h3>
             <div className={`acc ${isOpen ? "open" : ""}`} id={`faq-panel-${i}`} role="region" aria-labelledby={`faq-button-${i}`}>
               <div>
-                <p className="px-5 pb-4 text-sm text-muted-foreground leading-relaxed">{faq.a}</p>
+                <p className="px-5 pb-4 text-[length:var(--fs-body)] text-muted-foreground leading-relaxed">{faq.a}</p>
               </div>
             </div>
           </div>

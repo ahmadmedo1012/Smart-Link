@@ -381,7 +381,12 @@
      shipped no fs/sp rungs (they existed only inside .landing), so
      inner-page H1s rode fixed Tailwind text-5xl/6xl steps (48/60px,
      no fluidity). The .ln-page-title head rung (see the F6 bridge)
-     consumes --fs-display-lg; the rest land for future consumers. */
+     consumes --fs-display-lg; the rest land for future consumers.
+     r133 (A7 §2.2 / ruling R16) — the 14px split: `text-sm` 14px is a
+     SANCTIONED UI-CHROME step (nav links, footer columns, form labels,
+     status boxes, timestamps) — the family chrome convention (SO/SM/SB
+     ship raw 14px chrome everywhere); body-copy/prose rides --fs-body
+     15px. The chrome list is frozen by parity (tests/parity.mjs §r133). */
   --sp-1: 4px;   --sp-2: 8px;   --sp-3: 12px;  --sp-4: 16px;
   --sp-5: 20px;  --sp-6: 24px;  --sp-7: 32px;  --sp-8: 40px;
   --sp-9: 48px;  --sp-10: 56px; --sp-11: 72px; --sp-12: 96px;
@@ -396,7 +401,8 @@
   --fs-h3: 18px;
   --fs-body-lg: 17px;
   --fs-body:    15px;
-  --fs-body-md: 15px;
+  /* r133 (A7 §2.1): dead --fs-body-md 15px duplicate deleted — zero
+     consumers repo-wide, unpinned, identical value to --fs-body above. */
   --fs-sm:      13px;
   --fs-xs:      12px;
   --fs-xxs:     11px;
@@ -1123,9 +1129,9 @@
 }
 
 /* technical section label — the landing eyebrow, product-skinned:
-   mono 12px/500, 0.08em tracking (Latin-safe — no Arabic tracking per
-   §4 ruling 4; Arabic label words render in the sans run of the mono
-   stack), accent ink per the m15 accent-as-text doctrine.
+   mono 12px/500, 0 tracking (r133 R12 — the old 0.08em landed on the
+   Arabic word of every mixed-script label; no Arabic tracking per
+   §4 ruling 4), accent ink per the m15 accent-as-text doctrine.
    r130 (W1-D P1-2): the canonical halo ::before (landing P4-18 device,
    landing.css:145-155) ports to the product skin — a 12%-alpha
    blurred ellipse behind the label, so one label device serves every
@@ -1141,7 +1147,11 @@
   font-family: "IBM Plex Mono", "IBM Plex Sans Arabic", ui-monospace, monospace;
   font-size: 12px;
   font-weight: 500;
-  letter-spacing: 0.08em;
+  /* r133 (R12 / A7 §3 / A8 N2): letter-spacing: 0 — the labels are
+     mixed-script and the Arabic word is tracked by 0.08em otherwise
+     (font fallback does NOT neutralize letter-spacing). tabular-nums
+     keeps the numeral-alignment role the tracking pretended to serve. */
+  letter-spacing: 0;
   color: var(--primary-text);
   font-variant-numeric: tabular-nums;
   margin-block-end: 14px;

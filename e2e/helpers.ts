@@ -19,11 +19,24 @@ mkdirSync(SHOT_DIR, { recursive: true })
 
 export const slug = (p: string) => (p === "/" ? "home" : p.replace(/^\//, ""))
 
-/** بوابة الترطيب: زر المظهر يُصيَّر فقط بعد mount (r10) — قبل أي
- *  تفاعل بالهيدر (hover قبل اكتمال ترطيب React كان فشلاً متقطعاً
- *  حقيقياً تحت 4 عمال). */
+/** بوابة الترطيب: إثبات أن React اكتمل ترطيبه قبل أي تفاعل بالهيدر
+ *  (hover قبل اكتمال الترطيب كان فشلاً متقطعاً حقيقياً تحت 4 عمال).
+ *
+ *  r133 (A7 §1 re-base): البوابة كانت تنتظر مبدّل المظهر وحده — وهذا
+ *  مستحيل على الرئيسية منذ r128 (تقسيم الكروم: الرئيسية عالم Orbit-Ink
+ *  بلا مبدّل). الآن تُثبت الترطيب حسب السطح:
+ *  · صفحات المنتج: المبدّل يُصيَّر بعد mount فقط — أقوى إشارة.
+ *  · الرئيسية: حزام useReveal يضيف `in-view` لحاجب الهيرو بعد الترطيب
+ *    (مركب SSR بلا الفئة) — كتابة DOM نقية ما بعد الترطيب. */
 export async function hydrationGate(page: Page) {
-  await expect(page.getByRole("button", { name: /تفعيل المظهر/ })).toBeVisible()
+  const isLanding = await page.evaluate(
+    () => document.querySelector(".landing") !== null
+  )
+  if (isLanding) {
+    await expect(page.locator(".ln-hero-eyebrow.in-view")).toBeVisible()
+  } else {
+    await expect(page.getByRole("button", { name: /تفعيل المظهر/ })).toBeVisible()
+  }
 }
 
 /** إطار العرض الجوال القياسي (iPhone X-class — 375×812). */

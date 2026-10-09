@@ -88,7 +88,9 @@ export default function AboutPage() {
                     the ladder); snapped onto the 17px body-lg rung
                     (−1px, on-ladder). */}
                 <h3 className="font-bold text-foreground text-[length:var(--fs-body-lg)] mb-1 group-hover:text-primary transition-colors">{item.title}</h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">{item.desc}</p>
+                {/* r133 (A7 §2.2 / R16): prose body-copy rides --fs-body 15px
+                    (was raw text-sm 14px — the UI-chrome rung). */}
+                <p className="text-[length:var(--fs-body)] text-muted-foreground leading-relaxed">{item.desc}</p>
               </div>
             ))}
           </div>
@@ -106,8 +108,10 @@ export default function AboutPage() {
                 <User className="w-8 h-8 text-primary" />
               </div>
               <div>
-                <p className="text-base text-foreground font-medium">أحمد خيري</p>
-                <p className="text-sm text-muted-foreground">مؤسس ورئيس SmartLink — منصة رقمية ليبية رائدة في المنيو الرقمي وخدمات الأتمتة.</p>
+                {/* r133 (A7 §2.2 / R16): founder name — was text-base 16px
+                    (no rung); the 15px body rung is the on-ladder step. */}
+                <p className="text-[length:var(--fs-body)] text-foreground font-medium">أحمد خيري</p>
+                <p className="text-[length:var(--fs-body)] text-muted-foreground">مؤسس ورئيس SmartLink — منصة رقمية ليبية رائدة في المنيو الرقمي وخدمات الأتمتة.</p>
               </div>
             </div>
           </div>
@@ -142,8 +146,9 @@ export default function AboutPage() {
                   --fs-body-lg (was text-lg 18px, Tailwind's off-ladder
                   default — now the 17px rung, −1px); the mobile
                   text-base 16px has no rung and stays pending the
-                  coordinator's no-rung ruling. */}
-              <p className="text-base md:text-[length:var(--fs-body-lg)] text-[var(--primary-text)] font-medium leading-relaxed ms-8">
+                  coordinator's no-rung ruling. r133 (A7 §2.2 / R16): the
+                  ruling landed — the mobile step rides --fs-body 15px. */}
+              <p className="text-[length:var(--fs-body)] md:text-[length:var(--fs-body-lg)] text-[var(--primary-text)] font-medium leading-relaxed ms-8">
                 &ldquo;التكنولوجيا الحقيقية هي التي تخدم الناس، لا التي تبهرهم. في SmartLink، نبني حلولاً تعيش مع الناس وتفهم احتياجاتهم.&rdquo;
               </p>
             </div>

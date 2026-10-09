@@ -6,23 +6,26 @@ import { test, expect } from "./fixtures"
    the real href/target/rel contract plus the actual click behavior. */
 
 test.describe("r10 — أزرار التحويل (hero)", () => {
-  test("«اكتشف خدماتنا» → يمرّر فعلاً إلى قسم الخدمات", async ({ page }) => {
+  /* r133 (A7 §1 re-base): أزرار ال landing الحقيقية — «اكتشف المنتجات"
+     (مرساة #products) و«عن SmartLink» في فوتر ال landing. أسماء ما قبل
+     r128 لم تعد موجودة في الواجهة. */
+  test("«اكتشف المنتجات» → يمرّر فعلاً إلى قسم المنتجات", async ({ page }) => {
     await page.goto("/", { waitUntil: "domcontentloaded" })
-    const cta = page.getByRole("link", { name: /اكتشف خدماتنا/ })
-    await expect(cta).toHaveAttribute("href", "#services")
+    const cta = page.getByRole("link", { name: /اكتشف المنتجات/ })
+    await expect(cta).toHaveAttribute("href", "#products")
     await cta.click()
     // scroll-padding يحرّ القسم تحت الترويسة الثابتة — تحقق أن القسم صار داخل الشاشة
     await expect
       .poll(async () => {
-        const box = await page.locator("#services").boundingBox()
+        const box = await page.locator("#products").boundingBox()
         return box ? Math.round(box.y) : -1
       })
       .toBeLessThan(200)
   })
 
-  test("«تعرف علينا» → /about بعنوان h1 صحيح", async ({ page }) => {
+  test("«عن SmartLink» (فوتر ال landing) → /about بعنوان h1 صحيح", async ({ page }) => {
     await page.goto("/", { waitUntil: "domcontentloaded" })
-    await page.getByRole("link", { name: /تعرف علينا/ }).click()
+    await page.getByRole("contentinfo").getByRole("link", { name: "عن SmartLink" }).click()
     await expect(page).toHaveURL(/\/about$/)
     await expect(page.getByRole("heading", { level: 1 })).toHaveText(/عن SmartLink/)
   })
@@ -37,13 +40,13 @@ test.describe("r10 — CTA الختامي", () => {
     await expect(cta).toHaveAttribute("rel", "noopener noreferrer")
   })
 
-  test("«تواصل معنا» الختامي → /contact", async ({ page }) => {
+  test("«تواصل معنا» الختامي → /contact (قسم الوصول في ال landing)", async ({ page }) => {
     await page.goto("/", { waitUntil: "domcontentloaded" })
-    /* r11 (تدقيق C): .last() كانت تحلّ على رابط الفوتر من 3 مطابقات —
-       الاختبار كان يمرّ حتى لو انكسر زر CTA الختامي نفسه. الآن محصور
-       في قسم CTA (#cta) الذي يحتوي الزر المقصود وحده. */
-    await page.locator("#cta").scrollIntoViewIfNeeded()
-    const cta = page.locator("#cta").getByRole("link", { name: /تواصل معنا/ })
+    /* r133 (A7 §1 re-base): قسم الختام الكنسي هو ln-cta بعنوان
+       «ابدأ رحلتك» (كان #cta قبل r128) — الزر داخل القسم وحده. */
+    const finale = page.locator('section[aria-label="ابدأ رحلتك"]')
+    await finale.scrollIntoViewIfNeeded()
+    const cta = finale.getByRole("link", { name: /تواصل معنا/ })
     await expect(cta).toHaveAttribute("href", "/contact")
   })
 })

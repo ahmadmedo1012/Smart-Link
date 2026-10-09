@@ -48,7 +48,7 @@ test.describe("الدخان — الصفحات الست", () => {
        ومحكومة أصلاً بـlcp-guard). العقد الحقيقي المتبقي: كل القيم
        الأربع تعرض بعد التمرير وتحمل القيمة النهائية لا 0. */
     await page.goto("/", { waitUntil: "networkidle" })
-    await page.locator("text=عميل نشط").scrollIntoViewIfNeeded()
+    await page.locator("text=عميل نشط").first().scrollIntoViewIfNeeded()
     await expect(page.locator("text=+500").first()).toBeVisible({ timeout: 6000 })
     await expect(page.locator("text=+10K").first()).toBeVisible()
     await expect(page.locator("text=+50K").first()).toBeVisible()

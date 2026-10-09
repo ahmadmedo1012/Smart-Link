@@ -9,7 +9,10 @@ import { test, expect } from "./fixtures"
  */
 
 const LCP_MARKS: Record<string, { h1: string; intro?: string }> = {
-  "/": { h1: "SmartLink", intro: "منصة موحدة تجمع حلولنا الرقمية المبتكرة" },
+  /* r133 (A7 §1 re-base): the "/" marks were pre-r128 copy — the old
+     hero never shipped the Orbit-Ink rebuild. The h1 is the real hero
+     line and the intro is the live sub (page.tsx:99-108). */
+  "/": { h1: "كلُّ عملٍ يبدأ", intro: "منصّة ليبية تجمع حلولنا الرقمية" },
   "/about": { h1: "عن SmartLink", intro: "SmartLink منصة رقمية ليبية متكاملة" },
   "/pricing": { h1: "الخطط والأسعار", intro: "اختر الخطة المناسبة لأعمالك" },
   "/contact": { h1: "تواصل معنا", intro: "فريقنا جاهز لمساعدتك" },

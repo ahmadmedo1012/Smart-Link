@@ -40,7 +40,9 @@ export function Footer() {
                 the 130×32 declaration reserved a 4:1 box for a 1.47:1 image
                 (r8 fixed this in main-nav but missed the footer). */}
             </div>
-            <p className="text-sm text-muted-foreground leading-relaxed mb-4">
+            {/* r133 (A7 §2.2 / R16): brand blurb — prose body-copy rides
+                --fs-body 15px (was raw text-sm 14px — the UI-chrome rung). */}
+            <p className="text-[length:var(--fs-body)] text-muted-foreground leading-relaxed mb-4">
               منصة رقمية متكاملة تقدم حلولاً ذكية للأعمال. نُمكنك من رقمنة خدماتك وزيادة مبيعاتك بأحدث التقنيات.
             </p>
             {/* Social links */}

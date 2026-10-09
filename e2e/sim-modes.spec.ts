@@ -85,7 +85,9 @@ test.describe("A) no-JS — الموقع SSR-first بلا أي جافاسكري�
 
   test("A2 التنقل يعمل من الخادم — رابط <a> حقيقي يغيّر URL والصفحة", async ({ page }) => {
     await page.goto("/", { waitUntil: "domcontentloaded" })
-    const link = page.locator('nav[aria-label="التنقل الرئيسي"] a[href="/about"]')
+    /* r133 (A7 §1): الرئيسية بلا «التنقل الرئيسي» — رابط <a> حقيقي من
+       فوتر ال landing (Link يصيّر <a> من الخادم). */
+    const link = page.locator('footer a[href="/about"]')
 
     // رابط <a> حقيقي بـ href (لا زر JavaScript)
     await expect(link).toHaveAttribute("href", "/about")
@@ -131,9 +133,11 @@ test.describe("A) no-JS — الموقع SSR-first بلا أي جافاسكري�
     // القيم النهائية SSR فوراً (لا عدّاد بلا JS)
     await expect(page.locator("text=+500").first()).toHaveText("+500")
     await expectUserVisible(page.locator("text=+500").first(), "إحصاء +500")
+    /* r133 (A7 §1): عنوان قسم الوصول الكنسي (كان «جهز أعمالك…» قبل
+       بناء Orbit-Ink في r128). */
     await expectUserVisible(
-      page.getByRole("heading", { name: /جهز أعمالك للانطلاق الرقمي/ }),
-      "عنوان قسم CTA",
+      page.getByRole("heading", { name: /رابطك الأول يبدأ من هنا/ }),
+      "عنوان قسم الوصول",
     )
   })
 
@@ -144,41 +148,43 @@ test.describe("A) no-JS — الموقع SSR-first بلا أي جافاسكري�
     // ✔ السلوك الأمثل: مبدّل المظهر لا يُصيَّر أصلاً بلا JS (client-only)
     expect(await page.getByRole("button", { name: /المظهر/ }).count()).toBe(0)
 
-    // ✘ B4-3 (موثّق بقرار — غير مُصلح): زر «خدماتنا» المنسدل مُصيَّر من
-    // الخادم لكنه خامل بلا JS. القرار: الروابط متاحة عبر أقسام المنتجات
-    // والفوتر، وإصلاحه يستلزم SSR دائم لمحتوى القائمة (يغير عقد الترطيب
-    // مقابل منفعة هامشية). يبقى توثيقاً.
-    const services = page.getByRole("button", { name: /خدماتنا/ }).first()
-    await services.click({ timeout: 3000 }).catch(() => {})
-    const expanded = await services.getAttribute("aria-expanded")
-    console.log(`[B4 no-JS] services dropdown aria-expanded after click = ${expanded} (خامل بلا JS — قرار موثّق)`)
+    /* ✘ r133 (A7 §1): زر المِغامينو «المنصّة» مُصيَّر من الخادم لكنه
+       خامل بلا JS — نفس القرار الموثّق سابقاً لقائمة «خدماتنا»:
+       الروابط متاحة عبر أقسام الرحلة والفوتر، وإصلاحه يستلزم SSR
+       دائماً لمحتوى القائمة. يبقى توثيقاً. */
+    const platform = page.getByRole("button", { name: /المنصّة/ }).first()
+    await platform.click({ timeout: 3000 }).catch(() => {})
+    const expanded = await platform.getAttribute("aria-expanded")
+    console.log(`[B4 no-JS] platform megamenu aria-expanded after click = ${expanded} (خامل بلا JS — قرار موثّق)`)
 
-    // ✔ r11 — تصحيح B4-1 (كانت إيجابية كاذبة): ادعاء «الأقسام مخفية
-    // للأبد بلا JS» فُحص بمسبار مستقل: reveal-scroll مخططات زمنية CSS
-    // خالصة تعمل بلا JS تماماً — العناصر تحت الطية تبدأ opacity:0
-    // (نقطة بداية الحركة) ثم تظهر بالتمرير كما يفعل أي مستخدم. العقد
-    // الجديد: مرّر كالمستخدم ثم تحقق أن كل قسم ظاهر فعلاً.
-    for (const sec of ["#features h2", "#how-it-works h2", "#faq h2"]) {
+    /* ✔ r11 — تصحيح B4-1 (كانت إيجابية كاذبة): ادعاء «الأقسام مخفية
+       للأبد بلا JS» فُحص بمسبار مستقل: reveal-scroll مخططات زمنية CSS
+       خالصة تعمل بلا JS تماماً — العناصر تحت الطية تبدأ opacity:0
+       (نقطة بداية الحركة) ثم تظهر بالتمرير كما يفعل أي مستخدم. العقد
+       الجديد: مرّر كالمستخدم ثم تحقق أن كل فصل حقيقي ظاهر فعلاً.
+       r133: فصول ال landing الحقيقية (كانت #features/#how-it-works/#faq
+       قبل r128). */
+    for (const sec of ["#products h2", "#journey h2", ".ln-faq h2"]) {
       await page.locator(sec).scrollIntoViewIfNeeded()
       await page.waitForTimeout(600)
       const op = await effectiveOpacity(page.locator(sec))
-      expect(op, `${sec} يجب أن يظهر بعد التمرير (reveal-scroll CSS بلا JS)`).toBeGreaterThan(0.9)
+      expect(op, `${sec} يجب أن يظهر بعد التمرير (reveal CSS بلا JS)`).toBeGreaterThan(0.9)
     }
 
-    // ✔ r11 (إصلاح B4-2): أزرار الأكورديون جزر React — بلا JS كانت إجابات
-    // FAQ 2..6 مقفلة للأبد (ارتفاع 0). @media (scripting: none) يفتح كل
-    // الألواح ساكنة: المحتوى مقروء بلا JavaScript.
-    /* r13: أكورديون قائمة الجوال صار دائم الوجود في DOM (إصلاح
-       aria-controls المعلق) لكنه داخل أب hidden — العقد الصحيح:
-       كل .acc *يراه المستخدم* يجب أن يكون مفتوحاً؛ ما يختفي مع قائمته
-       المغلقة ليس قفلاً بلا JS بل عنصراً غير معروض أصلاً. */
-    const heights = await page.locator(".acc").evaluateAll((els) =>
+    /* ✔ r133: أسئلة ال landing <details>/<summary> أصيلة — تعمل بلا
+       JS إطلاقاً (كان الأكورديون جزيرة React تُقفل للأبد بلا JS).
+       العقد: كل سؤال يفتح بالنقر ويُظهر إجابته. */
+    const first = page.locator("details.ln-faq-item").nth(0)
+    await first.locator("summary").scrollIntoViewIfNeeded()
+    await first.locator("summary").click()
+    await expect(first).toHaveAttribute("open")
+    const heights = await page.locator("details.ln-faq-item").evaluateAll((els) =>
       els
         .filter((e) => (e as HTMLElement).offsetParent !== null)
         .map((e) => ({ id: e.id, h: Math.round(e.getBoundingClientRect().height) }))
     )
     expect(
-      heights.filter((x) => x.h === 0),
+      heights.filter((x) => x.h < 50),
       `كل ألواح FAQ مقروءة بلا JS: ${JSON.stringify(heights)}`
     ).toEqual([])
   })
@@ -242,48 +248,42 @@ test.describe("B) reduced-motion — مفتاح إيقاف الحركات الك
     await page.emulateMedia({ reducedMotion: "reduce" })
     await page.goto("/", { waitUntil: "domcontentloaded" })
 
-    // القيم النهائية مصفوفة من الخادم — تُقرأ فور domcontentloaded
-    const stats = await page.locator("div.tabular-nums").allInnerTexts()
-    expect(stats).toEqual(["+500", "+10K", "+50K", "99.9%"])
+    /* r133 (A7 §1): شريط الثقة الكنسي — span.ln-mono (كان div.tabular-nums
+       في هيرو ما قبل r128). القيم النهائية مصفوفة من الخادم. */
+    const stats = await page.locator(".ln-trust .ln-mono").allInnerTexts()
+    expect(stats.length).toBe(4)
     for (const s of stats) {
       expect(s, `قيمة عدّاد صفرية: ${s}`).not.toBe("0")
       expect(s.trim().length).toBeGreaterThan(0)
     }
     // الأرقام سليمة غير معكوسة (غربية وليست مقلوبة)
-    expect(stats[3]).toBe("99.9%")
+    expect(stats.join(" ")).toContain("99.9%")
   })
 
-  test("B3 الأكورديون يفتح ويغلق تحت rm (فوري بلا انتظار انتقالات)", async ({ page }) => {
+  test("B3 أسئلة ال landing <details> تفتح وتغلق تحت rm (فوري بلا انتظار انتقالات)", async ({ page }) => {
     await page.emulateMedia({ reducedMotion: "reduce" })
     await page.goto("/", { waitUntil: "domcontentloaded" })
 
-    // بوابة الترطيب: الأكورديون جزيرة عميل — النقر قبل الترطيب لا يعمل
-    // (r13: الصيغة الموحدة من helpers — كانت النسخة الثالثة المكررة)
-    await hydrationGate(page)
-
-    const q = page.locator("#faq-button-1") // «هل الخدمة مجانية؟»
+    /* r133 (A7 §1): أسئلة الرئيسية <details> أصيلة — بلا جزر React
+       (كان #faq-button-1 أكورديون الجزيرة قبل r128؛ نظيره المحروس
+       على /pricing في faq.spec). السؤال الثاني = «هل الخدمة مجانية؟». */
+    const q = page.locator("details.ln-faq-item").nth(1).locator("summary")
     await q.scrollIntoViewIfNeeded()
-    const panel = page.locator("#faq-panel-1")
+    const panel = page.locator("details.ln-faq-item").nth(1).locator(".ln-faq-a")
 
-    // مغلق: الارتفاع 0 (محتوى غير مقروء)
-    await expect
-      .poll(() => panel.evaluate((e) => e.getBoundingClientRect().height))
-      .toBeLessThan(5)
+    // مغلق: المحتوى غير معروض
+    await expect(panel).toBeHidden()
 
     // يفتح بالنقر
     await q.click()
-    await expect(q).toHaveAttribute("aria-expanded", "true")
-    await expect
-      .poll(() => panel.evaluate((e) => e.getBoundingClientRect().height))
-      .toBeGreaterThan(50)
+    await expect(page.locator("details.ln-faq-item").nth(1)).toHaveAttribute("open")
+    await expect(panel).toBeVisible()
     await expectUserVisible(panel.getByText(/مجاناً تماماً|بدون بطاقة ائتمان/), "إجابة السؤال 2")
 
     // ويغلق ثانية
     await q.click()
-    await expect(q).toHaveAttribute("aria-expanded", "false")
-    await expect
-      .poll(() => panel.evaluate((e) => e.getBoundingClientRect().height))
-      .toBeLessThan(5)
+    await expect(page.locator("details.ln-faq-item").nth(1)).not.toHaveAttribute("open")
+    await expect(panel).toBeHidden()
   })
 })
 
@@ -327,16 +327,23 @@ test.describe("C) شبكة بطيئة — تأخير 400ms لكل طلب", () =>
     })
     await page.waitForTimeout(3000) // 3 ثوانٍ بعد التحميل — لا أقسام فارغة دائمة
 
-    // كل قسم (عدا الهيرو المفحوص أعلاه) له عنوان مرئي ونص حقيقي
+    /* كل قسم يزوره المستخدم يعرض نصاً حقيقياً — والعنوان حيث يوجد.
+       r133: فصول ال landing تحمل content-visibility: auto (أداء مقصود،
+       مثبّت) — القسم خارج الشاشة لا يُصيّر نصه إطلاقاً، لذا الزيارة
+       (scrollIntoView) تسبق القراءة: العقد الحقيقي هو «أي قسم يزوره
+       المستخدم مليء»، لا «كل القسم مُصيَّر في أي لحظة». */
     const sections = page.locator("section")
     const count = await sections.count()
     expect(count).toBeGreaterThanOrEqual(8)
     for (let i = 1; i < count; i++) {
       const sec = sections.nth(i)
-      const heading = sec.locator("h1, h2").first()
-      await expectUserVisible(heading, `عنوان القسم ${i}`)
+      await sec.scrollIntoViewIfNeeded()
+      await page.waitForTimeout(350) // content-visibility render + reveal settle
       const txt = (await sec.innerText()).trim()
       expect(txt.length, `القسم ${i} نص فارغ`).toBeGreaterThan(30)
+      if ((await sec.locator("h1, h2").count()) > 0) {
+        await expectUserVisible(sec.locator("h1, h2").first(), `عنوان القسم ${i}`)
+      }
     }
 
     const cls = await page.evaluate(() => (window as unknown as { __cls: number }).__cls)
@@ -372,9 +379,9 @@ test.describe("D) فحوص RTL العميقة (سطح المكتب)", () => {
   }
 
   test("D2 محاذاة الفقرات منطقية (start/center) — لا left في RTL", async ({ page }) => {
-    for (const path of ["/", "/about"] as const) {
+    for (const [path, sel] of [["/", "main p"], ["/about", "main p"]] as const) {
       await page.goto(path, { waitUntil: "domcontentloaded" })
-      const paras = await page.locator("#main-content p").evaluateAll((els) =>
+      const paras = await page.locator(sel).evaluateAll((els) =>
         els.slice(0, 5).map((e) => ({
           ta: getComputedStyle(e).textAlign,
           dir: getComputedStyle(e).direction,
@@ -446,29 +453,38 @@ test.describe("D) فحوص RTL العميقة (سطح المكتب)", () => {
       expect(await page.locator("svg.lucide-chevron-right").count(), `${path} chevron-right`).toBe(0)
     }
 
-    // زر أكورديون مغلق: شيفرون-يسار (اتجاه الفتح في RTL)
-    await page.goto("/", { waitUntil: "domcontentloaded" })
+    /* زر أكورديون /pricing مغلق: شيفرون-يسار (اتجاه الفتح في RTL)
+       r133 (A7 §1): الأكورديون يعيش على /pricing منذ r128 — الفصل
+       الأصلي محروس بأصله <details> في faq.spec. */
+    await page.goto("/pricing", { waitUntil: "domcontentloaded" })
+    /* r133: بوابة الترطيب قبل النقر — الجزيرة (FaqAccordion) تُنشئ
+       مستمعها عند الترطيب؛ نقر domcontentloaded قبلها يضيع (كان فشلاً
+       حتمياً: الفئة rotate-180 لا تُضاف أبداً). */
+    await hydrationGate(page)
     const chev = page.locator("#faq-button-1 svg")
     await expect(chev).toHaveClass(/chevron-left/)
     // عند الفتح يدور 180 (يواجه الاتجاه المعاكس — دلالة مفتوح)
     await page.locator("#faq-button-1").click()
     await expect(page.locator("#faq-button-1 svg")).toHaveClass(/rotate-180/)
-
-    // روابط CTA «زيارة الخدمة» بشيفرون-يسار (تقدم صحيح في RTL)
-    await expect(page.locator('a[aria-label*="زيارة الخدمة"] svg.lucide-chevron-left').first()).toBeVisible()
-
-    // لقطات بصرية كدليل — نفس مسار اللقطات القابل للنقل (r11: مسار
+    // لقطة بصرية كدليل — نفس مسار اللقطات القابل للنقل (r11: مسار
     // مطلق أفشل CI كما في sim-devices)
     await page.locator("#faq-button-0").screenshot({ path: `${SHOT_DIR}/B4-faq-chevron-rtl.png` })
-    await page.locator('a[aria-label*="زيارة الخدمة"]').first().screenshot({ path: `${SHOT_DIR}/B4-cta-chevron-rtl.png` })
+
+    /* روابط CTA ال landing «رابط خارجي» بسهم-يسار (تقدم صحيح في RTL)
+       r133: كان «زيارة الخدمة» قبل r128 — MagneticGoldLink هو حامل
+       السهم الأمامي الكنسي الآن. */
+    await page.goto("/", { waitUntil: "domcontentloaded" })
+    await expect(page.locator('a[aria-label*="رابط خارجي"] svg.lucide-arrow-left').first()).toBeVisible()
+    await page.locator('a[aria-label*="رابط خارجي"]').first().screenshot({ path: `${SHOT_DIR}/B4-cta-chevron-rtl.png` })
   })
 
   test("D5 الأرقام في النص العربي — إحصاءات وهاتف سليمة غير معكوسة", async ({ page }) => {
     await page.goto("/", { waitUntil: "domcontentloaded" })
-    const stats = await page.locator("div.tabular-nums").allInnerTexts()
+    /* r133 (A7 §1): شريط الثقة الكنسي span.ln-mono (كان div.tabular-nums). */
+    const stats = await page.locator(".ln-trust .ln-mono").allInnerTexts()
     console.log(`[B4 rtl stats] ${JSON.stringify(stats)}`)
-    expect(stats).toContain("+500")
-    expect(stats).toContain("99.9%")
+    expect(stats.join(" ")).toContain("+500")
+    expect(stats.join(" ")).toContain("99.9%")
     // ليست معكوسة/مبهمة: كل قيمة تبدأ برقم أو + وليست بصيغة مقلوبة
     for (const s of stats) expect(s).toMatch(/^(\+|\d)/)
 

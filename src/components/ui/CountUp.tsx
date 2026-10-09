@@ -26,7 +26,12 @@ const formatters = new Map<number, Intl.NumberFormat>();
 function formatterFor(decimals: number): Intl.NumberFormat {
   let fmt = formatters.get(decimals);
   if (!fmt) {
-    fmt = new Intl.NumberFormat('ar-LY', {
+    /* r133 (A7 §4-1): 'en', not 'ar-LY' — Node 24/ICU gives ar-LY latn
+       digits + COMMA decimal (99.9 → "99,9") while the settled value
+       string uses a dot: the final frame flipped separators mid-stat.
+       The stat sources are Latin-digit strings anyway; 'en' keeps
+       prefix/suffix/decimal bytes identical from first frame to last. */
+    fmt = new Intl.NumberFormat('en', {
       minimumFractionDigits: decimals,
       maximumFractionDigits: decimals,
     });

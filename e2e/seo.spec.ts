@@ -200,12 +200,40 @@ test("r13 — رؤوس head: theme-color للوضعين + Apple كاملة + for
 
   // theme-color يطابق توكن الخلفية رياضياً (r10-D؛ m15: أرضيات مدارك —
   // الليلي #070B16 والكريمي #FBFAF9 بدل الأسود/الرمادي القديمين)
-  await expect(
-    page.locator('meta[name="theme-color"][media="(prefers-color-scheme: dark)"]')
-  ).toHaveAttribute("content", "#070B16")
-  await expect(
-    page.locator('meta[name="theme-color"][media="(prefers-color-scheme: light)"]')
-  ).toHaveAttribute("content", "#FBFAF9")
+  //
+  // r134 (CI race fix): هذه أزواج HTML الخادم الثابتة — لكن ThemeColorSync
+  // (r14-M7) يعيد كتابة content الوسمين بعد الترطيب ليتبعا ثيم المستخدم
+  // (سلوك مقصود). toHaveAttribute كان يقيس DOM حياً في سباق مع الترطيب:
+  // يفوز على الصندوق السريع محلياً ويخسر على CI البطيء. العقد الحقيقي
+  // للاختبار هو HTML الخادم — نطابقه عبر request API (بلا متصفح، بلا
+  // سباق)، بترتيب سمات لا يعتمد على ترتيب React.
+  const res = await page.request.get("/")
+  expect(res.ok()).toBeTruthy()
+  const html = await res.text()
+  const tags = html.match(/<meta[^>]*name="theme-color"[^>]*>/g) ?? []
+  expect(tags.length).toBe(2)
+  const pair = (media: string, content: string) =>
+    tags.some(
+      (t) => t.includes(`media="${media}"`) && t.includes(`content="${content}"`)
+    )
+  expect(pair("(prefers-color-scheme: dark)", "#070B16")).toBe(true)
+  expect(pair("(prefers-color-scheme: light)", "#FBFAF9")).toBe(true)
+
+  // r134: العقد الثاني — بعد الترطيب يوحّد ThemeColorSync الوسمين على
+  // شريط الثيم النشط (defaultTheme="dark" → #070B16 للوسمين معاً).
+  await page.waitForFunction(
+    () => {
+      const metas = Array.from(
+        document.querySelectorAll('meta[name="theme-color"]')
+      )
+      return (
+        metas.length === 2 &&
+        metas.every((m) => m.getAttribute("content") === "#070B16")
+      )
+    },
+    undefined,
+    { timeout: 10_000 }
+  )
 
   // زوج Apple (r9): capability + شريط الحالة + عنوان التطبيق
   await expect(page.locator('meta[name="apple-mobile-web-app-capable"]')).toHaveAttribute("content", "yes")

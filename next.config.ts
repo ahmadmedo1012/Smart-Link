@@ -35,7 +35,10 @@ const nextConfig: NextConfig = {
        screenshots it guarded (smart-menu.jpg 203 KB + smart-bot.jpg 53 KB)
        had zero src/ consumers and are deleted; (b) logo-light.png (the
        r131 copper light wordmark rendered by main-nav + footer) joins the
-       list — it was the one rendered image still revalidating per visit. */
+       list — it was the one rendered image still revalidating per visit.
+       r134 (R134-W1-SL perf P3): icon-192-maskable.png joins — r133 wired
+       it into the manifest but the immutable list missed it (the only
+       manifest icon still revalidating per visit). */
     const immutableFiles = [
       "og-smartlink.jpg",
       "logo.png",
@@ -44,6 +47,7 @@ const nextConfig: NextConfig = {
       "apple-touch-icon.png",
       "icon-96.png",
       "icon-192.png",
+      "icon-192-maskable.png",
       "icon-512.png",
       "icon-512-maskable.png",
     ];

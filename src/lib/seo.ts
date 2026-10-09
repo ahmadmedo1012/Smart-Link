@@ -7,12 +7,16 @@ import { SITE } from "@/lib/site"
 /* Shared OG image descriptor — the root layout imports the same object
    (r10: it used to keep an identical copy of these five fields), so
    subpages resolve to the exact same absolute URL (one cache entry per
-   crawler) and changing the image is a one-line edit. */
+   crawler) and changing the image is a one-line edit.
+   r134 (R134-W1-XC P2): the alt rides the family Arabic-prefix form
+   «الربط الذكي — …» (Smart-Menu/Smart-Order convention — e.g.
+   «الربط الذكي — سمارت أوردر»); was the Latin-brand-first
+   «SmartLink — …» split. */
 export const OG_IMAGE = {
   url: "/og-smartlink.jpg",
   width: 1200,
   height: 630,
-  alt: "SmartLink — منصة رقمية متكاملة: المنيو الرقمي والبوت الذكي",
+  alt: "الربط الذكي — SmartLink",
   type: "image/jpeg",
 } as const
 

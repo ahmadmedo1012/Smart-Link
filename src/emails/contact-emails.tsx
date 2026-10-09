@@ -11,7 +11,7 @@ import {
   Section,
   Text,
 } from "@react-email/components"
-import { SITE } from "@/lib/site"
+import { SITE, whatsappUrl } from "@/lib/site"
 
 /* Brand tokens rendered as hex for email clients (email CSS vars don't
    exist — hardcoded is intentional). m15 (Madarek parity): the email
@@ -119,7 +119,10 @@ export function ContactConfirmationEmail({ name, subject }: { name: string; subj
               إن كان الأمر مستعجلاً، يمكنك التواصل معنا مباشرة عبر واتساب:
             </Text>
             <Button
-              href={SITE.whatsapp.url}
+              /* r134 (R134-W2-SL fix 8): prefilled wa.me opener (surface:
+                  بريد التأكيد) — the urgent-lead shortcut opens a chat
+                  with the opener typed, not blank. */
+              href={whatsappUrl("بريد التأكيد")}
               style={buttonStyle}
             >
               واتساب مباشر

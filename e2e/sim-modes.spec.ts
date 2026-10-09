@@ -495,9 +495,12 @@ test.describe("D) فحوص RTL العميقة (سطح المكتب)", () => {
     await expectUserVisible(phone, "رقم الهاتف")
     expect(await phone.getAttribute("dir")).toBe("ltr")
     // ورابط واتساب بأرقام مرتبة صحيحة (غير معكوسة)
-    await expect(page.locator('a[href="https://wa.me/218910089975"]').first()).toHaveAttribute(
-      "href",
-      "https://wa.me/218910089975"
+    // r134 (fix 8): ?text= مُعبّأ (افتراحة عربية مُعرِّفة بالمصدر) —
+    // الأرقام تبقى في ترتيبها الصحيح قبل معامل التعبئة
+    const waLink = page.locator('a[href^="https://wa.me/218910089975"]').first()
+    await expect(waLink).toBeVisible()
+    expect(await waLink.getAttribute("href")).toMatch(
+      /^https:\/\/wa\.me\/218910089975\?text=/
     )
   })
 })

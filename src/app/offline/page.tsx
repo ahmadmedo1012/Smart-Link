@@ -1,6 +1,6 @@
 import type { Metadata } from "next"
 import { WifiOff } from "lucide-react"
-import { SITE } from "@/lib/site"
+import { SITE, whatsappUrl } from "@/lib/site"
 /* r128 F2b: the shared product chrome moved out of the RootLayout
    (the landing owns its own world now) — this page renders it itself. */
 import { SiteChrome } from "@/components/site-chrome"
@@ -46,7 +46,9 @@ export default function OfflinePage() {
         </span>
       </p>
       <a
-        href={SITE.whatsapp.url}
+        /* r134 (R134-W2-SL fix 8): prefilled wa.me opener (surface:
+            صفحة عدم الاتصال) — was the bare link. */
+        href={whatsappUrl("صفحة عدم الاتصال")}
         target="_blank"
         rel="noopener noreferrer"
         /* r130 (W1-D P2-9): the canonical filled-CTA hover — an

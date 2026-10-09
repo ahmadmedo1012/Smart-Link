@@ -9,7 +9,7 @@ import { ContactForm } from "@/components/contact-form"
    (.ln-card, styles.css bridge). The ContactForm island itself is
    byte-untouched: the r13-hardened focus/error/success contract (and
    the 16px iOS zoom floor) must not regress. */
-import { SITE } from "@/lib/site"
+import { SITE, whatsappUrl } from "@/lib/site"
 import { pageMetadata } from "@/lib/seo"
 import { breadcrumbJsonLd } from "@/lib/schema"
 
@@ -49,9 +49,12 @@ const breadcrumbLd = breadcrumbJsonLd([
    is unified to "تواصل معنا" (matching metadata, breadcrumbs, and every
    other link to this page — the h1 used to say "اتصل بنا"). */
 
+/* r134 (R134-W2-SL fix 8): the WhatsApp card carries the prefilled
+   wa.me opener (surface: صفحة التواصل) — the bare link opened a blank
+   chat. */
 const contacts = [
   { icon: Mail, title: "البريد الإلكتروني", desc: SITE.email, href: `mailto:${SITE.email}` },
-  { icon: MessageCircle, title: "واتساب", desc: "تواصل مباشر مع المؤسس", href: SITE.whatsapp.url },
+  { icon: MessageCircle, title: "واتساب", desc: "تواصل مباشر مع المؤسس", href: whatsappUrl("صفحة التواصل") },
   { icon: MapPin, title: "الموقع", desc: SITE.address },
   { icon: Clock, title: "أوقات الدعم", desc: "واتساب 24/7 · المكتب 9 صباحاً — 9 مساءً" },
 ]

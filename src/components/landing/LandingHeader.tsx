@@ -29,6 +29,10 @@ export function LandingHeader() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [megamenuOpen, setMegamenuOpen] = useState(false)
   const megamenuTriggerRef = useRef<HTMLButtonElement>(null)
+  /* r134 (R134-W1-SL P2): the burger trigger — Escape on the mobile
+     drawer closes it and returns focus here (mirrors the MainNav twin
+     main-nav.tsx:392-398; the drawer used to strand keyboard users). */
+  const burgerRef = useRef<HTMLButtonElement>(null)
   /* Scroll chrome lives on refs and is written imperatively below — a React
      re-render per scroll event was the canonical round-3 regression. */
   const headerRef = useRef<HTMLElement>(null)
@@ -138,15 +142,20 @@ export function LandingHeader() {
               <button
                 type="button"
                 className="landing-nav-link"
-                aria-haspopup="true"
+                /* r134 (R134-W1-SL P3): aria-haspopup="true" == "menu",
+                   promising arrow-key navigation we do not implement
+                   (disclosure pattern: free Tab flow) — dropped to match
+                   the product twin main-nav.tsx:259-262; aria-expanded/
+                   aria-controls carry the real disclosure contract. */
                 aria-expanded={megamenuOpen}
+                aria-controls="landing-megamenu"
                 ref={megamenuTriggerRef}
                 onClick={() => setMegamenuOpen((v) => !v)}
               >
                 المنصّة
                 <ChevronDown size={14} aria-hidden="true" />
               </button>
-              <div className="landing-megamenu" onClick={closeMegamenu}>
+              <div id="landing-megamenu" className="landing-megamenu" onClick={closeMegamenu}>
                 <a href="#products" className="landing-megamenu-item">
                   <span className="ln-menu-ico azure" aria-hidden="true"><Smartphone size={20} /></span>
                   <span className="landing-megamenu-item-body">
@@ -188,6 +197,10 @@ export function LandingHeader() {
               href={SITE.products.menu.url}
               target="_blank"
               rel="noopener noreferrer"
+              /* r134 (R134-W1-SL P3): the external-link announcement
+                 convention (footer.tsx:106, main-nav.tsx:303) — matches
+                 the hero twin page.tsx:111 verbatim. */
+              aria-label="ابدأ مجاناً — Smart Menu، رابط خارجي"
               className="ln-btn-gold"
             >
               ابدأ مجاناً
@@ -200,6 +213,7 @@ export function LandingHeader() {
             className="landing-burger"
             aria-label={menuOpen ? "إغلاق القائمة" : "فتح القائمة"}
             aria-expanded={menuOpen}
+            ref={burgerRef}
             onClick={() => setMenuOpen((v) => !v)}
           >
             {menuOpen ? <X size={20} aria-hidden="true" /> : <Menu size={20} aria-hidden="true" />}
@@ -207,7 +221,20 @@ export function LandingHeader() {
         </div>
 
         {menuOpen && (
-          <nav className="landing-mobile-menu" aria-label="قائمة الجوال" onClick={() => setMenuOpen(false)}>
+          <nav
+            className="landing-mobile-menu"
+            aria-label="قائمة الجوال"
+            onClick={() => setMenuOpen(false)}
+            /* r134 (R134-W1-SL P2): Escape closes the drawer and returns
+               focus to the burger — the MainNav pattern (main-nav.tsx:
+               392-398), which the megamenu already had (:131-136). */
+            onKeyDown={(e) => {
+              if (e.key === "Escape") {
+                setMenuOpen(false)
+                burgerRef.current?.focus()
+              }
+            }}
+          >
             <a href="#products" className="ln-btn-ghost">المنتجات</a>
             <a href="#journey" className="ln-btn-ghost">رحلة الربط</a>
             <a href="#progress" className="ln-btn-ghost">النتائج</a>
@@ -218,6 +245,7 @@ export function LandingHeader() {
               href={SITE.products.menu.url}
               target="_blank"
               rel="noopener noreferrer"
+              aria-label="ابدأ مجاناً — Smart Menu، رابط خارجي"
               className="ln-btn-gold"
             >
               ابدأ مجاناً

@@ -3,7 +3,7 @@ import Image from "next/image"
 import { Smartphone, Bot, Mail, MapPin, Globe, MessageCircle, Share2 } from "lucide-react"
 import { BackToTop } from "@/components/back-to-top"
 import { CurrentYear } from "@/components/current-year"
-import { SITE } from "@/lib/site"
+import { SITE, whatsappUrl } from "@/lib/site"
 
 /* r8: a full server component. The footer markup (links, contact list,
    bottom bar) is static HTML that never needed hydration — only the
@@ -48,7 +48,7 @@ export function Footer() {
             {/* Social links */}
             <div className="flex items-center gap-3">
               {[
-                { icon: MessageCircle, href: SITE.whatsapp.url, label: "واتساب" },
+                { icon: MessageCircle, href: whatsappUrl("تذييل الصفحة"), label: "واتساب" },
                 { icon: Globe, href: SITE.social.facebook, label: "فيسبوك" },
                 { icon: Share2, href: SITE.social.instagram, label: "إنستغرام" },
               ].map((s) => (
@@ -123,7 +123,9 @@ export function Footer() {
 
           {/* Contact */}
           <div>
-            <h3 className="text-sm font-bold text-foreground mb-4">اتصل بنا</h3>
+            {/* r134 (R134-W1-SL copy P2): unified on r9's «تواصل معنا»
+                (was the last «اتصل بنا» heading on the site). */}
+            <h3 className="text-sm font-bold text-foreground mb-4">تواصل معنا</h3>
             <ul className="space-y-3">
               <li className="flex items-center gap-2 text-sm text-muted-foreground">
                 <div className="w-8 h-8 rounded-lg bg-[var(--accent-soft)] flex items-center justify-center shrink-0">
@@ -141,7 +143,9 @@ export function Footer() {
                 <div className="w-8 h-8 rounded-lg bg-[var(--accent-soft)] flex items-center justify-center shrink-0">
                   <MessageCircle className="w-3.5 h-3.5 text-[var(--accent-strong)]" />
                 </div>
-                <a href={SITE.whatsapp.url} target="_blank" rel="noopener noreferrer" className="text-primary-text hover:underline underline-offset-2 transition-all inline-flex items-center py-2.5 rounded" dir="ltr">
+                {/* r134 (R134-W2-SL fix 8): prefilled wa.me opener
+                    (surface: تذييل الصفحة) — was the bare link. */}
+                <a href={whatsappUrl("تذييل الصفحة")} target="_blank" rel="noopener noreferrer" className="text-primary-text hover:underline underline-offset-2 transition-all inline-flex items-center py-2.5 rounded" dir="ltr">
                   {SITE.whatsapp.display}
                 </a>
               </li>

@@ -2,7 +2,7 @@
 import { useState, useEffect, useRef } from "react"
 import { Send, Check, Loader2, ChevronDown } from "lucide-react"
 import { cn } from "@/lib/utils"
-import { SITE } from "@/lib/site"
+import { SITE, whatsappUrl } from "@/lib/site"
 import { EMAIL_RE, NAME_MAX, EMAIL_MAX, MESSAGE_MAX, NAME_LETTER_RE, NAME_LETTER_ERROR, SUBJECTS } from "@/lib/contact-rules"
 
 /* r9: extracted from the contact page — it was the only fully-client page
@@ -38,9 +38,17 @@ type FieldErrors = { name?: string; email?: string; message?: string }
    r130 (W1-D P2-10 / W1-H SL-1): focus = the canonical recipe — accent
    border + 3px 22%-alpha halo (--state-input-focus-halo, Madarek
    tokens.css:237) replaces the 2px solid --ring; placeholder rides the
-   --text-faint tier (canonical ::placeholder). */
+   --text-faint tier (canonical ::placeholder).
+   r134 (R134-W2-SL fixes 10b + 11 — r133-A10 fleet port + family input
+   recipe): the input geometry joins the canon — 44px min-height
+   (min-h-11) + rounded-md (r-md 10px), was py-2.5 + rounded-xl (12px);
+   the resting state gains the canonical hover border-strengthen
+   (Smart-Menu input.tsx:39-42 twin: hover → --border-strong). The
+   hover class rides ONLY the non-error branch (fieldCls) and the
+   select — error fields keep their destructive border on hover
+   (Smart-Order's hover:not-aria-invalid doctrine). */
 const inputBase =
-  "w-full px-4 py-2.5 rounded-xl bg-[var(--card)] border text-foreground text-base focus:outline-none focus:border-[var(--state-input-focus-border)] focus:shadow-[var(--state-input-focus-halo)] transition-all placeholder:text-[var(--text-faint)]"
+  "w-full min-h-11 px-4 py-2.5 rounded-md bg-[var(--card)] border text-foreground text-base focus:outline-none focus:border-[var(--state-input-focus-border)] focus:shadow-[var(--state-input-focus-halo)] transition-all placeholder:text-[var(--text-faint)]"
 
 export function ContactForm() {
   const [sent, setSent] = useState(false)
@@ -146,7 +154,9 @@ export function ContactForm() {
   }, [error])
 
   const fieldCls = (bad?: string) =>
-    bad ? `${inputBase} border-[var(--destructive)]` : `${inputBase} border-[var(--input-border)]`
+    bad
+      ? `${inputBase} border-[var(--destructive)]`
+      : `${inputBase} border-[var(--input-border)] hover:border-[var(--border-strong)]`
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4" noValidate>
@@ -208,7 +218,7 @@ export function ContactForm() {
             appearance-none + a custom logical-side chevron; pe-10 keeps the
             option text clear of the icon in RTL. */}
         <div className="relative">
-          <select id="subject" name="subject" className={`${inputBase} border-[var(--input-border)] appearance-none pe-10 cursor-pointer`}>
+          <select id="subject" name="subject" className={`${inputBase} border-[var(--input-border)] hover:border-[var(--border-strong)] appearance-none pe-10 cursor-pointer`}>
             <option value="">اختر الموضوع</option>
             {/* r13: خيارات الموضوع من العقد المشترك — كانت الخريطة نفسها
                 منسوخة حرفياً بين هذا الملف وroute.ts */}
@@ -262,7 +272,7 @@ export function ContactForm() {
               10:1 (the links after it keep their primary-text color). */}
           <span className="block mt-2 text-[length:var(--fs-xs)] text-foreground/80">
               أو تواصل مباشرة:{" "}
-              <a href={SITE.whatsapp.url} className="underline underline-offset-2" style={{ color: "var(--primary-text)" }}>
+              <a href={whatsappUrl("نموذج التواصل")} className="underline underline-offset-2" style={{ color: "var(--primary-text)" }}>
                 واتساب <span dir="ltr">{SITE.whatsapp.display}</span>
               </a>{" "}·{" "}
               <a href={`mailto:${SITE.email}`} className="underline underline-offset-2" style={{ color: "var(--primary-text)" }}>

@@ -71,3 +71,17 @@ export const SITE = {
     schemaCloses: "21:00",
   },
 } as const
+
+/** r134 (R134-W2-SL, fix 8): prefilled wa.me deep link, per surface.
+ *  SITE.whatsapp.url alone opened a BLANK chat — the visitor typed the
+ *  opener and the source signal was lost. Every human WhatsApp CTA now
+ *  carries a source-identifying Arabic opener (encodeURIComponent —
+ *  wa.me wants percent-encoded UTF-8). Machine-facing consumers
+ *  (JSON-LD schema.ts) keep the bare url: crawlers don't type openers.
+ *  Surfaces shipped: تذييل الصفحة · صفحة التواصل · نموذج التواصل ·
+ *  صفحة عدم الاتصال · بريد التأكيد. */
+export function whatsappUrl(surface: string): string {
+  return `${SITE.whatsapp.url}?text=${encodeURIComponent(
+    `مرحباً، أتواصل معكم من موقع الربط الذكي — ${surface}`,
+  )}`
+}

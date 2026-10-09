@@ -135,7 +135,8 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="text-[length:var(--fs-h2)] font-bold text-foreground mt-6 mb-2">اتصل بنا</h2>
+            {/* r134 (R134-W1-SL copy P2): unified on r9's «تواصل معنا». */}
+            <h2 className="text-[length:var(--fs-h2)] font-bold text-foreground mt-6 mb-2">تواصل معنا</h2>
             <p>لأي استفسارات أو مخاوف بخصوص سياسة الخصوصية هذه، يرجى التواصل معنا على:</p>
             <p className="mt-1 font-medium text-foreground">{SITE.email}</p>
           </section>

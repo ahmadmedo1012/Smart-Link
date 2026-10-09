@@ -68,7 +68,8 @@ test.describe("نموذج الاتصال — الواجهة", () => {
     await expect(alert).toBeVisible({ timeout: 8000 })
     await expect(alert).toContainText(/واتساب|تعذّر|غير مهيأة/)
     // بدائل الاتصال داخل رسالة الخطأ (a11y + UX)
-    await expect(alert.locator('a[href="https://wa.me/218910089975"]')).toBeVisible()
+    // r134 (fix 8): رابط واتساب يحمل ?text= مُعبّأً (كان الرابط المجرد)
+    await expect(alert.locator('a[href^="https://wa.me/218910089975?text="]')).toBeVisible()
 
     // honeypot موجود لكن مخفي عن التقنية المساعدة
     const honeypot = page.locator('input[name="company"]')

@@ -1,6 +1,6 @@
 import { test, expect } from "./fixtures"
 import AxeBuilder from "@axe-core/playwright"
-import { SITE } from "../src/lib/site"
+import { SITE, whatsappUrl } from "../src/lib/site"
 
 /**
  * r14 (M7) — عقد صفحة/سلوك الأوفلاين.
@@ -30,7 +30,8 @@ test.describe("offline — عقد الصفحة", () => {
     // h1 + رقم الواتساب بdir=ltr (عقد العرض — CLAUDE.md)
     await expect(page.getByRole("heading", { level: 1 })).toHaveText("لا يوجد اتصال بالإنترنت")
     const wa = page.locator("a", { hasText: "تواصل عبر واتساب" })
-    await expect(wa).toHaveAttribute("href", SITE.whatsapp.url)
+    /* r134 (fix 8): الرابط يحمل الافتراحة المُعبّأة للمصدر (كان المجرد) */
+    await expect(wa).toHaveAttribute("href", whatsappUrl("صفحة عدم الاتصال"))
     await expect(page.locator("span[dir='ltr']")).toHaveText(SITE.whatsapp.display)
   })
 

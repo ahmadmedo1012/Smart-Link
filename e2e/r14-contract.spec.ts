@@ -43,6 +43,12 @@ test.describe("r14 — theme-color يتبع المستخدم", () => {
 const HOVER_OUTSIDE_GUARD_ALLOWLIST = [
   /scrollbar-thumb:hover/,
   /\.group:hover \.cta-shine/,
+  /* r134 (fix 10a — r133-A10 fleet port): the Chromium autofill cover —
+     the UA repaints its pale-yellow/blue fill on hover+focus, so the
+     cover rule must MATCH those pseudo-states (input + textarea). It
+     styles a browser state, not an interaction: nothing sticks on iOS
+     touch (the Smart-Menu twin globals.css:1391-1396 ships it raw). */
+  /:-webkit-autofill:hover/,
 ]
 
 test("r14 — عقد CSS: لا :hover بلا حماية (hover:hover) خارج القائمة الموثقة", async ({ request }) => {

@@ -53,11 +53,15 @@ export function RolesSection() {
               <span className="ln-role-index ln-mono">{r.index}</span>
             </span>
             {/* r129 P0-12: three direct grid children — key / desc / quote
-                (canonical); the quote auto-places into column 1. */}
+                (canonical); the quote auto-places into column 1.
+                r134 (R134-W1-SL punctuation P3): the Latin curly ” mark
+                rides the fleet «» canon (paired guillemets, both
+                decorative spans aria-hidden). */}
             <p className="ln-role-desc">{r.desc}</p>
             <blockquote className="ln-role-quote">
-              <span className="ln-role-quote-mark" aria-hidden="true">”</span>
+              <span className="ln-role-quote-mark" aria-hidden="true">«</span>
               {r.quote}
+              <span className="ln-role-quote-mark ln-role-quote-mark--end" aria-hidden="true">»</span>
             </blockquote>
           </RevealCssClass>
         ))}

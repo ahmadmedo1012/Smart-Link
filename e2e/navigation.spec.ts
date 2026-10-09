@@ -115,8 +115,10 @@ test("الرئيسية — شريط --p الإلزامي يتقدم مع الت�
 /* r133 (A7 §1 re-base): قائمة الجوال على السطحين — الرئيسية لها
    درج ال landing الكنسي (لوحة داخل هيدر sticky: تنقل بالروابط،
    إغلاق بالنقر على أي رابط — عقلية Madarek الأصلية، لا قفل جسد
-   ولا Escape لأن اللوحة ليست overlay ملء الشاشة)، وصفحات المنتج
-   تملك العقد الكامل (قفل الجسد + Escape + التركيز). */
+   لأن اللوحة ليست overlay ملء الشاشة)، وصفحات المنتج تملك العقد
+   الكامل (قفل الجسد + Escape + التركيز).
+   r134 (R134-W1-SL P2): درج الرئيسية يملك الآن عقد Escape نفسه —
+   يغلق ويعيد التركيز لزر البرجر (نمط MainNav). */
 test.describe("التنقل — الجوال: درج ال landing (الرئيسية)", () => {
   test.use({ viewport: MOBILE_VIEWPORT })
 
@@ -159,6 +161,22 @@ test.describe("التنقل — الجوال: درج ال landing (الرئيس�
     const skip = page.locator('a[href="#main"]')
     await expect(skip).toBeFocused()
     await expect(skip).toBeVisible()
+  })
+
+  test("r134 — درج الرئيسية: Escape يغلقها ويعيد التركيز للبرجر", async ({ page }) => {
+    /* r134 (R134-W1-SL P2): الدرج كان الوحيد في الأسطول بلا Escape —
+       الآن يحمل عقد MainNav (main-nav.tsx:392-398): إغلاق + عودة
+       التركيز لزر البرجر. التركيز يجب أن يكون داخل الدرج أولاً —
+       المعالج على عنصر nav (لا يوجد مستمع نافذة هنا). */
+    const burger = page.getByRole("button", { name: /فتح القائمة|إغلاق القائمة/ })
+    await burger.click()
+    const mobileNav = page.locator('nav[aria-label="قائمة الجوال"]')
+    await expect(mobileNav).toBeVisible()
+
+    await mobileNav.locator('a[href="/contact"]').focus()
+    await page.keyboard.press("Escape")
+    await expect(mobileNav).toBeHidden()
+    await expect(burger).toBeFocused()
   })
 })
 

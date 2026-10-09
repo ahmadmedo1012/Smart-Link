@@ -199,6 +199,17 @@
   --ease-soft: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-spring-soft: cubic-bezier(0.34, 1.18, 0.64, 1);
   --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* r134 (R134-W2-SL fix 10c — r133-A10 fleet-systemic port; the
+     Smart-Menu globals.css:186-193 / Smart-Order globals.css:164-171
+     twins): default-transition bridge. Every transition-* utility
+     without an explicit easing class used to ride the browser default
+     ease(0.25, 0.1, 0.25, 1) — off the canonical exponential settle.
+     One bridge through the canon token chain (the Smart-Link spelling
+     of the siblings' literal: --ease-out IS the Madarek settle): bare
+     utilities now settle at (0.16, 1, 0.3, 1), matching explicit
+     ease-out sites. */
+  --default-transition-timing-function: var(--ease-out);
 }
 
 /* ═══════════════════════════════════════════════════════════════════
@@ -637,6 +648,45 @@
      pins outline-only); it had silently mutated every focused element
      without an explicit Tailwind radius, e.g. bare prose links. */
   *:focus-visible { outline: 2px solid var(--ring); outline-offset: 2px; }
+
+  /* r134 (R134-W2-SL fix 10a — r133-A10 fleet Must-2 port; madarek
+     base.css:104-125, verbatim via the Smart-Menu globals.css:1366-1398
+     twin): browser surfaces — caret + autofill theming. The typed-text
+     caret follows the theme accent (the UA blue/black default flashed
+     off-palette on every focus of the contact form). */
+  input,
+  textarea,
+  [contenteditable]:not([contenteditable="false"]) {
+    caret-color: var(--accent-ink);
+  }
+
+  /* Chromium/Safari autofill: the UA repaints its pale-yellow/blue
+     fill on hover+focus, so all three states are covered. The inset
+     box-shadow is the only reliable cover (the UA paints
+     background-color under it); -webkit-text-fill-color pins the typed
+     text to the theme ink. Token mapping (identical to the SM port):
+     --card = the surface inputs sit on, --foreground = ink. */
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  textarea:-webkit-autofill,
+  textarea:-webkit-autofill:hover,
+  textarea:-webkit-autofill:focus {
+    -webkit-box-shadow: 0 0 0 1000px var(--card) inset;
+    -webkit-text-fill-color: var(--foreground);
+    caret-color: var(--accent-ink);
+    transition: background-color 9999s ease-out;
+  }
+
+  /* Firefox equivalent (its UA lock on :autofill backgrounds lifted
+     long ago — a plain background-color override sticks). */
+  input:autofill,
+  textarea:autofill {
+    background-color: var(--card);
+    color: var(--foreground);
+    caret-color: var(--accent-ink);
+  }
+
   h1, h2, h3, h4 { text-wrap: balance; font-family: var(--font-heading); }
   p { text-wrap: pretty; }
 }

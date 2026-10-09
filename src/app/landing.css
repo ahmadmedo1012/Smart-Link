@@ -1431,7 +1431,18 @@
   flex-shrink: 0;
 }
 .landing .ln-role-ico.gold { background: rgb(245 243 231 / 0.08); color: var(--ln-cream-dim); }
-.landing .ln-role-ico.azure { background: rgb(122 107 242 / 0.14); color: var(--ln-violet); }
+/* r134 (R134-W1-SL contrast P3, verified): the violet icon measured
+   2.99:1 on this well (violet #7A6BF2 over violet-14% composited on
+   the --ln-ink #252A3E chapter ground) — 0.01 under the WCAG 1.4.11
+   3:1 graphics floor. NOTE: the megamenu sibling (.ln-menu-ico.azure)
+   rides wash 0.16 only because its panel ground is the DARKER
+   --ln-ink-2 (#1C2032 → 3.295:1); raising THIS wash toward 0.16 would
+   pull the well toward the icon color and LOWER the ratio (2.92:1 —
+   recomputed). The floor clears by weakening the wash instead:
+   0.12 → 3.064:1 recomputed (sRGB composite + WCAG relative
+   luminance). The platforms twin (.ln-platform-ico.azure, 0.14 over
+   the 0.03-cream cell on ink-2) measures 3.136:1 and stays put. */
+.landing .ln-role-ico.azure { background: rgb(122 107 242 / 0.12); color: var(--ln-violet); }
 .landing .ln-role-ico.mist { background: rgb(245 243 231 / 0.08); color: var(--ln-cream-dim); }
 .landing .ln-role-name { font-size: 21px; font-weight: var(--fw-bold); color: var(--ln-cream); }
 .landing .ln-role-index {
@@ -1450,6 +1461,10 @@
   max-inline-size: 64ch;
 }
 .landing .ln-role-quote-mark { color: var(--ln-cream-dim); font-size: 20px; margin-inline-end: 6px; }
+/* r134 (R134-W1-SL punctuation P3): the closing guillemet twin of the
+   mark above — the quote pair rides the fleet «» canon (was a lone
+   Latin ”). Margin flips to the logical start side. */
+.landing .ln-role-quote-mark--end { margin-inline-end: 0; margin-inline-start: 6px; }
 
 /* ── 9 · final CTA — convergence, canonical landing.css:1395-1476 ──── */
 .landing .ln-cta {

@@ -1577,6 +1577,175 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
     'public/icon-192-maskable.png must exist on disk (the manifest points at it)');
 }
 
+/* ═══ r134 (R134-W2-SL) · Wave-2 fix pins — drawer a11y, r133-A10
+   micro-interaction ports (autofill/caret + input hover + easing
+   bridge), contact-form 44px/r10 recipe, تواصل معنا unification, «»
+   quote canon, wa.me prefill, azure well 3:1, external-link
+   announcements, og alt family form, immutable maskable-192 ═══════ */
+{
+  // comment-aware read: negative pins ban strings from CODE — r134 fix
+  // comments legitimately cite the retired spellings as history.
+  const read = (p) => {
+    const raw = readFileSync(new URL(`../src/${p}`, import.meta.url), 'utf8');
+    return raw.replace(/\/\*[\s\S]*?\*\//g, ' ').replace(/\/\/.*$/gm, ' ');
+  };
+  const header = read('components/landing/LandingHeader.tsx');
+  const aboutPage = read('app/about/page.tsx');
+  const rolesSrc = read('components/landing/RolesSection.tsx');
+  const pricingPage = read('app/pricing/page.tsx');
+  const footerProd = read('components/footer.tsx');
+  const privacyPage = read('app/privacy/page.tsx');
+  const termsPage = read('app/terms/page.tsx');
+  const contactFormSrc = read('components/contact-form.tsx');
+  const siteSrc = read('lib/site.ts');
+  const seoSrc = read('lib/seo.ts');
+  const nextConfig = readFileSync(new URL('../next.config.ts', import.meta.url), 'utf8');
+  const landingCss134 = readFileSync(new URL('../src/app/landing.css', import.meta.url), 'utf8')
+    .replace(/\/\*[\s\S]*?\*\//g, ' ');
+
+  // A ── fix 1: the landing mobile drawer carries the MainNav Escape
+  //     contract (close + focus return to the burger).
+  const drawerBlock = header.slice(header.indexOf('landing-mobile-menu'));
+  check(
+    /onKeyDown=\{\(e\) => \{/.test(drawerBlock)
+      && drawerBlock.includes('burgerRef.current?.focus()')
+      && drawerBlock.includes('Escape'),
+    'r134-1: landing mobile drawer — Escape closes + focus returns to the burger (main-nav.tsx:392-398 pattern)'
+  );
+
+  // B ── fix 4: no aria-haspopup over-promise on the megamenu trigger
+  //     (disclosure pattern — the product twin dropped it in r13).
+  check(
+    !/aria-haspopup/.test(header),
+    'r134-4: no aria-haspopup on the landing megamenu trigger (aria-expanded/aria-controls carry the real disclosure contract)'
+  );
+  check(
+    /aria-controls="landing-megamenu"/.test(header) && /id="landing-megamenu"/.test(header),
+    'r134-4: the megamenu trigger ↔ panel pair is wired via aria-controls/id (product-twin shape)'
+  );
+
+  // C ── fix 5: the four external CTAs announce «رابط خارجي» (the
+  //     site convention: footer.tsx:106, main-nav.tsx:303/421).
+  check(
+    (header.match(/ابدأ مجاناً — Smart Menu، رابط خارجي/g) ?? []).length === 2,
+    'r134-5: both header CTAs (desktop + mobile drawer) announce «ابدأ مجاناً — Smart Menu، رابط خارجي»'
+  );
+  check(
+    pricingPage.includes('ابدأ الآن — ${plan.title}، رابط خارجي'),
+    'r134-5: both pricing CTAs announce «ابدأ الآن — <product>، رابط خارجي»'
+  );
+
+  // D ── fix 2: the about pull-quote glyph rides the LOGICAL end corner.
+  check(
+    aboutPage.includes('top-4 end-4') && !/top-4 right-4/.test(aboutPage),
+    'r134-2: about decorative quote anchors at top-4 end-4 (logical, was physical right-4)'
+  );
+
+  // E ── fix 6: the «» quote canon on Arabic pull-quotes.
+  check(
+    aboutPage.includes('«التكنولوجيا') && aboutPage.includes('احتياجاتهم.»')
+      && !/&ldquo;|&rdquo;/.test(aboutPage),
+    'r134-6: the about pull-quote rides the «» canon (no Latin curly entities)'
+  );
+  check(
+    rolesSrc.includes('>«</span>') && rolesSrc.includes('ln-role-quote-mark--end') && rolesSrc.includes('>»</span>'),
+    'r134-6: the roles pull-quotes carry the paired «» guillemets (was a lone Latin ”)'
+  );
+  check(
+    /\.landing \.ln-role-quote-mark--end\s*\{[^}]*margin-inline-start:\s*6px/.test(landingCss134),
+    'r134-6: the closing guillemet twin rule ships (margin flips to the logical start side)'
+  );
+
+  // F ── fix 3: the r9 «تواصل معنا» unification — zero «اتصل بنا»
+  //     survives in shipped chrome (footer/privacy/terms).
+  check(
+    !footerProd.includes('اتصل بنا') && !privacyPage.includes('اتصل بنا') && !termsPage.includes('اتصل بنا')
+      && footerProd.includes('تواصل معنا') && privacyPage.includes('تواصل معنا') && termsPage.includes('تواصل معنا'),
+    'r134-3: footer/privacy/terms headings ride the unified «تواصل معنا» (no «اتصل بنا» survives)'
+  );
+
+  // G ── fix 7: the manifest maskable-192 icon rides the immutable
+  //     cache list (r133 wired the manifest; the list missed it).
+  check(
+    nextConfig.includes('"icon-192-maskable.png"'),
+    'r134-7: next.config.ts immutableFiles carries icon-192-maskable.png (year-long immutable cache)'
+  );
+
+  // H ── fix 8: the wa.me prefill helper — every human WhatsApp CTA
+  //     carries a source-identifying Arabic opener.
+  check(
+    /export function whatsappUrl\(surface: string\): string/.test(siteSrc)
+      && siteSrc.includes('encodeURIComponent')
+      && siteSrc.includes('مرحباً، أتواصل معكم من موقع الربط الذكي — '),
+    'r134-8: site.ts ships whatsappUrl(surface) with the URL-encoded Arabic opener'
+  );
+  check(
+    read('components/contact-form.tsx').includes('whatsappUrl("نموذج التواصل")')
+      && footerProd.includes('whatsappUrl("تذييل الصفحة")')
+      && read('app/contact/page.tsx').includes('whatsappUrl("صفحة التواصل")')
+      && read('app/offline/page.tsx').includes('whatsappUrl("صفحة عدم الاتصال")')
+      && read('emails/contact-emails.tsx').includes('whatsappUrl("بريد التأكيد")'),
+    'r134-8: all five WhatsApp CTA surfaces consume the prefilled helper (contact-form/footer/contact/offline/confirmation email)'
+  );
+  check(
+    !read('lib/schema.ts').includes('whatsappUrl'),
+    'r134-8: JSON-LD keeps the bare SITE.whatsapp.url (machines don\'t type openers)'
+  );
+
+  // I ── fix 9: the azure role well clears the WCAG 1.4.11 3:1 graphics
+  //     floor — recomputed 3.064:1 (violet #7A6BF2 on violet-12% over
+  //     the --ln-ink #252A3E chapter ground). The megamenu sibling's
+  //     0.16 passes only on its DARKER --ln-ink-2 panel (3.295:1);
+  //     0.16 here would measure 2.92:1 (verified — direction matters).
+  check(
+    /\.landing \.ln-role-ico\.azure\s*\{[^}]*rgb\(122 107 242 \/ 0\.12\)/.test(landingCss134),
+    'r134-9: .ln-role-ico.azure wash 0.12 — violet icon ≥3:1 on the ink ground (was 2.99:1 at 0.14)'
+  );
+
+  // J ── fix 10a: the r133-A10 autofill/caret port (madarek base.css:
+  //     104-125; the Smart-Menu globals.css twin) — pinned in the
+  //     Smart-Menu/SO style: caret token, both autofill engines.
+  check(css.includes('caret-color: var(--accent-ink);'),
+    'r134-10a: caret rides the theme accent (--accent-ink; was the UA blue/black default)');
+  check(css.includes('input:-webkit-autofill,') && css.includes('input:autofill,'),
+    'r134-10a: both autofill engines are themed (-webkit-autofill hover+focus + Firefox :autofill)');
+  check(css.includes('-webkit-box-shadow: 0 0 0 1000px var(--card) inset;'),
+    'r134-10a: the Chromium autofill cover is the 1000px inset --card box-shadow');
+
+  // K ── fix 10c: the default-transition easing bridge — bare
+  //     transition-* utilities settle on the canon exponential curve.
+  //     (SO parity pins this as theme-scope motion(@theme); the SL
+  //     spelling rides the var(--ease-out) chain.)
+  pin(theme, 'theme', '--default-transition-timing-function', 'cubic-bezier(0.16, 1, 0.3, 1)');
+
+  // L ── fixes 10b + 11: the contact-form input recipe — 44px
+  //     min-height + r-md 10px + hover border-strengthen (error keeps
+  //     the destructive border on hover — the SO doctrine).
+  const inputBase = contactFormSrc.match(/const inputBase =\s*"([^"]+)"/)?.[1] ?? '';
+  check(
+    inputBase.includes('min-h-11') && inputBase.includes('rounded-md'),
+    'r134-11: inputBase rides the family input recipe — 44px min-height (min-h-11) + r-md 10px'
+  );
+  check(
+    !inputBase.includes('rounded-xl') && inputBase.includes('text-base'),
+    'r134-11: the 12px rounded-xl input corners are retired (the 16px iOS zoom floor stays)'
+  );
+  check(
+    contactFormSrc.includes('border-[var(--input-border)] hover:border-[var(--border-strong)]'),
+    'r134-10b: resting inputs strengthen their border on hover (Smart-Menu input.tsx:39-42 twin)'
+  );
+  check(
+    /bad\s*\?\s*`\$\{inputBase\} border-\[var\(--destructive\)\]`/.test(contactFormSrc),
+    'r134-10b: the error branch keeps its destructive border — NO hover override (invalid stays loud)'
+  );
+
+  // M ── fix 14: the og:image alt rides the family Arabic-prefix form.
+  check(
+    seoSrc.includes('alt: "الربط الذكي — SmartLink"'),
+    'r134-14: OG_IMAGE.alt rides the family form «الربط الذكي — SmartLink» (Smart-Menu/Smart-Order prefix convention)'
+  );
+}
+
 if (failures.length > 0) {
   console.error(`✗ Madarek parity snapshot FAILED (${failures.length} assertion(s)):`);
   for (const f of failures) console.error(`  • ${f}`);

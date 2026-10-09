@@ -108,7 +108,9 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="text-[length:var(--fs-h2)] font-bold text-foreground mt-6 mb-2">اتصل بنا</h2>
+            {/* r134 (R134-W1-SL copy P2): unified on r9's «تواصل معنا»
+                (the audit's sweep missed this third leftover). */}
+            <h2 className="text-[length:var(--fs-h2)] font-bold text-foreground mt-6 mb-2">تواصل معنا</h2>
             <p>لأي استفسارات بخصوص شروط الاستخدام، يرجى التواصل عبر البريد الإلكتروني على:</p>
             <p className="mt-1 font-medium text-foreground">{SITE.email}</p>
           </section>

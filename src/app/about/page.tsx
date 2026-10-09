@@ -135,9 +135,13 @@ export default function AboutPage() {
             </p>
 
             {/* Pull quote — kept verbatim (A4 §6: matches the role-quote
-                pattern); its wrapper was already flat (card + hairline). */}
+                pattern); its wrapper was already flat (card + hairline).
+                r134 (R134-W1-SL RTL P2 / punctuation P3): the decorative
+                Quote glyph anchors at the logical end-4 corner (was
+                physical right-4 — r131 A12 fleet rule), and the Latin
+                curly &ldquo;&rdquo; pair rides the fleet «» canon. */}
             <div className="relative my-8 p-6 rounded-2xl bg-[var(--card)] border border-[var(--border)]">
-              <Quote className="w-6 h-6 text-primary/30 absolute top-4 right-4" aria-hidden="true" />
+              <Quote className="w-6 h-6 text-primary/30 absolute top-4 end-4" aria-hidden="true" />
               {/* m15: Arabic typography law (madarek-reference §2 — no
                   synthetic italics on Arabic; emphasis = weight + accent
                   ink): the quote keeps its weight, drops the slant, and
@@ -149,7 +153,7 @@ export default function AboutPage() {
                   coordinator's no-rung ruling. r133 (A7 §2.2 / R16): the
                   ruling landed — the mobile step rides --fs-body 15px. */}
               <p className="text-[length:var(--fs-body)] md:text-[length:var(--fs-body-lg)] text-[var(--primary-text)] font-medium leading-relaxed ms-8">
-                &ldquo;التكنولوجيا الحقيقية هي التي تخدم الناس، لا التي تبهرهم. في SmartLink، نبني حلولاً تعيش مع الناس وتفهم احتياجاتهم.&rdquo;
+                «التكنولوجيا الحقيقية هي التي تخدم الناس، لا التي تبهرهم. في SmartLink، نبني حلولاً تعيش مع الناس وتفهم احتياجاتهم.»
               </p>
             </div>
 

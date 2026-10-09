@@ -32,7 +32,10 @@ export default function OfflinePage() {
     <SiteChrome>
     <section className="min-h-dvh flex flex-col items-center justify-center bg-[var(--background)] px-6 text-center">
       <WifiOff className="w-14 h-14 text-primary mb-6" aria-hidden="true" />
-      <h1 className="font-[family-name:var(--font-heading)] text-3xl font-bold text-foreground mb-3">
+      {/* r132 (A6 §4): the H1 rides the --fs-h1 30px rung — text-3xl is
+          the identical value (the r131-F9b swap landed 404 but missed
+          this boundary twin). */}
+      <h1 className="font-[family-name:var(--font-heading)] text-[length:var(--fs-h1)] font-bold text-foreground mb-3">
         لا يوجد اتصال بالإنترنت
       </h1>
       <p className="text-muted-foreground leading-relaxed max-w-md mb-8">
@@ -47,8 +50,11 @@ export default function OfflinePage() {
         target="_blank"
         rel="noopener noreferrer"
         /* r130 (W1-D P2-9): the canonical filled-CTA hover — an
-           --accent-hover background shift (was: no hover state at all). */
-        className="inline-flex items-center gap-2 rounded-xl bg-primary px-6 py-3 font-semibold text-[var(--primary-fg)] transition-all duration-160 hover:bg-[var(--accent-hover)] active:scale-[0.97]"
+           --accent-hover background shift (was: no hover state at all).
+           r132-G4 (A8 F-SL-1): the FULL r131 fleet button canon
+           40/13/600/r10 (h-10 = 40px, --fs-sm 13px, rounded-md = 10px —
+           the SO Button twin); was rounded-xl + text-sm 14px + py-3. */
+        className="inline-flex items-center gap-2 h-10 px-5 rounded-md bg-primary font-semibold text-[length:var(--fs-sm)] text-[var(--primary-fg)] transition-all duration-160 hover:bg-[var(--accent-hover)] active:scale-[0.97]"
       >
         تواصل عبر واتساب
       </a>

@@ -83,7 +83,11 @@ export default function AboutPage() {
                 <div className="w-10 h-10 rounded-xl bg-[var(--accent)] flex items-center justify-center mb-3 group-hover:scale-110 transition-transform duration-240">
                   <item.icon className="w-5 h-5 text-primary" />
                 </div>
-                <h3 className="font-bold text-foreground text-lg mb-1 group-hover:text-primary transition-colors">{item.title}</h3>
+                {/* r132 (A6 §3/§6): card titles consume --fs-body-lg —
+                    was raw text-lg 18px (Tailwind's default step, off
+                    the ladder); snapped onto the 17px body-lg rung
+                    (−1px, on-ladder). */}
+                <h3 className="font-bold text-foreground text-[length:var(--fs-body-lg)] mb-1 group-hover:text-primary transition-colors">{item.title}</h3>
                 <p className="text-sm text-muted-foreground leading-relaxed">{item.desc}</p>
               </div>
             ))}
@@ -134,7 +138,12 @@ export default function AboutPage() {
                   synthetic italics on Arabic; emphasis = weight + accent
                   ink): the quote keeps its weight, drops the slant, and
                   carries the copper-deep accent ink instead. */}
-              <p className="text-base md:text-lg text-[var(--primary-text)] font-medium leading-relaxed ms-8">
+              {/* r132 (A6 §3/§6): the quote's md step consumes
+                  --fs-body-lg (was text-lg 18px, Tailwind's off-ladder
+                  default — now the 17px rung, −1px); the mobile
+                  text-base 16px has no rung and stays pending the
+                  coordinator's no-rung ruling. */}
+              <p className="text-base md:text-[length:var(--fs-body-lg)] text-[var(--primary-text)] font-medium leading-relaxed ms-8">
                 &ldquo;التكنولوجيا الحقيقية هي التي تخدم الناس، لا التي تبهرهم. في SmartLink، نبني حلولاً تعيش مع الناس وتفهم احتياجاتهم.&rdquo;
               </p>
             </div>
@@ -155,7 +164,11 @@ export default function AboutPage() {
 
             <Link
               href="/contact"
-              className="group inline-flex items-center gap-2 px-5 py-3.5 rounded-xl bg-primary text-[var(--primary-fg)] font-semibold text-sm hover:bg-[var(--accent-hover)] transition-all duration-160 active:scale-[0.97]"
+              /* r132-G4 (A8 F-SL-1): the FULL r131 fleet button canon
+                 40/13/600/r10 (h-10 = 40px, --fs-sm 13px, rounded-md =
+                 10px — the SO Button twin); was rounded-xl 16px +
+                 text-sm 14px + py-3.5 ≈45px. */
+              className="group inline-flex items-center gap-2 h-10 px-5 rounded-md bg-primary text-[var(--primary-fg)] font-semibold text-[length:var(--fs-sm)] hover:bg-[var(--accent-hover)] transition-all duration-160 active:scale-[0.97]"
             >
               <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" /> تواصل معنا
             </Link>

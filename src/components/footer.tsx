@@ -109,8 +109,10 @@ export function Footer() {
                       {l.label}
                     </span>
                     {/* r13 (a11y audit P2): /60 measured 2.27:1 in light —
-                        full muted clears 4.63:1 (matches the lower strip). */}
-                    <span className="text-xs text-muted-foreground ms-5.5">{l.desc}</span>
+                        full muted clears 4.63:1 (matches the lower strip).
+                        r132 (A6 §3/§6): micro-copy consumes --fs-xs (the
+                        identical 12px). */}
+                    <span className="text-[length:var(--fs-xs)] text-muted-foreground ms-5.5">{l.desc}</span>
                   </a>
                 </li>
               ))}
@@ -151,10 +153,10 @@ export function Footer() {
         <div className="container-base flex flex-col md:flex-row items-center justify-between gap-3">
           {/* r126 (P4-A3 §3.6): CurrentYear island — the year hydrates live
               instead of freezing at build time (see current-year.tsx). */}
-          <p className="text-xs text-muted-foreground">© <CurrentYear buildYear={new Date().getFullYear()} /> SmartLink. جميع الحقوق محفوظة</p>
+          <p className="text-[length:var(--fs-xs)] text-muted-foreground">© <CurrentYear buildYear={new Date().getFullYear()} /> SmartLink. جميع الحقوق محفوظة</p>
           <div className="flex items-center gap-4">
-            <Link href="/privacy" className="text-xs text-muted-foreground hover:text-foreground transition-colors rounded inline-flex items-center min-h-[24px] py-1">سياسة الخصوصية</Link>
-            <Link href="/terms" className="text-xs text-muted-foreground hover:text-foreground transition-colors rounded inline-flex items-center min-h-[24px] py-1">شروط الاستخدام</Link>
+            <Link href="/privacy" className="text-[length:var(--fs-xs)] text-muted-foreground hover:text-foreground transition-colors rounded inline-flex items-center min-h-[24px] py-1">سياسة الخصوصية</Link>
+            <Link href="/terms" className="text-[length:var(--fs-xs)] text-muted-foreground hover:text-foreground transition-colors rounded inline-flex items-center min-h-[24px] py-1">شروط الاستخدام</Link>
           </div>
         </div>
       </div>

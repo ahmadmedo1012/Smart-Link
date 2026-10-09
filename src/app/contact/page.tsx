@@ -94,9 +94,11 @@ export default function ContactPage() {
                   was raw text-sm 14px — off the body scale). */}
               <h2 className="font-bold text-foreground text-[length:var(--fs-body)] mb-1">{item.title}</h2>
               {item.href ? (
-                <a href={item.href} className="text-xs text-primary-text hover:underline underline-offset-2 rounded inline-flex items-center py-2">{item.desc}</a>
+                /* r132 (A6 §3/§6): micro-copy consumes --fs-xs — text-xs is
+                   the identical 12px (exact-match swap). */
+                <a href={item.href} className="text-[length:var(--fs-xs)] text-primary-text hover:underline underline-offset-2 rounded inline-flex items-center py-2">{item.desc}</a>
               ) : (
-                <p className="text-xs text-muted-foreground">{item.desc}</p>
+                <p className="text-[length:var(--fs-xs)] text-muted-foreground">{item.desc}</p>
               )}
             </div>
           ))}

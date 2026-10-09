@@ -379,8 +379,12 @@ const THEME_FONTS = {
   // --font-mono = the canonical pure stack (tokens.css:51) — the
   // Arabic-capable chains now live at their consumers (landing --ln-mono
   // + the secondary-page .ln-mono/.ln-label/.ln-stat-value rules).
+  // r132-F4 (A9 SL-N1, adjudicated): --font-serif is GONE — deleted with
+  // its two IBM Plex Serif italic faces (zero consumers repo-wide).
+  // --font-mono stays: the mono pair is LIVE (downloaded by the .ln-*
+  // family-name chains — A9's zero-consumer claim only grepped
+  // var(--font-mono)/font-mono and missed them).
   '--font-heading': '"IBM Plex Sans Arabic", system-ui, sans-serif',
-  '--font-serif': '"IBM Plex Serif", Georgia, serif',
   '--font-mono': '"IBM Plex Mono", ui-monospace, "SFMono-Regular", monospace',
 };
 const THEME_RADIUS = {
@@ -418,7 +422,8 @@ const THEME_EASE = {
   '--ease-bounce': 'cubic-bezier(0.34, 1.56, 0.64, 1)',
 };
 
-// ── r126: the 12-face @font-face manifest (m15 IBM Plex port) ───────────────
+// ── r126: the 10-face @font-face manifest (m15 IBM Plex port; r132-F4
+//    trimmed the two consumer-less IBM Plex Serif italic faces) ───────
 
 const FONT_MANIFEST = [
   ['plex-sans-arabic-400-normal-arabic.woff2', 'IBM Plex Sans Arabic', '400', 'normal'],
@@ -429,8 +434,6 @@ const FONT_MANIFEST = [
   ['plex-sans-arabic-500-normal-latin.woff2', 'IBM Plex Sans Arabic', '500', 'normal'],
   ['plex-sans-arabic-600-normal-latin.woff2', 'IBM Plex Sans Arabic', '600', 'normal'],
   ['plex-sans-arabic-700-normal-latin.woff2', 'IBM Plex Sans Arabic', '700', 'normal'],
-  ['plex-serif-400-italic-latin.woff2', 'IBM Plex Serif', '400', 'italic'],
-  ['plex-serif-500-italic-latin.woff2', 'IBM Plex Serif', '500', 'italic'],
   ['plex-mono-400-normal-latin.woff2', 'IBM Plex Mono', '400', 'normal'],
   ['plex-mono-500-normal-latin.woff2', 'IBM Plex Mono', '500', 'normal'],
 ];
@@ -521,10 +524,11 @@ pinAll(theme, 'theme', THEME_SHADOWS);
 pinAll(theme, 'theme', THEME_COLORS);
 pinAll(theme, 'theme', THEME_EASE);
 
-// r126: the 12-face font manifest — a renamed file or a dropped
-// font-display: swap used to pass 134/134.
+// r126: the font-face manifest — a renamed file or a dropped
+// font-display: swap used to pass 134/134. r132-F4: 12 → 10 faces (the
+// two IBM Plex Serif italic latin cuts deleted — zero consumers).
 const fontFaceBlocks = allTopLevelBlocks(css, '@font-face');
-check(fontFaceBlocks.length === 12, `font-face manifest must declare exactly 12 faces (got ${fontFaceBlocks.length})`);
+check(fontFaceBlocks.length === 10, `font-face manifest must declare exactly 10 faces (got ${fontFaceBlocks.length})`);
 for (const [file, family, weight, style] of FONT_MANIFEST) {
   const block = fontFaceBlocks.find((b) => b.includes(`url('/fonts/${file}')`));
   if (block === undefined) {
@@ -1190,6 +1194,10 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
   const pricing = read('app/pricing/page.tsx');
   const contact = read('app/contact/page.tsx');
   const notFound = read('app/not-found.tsx');
+  const errorPage = read('app/error.tsx');
+  const offlinePage = read('app/offline/page.tsx');
+  const aboutPage = read('app/about/page.tsx');
+  const contactForm = read('components/contact-form.tsx');
   const faq = read('components/faq-accordion.tsx');
   const layout = read('app/layout.tsx');
   const mainNav = read('components/main-nav.tsx');
@@ -1272,6 +1280,104 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
   check(
     !/text-2xl/.test(notFound),
     '404: no raw text-2xl step on the title (A3 D1 negative sweep)'
+  );
+
+  // C2 ── r132-F4 (A6 §4): the 500 + offline H1s join the scale — the
+  //     r131-F9b swap landed 404 but missed these two boundary twins;
+  //     text-3xl 30px is exactly --fs-h1 30px (zero visual change).
+  check(
+    errorPage.includes('text-[length:var(--fs-h1)] font-bold'),
+    '500: the H1 rides the --fs-h1 30px rung (r131 F9b consumed 404 but missed this boundary — A6 §4)'
+  );
+  check(
+    !/text-3xl/.test(errorPage),
+    '500: no raw text-3xl step on the H1 (A6 §4 negative sweep)'
+  );
+  check(
+    offlinePage.includes('text-[length:var(--fs-h1)] font-bold'),
+    'offline: the H1 rides the --fs-h1 30px rung (A6 §4)'
+  );
+  check(
+    !/text-3xl/.test(offlinePage),
+    'offline: no raw text-3xl step on the H1 (A6 §4 negative sweep)'
+  );
+
+  // C3 ── r132-F4 + G4 canon completion (A8 F-SL-1, adjudicated):
+  //     inner-page CTA geometry — ONE grammar. The r131 fleet canon
+  //     says buttons are RECTANGLES 40/13/600/r10 (the pill is the
+  //     landing hero's 46px lime grammar only). Sibling evidence
+  //     (G4-verified): SO/SB/SM Buttons are all rounded-md (10px) +
+  //     600, and the madarek reference .btn is var(--r-md) — F4's
+  //     first pass settled pricing's two pills + the 404 ghost on
+  //     rounded-xl (16px, the SL-internal majority), which contradicted
+  //     the canon it cited; G4 re-based the WHOLE inner-page CTA set
+  //     (pricing ×2 / about / 500 pair / offline / 404 pair /
+  //     contact submit + the global-error boundary's two inline
+  //     buttons) on the FULL 40/13/600/r10 canon: h-10 = 40px,
+  //     --fs-sm 13px (this also resolves the deferred 14px no-rung
+  //     question for BUTTONS — 13px IS the --fs-sm rung), 600,
+  //     rounded-md = 10px, press 0.97. Body-copy text-sm is NOT a CTA
+  //     and stays deferred.
+  check(
+    !/rounded-full[^"']*bg-primary|bg-primary[^"']*rounded-full/.test(pricing),
+    'pricing: no pill CTAs survive — inner-page primaries ride the r10 rectangle grammar (A8 F-SL-1 + r131 fleet canon)'
+  );
+  check(
+    pricing.includes('w-full h-10 px-5 rounded-md bg-primary') &&
+      pricing.includes('h-10 px-5 rounded-md bg-primary') &&
+      !/text-sm font-semibold|font-semibold text-sm/.test(pricing),
+    'pricing: both CTAs ride the FULL r131 fleet button canon 40/13/600/r10 (h-10/px-5/--fs-sm 13px/rounded-md — was pills → rounded-xl → r10-only; A8 F-SL-1 + G4)'
+  );
+  check(
+    aboutPage.includes('h-10 px-5 rounded-md bg-primary') &&
+      errorPage.includes('h-10 px-5 rounded-md bg-primary') &&
+      errorPage.includes('h-10 px-5 rounded-md ln-card') &&
+      offlinePage.includes('h-10 px-5 rounded-md bg-primary') &&
+      notFound.includes('h-10 px-5 rounded-md bg-[var(--primary)]') &&
+      notFound.includes('h-10 px-5 ln-card rounded-md') &&
+      contactForm.includes('w-full h-10 px-5 rounded-md bg-primary'),
+    'inner-page CTA set is uniform on the full 40/13/600/r10 canon (about/500 pair/offline/404 pair/contact submit — SO Button twin; A8 F-SL-1 + G4)'
+  );
+  check(
+    [aboutPage, errorPage, offlinePage, notFound, contactForm].every((f) =>
+      /text-\[length:var\(--fs-sm\)\]/.test(f)
+    ),
+    'inner-page CTA labels consume the --fs-sm 13px rung (fleet canon type step; no raw text-sm on buttons)'
+  );
+
+  // C4 ── r132 (A6 §3/§6): micro-copy consumption — the identical-value
+  //     swaps of the round: text-xs 12px → --fs-xs (contact page, footer
+  //     strip, main-nav megamenu/mobile copy, contact-form errors/hints/
+  //     fallbacks) and about's card titles + md quote → --fs-body-lg
+  //     (17px rung, was raw text-lg 18px). read() strips comments, so
+  //     the negatives ban the raw steps from CODE only (the r132
+  //     history comments quote the retired steps verbatim).
+  const footerChrome = read('components/footer.tsx');
+  check(
+    contact.includes('text-[length:var(--fs-xs)]')
+      && footerChrome.includes('text-[length:var(--fs-xs)]')
+      && mainNav.includes('text-[length:var(--fs-xs)]')
+      && contactForm.includes('text-[length:var(--fs-xs)]')
+      && ![contact, footerChrome, mainNav, contactForm].some((s) => /text-xs/.test(s)),
+    'micro-copy: contact/footer/main-nav/contact-form consume the --fs-xs 12px rung; no raw text-xs survives in the four (r132 A6 §3/§6)'
+  );
+  check(
+    aboutPage.includes('text-[length:var(--fs-body-lg)]')
+      && !/text-lg/.test(aboutPage),
+    'about: card titles + the md quote consume the --fs-body-lg 17px rung; no raw text-lg survives (was 18px off-ladder — r132 A6 §3/§6)'
+  );
+
+  // E0 ── r132 (A6 §2): the .ln-btn-text family (9 sites, ≈23 lines) and
+  //      @keyframes reveal-scale are deleted. Sources are comment-stripped
+  //      (module css for styles.css; read() here for landing.css), so the
+  //      r132 history comments that quote the dead names cannot trip the
+  //      gate; the live gold/ghost pair must stay.
+  check(
+    !/\.ln-btn-text/.test(read('app/landing.css'))
+      && !/reveal-scale/.test(css)
+      && /\.ln-btn-gold:active/.test(read('app/landing.css'))
+      && /\.ln-btn-ghost:active/.test(read('app/landing.css')),
+    'dead-CSS sweep (r132 A6 §2): no .ln-btn-text selector or reveal-scale keyframe survives; the live ln-btn-gold/ln-btn-ghost pair stays'
   );
 
   // D ── FaqAccordion (D1+D2): flat ln-card, question on --fs-body/600.

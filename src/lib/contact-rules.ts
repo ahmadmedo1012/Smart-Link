@@ -32,7 +32,8 @@ export const SUBJECTS = [
   { key: "other", label: "أخرى" },
 ] as const
 
-export type SubjectKey = (typeof SUBJECTS)[number]["key"]
+/* r132 (A6 §6): the exported SubjectKey type is deleted — it was
+   imported/used nowhere (the route and the form key by string). */
 
 export const SUBJECT_LABELS: Record<string, string> = Object.fromEntries(
   SUBJECTS.map((s) => [s.key, s.label])

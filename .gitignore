@@ -46,7 +46,9 @@ next-env.d.ts
 .claude-flow/
 .claude/
 .playwright-mcp/
-screenshots/
+# root-anchored (r132 W3-4): ad-hoc root screenshot dirs stay ignored,
+# while docs/screenshots/ (versioned README assets) is trackable
+/screenshots/
 
 # playwright e2e artifacts
 /test-results/

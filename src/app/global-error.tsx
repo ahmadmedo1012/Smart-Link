@@ -50,7 +50,10 @@ export default function GlobalError({
           >
             ⚠️
           </div>
-          <h1 style={{ fontSize: 28, fontWeight: 800, margin: "0 0 12px" }}>
+          {/* r132 (A6 §7-8): weight 700 — the brand tops at 700 (Plex has
+              no 800 cut; the parity gate bans 800-weight utilities in TSX,
+              and this inline 800 had escaped it). */}
+          <h1 style={{ fontSize: 28, fontWeight: 700, margin: "0 0 12px" }}>
             حدث خطأ في المنصة
           </h1>
           <p style={{ opacity: 0.75, lineHeight: 1.9, margin: "0 0 32px" }}>
@@ -61,15 +64,22 @@ export default function GlobalError({
             <button
               onClick={reset}
               style={{
-                padding: "12px 24px",
-                borderRadius: 12,
+                height: 40,
+                padding: "0 20px",
+                display: "inline-flex",
+                alignItems: "center",
+                borderRadius: 10,
                 border: "none",
                 /* m15: Madarek .btn.accent dark — gold fill + dark ink
                    (#05070F on #E9B44C ≈ 10.6:1; white was 1.9:1) */
                 background: "#E9B44C",
                 color: "#05070F",
-                fontWeight: 700,
-                fontSize: 14,
+                /* r132 (A6 §7-8 + G4 canon completion): the full r131
+                   fleet button canon 40/13/600/r10 as INLINE values
+                   (no CSS bundle on this boundary — A6: "values only");
+                   was 14px/700 + radius 12 + padding-driven ≈45px. */
+                fontWeight: 600,
+                fontSize: 13,
                 cursor: "pointer",
               }}
             >
@@ -83,15 +93,20 @@ export default function GlobalError({
             <a
               href="/"
               style={{
-                padding: "12px 24px",
-                borderRadius: 12,
+                height: 40,
+                padding: "0 20px",
+                display: "inline-flex",
+                alignItems: "center",
+                borderRadius: 10,
                 border: "1px solid rgba(255,255,255,0.14)",
                 background: "rgba(255,255,255,0.04)",
                 color: "#F2EFE6",
-                fontWeight: 700,
-                fontSize: 14,
+                /* r132 (A6 §7-8 + G4 canon completion): 40/13/600/r10 —
+                   the ghost twin of the gold button above (inline
+                   values only on this boundary). */
+                fontWeight: 600,
+                fontSize: 13,
                 textDecoration: "none",
-                display: "inline-block",
               }}
             >
               العودة للرئيسية

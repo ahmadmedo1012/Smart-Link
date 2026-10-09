@@ -24,16 +24,22 @@ const nextConfig: NextConfig = {
     optimizePackageImports: ["lucide-react"],
   },
   async headers() {
-    /* Round 4: immutable caching for public/ assets (screenshots, icons, OG
-       image, logo) — browsers would otherwise revalidate them every visit.
-       Vercel already covers /_next/static.
+    /* Round 4: immutable caching for public/ assets (icons, OG image,
+       logos — both wordmark variants) — browsers would otherwise
+       revalidate them every visit. Vercel already covers /_next/static.
        r9 (perf audit #6): favicon.ico and manifest.webmanifest were the two
        requested-on-every-visit files outside any cache rule — crawlers and
        browsers re-fetch them per page view. og-smartlink.svg deleted (dead
-       asset, referenced nowhere). */
+       asset, referenced nowhere).
+       r132 (A6 §1 / A9 SL-1): (a) the /images/:path* rule is retired — both
+       screenshots it guarded (smart-menu.jpg 203 KB + smart-bot.jpg 53 KB)
+       had zero src/ consumers and are deleted; (b) logo-light.png (the
+       r131 copper light wordmark rendered by main-nav + footer) joins the
+       list — it was the one rendered image still revalidating per visit. */
     const immutableFiles = [
       "og-smartlink.jpg",
       "logo.png",
+      "logo-light.png",
       "favicon-32.png",
       "apple-touch-icon.png",
       "icon-96.png",
@@ -46,15 +52,12 @@ const nextConfig: NextConfig = {
         source: `/${f}`,
         headers: [{ key: "Cache-Control", value: "public, max-age=31536000, immutable" }],
       })),
-      {
-        source: "/images/:path*",
-        headers: [{ key: "Cache-Control", value: "public, max-age=31536000, immutable" }],
-      },
-      /* r126 (P4-A3 §3.8): the 12 IBM Plex woff2 (~329 KB) were the only
-         heavy assets revalidating on every visit while icons cached for a
-         year. Filenames are family-weight-style-script qualified, so a
+      /* r126 (P4-A3 §3.8): the IBM Plex woff2 were the only heavy assets
+         revalidating on every visit while icons cached for a year.
+         Filenames are family-weight-style-script qualified, so a
          file's bytes only ever change alongside a deploy that renames or
-         re-points them — safe for immutable. */
+         re-points them — safe for immutable. r132: 12 → 10 faces (the
+         two IBM Plex Serif italic cuts deleted — zero consumers). */
       {
         source: "/fonts/:path*",
         headers: [{ key: "Cache-Control", value: "public, max-age=31536000, immutable" }],

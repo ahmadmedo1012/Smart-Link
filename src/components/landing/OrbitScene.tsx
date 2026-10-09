@@ -61,7 +61,9 @@ import { useEffect, useRef, useState } from 'react';
 
 type Density = 'full' | 'low';
 
-export type OrbitSceneProps = {
+/* r132 (A6 §6): un-exported — the only consumer is OrbitScene itself
+   (line below); the module's public surface is the component. */
+type OrbitSceneProps = {
   className?: string;
   /** Force a density tier (used by tests / embeds). Default: auto. */
   density?: Density;

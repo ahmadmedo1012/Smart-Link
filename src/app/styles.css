@@ -5,18 +5,24 @@
 /* ═══════════════════════════════════════════════════════════════════
    MADAREK FONTS (m15) — self-hosted IBM Plex, copied verbatim from
    madarek/frontend/src/styles/fonts.css (refs/madarek-reference.md §7).
-   12 woff2 live in /public/fonts (≈329 KB on disk; unicode-range
+   10 woff2 live in /public/fonts (≈287 KB on disk; unicode-range
    subsets mean the browser only downloads what a page paints — a
    typical first paint needs the two preloaded arabic cuts ≈86 KB).
    · Sans Arabic 400/500/600/700 — body + display (NO true 800 cut
      exists: font-extrabold resolves to the real 700 file, zero
      synthesis — commandment 3).
-   · Serif italic 400/500 — latin unicode-range ONLY (no Arabic glyph
-     can reach them; Arabic emphasis = upright weight + accent ink).
-   · Mono 400/500 — codes/IDs/numbers (latin).
+   · Mono 400/500 — codes/IDs/numbers (latin) — LIVE: the .ln-mono/
+     .ln-label/.ln-stat-value chains + the landing --ln-mono override
+     download the cuts for every Latin/digit run they render.
    font-display: swap on every face. Replaces the former Google-Fonts
    Cairo (preloaded!) + Readex Pro pair — those bytes downloaded and
    were then overridden away by the token layer; pure LCP waste.
+   r132 (A9 SL-N1, adjudicated): the two IBM Plex Serif italic latin
+   faces (42.6 KB) + the --font-serif token are DELETED — zero
+   consumers repo-wide (no chain lists "IBM Plex Serif", no
+   var(--font-serif) reader). The mono pair SURVIVES the audit: A9's
+   grep only checked var(--font-mono)/font-mono and missed the literal
+   family-name chains at the .ln-* consumers above.
    ═══════════════════════════════════════════════════════════════════ */
 
 /* ── IBM Plex Sans Arabic — arabic subset ─────────────────────────── */
@@ -87,24 +93,6 @@
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
-/* ── IBM Plex Serif — italic accent cuts (latin; Arabic falls back) ── */
-@font-face {
-  font-family: 'IBM Plex Serif';
-  font-style: italic;
-  font-weight: 400;
-  font-display: swap;
-  src: url('/fonts/plex-serif-400-italic-latin.woff2') format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-@font-face {
-  font-family: 'IBM Plex Serif';
-  font-style: italic;
-  font-weight: 500;
-  font-display: swap;
-  src: url('/fonts/plex-serif-500-italic-latin.woff2') format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-
 /* ── IBM Plex Mono — latin (codes, IDs, numbers, emails) ──────────── */
 @font-face {
   font-family: 'IBM Plex Mono';
@@ -134,7 +122,12 @@
   /* r129 (cross-product audit A10): --font-heading now carries the exact
      canonical --font-display stack (Madarek tokens.css:49) — the dead
      'Tajawal' fallback entry (never loaded from /public/fonts) is gone. */
-  --font-serif: "IBM Plex Serif", Georgia, serif;
+  /* r132 (A9 SL-N1): --font-serif deleted with its two faces — the
+     token declared a family nothing resolves (zero var()/font-serif
+     consumers). --font-mono STAYS: unlike the serif token it maps a
+     LIVE family — the mono woff2 pair is downloaded by the
+     .ln-mono/.ln-label/.ln-stat-value chains + the landing --ln-mono
+     override (the r129 note below documents that architecture). */
   /* r129 (cross-product audit A10): --font-mono now carries the exact
      canonical stack (Madarek tokens.css:51) — pure mono, no Sans Arabic.
      The Arabic-capable mixed-script chains live where they are consumed:
@@ -731,10 +724,6 @@
   from { opacity: 0; transform: translateY(24px); }
   to { opacity: 1; transform: translateY(0); }
 }
-@keyframes reveal-scale {
-  from { opacity: 0; transform: scale(0.92); }
-  to { opacity: 1; transform: scale(1); }
-}
 @keyframes reveal-blur {
   from { opacity: 0; filter: blur(8px); transform: translateY(12px); }
   to { opacity: 1; filter: blur(0); transform: translateY(0); }
@@ -747,7 +736,10 @@
    .in-view (components/reveal-observer.tsx → the useReveal shared
    belt — mount check, fling-hardening, scrollend/resize/fonts
    reconcile). The @keyframes stay: the scroll-driven .reveal-scroll
-   family (below) consumes them. */
+   family (below) consumes them. r132 (A6 §2): @keyframes reveal-scale
+   is deleted — the one keyframe here with no animation: consumer
+   (reveal-up/blur feed .reveal-scroll; scale fed nothing since the
+   r130 transition re-base). */
 .reveal-up {
   opacity: 0;
   transform: translateY(14px);

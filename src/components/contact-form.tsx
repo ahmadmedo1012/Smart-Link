@@ -178,7 +178,8 @@ export function ContactForm() {
             placeholder="اسمك"
           />
           {fieldErrors.name && (
-            <p id="name-error" role="alert" className="text-xs mt-1.5 text-[var(--destructive-ink)]">{fieldErrors.name}</p>
+            /* r132 (A6 §3/§6): errors/hints consume --fs-xs (identical 12px). */
+            <p id="name-error" role="alert" className="text-[length:var(--fs-xs)] mt-1.5 text-[var(--destructive-ink)]">{fieldErrors.name}</p>
           )}
         </div>
         <div>
@@ -196,7 +197,7 @@ export function ContactForm() {
             placeholder="بريدك الإلكتروني"
           />
           {fieldErrors.email && (
-            <p id="email-error" role="alert" className="text-xs mt-1.5 text-[var(--destructive-ink)]">{fieldErrors.email}</p>
+            <p id="email-error" role="alert" className="text-[length:var(--fs-xs)] mt-1.5 text-[var(--destructive-ink)]">{fieldErrors.email}</p>
           )}
         </div>
       </div>
@@ -232,7 +233,7 @@ export function ContactForm() {
           placeholder="اكتب رسالتك هنا…"
         />
         {fieldErrors.message && (
-          <p id="message-error" role="alert" className="text-xs mt-1.5 text-[var(--destructive-ink)]">{fieldErrors.message}</p>
+          <p id="message-error" role="alert" className="text-[length:var(--fs-xs)] mt-1.5 text-[var(--destructive-ink)]">{fieldErrors.message}</p>
         )}
       </div>
 
@@ -259,7 +260,7 @@ export function ContactForm() {
               r13 (a11y audit P2): this helper line sat at 4.03:1 in light
               mode on the tinted error background — foreground/80 clears
               10:1 (the links after it keep their primary-text color). */}
-          <span className="block mt-2 text-xs text-foreground/80">
+          <span className="block mt-2 text-[length:var(--fs-xs)] text-foreground/80">
               أو تواصل مباشرة:{" "}
               <a href={SITE.whatsapp.url} className="underline underline-offset-2" style={{ color: "var(--primary-text)" }}>
                 واتساب <span dir="ltr">{SITE.whatsapp.display}</span>
@@ -289,8 +290,12 @@ export function ContactForm() {
       <button
         type="submit"
         aria-busy={sending}
+        /* r132-G4 (A8 F-SL-1): the submit rides the FULL r131 fleet
+           button canon 40/13/600/r10 (h-10 = 40px, --fs-sm 13px,
+           rounded-md = 10px, press 0.97 — the SO Button twin); was
+           rounded-xl 16px + text-sm 14px + py-3. */
         className={cn(
-          "flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-primary text-[var(--primary-fg)] font-semibold text-sm hover:bg-[var(--accent-hover)] transition-all duration-240 active:scale-[0.98]",
+          "flex items-center justify-center gap-2 w-full h-10 px-5 rounded-md bg-primary text-[var(--primary-fg)] font-semibold text-[length:var(--fs-sm)] hover:bg-[var(--accent-hover)] transition-all duration-240 active:scale-[0.97]",
           sending && "cursor-wait"
         )}
       >

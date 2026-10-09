@@ -13,11 +13,13 @@ import "./styles.css"
 
 /* m15 (Madarek parity): the next/font/google Cairo (preloaded!) +
    Readex Pro pair is RETIRED. Typography is the self-hosted IBM Plex
-   Sans Arabic (12 woff2 in /public/fonts, @font-face block at the top
-   of styles.css — refs/madarek-reference.md §2/§7). The two first-paint
-   preloads below replace the Cairo preload one-for-one: the body text
-   paints in the 400 arabic cut and every heading/CTA label in the 700
-   arabic cut (~86 KB together, same preload budget as before). */
+   Sans Arabic (10 woff2 in /public/fonts — 8 Sans Arabic + the 2 live
+   mono cuts; r132 deleted the 2 consumer-less serif italics,
+   @font-face block at the top of styles.css — refs/madarek-reference.md
+   §2/§7). The two first-paint preloads below replace the Cairo preload
+   one-for-one: the body text paints in the 400 arabic cut and every
+   heading/CTA label in the 700 arabic cut (~86 KB together, same
+   preload budget as before). */
 
 export const metadata: Metadata = {
   title: {

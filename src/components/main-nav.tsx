@@ -308,7 +308,9 @@ export function MainNav() {
                               </div>
                               <div className="min-w-0">
                                 <div className="text-sm font-semibold text-foreground group-hover/item:text-primary transition-colors">{child.label}</div>
-                                <div className="text-xs text-muted-foreground mt-0.5">{child.desc}</div>
+                                {/* r132 (A6 §3/§6): megamenu micro-copy
+                                    consumes --fs-xs (identical 12px). */}
+                                <div className="text-[length:var(--fs-xs)] text-muted-foreground mt-0.5">{child.desc}</div>
                               </div>
                             </a>
                           )
@@ -422,7 +424,9 @@ export function MainNav() {
                                 {child.icon && <child.icon className="w-4 h-4 text-primary" />}
                                 <div>
                                   <div className="font-medium">{child.label}</div>
-                                  {child.desc && <div className="text-xs text-muted-foreground mt-0.5">{child.desc}</div>}
+                                  {/* r132 (A6 §3/§6): mobile-menu micro-copy
+                                      consumes --fs-xs (identical 12px). */}
+                                  {child.desc && <div className="text-[length:var(--fs-xs)] text-muted-foreground mt-0.5">{child.desc}</div>}
                                 </div>
                               </a>
                             ))}

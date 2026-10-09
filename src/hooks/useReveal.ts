@@ -289,7 +289,9 @@ export function registerDomReveals(root: ParentNode = document): () => void {
   };
 }
 
-export function useReveal<T extends HTMLElement = HTMLElement>(options?: {
+/* r132 (A6 §6): un-exported — the only consumer is RevealCssClass in
+   this same file; the module's public surface is RevealCssClass. */
+function useReveal<T extends HTMLElement = HTMLElement>(options?: {
   threshold?: number;
   rootMargin?: string;
   once?: boolean;

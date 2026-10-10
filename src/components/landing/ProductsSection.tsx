@@ -65,10 +65,13 @@ const RING_PHASE = [90, 0, 30, 60, 15, 105] as const
 const REST_CYCLE_MS = 4000
 
 /**
- * The services registry (§6 mapping, r128 content truth): the two LIVE
- * products — focusable links to the real apps — ride the two inner
- * rings (closest to the violet heart); the six coming-soon services
- * spread over the outer rings.
+ * The services registry (§6 mapping, r128 content truth; r137 re-truth):
+ * the THREE LIVE products — focusable links to the real apps — ride the
+ * three inner rings (closest to the violet heart); the five coming-soon
+ * services spread over the outer rings. r137: «متجر إلكتروني — قريباً»
+ * became the LIVE Smart Order — the placeholder anticipated exactly this
+ * product (README: متجر رقمي وطلبات وتوصيل للأعمال), and keeping a
+ * coming-soon e-store node next to a live one was a contradiction.
  */
 type Service = {
   name: string
@@ -80,7 +83,7 @@ type Service = {
 const SERVICES: readonly Service[] = [
   { name: "Smart Menu", sub: "المنيو الرقمي للمطاعم — يعمل الآن", href: SITE.products.menu.url, ring: 0 },
   { name: "SmartBot", sub: "البوت الذكي لفيسبوك — يعمل الآن", href: SITE.products.bot.url, ring: 1 },
-  { name: "متجر إلكتروني", sub: "قريباً", ring: 2 },
+  { name: "Smart Order", sub: "متجر الطلبات الرقمي — يعمل الآن", href: SITE.products.order.url, ring: 2 },
   { name: "حجوزات مواعيد", sub: "قريباً", ring: 2 },
   { name: "منصة تسويق", sub: "قريباً", ring: 3 },
   { name: "مساعد ذكي", sub: "قريباً", ring: 3 },
@@ -204,11 +207,12 @@ export function ProductsSection() {
       <div className="ln-chapter-head">
         <span className="ln-label">{"01 — الاكتشاف"}</span>
         <RevealCssClass as="h2" className="ln-chapter-title" delay={1}>
-          منتجان نشطان في <em>مدارٍ واحد</em>
+          ثلاثة منتجات نشطة في <em>مدارٍ واحد</em>
         </RevealCssClass>
         <RevealCssClass as="p" className="ln-chapter-lede" delay={2}>
-          مدار SmartLink ينتظم حول حلولٍ تعمل الآن — منيو رقمي للمطاعم وبوت
-          ذكي لفيسبوك — وستّ خدمات قادمة تشغل بقية المدار.
+          مدار SmartLink ينتظم حول حلولٍ تعمل الآن — منيو رقمي للمطاعم، وبوت
+          ذكي لفيسبوك، ومتجر طلبات للأعمال — وخمس خدمات قادمة تشغل بقية
+          المدار.
         </RevealCssClass>
       </div>
 

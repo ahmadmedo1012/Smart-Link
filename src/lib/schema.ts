@@ -83,6 +83,10 @@ export function organizationJsonLd() {
         dayOfWeek: DAYS,
         opens: SITE.hours.schemaOpens,
         closes: SITE.hours.schemaCloses,
+        /* r137 (ليبي أولاً): المنطقة الزمنية صراحةً — دونها يفسّر
+           Google الساعات بتوقيت الزائر/الزاحف لا بتوقيت طرابلس
+           (Africa/Tripoli، UTC+2 بلا توقيت صيفي). */
+        timeZone: "Africa/Tripoli",
       },
     ],
     contactPoint: {
@@ -125,6 +129,15 @@ export function organizationJsonLd() {
         name: SITE.products.bot.short,
         url: SITE.products.bot.url,
         description: "البوت الذكي لأتمتة الردود على صفحات فيسبوك",
+      },
+      /* r137 (صدق الأسطول): Smart-Order حيّ على order.smart-link.ly —
+         كان غائباً عن بيانات JSON-LD بينما المنتج يعمل فعلاً. */
+      {
+        "@type": "Organization",
+        "@id": `${SITE.url}/#smart-order-org`,
+        name: SITE.products.order.short,
+        url: SITE.products.order.url,
+        description: "متجر الطلبات الرقمي للأعمال مع توصيل ومدفوعات ليبية",
       },
     ],
   }
@@ -179,6 +192,15 @@ export function servicesJsonLd() {
         name: SITE.products.bot.short,
         url: SITE.products.bot.url,
         description: "البوت الذكي لأتمتة الردود على صفحات فيسبوك على مدار الساعة",
+      }),
+      /* r137: العرض المجاني لـ Smart-Order صادق — باقته الأساسية
+         «مجانية للأبد» (order.smart-link.ly/pricing). */
+      service({
+        id: `${SITE.url}/#service-smart-order`,
+        name: SITE.products.order.short,
+        url: SITE.products.order.url,
+        description:
+          "متجر الطلبات الرقمي للأعمال: واجهة جاهزة للمسح بـ QR، محرّك طلبات، توصيل بمناطق ورسوم، ومدفوعات ليبية",
       }),
     ],
   }

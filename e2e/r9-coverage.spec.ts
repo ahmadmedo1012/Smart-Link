@@ -66,10 +66,11 @@ test.describe("r9 — عقد footer (روابط التواصل على كل صف�
       await expect(footer.getByRole("link", { name: "سياسة الخصوصية" })).toHaveAttribute("href", "/privacy")
       await expect(footer.getByRole("link", { name: "شروط الاستخدام" })).toHaveAttribute("href", "/terms")
 
-      // المنتجان الخارجيان بـ rel
+      // المنتجات الخارجية بـ rel (r137: الثلاثة الأحياء)
       for (const href of [
         "https://menu.smart-link.ly",
         "https://bot.smart-link.ly",
+        "https://order.smart-link.ly",
       ] as const) {
         const link = footer.locator(`a[href="${href}"]`).first()
         await expect(link).toHaveAttribute("target", "_blank")
@@ -90,8 +91,8 @@ test.describe("r9 — عقد footer (روابط التواصل على كل صف�
       await expect(footer.locator(`a[href="${href}"]`), `رابط ${href}`).toHaveAttribute("href", href)
     }
 
-    // المنتجان الخارجيان بـ target/rel آمنين
-    for (const href of ["https://menu.smart-link.ly", "https://bot.smart-link.ly"] as const) {
+    // المنتجات الخارجية الثلاثة بـ target/rel آمنين (r137: + Smart Order)
+    for (const href of ["https://menu.smart-link.ly", "https://bot.smart-link.ly", "https://order.smart-link.ly"] as const) {
       const link = footer.locator(`a[href="${href}"]`).first()
       await expect(link).toHaveAttribute("target", "_blank")
       await expect(link).toHaveAttribute("rel", "noopener noreferrer")
@@ -114,7 +115,9 @@ test.describe("r9 — صمود no-JS (الموقع SSR-first بلا جافاسك
     // التنقل الديكوري لا يكسر الصفحة: عنوان فصل حقيقي موجود
     /* r133 (A7 §1): عنوان الفصل الكنسي لمدارات المنتجات (كان «منظومة
        متكاملة» قبل بناء Orbit-Ink في r128). */
-    await expect(page.getByRole("heading", { name: /منتجان نشطان/ })).toBeVisible()
+    /* r137 (صدق الأسطول): «منتجان» → «ثلاثة منتجات» — Smart Order حيّ
+       وأصبح العقد يطابق الواقع (الخطأ كان سيمرّ رأساً بعد التغيير). */
+    await expect(page.getByRole("heading", { name: /ثلاثة منتجات نشطة/ })).toBeVisible()
     await ctx.close()
   })
 

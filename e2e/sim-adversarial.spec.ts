@@ -507,13 +507,20 @@ test.describe("r11-B2 — مستخدم لوحة مفاتيح فقط (/, /contact
   test("18) ترتيب Tab المنطقي للنموذج + كل حقل مرتبط بعنوانه", async ({ page, consoleErrors }) => {
     await page.goto("/contact", { waitUntil: "networkidle" })
     // الارتباط: getByLabel يجد كل حقل بالضبط (سوء ارتباط = FINDING)
-    for (const label of ["الاسم", "البريد الإلكتروني", "الموضوع", "الرسالة"]) {
+    /* r137: + حقل الهاتف الاختياري (واتساب أولاً). */
+    for (const label of [
+      "الاسم",
+      "البريد الإلكتروني",
+      "رقم الهاتف (واتساب) — اختياري",
+      "الموضوع",
+      "الرسالة",
+    ]) {
       await expect(page.getByLabel(label, { exact: true })).toHaveCount(1)
     }
 
-    // الترتيب المنطقي: الاسم ← البريد ← الموضوع ← الرسالة ← زر الإرسال
+    // الترتيب المنطقي: الاسم ← البريد ← الهاتف ← الموضوع ← الرسالة ← زر الإرسال
     await page.getByLabel("الاسم", { exact: true }).focus()
-    const expected = ["email", "subject", "message", ""]
+    const expected = ["email", "phone", "subject", "message", ""]
     for (const id of expected) {
       await page.keyboard.press("Tab")
       const stop = await page.evaluate(() => {

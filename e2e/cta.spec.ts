@@ -52,14 +52,16 @@ test.describe("r10 — CTA الختامي", () => {
 })
 
 test.describe("r10 — أزرار بطاقات التسعير", () => {
-  test("زرّا «ابدأ الآن» → رابطان خارجيان بـ target/rel", async ({ page }) => {
+  test("أزرار «ابدأ الآن» الثلاثة → روابط خارجية بـ target/rel", async ({ page }) => {
+    /* r137 (صدق الأسطول): بطاقة ثالثة — Smart Order حيّ. */
     await page.goto("/pricing", { waitUntil: "domcontentloaded" })
     const buttons = page.getByRole("link", { name: /ابدأ الآن/ })
-    await expect(buttons).toHaveCount(2)
+    await expect(buttons).toHaveCount(3)
     // getAttribute وليس .href — المتصفح يطبّع العنوان بشرطة ختامية
     const hrefs = await buttons.evaluateAll((els) => els.map((e) => (e as HTMLAnchorElement).getAttribute("href")))
     expect(hrefs).toContain("https://menu.smart-link.ly")
     expect(hrefs).toContain("https://bot.smart-link.ly")
+    expect(hrefs).toContain("https://order.smart-link.ly")
     for (const el of await buttons.all()) {
       await expect(el).toHaveAttribute("target", "_blank")
       await expect(el).toHaveAttribute("rel", "noopener noreferrer")

@@ -56,6 +56,16 @@ export function LandingFooter() {
             >
               SmartBot
             </a>
+            {/* r137 (صدق الأسطول): المنتج الثالث الحيّ — نفس العقد. */}
+            <a
+              href={SITE.products.order.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="landing-footer-link"
+              aria-label="Smart Order — رابط خارجي"
+            >
+              Smart Order
+            </a>
             <Link href="/pricing" prefetch={false} className="landing-footer-link">الخطط والأسعار</Link>
             <a href="#roles" className="landing-footer-link">الأدوار</a>
           </div>

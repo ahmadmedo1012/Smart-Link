@@ -35,7 +35,8 @@ test.describe("نموذج الاتصال — الواجهة", () => {
   })
 
   test("الحقول كلها موسومة بعناوين مرتبطة (label/for)", async ({ page }) => {
-    for (const id of ["name", "email", "subject", "message"]) {
+    /* r137: + الهاتف الاختياري — نفس عقد بقية الحقول. */
+    for (const id of ["name", "email", "phone", "subject", "message"]) {
       const label = page.locator(`label[for="${id}"]`)
       await expect(label).toHaveCount(1)
       await expect(label).not.toBeEmpty()
@@ -76,6 +77,48 @@ test.describe("نموذج الاتصال — الواجهة", () => {
     await expect(honeypot).toHaveAttribute("aria-hidden", "true")
     await expect(honeypot).toHaveAttribute("tabindex", "-1")
   })
+
+  test("r137 — هاتف واتساب اختياري: الصالح الدولي يُطبَّع قبل الإرسال، غير الصالح خطأ حقل", async ({ page, consoleErrors }) => {
+    /* r137 (ليبي أولاً): الحقل اختياري — التحقق عند الامتلاء فقط؛
+       التطبيع (أرقام شرقية/فواصل/+218) عقد lib/phone.ts المشترك مع
+       الـAPI. الاعتراض على مستوى الشبكة كالاختبار أعلاه (عزل عن
+       محدد المعدل). */
+    allowResourceNoise(consoleErrors, /Failed to load resource.*503/)
+    await page.fill("#name", "اسم تجريبي")
+    await page.fill("#email", "user@example.com")
+    await page.selectOption("#subject", "menu")
+    await page.fill("#message", "نص رسالة كافٍ للاختبار.")
+
+    // غير صالح → خطأ الحقل العربي + aria-invalid (لا شبكة إطلاقاً)
+    await page.fill("#phone", "12345")
+    await page.getByRole("button", { name: /إرسال الرسالة/ }).click()
+    const err = page.locator("#phone-error")
+    await expect(err).toBeVisible()
+    await expect(err).toContainText("أدخل رقمًا ليبيًا صحيحًا")
+    await expect(page.locator("#phone")).toHaveAttribute("aria-invalid", "true")
+    await expect(page.locator("#phone")).toBeFocused()
+
+    // صالح بالصيغة الدولية → يُرسل مُطبَّعاً 09… (لا خطأ حقل؛ 503 المُعترض)
+    let captured = ""
+    await page.route("**/api/contact", (route) => {
+      captured = route.request().postData() ?? ""
+      return route.fulfill({
+        status: 503,
+        contentType: "application/json",
+        body: JSON.stringify({
+          error:
+            "خدمة البريد غير مهيأة حالياً. تواصل معنا مباشرة عبر واتساب 0910089975 أو noreply@smart-link.ly",
+        }),
+      })
+    })
+    await page.fill("#phone", "+218 91 234 5678")
+    await page.getByRole("button", { name: /إرسال الرسالة/ }).click()
+    const alert = page.locator('form div[role="alert"]').filter({ hasText: /غير مهيأة/ })
+    await expect(alert).toBeVisible({ timeout: 8000 })
+    await expect(page.locator("#phone-error")).toHaveCount(0)
+    // العقد: الهاتف المُرسل هو الشكل المُطبَّع، لا كما كتبه الزائر
+    expect(JSON.parse(captured).phone).toBe("0912345678")
+  })
 })
 
 test.describe("عقد /api/contact", () => {
@@ -95,6 +138,25 @@ test.describe("عقد /api/contact", () => {
     expect(res.status()).toBe(400)
     const json = await res.json()
     expect(json.error).toContain("البريد")
+  })
+
+  test("r137 — هاتف ممتلئ غير صالح → 400 مختوم field:phone (لا يستهلك المعدل)", async ({ request }) => {
+    const res = await request.post("/api/contact", {
+      data: { ...VALID, phone: "12345" },
+    })
+    expect(res.status()).toBe(400)
+    const json = await res.json()
+    expect(json.error).toContain("رقمًا ليبيًا")
+    expect(json.field).toBe("phone")
+  })
+
+  test("r137 — هاتف شرقي/بفواصل يُطبَّع ويمر (503 بلا مفتاح — دليل اجتياز التحقق)", async ({ request }) => {
+    /* دلو معزول — الطلب الصالح يستهلك ميزانية المعدل قبل 503. */
+    const res = await request.post("/api/contact", {
+      data: { ...VALID, phone: "٠٩١-٢٣٤ ٥٦٧٨" },
+      headers: { "x-forwarded-for": "198.51.100.77" },
+    })
+    expect(res.status()).toBe(503)
   })
 
   test("honeypot معبأ → نجاح زائف صامت (لا يصل البريد)", async ({ request }) => {

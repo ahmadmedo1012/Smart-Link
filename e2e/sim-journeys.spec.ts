@@ -85,12 +85,14 @@ test("ج2 «عميل مهتم»: الأسعار + FAQ + إرسال النموذ�
   await page.waitForURL("**/pricing")
   await expect(page.locator("h1").first()).toContainText("الخطط والأسعار")
 
-  // الخطط ظاهرة: منتجان + مجانية — محصورة بالمحتوى الرئيسي (القائمة
-  // المنسدلة صارت دائمة الوجود في DOM بـhidden منذ r13 فأول مطابقة
-  // نصية عمومية قد تكون بنداً مخفياً في الهيدر)
+  // الخطط ظاهرة: ثلاثة منتجات حية + مجانية (r137: + Smart Order) —
+  // محصورة بالمحتوى الرئيسي (القائمة المنسدلة صارت دائمة الوجود في
+  // DOM بـhidden منذ r13 فأول مطابقة نصية عمومية قد تكون بنداً مخفياً
+  // في الهيدر)
   const main = page.getByRole("main")
   await expect(main.getByText("Smart Menu").first()).toBeVisible()
   await expect(main.getByText("SmartBot").first()).toBeVisible()
+  await expect(main.getByText("Smart Order").first()).toBeVisible()
   await expect(main.getByText("مجاني").first()).toBeVisible()
 
   // يفتح سؤالاً من أسئلة الأسعار الشائعة (accordion)
@@ -101,9 +103,17 @@ test("ج2 «عميل مهتم»: الأسعار + FAQ + إرسال النموذ�
   await expect(q).toHaveAttribute("aria-expanded", "true")
   // الجواب صار بجوار السؤال (نفس منطقة الأسئلة) وظاهراً
   await expect(answer).toBeVisible()
-  const qBox = await q.boundingBox()
-  const aBox = await answer.boundingBox()
-  expect(qBox && aBox && aBox.y - (qBox.y + qBox.height)).toBeLessThan(80)
+  /* r137: القياس في لقطة DOM واحدة — قراءة الصندوقين باستدعاءين
+     منفصلين كانت تلتقط تمريراً مستمراً بينهما (البطاقة الثالثة أنزلت
+     قسم الأسئلة فصار نقر السؤال يمرّر الصفحة)، فتُقاس فجوة وهمية
+     (+190px أثناء حركة التمرير). لقطة واحدة = المسافة صحيحة مهما
+     كان موضع التمرير أو طور الحركة. */
+  const gap = await q.evaluate((btn, ans) => {
+    const br = btn.getBoundingClientRect()
+    const ar = ans.getBoundingClientRect()
+    return ar.y - (br.y + br.height)
+  }, await answer.elementHandle())
+  expect(gap).toBeLessThan(80)
 
   // ينتقل إلى التواصل عبر الـ nav
   await page.getByRole("banner").getByRole("link", { name: "تواصل معنا", exact: true }).click()
@@ -314,13 +324,14 @@ test("ج+ قائمة «خدماتنا»: تفتح بالماوس وتعرض را
      التنفيذ disclosure بتدفق Tab حر؛ aria-expanded هو عقد الحالة الفعلي. */
   await expect(servicesBtn).toHaveAttribute("aria-expanded", "false")
 
-  // الماوس فوق الزر → القائمة تنفتح (aria-expanded=true + روابط الخدمتين)
+  // الماوس فوق الزر → القائمة تنفتح (aria-expanded=true + روابط الخدمات الثلاث — r137: + Smart Order)
   const box = await servicesBtn.boundingBox()
   expect(box).toBeTruthy()
   await page.mouse.move(box!.x + box!.width / 2, box!.y + box!.height / 2, { steps: 5 })
   await expect(servicesBtn).toHaveAttribute("aria-expanded", "true")
   await expect(page.getByRole("banner").getByRole("link", { name: /Smart Menu — المنيو الرقمي/ })).toBeVisible()
   await expect(page.getByRole("banner").getByRole("link", { name: /SmartBot — البوت الذكي/ })).toBeVisible()
+  await expect(page.getByRole("banner").getByRole("link", { name: /Smart Order — متجر الطلبات الرقمي/ })).toBeVisible()
 
   // ابتعد بالماوس أولاً — mouseleave يغلق القائمة (حالة نظيفة
   // لاختبار لوحة المفاتيح؛ الإفصاح يبدأ من مغلق).

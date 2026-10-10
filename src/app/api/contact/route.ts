@@ -16,6 +16,8 @@ import {
   NAME_LETTER_ERROR,
   SUBJECT_LABELS,
   CONTACT_SUCCESS_MESSAGE,
+  normalizeLibyanPhone,
+  PHONE_ERROR,
 } from "@/lib/contact-rules"
 
 /* r126 (P4-A3 §3.7): notifications still go to the owner's private
@@ -126,7 +128,7 @@ export async function POST(req: Request) {
       { status: 400 }
     )
   }
-  const { name, email, subject, message, company } = body
+  const { name, email, subject, message, phone, company } = body
 
   try {
     const headersList = await headers()
@@ -215,6 +217,21 @@ export async function POST(req: Request) {
         { status: 400 }
       )
     }
+    /* r137 (ليبي أولاً): هاتف واتساب اختياري — نفس عقد النموذج
+       (lib/phone.ts منفذ Smart-Menu r136): غير النصّي يُعامل كغائب
+       (مذهب إكراه الأنواع عند الحدود)، والممتلئ يُطبَّع إلى 09XXXXXXXX
+       (الأرقام الشرقية والفواصل و+218/00218 مقبولة)؛ غير الصالح يُرفض
+       بخطأ مختوم field:"phone" — لا حدّ طول مستقل: التطبيع نفسه
+       الفرض (رقم ليبي صالح ≤ 13 رقماً). */
+    const cleanPhone = typeof phone === "string" && phone.trim() !== ""
+      ? normalizeLibyanPhone(sanitize(phone))
+      : undefined
+    if (typeof phone === "string" && phone.trim() !== "" && !cleanPhone) {
+      return NextResponse.json(
+        { error: PHONE_ERROR, field: "phone" },
+        { status: 400 }
+      )
+    }
     const cleanSubject = Object.hasOwn(SUBJECT_LABELS, subjectKey)
       ? SUBJECT_LABELS[subjectKey]
       : "استفسار عام"
@@ -263,6 +280,7 @@ export async function POST(req: Request) {
           email: cleanEmail,
           subject: cleanSubject,
           message: cleanMessage,
+          phone: cleanPhone,
         })
       ),
       text: await render(
@@ -271,6 +289,7 @@ export async function POST(req: Request) {
           email: cleanEmail,
           subject: cleanSubject,
           message: cleanMessage,
+          phone: cleanPhone,
         }),
         { plainText: true }
       ),

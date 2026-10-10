@@ -1,4 +1,4 @@
-import { Check, Smartphone, Bot, ChevronLeft, Sparkles } from "lucide-react"
+import { Check, Smartphone, Bot, ShoppingBag, ChevronLeft, Sparkles } from "lucide-react"
 import { SITE } from "@/lib/site"
 import Link from "next/link"
 import { GenArtBackground } from "@/components/gen-art-background"
@@ -42,14 +42,22 @@ import { breadcrumbJsonLd, faqJsonLd } from "@/lib/schema"
 
 export const metadata = pageMetadata({
   /* r10 (SEO audit P2): expanded toward the SERP window with the
-     strongest commercial keywords (مجاناً، بلا بطاقة ائتمان). */
+     strongest commercial keywords (مجاناً، بلا بطاقة ائتمان).
+     r137 (صدق الأسطول): Smart-Order انضم — المنتج الثالث الحي. */
   title: "الخطط والأسعار — ابدأ مجاناً اليوم",
   description:
-    "خطط وأسعار Smart Menu وSmartBot: ابدأ مجاناً اليوم بلا بطاقة ائتمان — منيو رقمي تفاعلي للمطاعم وبوت ذكي لصفحات فيسبوك، مع خطط مدفوعة قادمة بميزات حصرية للفرق.",
+    "خطط وأسعار Smart Menu وSmartBot وSmart Order: ابدأ مجاناً اليوم بلا بطاقة ائتمان — منيو رقمي تفاعلي للمطاعم، وبوت ذكي لصفحات فيسبوك، ومتجر طلبات للأعمال، مع خطط مدفوعة قادمة بميزات حصرية للفرق.",
   canonical: "/pricing",
-  ogDescription: "ابدأ مجاناً — خطط Smart Menu وSmartBot الأساسية مجانية بالكامل",
+  ogDescription: "ابدأ مجاناً — خطط Smart Menu وSmartBot وSmart Order الأساسية مجانية بالكامل",
 })
 
+/* r137 (ليبي أولاً — قرار الدينار): لا يوجد أي مبلغ ليبي حقيقي على
+   هذه الصفحة اليوم (كل الخطط «مجاني» والمدفوعة «قريباً») — لذا لا
+   تُخترع أسعار. عند وصول سعر حقيقي: يُصاغ بالدينار (19 أو "19.500")
+   ويُعرض حصراً عبر formatLyd من lib/money.ts — أرقام غربية + تجميع
+   نقاط ar-LY (1.234.567) + لاحقة « د.ل»، سياسة الأسطول الواحدة
+   (madarek formatNum بنظام ar-LY + Smart-Order formatLyd) — لا
+   تهجئة ثانية يدوية أبداً. */
 const plans = [
   {
     title: "Smart Menu",
@@ -88,13 +96,35 @@ const plans = [
       "دعم فني عبر البريد",
     ],
   },
+  /* r137 (صدق الأسطول): Smart-Order حيّ وباقته الأساسية «مجانية
+     للأبد» (order.smart-link.ly/pricing) — «مجاني» هنا صدق لا
+     تسويق. الميزات من كتالوج باقته المنشورة (api/plans: متجر
+     يعمل فوراً، 15 منتجاً و3 أقسام، 100 طلب شهرياً، منطقة توصيل
+     واحدة، طرق دفع محلية). */
+  {
+    title: "Smart Order",
+    subtitle: "متجر الطلبات الرقمي للأعمال",
+    href: SITE.products.order.url,
+    icon: ShoppingBag,
+    price: "مجاني",
+    period: "الخطة الأساسية",
+    well: "var(--c-mint-bg)",
+    wellInk: "var(--c-mint-ink)",
+    features: [
+      "متجر رقمي يعمل فوراً",
+      "15 منتجاً و3 أقسام",
+      "100 طلب شهرياً",
+      "منطقة توصيل واحدة",
+      "طرق دفع محلية",
+    ],
+  },
 ]
 
 const faqs = [
-  { q: "هل الخدمة مجانية حقاً؟", a: "نعم، الخطط الأساسية لكل من Smart Menu وSmartBot متوفرة مجاناً مع ميزات محدودة. يمكنك البدء فوراً بدون أي تكلفة." },
-  { q: "ما الفرق بين الخطة المجانية والمدفوعة؟", a: "الخطة المجانية توفر الميزات الأساسية. الخطط المدفوعة (القادمة قريباً) ستشمل ميزات متقدمة مثل التحليلات المتعمقة والدعم الفني ذي الأولوية." },
+  { q: "هل الخدمة مجانية حقاً؟", a: "نعم، الخطط الأساسية لكل من Smart Menu وSmartBot وSmart Order متوفرة مجاناً مع ميزات محدودة. يمكنك البدء فوراً بدون أي تكلفة." },
+  { q: "ما الفرق بين الخطة المجانية والمدفوعة؟", a: "الخطة المجانية توفر الميزات الأساسية. خطط Smart Menu وSmartBot المدفوعة (القادمة قريباً) ستشمل ميزات متقدمة مثل التحليلات المتعمقة والدعم الفني ذي الأولوية — وباقات Smart Order المدفوعة متاحة فعلاً بالدينار الليبي على منصته." },
   { q: "هل هناك حد أقصى لعدد المستخدمين؟", a: "الخطط المجانية تسمح باستخدام فردي. الخطط المدفوعة ستتيح إضافة أعضاء الفريق." },
-  { q: "كيف يمكنني الترقية؟", a: "سيتم تفعيل الترقية مباشرة من لوحة التحكم عند إطلاق الخطط المدفوعة. سنقوم بإشعارك عبر البريد الإلكتروني." },
+  { q: "كيف يمكنني الترقية؟", a: "سيتم تفعيل الترقية مباشرة من لوحة التحكم عند إطلاق خطط Smart Menu وSmartBot المدفوعة (ترقية Smart Order متاحة الآن من لوحة تحكمه). سنقوم بإشعارك عبر البريد الإلكتروني." },
   { q: "هل يمكن إلغاء الاشتراك في أي وقت؟", a: "نعم، يمكنك إلغاء حسابك أو إيقاف الخدمة في أي وقت بدون أي رسوم." },
 ]
 
@@ -131,8 +161,10 @@ export default function PricingPage() {
         </div>
 
         {/* Pricing cards — CSS reveal (LCP element, paints pre-JS).
-            r128 F6: flat hairline cards, border-shift only. */}
-        <div className="grid md:grid-cols-2 gap-6 lg:gap-8 max-w-4xl mx-auto mb-16">
+            r128 F6: flat hairline cards, border-shift only.
+            r137: three cards — lg:grid-cols-3 keeps them on one row on
+            desktop; md keeps the 2-col grammar (the third wraps). */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 max-w-4xl mx-auto mb-16">
           {plans.map((plan, i) => {
             const Icon = plan.icon
             return (
@@ -195,7 +227,10 @@ export default function PricingPage() {
             <span className="ln-label reveal-up reveal-d-1">01 — القادم</span>
             <h2 className="text-[length:var(--fs-h2)] font-bold text-foreground reveal-up reveal-d-1">قريباً — خطط مدفوعة</h2>
             <p className="ln-chapter-lede">
-              نعمل على إطلاق خطط مدفوعة بميزات حصرية: تحليلات متقدمة، دعم فني ذو أولوية، عدد غير محدود من العناصر، والمزيد
+              نعمل على إطلاق خطط مدفوعة لـ Smart Menu وSmartBot بميزات حصرية:
+              تحليلات متقدمة، دعم فني ذو أولوية، عدد غير محدود من العناصر،
+              والمزيد — وباقات Smart Order المدفوعة متاحة فعلاً بالدينار
+              الليبي على منصته.
             </p>
           </div>
           <div className="ln-card ln-card--dashed rounded-2xl p-8 text-center">

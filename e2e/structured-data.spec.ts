@@ -39,9 +39,9 @@ test.describe("JSON-LD — الرئيسية", () => {
     expect(org.url).toBe("https://smart-link.ly")
     expect(org.logo["@type"]).toBe("ImageObject")
 
-    // المنظومتان الفرعيتان
+    // المنظمات الفرعية (r137: الثلاث — Smart Order حيّ)
     const subNames = org.subOrganization.map((s: { name: string }) => s.name)
-    expect(subNames).toEqual(expect.arrayContaining(["Smart Menu", "SmartBot"]))
+    expect(subNames).toEqual(expect.arrayContaining(["Smart Menu", "SmartBot", "Smart Order"]))
 
     // روابط الحضور — r10: الحسابات الرسمية الحقيقية (فيسبوك/انستغرام)
     // بدل رابط مراسلة wa.me ونطاقي المنتجات (المغطيين بـ subOrganization
@@ -73,9 +73,12 @@ test.describe("JSON-LD — الرئيسية", () => {
     expect(hours.opens).toBe("09:00")
     expect(hours.closes).toBe("21:00")
     expect(hours.dayOfWeek).toHaveLength(7)
+    /* r137 (ليبي أولاً): المنطقة الزمنية صراحةً — الساعات بتوقيت طرابلس
+       لا بتوقيت الزاحف. */
+    expect(hours.timeZone).toBe("Africa/Tripoli")
   })
 
-  test("r9 — كيانات مترابطة @id + خدمتان مع Offer مجاني", async ({ page }) => {
+  test("r9 — كيانات مترابطة @id + ثلاث خدمات مع Offer مجاني", async ({ page }) => {
     await page.goto("/", { waitUntil: "domcontentloaded" })
     const { byType } = await ldScripts(page)
     const org = byType("Organization")[0]
@@ -84,13 +87,15 @@ test.describe("JSON-LD — الرئيسية", () => {
 
     expect(org["@id"]).toBe("https://smart-link.ly/#organization")
     expect(site.publisher["@id"]).toBe(org["@id"])
-    expect(services).toHaveLength(2)
+    /* r137 (صدق الأسطول): خدمتان → ثلاث — Smart Order حيّ وباقته
+       الأساسية مجانية (عرض Offer مجاني صادق). */
+    expect(services).toHaveLength(3)
     for (const svc of services) {
       expect(svc.provider["@id"]).toBe(org["@id"])
       expect(svc.offers.price).toBe("0")
     }
     const svcNames = services.map((sv: { name: string }) => sv.name)
-    expect(svcNames).toEqual(expect.arrayContaining(["Smart Menu", "SmartBot"]))
+    expect(svcNames).toEqual(expect.arrayContaining(["Smart Menu", "SmartBot", "Smart Order"]))
   })
 
   test("WebSite — اسم ولغة عربية", async ({ page }) => {

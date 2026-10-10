@@ -51,6 +51,16 @@ export const SITE = {
       url: "https://bot.smart-link.ly",
       desc: "أتمتة الردود على صفحات فيسبوك بذكاء",
     },
+    /** r137 (صدق الأسطول): Smart-Order حيّ (order.smart-link.ly) — كان
+        يُسوَّق في README/SECURITY فقط بينما المنتج الثالث يعمل فعلاً.
+        الوصف من واجهته المنشورة (README: منصة الطلبات الرقمية للأعمال
+        في ليبيا — متجر + طلبات + توصيل + مدفوعات محلية). */
+    order: {
+      short: "Smart Order",
+      label: "Smart Order — متجر الطلبات الرقمي",
+      url: "https://order.smart-link.ly",
+      desc: "أطلق متجر طلباتك الرقمي بتوصيل ومدفوعات ليبية",
+    },
   },
 
   social: {

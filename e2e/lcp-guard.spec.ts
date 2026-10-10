@@ -59,21 +59,24 @@ test.describe("r9 — عناصر LCP في HTML الخام (تعميم جراحة
 })
 
 test.describe("r9 — محتوى pricing الخادم (تدقيق P1-4)", () => {
-  test("الخطتان والأسعار والميزات في HTML الخام + CTA للمنتج", async ({ request }) => {
+  test("الخطط والأسعار والميزات في HTML الخام + CTA للمنتج", async ({ request }) => {
     const res = await request.get("/pricing")
     const html = await res.text()
 
-    // الخطتان
+    // الخطط الثلاث (r137: + Smart Order الحيّ)
     expect(html).toContain("Smart Menu")
     expect(html).toContain("SmartBot")
+    expect(html).toContain("Smart Order")
     // السعر المعروض: مجاني لكل خطة (ظهوران على الأقل)
     expect(html.match(/مجاني/g)?.length ?? 0).toBeGreaterThanOrEqual(2)
     // ميزة جوهرية من كل خطة
     expect(html).toContain("منيو رقمي تفاعلي")
     expect(html).toContain("ردود تلقائية ذكية")
+    expect(html).toContain("متجر رقمي يعمل فوراً")
     // CTA الخطة يقود للمنتج مباشرة (r9 C10) وليس لنموذج التواصل
     expect(html).toContain('href="https://menu.smart-link.ly"')
     expect(html).toContain('href="https://bot.smart-link.ly"')
+    expect(html).toContain('href="https://order.smart-link.ly"')
   })
 
   test("قائمة التنقل الرئيسية تعرض «الأسعار» (تدقيق L2)", async ({ page }) => {

@@ -12,6 +12,7 @@ import {
   Text,
 } from "@react-email/components"
 import { SITE, whatsappUrl } from "@/lib/site"
+import { toWaMeHref } from "@/lib/phone"
 
 /* Brand tokens rendered as hex for email clients (email CSS vars don't
    exist — hardcoded is intentional). m15 (Madarek parity): the email
@@ -41,6 +42,8 @@ interface ContactFields {
   email: string
   subject: string
   message: string
+  /** r137: هاتف واتساب اختياري مُطبَّع 09XXXXXXXX — يظهر فقط عندما أرسله الزائر. */
+  phone?: string
 }
 
 function fieldRow(label: string, value: string) {
@@ -62,7 +65,7 @@ function fieldRow(label: string, value: string) {
 }
 
 /** Notification email — sent to the SmartLink owner inbox */
-export function ContactNotificationEmail({ name, email, subject, message }: ContactFields) {
+export function ContactNotificationEmail({ name, email, subject, message, phone }: ContactFields) {
   return (
     <Html lang="ar" dir="rtl">
       <Head />
@@ -80,6 +83,21 @@ export function ContactNotificationEmail({ name, email, subject, message }: Cont
             {fieldRow("البريد الإلكتروني", email)}
             {fieldRow("الموضوع", subject)}
             {fieldRow("الرسالة", message)}
+            {/* r137 (ليبي أولاً): الهاتف في جسم البريد عندما يُرسل — رابط
+                wa.me مباشر (المفهوم «واتساب أولاً»: نفس درس Smart-Menu r136
+                الذي جعل إيصالات المالك قابلة للاتصال). */}
+            {phone && (
+              <Section style={{ marginBottom: "18px" }}>
+                <Text style={{ margin: 0, color: MUTED, fontSize: "12px", fontWeight: 700 }}>
+                  رقم الهاتف (واتساب)
+                </Text>
+                <Text style={{ margin: "4px 0 0", fontSize: "15px", lineHeight: "1.7" }}>
+                  <Link href={toWaMeHref(phone)} style={{ color: BRAND_TEXT }}>
+                    {phone}
+                  </Link>
+                </Text>
+              </Section>
+            )}
             <Hr style={{ borderColor: "#1B2444", margin: "28px 0" }} />
             <Button
               href={`mailto:${email}?subject=${encodeURIComponent(`رد: ${subject} — SmartLink`)}`}

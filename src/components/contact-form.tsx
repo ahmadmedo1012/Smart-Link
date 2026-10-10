@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from "react"
 import { Send, Check, Loader2, ChevronDown } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { SITE, whatsappUrl } from "@/lib/site"
-import { EMAIL_RE, NAME_MAX, EMAIL_MAX, MESSAGE_MAX, NAME_LETTER_RE, NAME_LETTER_ERROR, SUBJECTS } from "@/lib/contact-rules"
+import { EMAIL_RE, NAME_MAX, EMAIL_MAX, MESSAGE_MAX, NAME_LETTER_RE, NAME_LETTER_ERROR, SUBJECTS, PHONE_MAX, normalizeLibyanPhone, PHONE_ERROR } from "@/lib/contact-rules"
 
 /* r9: extracted from the contact page — it was the only fully-client page
    on the site: ~10 KB of static markup (cards, headers) shipped in the
@@ -26,7 +26,7 @@ import { EMAIL_RE, NAME_MAX, EMAIL_MAX, MESSAGE_MAX, NAME_LETTER_RE, NAME_LETTER
    lib/contact-rules — the API route imports the same module, so the form
    can never accept what the server rejects. */
 
-type FieldErrors = { name?: string; email?: string; message?: string }
+type FieldErrors = { name?: string; email?: string; phone?: string; message?: string }
 
 /* r10 (a11y audit P2): inputs were text-sm (14px) — Safari iOS auto-
    zooms the page on focus for any field under 16px, jolting every mobile
@@ -71,6 +71,9 @@ export function ContactForm() {
       email: (form.elements.namedItem("email") as HTMLInputElement).value,
       subject: (form.elements.namedItem("subject") as HTMLSelectElement).value,
       message: (form.elements.namedItem("message") as HTMLTextAreaElement).value,
+      /* r137 (ليبي أولاً): هاتف واتساب اختياري — يُرسل بالشكل المُطبَّع
+         09XXXXXXXX (أو فارغاً)، لا كما كتبه الزائر. */
+      phone: (form.elements.namedItem("phone") as HTMLInputElement)?.value ?? "",
       // Honeypot: hidden from humans, filled only by naive spam bots
       company: (form.elements.namedItem("company") as HTMLInputElement)?.value ?? "",
     }
@@ -82,12 +85,16 @@ export function ContactForm() {
     else if (data.name.length > NAME_MAX) errs.name = "الاسم أطول من المسموح"
     if (!data.email.trim()) errs.email = "البريد الإلكتروني مطلوب"
     else if (!EMAIL_RE.test(data.email)) errs.email = "البريد الإلكتروني غير صالح"
+    /* r137: التحقق عند الامتلاء فقط — الحقل اختياري؛ التطبيع يقبل
+       الأرقام الشرقية والفواصل و+218/00218 (عقد lib/phone.ts). */
+    const cleanPhone = data.phone.trim() ? normalizeLibyanPhone(data.phone) : undefined
+    if (data.phone.trim() && !cleanPhone) errs.phone = PHONE_ERROR
     if (!data.message.trim()) errs.message = "الرسالة مطلوبة"
     else if (data.message.length > MESSAGE_MAX) errs.message = "الرسالة أطول من المسموح"
 
     if (Object.keys(errs).length > 0) {
       setFieldErrors(errs)
-      const first = ["name", "email", "message"].find((f) => errs[f as keyof FieldErrors])
+      const first = ["name", "email", "phone", "message"].find((f) => errs[f as keyof FieldErrors])
       if (first) (form.elements.namedItem(first) as HTMLElement).focus()
       return
     }
@@ -98,7 +105,9 @@ export function ContactForm() {
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
+        /* r137: الهاتف المُطبَّع (أو فارغ) — cleanPhone من فحص التحقق
+           أعلاه؛ بقية الحقول كما هي. */
+        body: JSON.stringify({ ...data, phone: cleanPhone ?? "" }),
       })
       /* r11 (محاكاة عدائية P1 — «النجاح الكاذب»): 200 بجسم غير JSON كان
          يقع في فرع النجاح الافتراضي ويعرض «تم استلام رسالتك بنجاح» ويفرّغ
@@ -122,7 +131,7 @@ export function ContactForm() {
             ? json.error
             : "استجابة غير صالحة من الخادم"
         const field = json && typeof json.field === "string" ? json.field : ""
-        if (field === "name" || field === "email" || field === "message") {
+        if (field === "name" || field === "email" || field === "phone" || field === "message") {
           setFieldErrors({ [field]: serverError })
           ;(form.elements.namedItem(field) as HTMLElement).focus()
         } else {
@@ -210,6 +219,29 @@ export function ContactForm() {
             <p id="email-error" role="alert" className="text-[length:var(--fs-xs)] mt-1.5 text-[var(--destructive-ink)]">{fieldErrors.email}</p>
           )}
         </div>
+      </div>
+      {/* r137 (ليبي أولاً): هاتف واتساب اختياري — دائرة نصية LTR حتى لا
+          يقلب الاتجاه أرقامَ الهاتف، مع لوحة أرقام الهاتف على الجوال
+          (inputMode/type tel). لا required — التحقق فقط عند الامتلاء،
+          والخطأ يُعلن عبر aria-describedby كبقية الحقول. */}
+      <div>
+        <label htmlFor="phone" className="block text-sm font-medium text-foreground mb-1.5">رقم الهاتف (واتساب) — اختياري</label>
+        <input
+          id="phone"
+          name="phone"
+          type="tel"
+          inputMode="tel"
+          autoComplete="tel"
+          dir="ltr"
+          maxLength={PHONE_MAX}
+          aria-invalid={!!fieldErrors.phone}
+          aria-describedby={fieldErrors.phone ? "phone-error" : undefined}
+          className={fieldCls(fieldErrors.phone)}
+          placeholder="09XXXXXXXX"
+        />
+        {fieldErrors.phone && (
+          <p id="phone-error" role="alert" className="text-[length:var(--fs-xs)] mt-1.5 text-[var(--destructive-ink)]">{fieldErrors.phone}</p>
+        )}
       </div>
       <div>
         <label htmlFor="subject" className="block text-sm font-medium text-foreground mb-1.5">الموضوع</label>

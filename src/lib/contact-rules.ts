@@ -16,6 +16,24 @@ export const MESSAGE_MAX = 5000
 export const NAME_LETTER_RE = /[\p{L}\p{N}]/u
 export const NAME_LETTER_ERROR = "الاسم يجب أن يحتوي على أحرف"
 
+/* r137 (ليبي أولاً): الهاتف — حقل اختياري «واتساب أولاً». العقد من
+   lib/phone.ts (منفذ Smart-Menu r136 المطوي هنا): التطبيع يقبل
+   الأرقام الشرقية ٠٩١٢… والفواصل وصيغ +218/00218 ويخرج الشكل المحلي
+   الموحد 09XXXXXXXX (9-10 أرقام بادئة 09)؛ غير الصالح يُرفض برسالة
+   عربية واحدة للنموذج وAPI معاً — نفس مذهب r10/r13 (عقد مشترك،
+   تعيين الخطأ بالمفتاح field:"phone"). القيمة المخزنة/المُرسلة هي
+   الشكل المُطبَّع دائماً. */
+export {
+  normalizeLibyanPhone,
+  toWaMeHref,
+  PHONE_ERROR,
+} from "@/lib/phone"
+
+/** Input-box cap only — the regex itself rejects any over-long number;
+    the cap keeps pasted garbage from flooding the box (server-side the
+    normalization is the enforcement: a valid Libyan phone is ≤ 13 digits). */
+export const PHONE_MAX = 24
+
 /* r13 (code audit P1 — إكمال العقد): r10 وحّدت التحقق (النصف الأول)
    وبقيت ثلاث حقائق منسوخة بين الخادم والنموذج:
    1) عناوين المواضيع — route.ts والنموذج كانا يحملان الخريطة نفسها

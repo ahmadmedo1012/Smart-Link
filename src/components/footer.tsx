@@ -1,6 +1,6 @@
 import Link from "next/link"
 import Image from "next/image"
-import { Smartphone, Bot, Mail, MapPin, Globe, MessageCircle, Share2 } from "lucide-react"
+import { Smartphone, Bot, ShoppingBag, Mail, MapPin, Globe, MessageCircle, Share2 } from "lucide-react"
 import { BackToTop } from "@/components/back-to-top"
 import { CurrentYear } from "@/components/current-year"
 import { SITE, whatsappUrl } from "@/lib/site"
@@ -97,6 +97,9 @@ export function Footer() {
               {[
                 { label: SITE.products.menu.label, href: SITE.products.menu.url, icon: Smartphone, desc: SITE.products.menu.desc },
                 { label: SITE.products.bot.label, href: SITE.products.bot.url, icon: Bot, desc: SITE.products.bot.desc },
+                /* r137 (صدق الأسطول): Smart-Order حيّ — يُدرج في قائمة
+                    الخدمات بنفس العقد (label/url/icon/desc من SITE). */
+                { label: SITE.products.order.label, href: SITE.products.order.url, icon: ShoppingBag, desc: SITE.products.order.desc },
               ].map((l) => (
                 <li key={l.label}>
                   <a

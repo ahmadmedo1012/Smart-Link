@@ -1518,8 +1518,8 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
     'r16 chrome freeze: footer keeps EXACTLY its 8 sanctioned 14px chrome sites (heads/links/contact rows)');
   check(count(mainNav, /\btext-sm\b/g) === 6,
     'r16 chrome freeze: main-nav keeps EXACTLY its 6 sanctioned 14px chrome sites (nav/megamenu/mobile)');
-  check(count(contactForm, /\btext-sm\b/g) === 6 && count(contactForm, /\btext-base\b/g) === 1,
-    'r16 chrome freeze: contact-form keeps its 6 label/status 14px sites + the ONE 16px iOS-zoom-floor input (r10)');
+  check(count(contactForm, /\btext-sm\b/g) === 7 && count(contactForm, /\btext-base\b/g) === 1,
+    'r16 chrome freeze: contact-form keeps its 7 label/status 14px sites (r137: + the optional phone label) + the ONE 16px iOS-zoom-floor input (r10)');
   check(count(terms, /\btext-sm\b/g) === 1 && count(privacy, /\btext-sm\b/g) === 1,
     'r16 chrome freeze: terms/privacy keep their single 14px timestamp each');
   check(!/--fs-body-md/.test(stylesCss),
@@ -1743,6 +1743,99 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
   check(
     seoSrc.includes('alt: "الربط الذكي — SmartLink"'),
     'r134-14: OG_IMAGE.alt rides the family form «الربط الذكي — SmartLink» (Smart-Menu/Smart-Order prefix convention)'
+  );
+}
+
+/* ═══ r137 — ليبي أولاً + صدق الأسطول: the LYD money seam, the phone
+   seam port, JSON-LD timeZone, and Smart-Order as the third live
+   product (comment-aware reads — the decision comments cite retired
+   spellings as history) ═══════════════════════════════════════════ */
+{
+  const read = (p) => {
+    const raw = readFileSync(new URL(`../src/${p}`, import.meta.url), 'utf8');
+    return raw.replace(/\/\*[\s\S]*?\*\//g, ' ').replace(/\/\/.*$/gm, ' ');
+  };
+  const money = read('lib/money.ts');
+  const phone = read('lib/phone.ts');
+  const rules = read('lib/contact-rules.ts');
+  const contactForm = read('components/contact-form.tsx');
+  const schema = read('lib/schema.ts');
+  const site = read('lib/site.ts');
+  /* URLs need the RAW source: the comment-stripping `//.*$` rule eats
+     every `https://…` literal (the scheme carries its own `//`). */
+  const siteRaw = readFileSync(new URL('../src/lib/site.ts', import.meta.url), 'utf8');
+  const products = read('components/landing/ProductsSection.tsx');
+  const pricing = read('app/pricing/page.tsx');
+
+  // A ── the LYD display seam: Western digits + ar-LY dot grouping +
+  //     « د.ل» — hand-rolled (hydration-safe), the SO formatLyd twin.
+  check(
+    /export function formatLyd/.test(money)
+      && money.includes('\\B(?=(\\d{3})+(?!\\d))')
+      && money.includes('د.ل'),
+    'r137-1: lib/money.ts ships formatLyd — Western digits + ar-LY dot grouping + « د.ل» (fleet seam: madarek formatNum / SO formatLyd twins, hydration-safe hand-rolled grouping)'
+  );
+  // B ── honesty over invention: ZERO invented LYD amounts on the pricing
+  //     page — every plan stays «مجاني»; the seam waits for real prices.
+  check(
+    !/\d\s*د\.ل/.test(pricing),
+    'r137-1: pricing renders zero invented LYD amounts (no digits+«د.ل» pair anywhere — formatLyd is wired, not used to fake prices)'
+  );
+  // C ── the phone seam: the Smart-Menu r136 Eastern-digit fold + the
+  //     Libyan contract (09X, 9-10 digits, +218/00218) in ONE module.
+  check(
+    /export function normalizeCustomerPhone/.test(phone)
+      && phone.includes('/[٠-٩]/g')
+      && phone.includes('export const LIBYAN_PHONE_RE = /^09\\d{7,8}$/')
+      && phone.includes('00218')
+      && /export function normalizeLibyanPhone/.test(phone),
+    'r137-2: lib/phone.ts — the Smart-Menu r136 fold (Eastern digits) + the Libyan contract /^09\\d{7,8}$/ + +218/00218 acceptance, normalized to the local 09… form'
+  );
+  // D ── the shared contract: the phone pieces ride lib/contact-rules
+  //     (the r10 doctrine — form and API can never drift), and the form
+  //     field is the WhatsApp-first optional LTR box.
+  check(
+    rules.includes('PHONE_ERROR') && rules.includes('PHONE_MAX')
+      && rules.includes('normalizeLibyanPhone'),
+    'r137-2: contact-rules re-exports the phone contract (PHONE_ERROR/PHONE_MAX/normalizeLibyanPhone) — one module serves the form AND the API'
+  );
+  check(
+    contactForm.includes('رقم الهاتف (واتساب) — اختياري')
+      && contactForm.includes('dir="ltr"')
+      && contactForm.includes('placeholder="09XXXXXXXX"')
+      && contactForm.includes('fieldErrors.phone'),
+    'r137-2: the contact form ships the optional WhatsApp-first phone field — Arabic label, LTR box, 09XXXXXXXX placeholder, per-field error channel'
+  );
+  // E ── JSON-LD: the opening hours carry an explicit timeZone.
+  check(
+    schema.includes('timeZone: "Africa/Tripoli"'),
+    'r137-3: openingHoursSpecification carries timeZone "Africa/Tripoli" (no crawler-local interpretation)'
+  );
+  // F ── Smart-Order truth: SITE.products.order + the JSON-LD entities.
+  check(
+    siteRaw.includes('https://order.smart-link.ly')
+      && site.includes('order: {')
+      && site.includes('Smart Order — متجر الطلبات الرقمي'),
+    'r137-4: SITE.products carries the third LIVE product (order.smart-link.ly) in the exact menu/bot shape'
+  );
+  check(
+    schema.includes('#smart-order-org') && schema.includes('service-smart-order'),
+    'r137-4: JSON-LD carries Smart-Order as subOrganization + Service (a live product was invisible to crawlers)'
+  );
+  // G ── the landing constellation: three live nodes; the e-store
+  //     coming-soon placeholder is retired (a live store product made
+  //     it a contradiction).
+  check(
+    products.includes('SITE.products.order.url')
+      && !products.includes('متجر إلكتروني'),
+    'r137-4: the products constellation rides THREE live links — Smart Order replaces the «متجر إلكتروني — قريباً» placeholder'
+  );
+  // H ── the pricing page markets the third product honestly (free
+  //     base plan per its own published catalog).
+  check(
+    pricing.includes('title: "Smart Order"')
+      && pricing.includes('SITE.products.order.url'),
+    'r137-4: /pricing ships the Smart-Order plan card (free base plan — «مجانية للأبد» on its own pricing page)'
   );
 }
 

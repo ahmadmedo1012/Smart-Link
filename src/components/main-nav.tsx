@@ -3,7 +3,7 @@ import { useState, useEffect, useRef, useSyncExternalStore } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { usePathname } from "next/navigation"
-import { Menu, X, Smartphone, Bot, ChevronDown, Sun, Moon } from "lucide-react"
+import { Menu, X, Smartphone, Bot, ShoppingBag, ChevronDown, Sun, Moon } from "lucide-react"
 import { useTheme } from "next-themes"
 import { cn } from "@/lib/utils"
 import { SITE } from "@/lib/site"
@@ -31,6 +31,9 @@ const navLinks: NavLink[] = [
     children: [
       { href: SITE.products.menu.url, label: SITE.products.menu.label, icon: Smartphone, desc: SITE.products.menu.desc },
       { href: SITE.products.bot.url, label: SITE.products.bot.label, icon: Bot, desc: SITE.products.bot.desc },
+      /* r137 (صدق الأسطول): Smart-Order حيّ — البند الثالث بنفس العقد؛
+          قائمتا سطح المكتب والجوال تُخريجان children تلقائياً. */
+      { href: SITE.products.order.url, label: SITE.products.order.label, icon: ShoppingBag, desc: SITE.products.order.desc },
     ],
   },
   /* r9 (audit L2): pricing was reachable only from the footer — a primary

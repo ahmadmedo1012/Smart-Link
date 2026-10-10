@@ -51,6 +51,12 @@ const MARQUEE_ITEMS = [
   "تصنيف النوايا",
   "بث جماعي",
   "إدارة الصفحات",
+  /* r137 (صدق الأسطول): Smart-Order حيّ — مطالباته من واجهته
+     المنشورة (متجر يعمل فوراً / طلبات وتوصيل / مدفوعات محلية). */
+  "Smart Order",
+  "متجر الطلبات الرقمي",
+  "طلبات وتوصيل",
+  "مدفوعات ليبية",
   "حساب واحد لكل الخدمات",
   "واجهة عربية بالكامل",
   "دعم واتساب 24/7",
@@ -91,7 +97,7 @@ export default function Home() {
 
           <div className="ln-hero-content">
             <RevealCssClass as="p" className="ln-hero-eyebrow">
-              <span className="ln-mono">SmartLink · Smart Menu · SmartBot · ليبيا</span>
+              <span className="ln-mono">SmartLink · Smart Menu · SmartBot · Smart Order · ليبيا</span>
             </RevealCssClass>
 
             {/* h1 + sub paint INSTANTLY — server-rendered inline, no reveal,

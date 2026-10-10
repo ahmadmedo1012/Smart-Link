@@ -18,9 +18,10 @@ import { SITE } from "@/lib/site"
       the Organization by id (publisher / provider), the explicit
       schema.org "linking entities" best practice.
 
-   3. Service ×2 — Smart Menu and SmartBot modeled as services with a
-      provider reference and a free Offer (price "0"), matching the
-      pricing page's "مجاني" claims. */
+   3. Service (r138: ×3 — Smart Menu, SmartBot and, since r137,
+      Smart Order) modeled as services with a provider reference and a
+      free Offer (price "0"), matching the pricing page's "مجاني"
+      claims. */
 
 const ORG_ID = `${SITE.url}/#organization`
 const WEBSITE_ID = `${SITE.url}/#website`
@@ -70,8 +71,11 @@ export function organizationJsonLd() {
       width: 600,
       height: 409,
     },
+    /* r138 (إكمال صدق الأسطول — موجة r137 الفائتة): الوصف كان يعدّ
+       منتجين بينما الكائن نفسه يسرد ثلاث منظمات فرعية وثلاث خدمات —
+       صياغة الثلاثة أسفلًا. */
     description:
-      "منصة رقمية ليبية متكاملة تقدم حلولاً ذكية للأعمال: المنيو الرقمي للمطاعم والبوت الذكي لفيسبوك.",
+      "منصة رقمية ليبية متكاملة تقدم حلولاً ذكية للأعمال: المنيو الرقمي للمطاعم، والبوت الذكي لفيسبوك، ومتجر الطلبات الرقمي.",
     foundingDate: "2025-11-20",
     founder: { "@type": "Person", name: "أحمد خيري" },
     telephone: `+${SITE.whatsapp.number}`,
@@ -156,11 +160,17 @@ export function websiteJsonLd() {
 }
 
 export function servicesJsonLd() {
+  /* r138 (صدق الأسطول — إتمام): وصف العرض الافتراضي «عند الإطلاق»
+     صادق لـ Menu/Bot (المجاني منذ الإطلاق والمدفوع «قريباً»)؛ أما
+     Smart-Order فباقته الأساسية حيّة «مجانية للأبد» وباقاته المدفوعة
+     تعمل فعلاً بالدينار على منصّته — فوصفه المتخصص يطابق صفحة
+     الأسعار نفسها (r137: «مجاني» هنا صدق لا تسويق). */
   const service = (opts: {
     id: string
     name: string
     url: string
     description: string
+    offerDescription?: string
   }) => ({
     "@type": "Service",
     "@id": opts.id,
@@ -174,7 +184,7 @@ export function servicesJsonLd() {
       "@type": "Offer",
       price: "0",
       priceCurrency: "LYD",
-      description: "خطة مجانية بالكامل عند الإطلاق",
+      description: opts.offerDescription ?? "خطة مجانية بالكامل عند الإطلاق",
     },
   })
 
@@ -201,6 +211,9 @@ export function servicesJsonLd() {
         url: SITE.products.order.url,
         description:
           "متجر الطلبات الرقمي للأعمال: واجهة جاهزة للمسح بـ QR، محرّك طلبات، توصيل بمناطق ورسوم، ومدفوعات ليبية",
+        /* r138: «عند الإطلاق» الافتراضية كذبٌ صغير هنا — باقته حيّة
+           للأبد ومدفوعاته تعمل الآن؛ الصدق يسبق صياغة القالب. */
+        offerDescription: "الخطة الأساسية مجانية للأبد — باقات مدفوعة بالدينار الليبي على منصّته",
       }),
     ],
   }

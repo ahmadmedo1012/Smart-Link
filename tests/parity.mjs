@@ -1782,14 +1782,16 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
     'r137-1: pricing renders zero invented LYD amounts (no digits+«د.ل» pair anywhere — formatLyd is wired, not used to fake prices)'
   );
   // C ── the phone seam: the Smart-Menu r136 Eastern-digit fold + the
-  //     Libyan contract (09X, 9-10 digits, +218/00218) in ONE module.
+  //     Libyan contract (the r138 fleet-unified shape: mobile 09 at
+  //     9–10 digits + landline 0[1-9] at 10 — the SO r138-SO twin) in
+  //     ONE module.
   check(
     /export function normalizeCustomerPhone/.test(phone)
       && phone.includes('/[٠-٩]/g')
-      && phone.includes('export const LIBYAN_PHONE_RE = /^09\\d{7,8}$/')
+      && phone.includes('export const LIBYAN_PHONE_RE = /^(?:09\\d{7,8}|0[1-9]\\d{8})$/')
       && phone.includes('00218')
       && /export function normalizeLibyanPhone/.test(phone),
-    'r137-2: lib/phone.ts — the Smart-Menu r136 fold (Eastern digits) + the Libyan contract /^09\\d{7,8}$/ + +218/00218 acceptance, normalized to the local 09… form'
+    'r137-2: lib/phone.ts — the Smart-Menu r136 fold (Eastern digits) + the Libyan contract /^(?:09\\d{7,8}|0[1-9]\\d{8})$/ (r138 fleet unification: mobile 09 9–10 digits + landline 0[1-9] at 10, the SO r138-SO twin) + +218/00218 acceptance, normalized to the local form'
   );
   // D ── the shared contract: the phone pieces ride lib/contact-rules
   //     (the r10 doctrine — form and API can never drift), and the form
@@ -1836,6 +1838,75 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
     pricing.includes('title: "Smart Order"')
       && pricing.includes('SITE.products.order.url'),
     'r137-4: /pricing ships the Smart-Order plan card (free base plan — «مجانية للأبد» on its own pricing page)'
+  );
+}
+
+/* ═══ r138 — توحيد الهاتف (عقد الأسطولة الموحّد — قرار r138-SO) +
+   إكمال صدق الأسطول: the phone contract is the fleet's ONE shape
+   (mobile 09 at 9–10 digits + landline 0[1-9] at 10 — the Smart-Order
+   r138-SO twin), wa.me rendering stays mobile-only (no dead links for
+   landlines), and the three-product truth reaches the surfaces the
+   r137 wave missed (root metadata, Organization description, landing
+   FAQ, legal pages) */
+{
+  const read = (p) => {
+    const raw = readFileSync(new URL(`../src/${p}`, import.meta.url), 'utf8');
+    return raw.replace(/\/\*[\s\S]*?\*\//g, ' ').replace(/\/\/.*$/gm, ' ');
+  };
+  const phone = read('lib/phone.ts');
+  const emails = read('emails/contact-emails.tsx');
+  const layout = read('app/layout.tsx');
+  const schema = read('lib/schema.ts');
+  const faq = read('components/landing/LandingFaq.tsx');
+  const privacy = read('app/privacy/page.tsx');
+  const terms = read('app/terms/page.tsx');
+
+  // A ── (r138-SL) عقد الأسطولة الموحّد: الرسالة تسمّي العائلتين —
+  //     الأرضي 021… مقبول الآن (قرار r138-SO) فلا تنعَت رقمًا ليبيًا
+  //     صحيحًا بالخطأ؛ المحمول أولًا لأن الحقل «واتساب أولاً».
+  check(
+    phone.includes('أو أرضي 0211234567'),
+    'r138-1: PHONE_ERROR names BOTH families (محمول وأرضي) — the fleet-wide contract (r138-SO) accepts landlines and the message must not call a correct landline wrong'
+  );
+  // A2 ── the trunk-restore gate is the SO twin: ONLY a mobile missing
+  //      its trunk (9xxxxxxx/9xxxxxxxx) gains the 0 — a blind prepend
+  //      would mint a landline out of garbage (123456789).
+  check(
+    phone.includes('digits.startsWith("9") && (digits.length === 8 || digits.length === 9)'),
+    'r138-1: the trunk-restore gate is mobile-only (the SO twin) — landline-without-trunk and garbage reject; no blind prepend may mint a landline'
+  );
+  // A3 ── wa.me stays MOBILE-only: the owner email links 09… numbers
+  //      and renders a landline as plain callable text (WhatsApp-first
+  //      is a rendering behavior, not an acceptance gate).
+  check(
+    emails.includes('phone.startsWith("09")'),
+    'r138-1: the owner email gates the wa.me link on the 09 prefix — a landline renders as plain text, never a dead link'
+  );
+  // B ── the three-product truth reaches the homepage SERP description
+  //     (the root layout metadata — r137 updated the pricing page only,
+  //     leaving the site's primary card speaking two products).
+  check(
+    layout.includes('ومتجر الطلبات الرقمي'),
+    'r138-2: the root metadata description names all THREE products (menu/bot/order — the homepage SERP/OG card matches the pricing-page truth)'
+  );
+  // C ── the Organization JSON-LD description matches its own three
+  //     subOrganizations (was a two-product description riding the same
+  //     object as a three-product subOrganization list).
+  check(
+    schema.includes('ومتجر الطلبات الرقمي'),
+    'r138-2: the Organization JSON-LD description names the third product (consistent with its own subOrganization ×3 + Service ×3)'
+  );
+  // D ── the landing FAQ no longer claims «حالياً» two products with the
+  //     third hiding behind «قريباً» — Smart Order is live.
+  check(
+    faq.includes('وSmart Order (متجر الطلبات الرقمي)'),
+    'r138-2: the landing FAQ offers all three live products (the two-product «حالياً نقدم خدمة» claim was false since r137)'
+  );
+  // E ── the legal pages' service enumerations carry the third product.
+  check(
+    terms.includes('<li><strong>Smart Order:</strong>')
+      && privacy.includes('(Smart Order)'),
+    'r138-2: terms/privacy enumerate Smart Order among the platform services (legal texts match the marketing truth)'
   );
 }
 

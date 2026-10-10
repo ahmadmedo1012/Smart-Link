@@ -94,7 +94,10 @@ test.describe("نموذج الاتصال — الواجهة", () => {
     await page.getByRole("button", { name: /إرسال الرسالة/ }).click()
     const err = page.locator("#phone-error")
     await expect(err).toBeVisible()
-    await expect(err).toContainText("أدخل رقمًا ليبيًا صحيحًا")
+    /* r138 (عقد الأسطولة الموحّد): الرسالة تسمّي العائلتين — الأرضي
+       021… مقبول الآن (قرار r138-SO) فلا تنعَت رقمًا ليبيًا صحيحًا
+       بالخطأ؛ المحمول أولًا لأن الحقل «واتساب أولاً». */
+    await expect(err).toContainText("أدخل رقم هاتف ليبيًا صحيحًا")
     await expect(page.locator("#phone")).toHaveAttribute("aria-invalid", "true")
     await expect(page.locator("#phone")).toBeFocused()
 
@@ -146,8 +149,48 @@ test.describe("عقد /api/contact", () => {
     })
     expect(res.status()).toBe(400)
     const json = await res.json()
-    expect(json.error).toContain("رقمًا ليبيًا")
+    /* r138: الرسالة الموحدة تسمّي العائلتين (محمولًا وأرضيًا) — عقد
+       الأسطولة الموحّد (قرار r138-SO). */
+    expect(json.error).toContain("هاتف ليبيًا صحيحًا")
     expect(json.field).toBe("phone")
+  })
+
+  /* r138 (توحيد الأسطولة — قرار r138-SO): العقد الموحّد الأوسع — محمول
+     09 بطول 9-10 خانات + أرضي 0[1-9] بعشر. r137 هنا كانت تقبل
+     «091234567» (9 خانات) وترفض الأرضي؛ Smart-Order اعتمد العقد الأوسع
+     نفسه (r138-SO: كان 09 بعشر خانات فقط) فتوحّدت الأسطولة على شكل
+     واحد. القبولان التاليان يثبتان الشكلين الجديدين/المحفوظين (503
+     بلا مفتاح بريد = دليل اجتياز التحقق) — دلو IP معزول لكلٍّ منهما
+     (مذهب r10 testing G1). */
+  test("r138 — محمول تسع خانات (091234567) يُقبل — عقد الأسطولة الموحّد (r138-SO)", async ({ request }) => {
+    const res = await request.post("/api/contact", {
+      data: { ...VALID, phone: "091234567" },
+      headers: { "x-forwarded-for": "198.51.100.81" },
+    })
+    expect(res.status()).toBe(503)
+  })
+
+  test("r138 — الأرضي 0211234567 يُقبل (0[1-9] بعشر خانات — عقد الأسطولة)", async ({ request }) => {
+    const res = await request.post("/api/contact", {
+      data: { ...VALID, phone: "0211234567" },
+      headers: { "x-forwarded-for": "198.51.100.82" },
+    })
+    expect(res.status()).toBe(503)
+  })
+
+  /* r138 (حدود العقد): الأرضي القصير (9 خانات)، والأرضي بلا جذع الصفر
+     (212345678 — الجذع للمحمول فقط في الأسطولة كلها: توأم Smart-Order)،
+     والقمامة التي لا يجوز أن تتحول أرضيًا بجذعٍ أعمى (123456789) — كلها
+     تُرفض 400 مختومة field:phone قبل محدد المعدل (لا تستهلك ميزانية). */
+  test("r138 — الأرضي القصير/بلا جذع يُرفض (حدود العقد الموحّد)", async ({ request }) => {
+    for (const phone of ["021123456", "212345678", "123456789"]) {
+      const res = await request.post("/api/contact", {
+        data: { ...VALID, phone },
+      })
+      expect(res.status(), `الهاتف ${phone} يجب أن يُرفض`).toBe(400)
+      const json = await res.json()
+      expect(json.field).toBe("phone")
+    }
   })
 
   test("r137 — هاتف شرقي/بفواصل يُطبَّع ويمر (503 بلا مفتاح — دليل اجتياز التحقق)", async ({ request }) => {

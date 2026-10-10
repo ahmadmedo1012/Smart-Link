@@ -17,10 +17,12 @@ import { SiteChrome } from "@/components/site-chrome"
 
 export const metadata = pageMetadata({
   /* r10 (SEO audit P2): expanded toward the SERP window + names the
-     products explicitly for entity matching. */
+     products explicitly for entity matching.
+     r138 (إكمال صدق الأسطول — موجة r137 الفائتة): المنتجات الثلاثة
+     — كان يعدّ منتجين. */
   title: "سياسة الخصوصية وحماية بياناتك",
   description:
-    "سياسة خصوصية SmartLink: كيف نجمع بياناتك ونستخدمها ونحميها عند استخدام المنيو الرقمي Smart Menu والبوت الذكي SmartBot — شفافية كاملة مع حقوقك وطرق التواصل معنا.",
+    "سياسة خصوصية SmartLink: كيف نجمع بياناتك ونستخدمها ونحميها عند استخدام المنيو الرقمي Smart Menu والبوت الذكي SmartBot ومتجر الطلبات Smart Order — شفافية كاملة مع حقوقك وطرق التواصل معنا.",
   canonical: "/privacy",
 })
 
@@ -49,11 +51,15 @@ export default function PrivacyPage() {
         <div
           className="space-y-6 text-muted-foreground"
         >
-          <p className="text-sm">آخر تحديث: سبتمبر 2026</p>
+          {/* r138: حُدِّث التاريخ — تعداد المنتجات في المقدمة والاستخدام
+              تغيّر نصاً (أُضيف Smart Order)، والتاريخ يتبع النص. */}
+          <p className="text-sm">آخر تحديث: أكتوبر 2026</p>
 
           <section>
             <h2 className="text-[length:var(--fs-h2)] font-bold text-foreground mt-6 mb-2">المقدمة</h2>
-            <p>SmartLink هي منصة رقمية ليبية تقدم حلولاً مبتكرة للأعمال، بما في ذلك المنيو الرقمي للمطاعم (Smart Menu) والبوت الذكي لفيسبوك (SmartBot). نحن ملتزمون بحماية خصوصية مستخدمينا. توضح سياسة الخصوصية هذه كيفية جمع واستخدام وحماية معلوماتك الشخصية عند استخدامك لمنصتنا.</p>
+            {/* r138 (إكمال صدق الأسطول — موجة r137 الفائتة): العدّ
+                الثلاثي — «بما في ذلك» كان يقتصر على منتجين. */}
+            <p>SmartLink هي منصة رقمية ليبية تقدم حلولاً مبتكرة للأعمال، بما في ذلك المنيو الرقمي للمطاعم (Smart Menu) والبوت الذكي لفيسبوك (SmartBot) ومتجر الطلبات الرقمي (Smart Order). نحن ملتزمون بحماية خصوصية مستخدمينا. توضح سياسة الخصوصية هذه كيفية جمع واستخدام وحماية معلوماتك الشخصية عند استخدامك لمنصتنا.</p>
           </section>
 
           <section>
@@ -78,7 +84,9 @@ export default function PrivacyPage() {
             <h2 className="text-[length:var(--fs-h2)] font-bold text-foreground mt-6 mb-2">كيف نستخدم بياناتك</h2>
             <p>نستخدم البيانات التي نجمعها للأغراض التالية:</p>
             <ul className="list-disc ms-5 mt-2 space-y-1">
-              <li>تقديم الخدمات وتحسينها (المنيو الرقمي، البوت الذكي)</li>
+              {/* r138 (إكمال صدق الأسطول): الخدمات الثلاث — كان
+                  القوسان يعدّان خدمتين. */}
+              <li>تقديم الخدمات وتحسينها (المنيو الرقمي، البوت الذكي، متجر الطلبات)</li>
               <li>التواصل معك بخصوص حسابك وطلباتك</li>
               <li>الدعم الفني وخدمة العملاء</li>
               <li>تحسين أداء المنصة وتجربة المستخدم</li>

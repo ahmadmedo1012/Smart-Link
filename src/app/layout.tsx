@@ -28,8 +28,11 @@ export const metadata: Metadata = {
   },
   description:
     /* r13 (content audit P3): trimmed «خطوة بخطوة» — the description sat
-       at 169 chars, past the 140–160 sweet spot; this lands at 157. */
-    "SmartLink منصة رقمية ليبية متكاملة تقدم حلولاً ذكية للأعمال: المنيو الرقمي التفاعلي للمطاعم، والبوت الذكي لردود فيسبوك الآلية — ابدأ مجاناً اليوم وطور أعمالك.",
+       at 169 chars, past the 140–160 sweet spot; landed at 157.
+       r138 (إكمال صدق الأسطول — موجة r137 الفائتة): الوصف الجذري كان
+       يعدّ منتجين بينما المنصة تسوّق ثلاثة — أُدرج متجر الطلبات
+       الرقمي وبقيت داخل نافذة 140-160 (155). */
+    "SmartLink منصة رقمية ليبية متكاملة: المنيو الرقمي التفاعلي للمطاعم، والبوت الذكي لردود فيسبوك الآلية، ومتجر الطلبات الرقمي — ابدأ مجاناً اليوم وطور أعمالك.",
   keywords: ["SmartLink", "منصة رقمية", "الربط الذكي", "منيو رقمي", "بوت فيسبوك", "تسويق إلكتروني"],
   metadataBase: new URL(SITE.url),
   /* r7: home was the ONLY route without a canonical link — the five
@@ -39,7 +42,9 @@ export const metadata: Metadata = {
   alternates: { canonical: "/" },
   openGraph: {
     title: "SmartLink — منصة رقمية متكاملة للأعمال في ليبيا",
-    description: "حلول ذكية للأعمال في ليبيا: المنيو الرقمي التفاعلي، والبوت الذكي لفيسبوك — ابدأ مجاناً اليوم.",
+    /* r138 (إكمال صدق الأسطول): الثلاثة منتجات في وصف الـOG — كان
+       منتجين فقط (الجذر وصف الرئيسية في SERP والبطاقات). */
+    description: "حلول ذكية للأعمال في ليبيا: المنيو الرقمي التفاعلي، والبوت الذكي لفيسبوك، ومتجر الطلبات الرقمي — ابدأ مجاناً اليوم.",
     url: "/",
     siteName: "SmartLink",
     /* r9 (SEO audit P3-7): ar_LY is not a value Facebook recognizes
@@ -51,7 +56,8 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "SmartLink — منصة رقمية متكاملة للأعمال في ليبيا",
-    description: "حلول ذكية للأعمال في ليبيا: المنيو الرقمي التفاعلي، والبوت الذكي لفيسبوك — ابدأ مجاناً اليوم.",
+    /* r138 (إكمال صدق الأسطول): مطابقة وصف الـOG أعلاه. */
+    description: "حلول ذكية للأعمال في ليبيا: المنيو الرقمي التفاعلي، والبوت الذكي لفيسبوك، ومتجر الطلبات الرقمي — ابدأ مجاناً اليوم.",
     images: ["/og-smartlink.jpg"],
   },
   robots: { index: true, follow: true },

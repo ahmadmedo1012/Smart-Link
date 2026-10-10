@@ -12,16 +12,18 @@ introduces the family's products, tells the company story, and converts
 visitors into leads. Smart-Link itself ships no dashboard; the products
 live on their own subdomains and the umbrella routes to them.
 
-**Live URL:** https://smart-link.ly · Products behind it:
-Smart Menu → https://menu.smart-link.ly (the digital menu for
-restaurants) and SmartBot → https://bot.smart-link.ly (the Facebook-page
-automation bot).
+**Live URL:** https://smart-link.ly · Products behind it: Smart Menu →
+https://menu.smart-link.ly (the digital menu for restaurants), SmartBot →
+https://bot.smart-link.ly (the Facebook-page automation bot), and Smart
+Order → https://order.smart-link.ly (the digital storefront with orders,
+delivery and local payments — a first-class product since r137).
 
 ## Audience
 
 - **Primary:** Libyan (and Arabic-market) small-business owners deciding
-  to digitalize — restaurant/café owners (Smart Menu) and Facebook page
-  owners (SmartBot). Arabic-first, phone-first, often on mid-range
+  to digitalize — restaurant/café owners (Smart Menu), Facebook page
+  owners (SmartBot), and storefront businesses selling with delivery
+  (Smart Order). Arabic-first, phone-first, often on mid-range
   Android devices over variable networks.
 - **Secondary:** anyone evaluating the company (partners, press) via the
   about/pricing/legal pages.
@@ -32,7 +34,7 @@ automation bot).
 |---|---|
 | `/` | The Orbit-Ink landing — hero, products constellation, journey, progress stats, platforms, roles, FAQ, finale CTA |
 | `/about` | Company story, values, founder (أحمد خيري), the 500+ active-clients stat |
-| `/pricing` | The two free plans (Smart Menu / SmartBot) + coming-soon paid tiers + FAQ |
+| `/pricing` | The three free plans (Smart Menu / SmartBot / Smart Order) + coming-soon paid tiers (Smart Order's paid tiers live on its own platform) + FAQ |
 | `/contact` | Contact cards + the lead-gen form (the site's one form) |
 | `/privacy` · `/terms` | Legal (تواصل معنا contact sections) |
 | `/offline` | SW-served offline page for the installed PWA |
@@ -43,8 +45,9 @@ automation bot).
 
 1. **Product signup:** hero/header/drawer/finale/pricing CTAs
    («ابدأ مجاناً», «ابدأ الآن», «ابدأ التجربة») → external links to
-   menu.smart-link.ly / bot.smart-link.ly (`target=_blank`,
-   `rel="noopener noreferrer"`, announced as «رابط خارجي»).
+   menu.smart-link.ly / bot.smart-link.ly / order.smart-link.ly
+   (`target=_blank`, `rel="noopener noreferrer"`, announced as
+   «رابط خارجي»).
 2. **Contact form:** «تواصل معنا» → `/contact` → validated Arabic form →
    `/api/contact` → owner notification + auto-confirmation email.
 3. **WhatsApp direct:** every WhatsApp CTA deep-links
@@ -62,12 +65,14 @@ Support identity: WhatsApp 24/7 (display `+218 91 008 9975`, one format,
 - Arabic RTL-first; فصحى copy; Western digits; no dialect.
 - Honest claims only — the stats on /about and the landing are the real
   numbers (no invented figures or testimonials).
-- The two product subdomains are the family's — links stay external and
+- The three product subdomains are the family's — links stay external and
   never iframed/mirrored.
 - The lead path must never fail silently: server errors surface loudly
   (fail-loud 503/502) with WhatsApp/email fallbacks in the error box.
-- Free-tier positioning: both products start free, no credit card (the
-  paid tiers are coming-soon and must never be claimed as live).
+- Free-tier positioning: all three products start free, no credit card
+  (the Smart Menu/SmartBot paid tiers are coming-soon and must never be
+  claimed as live; Smart Order's own paid tiers are live on its platform,
+  never priced here).
 
 ## Voice
 
@@ -77,7 +82,7 @@ corporate. The landing speaks in short chapter arcs («كلُّ عملٍ يبد�
 
 ## Evidence
 
-- Parity snapshot `tests/parity.mjs` (520 assertions) pins the design
+- Parity snapshot `tests/parity.mjs` (537 assertions) pins the design
   system; e2e suite (Playwright, Arabic specs) covers conversion CTAs,
   the contact contract, SEO/OG shape, a11y, RTL, PWA/offline and
   adversarial journeys. Lighthouse r14 history: avg 93.5, best LCP 1.67s.

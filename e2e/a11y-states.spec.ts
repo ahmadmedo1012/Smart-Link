@@ -30,7 +30,14 @@ test.describe("r10 — axe على الحالات التفاعلية (كان أع
   })
 
   test("نموذج التواصل مع أخطاء الحقول الظاهرة → صفر انتهاكات", async ({ page }) => {
+    /* r138 (استقرار الجناح تحت الحمل): البقية في هذا الملف تنتظر
+       hydrationGate قبل التفاعل — هذا الاختبار وحده كان ينقر زر
+       الإرسال فور domcontentloaded فيسبق الترطيب أحيانًا (نقرة بلا
+       مستمع onSubmit = لا أخطاء حقول) وينقلب أحمر عشوائيًا تحت
+       حمل المعالج المشترك؛ البوابة تلاقي نمط إخوته بلا أي تخفيف
+       للتوكيدات. */
     await page.goto("/contact", { waitUntil: "domcontentloaded" })
+    await hydrationGate(page)
     // إرسال فارغ → أخطاء عربية لكل حقل (aria-invalid + role=alert)
     await page.getByRole("button", { name: /إرسال الرسالة/ }).click()
     await expect(page.locator("#name-error")).toBeVisible()

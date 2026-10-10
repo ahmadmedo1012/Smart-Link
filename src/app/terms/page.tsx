@@ -16,10 +16,12 @@ import { SiteChrome } from "@/components/site-chrome"
    72ch reading measure (was max-w-3xl 768px ≈ 100+ ch/line). */
 
 export const metadata = pageMetadata({
-  /* r10 (SEO audit P2): expanded toward the SERP window. */
+  /* r10 (SEO audit P2): expanded toward the SERP window.
+     r138 (إكمال صدق الأسطول — موجة r137 الفائتة): الخدمات الثلاث
+     في الوصف — كان يعدّ خدمتين. */
   title: "شروط الاستخدام وأحكام التعاقد",
   description:
-    "شروط استخدام منصة SmartLink وخدماتها Smart Menu وSmartBot: الحقوق والالتزامات، أحكام التعاقد الرقمي، الملكية الفكرية، وحدود المسؤولية — بالتفصيل وبوضوح كامل.",
+    "شروط استخدام منصة SmartLink وخدماتها Smart Menu وSmartBot وSmart Order: الحقوق والالتزامات، أحكام التعاقد الرقمي، الملكية الفكرية، وحدود المسؤولية — بالتفصيل وبوضوح كامل.",
   canonical: "/terms",
 })
 
@@ -48,7 +50,9 @@ export default function TermsPage() {
         <div
           className="space-y-6 text-muted-foreground"
         >
-          <p className="text-sm">آخر تحديث: سبتمبر 2026</p>
+          {/* r138: حُدِّث التاريخ — تعداد الخدمات أعلاه تغيّر نصاً (أُضيف
+              Smart Order)، وتاريخ آخر تحديث يجب أن يتبع النص لا يتقدمه. */}
+          <p className="text-sm">آخر تحديث: أكتوبر 2026</p>
 
           <section>
             <h2 className="text-[length:var(--fs-h2)] font-bold text-foreground mt-6 mb-2">القبول بالشروط</h2>
@@ -61,6 +65,10 @@ export default function TermsPage() {
             <ul className="list-disc ms-5 mt-2 space-y-1">
               <li><strong>Smart Menu:</strong> خدمة المنيو الرقمي للمطاعم والمقاهي تتيح إنشاء قائمة طعام رقمية تفاعلية مع إمكانية استقبال الطلبات عبر واتساب.</li>
               <li><strong>SmartBot:</strong> خدمة البوت الذكي لصفحات فيسبوك تتيح الردود التلقائية الذكية وإدارة المحادثات.</li>
+              {/* r138 (إكمال صدق الأسطول — موجة r137 الفائتة): قائمة
+                  الخدمات القانونية كانت تعدّ خدمتين بينما المنصة
+                  تسوّق ثلاثاً — Smart Order حيّ على order.smart-link.ly. */}
+              <li><strong>Smart Order:</strong> خدمة متجر الطلبات الرقمي للأعمال تتيح إنشاء متجر إلكتروني مع إدارة الطلبات والتوصيل وطرق دفع محلية.</li>
             </ul>
           </section>
 

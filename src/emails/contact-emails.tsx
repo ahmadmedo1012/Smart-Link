@@ -85,16 +85,24 @@ export function ContactNotificationEmail({ name, email, subject, message, phone 
             {fieldRow("الرسالة", message)}
             {/* r137 (ليبي أولاً): الهاتف في جسم البريد عندما يُرسل — رابط
                 wa.me مباشر (المفهوم «واتساب أولاً»: نفس درس Smart-Menu r136
-                الذي جعل إيصالات المالك قابلة للاتصال). */}
+                الذي جعل إيصالات المالك قابلة للاتصال).
+                r138 (عقد الأسطولة الموحّد): العقد يقبل الأرضي 0[1-9] الآن،
+                وwa.me محمول فقط — فالرابط يُبنى للمحمول (09) حصرًا والأرضي
+                يُعرض نصًا خامًا قابلًا للاتصال، لا رابطًا ميتًا (درس
+                Smart-Menu r103-F8). */}
             {phone && (
               <Section style={{ marginBottom: "18px" }}>
                 <Text style={{ margin: 0, color: MUTED, fontSize: "12px", fontWeight: 700 }}>
                   رقم الهاتف (واتساب)
                 </Text>
                 <Text style={{ margin: "4px 0 0", fontSize: "15px", lineHeight: "1.7" }}>
-                  <Link href={toWaMeHref(phone)} style={{ color: BRAND_TEXT }}>
-                    {phone}
-                  </Link>
+                  {phone.startsWith("09") ? (
+                    <Link href={toWaMeHref(phone)} style={{ color: BRAND_TEXT }}>
+                      {phone}
+                    </Link>
+                  ) : (
+                    phone
+                  )}
                 </Text>
               </Section>
             )}

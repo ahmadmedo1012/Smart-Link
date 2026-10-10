@@ -16,8 +16,8 @@
 
 **SmartLink is the digital umbrella for businesses in Libya** — the agency site and the ecosystem's front door in one:
 
-- **The agency site**: introduces the services and showcases the ecosystem's current products — [Smart Menu](https://menu.smart-link.ly) (digital menu & WhatsApp ordering) and [SmartBot](https://bot.smart-link.ly) (Messenger bot & automation for Facebook pages) — through a full landing journey from headline to final call-to-action.
-- **The ecosystem's home**: the official starting point of the wider Smart family (Smart Order, Madarek) — see the [family footer](#-part-of-the-madarek-ecosystem--جزء-من-منظومة-مدارك) at the bottom of this page.
+- **The agency site**: introduces the services and showcases the ecosystem's current products — [Smart Menu](https://menu.smart-link.ly) (digital menu & WhatsApp ordering), [SmartBot](https://bot.smart-link.ly) (Messenger bot & automation for Facebook pages), and [Smart Order](https://order.smart-link.ly) (digital storefront, orders, delivery & local payments) — through a full landing journey from headline to final call-to-action.
+- **The ecosystem's home**: the official starting point of the wider Smart family (Madarek) — see the [family footer](#-part-of-the-madarek-ecosystem--جزء-من-منظومة-مدارك) at the bottom of this page.
 - **The conversion channel**: clear pricing plans, an FAQ, and a contact form that actually delivers — with 24/7 WhatsApp support.
 
 The site is Arabic-first (fully RTL), ships a dark/light theme, and is built to be fast and accessible from the first request.
@@ -32,8 +32,8 @@ The site is Arabic-first (fully RTL), ships a dark/light theme, and is built to 
 
 ### Pricing plans
 
-- Two plan cards — **Smart Menu** and **SmartBot** — on the free basic tier, each with its feature list, tabular-numeral prices, and direct start links.
-- A “paid plans coming soon” badge for the upcoming upgrade path.
+- Three plan cards — **Smart Menu**, **SmartBot** and **Smart Order** — on the free basic tier, each with its feature list, tabular-numeral prices, and direct start links.
+- A “paid plans coming soon” badge for the upcoming upgrade path (Smart Order's paid tiers are already live in LYD on its own platform).
 
 ### FAQ
 
@@ -55,9 +55,14 @@ The site is Arabic-first (fully RTL), ships a dark/light theme, and is built to 
 
 ## Screenshots
 
-![Pricing page — the Smart Menu and SmartBot cards on the free basic plan](docs/screenshots/pricing-plans.png)
+<!-- r138 (fleet truth): the shots below pre-date r137 (before Smart Order
+     became a first-class product) — the two pricing shots were re-captured
+     on the r138 build; the hero shot is still r130's (its only change is
+     the eyebrow line). -->
 
-*The pricing page: both product cards with per-plan features and a direct start button.*
+![Pricing page — the Smart Menu, SmartBot and Smart Order cards on the free basic plan](docs/screenshots/pricing-plans.png)
+
+*The pricing page: the three product cards with per-plan features and direct start buttons.*
 
 ![The pricing-page FAQ — an accordion with one question expanded](docs/screenshots/pricing-faq.png)
 

@@ -23,10 +23,12 @@ import { breadcrumbJsonLd } from "@/lib/schema"
 
 export const metadata = pageMetadata({
   /* r10 (SEO audit P2): titles/descriptions expanded toward the 40-55 /
-     140-160 char SERP windows — the previous set wasted half the space. */
+     140-160 char SERP windows — the previous set wasted half the space.
+     r138 (إكمال صدق الأسطول — موجة r137 الفائتة): المنتجات الثلاثة
+     في الوصف — كان يعدّ منتجين. */
   title: "عن SmartLink — منصة ليبية متكاملة",
   description:
-    "تعرّف على قصة SmartLink — منصة رقمية ليبية متكاملة أسسها أحمد خيري لتقديم حلول ذكية للأعمال: المنيو الرقمي التفاعلي للمطاعم وأتمتة الردود على صفحات فيسبوك بذكاء.",
+    "تعرّف على قصة SmartLink — منصة رقمية ليبية متكاملة أسسها أحمد خيري لتقديم حلول ذكية للأعمال: المنيو الرقمي التفاعلي للمطاعم، وبوت فيسبوك الذكي، ومتجر الطلبات الرقمي.",
   canonical: "/about",
   ogDescription: "منصة رقمية ليبية متكاملة — حلول ذكية للأعمال في العالم العربي",
 })

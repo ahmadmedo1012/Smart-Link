@@ -1,16 +1,13 @@
 import { MessageCircle, Bot, QrCode, Link2 } from "lucide-react"
 import { RevealCssClass } from "@/hooks/useReveal"
 
-/* r129 — Chapter (unnumbered) «المنصّات»: the ground plate (campus→
- * platforms per PORT-KIT §6). r129 ruling: the canonical campus chapter
- * carries NO ln-label, so this one doesn't either — the sequence stays
- * 01 الاكتشاف · 02 الربط · 03 التقدّم · (platforms unlabelled) ·
- * 04 المجتمع · 05 الوصول (+ 06 الأسئلة). Smart-Link's ground is not a
- * campus photo (no new image binaries; the flat grammar needs none) —
- * it is the channel world the products live on. Flat ink-2 band,
- * hairline cells, tone-coded wells. Every cell traces to shipped copy:
- * WhatsApp orders + 24/7 support, the Facebook bot, the custom QR, and
- * the one-link-everywhere concept. */
+/* r142 «الكوكبة الحية» — the GROUND CONTROL console (platforms chapter).
+ * The old 4-card grid becomes a mission-control console: a full-width
+ * framed panel with a mono status strip and hairline-divided cells —
+ * the channel world the products live on. Every cell still traces to
+ * shipped copy (WhatsApp orders + 24/7 support, the Facebook bot, the
+ * custom QR, the one-link concept). The chapter stays UNLABELLED
+ * (canonical ruling — the sequence keeps its breathing hole here). */
 
 const PLATFORMS = [
   {
@@ -39,9 +36,6 @@ export function PlatformsSection() {
   return (
     <section id="platforms" className="ln-chapter ln-platforms">
       <div className="ln-chapter-head">
-        {/* r129: NO ln-label — the canonical campus chapter is unlabelled
-            (ruling: adopt canonical). Title + lede stay: the channel
-            cells need their headline. */}
         <RevealCssClass as="h2" className="ln-chapter-title" delay={1}>
           أينما كان <em>جمهورك</em>
         </RevealCssClass>
@@ -52,17 +46,25 @@ export function PlatformsSection() {
       </div>
 
       <RevealCssClass as="div" delay={2}>
-        <div className="ln-platforms-grid">
-          {PLATFORMS.map((p) => (
-            <article key={p.name} className="ln-platform-cell">
-              <span className={`ln-platform-ico ${p.tone}`} aria-hidden="true">
-                <p.icon size={26} strokeWidth={1.7} />
-              </span>
-              <h3 className="ln-platform-name">{p.name}</h3>
-              <p className="ln-platform-desc">{p.desc}</p>
-              <span className="ln-platform-tag ln-mono">{p.tag}</span>
-            </article>
-          ))}
+        <div className="ln-ground">
+          {/* the console status strip (decorative chrome) */}
+          <div className="ln-ground-status" aria-hidden="true">
+            <span className="ln-mono">GROUND CONTROL · القنوات الأرضية</span>
+            <span className="ln-ground-tag ln-mono">NO APP · NO SIGNUP</span>
+          </div>
+
+          <div className="ln-ground-grid">
+            {PLATFORMS.map((p) => (
+              <article key={p.name} className="ln-ground-cell">
+                <span className={`ln-platform-ico ${p.tone}`} aria-hidden="true">
+                  <p.icon size={26} strokeWidth={1.7} />
+                </span>
+                <h3 className="ln-ground-name">{p.name}</h3>
+                <p className="ln-ground-desc">{p.desc}</p>
+                <span className="ln-ground-cell-tag ln-mono">{p.tag}</span>
+              </article>
+            ))}
+          </div>
         </div>
       </RevealCssClass>
     </section>

@@ -29,3 +29,14 @@ r132 disposition:
 
 `og-smartlink.jpg` (repo root) is untouched — it is the live OG/Twitter
 + JSON-LD card (JPEG stays JPEG for crawler compatibility).
+
+## r142 disposition (الكوكبة الحية — the radical redesign)
+
+The four r141 ecosystem binaries (`ecosystem.{webp,png}` +
+`family.{webp,png}`) rode exactly two consumers: the old
+ProductsSection nebula and the old FinaleCta crest. The r142 rebuild
+replaced both surfaces (the hero is the LIVING CANVAS constellation;
+the finale is type-led), leaving the four files with zero `src/`
+consumers — deleted per the repo's zero-dead-assets doctrine. The
+hero's depth is drawn by the canvas engine from landing.css tokens; no
+image binaries are needed anywhere on the route.

@@ -23,7 +23,11 @@ import { SITE } from "@/lib/site"
      drawer like the canonical header).
    The product MainNav keeps serving every non-landing surface. */
 
-const SPY_SECTIONS = "#trust, #products, #journey, #progress, #platforms, #roles"
+/* r142 «الكوكبة الحية»: the spy anchors follow the new chapter map —
+   products / journey / progress (القيادة) / platforms. The old #trust
+   band merged into the cockpit (#progress) and the roles ledger folded
+   into the worlds chapter (#products). */
+const SPY_SECTIONS = "#products, #journey, #progress, #platforms"
 
 export function LandingHeader() {
   const [menuOpen, setMenuOpen] = useState(false)
@@ -175,7 +179,7 @@ export function LandingHeader() {
                 <a href="#progress" className="landing-megamenu-item">
                   <span className="ln-menu-ico mist" aria-hidden="true"><BarChart3 size={20} /></span>
                   <span className="landing-megamenu-item-body">
-                    <span className="landing-megamenu-item-title">قصة التقدّم</span>
+                    <span className="landing-megamenu-item-title">قراءة القيادة</span>
                     <span className="landing-megamenu-item-desc">أرقام المنصّة الحقيقية</span>
                   </span>
                 </a>
@@ -188,9 +192,9 @@ export function LandingHeader() {
                 </a>
               </div>
             </div>
-            <a href="#products" className="landing-nav-link">المنتجات</a>
+            <a href="#products" className="landing-nav-link">العوالم</a>
             <a href="#journey" className="landing-nav-link">الرحلة</a>
-            <a href="#progress" className="landing-nav-link">النتائج</a>
+            <a href="#progress" className="landing-nav-link">القيادة</a>
           </nav>
 
           <div className="landing-header-cta">
@@ -237,11 +241,10 @@ export function LandingHeader() {
               }
             }}
           >
-            <a href="#products" className="ln-btn-ghost">المنتجات</a>
+            <a href="#products" className="ln-btn-ghost">العوالم</a>
             <a href="#journey" className="ln-btn-ghost">رحلة الربط</a>
-            <a href="#progress" className="ln-btn-ghost">النتائج</a>
+            <a href="#progress" className="ln-btn-ghost">القيادة</a>
             <a href="#platforms" className="ln-btn-ghost">المنصّات</a>
-            <a href="#roles" className="ln-btn-ghost">الأدوار</a>
             <Link href="/contact" className="ln-btn-ghost">تواصل معنا</Link>
             <a
               href={SITE.products.menu.url}

@@ -2005,3 +2005,900 @@ body > a[href="#main-content"] { display: none; }
 @media (prefers-reduced-motion: reduce) {
   .landing .ln-cta-family { animation: none; }
 }
+
+/* ════════════════════════════════════════════════════════════════════
+   r142 «الكوكبة الحية» — the rebuilt chapter families.
+   Everything below is token-only (no raw hex outside the token block),
+   logical-property RTL, and every animation carries its reduced-motion
+   off-switch. Families: world tokens → eco dock/chips/card/tip →
+   worlds chapter → mock frames → journey beam → cockpit → ground →
+   marquee broadcast tag → finale line → mobile → reduced motion.
+   ════════════════════════════════════════════════════════════════════ */
+
+/* ── 14a · world tokens — the three product hues, AA on ink ────────── */
+.landing {
+  --ln-ember:       #F2A25C;  /* Smart Menu world — 6.83:1 on --ln-ink */
+  --ln-ember-deep:  #D9834A;  /* ember edges — decorative only */
+  --ln-cyan:        #7CD5E8;  /* SmartBot world — 8.48:1 on --ln-ink */
+  --ln-cyan-deep:   #4FA8C0;  /* cyan edges — decorative only */
+  --ln-glass:       rgba(28, 32, 50, 0.66);
+  --ln-glass-strong: rgba(28, 32, 50, 0.85);
+}
+
+/* ── 14b · the constellation dock — tappable worlds + glass card ───── */
+.landing .ln-eco-dock {
+  position: relative;
+  z-index: 3;
+  margin-block-start: var(--sp-6);
+  display: grid;
+  justify-items: start;
+  gap: var(--sp-3);
+}
+.landing .ln-eco-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+}
+.landing .ln-eco-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 14px 9px 16px;
+  border-radius: var(--ln-radius-pill);
+  border: 1px solid var(--ln-line);
+  background: var(--ln-glass);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  color: var(--ln-cream);
+  cursor: pointer;
+  transition: border-color var(--ln-t-base) var(--ln-ease),
+              background var(--ln-t-base) var(--ln-ease),
+              transform var(--ln-t-base) var(--ln-ease);
+}
+.landing .ln-eco-chip:hover,
+.landing .ln-eco-chip.is-hot {
+  border-color: color-mix(in srgb, var(--ln-world) 55%, transparent);
+  transform: translateY(-1px);
+}
+.landing .ln-eco-chip.is-open {
+  background: color-mix(in srgb, var(--ln-world) 12%, var(--ln-glass));
+  border-color: var(--ln-world);
+}
+.landing .ln-eco-chip:focus-visible {
+  outline: 2px solid var(--ln-world);
+  outline-offset: 3px;
+}
+.landing .ln-eco-chip-dot {
+  inline-size: 9px;
+  block-size: 9px;
+  border-radius: var(--ln-radius-pill);
+  background: var(--ln-world);
+  box-shadow: 0 0 10px color-mix(in srgb, var(--ln-world) 60%, transparent);
+  flex-shrink: 0;
+}
+.landing .ln-eco-chip-body {
+  display: grid;
+  line-height: 1.25;
+  text-align: start;
+}
+.landing .ln-eco-chip-name {
+  font-size: 0.92rem;
+  font-weight: var(--fw-semibold);
+}
+.landing .ln-eco-chip-host {
+  font-size: 0.66rem;
+  color: var(--ln-cream-dim);
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+.landing .ln-eco-card {
+  max-inline-size: 540px;
+  padding: var(--sp-5);
+  border-radius: 18px;
+  border: 1px solid color-mix(in srgb, var(--ln-world) 38%, var(--ln-line));
+  background: var(--ln-glass-strong);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 24px 60px rgba(7, 11, 22, 0.45);
+  animation: ln-eco-card-in 280ms var(--ln-ease-out);
+}
+@keyframes ln-eco-card-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: none; }
+}
+.landing .ln-eco-card:focus-visible {
+  outline: 2px solid var(--ln-world);
+  outline-offset: 3px;
+}
+.landing .ln-eco-card-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-block-end: var(--sp-3);
+}
+.landing .ln-eco-card-dot {
+  inline-size: 10px;
+  block-size: 10px;
+  border-radius: var(--ln-radius-pill);
+  background: var(--ln-world);
+  box-shadow: 0 0 12px color-mix(in srgb, var(--ln-world) 65%, transparent);
+  flex-shrink: 0;
+}
+.landing .ln-eco-card-id {
+  display: grid;
+  line-height: 1.3;
+  margin-inline-end: auto;
+}
+.landing .ln-eco-card-id b {
+  font-size: 1.05rem;
+  font-weight: var(--fw-semibold);
+}
+.landing .ln-eco-card-id i {
+  font-style: normal;
+  font-size: 0.8rem;
+  color: var(--ln-cream-dim);
+}
+.landing .ln-eco-card-close {
+  display: grid;
+  place-items: center;
+  inline-size: 30px;
+  block-size: 30px;
+  border-radius: 9px;
+  border: 1px solid var(--ln-line);
+  background: transparent;
+  color: var(--ln-cream-dim);
+  cursor: pointer;
+  transition: color var(--ln-t-fast) var(--ln-ease),
+              border-color var(--ln-t-fast) var(--ln-ease);
+}
+.landing .ln-eco-card-close:hover {
+  color: var(--ln-cream);
+  border-color: var(--ln-world);
+}
+.landing .ln-eco-card-close:focus-visible {
+  outline: 2px solid var(--ln-world);
+  outline-offset: 2px;
+}
+.landing .ln-eco-card-facts {
+  display: grid;
+  gap: var(--sp-2);
+}
+.landing .ln-eco-card-facts li {
+  display: flex;
+  gap: 10px;
+  font-size: 0.92rem;
+  line-height: 1.6;
+  color: var(--ln-cream);
+}
+.landing .ln-eco-card-mark {
+  flex-shrink: 0;
+  inline-size: 6px;
+  block-size: 6px;
+  margin-block-start: 8px;
+  background: var(--ln-world);
+  transform: rotate(45deg);
+}
+.landing .ln-eco-card-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-3);
+  margin-block-start: var(--sp-4);
+  padding-block-start: var(--sp-3);
+  border-block-start: 1px solid var(--ln-line-soft);
+}
+.landing .ln-eco-card-host {
+  font-size: 0.72rem;
+  color: var(--ln-cream-dim);
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+.landing .ln-eco-card-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: var(--ln-radius-pill);
+  background: var(--ln-world);
+  color: var(--ln-ink);
+  font-size: 0.85rem;
+  font-weight: var(--fw-semibold);
+  transition: transform var(--ln-t-fast) var(--ln-ease),
+              opacity var(--ln-t-fast) var(--ln-ease);
+}
+.landing .ln-eco-card-cta:hover {
+  transform: translateX(-2px); /* RTL forward = inline-start */
+  opacity: 0.92;
+}
+.landing .ln-eco-card-cta:focus-visible {
+  outline: 2px solid var(--ln-world);
+  outline-offset: 3px;
+}
+/* the canvas hover tip (positioned imperatively in canvas space) */
+.landing .ln-eco-tip {
+  position: absolute;
+  top: 0;
+  inset-inline-start: 0;
+  z-index: 2;
+  display: grid;
+  justify-items: center;
+  gap: 4px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity var(--ln-t-fast) var(--ln-ease);
+  will-change: transform;
+}
+.landing .ln-eco-tip.on { opacity: 1; }
+.landing .ln-eco-tip b {
+  font-family: var(--ln-mono);
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  padding: 4px 9px;
+  border-radius: 7px;
+  border: 1px solid var(--ln-line);
+  background: var(--ln-glass-strong);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  white-space: nowrap;
+}
+.landing .ln-eco-tip i {
+  inline-size: 7px;
+  block-size: 7px;
+  background: var(--ln-glass-strong);
+  border-inline-end: 1px solid var(--ln-line);
+  border-block-end: 1px solid var(--ln-line);
+  transform: rotate(45deg);
+  margin-block-start: -8px;
+}
+.landing .ln-hero-canvas.is-pointer { cursor: pointer; }
+
+/* ── 14c · العوالم — the three editorial world panels ──────────────── */
+.landing .ln-worlds-list {
+  display: grid;
+  gap: clamp(var(--sp-9), 9vw, 132px);
+  margin-block-start: clamp(var(--sp-8), 6vw, 72px);
+}
+.landing .ln-world {
+  position: relative;
+  display: grid;
+  align-items: center;
+  gap: clamp(var(--sp-6), 4vw, 56px);
+  grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+}
+.landing .ln-world--flip .ln-world-body { order: 2; }
+.landing .ln-world--flip .ln-world-stage { order: 1; }
+.landing .ln-world-num {
+  position: absolute;
+  inset-block-start: -0.52em;
+  inset-inline-end: -0.06em;
+  font-size: clamp(6rem, 16vw, 13rem);
+  font-weight: var(--fw-bold);
+  line-height: 1;
+  color: transparent;
+  -webkit-text-stroke: 1px color-mix(in srgb, var(--ln-world) 42%, transparent);
+  pointer-events: none;
+  user-select: none;
+  z-index: 0;
+}
+.landing .ln-world-body {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: var(--sp-3);
+  justify-items: start;
+}
+.landing .ln-world-host {
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  color: var(--ln-world);
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+.landing .ln-world-name {
+  font-size: clamp(2.1rem, 4.6vw, 3.4rem);
+  font-weight: var(--fw-bold);
+  line-height: 1.08;
+  direction: ltr;
+  unicode-bidi: isolate;
+  text-align: start;
+}
+.landing .ln-world-sub {
+  font-size: clamp(1.02rem, 1.6vw, 1.2rem);
+  color: var(--ln-cream);
+  line-height: 1.7;
+}
+.landing .ln-world-claims {
+  display: grid;
+  gap: var(--sp-2);
+  margin-block-start: var(--sp-2);
+}
+.landing .ln-world-claims li {
+  display: flex;
+  gap: 11px;
+  font-size: 0.95rem;
+  line-height: 1.65;
+  color: var(--ln-cream-dim);
+}
+.landing .ln-world-claim-dot {
+  flex-shrink: 0;
+  inline-size: 7px;
+  block-size: 7px;
+  margin-block-start: 9px;
+  border-radius: var(--ln-radius-pill);
+  background: var(--ln-world);
+  opacity: 0.85;
+}
+.landing .ln-world-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-block-start: var(--sp-3);
+  padding: 11px 20px;
+  border-radius: var(--ln-radius-pill);
+  border: 1px solid color-mix(in srgb, var(--ln-world) 55%, transparent);
+  color: var(--ln-world);
+  font-size: 0.95rem;
+  font-weight: var(--fw-semibold);
+  transition: background var(--ln-t-base) var(--ln-ease),
+              color var(--ln-t-base) var(--ln-ease),
+              transform var(--ln-t-base) var(--ln-ease);
+}
+.landing .ln-world-cta:hover {
+  background: var(--ln-world);
+  color: var(--ln-ink);
+  transform: translateX(-2px);
+}
+.landing .ln-world-cta:focus-visible {
+  outline: 2px solid var(--ln-world);
+  outline-offset: 3px;
+}
+/* the stage — each world renders its own pure-CSS product mock */
+.landing .ln-world-stage {
+  position: relative;
+  z-index: 1;
+}
+
+/* ── 14d · mock frames — the per-world CSS product skeletons ───────── */
+.landing .ln-mock {
+  border-radius: 16px;
+  border: 1px solid var(--ln-line);
+  border-block-start-color: color-mix(in srgb, var(--ln-world) 45%, var(--ln-line));
+  background: var(--ln-glass);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 30px 70px rgba(7, 11, 22, 0.5);
+  overflow: hidden;
+  transform: perspective(1200px) rotateY(0deg);
+}
+.landing .ln-world--flip .ln-mock {
+  transform: perspective(1200px) rotateY(2.4deg);
+}
+.landing .ln-world:not(.ln-world--flip) .ln-mock {
+  transform: perspective(1200px) rotateY(-2.4deg);
+}
+.landing .ln-mock-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  border-block-end: 1px solid var(--ln-line-soft);
+  background: rgba(7, 11, 22, 0.35);
+}
+.landing .ln-mock-dots {
+  display: inline-flex;
+  gap: 5px;
+}
+.landing .ln-mock-dots i {
+  inline-size: 8px;
+  block-size: 8px;
+  border-radius: var(--ln-radius-pill);
+  background: var(--ln-line);
+}
+.landing .ln-mock-host {
+  font-size: 0.68rem;
+  color: var(--ln-cream-dim);
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+.landing .ln-mock-body {
+  display: grid;
+  gap: var(--sp-3);
+  padding: var(--sp-4);
+}
+.landing .ln-mock-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+}
+.landing .ln-mock-chip {
+  padding: 5px 11px;
+  border-radius: var(--ln-radius-pill);
+  border: 1px solid var(--ln-line);
+  font-size: 0.72rem;
+  color: var(--ln-cream-dim);
+}
+.landing .ln-mock-chip.is-active {
+  border-color: color-mix(in srgb, var(--ln-world) 60%, transparent);
+  color: var(--ln-world);
+}
+.landing .ln-mock-rows {
+  display: grid;
+  gap: var(--sp-2);
+}
+.landing .ln-mock-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 9px 11px;
+  border-radius: 11px;
+  border: 1px solid var(--ln-line-soft);
+  background: rgba(7, 11, 22, 0.28);
+}
+.landing .ln-mock-thumb {
+  flex-shrink: 0;
+  inline-size: 38px;
+  block-size: 38px;
+  border-radius: 9px;
+  background: linear-gradient(135deg, color-mix(in srgb, var(--ln-world) 30%, transparent), var(--ln-line-soft));
+}
+.landing .ln-mock-lines {
+  flex: 1;
+  display: grid;
+  gap: 6px;
+}
+.landing .ln-mock-lines i,
+.landing .ln-mock-line {
+  display: block;
+  block-size: 7px;
+  border-radius: var(--ln-radius-pill);
+  background: var(--ln-line);
+}
+.landing .ln-mock-lines i:first-child { background: color-mix(in srgb, var(--ln-cream) 26%, transparent); }
+.landing .ln-mock-price {
+  flex-shrink: 0;
+  inline-size: 34px;
+  block-size: 9px;
+  border-radius: var(--ln-radius-pill);
+  background: color-mix(in srgb, var(--ln-world) 55%, transparent);
+}
+.landing .ln-mock-chat {
+  display: grid;
+  gap: var(--sp-2);
+}
+.landing .ln-mock-bubble {
+  display: grid;
+  gap: 6px;
+  max-inline-size: 82%;
+  padding: 10px 13px;
+  border-radius: 13px;
+}
+.landing .ln-mock-bubble.is-in {
+  justify-self: start;
+  border-start-start-radius: 4px;
+  border: 1px solid var(--ln-line);
+  background: rgba(7, 11, 22, 0.32);
+}
+.landing .ln-mock-bubble.is-out {
+  justify-self: end;
+  border-start-end-radius: 4px;
+  border: 1px solid color-mix(in srgb, var(--ln-world) 42%, transparent);
+  background: color-mix(in srgb, var(--ln-world) 10%, transparent);
+}
+.landing .ln-mock-intent,
+.landing .ln-mock-auto {
+  font-size: 0.6rem;
+  letter-spacing: 0.05em;
+  color: var(--ln-world);
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+.landing .ln-mock-typing {
+  display: inline-flex;
+  gap: 4px;
+  justify-self: start;
+  padding: 8px 11px;
+  border-radius: var(--ln-radius-pill);
+  border: 1px solid var(--ln-line-soft);
+}
+.landing .ln-mock-typing i {
+  inline-size: 5px;
+  block-size: 5px;
+  border-radius: var(--ln-radius-pill);
+  background: var(--ln-cream-dim);
+  animation: ln-mock-typing 1.2s var(--ln-ease-linear) infinite;
+}
+.landing .ln-mock-typing i:nth-child(2) { animation-delay: 0.15s; }
+.landing .ln-mock-typing i:nth-child(3) { animation-delay: 0.3s; }
+@keyframes ln-mock-typing {
+  0%, 60%, 100% { opacity: 0.35; transform: none; }
+  30% { opacity: 1; transform: translateY(-2px); }
+}
+.landing .ln-mock-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--sp-2);
+}
+.landing .ln-mock-tile {
+  display: grid;
+  gap: 6px;
+  padding: 8px;
+  border-radius: 11px;
+  border: 1px solid var(--ln-line-soft);
+  background: rgba(7, 11, 22, 0.28);
+}
+.landing .ln-mock-tile-art {
+  block-size: 44px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, color-mix(in srgb, var(--ln-world) 32%, transparent), var(--ln-line-soft));
+}
+.landing .ln-mock-tile-line {
+  block-size: 6px;
+  border-radius: var(--ln-radius-pill);
+  background: var(--ln-line);
+}
+.landing .ln-mock-ticket {
+  display: grid;
+  gap: 8px;
+  padding: var(--sp-3);
+  border-radius: 11px;
+  border: 1px dashed color-mix(in srgb, var(--ln-world) 50%, transparent);
+  background: color-mix(in srgb, var(--ln-world) 7%, transparent);
+}
+.landing .ln-mock-ticket-head {
+  font-size: 0.68rem;
+  letter-spacing: 0.04em;
+  color: var(--ln-world);
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+
+/* ── 14e · الرحلة — the winding beam (pure CSS, --sp-scrubbed) ─────── */
+.landing .ln-journey-stage {
+  position: relative;
+  max-inline-size: 880px;
+  margin-inline: auto;
+  padding-block: var(--sp-4);
+}
+.landing .ln-beam {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 50%;
+  inline-size: 2px;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+.landing .ln-beam-line {
+  position: absolute;
+  inset-block: 0;
+  inset-inline: 0;
+  background: repeating-linear-gradient(
+    to bottom,
+    var(--ln-line) 0 10px,
+    transparent 10px 22px
+  );
+}
+.landing .ln-beam-lit {
+  position: absolute;
+  inset-inline: 0;
+  inset-block-start: 0;
+  block-size: calc(var(--sp, 1) * 100%);
+  background: linear-gradient(to bottom, var(--ln-lime), color-mix(in srgb, var(--ln-lime) 30%, transparent));
+  opacity: 0.85;
+}
+.landing .ln-beam-head {
+  position: absolute;
+  inset-inline-start: 50%;
+  top: calc(var(--sp, 1) * 100%);
+  inline-size: 13px;
+  block-size: 13px;
+  border-radius: var(--ln-radius-pill);
+  transform: translate(-50%, -50%);
+  background: var(--ln-lime);
+  box-shadow: 0 0 16px color-mix(in srgb, var(--ln-lime) 70%, transparent),
+              0 0 40px color-mix(in srgb, var(--ln-lime) 30%, transparent);
+}
+/* the stations ride the OLD station family (kept) — spacing over the beam */
+.landing .ln-journey-stations {
+  position: relative;
+  display: grid;
+  gap: clamp(var(--sp-8), 7vw, 84px);
+}
+.landing .ln-journey .ln-station-node {
+  inset-inline-start: 50%;
+  transform: translateX(-50%);
+  inset-block-start: 34px;
+  background: var(--ln-ink);
+  border: 1px solid var(--ln-line);
+  z-index: 1;
+}
+.landing .ln-journey .ln-station-node-core {
+  inline-size: 5px;
+  block-size: 5px;
+  border-radius: var(--ln-radius-pill);
+  background: var(--ln-cream);
+}
+
+/* ── 14f · القيادة — the mono data cockpit ─────────────────────────── */
+.landing .ln-cockpit-panel {
+  max-inline-size: 980px;
+  margin-inline: auto;
+  border-radius: 20px;
+  border: 1px solid var(--ln-line);
+  background: var(--ln-glass);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  overflow: hidden;
+}
+.landing .ln-cockpit-status {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 18px;
+  border-block-end: 1px solid var(--ln-line-soft);
+  background: rgba(7, 11, 22, 0.35);
+  font-size: 0.68rem;
+  letter-spacing: 0.05em;
+  color: var(--ln-cream-dim);
+}
+.landing .ln-cockpit-live {
+  inline-size: 8px;
+  block-size: 8px;
+  border-radius: var(--ln-radius-pill);
+  background: var(--ln-lime);
+  box-shadow: 0 0 10px color-mix(in srgb, var(--ln-lime) 70%, transparent);
+  animation: ln-cockpit-pulse 2.2s var(--ln-ease) infinite;
+}
+@keyframes ln-cockpit-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
+}
+.landing .ln-cockpit-status-tag {
+  margin-inline-start: auto;
+  font-size: 0.64rem;
+  color: var(--ln-cream-dim);
+  opacity: 0.8;
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+.landing .ln-cockpit-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  align-items: center;
+  gap: clamp(var(--sp-6), 4vw, 48px);
+  padding: clamp(var(--sp-6), 4vw, 44px);
+}
+.landing .ln-cockpit-scope {
+  position: relative;
+  aspect-ratio: 1;
+  max-inline-size: 300px;
+  margin-inline: auto;
+  inline-size: 100%;
+  border-radius: 50%;
+  border: 1px solid var(--ln-line);
+  background:
+    radial-gradient(circle at center, transparent 58%, rgba(7, 11, 22, 0.35) 59%, transparent 60%),
+    radial-gradient(circle at center, transparent 34%, rgba(7, 11, 22, 0.3) 35%, transparent 36%),
+    rgba(7, 11, 22, 0.25);
+  overflow: hidden;
+}
+.landing .ln-cockpit-scope-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1px solid var(--ln-line-soft);
+}
+.landing .ln-cockpit-scope-ring.r1 { inset: 18%; }
+.landing .ln-cockpit-scope-sweep {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: conic-gradient(
+    from 0deg,
+    color-mix(in srgb, var(--ln-lime) calc(var(--sp, 1) * 40%), transparent) 0deg,
+    color-mix(in srgb, var(--ln-lime) calc(var(--sp, 1) * 22%), transparent) 46deg,
+    transparent 90deg
+  );
+}
+.landing .ln-cockpit-scope-core {
+  position: absolute;
+  inset: 41%;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--ln-lime) 75%, transparent);
+  box-shadow: 0 0 24px color-mix(in srgb, var(--ln-lime) 55%, transparent);
+}
+.landing .ln-cockpit-scope-label {
+  position: absolute;
+  inset-block-end: 9%;
+  inset-inline: 0;
+  display: grid;
+  justify-items: center;
+  font-size: 0.62rem;
+  letter-spacing: 0.05em;
+  color: var(--ln-cream-dim);
+}
+.landing .ln-cockpit-readout {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: clamp(var(--sp-4), 3vw, 28px);
+}
+.landing .ln-cockpit-readout .ln-stat {
+  display: grid;
+  gap: 3px;
+  padding: var(--sp-4);
+  border-radius: 13px;
+  border: 1px solid var(--ln-line-soft);
+  background: rgba(7, 11, 22, 0.28);
+}
+.landing .ln-stat-note {
+  font-size: 0.78rem;
+  line-height: 1.55;
+  color: var(--ln-cream-dim);
+}
+.landing .ln-cockpit-source {
+  padding: 12px 18px 14px;
+  border-block-start: 1px solid var(--ln-line-soft);
+  font-size: 0.78rem;
+  color: var(--ln-cream-dim);
+}
+
+/* ── 14g · المنصّات — the ground-control console ───────────────────── */
+.landing .ln-ground {
+  max-inline-size: 980px;
+  margin-inline: auto;
+  border-radius: 20px;
+  border: 1px solid var(--ln-line);
+  background: var(--ln-glass);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  overflow: hidden;
+}
+.landing .ln-ground-status {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 11px 18px;
+  border-block-end: 1px solid var(--ln-line-soft);
+  background: rgba(7, 11, 22, 0.35);
+  font-size: 0.68rem;
+  letter-spacing: 0.05em;
+  color: var(--ln-cream-dim);
+}
+.landing .ln-ground-tag {
+  font-size: 0.64rem;
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+.landing .ln-ground-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+.landing .ln-ground-cell {
+  display: grid;
+  align-content: start;
+  gap: 9px;
+  padding: clamp(var(--sp-5), 3vw, 30px);
+  border-inline-start: 1px solid var(--ln-line-soft);
+}
+.landing .ln-ground-cell:first-child { border-inline-start: 0; }
+.landing .ln-ground-name {
+  font-size: 1.05rem;
+  font-weight: var(--fw-semibold);
+}
+.landing .ln-ground-desc {
+  font-size: 0.85rem;
+  line-height: 1.65;
+  color: var(--ln-cream-dim);
+}
+.landing .ln-ground-cell-tag {
+  margin-block-start: auto;
+  padding-block-start: var(--sp-2);
+  font-size: 0.62rem;
+  letter-spacing: 0.06em;
+  color: var(--ln-lime);
+  opacity: 0.85;
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+
+/* ── 14h · شريط البث tag + finale line ─────────────────────────────── */
+.landing .ln-marquee-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  flex-shrink: 0;
+  align-self: stretch;
+  padding: 0 18px;
+  border-inline-end: 1px solid var(--ln-line);
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  color: var(--ln-cream-dim);
+  white-space: nowrap;
+}
+.landing .ln-marquee-live {
+  inline-size: 8px;
+  block-size: 8px;
+  border-radius: var(--ln-radius-pill);
+  background: var(--ln-lime);
+  box-shadow: 0 0 10px color-mix(in srgb, var(--ln-lime) 70%, transparent);
+  animation: ln-cockpit-pulse 2.2s var(--ln-ease) infinite;
+}
+.landing .ln-cta-line {
+  display: block;
+  font-size: clamp(2rem, 5.6vw, 4.2rem);
+  font-weight: var(--fw-bold);
+  line-height: 1.14;
+}
+.landing .ln-cta-line em {
+  font-style: normal;
+  color: var(--ln-lime);
+}
+
+/* ── 14i · mobile — the deliberate 320-390px compositions ──────────── */
+@media (max-width: 720px) {
+  .landing .ln-world,
+  .landing .ln-world--flip {
+    grid-template-columns: 1fr;
+    gap: var(--sp-5);
+  }
+  .landing .ln-world--flip .ln-world-body { order: 1; }
+  .landing .ln-world--flip .ln-world-stage { order: 2; }
+  .landing .ln-world-num {
+    inset-block-start: -0.6em;
+    inset-inline-end: 0;
+    font-size: clamp(4.2rem, 22vw, 6rem);
+    -webkit-text-stroke-width: 0.75px;
+  }
+  .landing .ln-world-name { font-size: clamp(1.9rem, 8.4vw, 2.4rem); }
+  .landing .ln-mock { transform: none; }
+  .landing .ln-world--flip .ln-mock,
+  .landing .ln-world:not(.ln-world--flip) .ln-mock { transform: none; }
+  .landing .ln-eco-chips { gap: var(--sp-2); }
+  .landing .ln-eco-chip { padding: 8px 12px; }
+  .landing .ln-eco-chip-name { font-size: 0.85rem; }
+  .landing .ln-eco-card { padding: var(--sp-4); }
+  .landing .ln-eco-card-foot {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .landing .ln-eco-card-cta { justify-content: center; }
+  .landing .ln-beam { inset-inline-start: 6px; transform: none; }
+  .landing .ln-journey .ln-station-node {
+    inset-inline-start: 6px;
+    transform: translateX(-50%);
+  }
+  .landing .ln-journey .ln-station-card { max-inline-size: none; }
+  .landing .ln-journey .ln-station.from-start .ln-station-card,
+  .landing .ln-journey .ln-station.from-end .ln-station-card {
+    margin-inline-start: 26px;
+    margin-inline-end: 0;
+  }
+  .landing .ln-cockpit-grid { grid-template-columns: 1fr; }
+  .landing .ln-cockpit-scope { max-inline-size: 210px; }
+  .landing .ln-cockpit-readout { grid-template-columns: 1fr 1fr; }
+  .landing .ln-ground-grid { grid-template-columns: 1fr; }
+  .landing .ln-ground-cell {
+    border-inline-start: 0;
+    border-block-start: 1px solid var(--ln-line-soft);
+  }
+  .landing .ln-ground-cell:first-child { border-block-start: 0; }
+  .landing .ln-marquee-tag { padding-inline: 12px; font-size: 0.62rem; }
+}
+@media (max-width: 420px) {
+  .landing .ln-cockpit-readout { grid-template-columns: 1fr; }
+  .landing .ln-eco-chip-host { display: none; }
+}
+
+/* ── 14j · reduced motion — every r142 animation gets its off-switch ─ */
+@media (prefers-reduced-motion: reduce) {
+  .landing .ln-eco-card { animation: none; }
+  .landing .ln-mock-typing i { animation: none; opacity: 0.6; }
+  .landing .ln-cockpit-live,
+  .landing .ln-marquee-live { animation: none; opacity: 0.85; }
+  .landing .ln-beam-lit { transition: none; }
+  .landing .ln-beam-head { transition: none; }
+  .landing .ln-eco-chip,
+  .landing .ln-eco-card-cta,
+  .landing .ln-world-cta { transition: none; }
+}

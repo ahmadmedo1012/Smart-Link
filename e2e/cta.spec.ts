@@ -9,9 +9,9 @@ test.describe("r10 — أزرار التحويل (hero)", () => {
   /* r133 (A7 §1 re-base): أزرار ال landing الحقيقية — «اكتشف المنتجات"
      (مرساة #products) و«عن SmartLink» في فوتر ال landing. أسماء ما قبل
      r128 لم تعد موجودة في الواجهة. */
-  test("«اكتشف المنتجات» → يمرّر فعلاً إلى قسم المنتجات", async ({ page }) => {
+  test("«اكتشف العوالم» → يمرّر فعلاً إلى قسم العوالم", async ({ page }) => {
     await page.goto("/", { waitUntil: "domcontentloaded" })
-    const cta = page.getByRole("link", { name: /اكتشف المنتجات/ })
+    const cta = page.getByRole("link", { name: /اكتشف العوالم/ })
     await expect(cta).toHaveAttribute("href", "#products")
     await cta.click()
     // scroll-padding يحرّ القسم تحت الترويسة الثابتة — تحقق أن القسم صار داخل الشاشة

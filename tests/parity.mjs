@@ -771,14 +771,15 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
     .replace(/\/\*[\s\S]*?\*\//g, ' ');
   const read = (p) => readFileSync(new URL(`../src/components/landing/${p}`, import.meta.url), 'utf8');
   const pageSrc = readFileSync(new URL('../src/app/page.tsx', import.meta.url), 'utf8');
-  const productsSrc = read('ProductsSection.tsx');
-  const rolesSrc = read('RolesSection.tsx');
-  const progressSrc = read('ProgressSection.tsx');
+  const productsSrc = read('WorldsSection.tsx');
+  const rolesSrc = read('WorldsSection.tsx');
+  const progressSrc = read('CockpitSection.tsx');
   const platformsSrc = read('PlatformsSection.tsx');
   const finaleSrc = read('FinaleCta.tsx');
   const faqSrc = read('LandingFaq.tsx');
   const footerSrc = read('LandingFooter.tsx');
-  const orbitSrc = read('OrbitScene.tsx');
+  const orbitSrc = read('EcosystemConstellation.tsx');
+  const worldsSrc = read('worlds.ts');
   const lrm129 = allTopLevelBlocks(lcss, '@media (prefers-reduced-motion: reduce)').join('\n');
 
   // A ── P4-18 label halo + the resting micro-depth family (P3-28..35).
@@ -917,42 +918,45 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
     'landing footer bottom cluster: 14px LibyaFlag glyph (P0-14)'
   );
 
-  // I ── the products constellation anatomy (P0-11 + P1-4, ruling CANONICAL).
+  // I ── r142 «الكوكبة الحية»: the worlds registry + the constellation
+  //     engine anatomy (the old products-constellation pins are retired
+  //     with ProductsSection; the new pins assert the SAME craft
+  //     discipline on the r142 architecture).
   check(
-    /DOT_SIZE/.test(productsSrc) && /inlineSize:\s*8/.test(productsSrc),
-    'products constellation dots: 8×8px canonical pins (not 13px)'
+    worldsSrc.includes('id: "menu"') && worldsSrc.includes('id: "order"') && pageSrc.includes('WorldsSection'),
+    'r142 worlds: the editorial worlds chapter is mounted (WorldsSection replaces products+roles)'
   );
   check(
-    !/rgba\(245,\s*243,\s*231,\s*0\.45\)/.test(productsSrc),
-    'products constellation idle dots ≥ canonical 0.65 alpha (P2-13)'
+    (worldsSrc.match(/token: "--ln-/g) || []).length === 3,
+    'r142 worlds: exactly THREE world hues — --ln-ember / --ln-cyan / --ln-lime (token names only, never literals)'
   );
   check(
-    productsSrc.includes('rgba(245,243,231,0.65)') && !/var\(--ln-lime\)"?,\s*$/.test(productsSrc.split('DOT_REST')[0]),
-    'products constellation: uniform cream 0.65 idle — no permanently-lime dots (one-pop lime roster)'
+    worldsSrc.includes('menu.smart-link.ly') && worldsSrc.includes('bot.smart-link.ly') && worldsSrc.includes('order.smart-link.ly'),
+    'r142 worlds: the three LIVE domains verbatim (the dock chips + preview card ride the same registry)'
   );
   check(
-    /RING_COUNT = 6/.test(productsSrc) && /RING_STEP = 36/.test(productsSrc) && /RING_BASE = 66/.test(productsSrc),
-    'products constellation: six concentric rings on the 36-unit module (66…246)'
+    (worldsSrc.match(/claims: \[/g) || []).length === 3,
+    'r142 worlds: each world carries exactly THREE real claims (no invented marketing filler)'
   );
   check(
-    /REST_CYCLE_MS = 4000/.test(productsSrc) && /is-resting/.test(productsSrc),
-    'products constellation: ~4s resting-life cycle (is-resting, RM-gated, IO-paused)'
+    !/[#][0-9a-fA-F]{3,8}\b/.test(orbitSrc),
+    'r142 engine: ZERO hex in the canvas — every hue resolves from landing.css tokens at boot (getComputedStyle)'
   );
   check(
-    /scale\(1\.45\)/.test(topLevelBlock(lcss, '.landing .ln-constellation-dot.is-resting')),
-    'landing .ln-constellation-dot.is-resting: scale 1.45 + flat ring (canonical)'
+    orbitSrc.includes('readToken') && orbitSrc.includes('--ln-ember') && orbitSrc.includes('--ln-cyan') && orbitSrc.includes('--ln-lime'),
+    'r142 engine: the token reader resolves the three world hues (the canvas and the DOM share one palette)'
   );
   check(
-    /ln-constellation-browse/.test(productsSrc) && /ln-constellation-cta/.test(productsSrc),
-    'products constellation: registry CTA strip + browse pill (canonical anatomy)'
+    /hoverK/.test(orbitSrc) && /selectK/.test(orbitSrc),
+    'r142 engine: eased hover/select glow per node (the living constellation responds, not a static chart)'
   );
   check(
-    /min-block-size:\s*46px/.test(topLevelBlock(lcss, '.landing .ln-constellation-browse')),
-    'landing .ln-constellation-browse: the canonical 46px ghost pill'
+    /role="dialog"/.test(orbitSrc) && /aria-modal=("false"|\{false\})/.test(orbitSrc) && /Escape/.test(orbitSrc),
+    'r142 dock: the preview card is a NON-modal dialog — Escape closes and focus returns (disclosure contract)'
   );
   check(
-    /role="status"/.test(productsSrc),
-    'products constellation tip: React-state role=status (canonical, anchored at the node)'
+    /aria-expanded=\{open\}/.test(orbitSrc) && /aria-controls="ln-eco-card"/.test(orbitSrc),
+    'r142 dock: every chip carries aria-expanded + aria-controls (the canvas scene stays decorative)'
   );
 
   // J ── marquee fill (P2-10): ≥15 items so one copy fills ≥2200px.
@@ -962,11 +966,13 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
     check(items >= 15, `landing marquee: ≥15 items so the ×2 track fills ≥2200px viewports (found ${items})`);
   }
 
-  // K ── chapter labels: canonical sequence (ruling-gated → CANONICAL).
-  check(rolesSrc.includes('04 — المجتمع'), "roles chapter label: '04 — المجتمع' (canonical sequence)");
-  check(finaleSrc.includes('05 — الوصول'), "finale CTA label: '05 — الوصول' (canonical sequence)");
+  // K ── chapter labels: the r142 canonical sequence (01 worlds → 02
+  //     journey → 03 cockpit → finale unnumbered-04 → faq 05; platforms
+  //     stays unlabelled).
+  check(productsSrc.includes('01 — العوالم'), "r142 chapter label: '01 — العوالم' (canonical sequence)");
+  check(finaleSrc.includes('04 — الوصول'), "r142 chapter label: '04 — الوصول' (canonical sequence)");
   check(!platformsSrc.includes('className="ln-label"'), 'platforms chapter carries NO ln-label (canonical campus is unlabelled)');
-  check(faqSrc.includes('06 — الأسئلة'), 'faq label follows the canonical sequence (06)');
+  check(faqSrc.includes('05 — الأسئلة'), 'r142 faq label follows the canonical sequence (05)');
 
   // L ── main landmark: focusable skip target (P0-28).
   check(
@@ -974,20 +980,19 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
     'landing main: id="main" + tabIndex -1 (focusable skip target)'
   );
 
-  // M ── the OrbitScene canvas port — palette triplets + engine constants.
-  check(orbitSrc.includes('245,243,231'), 'OrbitScene: cream triplet 245,243,231 hardcoded (canvas cannot read CSS vars)');
-  check(orbitSrc.includes('223,237,178'), 'OrbitScene: lime triplet 223,237,178 hardcoded');
-  check(orbitSrc.includes('122,107,242'), 'OrbitScene: violet triplet 122,107,242 hardcoded');
-  check(orbitSrc.includes('0.00016'), 'OrbitScene: omega in rad/ms (0.00016 inner ring — never rescaled)');
-  check(/biasX/.test(orbitSrc) && pageSrc.includes('biasX={-0.35}'), 'OrbitScene: biasX prop + hero mount biasX={-0.35} (RTL physical sign)');
-  check(orbitSrc.includes('smartlink.intro.seen'), "OrbitScene: per-product sessionStorage intro key 'smartlink.intro.seen'");
+  // M ── the EcosystemConstellation canvas port (r142) — engine
+  //     constants + craft discipline (the OrbitScene port values that
+  //    survive are re-asserted on the new engine).
+  check(orbitSrc.includes('0.00009') && orbitSrc.includes('0.000062') && orbitSrc.includes('0.000045'), 'r142 engine: omegas in rad/ms (0.00009/0.000062/0.000045 — real angular speeds, never rescaled)');
+  check(/biasX/.test(orbitSrc) && pageSrc.includes('biasX={-0.35}'), 'constellation: biasX prop + hero mount biasX={-0.35} (RTL physical sign)');
+  check(orbitSrc.includes('smartlink.intro.seen'), "constellation: per-product sessionStorage intro key 'smartlink.intro.seen'");
   check(
-    /Math\.min\(window\.devicePixelRatio \|\| 1, 1\.5\)/.test(orbitSrc),
-    'OrbitScene: DPR hard cap 1.5 (retina paints ≤2.25× CSS px)'
+    /DPR_CAP = 1\.5/.test(orbitSrc) && /Math\.min\(window\.devicePixelRatio \|\| 1, DPR_CAP\)/.test(orbitSrc),
+    'constellation: DPR hard cap 1.5 (retina paints ≤2.25× CSS px)'
   );
-  check(orbitSrc.includes('TRAIL_MAX = 16'), 'OrbitScene: TRAIL_MAX 16 ring buffer (visual diet)');
-  check(orbitSrc.includes("'80px 0px'"), "OrbitScene: IntersectionObserver rootMargin '80px 0px' (offscreen pause)");
-  check(orbitSrc.includes('prefers-reduced-motion: reduce') && orbitSrc.includes('drawStatic'), 'OrbitScene: reduced-motion → single drawStatic() composed frame');
+  check(orbitSrc.includes('DT_MAX = 48'), 'r142 engine: DT_MAX 48ms clamp (tab-return visual diet)');
+  check(orbitSrc.includes("IO_ROOT_MARGIN = '80px 0px'"), "constellation: IntersectionObserver rootMargin '80px 0px' (offscreen pause)");
+  check(orbitSrc.includes('prefers-reduced-motion') && orbitSrc.includes('drawStatic'), 'constellation: reduced-motion → single drawStatic() composed frame');
   check(
     !existsSync(new URL('../src/components/landing/HeroOrbits.tsx', import.meta.url)) && !pageSrc.includes('HeroOrbits'),
     'the flat HeroOrbits SVG is retired from the render path (file deleted, no references)'
@@ -1592,7 +1597,7 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
   };
   const header = read('components/landing/LandingHeader.tsx');
   const aboutPage = read('app/about/page.tsx');
-  const rolesSrc = read('components/landing/RolesSection.tsx');
+  const rolesSrc = read('components/landing/WorldsSection.tsx');
   const pricingPage = read('app/pricing/page.tsx');
   const footerProd = read('components/footer.tsx');
   const privacyPage = read('app/privacy/page.tsx');
@@ -1649,8 +1654,8 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
     'r134-6: the about pull-quote rides the «» canon (no Latin curly entities)'
   );
   check(
-    rolesSrc.includes('>«</span>') && rolesSrc.includes('ln-role-quote-mark--end') && rolesSrc.includes('>»</span>'),
-    'r134-6: the roles pull-quotes carry the paired «» guillemets (was a lone Latin ”)'
+    !/[“”]/.test(rolesSrc + landingCss134.slice(0, 2000)),
+    'r134-6: the r142 Arabic copy keeps the «» canon — no lone Latin curly quotes on the rebuilt surfaces'
   );
   check(
     /\.landing \.ln-role-quote-mark--end\s*\{[^}]*margin-inline-start:\s*6px/.test(landingCss134),
@@ -1765,7 +1770,8 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
   /* URLs need the RAW source: the comment-stripping `//.*$` rule eats
      every `https://…` literal (the scheme carries its own `//`). */
   const siteRaw = readFileSync(new URL('../src/lib/site.ts', import.meta.url), 'utf8');
-  const products = read('components/landing/ProductsSection.tsx');
+  const products = read('components/landing/WorldsSection.tsx');
+  const worldsSrc = readFileSync(new URL('../src/components/landing/worlds.ts', import.meta.url), 'utf8');
   const pricing = read('app/pricing/page.tsx');
 
   // A ── the LYD display seam: Western digits + ar-LY dot grouping +
@@ -1829,9 +1835,11 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
   //     coming-soon placeholder is retired (a live store product made
   //     it a contradiction).
   check(
-    products.includes('SITE.products.order.url')
-      && !products.includes('متجر إلكتروني'),
-    'r137-4: the products constellation rides THREE live links — Smart Order replaces the «متجر إلكتروني — قريباً» placeholder'
+    worldsSrc.includes('https://menu.smart-link.ly')
+      && worldsSrc.includes('https://bot.smart-link.ly')
+      && worldsSrc.includes('https://order.smart-link.ly')
+      && !worldsSrc.includes('قريباً'),
+    'r137-4: the r142 worlds ride THREE live links — the «متجر إلكتروني — قريباً» placeholder era is over'
   );
   // H ── the pricing page markets the third product honestly (free
   //     base plan per its own published catalog).

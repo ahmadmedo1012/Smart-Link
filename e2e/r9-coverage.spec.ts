@@ -79,12 +79,12 @@ test.describe("r9 — عقد footer (روابط التواصل على كل صف�
     })
   }
 
-  test("/ — عقد LandingFooter: أقسام الرحلة + المنتجان + القانونية + سطر الحقوق", async ({ page }) => {
+  test("/ — عقد LandingFooter: أقسام الرحلة + العوالم + القانونية + سطر الحقوق", async ({ page }) => {
     await page.goto("/", { waitUntil: "domcontentloaded" })
     const footer = page.getByRole("contentinfo")
 
-    // الأعمدة الأربعة بوجهاتها الحقيقية (r129 — لا روابط ميتة)
-    for (const href of ["#products", "#journey", "#progress", "#platforms", "#roles"]) {
+    // أعمدة الوجهات الحقيقية (r142 — «الأدوار» اندمجت في فصل «العوالم»)
+    for (const href of ["#products", "#journey", "#progress", "#platforms"]) {
       await expect(footer.locator(`a[href="${href}"]`), `مرساة ${href}`).toHaveAttribute("href", href)
     }
     for (const href of ["/about", "/pricing", "/contact", "/privacy", "/terms"]) {
@@ -113,11 +113,9 @@ test.describe("r9 — صمود no-JS (الموقع SSR-first بلا جافاسك
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible()
     await expect(page.locator("text=+500").first()).toBeVisible()
     // التنقل الديكوري لا يكسر الصفحة: عنوان فصل حقيقي موجود
-    /* r133 (A7 §1): عنوان الفصل الكنسي لمدارات المنتجات (كان «منظومة
-       متكاملة» قبل بناء Orbit-Ink في r128). */
-    /* r137 (صدق الأسطول): «منتجان» → «ثلاثة منتجات» — Smart Order حيّ
-       وأصبح العقد يطابق الواقع (الخطأ كان سيمرّ رأساً بعد التغيير). */
-    await expect(page.getByRole("heading", { name: /ثلاثة منتجات نشطة/ })).toBeVisible()
+    /* r142: الفصل الأول صار «العوالم» — العنوان الكنسي الجديد بعد دمج
+       المنتجات والأدوار في فصل واحد. */
+    await expect(page.getByRole("heading", { name: /ثلاثة عوالم تعمل/ })).toBeVisible()
     await ctx.close()
   })
 

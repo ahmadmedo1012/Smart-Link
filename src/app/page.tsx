@@ -1,43 +1,53 @@
-/* r128 Stage B (F2b) — the Smart-Link landing rebuilt as the Madarek
-   journey (PORT-KIT §5 skeleton, §6 Link column):
-   المدار (hero sky) → شريط المنتجات (marquee) → الثقة → مدارات المنتجات
-   → رحلة الربط (5 stations + light path) → قصة التقدّم (--sp rings)
-   → المنصّات (ground plate) → الأدوار → نقطة البداية (+ compact FAQ).
+/* ════════════════════════════════════════════════════════════════════
+   r142 «الكوكبة الحية» — the Smart-Link landing REBUILT as one living
+   organism (the radical redesign: the owner rejected the incremental
+   r141 pass; this is a new visual experience from the first screen to
+   the last chapter, inspired by immersive-interactive references
+   WITHOUT copying any identity).
+
+   The r128 Orbit-Ink layer stays the GROUND (R4 isolation intact — the
+   product token pins in styles.css are never touched; every --ln-*
+   declaration lives inside .landing). What changes is the anatomy:
+   المدار (the LIVING CONSTELLATION hero — real canvas, tappable worlds)
+   → شريط البث (data broadcast) → العوالم (editorial world panels)
+   → الرحلة (the winding beam) → القيادة (mono data cockpit)
+   → المنصّات (ground control console) → نقطة البداية (massive type
+   + merged FAQ).
+
+   New world hues enter ONLY as tokens in §0a2: --ln-ember (Smart Menu),
+   --ln-cyan (SmartBot), --ln-lime (Smart Order, the existing accent).
+   The canvas engine resolves them at runtime via getComputedStyle —
+   zero hex in any landing TSX (parity-enforced).
 
    The page stays a SERVER component — the h1 and hero sub render inline
    (instant-paint LCP doctrine, r8/r9); client islands are exactly:
-   LandingHeader (chrome/spy/menus), HeroDepthLayer (parallax),
-   OrbitScene (r129: the REAL canvas engine replaces the retired flat
-   SVG orbit chart), MagneticGoldLink (CTA pull), JourneySection (light
-   path + --sp), ProductsSection (r129: resting-life constellation),
-   ProgressSection (--sp + CountUp), and the RevealCssClass observers. */
+   LandingHeader (chrome/spy/menus), EcosystemConstellation (the living
+   canvas), ConstellationDock (world chips + glass preview card),
+   MagneticGoldLink (CTA pull), JourneySection (beam + --sp),
+   CockpitSection (--sp + CountUp), and the RevealCssClass observers.
+   ════════════════════════════════════════════════════════════════════ */
 import "./landing.css"
-import { Fragment } from "react"
 import { Check, MessageCircle, Languages } from "lucide-react"
 import { RevealCssClass } from "@/hooks/useReveal"
-import { CountUp } from "@/components/ui/CountUp"
 import { SITE } from "@/lib/site"
 import { LandingHeader } from "@/components/landing/LandingHeader"
-import { HeroDepthLayer } from "@/components/landing/HeroDepthLayer"
-import { OrbitScene } from "@/components/landing/OrbitScene"
+import { EcosystemConstellation, ConstellationDock } from "@/components/landing/EcosystemConstellation"
 import { MagneticGoldLink } from "@/components/landing/MagneticGoldLink"
 import { LandingMarquee } from "@/components/landing/LandingMarquee"
-import { ProductsSection } from "@/components/landing/ProductsSection"
+import { WorldsSection } from "@/components/landing/WorldsSection"
 import { JourneySection } from "@/components/landing/JourneySection"
-import { ProgressSection } from "@/components/landing/ProgressSection"
+import { CockpitSection } from "@/components/landing/CockpitSection"
 import { PlatformsSection } from "@/components/landing/PlatformsSection"
-import { RolesSection } from "@/components/landing/RolesSection"
 import { FinaleCta } from "@/components/landing/FinaleCta"
 import { LandingFaq } from "@/components/landing/LandingFaq"
 import { LandingFooter } from "@/components/landing/LandingFooter"
 
 /* Marquee vocabulary — the real product/service names from the services
-   registry (two live products + their shipped feature list), ×2 by the
-   marquee kit for the seamless 42s RTL loop. r129 (P2-10): grown to 15
-   entries so ONE copy (≈2.7–3.2k px) still fills ≥2200px viewports —
-   the seam math assumes copy-1 ≥ viewport. The three additions are the
-   platform's own published claims (one account, Arabic-first, 24/7
-   WhatsApp support). */
+   registry (three live products + their shipped feature list), ×2 by the
+   marquee kit for the seamless 42s RTL loop. r129 (P2-10): 15 entries so
+   ONE copy (≈2.7–3.2k px) still fills ≥2200px viewports — the seam math
+   assumes copy-1 ≥ viewport. The three additions are the platform's own
+   published claims (one account, Arabic-first, 24/7 WhatsApp support). */
 const MARQUEE_ITEMS = [
   "Smart Menu",
   "المنيو الرقمي للمطاعم",
@@ -62,15 +72,6 @@ const MARQUEE_ITEMS = [
   "دعم واتساب 24/7",
 ]
 
-/* Trust band — the four REAL platform figures (the values every surface
-   of this site publishes; SSR'd final + CountUp on view). */
-const TRUST_STATS = [
-  { value: "+500", label: "عميل نشط" },
-  { value: "+10K", label: "منيو رقمي" },
-  { value: "+50K", label: "رد آلي" },
-  { value: "99.9%", label: "جهوزية المنصّة" },
-]
-
 export default function Home() {
   return (
     <div className="landing">
@@ -85,14 +86,17 @@ export default function Home() {
           anatomy (LandingPage.tsx:340); the attribute makes programmatic
           focus land cleanly after the skip. */}
       <main id="main" tabIndex={-1}>
-        {/* ═══ الفصل ٠ — المدار: the hero sky ═══ */}
+        {/* ═══ الفصل ٠ — الكوكبة الحية: the living constellation ═══ */}
         <section className="ln-hero" aria-label="SmartLink — منصّة الروابط الذكية">
-          {/* living sky: starfield depth plane + the REAL OrbitScene
-              canvas engine (r129 port of Madarek's OrbitScene.tsx —
-              fails safe to the CSS sky gradients below it) */}
+          {/* the living sky: the REAL EcosystemConstellation engine —
+              a SmartLink core orbited by the three product worlds on
+              pulsing data links (r142 evolution of the r129 OrbitScene
+              craft: DPR cap, IO pause, RM static frame). It fails safe
+              to the CSS sky gradients below it. aria-hidden: the scene
+              is decorative — every interaction is duplicated in the
+              accessible dock below (chips + glass card). */}
           <div className="ln-hero-sky" aria-hidden="true">
-            <HeroDepthLayer />
-            <OrbitScene className="ln-hero-canvas" biasX={-0.35} />
+            <EcosystemConstellation className="ln-hero-canvas" biasX={-0.35} />
           </div>
 
           <div className="ln-hero-content">
@@ -101,7 +105,7 @@ export default function Home() {
             </RevealCssClass>
 
             {/* h1 + sub paint INSTANTLY — server-rendered inline, no reveal,
-                no client gate (LCP doctrine). One lime word: منظومة. */}
+                no client gate (LCP doctrine). One lime word: منظومةً. */}
             <h1 className="ln-hero-title">
               <span className="ln-hero-line">كلُّ عملٍ يبدأ <em>رابطًا</em></span>
               <span className="ln-hero-line">ويصبح <em className="ln-hero-gold">منظومةً</em></span>
@@ -109,9 +113,7 @@ export default function Home() {
 
             <p className="ln-hero-sub">
               {/* r138 (إكمال صدق الأسطول — موجة r137 الفائتة): العدّ
-                  الثلاثي بدل «من… إلى» الثنائي — شريط المنتجات ومقدمة
-                  الهيرو في الفصل نفسه يسوّقان ثلاثة منتجات (r137)،
-                  وهذا العنوان الفرعي كان آخر سطح يتحدث عن منتجين. */}
+                  الثلاثي بدل «من… إلى» الثنائي. */}
               منصّة ليبية تجمع حلولنا الرقمية في مكانٍ واحد: المنيو الرقمي
               التفاعلي للمطاعم، والبوت الذكي لصفحات فيسبوك، ومتجر الطلبات
               الرقمي —{" "}
@@ -122,10 +124,19 @@ export default function Home() {
               <MagneticGoldLink href={SITE.products.menu.url} external withArrow ariaLabel="ابدأ مجاناً — Smart Menu، رابط خارجي">
                 ابدأ مجاناً
               </MagneticGoldLink>
-              <a href="#products" className="ln-btn-ghost">اكتشف المنتجات</a>
+              <a href="#products" className="ln-btn-ghost">اكتشف العوالم</a>
             </RevealCssClass>
 
-            <RevealCssClass as="ul" className="ln-hero-meta" delay={4}>
+            {/* the tappable worlds — the constellation's dock: on desktop
+                the chips mirror the canvas nodes (hover either one, the
+                other glows; click opens the glass preview card with the
+                product's real facts + its live domain). On mobile these
+                chips ARE the nodes. */}
+            <RevealCssClass as="div" className="ln-eco-dock" delay={4}>
+              <ConstellationDock />
+            </RevealCssClass>
+
+            <RevealCssClass as="ul" className="ln-hero-meta" delay={5}>
               <li><Check size={13} aria-hidden="true" /> بدون بطاقة ائتمان</li>
               <li aria-hidden="true" className="ln-hero-meta-dot" />
               <li><MessageCircle size={13} aria-hidden="true" /> دعم واتساب 24/7</li>
@@ -134,49 +145,35 @@ export default function Home() {
             </RevealCssClass>
           </div>
 
-          {/* scroll invitation */}
-          <a href="#trust" className="ln-hero-scroll" aria-label="تابع الرحلة">
+          {/* scroll invitation — into the worlds chapter */}
+          <a href="#products" className="ln-hero-scroll" aria-label="تابع الرحلة">
             <span className="ln-mono">تابع الرحلة</span>
             <span className="ln-hero-scroll-line" aria-hidden="true" />
           </a>
         </section>
 
-        {/* ═══ شريط المنتجات — مدار واحد تنتظم فيه الأسماء (marquee) ═══ */}
+        {/* ═══ شريط البث — the data broadcast ═══ */}
         <LandingMarquee items={MARQUEE_ITEMS} />
 
-        {/* ═══ الفصل ١ — الثقة (quiet mono DATA band, real figures) ═══ */}
-        <section id="trust" className="ln-trust" aria-label="أرقام المنصّة">
-          <div className="ln-trust-inner">
-            {TRUST_STATS.map((s, i) => (
-              <Fragment key={s.label}>
-                {i > 0 && <span className="ln-trust-sep" aria-hidden="true" />}
-                <span className="ln-mono">
-                  <CountUp value={s.value} /> {s.label}
-                </span>
-              </Fragment>
-            ))}
-          </div>
-        </section>
+        {/* ═══ الفصل ١ — العوالم (three editorial worlds; replaces the
+             products-constellation + roles-ledger pair) ═══ */}
+        <WorldsSection />
 
-        {/* ═══ الفصل ٢ — مدارات المنتجات ═══ */}
-        <ProductsSection />
-
-        {/* ═══ الفصل ٣ — كيف تعمل الروابط الذكية ═══ */}
+        {/* ═══ الفصل ٢ — الرحلة: the winding beam ═══ */}
         <JourneySection />
 
-        {/* ═══ الفصل ٤ — قصّة التقدّم ═══ */}
-        <ProgressSection />
+        {/* ═══ الفصل ٣ — القيادة: the mono data cockpit (the old trust
+             band + progress story merged) ═══ */}
+        <CockpitSection />
 
-        {/* ═══ الفصل ٥ — الأرض: عالم المنصّات ═══ */}
+        {/* ═══ المنصّات — ground control (unlabelled, canonical) ═══ */}
         <PlatformsSection />
 
-        {/* ═══ الفصل ٦ — الأدوار ═══ */}
-        <RolesSection />
-
-        {/* ═══ الفصل ٧ — نقطة البداية ═══ */}
+        {/* ═══ الفصل ٤ — نقطة البداية (massive type; the FAQ merges
+             visually below in the same ground) ═══ */}
         <FinaleCta />
 
-        {/* ═══ الأسئلة الشائعة — compact, ln-styled ═══ */}
+        {/* ═══ الأسئلة الشائعة — compact, ln-styled, JSON-LD intact ═══ */}
         <LandingFaq />
       </main>
 

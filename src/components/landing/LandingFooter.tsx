@@ -11,7 +11,10 @@ import { CurrentYear } from "@/components/current-year"
  * LandingPage.tsx:772-774 — «صُنع في ليبيا» rode text only).
  * r140 (تدقيق A140-SL ‎#6): السنة تُرخّ عبر جزيرة CurrentYear — كان
  * المكوّن سيرفريًا يُبنى مسبقًا فتتجمّد السنة زمن البناء (فئة ثغرة
- * r126 نفسها التي أُغلقت في footer.tsx:165 ولم تُنسخ هنا). */
+ * r126 نفسها التي أُغلقت في footer.tsx:165 ولم تُنسخ هنا).
+ * r142 «الكوكبة الحية»: عمود «الرحلة» يتبع خريطة الفصول الجديدة
+ * (العوالم/الرحلة/القيادة/المنصّات) — مرساة #roles غابت مع اندماج
+ * الأدوار في فصل العوالم، والعقد الوظيفية كلها محفوظة (r9-coverage). */
 
 export function LandingFooter() {
   /* buildYear — يُخبَز في HTML (زوّار بلا JS تبقى لهم سنة صالحة)،
@@ -38,9 +41,9 @@ export function LandingFooter() {
           </div>
           <div className="landing-footer-col">
             <div className="landing-footer-heading">الرحلة</div>
-            <a href="#products" className="landing-footer-link">المنتجات</a>
+            <a href="#products" className="landing-footer-link">العوالم</a>
             <a href="#journey" className="landing-footer-link">رحلة الربط</a>
-            <a href="#progress" className="landing-footer-link">قصة التقدّم</a>
+            <a href="#progress" className="landing-footer-link">قراءة القيادة</a>
             <a href="#platforms" className="landing-footer-link">المنصّات</a>
           </div>
           <div className="landing-footer-col">
@@ -74,7 +77,6 @@ export function LandingFooter() {
               Smart Order
             </a>
             <Link href="/pricing" prefetch={false} className="landing-footer-link">الخطط والأسعار</Link>
-            <a href="#roles" className="landing-footer-link">الأدوار</a>
           </div>
           <div className="landing-footer-col">
             <div className="landing-footer-heading">المؤسسة</div>

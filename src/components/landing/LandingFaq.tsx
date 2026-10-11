@@ -7,7 +7,9 @@ import { faqJsonLd } from "@/lib/schema"
  * (folded from faq-section.tsx — r9/r10 content audits preserved), the
  * FAQPage JSON-LD rides along (rich-results parity with /pricing), and
  * the interaction drops from a client accordion island to native
- * <details>/<summary>: zero JS, keyboard-native, reduced-motion-safe. */
+ * <details>/<summary>: zero JS, keyboard-native, reduced-motion-safe.
+ * r142 «الكوكبة الحية»: الفصل يندمج بصرياً في أرض نقطة البداية (نفس
+ * المسرح، بلا فاصل حاد) والترقيم الكنسي صار 05 بعد اندماج الأدوار. */
 
 const FAQS = [
   /* r138 (إكمال صدق الأسطول — موجة r137 الفائتة): الجواب الأول كان
@@ -34,7 +36,7 @@ export function LandingFaq() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }}
       />
       <div className="ln-faq-head">
-        <span className="ln-label">{"06 — الأسئلة الشائعة"}</span>
+        <span className="ln-label">{"05 — الأسئلة الشائعة"}</span>
         <RevealCssClass as="h2" className="ln-chapter-title" delay={1}>
           الأسئلة <em>الشائعة</em>
         </RevealCssClass>

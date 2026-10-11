@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation"
 import { Menu, X, Smartphone, Bot, ShoppingBag, ChevronDown, Sun, Moon } from "lucide-react"
 import { useTheme } from "next-themes"
 import { cn } from "@/lib/utils"
+import { useMagnetic } from "@/hooks/useMagnetic"
 import { SITE } from "@/lib/site"
 // NOTE: framer-motion removed from the critical path (122 KB initial chunk,
 // ~1.5 s script evaluation). Menu/dropdown animations are now CSS-only.
@@ -43,53 +44,15 @@ const navLinks: NavLink[] = [
   { href: "/contact", label: "تواصل معنا" },
 ]
 
+/* r144 (P4-4SL): the inline effect (direct style.transform per move,
+   no rAF coalescing, separate RM/hover gates) is consolidated onto the
+   shared useMagnetic hook — ONE magnetic behavior in the repo (the r8
+   rect-cache lesson now lives in the hook itself). Strength 3 keeps
+   the shipped chrome feel (the old 0.15 factor × ~22px half-width ≈
+   3.3px max drift on these small buttons). The hook writes
+   --mag-x/--mag-y; .magnetic-btn (styles.css) consumes them. */
 function MagneticButton({ children, className }: { children: React.ReactNode; className?: string }) {
-  const ref = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    const el = ref.current
-    if (!el) return
-    /* r14 (M2/M5 touch audit): behind (hover:hover) — touch devices fire
-       synthetic mousemove (a stuck ≤3.5px translate on iOS until a
-       mouseleave that never comes) and the three listeners were dead
-       weight on every phone anyway. Desktop-only decoration stays
-       desktop-only.
-       r126 (P4-A3 §2.6): prefers-reduced-motion joins the gate — the
-       CSS kill-switch only compresses this transition to 0.01ms, which
-       made the cursor-chase SNAP harder for RM users; every other JS
-       motion path already consults the same media query. */
-    if (
-      !window.matchMedia("(hover: hover)").matches ||
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches
-    )
-      return
-    /* Direct DOM transform — a state update per mousemove re-rendered the
-       whole header; this path costs zero renders. */
-    /* r8: rect is measured ONCE on mouseenter and cached — the old version
-       called getBoundingClientRect() inside every mousemove (60Hz), a
-       forced sync layout each time (Lighthouse: 113.9ms of unattributed
-       reflow during header hover). Cache invalidated on leave. */
-    let rect: DOMRect | null = null
-    const onMove = (e: MouseEvent) => {
-      if (!rect) rect = el.getBoundingClientRect()
-      const x = (e.clientX - rect.left - rect.width / 2) * 0.15
-      const y = (e.clientY - rect.top - rect.height / 2) * 0.15
-      el.style.transform = `translate(${x}px, ${y}px)`
-    }
-    const onLeave = () => {
-      rect = null
-      el.style.transform = "translate(0px, 0px)"
-    }
-    const onEnter = () => { rect = el.getBoundingClientRect() }
-    el.addEventListener("mouseenter", onEnter)
-    el.addEventListener("mousemove", onMove)
-    el.addEventListener("mouseleave", onLeave)
-    return () => {
-      el.removeEventListener("mouseenter", onEnter)
-      el.removeEventListener("mousemove", onMove)
-      el.removeEventListener("mouseleave", onLeave)
-    }
-  }, [])
+  const ref = useMagnetic<HTMLDivElement>(3)
 
   return (
     <div ref={ref} className={cn("magnetic-btn", className)}>
@@ -192,7 +155,7 @@ export function MainNav() {
   return (
     <header ref={headerRef}
       className={cn(
-        "fixed top-0 left-0 right-0 z-50 transition-[background,backdrop-filter,border-color] duration-240",
+        "fixed top-0 inset-x-0 z-50 transition-[background,backdrop-filter,border-color] duration-240",
         scrolled
           /* r130 (W1-D P2-15): canonical topbar chrome — 0.86 alpha +
              16px --glass-blur (was 80%/blur-xl-24px: a busy hero bled

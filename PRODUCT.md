@@ -32,8 +32,8 @@ delivery and local payments — a first-class product since r137).
 
 | Route | Role |
 |---|---|
-| `/` | The Orbit-Ink landing — hero, products constellation, journey, progress stats, platforms, roles, FAQ, finale CTA |
-| `/about` | Company story, values, founder (أحمد خيري), the 500+ active-clients stat |
+| `/` | The Orbit-Ink landing (r142 «الكوكبة الحية») — hero constellation (interactive canvas engine), worlds chapter (3 editorial product worlds), journey (5 stations + light beam), cockpit (honest published stats), platforms, FAQ, finale CTA |
+| `/about` | Company story, values, founder (أحمد خيري), the 3-live-products stat (r143 honest figure) |
 | `/pricing` | The three free plans (Smart Menu / SmartBot / Smart Order) + coming-soon paid tiers (Smart Order's paid tiers live on its own platform) + FAQ |
 | `/contact` | Contact cards + the lead-gen form (the site's one form) |
 | `/privacy` · `/terms` | Legal (تواصل معنا contact sections) |
@@ -82,7 +82,7 @@ corporate. The landing speaks in short chapter arcs («كلُّ عملٍ يبد�
 
 ## Evidence
 
-- Parity snapshot `tests/parity.mjs` (537 assertions) pins the design
+- Parity snapshot `tests/parity.mjs` (525 assertions, self-counted — the suite fails if its own size drifts) pins the design
   system; e2e suite (Playwright, Arabic specs) covers conversion CTAs,
   the contact contract, SEO/OG shape, a11y, RTL, PWA/offline and
   adversarial journeys. Lighthouse r14 history: avg 93.5, best LCP 1.67s.

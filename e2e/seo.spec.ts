@@ -168,13 +168,16 @@ test.describe("r9 — إشارات الزحف والـ PWA المضافة", () =
       const m = xml.match(new RegExp(`<loc>[^<]*${loc}</loc>\\s*<lastmod>([^<]+)</lastmod>`))
       return m?.[1] ?? ""
     }
-    // القانونيتان بتاريخ محتواهما الحقيقي (سبتمبر 2026 — r13: تغيّر
-    // المحتوى فعلاً في سبتمبر فصار ختم يوليو ادعاءً كاذباً حيّاً)
-    expect(lastmod("/privacy")).toBe("2026-09-09T00:00:00.000Z")
-    expect(lastmod("/terms")).toBe("2026-09-09T00:00:00.000Z")
-    // about/contact بختم محتوى ثابت (r10 — ليست وقت البناء بعد الآن)
-    expect(lastmod("/about")).toBe("2026-09-07T00:00:00.000Z")
-    expect(lastmod("/contact")).toBe("2026-09-07T00:00:00.000Z")
+    // القانونيتان بتاريخ محتواهما الحقيقي — r144 (P4-4SL): الختم واحد
+    // بين الصفحة والـ sitemap عبر lib/content-dates (آخر تغيير نصي:
+    // r138 — 2026-10-10). كان الختم 2026-09-09 يناقض «أكتوبر 2026»
+    // المعروض على الصفحتين نفسيهما.
+    expect(lastmod("/privacy")).toBe("2026-10-10T00:00:00.000Z")
+    expect(lastmod("/terms")).toBe("2026-10-10T00:00:00.000Z")
+    // about/contact بختم محتوى ثابت (r10 — ليست وقت البناء بعد الآن؛
+    // r144: تواريخ التغيير النصي الحقيقية — r143/r134 — من المصدر الواحد)
+    expect(lastmod("/about")).toBe("2026-10-11T00:00:00.000Z")
+    expect(lastmod("/contact")).toBe("2026-10-09T00:00:00.000Z")
     // home/pricing لا يزالان بتاريخ البناء (ديناميكيان فعلاً)
     expect(lastmod("smart-link.ly")).not.toBe("2026-07-01T00:00:00.000Z")
     expect(lastmod("smart-link.ly")).not.toBe("")

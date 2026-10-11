@@ -1,16 +1,23 @@
 import Link from "next/link"
 import { Sparkles } from "lucide-react"
+import Image from "next/image"
 import { RevealCssClass } from "@/hooks/useReveal"
 import { MagneticGoldLink } from "@/components/landing/MagneticGoldLink"
 import { CurrentYear } from "@/components/current-year"
 import { SITE } from "@/lib/site"
 
 /* r142 «الكوكبة الحية» — Chapter 04 «الوصول»: نقطة البداية.
- * A TYPE-LED finale: the massive two-line display does the work — the
- * r141 family crest image is retired (the words + one converging ring
- * carry the closing). The aria-label «ابدأ رحلتك» is the e2e conversion
- * contract (cta.spec), the gold magnetic pill and the ghost keep their
- * canonical anatomy, and the year rides the CurrentYear island (r140).
+ * A type-led finale: the massive two-line display does the work, and the
+ * r141 family crest closes the chapter above it. (The r142 rewrite had
+ * retired the crest image — a unilateral deviation from the r142 spec,
+ * which promised «شعار العائلة الختامي (family.webp float)» and left a
+ * ~1200px dead void before the footer; the production QA flagged the
+ * contradiction as P1 and r144 (P4-4SL) restores the crest verbatim in
+ * the new anatomy: masked circular art, slow float, reduced-motion
+ * stands still, lazy below-fold image — LCP untouched.)
+ * The aria-label «ابدأ رحلتك» is the e2e conversion contract (cta.spec),
+ * the gold magnetic pill and the ghost keep their canonical anatomy, and
+ * the year rides the CurrentYear island (r140).
  * The FAQ chapter merges visually below (same ground, shared seam) —
  * its six real Q&As + FAQPage JSON-LD are untouched. */
 
@@ -26,6 +33,22 @@ export function FinaleCta() {
         <span className="ln-cta-orbit o2" />
       </div>
       <div className="ln-cta-inner">
+        {/* r144 (P4-4SL، قرار P1): شعار العائلة الختامي يعود — فنّ العائلة
+            المولّد (طبق + كرة روبوت + صندوق بخيوط ذهبية) يتوّج فصل الوصول
+            كشعار عائم ببطء (masked دائرياً، float 9s يتوقف كاملة تحت
+            reduced-motion). aria-hidden — ديكوري؛ الكلمات حوله تحمل المعنى،
+            والصورة lazy تحت الطية فلا تمس LCP. */}
+        <RevealCssClass as="div" className="ln-cta-family">
+          <Image
+            src="/images/ecosystem/family.webp"
+            alt=""
+            aria-hidden="true"
+            width={520}
+            height={520}
+            sizes="260px"
+            className="ln-cta-family-img"
+          />
+        </RevealCssClass>
         <span className="ln-label">{"04 — الوصول · ACCESS"}</span>
         <RevealCssClass as="h2" className="ln-cta-title" delay={1}>
           رابطك الأول{" "}

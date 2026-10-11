@@ -14,8 +14,8 @@ import { SITE, whatsappUrl } from "@/lib/site"
 export function Footer() {
   return (
     <footer className="border-t border-[var(--border)] bg-[var(--surface-sunken)] relative">
-      {/* Decorative top gradient */}
-      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[var(--primary)] to-transparent" aria-hidden="true" />
+      {/* Decorative top gradient (r144: inset-x-0 — logical props, was physical left-0 right-0) */}
+      <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-[var(--primary)] to-transparent" aria-hidden="true" />
 
       {/* Grid pattern overlay */}
       <div

@@ -26,7 +26,10 @@ import { SITE } from "@/lib/site"
 /* r142 «الكوكبة الحية»: the spy anchors follow the new chapter map —
    products / journey / progress (القيادة) / platforms. The old #trust
    band merged into the cockpit (#progress) and the roles ledger folded
-   into the worlds chapter (#products). */
+   into the worlds chapter (#products).
+   r144 (P4-4SL): the landing.css selector roster now matches this map
+   exactly — the dead #trust/#roles selector lines were excised with the
+   sections they pointed at. */
 const SPY_SECTIONS = "#products, #journey, #progress, #platforms"
 
 export function LandingHeader() {

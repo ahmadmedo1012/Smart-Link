@@ -14,20 +14,23 @@ const BASE = SITE.url
    that inflated lastmod values erode trust in the signal.
    r10 (SEO audit P3): about/contact joined them — nearly-static content
    stamped "today" on every deploy erodes the same trust.
-   r13 (content audit P1): the legal pages really DID change in September
-   (r10 added data categories, r11 added the processors clause, r13 added
-   the WhatsApp/Meta processor + retention distinction) — the July stamp
-   had become a false statement, live-verified by r13-G. */
-const LEGAL_LASTMOD = new Date("2026-09-09")
-const STATIC_LASTMOD = new Date("2026-09-07")
+   r144 (P4-4SL): the stamps moved to src/lib/content-dates.ts — the ONE
+   source of truth the on-page «آخر تحديث» lines read too. The old split
+   constants (sitemap said 2026-09-09 while the pages rendered «أكتوبر
+   2026») contradicted each other since r138. */
+import { ABOUT_UPDATED, CONTACT_UPDATED, LEGAL_UPDATED } from "@/lib/content-dates"
+
+const LEGAL_LASTMOD = new Date(LEGAL_UPDATED.iso)
+const ABOUT_LASTMOD = new Date(ABOUT_UPDATED.iso)
+const CONTACT_LASTMOD = new Date(CONTACT_UPDATED.iso)
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date()
   return [
     { url: BASE, lastModified: now, changeFrequency: "weekly", priority: 1 },
-    { url: `${BASE}/about`, lastModified: STATIC_LASTMOD, changeFrequency: "monthly", priority: 0.8 },
+    { url: `${BASE}/about`, lastModified: ABOUT_LASTMOD, changeFrequency: "monthly", priority: 0.8 },
     { url: `${BASE}/pricing`, lastModified: now, changeFrequency: "weekly", priority: 0.7 },
-    { url: `${BASE}/contact`, lastModified: STATIC_LASTMOD, changeFrequency: "monthly", priority: 0.7 },
+    { url: `${BASE}/contact`, lastModified: CONTACT_LASTMOD, changeFrequency: "monthly", priority: 0.7 },
     { url: `${BASE}/privacy`, lastModified: LEGAL_LASTMOD, changeFrequency: "yearly", priority: 0.3 },
     { url: `${BASE}/terms`, lastModified: LEGAL_LASTMOD, changeFrequency: "yearly", priority: 0.3 },
   ]

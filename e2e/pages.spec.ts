@@ -58,6 +58,30 @@ test.describe("الدخان — الصفحات الست", () => {
     await expect(page.locator(".ln-trust .ln-stat", { hasText: "واجهة عربية" })).toBeVisible()
   })
 
+  test("r144 — شعار العائلة الختامي يُصيَّر في فصل الوصول (انحدار QA P1: كان غائبًا عن الإنتاج)", async ({ page }) => {
+    /* قرار P1 (W1-QA-LINK §7): r142 تقاعد شعار العائلة r141 عن نقطة
+       البداية رغم مواصفته («family.webp float») فترك فراغًا ميتًا
+       ~1200px قبل التذييل — r144 يعيده، وهذا الاختبار يمنع تكرار
+       الغياب: الصورة موجودة في DOM، مرئية بعد التمرير، ومحمّلة فعلاً
+       (complete + naturalWidth>0 — لا مسار مكسور). */
+    await page.goto("/", { waitUntil: "networkidle" })
+    const crest = page.locator(".ln-cta-family-img")
+    await expect(crest).toHaveCount(1)
+    await crest.scrollIntoViewIfNeeded()
+    await expect(crest).toBeVisible()
+    // محمّلة فعلاً (next/image يعيد ترميز العرض حسب sizes — العرض الطبيعي
+    // ليس ثابتًا، لكن >0 يعني بيانات حقيقية لا مسارًا مكسورًا)
+    await expect
+      .poll(async () => {
+        return crest.evaluate((img) => (img as HTMLImageElement).naturalWidth)
+      })
+      .toBeGreaterThan(0)
+    // والشعار داخل قسم الختام الكنسي (عقد cta.spec نفسه)
+    await expect(
+      page.locator('section[aria-label="ابدأ رحلتك"] .ln-cta-family-img')
+    ).toHaveCount(1)
+  })
+
   test("r8 — العدّادات تُصيَّر بالقيم النهائية في HTML الخام قبل أي JS (انحدار LCP)", async ({ request }) => {
     /* إصلاح r8 المركزي: العدّادات كانت تُصيَّر "0" على السيرفر فكان LCP
        ينتظر الجافاسكريبت. الآن القيم النهائية في HTML الأولي — يُطلب

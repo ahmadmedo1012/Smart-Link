@@ -364,7 +364,19 @@ export function EcosystemConstellation({
         n.hoverK += ((hot ? 1 : 0) - n.hoverK) * Math.min(1, dt / 120);
         n.selectK += ((WORLDS[i]!.id === selected ? 1 : 0) - n.selectK) * Math.min(1, dt / 160);
         // hover eases the node's angular speed — it slows to be caught
-        n.angle += n.omega * (reducedMotion ? 0 : 1 - n.hoverK * 0.75) * dt;
+        if (n.selectK > 0.01) {
+          // r144 (P4-4SL، QA): the OPEN node answers its selection by
+          // riding to the orbit's top vantage — the one arc of every
+          // orbit that sits in the clear sky ABOVE the dock's glass
+          // card, so the selection ring can never park behind the very
+          // panel that names it (the 1440 occlusion finding). Shortest
+          // wrap-around arc, eased on the same 160ms selectK clock.
+          let gap = -Math.PI / 2 - n.angle;
+          gap = Math.atan2(Math.sin(gap), Math.cos(gap));
+          n.angle += gap * Math.min(1, dt / 420) * n.selectK;
+        } else {
+          n.angle += n.omega * (reducedMotion ? 0 : 1 - n.hoverK * 0.75) * dt;
+        }
         orbitPoint(n.orbit, n.angle, scratch);
         // the intro bloom scales the whole system around its center
         n.x = scx + (scratch.x - cx) * scale;
@@ -444,12 +456,17 @@ export function EcosystemConstellation({
         ctx.globalAlpha = fade * (0.75 + n.hoverK * 0.25);
         ctx.drawImage(glowW[i]!, n.x - gs / 2, n.y - gs / 2, gs, gs);
         if (n.hoverK > 0.02 || n.selectK > 0.02) {
-          // hover halo — flat ring, no neon (the flat-craft law holds)
-          ctx.globalAlpha = fade * Math.max(n.hoverK, n.selectK * 0.8);
+          // hover halo / selection ring — flat ring, no neon (the
+          // flat-craft law holds). r144: the OPEN state is the LOUDEST
+          // state — the selection ring rides further out (up to +13px
+          // past the node) at full node alpha and a heavier stroke, so
+          // it reads around the edges of the open glass card instead of
+          // dying behind it (the QA "ambiguous open state" finding). 
+          ctx.globalAlpha = fade * Math.max(n.hoverK, n.selectK);
           ctx.strokeStyle = rgb(W[i]!, 1);
-          ctx.lineWidth = 1.4;
+          ctx.lineWidth = 1.4 + n.selectK * 0.5;
           ctx.beginPath();
-          ctx.arc(n.x, n.y, r + 6 + n.hoverK * 3, 0, Math.PI * 2);
+          ctx.arc(n.x, n.y, r + 6 + n.hoverK * 3 + n.selectK * 7, 0, Math.PI * 2);
           ctx.stroke();
           ctx.lineWidth = 1;
         }
@@ -658,7 +675,18 @@ export function EcosystemConstellation({
   if (failed) return null;
   return (
     <>
-      <canvas ref={canvasRef} className={className} aria-hidden="true" />
+      {/* r144 (P4-4SL، دلالة QA): the canvas carries REAL semantics now —
+          role="img" + an Arabic label that names the scene for anyone
+          inspecting the tree. It stays a non-interactive decoration: the
+          accessible interactive twin is the dock below (chips + glass
+          card), and the imperative tip keeps its own aria-hidden (its
+          text mirrors the chip names). */}
+      <canvas
+        ref={canvasRef}
+        className={className}
+        role="img"
+        aria-label="الكوكبة الحية — نواة SmartLink تدور حولها عقد المنتجات الثلاثة بروابط بيانات نابضة (مشهد ديكوري؛ العقد القابلة للتفاعل في الرصيف أسفله)"
+      />
       {/* the hover tip — imperative canvas-space label (physical left/top
           is the canvas coordinate system; positioning is transform-only) */}
       <div ref={tipRef} className="ln-eco-tip" aria-hidden="true">

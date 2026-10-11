@@ -47,7 +47,9 @@ import { LandingFooter } from "@/components/landing/LandingFooter"
    marquee kit for the seamless 42s RTL loop. r129 (P2-10): 15 entries so
    ONE copy (≈2.7–3.2k px) still fills ≥2200px viewports — the seam math
    assumes copy-1 ≥ viewport. The three additions are the platform's own
-   published claims (one account, Arabic-first, 24/7 WhatsApp support). */
+   verifiable claims (one account, Arabic-first, a direct WhatsApp line).
+   r144 (صدق P4-4SL): «دعم واتساب 24/7» كان ادعاءً بلا عملية دعم خلفه —
+   استُبدل بالقناة الحقيقية نفسها بلا وعد ساعات. */
 const MARQUEE_ITEMS = [
   "Smart Menu",
   "المنيو الرقمي للمطاعم",
@@ -69,7 +71,7 @@ const MARQUEE_ITEMS = [
   "مدفوعات ليبية",
   "حساب واحد لكل الخدمات",
   "واجهة عربية بالكامل",
-  "دعم واتساب 24/7",
+  "تواصل واتساب مباشر",
 ]
 
 export default function Home() {
@@ -92,10 +94,12 @@ export default function Home() {
               a SmartLink core orbited by the three product worlds on
               pulsing data links (r142 evolution of the r129 OrbitScene
               craft: DPR cap, IO pause, RM static frame). It fails safe
-              to the CSS sky gradients below it. aria-hidden: the scene
-              is decorative — every interaction is duplicated in the
-              accessible dock below (chips + glass card). */}
-          <div className="ln-hero-sky" aria-hidden="true">
+              to the CSS sky gradients below it.
+              r144 (P4-4SL، دلالة QA): الكانفس لم يعد aria-hidden صامتًا —
+              يحمل role="img" وتسمية عربية تشرح المشهد؛ التفاعل كله يبقى
+              في الرصيف المتاح أسفله (chips + بطاقة زجاجية) والتلميح نفسه
+              aria-hidden (توأم نصي لأسماء الرصيف). */}
+          <div className="ln-hero-sky">
             <EcosystemConstellation className="ln-hero-canvas" biasX={-0.35} />
           </div>
 
@@ -139,7 +143,9 @@ export default function Home() {
             <RevealCssClass as="ul" className="ln-hero-meta" delay={5}>
               <li><Check size={13} aria-hidden="true" /> بدون بطاقة ائتمان</li>
               <li aria-hidden="true" className="ln-hero-meta-dot" />
-              <li><MessageCircle size={13} aria-hidden="true" /> دعم واتساب 24/7</li>
+              {/* r144 (صدق P4-4SL): بلا وعد «24/7» — القناة نفسها هي
+                  الحقيقة القابلة للتحقق (wa.me بفتّاحة مصدرها، site.ts). */}
+              <li><MessageCircle size={13} aria-hidden="true" /> تواصل واتساب مباشر</li>
               <li aria-hidden="true" className="ln-hero-meta-dot" />
               <li><Languages size={13} aria-hidden="true" /> واجهة عربية بالكامل</li>
             </RevealCssClass>

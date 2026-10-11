@@ -115,7 +115,7 @@ export default function AboutPage() {
                 {/* r133 (A7 §2.2 / R16): founder name — was text-base 16px
                     (no rung); the 15px body rung is the on-ladder step. */}
                 <p className="text-[length:var(--fs-body)] text-foreground font-medium">أحمد خيري</p>
-                <p className="text-[length:var(--fs-body)] text-muted-foreground">مؤسس ورئيس SmartLink — منصة رقمية ليبية رائدة في المنيو الرقمي وخدمات الأتمتة.</p>
+                <p className="text-[length:var(--fs-body)] text-muted-foreground">مؤسس ورئيس SmartLink — منصة رقمية ليبية متخصصة في المنيو الرقمي وخدمات الأتمتة.</p>
               </div>
             </div>
           </div>
@@ -134,8 +134,13 @@ export default function AboutPage() {
               الذين يبحثون عن أتمتة ذكية لردودهم.
             </p>
             <p className="text-muted-foreground mb-4">
-              بصفتنا <strong>أول منصة ليبية</strong> متخصصة في إنشاء المنيو الرقمي التفاعلي، نسعى لأن تكون SmartLink
-              المنصة الرقمية الأولى للأعمال في ليبيا والعالم العربي.
+              {/* r144 (P4-4SL، موجة الصدق): «أول منصة ليبية» كان تفضيلًا
+                  لا مصدر له (نفس فئة «+500 عميل» المحذوفة في r143) —
+                  إعادة الصياغة إلى قابل للتحقق: تاريخ الانطلاق المذكور
+                  في الفقرة نفسها، وتطلّع بلا ادعاء سبق. */}
+              بصفتنا منصةً ليبية متخصصة في المنيو الرقمي التفاعلي منذ
+              نوفمبر 2025، نعمل كل يوم لتكون SmartLink خيار الأعمال
+              الموثوق في ليبيا والعالم العربي.
             </p>
 
             {/* Pull quote — kept verbatim (A4 §6: matches the role-quote

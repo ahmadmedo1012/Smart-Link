@@ -5,15 +5,18 @@ import { RevealCssClass } from "@/hooks/useReveal"
  * The old 4-card grid becomes a mission-control console: a full-width
  * framed panel with a mono status strip and hairline-divided cells —
  * the channel world the products live on. Every cell still traces to
- * shipped copy (WhatsApp orders + 24/7 support, the Facebook bot, the
- * custom QR, the one-link concept). The chapter stays UNLABELLED
- * (canonical ruling — the sequence keeps its breathing hole here). */
+ * shipped copy (WhatsApp orders + a direct human line, the Facebook
+ * bot, the custom QR, the one-link concept). The chapter stays
+ * UNLABELLED (canonical ruling — the sequence keeps its breathing hole
+ * here). r144 (صدق P4-4SL): «24/7» كانت ادعاءً بلا عملية دعم خلفه —
+ * الخلية تعد بقناة واتساب حقيقية وطلبات لحظية، والوسم INSTANT يطابق
+ * «تصلك لحظة إرسالها» الحقيقة. */
 
 const PLATFORMS = [
   {
     icon: MessageCircle, tone: "gold", name: "واتساب",
-    desc: "طلبات المنيو تصلك لحظة إرسالها، والدعم متاح على مدار الساعة.",
-    tag: "24/7",
+    desc: "طلبات المنيو تصلك لحظة إرسالها، وتواصل مباشر مع الفريق على واتساب.",
+    tag: "INSTANT",
   },
   {
     icon: Bot, tone: "azure", name: "فيسبوك",

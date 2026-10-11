@@ -214,15 +214,14 @@ const ACCENT_LIGHT = {
 };
 const STATUS_DARK = {
   '--success': '#7FD39A', '--success-ink': '#7FD39A',
-  '--warning': '#ECC97D', '--warning-ink': '#ECC97D',
   '--destructive': '#F0938F', '--destructive-ink': '#F0938F', // Madarek --danger/-ink
-  '--info': '#8FBBF2', '--info-ink': '#8FBBF2',
+  /* r144 (P4-4SL): --warning/--warning-ink/--info/--info-ink removed —
+     zero var() consumers repo-wide (grep-verified); pinning deleted
+     tokens is how drift hides (the r131 A3 D3 lesson). */
 };
 const STATUS_LIGHT = {
   '--success': '#4FA66D', '--success-ink': '#1F4F30',
-  '--warning': '#D6A330', '--warning-ink': '#6B4C0B',
   '--destructive': '#DD6E78', '--destructive-ink': '#6B2128',
-  '--info': '#5C8FCE', '--info-ink': '#1F3D63',
 };
 const FAMILIES_DARK = {
   peach: ['#2C1A16', '#F2A07F', '#FCD9C4'],
@@ -329,8 +328,8 @@ const SHADOWS_LIGHT = {
 
 // ── r126: surfaces, scrollbar, gen-art, gradients ───────────────────────────
 
-const SURFACES_DARK = { '--surface-raised': '#121A36', '--surface-sunken': '#0D1428' };
-const SURFACES_LIGHT = { '--surface-raised': '#F1EFEC', '--surface-sunken': '#F7F6F3' };
+const SURFACES_DARK = { '--surface-sunken': '#0D1428' }; /* r144: --surface-raised removed — zero consumers */
+const SURFACES_LIGHT = { '--surface-sunken': '#F7F6F3' };
 const SCROLLBAR_DARK = {
   '--scrollbar-thumb': 'rgba(142, 151, 184, 0.20)',
   '--scrollbar-thumb-hover': 'rgba(142, 151, 184, 0.34)',
@@ -344,18 +343,16 @@ const GENART_LIGHT = { '--genart-accent': '#6F6C66', '--genart-accent-dim': 'rgb
 const GRADIENTS_DARK = {
   /* (r131 A3 D3: --gradient-text-mid/end removed with the dead
      @utility gradient-text — the tokens had zero consumers since the
-     r128 flat-diet; pinning deleted tokens is how drift hides.) */
+     r128 flat-diet; pinning deleted tokens is how drift hides.)
+     (r144 P4-4SL: the three --gradient-smart-* / --gradient-coming-soon
+     service tokens removed for the SAME reason — zero var() consumers
+     since the r128 card rebuild; only the live --grid-line stays.) */
   '--grid-line': 'rgb(233 180 76 / 0.1)',
-  '--gradient-smart-menu': 'linear-gradient(135deg, rgb(242 160 127 / 0.25), rgb(242 160 127 / 0.1))',
-  '--gradient-smart-bot': 'linear-gradient(135deg, rgb(183 160 244 / 0.25), rgb(183 160 244 / 0.1))',
-  '--gradient-coming-soon': 'linear-gradient(135deg, rgb(127 211 154 / 0.25), rgb(127 211 154 / 0.1))',
 };
 const GRADIENTS_LIGHT = {
-  /* (r131 A3 D3: light --gradient-text-mid/end twins removed likewise.) */
+  /* (r131 A3 D3: light --gradient-text-mid/end twins removed likewise.
+     r144 P4-4SL: the service-gradient light twins removed likewise.) */
   '--grid-line': 'rgb(181 116 56 / 0.06)',
-  '--gradient-smart-menu': 'linear-gradient(135deg, rgb(224 120 86 / 0.15), rgb(224 120 86 / 0.06))',
-  '--gradient-smart-bot': 'linear-gradient(135deg, rgb(138 111 224 / 0.15), rgb(138 111 224 / 0.06))',
-  '--gradient-coming-soon': 'linear-gradient(135deg, rgb(79 166 109 / 0.15), rgb(79 166 109 / 0.06))',
 };
 
 // ── r126: easings (exact rubric béziers) + RTL motion direction ─────────────
@@ -679,14 +676,20 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
   );
 
   // 4 ── scroll-spy selectors (R2): the observer writes
-  //     header[data-active-section]; these six selectors are the css half
-  //     of the contract, on the shipped anchor set.
-  for (const anchor of ['trust', 'products', 'journey', 'progress', 'platforms', 'roles']) {
+  //     header[data-active-section]; these selectors are the css half
+  //     of the contract, on the shipped anchor set. r144 (P4-4SL): the
+  //     roster follows the r142 chapter map — the #trust/#roles anchors
+  //     died with their sections and their selector lines were excised.
+  for (const anchor of ['products', 'journey', 'progress', 'platforms']) {
     check(
       lcss.includes(`.landing header[data-active-section="${anchor}"] .landing-nav-link[href="#${anchor}"]`),
       `landing scroll-spy selector for #${anchor} (R2)`
     );
   }
+  check(
+    !lcss.includes('data-active-section="trust"') && !lcss.includes('data-active-section="roles"'),
+    'r144: the retired #trust/#roles spy selectors no longer exist (r142 chapter map is the truth)'
+  );
 
   // 5 ── the grain veil (R7): fixed, inert, riding --ln-grain-op.
   const grain = topLevelBlock(lcss, '.landing .ln-grain');
@@ -800,13 +803,60 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
     /box-shadow:\s*0 1px 2px rgba\(0,\s*0,\s*0,\s*0\.06\)/.test(topLevelBlock(lcss, '.landing .ln-stat')),
     'landing .ln-stat: resting shadow 0 1px 2px rgba(0,0,0,0.06) (P3-30)'
   );
+  // r144 (P4-4SL): the r142 rebuild RETIRED whole landing chapters —
+  // the old products-constellation (ln-products*/ln-constellation*), the
+  // progress story (ln-progress*), the roles ledger (ln-roles-list/
+  // ln-role-*), the trust-band anatomy (ln-trust-inner/ln-trust-sep),
+  // the r141 starfield plane (ln-hero-depth) and the r141-universe layer
+  // (nebula/orrery/tip-world — NOT the cta-family crest: see the pin
+  // below, the crest was restored to the finale the same round).
+  // Every rule body had ZERO TSX consumers (rg-verified per family) —
+  // the pins below previously kept the dead rules alive by asserting
+  // their values; they now assert the retirement itself, so the dead
+  // chapters can never "resurrect".
+  const retiredSelectors = [
+    '.ln-products', '.ln-constellation', '.ln-progress', '.ln-roles',
+    '.ln-role-row', '.ln-role-key', '.ln-role-ico', '.ln-role-name',
+    '.ln-role-index', '.ln-role-desc', '.ln-role-quote',
+    '.ln-trust-inner', '.ln-trust-sep', '.ln-hero-depth',
+    '.ln-constellation-nebula', '.ln-constellation-orrery',
+  ];
   check(
-    /inset 0 1px 0 rgba\(245,\s*243,\s*231,\s*0\.04\)/.test(topLevelBlock(lcss, '.landing .ln-progress-visual')),
-    'landing .ln-progress-visual: inset top-light (P3-29)'
+    retiredSelectors.every((sel) => !lcss.includes(`.landing ${sel}`)),
+    'r144: every retired r128/r141 chapter family is excised from landing.css (products-constellation/progress/roles/trust-inner/hero-depth/r141-universe-minus-the-crest)'
+  );
+  // r144 (P4-4SL, QA P1): the FAMILY CREST returns to the finale. The
+  // r142 rewrite had retired the r141 crest image — a unilateral
+  // deviation from the r142 spec («شعار العائلة الختامي family.webp
+  // float») that left a ~1200px dead void before the footer (production
+  // QA flagged `family` absent from the whole DOM). The crest ships
+  // again: FinaleCta renders the masked art, landing.css carries the
+  // float (token easing), reduced-motion stands still, and the asset
+  // exists on disk (the font-manifest lesson: pinned paths must exist).
+  check(
+    !/\.landing \.ln-role-quote-mark--end\s*\{[^}]*margin-inline-start:\s*6px/.test(lcss)
+      && !/\.landing \.ln-role-ico\.azure\s*\{/.test(lcss),
+    'r144: the roles-quote «» twin + role-ico.azure 3:1 pins retire WITH the dead roles chapter (the live .ln-menu-ico.azure keeps its 0.16 wash)'
   );
   check(
-    /box-shadow:\s*0 1px 2px rgba\(0,\s*0,\s*0,\s*0\.06\)/.test(topLevelBlock(lcss, '.landing .ln-role-row:hover')),
-    'landing .ln-role-row:hover: shadow 0 1px 2px rgba(0,0,0,0.06) (P3-35)'
+    !/\.ln-platform-name|\.ln-platform-desc|\.ln-platform-tag|\.ln-platforms-grid|\.ln-platform-cell/.test(lcss),
+    'r144: the pre-r142 platforms anatomy twins (ln-platform-name/desc/tag/grid/cell) are gone — the live surface consumes ln-ground-* + .ln-platform-ico only'
+  );
+  check(
+    /box-shadow:\s*0 1px 2px rgba\(0,\s*0,\s*0,\s*0\.06\)/.test(topLevelBlock(lcss, '.landing .ln-stat'))
+      && /\.landing\[data-intro-seen='true'\] \.ln-hero-canvas/.test(lcss),
+    'r144: the LIVE consumers of the retired chapters stay pinned (.ln-stat cockpit readout + canvas intro calm)'
+  );
+  const ctaFamilyRule = topLevelBlock(lcss, '.landing .ln-cta-family');
+  check(
+    /inline-size:\s*min\(240px,\s*52vw\)/.test(ctaFamilyRule)
+      && /mask-image:\s*radial-gradient\(circle at 50% 50%, rgba\(0,\s*0,\s*0,\s*1\) 42%, transparent 68%\)/.test(ctaFamilyRule)
+      && /animation:\s*ln-cta-family-float 9s var\(--ln-ease-soft\) infinite/.test(ctaFamilyRule)
+      && lcss.includes('@keyframes ln-cta-family-float')
+      && /\.landing \.ln-cta-family \{ animation: none; \}/.test(lcss)
+      && existsSync(new URL('../public/images/ecosystem/family.webp', import.meta.url))
+      && finaleSrc.includes('images/ecosystem/family.webp'),
+    'r144 QA-P1: the family crest finale ships — masked circular art (min(240px,52vw)), slow float on the token easing, reduced-motion stands still, and public/images/ecosystem/family.webp exists on disk (FinaleCta consumes it)'
   );
 
   // B ── P4-10 effective measures.
@@ -882,8 +932,12 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
     'landing RM P4-07: :active transforms disabled under prefers-reduced-motion'
   );
   check(
-    /@media \(max-width: 390px\)[^@]*\.ln-trust-inner[^}]*font-size:\s*12\.5px/.test(lcss),
-    'landing @390 trust band tightening'
+    !/\.ln-trust-inner/.test(lcss) && !/@media \(max-width: 390px\)\s*\{\s*\}/.test(lcss),
+    'r144: the @390 trust-inner tightening retired with the dead trust-band anatomy (no empty 390px block left behind)'
+  );
+  check(
+    lcss.includes('@media (max-height: 560px) and (orientation: landscape)'),
+    'landing landscape-phone hero compression block (P2-14)'
   );
   check(
     lcss.includes('@media (max-height: 560px) and (orientation: landscape)'),
@@ -1016,18 +1070,21 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
     'landing RM off-switch: .ln-hero-canvas animation none under reduced motion'
   );
 
-  // O ── token fixes (token-matrix SL rows): the canonical gold family,
-  //     --brand-purple, --ease-spring-snappy, --hover-lift — plus the
-  //     canonical font stacks (pinned via THEME_FONTS above) and the
-  //     landing-local Arabic-capable --ln-mono chain.
-  pin(dark, 'dark', '--gold', '#E9B44C');
-  pin(light, 'light', '--gold', '#D6A330');
-  pin(dark, 'dark', '--gold-ink', '#ECC97D');
-  pin(light, 'light', '--gold-ink', '#6B4C0B');
-  pin(dark, 'dark', '--gold-soft', '#2C2410');
-  pin(light, 'light', '--gold-soft', '#FCF1CD');
-  pin(dark, 'dark', '--brand-purple', '#B7A0F4');
-  pin(light, 'light', '--brand-purple', '#8A6FE0');
+  // O ── token fixes (token-matrix SL rows): --ease-spring-snappy,
+  //     --hover-lift — plus the canonical font stacks (pinned via
+  //     THEME_FONTS above) and the landing-local Arabic-capable
+  //     --ln-mono chain. r144 (P4-4SL): the --gold/--gold-ink/--gold-soft
+  //     /--brand-purple pins retired WITH the dead tokens themselves —
+  //     zero var() consumers repo-wide (grep-verified); the light pins
+  //     had been resolving through the DARK declarations via the merged
+  //     scope, so the family was doubly untruthful.
+  check(
+    !/--gold[\w-]*\s*:/.test(css) && !/--brand-purple\s*:/.test(css)
+      && !/--warning[\w-]*\s*:/.test(css) && !/--info[\w-]*\s*:/.test(css)
+      && !/--surface-raised\s*:/.test(css)
+      && !/--gradient-smart|\-\-gradient-coming/.test(css),
+    'r144 dead-token sweep: gold family / brand-purple / warning+info / surface-raised / service gradients stay deleted from styles.css (zero consumers was the verdict)'
+  );
   pin(dark, 'dark', '--hover-lift', '-1px');
   pin(light, 'light', '--hover-lift', '-1px');
   pin(dark, 'dark', '--hover-lift-lg', '-3px');
@@ -1079,16 +1136,14 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
   const lcss130 = readFileSync(new URL('../src/app/landing.css', import.meta.url), 'utf8')
     .replace(/\/\*[\s\S]*?\*\//g, ' ');
 
-  // A ── rule-presence: the two ≤560px constellation-CTA stacking rules
-  //     (canonical landing.css:1708-1709, ported r130 W1-D P1-1).
+  // A ── r144 (P4-4SL): the two ≤560px constellation stacking rules
+  //     (r130 W1-D P1-1) retired WITH the dead constellation chapter —
+  //     the pin now asserts the retirement (the dead chapter can never
+  //     resurrect with its old mobile bugs).
   const block560 = allTopLevelBlocks(lcss130, '@media (max-width: 560px)').join('\n');
   check(
-    /\.ln-constellation-cta\s*\{[^}]*flex-direction:\s*column[^}]*align-items:\s*stretch[^}]*text-align:\s*center/.test(block560),
-    '560px rule presence: .ln-constellation-cta { flex-direction: column; align-items: stretch; text-align: center }'
-  );
-  check(
-    /\.ln-constellation-browse\s*\{[^}]*justify-content:\s*center/.test(block560),
-    '560px rule presence: .ln-constellation-browse { justify-content: center }'
+    !/\.ln-constellation/.test(block560) && !/\.ln-progress-stats/.test(block560),
+    'r144: the ≤560px constellation-cta/browse stacking + progress-stats rules retired with their dead chapters (the live .ln-stat mobile rungs stay)'
   );
 
   // B ── the --motion-duration semantic layer (W1-G SL-P1-1): ladder
@@ -1542,13 +1597,87 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
     'r12: product .ln-label twin letter-spacing 0 (inner-page heads)');
   check(/\.landing \.ln-hero-scroll \.ln-mono\s*\{[^}]*letter-spacing:\s*0/.test(landingCss),
     'r12: hero-scroll «تابع الرحلة» letter-spacing 0 (was 0.22em on pure Arabic)');
-  check(/\.landing \.ln-progress-label \.ln-mono\s*\{[^}]*letter-spacing:\s*0/.test(landingCss),
-    'r12: progress-label «المنظومة تتّسع» letter-spacing 0 (was 0.2em)');
+  /* r144 (P4-4SL): the progress-label pin retired WITH the dead
+     .ln-progress chapter; the r142 wave shipped new tracked devices the
+     old sweep (0.01/0.08/0.2/0.22em) could not see — three carried
+     DIRECT Arabic runs (.ln-marquee-tag 0.06em «بث المنظومة»،
+     .ln-mock-intent 0.05em «منيو»، .ln-mock-ticket-head 0.04em
+     «طلب جديد») and three wrappers tracked nothing but their mono
+     children. All six declarations are excised; the sweep now freezes
+     the WHOLE tracked-declaration inventory at the three sanctioned
+     Latin-only devices. */
+  check(!/\.ln-progress-label/.test(landingCss),
+    'r144: the progress-label ls-0 pin retired with the dead .ln-progress chapter');
   check(/\.landing \.ln-btn-ghost\s*\{[^}]*letter-spacing:\s*0/.test(landingCss),
     'r12: ghost-pill labels letter-spacing 0 (Arabic «تواصل معنا» — was 0.01em)');
+  check(count(landingCss, /letter-spacing:\s*0\.0\d+em/g) === 3
+      && /\.landing \.ln-eco-tip b\s*\{[^}]*letter-spacing:\s*0\.02em/.test(landingCss)
+      && /\.landing \.ln-world-host\s*\{[^}]*letter-spacing:\s*0\.04em/.test(landingCss)
+      && /\.landing \.ln-ground-cell-tag\s*\{[^}]*letter-spacing:\s*0\.06em/.test(landingCss),
+    'r144 tracked-inventory freeze: exactly THREE tracked declarations survive — the Latin-only .ln-eco-tip b (world.name)/.ln-world-host (domains)/.ln-ground-cell-tag (INSTANT·AUTO·SCAN·ONE LINK)');
+  check(!/\.ln-marquee-tag\s*\{[^}]*letter-spacing/.test(landingCss)
+      && !/\.ln-mock-intent[^{]*\{[^}]*letter-spacing/.test(landingCss)
+      && !/\.ln-mock-auto\s*\{[^}]*letter-spacing/.test(landingCss)
+      && !/\.ln-mock-ticket-head\s*\{[^}]*letter-spacing/.test(landingCss)
+      && !/\.ln-cockpit-status\s*\{[^}]*letter-spacing/.test(landingCss)
+      && !/\.ln-cockpit-scope-label\s*\{[^}]*letter-spacing/.test(landingCss)
+      && !/\.ln-ground-status\s*\{[^}]*letter-spacing/.test(landingCss),
+    'r144: the six r142 Arabic-tracking violations carry NO letter-spacing (marquee-tag «بث المنظومة»/mock-intent «منيو»/mock-ticket-head «طلب جديد» + the three inert mono-only wrappers)');
   check(!/letter-spacing:\s*0\.(08|22|2|01)em/.test(landingCss)
+      && !/letter-spacing:\s*0\.0[2-7]em/.test(stylesCss)
       && !/letter-spacing:\s*0\.08em/.test(stylesCss),
-    'r12 negative sweep: no tracked .ln-* device declarations survive in either sheet');
+    'r12 negative sweep (r144-widened): no retired tracked value (0.01/0.08/0.2/0.22em) anywhere, and NO tracked device at all in styles.css — landing carries only the frozen 3-declaration inventory above');
+
+  // 2b ── r144 polish wave (P4-4SL): the 24/7 truth, the marquee veils,
+  //      the mobile floors, and the constellation open-state semantics.
+  //      Every new rule the wave ships is pinned here so it can't silently
+  //      regress the way the r142 tracking devices did.
+  const page144 = read('app/page.tsx');
+  const platforms144 = read('components/landing/PlatformsSection.tsx');
+  const contact144 = read('app/contact/page.tsx');
+  const site144 = read('lib/site.ts');
+  const eco144 = read('components/landing/EcosystemConstellation.tsx');
+  check(
+    count(page144, /تواصل واتساب مباشر/g) === 2 && !page144.includes('24/7'),
+    'r144 claims: the homepage carries the TRUE WhatsApp claim twice (hero meta + marquee) and the unverifiable «دعم واتساب 24/7» promise is gone (comments stripped)'
+  );
+  check(
+    platforms144.includes('tag: "INSTANT"') && !platforms144.includes('tag: "24/7"')
+      && !platforms144.includes('على مدار الساعة'),
+    'r144 claims: the WhatsApp ground-cell tells the instant-orders truth (tag INSTANT) — no 24/7 support promise anywhere in the platforms console'
+  );
+  check(
+    !contact144.includes('24/7') && !contact144.includes('مدار الساعة'),
+    'r144 claims: /contact support hours are the office 9–9 truth (no 24/7 on the meta description or the hours card)'
+  );
+  check(
+    site144.includes('support: "خلال أوقات العمل"') && !site144.includes('"24/7"'),
+    'r144 claims: the ONE registry keeps one honest support value (خلال أوقات العمل) — the r9 "genuinely 24/7" blessing is revoked'
+  );
+  check(
+    /\.landing \.ln-marquee::before[\s\S]*?\.landing \.ln-marquee::after/.test(landingCss)
+      && /linear-gradient\(90deg, var\(--ln-ink\) 12%, transparent\)/.test(landingCss)
+      && /linear-gradient\(270deg, var\(--ln-ink\) 12%, transparent\)/.test(landingCss),
+    'r144 polish: the broadcast band fades into its ground at BOTH physical viewport edges (symmetric veils — direction-neutral seam, documented)'
+  );
+  check(
+    /\.landing \.ln-hero\s*\{[^}]*padding-inline: max\(7vw, 22px\)/.test(landingCss),
+    'r144 polish: the hero rides a safe mobile inline floor (max 7vw / 22px) — the H1 terminal glyph keeps its edge breathing at 360–420'
+  );
+  check(
+    /\.landing \.landing-footer-link\s*\{[^}]*width: auto[^}]*padding-block: 10px/.test(landingCss),
+    'r144 polish: footer links become full-width ≥44px touch rows on mobile (width auto + 10px block padding under the 768 block)'
+  );
+  check(
+    eco144.includes('role="img"') && eco144.includes('aria-label="الكوكبة الحية'),
+    'r144 semantics: the constellation canvas carries role=img + an Arabic scene label (the decorative scene is named; the dock stays the interactive twin)'
+  );
+  check(
+    /gap = Math\.atan2\(Math\.sin\(gap\), Math\.cos\(gap\)\)/.test(eco144)
+      && /-Math\.PI \/ 2 - n\.angle/.test(eco144)
+      && /r \+ 6 \+ n\.hoverK \* 3 \+ n\.selectK \* 7/.test(eco144),
+    'r144 constellation: the OPEN node rides to the orbit\'s top vantage (wrap-around ease) and its ring reads past the card edge (up to +13px, full alpha) — the 1440 occlusion finding stays fixed'
+  );
 
   // 3 ── A7 §2.3: the 404 numeral is DOCUMENTED display-art — raw
   //     text-9xl 128px, intentionally off the ladder; do not tokenize.
@@ -1561,10 +1690,12 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
   check(/new Intl\.NumberFormat\('en',/.test(countUp) && !/ar-LY/.test(countUp),
     'CountUp: formatter locale en — no comma-decimal mid-stat flip on 99.9');
 
-  // 5 ── A7 §4-7: the constellation browse arrow nudges LEFT on hover
-  //     (RTL forward), not the physical translateX(3px) right.
-  check(/\.ln-constellation-browse:hover svg\s*\{\s*transform:\s*translateX\(-3px\)/.test(landingCss),
-    'landing browse arrow: hover nudge translateX(-3px) — LEFT, the RTL forward direction');
+  // 5 ── r144 (P4-4SL): the constellation-browse hover-nudge pin retired
+  //     WITH the dead browse pill — the RTL-leftward-arrow LESSON stays
+  //     enforced by its live carriers (the world CTA ArrowLeft + the
+  //     inner-page group-hover twin).
+  check(!/\.ln-constellation-browse/.test(landingCss),
+    'r144: the browse-arrow hover pin retired with the dead .ln-constellation-browse (the RTL-leftward lesson lives on in the live carriers)');
 
   // 6 ── A7 §1 (A6 probe): the no-JS reveal contract — the landing's
   //     (0,2,0) .landing .reveal-up must carry its OWN scripting:none
@@ -1657,10 +1788,6 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
     !/[“”]/.test(rolesSrc + landingCss134.slice(0, 2000)),
     'r134-6: the r142 Arabic copy keeps the «» canon — no lone Latin curly quotes on the rebuilt surfaces'
   );
-  check(
-    /\.landing \.ln-role-quote-mark--end\s*\{[^}]*margin-inline-start:\s*6px/.test(landingCss134),
-    'r134-6: the closing guillemet twin rule ships (margin flips to the logical start side)'
-  );
 
   // F ── fix 3: the r9 «تواصل معنا» unification — zero «اتصل بنا»
   //     survives in shipped chrome (footer/privacy/terms).
@@ -1698,14 +1825,14 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
     'r134-8: JSON-LD keeps the bare SITE.whatsapp.url (machines don\'t type openers)'
   );
 
-  // I ── fix 9: the azure role well clears the WCAG 1.4.11 3:1 graphics
-  //     floor — recomputed 3.064:1 (violet #7A6BF2 on violet-12% over
-  //     the --ln-ink #252A3E chapter ground). The megamenu sibling's
-  //     0.16 passes only on its DARKER --ln-ink-2 panel (3.295:1);
-  //     0.16 here would measure 2.92:1 (verified — direction matters).
+  // I ── r144 (P4-4SL): the .ln-role-ico.azure 3:1 fix pin retired WITH
+  //     the dead roles chapter (its deep contrast NOTE lives in git
+  //     history; the megamenu sibling .ln-menu-ico.azure still ships its
+  //     0.16 wash on the darker --ln-ink-2 panel ground — that rule stays).
   check(
-    /\.landing \.ln-role-ico\.azure\s*\{[^}]*rgb\(122 107 242 \/ 0\.12\)/.test(landingCss134),
-    'r134-9: .ln-role-ico.azure wash 0.12 — violet icon ≥3:1 on the ink ground (was 2.99:1 at 0.14)'
+    !/\.ln-role-ico/.test(landingCss134)
+      && /\.landing \.ln-menu-ico\.azure\s*\{[^}]*rgb\(122 107 242 \/ 0\.16\)/.test(landingCss134),
+    'r144: role-ico.azure retired with the roles chapter; the live megamenu .ln-menu-ico.azure keeps its 0.16 wash (3.295:1 on --ln-ink-2)'
   );
 
   // J ── fix 10a: the r133-A10 autofill/caret port (madarek base.css:
@@ -1938,6 +2065,24 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
 
 if (failures.length > 0) {
   console.error(`✗ Madarek parity snapshot FAILED (${failures.length} assertion(s)):`);
+  for (const f of failures) console.error(`  • ${f}`);
+  process.exit(1);
+}
+
+/* r144 (P4-4SL) — the self-count assertion. The suite now pins its own
+   size: a pin added or removed without bumping EXPECTED_ASSERTIONS
+   fails here, so the doc-vs-reality drift class (CLAUDE.md said 538
+   while the suite actually ran 535) can never silently recur. Rule:
+   EVERY intentional pin change bumps EXPECTED_ASSERTIONS in the same
+   commit, and CLAUDE.md's count line quotes this constant's value. */
+const EXPECTED_ASSERTIONS = 525;
+check(
+  passed + 1 === EXPECTED_ASSERTIONS,
+  `self-count: the suite must run exactly ${EXPECTED_ASSERTIONS} assertions (ran ${passed + 1}) — bump EXPECTED_ASSERTIONS with every intentional pin change`
+);
+
+if (failures.length > 0) {
+  console.error(`✗ parity self-count gate FAILED:`);
   for (const f of failures) console.error(`  • ${f}`);
   process.exit(1);
 }

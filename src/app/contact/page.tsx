@@ -24,7 +24,9 @@ export const metadata = pageMetadata({
      strongest contact keywords (واتساب، دعم فني). */
   title: "تواصل معنا — فريق SmartLink جاهز للمساعدة",
   description:
-    "تواصل مع فريق SmartLink لأي استفسار أو دعم فني أو طلب خدمة: نموذج تواصل سريع، أو واتساب مباشر على مدار الساعة — وردود المكتب من 9 صباحاً حتى 9 مساءً.",
+    /* r144 (صدق P4-4SL): حُذف «على مدار الساعة» — بلا عملية دعم 24/7؛
+       القناة الحقيقية: واتساب مباشر وردود المكتب 9ص–9م. */
+    "تواصل مع فريق SmartLink لأي استفسار أو دعم فني أو طلب خدمة: نموذج تواصل سريع، أو واتساب مباشر — وردود المكتب من 9 صباحاً حتى 9 مساءً.",
   canonical: "/contact",
   ogDescription: "استفسارات ودعم فني وطلبات خدمات — واتساب مباشر أو نموذج البريد",
 })
@@ -56,7 +58,7 @@ const contacts = [
   { icon: Mail, title: "البريد الإلكتروني", desc: SITE.email, href: `mailto:${SITE.email}` },
   { icon: MessageCircle, title: "واتساب", desc: "تواصل مباشر مع المؤسس", href: whatsappUrl("صفحة التواصل") },
   { icon: MapPin, title: "الموقع", desc: SITE.address },
-  { icon: Clock, title: "أوقات الدعم", desc: "واتساب 24/7 · المكتب 9 صباحاً — 9 مساءً" },
+  { icon: Clock, title: "أوقات الدعم", desc: "واتساب ومكتب · 9 صباحاً — 9 مساءً" },
 ]
 
 export default function ContactPage() {

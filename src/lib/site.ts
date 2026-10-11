@@ -71,10 +71,13 @@ export const SITE = {
   address: "ليبيا",
 
   hours: {
-    /** Support via WhatsApp is genuinely 24/7; the office keeps 9-to-9.
-        The contact page used to mash both into one contradictory line
-        (audit C1) — use these two separately, never one string. */
-    support: "24/7",
+    /* r144 (صدق P4-4SL): the old "support: 24/7" claim (and the r9
+       comment "genuinely 24/7" that blessed it) had no support rota
+       behind it — the coordinator ruling is the business truth: NO
+       24/7 support operation exists. The WhatsApp line is answered by
+       the same team that keeps the office hours. One honest fact now,
+       where r9's C1 fix had split a contradiction into two claims. */
+    support: "خلال أوقات العمل",
     office: "9 صباحاً — 9 مساءً",
     /** JSON-LD openingHoursSpecification values (Mo-Su 09:00–21:00). */
     schemaOpens: "09:00",

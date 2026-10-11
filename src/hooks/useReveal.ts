@@ -314,14 +314,15 @@ function useReveal<T extends HTMLElement = HTMLElement>(options?: {
 /**
  * RevealCssClass — thin JSX wrapper around useReveal that manages the
  * `.reveal-up` / `.reveal-d-{1..5}` class contract used by the landing
- * page's choreography (landing.css + polish.css).
+ * page's choreography (landing.css §0k reveal family; the inner pages'
+ * reveal-scroll family lives in styles.css).
  *
- * NOT the platform reveal primitive. `components/motion/Reveal.tsx`
- * (data-reveal / data-revealed + --reveal-distance tokens, RevealGroup
- * staggering) is the sanctioned component for app pages. The two used to
- * share the `Reveal` name and this file's docblock even advertised
- * the other component's API — renamed so nobody picks the wrong one
- * (audit 11-f P2-10).
+ * r144 (P4-4SL doc truth): this is the ONLY reveal wrapper in this
+ * repo — a previous docblock pointed at `components/motion/Reveal.tsx`
+ * (data-reveal / RevealGroup staggering) as "the sanctioned component
+ * for app pages", but that file exists only in the sibling platform
+ * repo, never here; the cross-repo reference kept sending new agents
+ * hunting for a component that isn't in this codebase.
  *
  * Usage:
  *   <RevealCssClass as="section" className="..." delay={2}>…</RevealCssClass>

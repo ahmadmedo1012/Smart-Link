@@ -3,6 +3,8 @@
 import { pageMetadata } from "@/lib/seo"
 import { SITE } from "@/lib/site"
 import { breadcrumbJsonLd } from "@/lib/schema"
+/* r144 (P4-4SL): ختم المحتوى من المصدر الوحيد (يقرؤه الـ sitemap أيضًا). */
+import { LEGAL_UPDATED } from "@/lib/content-dates"
 /* r128 F2b: the shared product chrome moved out of the RootLayout
    (the landing owns its own world now) — this page renders it itself. */
 import { SiteChrome } from "@/components/site-chrome"
@@ -52,7 +54,7 @@ export default function TermsPage() {
         >
           {/* r138: حُدِّث التاريخ — تعداد الخدمات أعلاه تغيّر نصاً (أُضيف
               Smart Order)، وتاريخ آخر تحديث يجب أن يتبع النص لا يتقدمه. */}
-          <p className="text-sm">آخر تحديث: أكتوبر 2026</p>
+          <p className="text-sm">آخر تحديث: {LEGAL_UPDATED.label}</p>
 
           <section>
             <h2 className="text-[length:var(--fs-h2)] font-bold text-foreground mt-6 mb-2">القبول بالشروط</h2>

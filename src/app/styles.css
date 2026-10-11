@@ -260,18 +260,12 @@
      is the LIGHT-side resolver only). #E9B44C measures 10.4:1 on the
      night ground — AAA. Also tints the feature-card hover hairline. */
   --ring: #E9B44C;
-  /* --destructive/--success/--warning/--info = Madarek status BASE
-     values (§1.6 dark = the family -ink hues). Companions -ink = the
-     canonical text-grade variant (dark: identical to base; light theme
-     carries the family -deep) so small status TEXT keeps AA in both
-     modes while base keeps fill/stroke duty (showcase traffic-light
-     dots, input error border, oklch washes). */
+  /* r144 (P4-4SL): --warning/--warning-ink/--info/--info-ink حُذفت —
+     صفر مستهلكي var() في المستودع كله (تحقق grep)؛ إبقاؤها كانت توكنًا
+     ميتًا من حقبة ما قبل r128. --destructive/--success تبقيان (مستهلكتان
+     فعلاً: حدود خطأ الإدخال، نقاط الأضواء). */
   --success: #7FD39A;
   --success-ink: #7FD39A;
-  --warning: #ECC97D;
-  --warning-ink: #ECC97D;
-  --info: #8FBBF2;
-  --info-ink: #8FBBF2;
 
   /* ── Madarek accent family (§1.5 dark column), exact ── */
   --accent-solid: #E9B44C;
@@ -281,19 +275,15 @@
   --accent-ink: #E9B44C;
   --accent-fg: #05070F;
 
-  /* ── r129 (cross-product audit A10): canonical brand/gold family —
-     Madarek tokens.css:781-784/1033, exact. --gold follows the solid
-     accent in dark (canonical dark: var(--accent)); --gold-ink is the
-     dark gold TEXT rung; --gold-soft chains the yellow pastel family
-     (single definition — .light re-maps the family so both themes
-     resolve); --brand-purple chains the lavender family likewise. */
-  --brand-purple: var(--c-lavender-ink);
-  --gold:         var(--accent-solid);
-  --gold-ink:     var(--c-yellow-ink);
-  --gold-soft:    var(--c-yellow-bg);
+  /* r144 (P4-4SL): عائلة --gold/--gold-ink/--gold-soft/--brand-purple
+     حُذفت — صفر مستهلكي var() (تحقق grep)؛ الأزرار الذهبية تستهلك
+     عائلة --accent مباشرة، واللمّاع --accent-strong. حذف توكنات بلا
+     مستهلكين = درس r131 A3 D3 نفسه (pinning deleted tokens is how
+     drift hides). */
 
-  /* ── Surface hierarchy — Madarek dark surfaces (§1.3/§1.7) ── */
-  --surface-raised: #121A36;
+  /* ── Surface hierarchy — Madarek dark surfaces (§1.3/§1.7)
+     (r144: --surface-raised حُذف — صفر مستهلكين؛ --surface-sunken
+     حيّ في التذييل) ── */
   --surface-sunken: #0D1428;
 
   /* ── Glass variants — Madarek §1.8 dark, exact ── */
@@ -311,12 +301,9 @@
   --t-glow: 0 0 30px rgb(233 180 76 / 0.25);
   --t-glow-strong: 0 0 60px rgb(233 180 76 / 0.35);
 
-  /* ── Service gradients — Madarek pastel families (§1.4):
-     smart-menu = peach · smart-bot = lavender · coming-soon = mint.
-     Family -ink hues at the original wash alphas (25%→10% dark). ── */
-  --gradient-smart-menu: linear-gradient(135deg, rgb(242 160 127 / 0.25), rgb(242 160 127 / 0.1));
-  --gradient-smart-bot: linear-gradient(135deg, rgb(183 160 244 / 0.25), rgb(183 160 244 / 0.1));
-  --gradient-coming-soon: linear-gradient(135deg, rgb(127 211 154 / 0.25), rgb(127 211 154 / 0.1));
+  /* r144 (P4-4SL): توكنات تدرّجات الخدمات الثلاثة حُذفت — صفر
+     مستهلكي var() منذ إسقاط البطاقات المتدرجة (نفس فئة الحذف التي
+     نفّذها r131 A3 D3 لتوكنات gradient-text). */
 
   /* ── Grid pattern — gold hairline at the original 10% ── */
   --grid-line: rgb(233 180 76 / 0.1);
@@ -506,10 +493,8 @@
   --ring: #5C3416;
   --success: #4FA66D;
   --success-ink: #1F4F30;
-  --warning: #D6A330;
-  --warning-ink: #6B4C0B;
-  --info: #5C8FCE;
-  --info-ink: #1F3D63;
+  /* r144 (P4-4SL): --warning/--warning-ink/--info/--info-ink الفاتحة
+     حُذفت مع توأميهما الداكنين — صفر مستهلكين. */
 
   /* ── Madarek accent family (§1.5 light column), exact ── */
   --accent-solid: #B57438;
@@ -519,13 +504,11 @@
   --accent-ink: #5C3416;
   --accent-fg: #1A0F06;
 
-  /* r129: canonical light gold rungs (Madarek light block: --gold =
-     var(--c-yellow-ink), --gold-ink = var(--c-yellow-deep)). */
-  --gold:     var(--c-yellow-ink);
-  --gold-ink: var(--c-yellow-deep);
+  /* r144 (P4-4SL): --gold/--gold-ink الفاتحة حُذفت مع عائلة الداكن —
+     صفر مستهلكين. */
 
-  /* ── Surface hierarchy — Madarek light surfaces ── */
-  --surface-raised: #F1EFEC;
+  /* ── Surface hierarchy — Madarek light surfaces
+     (r144: --surface-raised حُذف — صفر مستهلكين) ── */
   --surface-sunken: #F7F6F3;
 
   /* ── Glass variants — Madarek §1.8 light, exact ── */
@@ -544,11 +527,8 @@
   --t-glow: 0 0 30px rgb(181 116 56 / 0.12);
   --t-glow-strong: 0 0 60px rgb(181 116 56 / 0.2);
 
-  /* ── Service gradients — family -ink hues at the original light
-     wash alphas (15%→6%). ── */
-  --gradient-smart-menu: linear-gradient(135deg, rgb(224 120 86 / 0.15), rgb(224 120 86 / 0.06));
-  --gradient-smart-bot: linear-gradient(135deg, rgb(138 111 224 / 0.15), rgb(138 111 224 / 0.06));
-  --gradient-coming-soon: linear-gradient(135deg, rgb(79 166 109 / 0.15), rgb(79 166 109 / 0.06));
+  /* r144 (P4-4SL): توكنات تدرّجات الخدمات الفاتحة حُذفت مع توأميهما
+     الداكنين — صفر مستهلكين. */
 
   /* ── Grid pattern — copper hairline at the original 6% ── */
   --grid-line: rgb(181 116 56 / 0.06);
@@ -774,9 +754,14 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  /* r144 (P4-4SL): the pull rides --mag-x/--mag-y (written by the shared
+     useMagnetic hook — the ONE magnetic implementation since the
+     main-nav inline twin was consolidated). The independent `translate`
+     property composes with any transform and never triggers layout. */
+  translate: var(--mag-x, 0px) var(--mag-y, 0px);
   /* r126 (P4-A3 §2.3): ladder + token — 160ms fast on the Madarek
      bounce curve (the literal was the exact --ease-bounce value). */
-  transition: transform var(--t-fast) var(--ease-bounce);
+  transition: translate var(--t-fast) var(--ease-bounce);
 }
 
 /* (r131 A3 D3 — dead-CSS sweep): the .blob-0..3 + blob-pulse and

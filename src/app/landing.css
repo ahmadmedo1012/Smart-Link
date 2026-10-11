@@ -1947,3 +1947,61 @@ body > a[href="#main-content"] { display: none; }
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(0,0,0,0.12), 0 2px 4px rgba(0,0,0,0.06);
 }
+
+/* ═════════════════════════════════════════════════════════════════════
+   §r141-universe — the ecosystem universe layer (task 3-b)
+   The parent brand's own upgrade: the constellation wears the generated
+   nebula as masked depth, the ONE hover pop wears each live product's
+   world color, and the finale closes on the three-worlds family crest.
+   New token/rule names only — the canonical --ln-* canon above is
+   untouched (parity pins intact).
+   ═════════════════════════════════════════════════════════════════════ */
+
+/* ── the nebula — masked ecosystem art behind the orrery rings ── */
+.landing .ln-constellation-nebula {
+  position: absolute;
+  inset: 0;
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+  opacity: 0.22;
+  z-index: 0;
+  -webkit-mask-image: radial-gradient(85% 85% at 50% 46%, #000 26%, transparent 74%);
+  mask-image: radial-gradient(85% 85% at 50% 46%, #000 26%, transparent 74%);
+  pointer-events: none;
+}
+/* the orrery (and its dots/tips) ride above the nebula */
+.landing .ln-constellation-orrery { z-index: 1; }
+
+/* ── the world-tinted tip — only when a live product owns the pop ── */
+.landing .ln-constellation-tip[style*="--tip-world"] {
+  border-color: color-mix(in srgb, var(--tip-world, var(--ln-lime)) 55%, transparent);
+  box-shadow: 0 6px 26px color-mix(in srgb, var(--tip-world, var(--ln-lime)) 18%, transparent);
+}
+.landing .ln-constellation-tip[style*="--tip-world"] b {
+  color: var(--tip-world, var(--ln-cream));
+}
+
+/* ── the family crest — the three worlds closing emblem ── */
+.landing .ln-cta-family {
+  margin-inline: auto;
+  margin-block-end: 6px;
+  inline-size: min(240px, 52vw);
+  aspect-ratio: 1;
+  -webkit-mask-image: radial-gradient(circle at 50% 50%, #000 42%, transparent 68%);
+  mask-image: radial-gradient(circle at 50% 50%, #000 42%, transparent 68%);
+  animation: ln-cta-family-float 9s var(--ease-soft, ease-in-out) infinite;
+}
+.landing .ln-cta-family-img {
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: contain;
+}
+@keyframes ln-cta-family-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .landing .ln-cta-family { animation: none; }
+}

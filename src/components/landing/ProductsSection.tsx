@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react"
 import type { CSSProperties } from "react"
 import { ArrowLeft, Network } from "lucide-react"
 import Link from "next/link"
+import Image from "next/image"
 import { RevealCssClass } from "@/hooks/useReveal"
 import { SITE } from "@/lib/site"
 
@@ -45,6 +46,19 @@ const DOT_IDLE = "rgba(245,243,231,0.65)"
 /** Resting-cycle paint — the one gently lit node (near-full cream). */
 const DOT_REST = "rgba(245,243,231,0.95)"
 
+/**
+ * r141 (task 3-b): the product WORLDS — each live product owns a hue
+ * drawn from its own site's identity (menu = the culinary ember,
+ * bot = the Orbit-Ink lime it already owns, order = the logistics route
+ * gold). The ONE-pop doctrine (P2-13) is untouched: still exactly one
+ * lit node at a time — the pop simply wears the product's world color,
+ * so the sky reads as a family of distinct worlds, not one lime field.
+ */
+type World = { readonly color: string }
+const WORLD_MENU: World = { color: "#F2C48D" }
+const WORLD_BOT: World = { color: "var(--ln-lime, #DFEDB2)" }
+const WORLD_ORDER: World = { color: "var(--primary, #E9B44C)" }
+
 /** Square stage side — a square viewBox is what keeps every ring a perfect circle. */
 const SIZE = 720
 /** Shared center of all six rings. */
@@ -78,12 +92,14 @@ type Service = {
   sub: string
   href?: string
   ring: number
+  /** r141: the product world tint — live products only (see WORLD_*). */
+  world?: World
 }
 
 const SERVICES: readonly Service[] = [
-  { name: "Smart Menu", sub: "المنيو الرقمي للمطاعم — يعمل الآن", href: SITE.products.menu.url, ring: 0 },
-  { name: "SmartBot", sub: "البوت الذكي لفيسبوك — يعمل الآن", href: SITE.products.bot.url, ring: 1 },
-  { name: "Smart Order", sub: "متجر الطلبات الرقمي — يعمل الآن", href: SITE.products.order.url, ring: 2 },
+  { name: "Smart Menu", sub: "المنيو الرقمي للمطاعم — يعمل الآن", href: SITE.products.menu.url, ring: 0, world: WORLD_MENU },
+  { name: "SmartBot", sub: "البوت الذكي لفيسبوك — يعمل الآن", href: SITE.products.bot.url, ring: 1, world: WORLD_BOT },
+  { name: "Smart Order", sub: "متجر الطلبات الرقمي — يعمل الآن", href: SITE.products.order.url, ring: 2, world: WORLD_ORDER },
   { name: "حجوزات مواعيد", sub: "قريباً", ring: 2 },
   { name: "منصة تسويق", sub: "قريباً", ring: 3 },
   { name: "مساعد ذكي", sub: "قريباً", ring: 3 },
@@ -223,6 +239,18 @@ export function ProductsSection() {
               links (canonical P2-13 axe rule). The SVG carries its own
               role="img" label; dots self-describe. */}
           <div className="ln-constellation-stage" ref={stageRef}>
+            {/* r141 (task 3-b): the nebula — the generated ecosystem art as
+             * a masked whisper behind the rings (aria-hidden, decorative,
+             * lazy — it sits below the fold). Pure depth; the orrery DOM
+             * order keeps it behind everything. */}
+            <Image
+              src="/images/ecosystem/ecosystem.webp"
+              alt=""
+              aria-hidden="true"
+              fill
+              sizes="(max-width: 1024px) 92vw, 780px"
+              className="ln-constellation-nebula"
+            />
             <div className="ln-constellation-orrery" style={ORRERY_STYLE}>
               <svg
                 viewBox={`0 0 ${SIZE} ${SIZE}`}
@@ -251,7 +279,11 @@ export function ProductsSection() {
               {/* labels are DOM (crisper Arabic, better a11y than <text>) */}
               {nodes.map((n, i) => {
                 const resting = !active && restIdx === i
-                const dot = active?.name === n.name ? DOT_LIME : resting ? DOT_REST : DOT_IDLE
+                /* r141: the pop wears the product's world color (live
+                 * nodes); coming-soon services keep the canonical lime. */
+                const dot = active?.name === n.name
+                  ? (n.world?.color ?? DOT_LIME)
+                  : resting ? DOT_REST : DOT_IDLE
                 const pos = {
                   left: `${(n.x / SIZE) * 100}%`,
                   top: `${(n.y / SIZE) * 100}%`,
@@ -291,7 +323,11 @@ export function ProductsSection() {
               {active && (
                 <span
                   className="ln-constellation-tip"
-                  style={{ left: `${(active.x / SIZE) * 100}%`, top: `${(active.y / SIZE) * 100}%` }}
+                  style={{
+                    left: `${(active.x / SIZE) * 100}%`,
+                    top: `${(active.y / SIZE) * 100}%`,
+                    ...(active.world ? ({ "--tip-world": active.world.color } as CSSProperties) : {}),
+                  }}
                   role="status"
                 >
                   <b>{active.name}</b>

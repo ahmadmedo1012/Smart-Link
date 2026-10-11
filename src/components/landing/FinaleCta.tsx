@@ -1,5 +1,6 @@
 import Link from "next/link"
 import { Sparkles } from "lucide-react"
+import Image from "next/image"
 import { RevealCssClass } from "@/hooks/useReveal"
 import { MagneticGoldLink } from "@/components/landing/MagneticGoldLink"
 import { CurrentYear } from "@/components/current-year"
@@ -27,6 +28,22 @@ export function FinaleCta() {
         <span className="ln-cta-orbit o2" />
       </div>
       <div className="ln-cta-inner">
+        {/* r141 (task 3-b): the family crest — the three worlds (plate /
+         * orb / box) joined by golden threads, the generated family art
+         * as the closing emblem. Masked into the ink stage, slow float
+         * (reduced-motion stands still). aria-hidden — decorative; the
+         * words around it carry the meaning. */}
+        <RevealCssClass as="div" className="ln-cta-family">
+          <Image
+            src="/images/ecosystem/family.webp"
+            alt=""
+            aria-hidden="true"
+            width={520}
+            height={520}
+            sizes="260px"
+            className="ln-cta-family-img"
+          />
+        </RevealCssClass>
         <span className="ln-label">{"05 — الوصول · ACCESS"}</span>
         <RevealCssClass as="h2" className="ln-cta-title" delay={1}>
           رابطك الأول <em>يبدأ من هنا</em>

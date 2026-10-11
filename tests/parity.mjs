@@ -1910,6 +1910,24 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
   );
 }
 
+/* ═══ r140 — صدق الثلاثية في أسطح نجت من موجتي r137/r138 (تدقيق
+   A140-SL #2–#5): فصل الأدوار ثلاثي (جمهور Smart Order الحيّ له دور)،
+   محطة الرحلة 02 تعدّ ثلاث خدمات، وصف الميغامينو ثلاثي، ووصف الـPWA
+   في الـmanifest صريح بلا «والمزيد» — الدبوس الجديد يثبّت نص وصف
+   الـmanifest الذي كان يمرّ من كل البوابات (parity يثبّت أيقونة
+   الـmaskable فقط، فانحدر الوصف إلى ما قبل r137 بلا إنذار) ═══════ */
+{
+  /* الـmanifest يُقرأ خامًا (ملف JSON لا تعليقات فيه، لكن القاعدة
+     نفسها تسري: قارئ التعليقات يأكل كل https://… حرفيًا). */
+  const manifestRaw = readFileSync(new URL('../public/manifest.webmanifest', import.meta.url), 'utf8');
+
+  check(
+    manifestRaw.includes('المنيو الرقمي للمطاعم، والبوت الذكي لفيسبوك، ومتجر الطلبات الرقمي')
+      && !manifestRaw.includes('والمزيد'),
+    'r140-1: the PWA manifest description names all THREE products explicitly (menu/bot/order — no «والمزيد» escape hatch; the WebAPK install sheet rides the same fleet truth as the root metadata)'
+  );
+}
+
 if (failures.length > 0) {
   console.error(`✗ Madarek parity snapshot FAILED (${failures.length} assertion(s)):`);
   for (const f of failures) console.error(`  • ${f}`);

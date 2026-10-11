@@ -701,16 +701,24 @@
 
 @utility glass {
   background: var(--glass-bg);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  /* (r140 — قرار الكنون الموحد للزجاج القوي): ضباب الطبقتين 16px على
+     حدّ سواء (كانت العادية 20px والقوية 24px) — توحيدًا مع طبقة الزجاج
+     الكنسية (madarek: ‎--glass-blur 16px في كلا الثيمين) وقضيب العلو
+     r130 (backdrop-blur-[16px] على main-nav:200)؛ القيمة الأعلى بلا
+     مبرر قياسي ولها كلفة تنقيط على الموبايل. */
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border: 1px solid var(--glass-border);
   box-shadow: var(--glass-shadow);
 }
 
 @utility glass-strong {
   background: var(--glass-bg-strong);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
+  /* (r140 — قرار الكنون الموحد للزجاج القوي): 24px → 16px — الطبقة
+     القوية تتميز بإلغاء الشفافية (0.92) لا بضباب أثقل؛ الكنون يساوي
+     الضباب بين الطبقتين. */
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border: 1px solid var(--glass-border);
   box-shadow: var(--glass-shadow-lg);
 }

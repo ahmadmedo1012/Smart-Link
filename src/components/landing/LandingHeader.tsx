@@ -160,7 +160,9 @@ export function LandingHeader() {
                   <span className="ln-menu-ico azure" aria-hidden="true"><Smartphone size={20} /></span>
                   <span className="landing-megamenu-item-body">
                     <span className="landing-megamenu-item-title">المنتجات</span>
-                    <span className="landing-megamenu-item-desc">منيو رقمي وبوت ذكي</span>
+                    {/* r140 (صدق الثلاثية — تدقيق A140-SL #4): كانت تعدّ
+                        منتجين في أول تفاعل بالهيدر — المتجر غائب. */}
+                    <span className="landing-megamenu-item-desc">منيو وبوت ومتجر طلبات</span>
                   </span>
                 </a>
                 <a href="#journey" className="landing-megamenu-item">

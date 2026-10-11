@@ -2,15 +2,20 @@ import Link from "next/link"
 import { Sparkles } from "lucide-react"
 import { RevealCssClass } from "@/hooks/useReveal"
 import { MagneticGoldLink } from "@/components/landing/MagneticGoldLink"
+import { CurrentYear } from "@/components/current-year"
 import { SITE } from "@/lib/site"
 
 /* r129 — Chapter 05 «الوصول» (canonical numbering — was 06 before the
  * platforms chapter went unlabelled): the starting point (canonical
  * LandingPage.tsx:698-727 anatomy). Converging orbit rings, magnetic
  * gold CTA (useMagnetic(7)) + ghost. Copy folds the home's shipped CTA
- * section (أكثر من 500 عميل… / ابدأ التجربة / تواصل معنا). */
+ * section (أكثر من 500 عميل… / ابدأ التجربة / تواصل معنا).
+ * r140 (تدقيق A140-SL ‎#6): سنة التوقيع تُرخّ عبر جزيرة CurrentYear —
+ * نفس فئة ثغرة r126 (سنة مجمّدة زمن البناء) التي أُغلقت في التذييل
+ * الداخلي ولم تُنسخ هنا. */
 
 export function FinaleCta() {
+  /* buildYear — يُخبَز في HTML، والجزيرة تُرطّب السنة الحية (r126). */
   const year = new Date().getFullYear()
 
   return (
@@ -38,7 +43,8 @@ export function FinaleCta() {
         </RevealCssClass>
         <RevealCssClass as="p" className="ln-cta-meta" delay={4}>
           <Sparkles size={13} aria-hidden="true" />
-          SmartLink · {year}
+          {/* r140: السنة الحية — توأم LandingFooter/footer.tsx (r126). */}
+          SmartLink · <CurrentYear buildYear={year} />
         </RevealCssClass>
       </div>
     </section>

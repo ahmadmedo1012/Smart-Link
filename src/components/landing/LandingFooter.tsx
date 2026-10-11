@@ -1,15 +1,22 @@
 import Link from "next/link"
 import { SITE } from "@/lib/site"
 import { LibyaFlag } from "@/components/landing/LibyaFlag"
+import { CurrentYear } from "@/components/current-year"
 
 /* r129 — the landing footer (canonical landing.css:1486 ground-plate
  * family). Flat ink-2 plate, hairline seam, four columns of REAL
- * destinations only: journey anchors, the two live products, the
+ * destinations only: journey anchors, the three live products, the
  * site's own pages and legal routes. Bottom bar signs with the brand +
  * year + the canonical 14px LibyaFlag glyph (r129 P0-14: Madarek
- * LandingPage.tsx:772-774 — «صُنع في ليبيا» rode text only). */
+ * LandingPage.tsx:772-774 — «صُنع في ليبيا» rode text only).
+ * r140 (تدقيق A140-SL ‎#6): السنة تُرخّ عبر جزيرة CurrentYear — كان
+ * المكوّن سيرفريًا يُبنى مسبقًا فتتجمّد السنة زمن البناء (فئة ثغرة
+ * r126 نفسها التي أُغلقت في footer.tsx:165 ولم تُنسخ هنا). */
 
 export function LandingFooter() {
+  /* buildYear — يُخبَز في HTML (زوّار بلا JS تبقى لهم سنة صالحة)،
+   * والجزيرة تُرطّب السنة الحية بعد الترطيب (useSyncExternalStore —
+   * بلا setState-in-effect). */
   const year = new Date().getFullYear()
 
   return (
@@ -78,7 +85,8 @@ export function LandingFooter() {
           </div>
         </div>
         <div className="landing-footer-bottom">
-          <span>© {year} SmartLink</span>
+          {/* r140: جزيرة السنة الحية — توأم footer.tsx:165 (r126). */}
+          <span>© <CurrentYear buildYear={year} /> SmartLink</span>
           <span className="ln-footer-cluster">
             <LibyaFlag size={14} /> صُنع في ليبيا
           </span>

@@ -530,7 +530,10 @@
 
   /* ── Glass variants — Madarek §1.8 light, exact ── */
   --glass-bg: rgba(251, 250, 249, 0.78);
-  --glass-bg-strong: rgba(255, 255, 255, 0.9);
+  /* r140 (قرار الكنون الموحد للزجاج القوي): 0.92 في الثيمين — مدارك تبنّى
+     الطبقة القوية (79b5bf9d) بقيمة واحدة للداكن والفاتح معًا (كان الفاتح
+     0.9 من r126 — توحيد أسطولي لا تغيير ذوقي). */
+  --glass-bg-strong: rgba(255, 255, 255, 0.92);
   --glass-border: rgba(25, 25, 24, 0.06);
   --glass-shadow: 0 8px 16px rgba(0, 0, 0, 0.08), 0 4px 8px rgba(0, 0, 0, 0.05);
   --glass-shadow-lg: 0 16px 32px rgba(0, 0, 0, 0.10), 0 8px 16px rgba(0, 0, 0, 0.06);

@@ -300,7 +300,8 @@ const GLASS_DARK = {
   '--glass-shadow-lg': '0 16px 32px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.07)',
 };
 const GLASS_LIGHT = {
-  '--glass-bg-strong': 'rgba(255, 255, 255, 0.9)',
+  /* r140: 0.92 — قرار الكنون الموحد للزجاج القوي (مدارك 79b5bf9d، الثيمان معًا) */
+  '--glass-bg-strong': 'rgba(255, 255, 255, 0.92)',
   '--glass-border': 'rgba(25, 25, 24, 0.06)',
   '--glass-shadow': '0 8px 16px rgba(0, 0, 0, 0.08), 0 4px 8px rgba(0, 0, 0, 0.05)',
   '--glass-shadow-lg': '0 16px 32px rgba(0, 0, 0, 0.10), 0 8px 16px rgba(0, 0, 0, 0.06)',

@@ -131,8 +131,8 @@ test.describe("A) no-JS — الموقع SSR-first بلا أي جافاسكري�
 
     await expectUserVisible(page.getByRole("heading", { level: 1 }), "h1 الهيرو")
     // القيم النهائية SSR فوراً (لا عدّاد بلا JS)
-    await expect(page.locator("text=+500").first()).toHaveText("+500")
-    await expectUserVisible(page.locator("text=+500").first(), "إحصاء +500")
+    await expect(page.locator(".ln-trust .ln-stat").first().locator(".ln-stat-value")).toHaveText(/3/)
+    await expectUserVisible(page.locator(".ln-trust .ln-stat").first(), "إحصاء المنتجات الحية")
     /* r133 (A7 §1): عنوان قسم الوصول الكنسي (كان «جهز أعمالك…» قبل
        بناء Orbit-Ink في r128). */
     await expectUserVisible(
@@ -256,8 +256,9 @@ test.describe("B) reduced-motion — مفتاح إيقاف الحركات الك
       expect(s, `قيمة عدّاد صفرية: ${s}`).not.toBe("0")
       expect(s.trim().length).toBeGreaterThan(0)
     }
-    // الأرقام سليمة غير معكوسة (غربية وليست مقلوبة)
-    expect(stats.join(" ")).toContain("99.9%")
+    // الأرقام سليمة غير معكوسة (غربية وليست مقلوبة) — r143: القيم المنشورة القابلة للتحقق
+    expect(stats.join(" ")).toContain("100%")
+    expect(stats.join(" ")).toContain("19")
   })
 
   test("B3 أسئلة ال landing <details> تفتح وتغلق تحت rm (فوري بلا انتظار انتقالات)", async ({ page }) => {
@@ -483,8 +484,8 @@ test.describe("D) فحوص RTL العميقة (سطح المكتب)", () => {
     /* r133 (A7 §1): شريط الثقة الكنسي span.ln-mono (كان div.tabular-nums). */
     const stats = await page.locator(".ln-trust .ln-mono").allInnerTexts()
     console.log(`[B4 rtl stats] ${JSON.stringify(stats)}`)
-    expect(stats.join(" ")).toContain("+500")
-    expect(stats.join(" ")).toContain("99.9%")
+    expect(stats.join(" ")).toContain("19")
+    expect(stats.join(" ")).toContain("100%")
     // ليست معكوسة/مبهمة: كل قيمة تبدأ برقم أو + وليست بصيغة مقلوبة
     for (const s of stats) expect(s).toMatch(/^(\+|\d)/)
 

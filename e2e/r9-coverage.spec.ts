@@ -13,8 +13,9 @@ test.describe("r9 — prefers-reduced-motion", () => {
     await page.emulateMedia({ reducedMotion: "reduce" })
     await page.goto("/", { waitUntil: "domcontentloaded" })
     // العدّادات تُصيَّر بالقيم النهائية في الخادم — تظهر فوراً بلا عدّ
-    await expect(page.locator("text=+500").first()).toBeVisible({ timeout: 5000 })
-    await expect(page.locator("text=99.9%").first()).toBeVisible()
+    // r143 (الصدق): القيم المنشورة القابلة للتحقق بدل +500/99.9%
+    await expect(page.locator(".ln-trust .ln-stat", { hasText: "منتجات حيّة" }).first()).toBeVisible({ timeout: 5000 })
+    await expect(page.locator(".ln-trust .ln-stat", { hasText: "واجهة عربية" }).first()).toBeVisible()
     // h1 الرئيسية مرئي (جراحة r8: بلا reveal انتظاري)
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible()
   })
@@ -22,10 +23,10 @@ test.describe("r9 — prefers-reduced-motion", () => {
   test("العدّاد لا يُصفِّر إلى 0 بعد الإدخال في viewport (انحدار r8/r5)", async ({ page }) => {
     await page.emulateMedia({ reducedMotion: "reduce" })
     await page.goto("/", { waitUntil: "networkidle" })
-    await page.locator("text=عميل نشط").first().scrollIntoViewIfNeeded()
+    await page.locator("text=منتجات حيّة").first().scrollIntoViewIfNeeded()
     await page.waitForTimeout(600)
     // في reduced-motion القيم النهائية تبقى — لا عودة إلى الأصفار
-    await expect(page.locator("text=+500").first()).toBeVisible()
+    await expect(page.locator(".ln-trust .ln-stat", { hasText: "منتجات حيّة" })).toBeVisible()
   })
 })
 
@@ -111,7 +112,7 @@ test.describe("r9 — صمود no-JS (الموقع SSR-first بلا جافاسك
     const page = await ctx.newPage()
     await page.goto("http://localhost:3000/", { waitUntil: "domcontentloaded" })
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible()
-    await expect(page.locator("text=+500").first()).toBeVisible()
+    await expect(page.locator(".ln-trust .ln-stat", { hasText: "منتجات حيّة" }).first()).toBeVisible()
     // التنقل الديكوري لا يكسر الصفحة: عنوان فصل حقيقي موجود
     /* r142: الفصل الأول صار «العوالم» — العنوان الكنسي الجديد بعد دمج
        المنتجات والأدوار في فصل واحد. */

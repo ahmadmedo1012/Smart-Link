@@ -46,13 +46,16 @@ test.describe("الدخان — الصفحات الست", () => {
     /* r13 (testing audit): كان الاسم «تعدّ حتى قيمها» والفحص نص واحد
        مرئي — حقيقة بديهية منذ جراحة r8 (القيم النهائية في SSR نفسه،
        ومحكومة أصلاً بـlcp-guard). العقد الحقيقي المتبقي: كل القيم
-       الأربع تعرض بعد التمرير وتحمل القيمة النهائية لا 0. */
+       الأربع تعرض بعد التمرير وتحمل القيمة النهائية لا 0.
+       r143 (الصدق): القيم الأربع صارت القيم المنشورة القابلة
+       للتحقق (3 منتجات، 19 د.ل، 0 د.ل، 100%) بدل +500/+10K/+50K/99.9%
+       التي كانت بلا مصدر — العقد نفسه، القيم صادقة. */
     await page.goto("/", { waitUntil: "networkidle" })
-    await page.locator("text=عميل نشط").first().scrollIntoViewIfNeeded()
-    await expect(page.locator("text=+500").first()).toBeVisible({ timeout: 6000 })
-    await expect(page.locator("text=+10K").first()).toBeVisible()
-    await expect(page.locator("text=+50K").first()).toBeVisible()
-    await expect(page.locator("text=99.9%").first()).toBeVisible()
+    await page.locator("text=منتجات حيّة").first().scrollIntoViewIfNeeded()
+    await expect(page.locator(".ln-trust .ln-stat", { hasText: "منتجات حيّة" })).toBeVisible({ timeout: 6000 })
+    await expect(page.locator(".ln-trust .ln-stat", { hasText: "أقل باقة SmartBot" })).toBeVisible()
+    await expect(page.locator(".ln-trust .ln-stat", { hasText: "باقة Smart Order الأساسية" })).toBeVisible()
+    await expect(page.locator(".ln-trust .ln-stat", { hasText: "واجهة عربية" })).toBeVisible()
   })
 
   test("r8 — العدّادات تُصيَّر بالقيم النهائية في HTML الخام قبل أي JS (انحدار LCP)", async ({ request }) => {
@@ -61,10 +64,13 @@ test.describe("الدخان — الصفحات الست", () => {
        عبر request (بلا تنفيذ JS) لضمان أنه إخراج السيرفر فعلاً. */
     const res = await request.get("/")
     const html = await res.text()
-    expect(html).toContain("+500")
-    expect(html).toContain("+10K")
-    expect(html).toContain("+50K")
-    expect(html).toContain("99.9%")
+    /* r143 (الصدق): القيم المنشورة القابلة للتحقق بدل الأرقام بلا مصدر. */
+    expect(html).toContain("منتجات حيّة")
+    expect(html).toContain("أقل باقة SmartBot")
+    expect(html).toContain("باقة Smart Order الأساسية")
+    expect(html).toContain("100%")
+    expect(html).not.toContain("+10K")
+    expect(html).not.toContain("+50K")
     // وأيضاً: لم تعد أصفاراً مجردة في البطاقات
     expect(html).not.toMatch(/tabular-nums tracking-tight">0</)
   })

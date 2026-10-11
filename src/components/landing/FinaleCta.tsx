@@ -32,7 +32,10 @@ export function FinaleCta() {
           <span className="ln-cta-line">يبدأ <em>من هنا</em></span>
         </RevealCssClass>
         <RevealCssClass as="p" className="ln-cta-lede" delay={2}>
-          أكثر من 500 عميل يثقون بنا — انضم إليهم وابدأ رحلتك الرقمية مع
+          {/* r143 (الصدق): «أكثر من 500 عميل يثقون بنا» كان ادعاءً بلا
+              مصدر — يحذف ولا يُبرَّر. السطر الجديد يروي الحقيقة
+              القابلة للتحقق: المنتجات الثلاثة نفسها بلا بطاقة ائتمان. */}
+          منيو وبوت ومتجر طلبات في رباط واحد — ابدأ رحلتك الرقمية مع
           SmartLink، مجاناً وبدون بطاقة ائتمان.
         </RevealCssClass>
         <RevealCssClass as="div" className="ln-cta-actions" delay={3}>

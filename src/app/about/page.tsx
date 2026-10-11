@@ -17,9 +17,11 @@ import { breadcrumbJsonLd } from "@/lib/schema"
    ln-chapter pattern on product tokens via the styles.css bridge).
    Copy is the shipped copy, re-slotted: every chapter title is an
    existing heading («المؤسس», «قصتنا») or a pure section name; the one
-   real figure (500+ عميل نشط) gets the CountUp treatment — nothing
-   invented. Cards lost their glass for flat hairline + border-shift;
-   the founder avatar lost its gradient wash for the flat accent well. */
+   stat cell gets the CountUp treatment. r143 (الصدق): الخلية صارت
+   «3 منتجات حيّة» — «500+ عميل نشط» كان رقمًا بلا مصدر، والحقيقة
+   القابلة للتحقق أقوى من الادعاء. Cards lost their glass for flat
+   hairline + border-shift; the founder avatar lost its gradient wash
+   for the flat accent well. */
 
 export const metadata = pageMetadata({
   /* r10 (SEO audit P2): titles/descriptions expanded toward the 40-55 /
@@ -165,12 +167,13 @@ export default function AboutPage() {
               مشهد الأعمال الرقمية في المنطقة.
             </p>
 
-            {/* r128 F6 — the chapter's one real figure, as a flat stat
-                cell with CountUp (the shipped copy's own claim: أكثر من
-                500 عميل نشط — no invented figures). */}
+            {/* r128 F6 — the chapter's one flat stat cell with CountUp.
+                r143 (الصدق): «500+ عميل نشط» كان رقمًا بلا مصدر (منصة
+                انطلقت نوفمبر 2025) — استُبدل بالقيمة القابلة للتحقق
+                نفسها المستخدمة في كوكبة الرئيسية: ثلاثة منتجات حيّة. */}
             <div className="ln-stat max-w-[240px] mb-8">
-              <div className="ln-stat-value"><CountUp value="500+" /></div>
-              <div className="ln-stat-label">عميل نشط على المنصة</div>
+              <div className="ln-stat-value"><CountUp value="3" /></div>
+              <div className="ln-stat-label">منتجات حيّة على المنصة</div>
             </div>
 
             <Link

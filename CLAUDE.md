@@ -138,6 +138,10 @@ Next.js 16 App Router, RTL Arabic, Tailwind CSS v4.
 - **The landing © years hydrate** (A140-SL #6): LandingFooter + FinaleCta import the `CurrentYear` island (the r126 footer.tsx twin — `<CurrentYear buildYear={year}/>`) instead of baking `new Date().getFullYear()` into static HTML; the landing was the last surface where the year froze at build time.
 - **Glass blur is ONE value: 16px on both tiers** (coordinator ruling r140 — قرار الكنون الموحد للزجاج القوي): `.glass` was 20px and `.glass-strong` 24px; both are 16px now — the strong tier differs by OPACITY (0.92), not heavier blur, matching the canon (madarek `--glass-blur: 16px` both themes) and the r130 topbar (`backdrop-blur-[16px]`). The token pins (GLASS_DARK/LIGHT bg values) are untouched; dark `--glass-bg-strong` is 0.92 as ruled (light stays SL's own r126 0.90 — flagged for the coordinator).
 
+## r143 additions (موجة الصدق — لا رقم بلا مصدر)
+
+- **PERMANENT RULE — every published figure must have a source a visitor can return to**: the cockpit's four values (+500 clients / +10K menus / +50K replies / 99.9% uptime) were hardcoded marketing strings with NO data source, and they contradicted the sibling live surface (SmartBot's own `/api/public/stats` shows 4 pages / 2 replies to the same visitor). They are replaced by verifiable published values: **3 منتجات حيّة** (the three live sites), **19 د.ل** أقل باقة SmartBot (its live pricing page + `/api/plans`), **0 د.ل** باقة Smart Order الأساسية (its published catalog), **100%** واجهة عربية (RTL across all four sites). FinaleCta's «أكثر من 500 عميل يثقون بنا» and about's «500+ عميل نشط» were removed for the same reason. Tests pin the NEW honest contract (same anatomy: 4 SSR stats starting with a digit, CountUp final values, no-JS visibility) plus explicit `not.toContain("+10K"/"+50K")` regression guards — parity count unchanged (535).
+
 <!-- BEGIN:nextjs-agent-rules -->
 
 # This is NOT the Next.js you know

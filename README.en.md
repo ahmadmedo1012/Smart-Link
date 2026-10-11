@@ -26,7 +26,7 @@ The site is Arabic-first (fully RTL), ships a dark/light theme, and is built to 
 
 ### Pages & sections
 
-- **A full Orbit-Ink landing journey**: the orbit sky (a real **OrbitScene** canvas engine — living stars and orbits, not a static image), an RTL product marquee with a seamless 42s loop, a trust band with count-up stats (+500 active clients, +10K digital menus, +50K auto-replies, 99.9% uptime), product orbits, a five-station connection journey with a light path, the progress story, the platforms ground plate, roles, and a finale CTA.
+- **A full Orbit-Ink landing journey**: the orbit sky (a real **OrbitScene** canvas engine — living stars and orbits, not a static image), an RTL product marquee with a seamless 42s loop, a mission-control readout with verifiable published figures (3 live products, SmartBot from 19 LYD, Smart Order base plan free, 100% Arabic interface — r143 truth wave), product orbits, a five-station connection journey with a light path, the progress story, the platforms ground plate, roles, and a finale CTA.
 - **Six inner pages**: About · Pricing · Contact · Privacy · Terms · an Offline page — plus custom 404/error pages.
 - **Fully responsive** from 320px up to wide screens, with touch targets no smaller than 44px.
 

@@ -2275,8 +2275,11 @@ body > a[href="#main-content"] { display: none; }
   font-size: clamp(6rem, 16vw, 13rem);
   font-weight: var(--fw-bold);
   line-height: 1;
-  color: transparent;
-  -webkit-text-stroke: 1px color-mix(in srgb, var(--ln-world) 42%, transparent);
+  /* solid translucent fill — the r142 first pass used -webkit-text-stroke,
+     which fragments the Arabic-Indic glyphs (٠١) into detached rectangles
+     on the canvas-heavy hero contrast. A flat wash reads as one clean
+     numeral and never fights the panel's world hue. */
+  color: color-mix(in srgb, var(--ln-world) 20%, transparent);
   pointer-events: none;
   user-select: none;
   z-index: 0;
@@ -2848,7 +2851,6 @@ body > a[href="#main-content"] { display: none; }
     inset-block-start: -0.6em;
     inset-inline-end: 0;
     font-size: clamp(4.2rem, 22vw, 6rem);
-    -webkit-text-stroke-width: 0.75px;
   }
   .landing .ln-world-name { font-size: clamp(1.9rem, 8.4vw, 2.4rem); }
   .landing .ln-mock { transform: none; }

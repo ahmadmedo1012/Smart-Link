@@ -1770,7 +1770,6 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
   /* URLs need the RAW source: the comment-stripping `//.*$` rule eats
      every `https://…` literal (the scheme carries its own `//`). */
   const siteRaw = readFileSync(new URL('../src/lib/site.ts', import.meta.url), 'utf8');
-  const products = read('components/landing/WorldsSection.tsx');
   const worldsSrc = readFileSync(new URL('../src/components/landing/worlds.ts', import.meta.url), 'utf8');
   const pricing = read('app/pricing/page.tsx');
 

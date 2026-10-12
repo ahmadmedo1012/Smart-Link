@@ -53,10 +53,10 @@ export default function OfflinePage() {
         rel="noopener noreferrer"
         /* r130 (W1-D P2-9): the canonical filled-CTA hover — an
            --accent-hover background shift (was: no hover state at all).
-           r132-G4 (A8 F-SL-1): the FULL r131 fleet button canon
-           40/13/600/r10 (h-10 = 40px, --fs-sm 13px, rounded-md = 10px —
-           the SO Button twin); was rounded-xl + text-sm 14px + py-3. */
-        className="inline-flex items-center gap-2 h-10 px-5 rounded-md bg-primary font-semibold text-[length:var(--fs-sm)] text-[var(--primary-fg)] transition-all duration-[var(--t-fast)] hover:bg-[var(--accent-hover)] active:scale-[0.97]"
+           r150 (20-IDEAL-CTA completion): the FULL fleet button canon
+           44/13/600/r10 (h-11 = 44px, --fs-sm 13px, rounded-md = 10px —
+           the SO Button twin); was the r131 h-10 40px rung. */
+        className="inline-flex items-center gap-2 h-11 px-5 rounded-md bg-primary font-semibold text-[length:var(--fs-sm)] text-[var(--primary-fg)] transition-all duration-[var(--t-fast)] hover:bg-[var(--accent-hover)] active:scale-[0.97]"
       >
         تواصل عبر واتساب
       </a>

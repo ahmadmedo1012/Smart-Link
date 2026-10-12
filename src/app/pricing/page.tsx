@@ -18,17 +18,14 @@ import { breadcrumbJsonLd, faqJsonLd } from "@/lib/schema"
 // speaks in the mono machine-voice (.ln-mono), the eyebrow is the
 // ln-label technical label.
 //
-// r132 (A8 F-SL-1, adjudicated — G4 canon completion): the plan CTAs
-// leave the rounded-full pill grammar for the FULL r131 fleet button
-// canon — rectangles 40/13/600/r10 (h-10 = 40px, --fs-sm 13px, weight
-// 600, rounded-md = 10px; worklog FLEET RULINGS + the SO Button twin
-// — the pill is the landing hero's 46px lime grammar only). Sibling
-// evidence (G4-verified): SO/SB/SM Buttons are all rounded-md (10px)
-// + 600, and the madarek reference .btn is var(--r-md); F4's first
-// pass went rounded-xl (16px) for SL-internal consistency, which
-// contradicted the canon it cited — G4 re-based the whole inner-page
-// CTA set (about/error/offline/404/contact-form/pricing) on the full
-// 40/13/600/r10 canon. The CTA label swap also resolves the deferred
+// r150 (20-IDEAL-CTA completion): the plan CTAs ride the r150 fleet
+// button canon — rectangles 44/13/600/r10 (h-11 = 44px, --fs-sm 13px,
+// weight 600, rounded-md = 10px; was the r131 40/13/600/r10 rung —
+// the h-10 40px CTA debt the family 44/48/52 canon retired; worklog
+// FLEET RULINGS + the SO Button twin — the pill is the landing hero's
+// 46px lime grammar only). Sibling evidence (G4-verified): SO/SB/SM
+// Buttons are all rounded-md (10px) + 600, and the madarek reference
+// .btn is var(--r-md). The CTA label also resolves the deferred
 // 14px no-rung question for BUTTONS: 13px = the --fs-sm rung.
 // Body-copy text-sm (card features, timestamps) is NOT a CTA and
 // stays deferred.
@@ -209,7 +206,7 @@ export default function PricingPage() {
                   /* r134 (R134-W1-SL P3): the external-link announcement
                      convention (footer.tsx:106, main-nav.tsx:303). */
                   aria-label={`ابدأ الآن — ${plan.title}، رابط خارجي`}
-                  className="group inline-flex items-center justify-center gap-2 w-full h-10 px-5 rounded-md bg-primary text-[var(--primary-fg)] font-semibold text-[length:var(--fs-sm)] hover:bg-[var(--accent-hover)] transition-all duration-[var(--t-fast)] active:scale-[0.97]"
+                  className="group inline-flex items-center justify-center gap-2 w-full h-11 px-5 rounded-md bg-primary text-[var(--primary-fg)] font-semibold text-[length:var(--fs-sm)] hover:bg-[var(--accent-hover)] transition-all duration-[var(--t-fast)] active:scale-[0.97]"
                 >
                   ابدأ الآن <ChevronLeft className="w-3.5 h-3.5 transition-transform group-hover:-translate-x-0.5" />
                 </a>
@@ -239,7 +236,7 @@ export default function PricingPage() {
             </div>
             <Link
               href="/contact"
-              className="group inline-flex items-center gap-2 h-10 px-5 rounded-md bg-primary text-[var(--primary-fg)] text-[length:var(--fs-sm)] font-semibold hover:bg-[var(--accent-hover)] transition-all duration-[var(--t-fast)] active:scale-[0.97]"
+              className="group inline-flex items-center gap-2 h-11 px-5 rounded-md bg-primary text-[var(--primary-fg)] text-[length:var(--fs-sm)] font-semibold hover:bg-[var(--accent-hover)] transition-all duration-[var(--t-fast)] active:scale-[0.97]"
             >
               تواصل معنا لمعرفة المزيد <ChevronLeft className="w-3.5 h-3.5 transition-transform group-hover:-translate-x-0.5" />
             </Link>

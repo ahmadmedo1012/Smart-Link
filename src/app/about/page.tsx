@@ -183,11 +183,11 @@ export default function AboutPage() {
 
             <Link
               href="/contact"
-              /* r132-G4 (A8 F-SL-1): the FULL r131 fleet button canon
-                 40/13/600/r10 (h-10 = 40px, --fs-sm 13px, rounded-md =
-                 10px — the SO Button twin); was rounded-xl 16px +
-                 text-sm 14px + py-3.5 ≈45px. */
-              className="group inline-flex items-center gap-2 h-10 px-5 rounded-md bg-primary text-[var(--primary-fg)] font-semibold text-[length:var(--fs-sm)] hover:bg-[var(--accent-hover)] transition-all duration-[var(--t-fast)] active:scale-[0.97]"
+              /* r150 (20-IDEAL-CTA completion): the FULL fleet button canon
+                 44/13/600/r10 (h-11 = 44px, --fs-sm 13px, rounded-md =
+                 10px — the SO Button twin); was the r131 h-10 40px rung
+                 retired by the family 44/48/52 canon. */
+              className="group inline-flex items-center gap-2 h-11 px-5 rounded-md bg-primary text-[var(--primary-fg)] font-semibold text-[length:var(--fs-sm)] hover:bg-[var(--accent-hover)] transition-all duration-[var(--t-fast)] active:scale-[0.97]"
             >
               <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" /> تواصل معنا
             </Link>

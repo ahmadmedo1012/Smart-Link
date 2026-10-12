@@ -64,7 +64,7 @@ export default function GlobalError({
             <button
               onClick={reset}
               style={{
-                height: 40,
+                height: 44,
                 padding: "0 20px",
                 display: "inline-flex",
                 alignItems: "center",
@@ -74,10 +74,11 @@ export default function GlobalError({
                    (#05070F on #E9B44C ≈ 10.6:1; white was 1.9:1) */
                 background: "#E9B44C",
                 color: "#05070F",
-                /* r132 (A6 §7-8 + G4 canon completion): the full r131
-                   fleet button canon 40/13/600/r10 as INLINE values
+                /* r150 (20-IDEAL-CTA completion): the full fleet
+                   button canon 44/13/600/r10 as INLINE values
                    (no CSS bundle on this boundary — A6: "values only");
-                   was 14px/700 + radius 12 + padding-driven ≈45px. */
+                   was the r131 height-40 rung retired by the family
+                   44/48/52 canon. */
                 fontWeight: 600,
                 fontSize: 13,
                 cursor: "pointer",
@@ -93,7 +94,7 @@ export default function GlobalError({
             <a
               href="/"
               style={{
-                height: 40,
+                height: 44,
                 padding: "0 20px",
                 display: "inline-flex",
                 alignItems: "center",
@@ -101,7 +102,7 @@ export default function GlobalError({
                 border: "1px solid rgba(255,255,255,0.14)",
                 background: "rgba(255,255,255,0.04)",
                 color: "#F2EFE6",
-                /* r132 (A6 §7-8 + G4 canon completion): 40/13/600/r10 —
+                /* r150 (20-IDEAL-CTA completion): 44/13/600/r10 —
                    the ghost twin of the gold button above (inline
                    values only on this boundary). */
                 fontWeight: 600,

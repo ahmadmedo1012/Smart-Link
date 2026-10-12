@@ -1274,6 +1274,7 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
   const notFound = read('app/not-found.tsx');
   const errorPage = read('app/error.tsx');
   const offlinePage = read('app/offline/page.tsx');
+  const globalError = read('app/global-error.tsx');
   const aboutPage = read('app/about/page.tsx');
   const contactForm = read('components/contact-form.tsx');
   const faq = read('components/faq-accordion.tsx');
@@ -1381,47 +1382,48 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
     'offline: no raw text-3xl step on the H1 (A6 §4 negative sweep)'
   );
 
-  // C3 ── r132-F4 + G4 canon completion (A8 F-SL-1, adjudicated):
-  //     inner-page CTA geometry — ONE grammar. The r131 fleet canon
-  //     says buttons are RECTANGLES 40/13/600/r10 (the pill is the
-  //     landing hero's 46px lime grammar only). Sibling evidence
-  //     (G4-verified): SO/SB/SM Buttons are all rounded-md (10px) +
-  //     600, and the madarek reference .btn is var(--r-md) — F4's
-  //     first pass settled pricing's two pills + the 404 ghost on
-  //     rounded-xl (16px, the SL-internal majority), which contradicted
-  //     the canon it cited; G4 re-based the WHOLE inner-page CTA set
-  //     (pricing ×2 / about / 500 pair / offline / 404 pair /
-  //     contact submit + the global-error boundary's two inline
-  //     buttons) on the FULL 40/13/600/r10 canon: h-10 = 40px,
-  //     --fs-sm 13px (this also resolves the deferred 14px no-rung
-  //     question for BUTTONS — 13px IS the --fs-sm rung), 600,
-  //     rounded-md = 10px, press 0.97. Body-copy text-sm is NOT a CTA
-  //     and stays deferred.
+  // C3 ── r150 (20-IDEAL-CTA completion, §8 of the r150 mission): the
+  //     inner-page CTA geometry — ONE grammar. The family 44/48/52
+  //     control canon (r149) retires the last h-10 40px CTA rung: the
+  //     whole inner-page CTA set (pricing ×2 / about / 500 pair /
+  //     offline / 404 pair / contact submit + the global-error
+  //     boundary's two inline buttons) re-bases on the FULL
+  //     44/13/600/r10 canon: h-11 = 44px, --fs-sm 13px (this also
+  //     resolves the deferred 14px no-rung question for BUTTONS — 13px
+  //     IS the --fs-sm rung), 600, rounded-md = 10px, press 0.97.
+  //     Body-copy text-sm is NOT a CTA and stays deferred. Legitimate
+  //     non-button 40px sites (main-nav megamenu tile, about icon
+  //     well) are icon WELLS, not controls, and keep their geometry.
   check(
     !/rounded-full[^"']*bg-primary|bg-primary[^"']*rounded-full/.test(pricing),
     'pricing: no pill CTAs survive — inner-page primaries ride the r10 rectangle grammar (A8 F-SL-1 + r131 fleet canon)'
   );
   check(
-    pricing.includes('w-full h-10 px-5 rounded-md bg-primary') &&
-      pricing.includes('h-10 px-5 rounded-md bg-primary') &&
+    pricing.includes('w-full h-11 px-5 rounded-md bg-primary') &&
+      pricing.includes('h-11 px-5 rounded-md bg-primary') &&
       !/text-sm font-semibold|font-semibold text-sm/.test(pricing),
-    'pricing: both CTAs ride the FULL r131 fleet button canon 40/13/600/r10 (h-10/px-5/--fs-sm 13px/rounded-md — was pills → rounded-xl → r10-only; A8 F-SL-1 + G4)'
+    'pricing: both CTAs ride the FULL fleet button canon 44/13/600/r10 (h-11/px-5/--fs-sm 13px/rounded-md — the r150 44px CTA canon; A8 F-SL-1 + G4)'
   );
   check(
-    aboutPage.includes('h-10 px-5 rounded-md bg-primary') &&
-      errorPage.includes('h-10 px-5 rounded-md bg-primary') &&
-      errorPage.includes('h-10 px-5 rounded-md ln-card') &&
-      offlinePage.includes('h-10 px-5 rounded-md bg-primary') &&
-      notFound.includes('h-10 px-5 rounded-md bg-[var(--primary)]') &&
-      notFound.includes('h-10 px-5 ln-card rounded-md') &&
-      contactForm.includes('w-full h-10 px-5 rounded-md bg-primary'),
-    'inner-page CTA set is uniform on the full 40/13/600/r10 canon (about/500 pair/offline/404 pair/contact submit — SO Button twin; A8 F-SL-1 + G4)'
+    aboutPage.includes('h-11 px-5 rounded-md bg-primary') &&
+      errorPage.includes('h-11 px-5 rounded-md bg-primary') &&
+      errorPage.includes('h-11 px-5 rounded-md ln-card') &&
+      offlinePage.includes('h-11 px-5 rounded-md bg-primary') &&
+      notFound.includes('h-11 px-5 rounded-md bg-[var(--primary)]') &&
+      notFound.includes('h-11 px-5 ln-card rounded-md') &&
+      contactForm.includes('w-full h-11 px-5 rounded-md bg-primary'),
+    'inner-page CTA set is uniform on the full 44/13/600/r10 canon (about/500 pair/offline/404 pair/contact submit — SO Button twin; r150 §8 44px completion)'
   );
   check(
     [aboutPage, errorPage, offlinePage, notFound, contactForm].every((f) =>
       /text-\[length:var\(--fs-sm\)\]/.test(f)
     ),
     'inner-page CTA labels consume the --fs-sm 13px rung (fleet canon type step; no raw text-sm on buttons)'
+  );
+  check(
+    !/h-10 px-5/.test(aboutPage + errorPage + offlinePage + notFound + contactForm + pricing) &&
+      globalError.includes('height: 44') && !/height: 40/.test(globalError),
+    'the h-10 40px CTA rung is EXTINCT across the inner-page set + global-error rides 44px inline (r150 §8: one unresolved canonical inconsistency resolved)'
   );
 
   // C4 ── r132 (A6 §3/§6): micro-copy consumption — the identical-value
@@ -2098,8 +2100,11 @@ if (failures.length > 0) {
    r148: 525 → 524 — the retired dead-consumer pin
    (.ln-journey-path-light --sp pin) left WITH the dead CSS it was
    protecting (19-AUDIT-SL D3; the ONLY authorized retirement of the
-   r148 wave). */
-const EXPECTED_ASSERTIONS = 524;
+   r148 wave).
+   r150: 524 → 525 — the 44px CTA-canon completion pin (§8): the
+   inner-page set + global-error prove the h-10 40px rung extinct
+   (one intentional pin added with the source change it protects). */
+const EXPECTED_ASSERTIONS = 525;
 check(
   passed + 1 === EXPECTED_ASSERTIONS,
   `self-count: the suite must run exactly ${EXPECTED_ASSERTIONS} assertions (ran ${passed + 1}) — bump EXPECTED_ASSERTIONS with every intentional pin change`

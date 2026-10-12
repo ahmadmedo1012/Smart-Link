@@ -70,23 +70,23 @@ export default function NotFound() {
             عذراً، الصفحة التي تبحث عنها غير متوفرة أو تم نقلها.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-            {/* r132-G4 (A8 F-SL-1): the CTA pair rides the FULL r131
-                fleet button canon 40/13/600/r10 (h-10 = 40px, --fs-sm
+            {/* r150 (20-IDEAL-CTA completion): the CTA pair rides the FULL
+                fleet button canon 44/13/600/r10 (h-11 = 44px, --fs-sm
                 13px, rounded-md = 10px, press 0.97 — the SO Button
-                twin); was rounded-xl 16px + text-sm 14px + py-3 ≈44px. */}
+                twin); was the r131 h-10 40px rung. */}
             <Link
               href="/"
-              className="group inline-flex items-center gap-2 h-10 px-5 rounded-md bg-[var(--primary)] text-[var(--primary-fg)] font-semibold text-[length:var(--fs-sm)] hover:bg-[var(--accent-hover)] transition-all duration-[var(--t-fast)] active:scale-[0.97]"
+              className="group inline-flex items-center gap-2 h-11 px-5 rounded-md bg-[var(--primary)] text-[var(--primary-fg)] font-semibold text-[length:var(--fs-sm)] hover:bg-[var(--accent-hover)] transition-all duration-[var(--t-fast)] active:scale-[0.97]"
             >
               <Home className="w-4 h-4" aria-hidden="true" /> العودة للرئيسية
             </Link>
-            {/* r132 (A8 F-SL-1 + G4 canon completion): the ghost joins
-                the rectangle grammar on the full 40/13/600/r10 canon
+            {/* r150 (20-IDEAL-CTA completion): the ghost joins the
+                rectangle grammar on the full 44/13/600/r10 canon
                 (matches the 500-boundary ghost exactly); the pill is
                 landing-hero grammar only. */}
             <Link
               href="/contact"
-              className="group inline-flex items-center gap-2 h-10 px-5 ln-card rounded-md text-[var(--foreground)] font-semibold text-[length:var(--fs-sm)]"
+              className="group inline-flex items-center gap-2 h-11 px-5 ln-card rounded-md text-[var(--foreground)] font-semibold text-[length:var(--fs-sm)]"
             >
               <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" aria-hidden="true" /> تواصل معنا
             </Link>

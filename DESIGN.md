@@ -89,10 +89,13 @@ yellow·rose·sand·grey·copper}-{bg/-ink/-deep}` in both themes.
 - Radius ladder: `--r-xs 6 · sm 8 · md 10 · lg 12 · xl 16 · 2xl 20 ·
   3xl 28 · full 9999px`, bridged into Tailwind at full width
   (`@theme --radius-xs…3xl`) — never ad-hoc px radii.
-- Inner-page CTAs: the r131 fleet button canon **40/13/600/r10**
-  (`h-10` 40px · `--fs-sm` 13px · 600 · `rounded-md` 10px · press
+- Inner-page CTAs: the r150 fleet button canon **44/13/600/r10**
+  (`h-11` 44px · `--fs-sm` 13px · 600 · `rounded-md` 10px · press
   `active:scale-[0.97]` · gold fill + `--primary-fg` ink — never
-  white-on-gold).
+  white-on-gold). The r149 family 44/48/52 control canon retired the
+  r131 `h-10` 40px CTA rung (r150 §8); ordinary buttons sit on
+  44/48/52 — compact utility rungs (sm 32 / icon 40 square) are
+  sanctioned dense-interface exceptions and never carry primary CTAs.
 - Elevation `--elev-1..5` (dark = fill-led + inset white top-light;
   light = two-layer black); glass `rgba(11,16,32,0.78)` dark /
   `rgba(251,250,249,0.78)` light. The **landing bans glass entirely**.
@@ -130,7 +133,7 @@ yellow·rose·sand·grey·copper}-{bg/-ink/-deep}` in both themes.
   lime fill, the ONE lime-filled surface; ghost pills stay cream on a
   hairline. The compact header CTA re-skin (r129 ruling) is 44px/12px.
   These pill heights are landing-world vocabulary and do NOT migrate to
-  product surfaces, which ride the 40/13/600/r10 canon above.
+  product surfaces, which ride the 44/13/600/r10 canon above.
 - **Focus rings, two worlds:** product = universal `*:focus-visible`
   2px `var(--ring)` outline, offset 2px (gold `#E9B44C` dark / copper
   `#5C3416` light); landing = 2px `--ln-cream` outline, offset 3px.

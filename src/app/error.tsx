@@ -48,20 +48,21 @@ export default function Error({
             وإن استمر الخطأ تواصل معنا وسنصلحه فوراً.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-            {/* r132-G4 (A8 F-SL-1): the CTA pair rides the FULL r131
-                fleet button canon 40/13/600/r10 (h-10 = 40px,
+            {/* r150 (20-IDEAL-CTA completion): the CTA pair rides the FULL
+                fleet button canon 44/13/600/r10 (h-11 = 44px,
                 --fs-sm 13px, rounded-md = 10px — the SO Button twin);
-                was rounded-xl 16px + text-sm 14px + py-3 ≈44px. */}
+                was the r131 h-10 40px rung retired by the 44/48/52
+                family canon. */}
             <button
               onClick={reset}
-              className="inline-flex items-center gap-2 h-10 px-5 rounded-md bg-primary text-[var(--primary-fg)] font-semibold text-[length:var(--fs-sm)] hover:bg-[var(--accent-hover)] transition-all duration-[var(--t-fast)] active:scale-[0.97]"
+              className="inline-flex items-center gap-2 h-11 px-5 rounded-md bg-primary text-[var(--primary-fg)] font-semibold text-[length:var(--fs-sm)] hover:bg-[var(--accent-hover)] transition-all duration-[var(--t-fast)] active:scale-[0.97]"
             >
               <RefreshCw className="w-4 h-4" aria-hidden="true" />
               إعادة المحاولة
             </button>
             <Link
               href="/contact"
-              className="inline-flex items-center gap-2 h-10 px-5 rounded-md ln-card text-foreground font-semibold text-[length:var(--fs-sm)]"
+              className="inline-flex items-center gap-2 h-11 px-5 rounded-md ln-card text-foreground font-semibold text-[length:var(--fs-sm)]"
             >
               <Mail className="w-4 h-4" aria-hidden="true" />
               تواصل معنا

@@ -155,7 +155,7 @@ export function MainNav() {
   return (
     <header ref={headerRef}
       className={cn(
-        "fixed top-0 inset-x-0 z-50 transition-[background,backdrop-filter,border-color] duration-240",
+        "fixed top-0 inset-x-0 z-50 transition-[background,backdrop-filter,border-color] duration-[var(--t-base)]",
         scrolled
           /* r130 (W1-D P2-15): canonical topbar chrome — 0.86 alpha +
              16px --glass-blur (was 80%/blur-xl-24px: a busy hero bled
@@ -181,8 +181,8 @@ export function MainNav() {
             removes the inactive variant from the a11y tree, so both
             images may carry the same alt. */}
         <Link href="/" prefetch={false} className="flex items-center self-stretch group relative">
-          <Image src="/logo.png" alt="SmartLink — الرئيسية" width={120} height={82} sizes="(max-width: 768px) 48px, 54px" className="logo-dark h-8 md:h-9 w-auto object-contain transition-transform duration-240 group-hover:scale-105" priority />
-          <Image src="/logo-light.png" alt="SmartLink — الرئيسية" width={120} height={82} sizes="(max-width: 768px) 48px, 54px" className="logo-light h-8 md:h-9 w-auto object-contain transition-transform duration-240 group-hover:scale-105" priority />
+          <Image src="/logo.png" alt="SmartLink — الرئيسية" width={120} height={82} sizes="(max-width: 768px) 48px, 54px" className="logo-dark h-8 md:h-9 w-auto object-contain transition-transform duration-[var(--t-base)] group-hover:scale-105" priority />
+          <Image src="/logo-light.png" alt="SmartLink — الرئيسية" width={120} height={82} sizes="(max-width: 768px) 48px, 54px" className="logo-light h-8 md:h-9 w-auto object-contain transition-transform duration-[var(--t-base)] group-hover:scale-105" priority />
         </Link>
 
         {/* Desktop nav — r6: named landmark for screen readers */}
@@ -233,13 +233,17 @@ export function MainNav() {
                       tap on a touch laptop did nothing — the button now
                       toggles too (Escape still closes). */
                   onClick={() => setDesktopServicesOpen((v) => !v)}
-                  className="flex items-center gap-1.5 px-4 py-2.5 text-sm font-medium text-muted-foreground hover:text-foreground rounded-xl hover:bg-[var(--accent)] transition-all duration-160 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--ring)]"
+                  /* r148 (19-AUDIT-SL D9): transition-all كان يحرّك
+                     outline-color/width — الحلقة تُلحق متلاشية عند 60٪.
+                     الخصائص الصريحة تُظهر حلقة التركيز فورًا، والمدة
+                     تركب var(--t-fast) بدل الرقم الخام (D5). */
+                  className="flex items-center gap-1.5 px-4 py-2.5 text-sm font-medium text-muted-foreground hover:text-foreground rounded-xl hover:bg-[var(--accent)] transition-[background-color,color] duration-[var(--t-fast)] focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--ring)]"
                 >
                   {link.label}
                   {/* r6: removed dead group-hover/nav:rotate-180 — no parent
                       carries group/nav, so the class never fired; the inline
                       style below is what actually rotates the chevron. */}
-                  <ChevronDown className="w-3.5 h-3.5 transition-transform duration-160" style={{ transform: desktopServicesOpen ? "rotate(180deg)" : undefined }} />
+                  <ChevronDown className="w-3.5 h-3.5 transition-transform duration-[var(--t-fast)]" style={{ transform: desktopServicesOpen ? "rotate(180deg)" : undefined }} />
                 </button>
                 {/* r13 (a11y audit P3): the menu stays in the DOM with
                     `hidden` — the old conditional unmount left
@@ -267,9 +271,9 @@ export function MainNav() {
                               target="_blank"
                               rel="noopener noreferrer"
                               aria-label={`${child.label} — رابط خارجي`}
-                              className="flex items-start gap-3 px-3 py-3 rounded-xl hover:bg-[var(--accent)] transition-all duration-160 group/item"
+                              className="flex items-start gap-3 px-3 py-3 rounded-xl hover:bg-[var(--accent)] transition-[background-color,color] duration-[var(--t-fast)] group/item"
                             >
-                              <div className="w-10 h-10 rounded-xl bg-[var(--accent)] flex items-center justify-center shrink-0 group-hover/item:scale-110 transition-transform duration-160">
+                              <div className="w-10 h-10 rounded-xl bg-[var(--accent)] flex items-center justify-center shrink-0 group-hover/item:scale-110 transition-transform duration-[var(--t-fast)]">
                                 {Icon && <Icon className="w-5 h-5 text-primary" />}
                               </div>
                               <div className="min-w-0">
@@ -298,7 +302,7 @@ export function MainNav() {
                 prefetch={false}
                 aria-current={pathname === link.href ? "page" : undefined}
                 className={cn(
-                  "px-4 py-2.5 text-sm rounded-xl transition-all duration-160 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--ring)]",
+                  "px-4 py-2.5 text-sm rounded-xl transition-[background-color,color] duration-[var(--t-fast)] focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--ring)]",
                   pathname === link.href
                     ? "text-foreground bg-[var(--accent)] font-semibold"
                     : "font-medium text-muted-foreground hover:text-foreground hover:bg-[var(--accent)]"
@@ -318,9 +322,9 @@ export function MainNav() {
                 aria-label={resolvedTheme === "dark" ? "تفعيل المظهر الفاتح" : "تفعيل المظهر الداكن"}
                 /* r11 (E-E12/E-E13): هدف لمس 44px (كان 36px — p-2.5 + أيقونة
                    16px) بمعيار WCAG 2.5.5، و«الثيم»→«المظهر» (تعريب أصحّ). */
-                className="p-3 rounded-xl hover:bg-[var(--accent)] text-muted-foreground hover:text-foreground transition-all duration-160 active:scale-[0.97] focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--ring)]"
+                className="p-3 rounded-xl hover:bg-[var(--accent)] text-muted-foreground hover:text-foreground transition-[background-color,color,transform] duration-[var(--t-fast)] active:scale-[0.97] focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--ring)]"
               >
-                <span className={cn("block transition-all duration-520 ease-spring", resolvedTheme === "dark" ? "rotate-0" : "rotate-180")}>
+                <span className={cn("block transition-transform duration-[var(--t-slower)] ease-spring", resolvedTheme === "dark" ? "rotate-0" : "rotate-180")}>
                   {resolvedTheme === "dark" ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
                 </span>
               </button>
@@ -335,7 +339,7 @@ export function MainNav() {
               aria-expanded={mobileOpen}
               aria-controls="mobile-menu"
               /* r11 (E-E12): 44px هدف لمس (كان 40px). */
-              className="md:hidden p-3 rounded-xl hover:bg-[var(--accent)] transition-all duration-160 active:scale-[0.97] focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--ring)]"
+              className="md:hidden p-3 rounded-xl hover:bg-[var(--accent)] transition-[background-color,transform] duration-[var(--t-fast)] active:scale-[0.97] focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--ring)]"
             >
               {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
@@ -371,10 +375,10 @@ export function MainNav() {
                       onClick={() => setServicesOpen(!servicesOpen)}
                       aria-expanded={servicesOpen}
                       aria-controls="m-services"
-                      className="flex items-center justify-between w-full px-3 py-3 text-sm font-medium text-foreground rounded-xl hover:bg-[var(--accent)] transition-all duration-160"
+                      className="flex items-center justify-between w-full px-3 py-3 text-sm font-medium text-foreground rounded-xl hover:bg-[var(--accent)] transition-[background-color,color] duration-[var(--t-fast)]"
                     >
                       {link.label}
-                      <ChevronDown className={cn("w-4 h-4 transition-transform duration-160", servicesOpen && "rotate-180")} />
+                      <ChevronDown className={cn("w-4 h-4 transition-transform duration-[var(--t-fast)]", servicesOpen && "rotate-180")} />
                     </button>
                     <div id="m-services" className={cn("acc ms-3", servicesOpen && "open")}>
                           <div className="space-y-1 pb-1 pt-1">
@@ -385,7 +389,7 @@ export function MainNav() {
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 aria-label={`${child.label} — رابط خارجي`}
-                                className="flex items-center gap-3 px-3 py-2.5 text-sm text-muted-foreground hover:text-foreground rounded-xl hover:bg-[var(--accent)] transition-all duration-160"
+                                className="flex items-center gap-3 px-3 py-2.5 text-sm text-muted-foreground hover:text-foreground rounded-xl hover:bg-[var(--accent)] transition-[background-color,color] duration-[var(--t-fast)]"
                               >
                                 {child.icon && <child.icon className="w-4 h-4 text-primary" />}
                                 <div>
@@ -407,7 +411,7 @@ export function MainNav() {
                     onClick={() => setMobileOpen(false)}
                     aria-current={pathname === link.href ? "page" : undefined}
                     className={cn(
-                      "flex items-center gap-3 px-3 py-3 text-sm rounded-xl transition-all duration-160",
+                      "flex items-center gap-3 px-3 py-3 text-sm rounded-xl transition-[background-color,color] duration-[var(--t-fast)]",
                       pathname === link.href
                         ? "text-foreground bg-[var(--accent)] font-semibold"
                         : "font-medium text-foreground hover:bg-[var(--accent)]"

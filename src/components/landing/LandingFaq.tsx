@@ -55,7 +55,7 @@ export function LandingFaq() {
           <RevealCssClass as="details" className="ln-faq-item" key={f.q} delay={((i % 5) + 1) as 1 | 2 | 3 | 4 | 5}>
             <summary className="ln-faq-q">
               {f.q}
-              <ChevronDown size={18} aria-hidden="true" />
+              <ChevronDown size={16} aria-hidden="true" />
             </summary>
             <p className="ln-faq-a">{f.a}</p>
           </RevealCssClass>

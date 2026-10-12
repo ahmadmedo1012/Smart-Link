@@ -60,7 +60,7 @@ export function PlatformsSection() {
             {PLATFORMS.map((p) => (
               <article key={p.name} className="ln-ground-cell">
                 <span className={`ln-platform-ico ${p.tone}`} aria-hidden="true">
-                  <p.icon size={26} strokeWidth={1.7} />
+                  <p.icon size={24} strokeWidth={1.7} />
                 </span>
                 <h3 className="ln-ground-name">{p.name}</h3>
                 <p className="ln-ground-desc">{p.desc}</p>

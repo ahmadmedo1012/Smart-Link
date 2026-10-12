@@ -102,7 +102,11 @@
 .landing .ln-grain {
   position: fixed;
   inset: 0;
-  z-index: 2000;
+  /* r148 (R9): the family --z-* ladder lands (Madarek §3a — the
+     SM/SB/SO twins). The grain rides --z-lightbox: above every content
+     layer in the app (nothing exceeds 600), still under the native
+     top-layer dialogs the old 2000 comment promised. */
+  z-index: var(--z-lightbox);
   pointer-events: none;
   opacity: var(--ln-grain-op);
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='m'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.55 0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23m)'/%3E%3C/svg%3E");
@@ -247,7 +251,9 @@
   inset-inline: 0;
   top: 0;
   block-size: 2px;
-  z-index: 90;
+  /* r148 (R9): --z-popover keeps the ribbon above the sticky header
+     (now --z-dropdown) — same paint order the raw 90 vs 60 had. */
+  z-index: var(--z-popover);
   background: rgb(245 243 231 / 0.08);
   pointer-events: none;
 }
@@ -263,7 +269,9 @@
 .landing .landing-header {
   position: sticky;
   top: 0;
-  z-index: 60;
+  /* r148 (R9): the canon sticky-nav rung (SB Header.tsx:187 rides the
+     same token for its fixed header). Was raw 60. */
+  z-index: var(--z-dropdown);
   background: transparent;
   border-block-end: 1px solid transparent;
   transition:
@@ -965,34 +973,18 @@
    الحية (EcosystemConstellation) منذ r142 ولا مستهلك في أي TSX؛
    المسامير التي كانت تثبّته أُعيدت كتابتها لتثبت الغياب نفسه. */
 
-/* ── 5 · journey — the light path, canonical landing.css:821/982-1098 ── */
+/* ── 5 · journey — the beam chapter (r148: the .ln-journey-path* SVG
+   rules are DELETED with their pin — zero TSX consumers since the beam
+   rebuild (JourneySection renders .ln-beam*); the pinned --sp consumer
+   they carried was protecting dead CSS, the exact drift-hiding class
+   r144 taught against. The live --sp consumers are .ln-chapter::before
+   (opacity) and the beam family in JourneySection. ── */
 .landing .ln-journey { background: var(--ln-ink-2); }
 .landing .ln-journey-stage {
   position: relative;
   max-inline-size: 1080px;
   margin-inline: auto;
   padding-block-start: var(--sp-6);
-}
-.landing .ln-journey-path {
-  position: absolute;
-  inset: 0;
-  inline-size: 100%;
-  block-size: 100%;
-  z-index: 0;
-}
-.landing .ln-journey-path-base {
-  fill: none;
-  stroke: var(--ln-line-soft);
-  stroke-width: 1.5;
-  vector-effect: non-scaling-stroke;
-}
-.landing .ln-journey-path-light {
-  fill: none;
-  stroke: var(--ln-cream);
-  stroke-width: 2;
-  vector-effect: non-scaling-stroke;
-  stroke-dasharray: 1;
-  stroke-dashoffset: calc(1 - var(--sp, 0));
 }
 
 .landing .ln-journey-stations {
@@ -1182,7 +1174,7 @@
   border-radius: var(--ln-radius-pill);
   background: var(--ln-violet);
 }
-.landing .ln-cta-orbit.o1 { inline-size: min(460px, 70vw); border-color: var(--ln-line); }
+/* r148: the dead .o1 orbit deleted — FinaleCta renders o0/o2 only. */
 .landing .ln-cta-orbit.o2 {
   inline-size: min(300px, 46vw);
   animation: ln-cta-converge var(--motion-duration-ambient-scene) var(--ln-ease-soft) infinite;
@@ -1396,10 +1388,8 @@
 }
 @media (max-width: 920px) {
   /* journey spine — stations stack vertically, nodes ride the gutter.
-     Spine stroke up 1.5→2px: hairlines vanish on low-contrast OLED in
-     sunlight — the path must stay findable. */
-  .landing .ln-journey-path-base { stroke-width: 2; }
-  .landing .ln-journey-path-light { stroke-width: 2.5; }
+     (r148: the .ln-journey-path spine-stroke overrides died with the
+     deleted dead path rules — the beam family owns the chapter now.) */
   .landing .ln-journey-stage { padding-inline-start: 30px; }
   .landing .ln-station .ln-station-node {
     top: 34px;
@@ -1516,9 +1506,13 @@
 /* ── 13b · a11y — skip link + universal focus ring (r129) ───────────── */
 /* skip-to-content (canonical landing.css:1763-1781, P3-24): first Tab
    stop, visually hidden until focused, re-skinned into the landing's
-   pill + lime CTA language. Sits ABOVE the grain veil (z-2100 vs the
-   veil's z-2000). The landing's <main> is its target (id="main",
-   tabIndex={-1}). */
+   pill + lime CTA language. Sits ABOVE the grain veil (raw 2100 vs the
+   veil's token). The landing's <main> is its target (id="main",
+   tabIndex={-1}).
+   r148 (R9): this z-index stays RAW — parity.mjs pins
+   `/z-index:\s*2100/` on this exact block ("lime pill above the grain
+   veil"), and partial adoption beats pin breakage. The veil itself
+   moved to --z-lightbox, so the order veil < skip is preserved. */
 .landing .ln-skip-link {
   position: fixed;
   inset-block-start: 8px;
@@ -1560,7 +1554,8 @@
 @media (prefers-reduced-motion: reduce) {
   .landing .ln-hero-canvas { animation: none; opacity: var(--ln-canvas-op, 1); }
   .landing .ln-hero-scroll-line::after { animation: none; }
-  .landing .ln-journey-path-light { stroke-dashoffset: 0; }
+  /* (r148: the .ln-journey-path-light RM zeroing died with the deleted
+     dead path rules — the beam scrub carries the chapter now.) */
   /* P3-21 (r144: صياغة بعد حذف عائلات الكوكبة الميتة): the finale
      stands still, the skip link appears without travel */
   .landing .ln-cta-orbit.o0,
@@ -1635,6 +1630,12 @@
   align-items: center;
   gap: 10px;
   padding: 9px 14px 9px 16px;
+  /* r148 (19-AUDIT-SL D1): the mobile floor — the chips are the primary
+     product switchers on touch yet measured 35px at 390 (host line hidden
+     ≤420px leaves a 17px line + 18px padding). min-height keeps the
+     padding rhythm; the dock is a wrapping flex row so nothing overlaps
+     the hero canvas (decorative, pointer-events none, z-index below). */
+  min-height: 44px;
   border-radius: var(--ln-radius-pill);
   border: 1px solid var(--ln-line);
   background: var(--ln-glass);

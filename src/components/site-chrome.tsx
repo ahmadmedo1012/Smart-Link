@@ -27,8 +27,12 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
     <>
       {/* 15-SL (من RootLayout): رابط التخطّي الذهبي — أول محطة Tab،
           مخفي حتى التركيز. r131 (A12 P3): يركب start-4 المنطقية
-          (وليس right-4 الفيزيائية — القاعدة أسطورية في الأسطول). */}
-      <a href="#main-content" className="pointer-events-auto fixed opacity-0 focus:opacity-100 focus:fixed focus:top-4 focus:start-4 focus:z-[100] focus:px-4 focus:py-2 focus:rounded-xl focus:bg-[var(--primary)] focus:text-[var(--primary-fg)] focus:text-sm focus:font-semibold focus:shadow-lg focus:outline-none transition-opacity duration-160">
+          (وليس right-4 الفيزيائية — القاعدة أسطورية في الأسطول).
+          r148 (19-AUDIT-SL D8): يركب أرضية اللمس نفسها (focus:py-3
+          ≈ 44px بدل 36px) ويستسلم لحلقة :focus-visible العامة —
+          الحلقة الذهبية الكنسية للعالم المنتجي، توأم حبوبة الهبوط
+          الجيرية التي تحمل حلقتها الكريمية. */}
+      <a href="#main-content" className="pointer-events-auto fixed opacity-0 focus:opacity-100 focus:fixed focus:top-4 focus:start-4 focus:z-[100] focus:px-4 focus:py-3 focus:rounded-xl focus:bg-[var(--primary)] focus:text-[var(--primary-fg)] focus:text-sm focus:font-semibold focus:shadow-lg transition-opacity duration-[var(--t-fast)]">
         تخطَّ إلى المحتوى الرئيسي
       </a>
       {/* r8: scroll progress bar is a pure CSS scroll-driven animation

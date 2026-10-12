@@ -143,13 +143,13 @@ export default function Home() {
             </RevealCssClass>
 
             <RevealCssClass as="ul" className="ln-hero-meta" delay={5}>
-              <li><Check size={13} aria-hidden="true" /> بدون بطاقة ائتمان</li>
+              <li><Check size={12} aria-hidden="true" /> بدون بطاقة ائتمان</li>
               <li aria-hidden="true" className="ln-hero-meta-dot" />
               {/* r144 (صدق P4-4SL): بلا وعد «24/7» — القناة نفسها هي
                   الحقيقة القابلة للتحقق (wa.me بفتّاحة مصدرها، site.ts). */}
-              <li><MessageCircle size={13} aria-hidden="true" /> تواصل واتساب مباشر</li>
+              <li><MessageCircle size={12} aria-hidden="true" /> تواصل واتساب مباشر</li>
               <li aria-hidden="true" className="ln-hero-meta-dot" />
-              <li><Languages size={13} aria-hidden="true" /> واجهة عربية بالكامل</li>
+              <li><Languages size={12} aria-hidden="true" /> واجهة عربية بالكامل</li>
             </RevealCssClass>
           </div>
 

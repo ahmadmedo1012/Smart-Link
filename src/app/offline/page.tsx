@@ -56,7 +56,7 @@ export default function OfflinePage() {
            r132-G4 (A8 F-SL-1): the FULL r131 fleet button canon
            40/13/600/r10 (h-10 = 40px, --fs-sm 13px, rounded-md = 10px —
            the SO Button twin); was rounded-xl + text-sm 14px + py-3. */
-        className="inline-flex items-center gap-2 h-10 px-5 rounded-md bg-primary font-semibold text-[length:var(--fs-sm)] text-[var(--primary-fg)] transition-all duration-160 hover:bg-[var(--accent-hover)] active:scale-[0.97]"
+        className="inline-flex items-center gap-2 h-10 px-5 rounded-md bg-primary font-semibold text-[length:var(--fs-sm)] text-[var(--primary-fg)] transition-all duration-[var(--t-fast)] hover:bg-[var(--accent-hover)] active:scale-[0.97]"
       >
         تواصل عبر واتساب
       </a>

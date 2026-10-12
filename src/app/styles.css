@@ -374,6 +374,27 @@
   --hover-lift-lg: -3px;
   --motion-direction: 1;
 
+  /* ── r148 (19-AUDIT-CROSS R9): the fleet --z-* ladder (Madarek §3a) —
+     byte-equal to the SM globals.css:504-516 / SO globals.css:316-323 /
+     SB globals.css:178-185 twins. SL was the only repo riding raw
+     z-index values (60/90/2000/2100); the paint order is preserved by
+     rung choice: header --z-dropdown < ribbon --z-popover < veil
+     --z-lightbox. Two documented exceptions keep raw values:
+     · .landing .ln-skip-link z-index: 2100 — parity pins the literal
+       (parity.mjs "lime pill above the grain veil"); partial adoption
+       beats pin breakage.
+     · --z-float (SM's unique 30 rung) stays SM-local per R10.4 until
+       an ecosystem ruling promotes it. TSX z-classes (z-40/z-50/z-[100])
+       are Tailwind-layer values outside the CSS ladder's remit. ── */
+  --z-base: 0;
+  --z-dropdown: 100;
+  --z-popover: 200;
+  --z-tooltip: 250;
+  --z-sheet: 300;
+  --z-modal: 400;
+  --z-toast: 500;
+  --z-lightbox: 600;
+
   /* ── r130 (W1-D §1 / W1-H SL-1): canonical type + spacing scales ──
      Madarek tokens.css:17-27/64-92, verbatim. The product layer
      shipped no fs/sp rungs (they existed only inside .landing), so
@@ -835,7 +856,9 @@
   right: 0;
   height: 2px;
   background: var(--primary);
-  z-index: 60;
+  /* r148 (R9): --z-popover — above the MainNav header (z-50 class) and
+     below the landing veil ladder; the order the raw 60 kept. */
+  z-index: var(--z-popover);
   transform-origin: 100% 50%;
   transform: scaleX(0);
 }

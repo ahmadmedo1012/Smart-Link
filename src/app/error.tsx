@@ -54,7 +54,7 @@ export default function Error({
                 was rounded-xl 16px + text-sm 14px + py-3 ≈44px. */}
             <button
               onClick={reset}
-              className="inline-flex items-center gap-2 h-10 px-5 rounded-md bg-primary text-[var(--primary-fg)] font-semibold text-[length:var(--fs-sm)] hover:bg-[var(--accent-hover)] transition-all duration-160 active:scale-[0.97]"
+              className="inline-flex items-center gap-2 h-10 px-5 rounded-md bg-primary text-[var(--primary-fg)] font-semibold text-[length:var(--fs-sm)] hover:bg-[var(--accent-hover)] transition-all duration-[var(--t-fast)] active:scale-[0.97]"
             >
               <RefreshCw className="w-4 h-4" aria-hidden="true" />
               إعادة المحاولة

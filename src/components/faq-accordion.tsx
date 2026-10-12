@@ -47,7 +47,7 @@ export function FaqAccordion({
               >
                 {faq.q}
                 <ChevronLeft
-                  className={`w-4 h-4 shrink-0 transition-transform duration-240 ${isOpen ? "rotate-180 text-primary" : ""}`}
+                  className={`w-4 h-4 shrink-0 transition-transform duration-[var(--t-base)] ${isOpen ? "rotate-180 text-primary" : ""}`}
                   aria-hidden="true"
                 />
               </button>

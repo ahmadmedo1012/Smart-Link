@@ -159,7 +159,7 @@ export function WorldsSection() {
                   aria-label={`ادخل عالم ${w.name} — النطاق الحي، رابط خارجي`}
                 >
                   ادخل عالم {w.name}
-                  <ArrowLeft size={15} aria-hidden="true" />
+                  <ArrowLeft size={16} aria-hidden="true" />
                 </a>
               </div>
 

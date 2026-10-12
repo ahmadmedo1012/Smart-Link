@@ -663,16 +663,21 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
     'landing .ln-marquee-track: animation ln-marquee var(--ln-dur-marquee) var(--ln-ease-linear) infinite'
   );
 
-  // 3 ── --sp consumers: the useSectionProgress scrub surface. The
-  //     chapter wash and the journey light path are the two canonical
-  //     producers-to-css contracts.
+  // 3 ── --sp consumers: the useSectionProgress scrub surface.
+  //     r148 (19-AUDIT-SL D3): this consumer pin counted TWO canonical
+  //     producers-to-css contracts — but the journey light-path half
+  //     had been dead since the beam rebuild (zero TSX consumers;
+  //     JourneySection renders .ln-beam*). The pin was protecting ~20
+  //     dead CSS lines — the exact drift-hiding class r144 taught
+  //     against — so it is RETIRED here together with the dead rules
+  //     themselves (the .ln-journey-path* family + the straggler
+  //     .ln-cta-orbit.o1). The live --sp consumers stay pinned: the
+  //     chapter wash below and the beam family in JourneySection.
+  //     EXPECTED_ASSERTIONS 525 → 524 (the ONLY authorized pin-count
+  //     change of the r148 wave).
   check(
     /opacity:\s*calc\(var\(--sp,\s*0\)\s*\*\s*0\.5\)/.test(topLevelBlock(lcss, '.landing .ln-chapter::before')),
     'landing --sp consumer: .ln-chapter::before opacity calc(var(--sp, 0) * 0.5)'
-  );
-  check(
-    /stroke-dashoffset:\s*calc\(1\s*-\s*var\(--sp,\s*0\)\)/.test(topLevelBlock(lcss, '.landing .ln-journey-path-light')),
-    'landing --sp consumer: .ln-journey-path-light stroke-dashoffset calc(1 - var(--sp, 0))'
   );
 
   // 4 ── scroll-spy selectors (R2): the observer writes
@@ -2089,8 +2094,12 @@ if (failures.length > 0) {
    fails here, so the doc-vs-reality drift class (CLAUDE.md said 538
    while the suite actually ran 535) can never silently recur. Rule:
    EVERY intentional pin change bumps EXPECTED_ASSERTIONS in the same
-   commit, and CLAUDE.md's count line quotes this constant's value. */
-const EXPECTED_ASSERTIONS = 525;
+   commit, and CLAUDE.md's count line quotes this constant's value.
+   r148: 525 → 524 — the retired dead-consumer pin
+   (.ln-journey-path-light --sp pin) left WITH the dead CSS it was
+   protecting (19-AUDIT-SL D3; the ONLY authorized retirement of the
+   r148 wave). */
+const EXPECTED_ASSERTIONS = 524;
 check(
   passed + 1 === EXPECTED_ASSERTIONS,
   `self-count: the suite must run exactly ${EXPECTED_ASSERTIONS} assertions (ran ${passed + 1}) — bump EXPECTED_ASSERTIONS with every intentional pin change`

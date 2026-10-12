@@ -74,7 +74,7 @@ export function FinaleCta() {
           <Link href="/contact" className="ln-btn-ghost xl">تواصل معنا</Link>
         </RevealCssClass>
         <RevealCssClass as="p" className="ln-cta-meta" delay={4}>
-          <Sparkles size={13} aria-hidden="true" />
+          <Sparkles size={12} aria-hidden="true" />
           {/* r140: السنة الحية — توأم LandingFooter/footer.tsx (r126). */}
           SmartLink · <CurrentYear buildYear={year} />
         </RevealCssClass>

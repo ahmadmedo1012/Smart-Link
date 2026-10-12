@@ -337,7 +337,7 @@ export function ContactForm() {
            rounded-md = 10px, press 0.97 — the SO Button twin); was
            rounded-xl 16px + text-sm 14px + py-3. */
         className={cn(
-          "flex items-center justify-center gap-2 w-full h-10 px-5 rounded-md bg-primary text-[var(--primary-fg)] font-semibold text-[length:var(--fs-sm)] hover:bg-[var(--accent-hover)] transition-all duration-240 active:scale-[0.97]",
+          "flex items-center justify-center gap-2 w-full h-10 px-5 rounded-md bg-primary text-[var(--primary-fg)] font-semibold text-[length:var(--fs-sm)] hover:bg-[var(--accent-hover)] transition-all duration-[var(--t-base)] active:scale-[0.97]",
           sending && "cursor-wait"
         )}
       >

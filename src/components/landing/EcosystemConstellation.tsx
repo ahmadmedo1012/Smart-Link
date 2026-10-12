@@ -658,7 +658,7 @@ export function ConstellationDock() {
               aria-label={`زيارة ${world.name} — النطاق الحي، رابط خارجي`}
             >
               زيارة {world.name}
-              <ArrowLeft size={14} aria-hidden="true" />
+              <ArrowLeft size={16} aria-hidden="true" />
             </a>
           </footer>
         </div>

@@ -14,19 +14,39 @@ import { useTheme } from "next-themes"
    اختبار seo.spec القائم (يؤكد الوسمين بقيمتيهما على HTML الخادم)
    يبقى أخضر بلا تعديل. حالة system مستقبلاً تُحل تلقائياً:
    resolvedTheme يعيد قيمة OS والوسوم الفعلية للـmedia تكون مطابقة. */
-const BAR = { dark: "#070B16", light: "#FBFAF9" } as const
+/* r148 (19-AUDIT-SL D11): مصدر واحد للقيم — كان BAR يطابق يدويًا قيمتي
+   --background المثبتتين في styles.css (:230 الداكن، :470 الفاتح)؛ لو
+   أعاد الكانون ضبط الأرضيات لانحرف هذا الملف بصمت. الآن يُقرأ التوكن من
+   CSS نفسه وقت التشغيل: getComputedStyle يحلّ --background من :root أو
+   .light حسب الثيم الفعلي، فالمرآة اليدوية انقرضت. (القيم المعادة هي
+   الحرفيات المعلنة نفسها — '#070B16'/'#FBFAF9' — فوسم meta يبقى سليمًا،
+   واختبار seo الذي يثبت قيمتي الوسمين على HTML الخادم لم يُمس.) */
 
 export function ThemeColorSync() {
   const { resolvedTheme } = useTheme()
   useEffect(() => {
     // resolvedTheme غير معرّف قبل الترطيب — تجاهل صامت (لا وميض)
     if (resolvedTheme !== "dark" && resolvedTheme !== "light") return
-    const color = BAR[resolvedTheme]
-    for (const meta of document.querySelectorAll<HTMLMetaElement>(
-      'meta[name="theme-color"]'
-    )) {
-      if (meta.content !== color) meta.content = color
-    }
+    // next-themes يطبّق صنف الثيم على <html> في أثر الأب (آثار الأبناء
+    // تُستنفد أولًا) — القراءة المباشرة داخل الأثر تلتقط أرضية الثيم
+    // السابق (تأخّر خطوة كاملة عند كل تبديل، تحقق حي). إطار واحد يكفي:
+    // تفريغ الآثار السلبي متزامن، وكل ما يُجدول داخله يعمل بعده.
+    const raf = requestAnimationFrame(() => {
+      // .toUpperCase(): الحاسوب يطبّع hex إلى صيغة صغيرة (#070b16) بينما
+      // عقد seo (e2e/seo.spec.ts:227) يثبت الحرفيات بحالتها المعلنة
+      // (#070B16) — التطبيع يعيد القيمة المكتوبة نفسها ويبقي المصدر واحدًا.
+      const color = getComputedStyle(document.documentElement)
+        .getPropertyValue("--background")
+        .trim()
+        .toUpperCase()
+      if (!color) return
+      for (const meta of document.querySelectorAll<HTMLMetaElement>(
+        'meta[name="theme-color"]'
+      )) {
+        if (meta.content !== color) meta.content = color
+      }
+    })
+    return () => cancelAnimationFrame(raf)
   }, [resolvedTheme])
   return null
 }

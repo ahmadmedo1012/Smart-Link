@@ -209,7 +209,7 @@ export default function PricingPage() {
                   /* r134 (R134-W1-SL P3): the external-link announcement
                      convention (footer.tsx:106, main-nav.tsx:303). */
                   aria-label={`ابدأ الآن — ${plan.title}، رابط خارجي`}
-                  className="group inline-flex items-center justify-center gap-2 w-full h-10 px-5 rounded-md bg-primary text-[var(--primary-fg)] font-semibold text-[length:var(--fs-sm)] hover:bg-[var(--accent-hover)] transition-all duration-160 active:scale-[0.97]"
+                  className="group inline-flex items-center justify-center gap-2 w-full h-10 px-5 rounded-md bg-primary text-[var(--primary-fg)] font-semibold text-[length:var(--fs-sm)] hover:bg-[var(--accent-hover)] transition-all duration-[var(--t-fast)] active:scale-[0.97]"
                 >
                   ابدأ الآن <ChevronLeft className="w-3.5 h-3.5 transition-transform group-hover:-translate-x-0.5" />
                 </a>
@@ -239,7 +239,7 @@ export default function PricingPage() {
             </div>
             <Link
               href="/contact"
-              className="group inline-flex items-center gap-2 h-10 px-5 rounded-md bg-primary text-[var(--primary-fg)] text-[length:var(--fs-sm)] font-semibold hover:bg-[var(--accent-hover)] transition-all duration-160 active:scale-[0.97]"
+              className="group inline-flex items-center gap-2 h-10 px-5 rounded-md bg-primary text-[var(--primary-fg)] text-[length:var(--fs-sm)] font-semibold hover:bg-[var(--accent-hover)] transition-all duration-[var(--t-fast)] active:scale-[0.97]"
             >
               تواصل معنا لمعرفة المزيد <ChevronLeft className="w-3.5 h-3.5 transition-transform group-hover:-translate-x-0.5" />
             </Link>

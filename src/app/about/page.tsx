@@ -84,7 +84,7 @@ export default function AboutPage() {
                 key={item.title}
                 className={`reveal-up reveal-d-${Math.min(i + 1, 4)} ln-card rounded-2xl p-6 group`}
               >
-                <div className="w-10 h-10 rounded-xl bg-[var(--accent)] flex items-center justify-center mb-3 group-hover:scale-110 transition-transform duration-240">
+                <div className="w-10 h-10 rounded-xl bg-[var(--accent)] flex items-center justify-center mb-3 group-hover:scale-110 transition-transform duration-[var(--t-base)]">
                   <item.icon className="w-5 h-5 text-primary" />
                 </div>
                 {/* r132 (A6 §3/§6): card titles consume --fs-body-lg —
@@ -108,7 +108,7 @@ export default function AboutPage() {
           </div>
           <div className="reveal-up reveal-d-2 max-w-3xl">
             <div className="ln-card rounded-2xl p-6 md:p-8 flex flex-col md:flex-row items-start md:items-center gap-5 group">
-              <div className="w-16 h-16 rounded-2xl flex items-center justify-center shrink-0 bg-[var(--accent)] group-hover:scale-110 transition-transform duration-240">
+              <div className="w-16 h-16 rounded-2xl flex items-center justify-center shrink-0 bg-[var(--accent)] group-hover:scale-110 transition-transform duration-[var(--t-base)]">
                 <User className="w-8 h-8 text-primary" />
               </div>
               <div>
@@ -187,7 +187,7 @@ export default function AboutPage() {
                  40/13/600/r10 (h-10 = 40px, --fs-sm 13px, rounded-md =
                  10px — the SO Button twin); was rounded-xl 16px +
                  text-sm 14px + py-3.5 ≈45px. */
-              className="group inline-flex items-center gap-2 h-10 px-5 rounded-md bg-primary text-[var(--primary-fg)] font-semibold text-[length:var(--fs-sm)] hover:bg-[var(--accent-hover)] transition-all duration-160 active:scale-[0.97]"
+              className="group inline-flex items-center gap-2 h-10 px-5 rounded-md bg-primary text-[var(--primary-fg)] font-semibold text-[length:var(--fs-sm)] hover:bg-[var(--accent-hover)] transition-all duration-[var(--t-fast)] active:scale-[0.97]"
             >
               <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" /> تواصل معنا
             </Link>

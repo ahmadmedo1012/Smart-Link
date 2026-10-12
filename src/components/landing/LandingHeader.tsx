@@ -160,7 +160,7 @@ export function LandingHeader() {
                 onClick={() => setMegamenuOpen((v) => !v)}
               >
                 المنصّة
-                <ChevronDown size={14} aria-hidden="true" />
+                <ChevronDown size={16} aria-hidden="true" />
               </button>
               <div id="landing-megamenu" className="landing-megamenu" onClick={closeMegamenu}>
                 <a href="#products" className="landing-megamenu-item">
@@ -213,7 +213,7 @@ export function LandingHeader() {
               className="ln-btn-gold"
             >
               ابدأ مجاناً
-              <ArrowLeft size={14} aria-hidden="true" />
+              <ArrowLeft size={16} aria-hidden="true" />
             </a>
           </div>
 
@@ -222,6 +222,11 @@ export function LandingHeader() {
             className="landing-burger"
             aria-label={menuOpen ? "إغلاق القائمة" : "فتح القائمة"}
             aria-expanded={menuOpen}
+            /* r148 (19-AUDIT-SL D7): عقود الإفصاح اكتملت — البرغر كان
+               يحمل aria-expanded وحده بينما ميجامنيو الهيدر يملك العقد
+               الكاملة (:157-158). aria-controls يشير إلى id الدرج
+               (يُصيَّر عند الفتح — نمط الإفصاح المعتمد). */
+            aria-controls="landing-mobile-menu"
             ref={burgerRef}
             onClick={() => setMenuOpen((v) => !v)}
           >
@@ -231,6 +236,7 @@ export function LandingHeader() {
 
         {menuOpen && (
           <nav
+            id="landing-mobile-menu"
             className="landing-mobile-menu"
             aria-label="قائمة الجوال"
             onClick={() => setMenuOpen(false)}

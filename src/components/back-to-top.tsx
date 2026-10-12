@@ -63,7 +63,7 @@ export function BackToTop() {
          5.01:1 on light / 4.02:1 on dark.
          r131 (A12 P3): end-6 logical anchor (was physical right-6) —
          the fleet logical-prop rule. */
-      className={`fixed bottom-6 end-6 w-11 h-11 rounded-xl bg-[var(--primary)] text-[var(--primary-fg)] flex items-center justify-center shadow-lg hover:shadow-glow transition-all duration-240 z-40 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ring)] ${showScrollTop ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'}`}
+      className={`fixed bottom-6 end-6 w-11 h-11 rounded-xl bg-[var(--primary)] text-[var(--primary-fg)] flex items-center justify-center shadow-lg hover:shadow-glow transition-all duration-[var(--t-base)] z-40 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ring)] ${showScrollTop ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'}`}
     >
       <ArrowUp className="w-4 h-4" />
     </button>

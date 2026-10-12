@@ -148,12 +148,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       <body className="min-h-dvh flex flex-col antialiased overflow-x-clip bg-[var(--background)]">
-        {/* r131 (A12 P3): skip link rides the logical focus:start-4
-            (was the physical focus:right-4 — renders identically in
-            RTL, but logical props are the fleet rule). */}
-        <a href="#main-content" className="pointer-events-auto fixed opacity-0 focus:opacity-100 focus:fixed focus:top-4 focus:start-4 focus:z-[100] focus:px-4 focus:py-2 focus:rounded-xl focus:bg-[var(--primary)] focus:text-[var(--primary-fg)] focus:text-sm focus:font-semibold focus:shadow-lg focus:outline-none transition-opacity duration-160">
-          تخطَّ إلى المحتوى الرئيسي
-        </a>
+        {/* 15-SL (قبول 14-a P3): حبوبة التخطّي الذهبية انتقلت من هنا إلى
+            SiteChrome — هدفها الوحيد <main id="main-content"> يعيش داخل
+            SiteChrome نفسه، فعلى ال landing كانت توأمًا ميتًا (هدف بلا
+            وجود) تحجبه landing.css بقاعدة display:none. الآن كل سطح
+            يحمل رابط تخطّي واحدًا حيًّا: المنتجات عبر SiteChrome،
+            والرئيسية عبر حبوبتها الجيرية الكنسية → #main (r129 P2-2).
+            (r131 A12 P3: start-4 المنطقية — السمة بقيت كما هي مع النقل.) */}
         {/* r8: the product scroll-progress ribbon moved to SiteChrome
             (r128 F2b) — the landing renders its own imperative --p bar
             instead, so the two never stack. */}

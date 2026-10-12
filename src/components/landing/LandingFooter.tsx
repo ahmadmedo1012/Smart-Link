@@ -14,7 +14,21 @@ import { CurrentYear } from "@/components/current-year"
  * r126 نفسها التي أُغلقت في footer.tsx:165 ولم تُنسخ هنا).
  * r142 «الكوكبة الحية»: عمود «الرحلة» يتبع خريطة الفصول الجديدة
  * (العوالم/الرحلة/القيادة/المنصّات) — مرساة #roles غابت مع اندماج
- * الأدوار في فصل العوالم، والعقد الوظيفية كلها محفوظة (r9-coverage). */
+ * الأدوار في فصل العوالم، والعقد الوظيفية كلها محفوظة (r9-coverage).
+ * 15-SL (قبول 14-a P3): عمود المنظومة بنمط الأسطول نفسه (تذييل
+ * المائدة cd5d06f وتذييل الأوردر 86fb698): اسم عربي + وصف سطر واحد
+ * بدل الأسماء الإنجليزية العارية، والعنوان «منظومة الربط الذكي» كما
+ * في الأخوين. الأوصاف من هوية كل منتج المنشورة نفسها لا من الخيال:
+ * سمارت بوت «منصة إدارة فيسبوك الذكية» (عنوان bot.smart-link.ly
+ * الذاتي)، سمارت منيو «قوائم QR التفاعلية» (تذييل الأوردر — وQR عقد
+ * حي في هوية المنيو نفسها)، سمارت أوردر «منصة الطلبات الرقمية»
+ * (عنوانه الذاتي)، والصفحة هنا لا تُذكر (عقيدة «المائدة نفسها»). */
+
+const ECOSYSTEM = [
+  { href: SITE.products.menu.url, label: "سمارت منيو — قوائم QR التفاعلية" },
+  { href: SITE.products.bot.url, label: "سمارت بوت — منصة إدارة فيسبوك الذكية" },
+  { href: SITE.products.order.url, label: "سمارت أوردر — منصة الطلبات الرقمية" },
+]
 
 export function LandingFooter() {
   /* buildYear — يُخبَز في HTML (زوّار بلا JS تبقى لهم سنة صالحة)،
@@ -47,35 +61,20 @@ export function LandingFooter() {
             <a href="#platforms" className="landing-footer-link">المنصّات</a>
           </div>
           <div className="landing-footer-col">
-            <div className="landing-footer-heading">المنظومة</div>
-            <a
-              href={SITE.products.menu.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="landing-footer-link"
-              aria-label="Smart Menu — رابط خارجي"
-            >
-              Smart Menu
-            </a>
-            <a
-              href={SITE.products.bot.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="landing-footer-link"
-              aria-label="SmartBot — رابط خارجي"
-            >
-              SmartBot
-            </a>
-            {/* r137 (صدق الأسطول): المنتج الثالث الحيّ — نفس العقد. */}
-            <a
-              href={SITE.products.order.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="landing-footer-link"
-              aria-label="Smart Order — رابط خارجي"
-            >
-              Smart Order
-            </a>
+            <div className="landing-footer-heading">منظومة الربط الذكي</div>
+            {/* 15-SL: النص الظاهر هو الاسم الكنسي (بدون aria-label
+                يطغى على الظاهر — عقد التذييلين الأخوين نفسه). */}
+            {ECOSYSTEM.map((l) => (
+              <a
+                key={l.href}
+                href={l.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="landing-footer-link"
+              >
+                {l.label}
+              </a>
+            ))}
             <Link href="/pricing" prefetch={false} className="landing-footer-link">الخطط والأسعار</Link>
           </div>
           <div className="landing-footer-col">

@@ -779,6 +779,8 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
   const progressSrc = read('CockpitSection.tsx');
   const platformsSrc = read('PlatformsSection.tsx');
   const finaleSrc = read('FinaleCta.tsx');
+  const layoutRaw = readFileSync(new URL('../src/app/layout.tsx', import.meta.url), 'utf8');
+  const siteChromeRaw = readFileSync(new URL('../src/components/site-chrome.tsx', import.meta.url), 'utf8');
   const faqSrc = read('LandingFaq.tsx');
   const footerSrc = read('LandingFooter.tsx');
   const orbitSrc = read('EcosystemConstellation.tsx');
@@ -917,9 +919,19 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
     /background:\s*var\(--ln-lime\)/.test(skip) && /z-index:\s*2100/.test(skip),
     'landing .ln-skip-link: lime pill above the grain veil (z-2100)'
   );
+  // 15-SL (قبول 14-a P3): التوأم الميت حُفر — ال layout الجذري لا يصيّر
+  //    حبوبة تخطٍّ ذهبية إلى #main-content أبدًا (كانت على ال landing
+  //    رابطًا إلى مرساة غير موجودة، وlanding.css كان يحجبها بقاعدة
+  //    display:none). الآن: الرابط وهدفه في SiteChrome (أول Tab على
+  //    صفحات المنتجات، الرابط قبل <main> نفسه)، الرئيسية تملك حبوبتها
+  //    الجيرية الكنسية → #main (مثبتة أعلاه)، ولا هاك إخفاء يُصان.
+  //    رابط تخطٍّ واحد حي لكل سطح.
   check(
-    /body > a\[href="#main-content"\]\s*\{\s*display:\s*none/.test(lcss),
-    'landing route: the layout global gold skip pill is hidden (canonical lime pill owns the route)'
+    !/href="#main-content"/.test(layoutRaw)
+      && !/body > a\[href="#main-content"\]/.test(lcss)
+      && siteChromeRaw.includes('href="#main-content"')
+      && siteChromeRaw.indexOf('href="#main-content"') < siteChromeRaw.indexOf('<main id="main-content"'),
+    '15-SL: one functional skip link per surface — the root layout renders no #main-content pill (the dead landing twin excised with its landing.css hide hack), and SiteChrome owns the gold pill before its own #main-content target'
   );
 
   // F ── edge/a11y family: safe-area, RM active, @390, landscape.
@@ -1263,6 +1275,7 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
   const layout = read('app/layout.tsx');
   const mainNav = read('components/main-nav.tsx');
   const backToTop = read('components/back-to-top.tsx');
+  const siteChrome = read('components/site-chrome.tsx');
 
   // A ── legal pages (D1+D5): H2s consume --fs-h2; prose inherits the
   //     body 15/1.65 rule; 72ch reading measure (no leading-relaxed,
@@ -1525,9 +1538,11 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
   );
 
   // H ── A12 logical props: skip-link / dropdown / back-to-top.
+  //     15-SL: حبوبة التخطّي انتقلت من ال layout إلى SiteChrome —
+  //     النقطة تلاحق موضعها الجديد (start-4 المنطقية بقيت سليمة).
   check(
-    layout.includes('focus:start-4') && !/focus:right-4/.test(layout),
-    'a12: skip link rides focus:start-4 (logical, was physical right-4)'
+    siteChrome.includes('focus:start-4') && !/focus:right-4/.test(siteChrome),
+    'a12: skip link rides focus:start-4 (logical, was physical right-4) — 15-SL: pinned at its SiteChrome home, not the layout'
   );
   check(
     mainNav.includes('top-full end-0') && !/top-full right-0/.test(mainNav),

@@ -37,15 +37,21 @@ export function FinaleCta() {
             المولّد (طبق + كرة روبوت + صندوق بخيوط ذهبية) يتوّج فصل الوصول
             كشعار عائم ببطء (masked دائرياً، float 9s يتوقف كاملة تحت
             reduced-motion). aria-hidden — ديكوري؛ الكلمات حوله تحمل المعنى،
-            والصورة lazy تحت الطية فلا تمس LCP. */}
+            والصورة lazy تحت الطية فلا تمس LCP.
+            15-SL (قبول 14-a P3): الخانة تصيّر min(240px,52vw) وsizes كانت
+            «260px» — على DPR1 يكفي ذلك مرشّح 384 (1.6× فقط، دون الريتينا).
+            sizes الآن «480px» = ضِعف الخانة: أصغر مرشّح ≥480 هو 640 (2.67×)
+            حتى على شاشات 1×، و2× يطلب 960 فيلتقط 1080 (المُحسِّن يقصّه عند
+            عرض المصدر 1024²) — لا تصعيد لاحق، والمصدر يتحمل. width/height
+            تُضبط 480 لتوافق قصة الكثافة نفسها (نسبة 1:1 بلا تغيّر). */}
         <RevealCssClass as="div" className="ln-cta-family">
           <Image
             src="/images/ecosystem/family.webp"
             alt=""
             aria-hidden="true"
-            width={520}
-            height={520}
-            sizes="260px"
+            width={480}
+            height={480}
+            sizes="480px"
             className="ln-cta-family-img"
           />
         </RevealCssClass>

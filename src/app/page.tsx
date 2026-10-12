@@ -79,7 +79,9 @@ export default function Home() {
     <div className="landing">
       {/* r129 P2-2 (canonical P3-24): the landing's own skip link — lime
           pill, centered, ABOVE the grain veil (z-2100). First Tab stop;
-          the layout's global gold pill is hidden on this route. */}
+          15-SL: the root layout no longer renders a global #main-content
+          pill at all (it moved into SiteChrome where its target lives) —
+          this is the route's ONE skip link, no hidden dead twin. */}
       <a href="#main" className="ln-skip-link">تخطَّ إلى المحتوى</a>
 
       <LandingHeader />

@@ -1081,8 +1081,9 @@
    both under the 4.5:1 every CTA label needs. --primary-fg =
    Madarek --accent-fg (light #1A0F06 4.95:1 · dark #05070F ~10.6:1).
    Covers both class forms the codebase writes (utility bg-primary and
-   arbitrary bg-[var(--primary)]) plus the layout skip-link's
-   focus-fill. The footer's hover-fill socials live in the guarded
+   arbitrary bg-[var(--primary)]) plus the global skip-link's
+   focus-fill (site-chrome since 15-SL — ex-root-layout). The footer's
+   hover-fill socials live in the guarded
    block below — a bare :hover rule must sit inside @media
    (hover:hover) per the r14 sticky-hover contract. */
 .bg-primary.text-white,

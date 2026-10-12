@@ -338,10 +338,11 @@ test.describe("LINK SWEEP — desktop 1280×800", () => {
       await hydrationGate(page)
 
       /* r133 (re-base): عقيدة «ما يُدركه المستخدم فقط» — الروابط
-         المصيَّرة وحدها. حبوبة التخطّي الذهبية العامة (href="#main-content")
-         يخفيها landing.css على الرئيسية (قرار r129 P2-2 — الرئيسية تملك
-         حبوبتها الجيرية الخاصة → #main)؛ عنصر display:none بلا صناديق
-         وهدف مرساته لا وجود له في عالم ال landing أصلاً — عمداً. */
+         المصيَّرة وحدها (فلتر getClientRects يقصي أي عنصر بلا صناديق —
+         كاشِف عام لكل display:none، وليس لعنصر بعينه). 15-SL: حبوبة
+         التخطّي الذهبية لم تعد تُصيَّر في ال layout أصلًا (انتقلت إلى
+         SiteChrome حيث هدفها #main-content) — الرئيسية تملك حبوبتها
+         الجيرية الخاصة → #main، فلا توأم ميت في أي صفحة. */
       const hrefs = await page.evaluate(() =>
         Array.from(
           new Set(

@@ -1539,12 +1539,11 @@
   translate: -50% 0;
 }
 
-/* r129 P2-2: the root layout's global gold skip pill (z-100, UNDER the
-   grain veil, → #main-content) is the product surfaces' link — this
-   route owns the canonical lime pill above, so the global one is
-   redundant here. landing.css ships on this route only, so the product
-   pages keep theirs untouched. */
-body > a[href="#main-content"] { display: none; }
+/* 15-SL: قاعدة «body > a[href="#main-content"] { display: none; }»
+   (r129 P2-2) حُفرت مع سببها — حبوبة ال layout الذهبية لم تعد تُصيَّر
+   أصلًا (انتقلت إلى SiteChrome حيث هدفها #main-content)، فلا توأم
+   ميت يُخفى ولا هاك إخفاء يُصان. الرئيسية تملك حبوبتها الجيرية
+   أعلاه وحدها. */
 
 /* r129 (canonical landing.css:1783-1794): the landing's universal focus
    ring — 2px cream, offset 3px, EVERY focusable thing inside .landing.

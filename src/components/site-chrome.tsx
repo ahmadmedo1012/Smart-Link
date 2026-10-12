@@ -6,11 +6,17 @@ import { RevealObserver } from "@/components/reveal-observer"
  *
  * The landing ("/") now owns its entire world (LandingHeader + landing
  * footer + grain inside the .landing scope, R4), so the shared product
- * chrome (MainNav + the CSS scroll-progress ribbon + Footer) moved out of
- * the RootLayout and into this wrapper: inner pages render byte-identical
- * to before (same nav, same <main id="main-content"> target for the
-   layout's skip link, same footer), and the landing renders no product
-   chrome at all.
+ * chrome (skip link + MainNav + the CSS scroll-progress ribbon + Footer)
+ * moved out of the RootLayout and into this wrapper: inner pages render
+ * byte-identical to before, and the landing renders no product chrome
+ * at all.
+ *
+ * 15-SL (قبول 14-a P3): حبوبة التخطّي الذهبية تنتقل إلى هنا من
+ * RootLayout — هدفها مرساة main#main-content الوحيدة تعيش في هذا
+ * الملف نفسه، فكان وضعها في ال layout يجعلها على ال landing توأمًا
+ * ميتًا (رابط إلى مرساة غير موجودة تحجبه landing.css). الآن الرابط
+ * وهدفه في مكوّن واحد: أول Tab على كل صفحة منتج = الرابط الحي،
+ * والرئيسية تبقى على حبوبتها الجيرية الخاصة → #main.
  *
  * r130 (W1-D P2-11): RevealObserver — the one-shot IO that writes the
  * canonical `.reveal-up.in-view` transition family (see
@@ -19,6 +25,12 @@ import { RevealObserver } from "@/components/reveal-observer"
 export function SiteChrome({ children }: { children: React.ReactNode }) {
   return (
     <>
+      {/* 15-SL (من RootLayout): رابط التخطّي الذهبي — أول محطة Tab،
+          مخفي حتى التركيز. r131 (A12 P3): يركب start-4 المنطقية
+          (وليس right-4 الفيزيائية — القاعدة أسطورية في الأسطول). */}
+      <a href="#main-content" className="pointer-events-auto fixed opacity-0 focus:opacity-100 focus:fixed focus:top-4 focus:start-4 focus:z-[100] focus:px-4 focus:py-2 focus:rounded-xl focus:bg-[var(--primary)] focus:text-[var(--primary-fg)] focus:text-sm focus:font-semibold focus:shadow-lg focus:outline-none transition-opacity duration-160">
+        تخطَّ إلى المحتوى الرئيسي
+      </a>
       {/* r8: scroll progress bar is a pure CSS scroll-driven animation
           (scroll(root) timeline, styles.css) — zero JS. */}
       <div className="scroll-progress" aria-hidden="true" />

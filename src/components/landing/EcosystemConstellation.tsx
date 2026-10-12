@@ -4,6 +4,16 @@ import { useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import type { CSSProperties } from 'react';
 import { ArrowLeft, X } from 'lucide-react';
 import { WORLDS, worldById, type WorldId } from './worlds';
+import { constellationStore } from './ecosystem/constellation-store';
+import {
+  makeGlowSprite,
+  readToken,
+  rgb,
+  type Triplet,
+  type WorldNode,
+} from './ecosystem/engine-primitives';
+import { buildScene, createSceneState, orbitPoint } from './ecosystem/scene';
+import { paintCore, paintLinks, paintOrbits, paintStars } from './ecosystem/scene-painters';
 
 /**
  * EcosystemConstellation — «الكوكبة الحية» (r142 radical redesign).
@@ -41,8 +51,6 @@ const DPR_CAP = 1.5;
 const DT_MAX = 48;
 const INTRO_KEY = 'smartlink.intro.seen';
 const IO_ROOT_MARGIN = '80px 0px';
-/** One data pulse crosses its link in ~2.8s; three links run staggered. */
-const PULSE_PERIOD = 2800;
 /** Pointer hover hit radius around a node core (desktop pointer, px). */
 const HIT_RADIUS = 30;
 
@@ -55,103 +63,22 @@ const ORBITS = [
 ] as const;
 /* Deterministic starting angles — the composition is authored, not random. */
 const NODE_ANGLES = [-1.15, 2.6, 0.55] as const;
-/** Pulse direction per link: true = core→node (power out). */
-const PULSE_OUT = [true, false, true] as const;
+/* PULSE_PERIOD / PULSE_OUT moved with the data-links painter
+   → ecosystem/scene-painters.ts (r147 split, values unchanged). */
 
-/* ── the module store — one organism, two islands ─────────────────────
- * The canvas engine (island 1) and the chips/glass-card dock (island 2)
- * must behave as ONE interactive constellation, but the hero keeps its
- * server-rendered LCP column between them. A tiny module-level store
- * (useSyncExternalStore on the dock, read-per-frame in the engine loop)
- * is the honest seam: no context provider wrapping server children, no
- * re-render of the engine per interaction. */
-type Listener = () => void;
-const hoverListeners = new Set<Listener>();
-const selectedListeners = new Set<Listener>();
-let hoverId: WorldId | null = null;
-let selectedId: WorldId | null = null;
+/* r147 (17-DEBT-SL) — the engineering-debt split map. Focused modules
+ * under ./ecosystem/ now carry: the module store (constellation-store.ts),
+ * the engine primitives (token reader, rgba helper, glow sprites, entity
+ * types → engine-primitives.ts), the scene geometry (state + buildScene +
+ * orbitPoint → scene.ts) and the pin-free paint blocks (stars, data
+ * links, orbit ellipses, core → scene-painters.ts). The engine spine
+ * (boot/resize/frame/listeners), the eased node math and the dock stay
+ * HERE: their craft lines are pinned verbatim by tests/parity.mjs
+ * against this file's text, so moving them would trade a line count for
+ * a broken acceptance contract. The store is re-exported so the module's
+ * public surface is unchanged. */
 
-export const constellationStore = {
-  getHover: () => hoverId,
-  getSelected: () => selectedId,
-  setHover(next: WorldId | null) {
-    if (next === hoverId) return;
-    hoverId = next;
-    for (const l of hoverListeners) l();
-  },
-  setSelected(next: WorldId | null) {
-    if (next === selectedId) return;
-    selectedId = next;
-    for (const l of selectedListeners) l();
-  },
-  subscribeHover(l: Listener) {
-    hoverListeners.add(l);
-    return () => {
-      hoverListeners.delete(l);
-    };
-  },
-  subscribeSelected(l: Listener) {
-    selectedListeners.add(l);
-    return () => {
-      selectedListeners.delete(l);
-    };
-  },
-};
-
-/* ── token reader — the ONLY colors the engine may use ────────────────
- * landing.css owns every hue (--ln-*); the canvas resolves them through
- * getComputedStyle at boot. No hex literal exists in this file. */
-type Triplet = readonly [number, number, number];
-function readToken(root: Element, token: string): Triplet | null {
-  const raw = getComputedStyle(root).getPropertyValue(token).trim();
-  const hex = raw.match(/^#([0-9a-f]{3}|[0-9a-f]{6})$/i);
-  if (hex) {
-    const h = hex[1]!;
-    const full = h.length === 3 ? h.split('').map((c) => c + c).join('') : h;
-    return [
-      parseInt(full.slice(0, 2), 16),
-      parseInt(full.slice(2, 4), 16),
-      parseInt(full.slice(4, 6), 16),
-    ];
-  }
-  const fn = raw.match(/^rgba?\(([^)]+)\)$/i);
-  if (fn) {
-    const parts = fn[1]!.split(/[,/\s]+/).filter(Boolean).slice(0, 3);
-    if (parts.length === 3) return parts.map((p) => parseFloat(p)) as unknown as Triplet;
-  }
-  return null;
-}
-
-/* Pre-rendered radial glow sprite (OrbitScene discipline — per-frame
-   shadow filters are far too slow). */
-function makeGlowSprite(size: number, rgb: Triplet, coreAlpha: number): HTMLCanvasElement {
-  const c = document.createElement('canvas');
-  c.width = size;
-  c.height = size;
-  const g = c.getContext('2d');
-  if (!g) return c;
-  const half = size / 2;
-  const grad = g.createRadialGradient(half, half, 0, half, half, half);
-  grad.addColorStop(0, `rgba(${rgb[0]},${rgb[1]},${rgb[2]},${coreAlpha})`);
-  grad.addColorStop(0.25, `rgba(${rgb[0]},${rgb[1]},${rgb[2]},${coreAlpha * 0.55})`);
-  grad.addColorStop(0.6, `rgba(${rgb[0]},${rgb[1]},${rgb[2]},${coreAlpha * 0.14})`);
-  grad.addColorStop(1, 'rgba(0,0,0,0)');
-  g.fillStyle = grad;
-  g.fillRect(0, 0, size, size);
-  return c;
-}
-
-type Star = { x: number; y: number; r: number; base: number; depth: 0 | 1; color: string };
-type WorldNode = {
-  angle: number;
-  omega: number;
-  r: number;
-  x: number;
-  y: number;
-  orbit: number;
-  hoverK: number; // 0..1 eased hover glow
-  selectK: number; // 0..1 eased selection glow
-};
+export { constellationStore } from './ecosystem/constellation-store';
 
 export function EcosystemConstellation({
   className,
@@ -213,7 +140,17 @@ export function EcosystemConstellation({
     const C = cream!;
     const V = violet!;
     const W = worlds as readonly Triplet[];
-    const rgb = (t: Triplet, a: number) => `rgba(${t[0]},${t[1]},${t[2]},${a})`;
+
+    // r147 split: the scene state the extracted geometry/painter modules
+    // read — the parent mirrors its pinned constants, the sampled palette
+    // and (below) the boot-built sprites into it. Same values, same
+    // order; the geometry fields are resize-written, read-only elsewhere.
+    const S = createSceneState();
+    S.orbits = ORBITS;
+    S.lowTier = lowTier;
+    S.C = C;
+    S.V = V;
+    S.W = W;
 
     // ── sizing ────────────────────────────────────────────────────────
     let w = 0;
@@ -222,7 +159,6 @@ export function EcosystemConstellation({
     let cx = 0;
     let cy = 0;
     let squash = 0.6;
-    let stars: Star[] = [];
     let nebula: HTMLCanvasElement | null = null;
 
     const nodes: WorldNode[] = WORLDS.map((_, i) => ({
@@ -236,43 +172,6 @@ export function EcosystemConstellation({
       selectK: 0,
     }));
     const core = { x: 0, y: 0, breathe: 0 };
-
-    function buildScene() {
-      const area = w * h;
-      const starCount = lowTier
-        ? Math.min(54, Math.max(20, Math.round(area / 20000)))
-        : Math.min(120, Math.max(30, Math.round(area / 9500)));
-      stars = Array.from({ length: starCount }, () => {
-        const depth: 0 | 1 = Math.random() < 0.62 ? 0 : 1;
-        return {
-          x: Math.random(),
-          y: Math.random(),
-          r: (0.5 + Math.random() * 1.1) * (depth === 1 ? 1.15 : 0.85),
-          base: (0.4 + Math.random() * 0.42) * (depth === 1 ? 1 : 0.82),
-          depth,
-          color: Math.random() < 0.86 ? rgb(C, 1) : rgb(V, 1),
-        };
-      });
-      // Depth bloom — violet light source at the core + a faint horizon
-      // where the page continues below the fold.
-      nebula = document.createElement('canvas');
-      nebula.width = Math.max(1, w);
-      nebula.height = Math.max(1, h);
-      const ng = nebula.getContext('2d');
-      if (ng) {
-        const rr = systemR * 1.7;
-        const grad = ng.createRadialGradient(cx, cy, 0, cx, cy, rr);
-        grad.addColorStop(0, rgb(V, 0.22));
-        grad.addColorStop(1, 'rgba(0,0,0,0)');
-        ng.fillStyle = grad;
-        ng.fillRect(0, 0, w, h);
-        const hz = ng.createRadialGradient(w * 0.5, h * 1.18, 0, w * 0.5, h * 1.18, h * 0.75);
-        hz.addColorStop(0, rgb(C, 0.1));
-        hz.addColorStop(1, 'rgba(0,0,0,0)');
-        ng.fillStyle = hz;
-        ng.fillRect(0, 0, w, h);
-      }
-    }
 
     function resize() {
       const rect = canvas.getBoundingClientRect();
@@ -289,25 +188,28 @@ export function EcosystemConstellation({
       cx = w * 0.5 + biasX * Math.max(0, w * 0.5 - systemR * 1.08);
       cy = h * 0.47;
       squash = w < h ? 0.78 : 0.6;
-      buildScene();
-    }
 
-    function orbitPoint(orbit: number, angle: number, out: { x: number; y: number }) {
-      const o = ORBITS[orbit]!;
-      const rx = systemR * o.f;
-      const ry = rx * squash;
-      const cos = Math.cos(o.rot);
-      const sin = Math.sin(o.rot);
-      const ex = Math.cos(angle) * rx;
-      const ey = Math.sin(angle) * ry;
-      out.x = cx + ex * cos - ey * sin;
-      out.y = cy + ex * sin + ey * cos;
+      // r147 split: mirror the resized geometry, then rebuild the scene —
+      // buildScene reads the same values from the state object; the built
+      // stars/nebula return to the same closure locals draw() reads.
+      S.w = w;
+      S.h = h;
+      S.systemR = systemR;
+      S.cx = cx;
+      S.cy = cy;
+      S.squash = squash;
+      const built = buildScene(S);
+      S.stars = built.stars;
+      nebula = built.nebula;
     }
 
     // glow sprites — one per world + core + bloom (built once)
     const glowW = W.map((t) => makeGlowSprite(64, t, 0.4));
     const glowCore = makeGlowSprite(64, C, 0.34);
     const glowBloom = makeGlowSprite(128, V, 0.3);
+    S.glowW = glowW;
+    S.glowCore = glowCore;
+    S.glowBloom = glowBloom;
 
     const scratch = { x: 0, y: 0 };
     let introT = 0;
@@ -334,17 +236,8 @@ export function EcosystemConstellation({
       }
 
       // stars — two parallax depth planes, static alpha (nothing flashes)
-      const starParX = (mouse.sx - 0.5) * 7;
-      const starParY = (mouse.sy - 0.5) * 6;
-      for (let i = 0; i < stars.length; i++) {
-        const s = stars[i]!;
-        const k = s.depth === 1 ? 1 : 0.4;
-        ctx.globalAlpha = s.base * fade;
-        ctx.fillStyle = s.color;
-        ctx.beginPath();
-        ctx.arc(s.x * w + starParX * k, s.y * h + starParY * k, s.r, 0, Math.PI * 2);
-        ctx.fill();
-      }
+      // (r147: block verbatim → ecosystem/scene-painters paintStars)
+      paintStars(ctx, S, mouse, fade);
 
       // system parallax — the living mass drifts opposite the pointer
       const sysParX = (mouse.sx - 0.5) * 14;
@@ -377,76 +270,23 @@ export function EcosystemConstellation({
         } else {
           n.angle += n.omega * (reducedMotion ? 0 : 1 - n.hoverK * 0.75) * dt;
         }
-        orbitPoint(n.orbit, n.angle, scratch);
+        orbitPoint(S, n.orbit, n.angle, scratch);
         // the intro bloom scales the whole system around its center
         n.x = scx + (scratch.x - cx) * scale;
         n.y = scy + (scratch.y - cy) * scale;
       }
 
       // data links — faint hairline core↔node + bright pulse bead
-      ctx.lineWidth = 1;
-      for (let i = 0; i < nodes.length; i++) {
-        const n = nodes[i]!;
-        const linkA = 0.09 + n.selectK * 0.1 + n.hoverK * 0.08;
-        ctx.strokeStyle = rgb(C, Math.max(0.05, linkA) * fade);
-        ctx.beginPath();
-        ctx.moveTo(core.x, core.y);
-        ctx.lineTo(n.x, n.y);
-        ctx.stroke();
-
-        // pulse bead — staggered phase, alternating direction
-        const phase = ((tNow / PULSE_PERIOD + i * 0.37 + 0.12) % 1 + 1) % 1;
-        const dir = PULSE_OUT[i]! ? phase : 1 - phase;
-        const bx = core.x + (n.x - core.x) * dir;
-        const by = core.y + (n.y - core.y) * dir;
-        // brighter segment riding the bead
-        const seg = 0.1;
-        const a1 = Math.max(0, dir - seg);
-        const a2 = Math.min(1, dir + seg);
-        ctx.strokeStyle = rgb(W[i]!, 0.5 * fade);
-        ctx.lineWidth = 1.4;
-        ctx.beginPath();
-        ctx.moveTo(core.x + (n.x - core.x) * a1, core.y + (n.y - core.y) * a1);
-        ctx.lineTo(core.x + (n.x - core.x) * a2, core.y + (n.y - core.y) * a2);
-        ctx.stroke();
-        ctx.lineWidth = 1;
-
-        const gs = 15 + n.hoverK * 12 + n.selectK * 8;
-        ctx.globalAlpha = fade * (0.5 + n.hoverK * 0.5 + n.selectK * 0.3);
-        ctx.drawImage(glowW[i]!, bx - gs / 2, by - gs / 2, gs, gs);
-        ctx.globalAlpha = fade;
-        ctx.fillStyle = rgb(W[i]!, 0.95);
-        ctx.beginPath();
-        ctx.arc(bx, by, 1.7, 0, Math.PI * 2);
-        ctx.fill();
-      }
+      // (r147: block verbatim → ecosystem/scene-painters paintLinks)
+      paintLinks(ctx, S, nodes, core, tNow, fade);
 
       // orbit ellipses — hairline whispers under the nodes
-      ctx.lineWidth = 1;
-      ctx.strokeStyle = rgb(C, 1);
-      for (let i = 0; i < ORBITS.length; i++) {
-        const o = ORBITS[i]!;
-        ctx.globalAlpha = (0.16 + nodes[i]!.selectK * 0.14 + nodes[i]!.hoverK * 0.1) * fade;
-        ctx.beginPath();
-        ctx.ellipse(scx, scy, systemR * o.f * scale, systemR * o.f * scale * squash, o.rot, 0, Math.PI * 2);
-        ctx.stroke();
-      }
+      // (r147: block verbatim → ecosystem/scene-painters paintOrbits)
+      paintOrbits(ctx, S, nodes, scx, scy, scale, fade);
 
       // the core — violet bloom, breathing ring, cream nucleus
-      ctx.globalAlpha = 0.85 * fade;
-      ctx.drawImage(glowBloom, core.x - 55, core.y - 55, 110, 110);
-      const ringR = 21 + core.breathe * 1.6;
-      ctx.globalAlpha = (0.3 + core.breathe * 0.06) * fade;
-      ctx.strokeStyle = rgb(C, 1);
-      ctx.beginPath();
-      ctx.arc(core.x, core.y, ringR * scale, 0, Math.PI * 2);
-      ctx.stroke();
-      ctx.globalAlpha = fade;
-      ctx.drawImage(glowCore, core.x - 26, core.y - 26, 52, 52);
-      ctx.fillStyle = rgb(C, 0.96);
-      ctx.beginPath();
-      ctx.arc(core.x, core.y, 5.6 + core.breathe * 0.5, 0, Math.PI * 2);
-      ctx.fill();
+      // (r147: block verbatim → ecosystem/scene-painters paintCore)
+      paintCore(ctx, S, core, scale, fade);
 
       // nodes — glow sprite + core + hover halo + selection ring
       for (let i = 0; i < nodes.length; i++) {

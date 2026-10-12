@@ -100,8 +100,13 @@ export default function ContactPage() {
               <h2 className="font-bold text-foreground text-[length:var(--fs-body)] mb-1">{item.title}</h2>
               {item.href ? (
                 /* r132 (A6 §3/§6): micro-copy consumes --fs-xs — text-xs is
-                   the identical 12px (exact-match swap). */
-                <a href={item.href} className="text-[length:var(--fs-xs)] text-primary-text hover:underline underline-offset-2 rounded inline-flex items-center py-2">{item.desc}</a>
+                   the identical 12px (exact-match swap).
+                   r149 (self-audit): 35.8px measured — the card's only
+                   action rides the 44px touch floor via min-h (padding
+                   rhythm untouched), and the hover joins the canonical
+                   P4-13 underline device (2px / offset 4px) used by every
+                   other footer/contact link. */
+                <a href={item.href} className="text-[length:var(--fs-xs)] text-primary-text hover:underline decoration-2 underline-offset-4 rounded inline-flex items-center justify-center min-h-[44px] py-2">{item.desc}</a>
               ) : (
                 <p className="text-[length:var(--fs-xs)] text-muted-foreground">{item.desc}</p>
               )}

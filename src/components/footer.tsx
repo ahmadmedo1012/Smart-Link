@@ -81,8 +81,18 @@ export function Footer() {
                       RSC prefetches that competed with LCP bandwidth. */}
                   {/* r130 (W1-D P2-16): the dot-grow device is retired —
                       canonical link-hover doctrine (landing footer,
-                      P4-13): color shift + underline 2px / offset 4px. */}
-                  <Link href={l.href} prefetch={false} className="text-sm text-muted-foreground hover:text-foreground hover:underline decoration-2 underline-offset-4 transition-colors duration-[var(--t-fast)] py-2.5 max-md:py-3 rounded">
+                      P4-13): color shift + underline 2px / offset 4px.
+                      r149 (self-audit): py-2.5→py-3 — the desktop rows
+                      measured 40px, 4px shy of the 44px touch floor
+                      (the max-md:py-3 twin already carried the floor
+                      on phones; one rung now serves both). inline-flex
+                      + min-w makes the padding REAL (inline py never
+                      enters the layout) so short labels («الرئيسية»
+                      measured 41.8 wide) reach the 44px floor on both
+                      axes without changing the visual size of the
+                      label — the landing-footer-link min-inline-size
+                      device, fleet-portable. */}
+                  <Link href={l.href} prefetch={false} className="inline-flex items-center min-w-[44px] text-sm text-muted-foreground hover:text-foreground hover:underline decoration-2 underline-offset-4 transition-colors duration-[var(--t-fast)] py-3 rounded">
                     {l.label}
                   </Link>
                 </li>
@@ -134,7 +144,7 @@ export function Footer() {
                 <div className="w-8 h-8 rounded-lg bg-[var(--accent-soft)] flex items-center justify-center shrink-0">
                   <Mail className="w-3.5 h-3.5 text-[var(--accent-strong)]" />
                 </div>
-                <a href={`mailto:${SITE.email}`} className="hover:text-foreground transition-colors inline-flex items-center py-2.5 max-md:py-3 rounded">{SITE.email}</a>
+                <a href={`mailto:${SITE.email}`} className="hover:text-foreground transition-colors inline-flex items-center py-3 rounded hover:underline decoration-2 underline-offset-4">{SITE.email}</a>
               </li>
               <li className="flex items-center gap-2 text-sm text-muted-foreground">
                 <div className="w-8 h-8 rounded-lg bg-[var(--accent-soft)] flex items-center justify-center shrink-0">
@@ -148,7 +158,7 @@ export function Footer() {
                 </div>
                 {/* r134 (R134-W2-SL fix 8): prefilled wa.me opener
                     (surface: تذييل الصفحة) — was the bare link. */}
-                <a href={whatsappUrl("تذييل الصفحة")} target="_blank" rel="noopener noreferrer" className="text-primary-text hover:underline underline-offset-2 transition-all inline-flex items-center py-2.5 max-md:py-3 rounded" dir="ltr">
+                <a href={whatsappUrl("تذييل الصفحة")} target="_blank" rel="noopener noreferrer" className="text-primary-text hover:underline decoration-2 underline-offset-4 transition-all inline-flex items-center py-3 rounded" dir="ltr">
                   {SITE.whatsapp.display}
                 </a>
               </li>
@@ -164,8 +174,8 @@ export function Footer() {
               instead of freezing at build time (see current-year.tsx). */}
           <p className="text-[length:var(--fs-xs)] text-muted-foreground">© <CurrentYear buildYear={new Date().getFullYear()} /> SmartLink. جميع الحقوق محفوظة</p>
           <div className="flex items-center gap-4">
-            <Link href="/privacy" className="text-[length:var(--fs-xs)] text-muted-foreground hover:text-foreground transition-colors rounded inline-flex items-center min-h-[24px] py-1 max-md:min-h-[44px]">سياسة الخصوصية</Link>
-            <Link href="/terms" className="text-[length:var(--fs-xs)] text-muted-foreground hover:text-foreground transition-colors rounded inline-flex items-center min-h-[24px] py-1 max-md:min-h-[44px]">شروط الاستخدام</Link>
+            <Link href="/privacy" className="text-[length:var(--fs-xs)] text-muted-foreground hover:text-foreground hover:underline decoration-2 underline-offset-4 transition-colors rounded inline-flex items-center min-h-[44px] py-3">سياسة الخصوصية</Link>
+            <Link href="/terms" className="text-[length:var(--fs-xs)] text-muted-foreground hover:text-foreground hover:underline decoration-2 underline-offset-4 transition-colors rounded inline-flex items-center min-h-[44px] py-3">شروط الاستخدام</Link>
           </div>
         </div>
       </div>

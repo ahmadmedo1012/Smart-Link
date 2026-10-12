@@ -237,7 +237,7 @@ export function MainNav() {
                      outline-color/width — الحلقة تُلحق متلاشية عند 60٪.
                      الخصائص الصريحة تُظهر حلقة التركيز فورًا، والمدة
                      تركب var(--t-fast) بدل الرقم الخام (D5). */
-                  className="flex items-center gap-1.5 px-4 py-2.5 text-sm font-medium text-muted-foreground hover:text-foreground rounded-xl hover:bg-[var(--accent)] transition-[background-color,color] duration-[var(--t-fast)] focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--ring)]"
+                  className="flex items-center gap-1.5 px-4 py-3 text-sm font-medium text-muted-foreground hover:text-foreground rounded-xl hover:bg-[var(--accent)] transition-[background-color,color] duration-[var(--t-fast)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ring)]"
                 >
                   {link.label}
                   {/* r6: removed dead group-hover/nav:rotate-180 — no parent
@@ -302,7 +302,7 @@ export function MainNav() {
                 prefetch={false}
                 aria-current={pathname === link.href ? "page" : undefined}
                 className={cn(
-                  "px-4 py-2.5 text-sm rounded-xl transition-[background-color,color] duration-[var(--t-fast)] focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--ring)]",
+                  "px-4 py-3 text-sm rounded-xl transition-[background-color,color] duration-[var(--t-fast)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ring)]",
                   pathname === link.href
                     ? "text-foreground bg-[var(--accent)] font-semibold"
                     : "font-medium text-muted-foreground hover:text-foreground hover:bg-[var(--accent)]"
@@ -322,7 +322,7 @@ export function MainNav() {
                 aria-label={resolvedTheme === "dark" ? "تفعيل المظهر الفاتح" : "تفعيل المظهر الداكن"}
                 /* r11 (E-E12/E-E13): هدف لمس 44px (كان 36px — p-2.5 + أيقونة
                    16px) بمعيار WCAG 2.5.5، و«الثيم»→«المظهر» (تعريب أصحّ). */
-                className="p-3 rounded-xl hover:bg-[var(--accent)] text-muted-foreground hover:text-foreground transition-[background-color,color,transform] duration-[var(--t-fast)] active:scale-[0.97] focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--ring)]"
+                className="p-3 rounded-xl hover:bg-[var(--accent)] text-muted-foreground hover:text-foreground transition-[background-color,color,transform] duration-[var(--t-fast)] active:scale-[0.97] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ring)]"
               >
                 <span className={cn("block transition-transform duration-[var(--t-slower)] ease-spring", resolvedTheme === "dark" ? "rotate-0" : "rotate-180")}>
                   {resolvedTheme === "dark" ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
@@ -339,7 +339,7 @@ export function MainNav() {
               aria-expanded={mobileOpen}
               aria-controls="mobile-menu"
               /* r11 (E-E12): 44px هدف لمس (كان 40px). */
-              className="md:hidden p-3 rounded-xl hover:bg-[var(--accent)] transition-[background-color,transform] duration-[var(--t-fast)] active:scale-[0.97] focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--ring)]"
+              className="md:hidden p-3 rounded-xl hover:bg-[var(--accent)] transition-[background-color,transform] duration-[var(--t-fast)] active:scale-[0.97] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ring)]"
             >
               {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>

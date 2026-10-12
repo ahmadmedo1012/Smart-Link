@@ -347,7 +347,7 @@
   block-size: 38px;
   display: grid;
   place-items: center;
-  border-radius: 11px;
+  border-radius: var(--r-lg);
   flex-shrink: 0;
 }
 .landing .ln-menu-ico.gold { background: rgb(245 243 231 / 0.08); color: var(--ln-cream-dim); }
@@ -376,13 +376,15 @@
     transform var(--ln-t-fast) var(--ln-ease-out);
 }
 
-/* the conversion pill — flat lime, ink text, slim agency height
-   (~46px desktop). The ONE lime-filled surface on the page. Carries
-   the magnetic translate (useMagnetic writes --mag-x/--mag-y). */
+/* the conversion pill — flat lime, ink text, the md rung of the unified
+   height ladder (r149 20-IDEAL C2: 44 header / 48 hero / 52 xl finale —
+   border-box EXACT equality with its ghost twin, no 46/47 split).
+   The ONE lime-filled surface on the page. Carries the magnetic
+   translate (useMagnetic writes --mag-x/--mag-y). */
 .landing .ln-btn-gold {
   padding: 10px 26px;
   font-size: 15px;
-  min-block-size: 46px;
+  min-block-size: 48px;
   background: var(--ln-lime);
   color: var(--ln-ink);
   border-radius: var(--ln-radius-pill);
@@ -417,7 +419,10 @@
   pointer-events: none;
 }
 .landing .ln-btn-gold:hover::after { opacity: 1; }
-.landing .ln-btn-gold.xl { padding: 12px 34px; font-size: 16px; min-block-size: 48px; }
+/* r149 (C2): the lg rung — the finale pair sits EXACTLY on 52px
+   border-box (the ghost's 11px block padding compensates its 1px
+   borders so both twins measure identically). */
+.landing .ln-btn-gold.xl { padding: 12px 34px; font-size: 16px; min-block-size: 52px; }
 
 /* the outline pill — transparent, 1px hairline; hover is
    a quiet tint, never a lime fill (VLM R3-W5 lime roster).
@@ -425,7 +430,7 @@
 .landing .ln-btn-ghost {
   padding: 10px 24px;
   font-size: 15px;
-  min-block-size: 46px;
+  min-block-size: 48px;
   /* r133 (R12): 0.01em → 0 — the pill labels are Arabic («تواصل معنا»); */
   letter-spacing: 0;
   background: transparent;
@@ -442,7 +447,7 @@
   border-color: rgb(245 243 231 / 0.52);
   box-shadow: 0 2px 8px rgba(0,0,0,0.10);
 }
-.landing .ln-btn-ghost.xl { padding: 12px 32px; font-size: 16px; min-block-size: 48px; }
+.landing .ln-btn-ghost.xl { padding: 11px 32px; font-size: 16px; min-block-size: 52px; }
 
 /* r132 (A6 §2): the .ln-btn-text family (base + :hover + -badge, ≈23
    lines incl. its 6 grouped-selector tokens) is deleted — the landing
@@ -604,13 +609,24 @@
   gap: var(--sp-6);
 }
 
-.landing .landing-brand { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; }
+/* r149 (C4/SL3): the 34px wordmark stays the documented logo exception
+   (visual size untouched), but its click zone reaches the 44px floor —
+   symmetric block padding re-claimed by negative margins = zero layout
+   shift in BOTH parents (header flex row + footer grid track). */
+.landing .landing-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  padding-block: 5px;
+  margin-block: -5px;
+}
 .landing .landing-brand-mark {
   inline-size: 34px;
   block-size: 34px;
   display: grid;
   place-items: center;
-  border-radius: 11px;
+  border-radius: var(--r-lg);
   background: var(--ln-cream);
   color: var(--ln-ink);
   font-weight: var(--fw-bold);
@@ -641,6 +657,10 @@
   align-items: center;
   gap: 6px;
   padding: 9px 14px;
+  /* r149 (C1/SL1): the 41px pill was 3px shy of the 44px touch floor
+     (HIG/Material). min-block-size lifts the hit zone without touching
+     the label rhythm — CSS only, DOM untouched. */
+  min-block-size: 44px;
   border-radius: var(--ln-radius-pill);
   color: var(--ln-cream-dim);
   font-size: 14px;
@@ -1057,7 +1077,7 @@
   block-size: 40px;
   display: grid;
   place-items: center;
-  border-radius: 12px;
+  border-radius: var(--r-lg);
   background: rgb(245 243 231 / 0.08);
   color: var(--ln-cream-dim);
   flex-shrink: 0;
@@ -1119,7 +1139,7 @@
   block-size: 52px;
   display: grid;
   place-items: center;
-  border-radius: 16px;
+  border-radius: var(--r-xl);
   flex-shrink: 0;
 }
 .landing .ln-platform-ico.gold { background: rgb(245 243 231 / 0.08); color: var(--ln-cream-dim); }
@@ -1326,7 +1346,10 @@
   font-weight: var(--fw-semibold);
   margin-block-end: var(--sp-3);
 }
-/* generous leading = comfortable ≈44px rows (spec §4.3) */
+/* generous leading = comfortable ≈44px rows (spec §4.3)
+   r149 (SL3): «العوالم» measured 36px WIDE — a <44 hit box on the long
+   axis. min-inline-size lifts the floor without moving the text (the
+   fit-content box grows inline-endward only, start stays put). */
 .landing .landing-footer-link {
   color: var(--ln-cream-dim);
   text-decoration: none;
@@ -1334,6 +1357,7 @@
   line-height: 2.2;
   padding-block: 7px;
   width: fit-content;
+  min-inline-size: 44px;
   transition: color var(--ln-t-fast) var(--ln-ease-soft);
 }
 .landing .landing-footer-link:hover {
@@ -1451,7 +1475,9 @@
   .landing .ln-btn-ghost,
   .landing .landing-nav-link {
     min-block-size: 48px;
-    padding-block: var(--sp-3);
+    /* r149 (C2): the old padding-block override pushed the gold/ghost
+       twins to 49/51 (border asymmetry again) — the min-block-size
+       floor alone now lands BOTH exactly on 48 border-box. */
   }
   .landing .landing-burger {
     inline-size: 48px;
@@ -1520,6 +1546,11 @@
   translate: -50% -150%;
   z-index: 2100;
   padding: 10px 18px;
+  /* r149 (SL3): 43.1px measured — one px shy of the floor. The flex
+     centering keeps the label optically identical at 44. */
+  min-block-size: 44px;
+  display: inline-flex;
+  align-items: center;
   border-radius: var(--ln-radius-pill);
   background: var(--ln-lime);
   color: var(--ln-ink);
@@ -1686,7 +1717,7 @@
 .landing .ln-eco-card {
   max-inline-size: 540px;
   padding: var(--sp-5);
-  border-radius: 18px;
+  border-radius: var(--r-2xl);
   border: 1px solid color-mix(in srgb, var(--ln-world) 38%, var(--ln-line));
   background: var(--ln-glass-strong);
   backdrop-filter: blur(16px);
@@ -1730,12 +1761,17 @@
   font-size: 0.8rem;
   color: var(--ln-cream-dim);
 }
+/* r149 (SL3 + self-audit): the 30×30 close box was the 8th sub-floor
+   target — the ::after halo widens the strike zone to 44×44 with zero
+   layout change, and the corner rides the token ladder (C5: 9px was
+   off-scale). */
 .landing .ln-eco-card-close {
+  position: relative;
   display: grid;
   place-items: center;
   inline-size: 30px;
   block-size: 30px;
-  border-radius: 9px;
+  border-radius: var(--r-sm);
   border: 1px solid var(--ln-line);
   background: transparent;
   color: var(--ln-cream-dim);
@@ -1743,13 +1779,19 @@
   transition: color var(--ln-t-fast) var(--ln-ease),
               border-color var(--ln-t-fast) var(--ln-ease);
 }
+.landing .ln-eco-card-close::after {
+  content: '';
+  position: absolute;
+  inset: -7px;
+  border-radius: inherit;
+}
 .landing .ln-eco-card-close:hover {
   color: var(--ln-cream);
   border-color: var(--ln-world);
 }
 .landing .ln-eco-card-close:focus-visible {
   outline: 2px solid var(--ln-world);
-  outline-offset: 2px;
+  outline-offset: 3px;
 }
 .landing .ln-eco-card-facts {
   display: grid;
@@ -1788,8 +1830,12 @@
 .landing .ln-eco-card-cta {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 6px;
   padding: 8px 14px;
+  /* r149 (self-audit): 38px measured — the card's only action rides the
+     44px touch floor like every landing pill. */
+  min-block-size: 44px;
   border-radius: var(--ln-radius-pill);
   background: var(--ln-world);
   color: var(--ln-ink);
@@ -1830,7 +1876,7 @@
   font-weight: 500;
   letter-spacing: 0.02em;
   padding: 4px 9px;
-  border-radius: 7px;
+  border-radius: var(--r-sm);
   border: 1px solid var(--ln-line);
   background: var(--ln-glass-strong);
   backdrop-filter: blur(8px);
@@ -1961,7 +2007,7 @@
 
 /* ── 14d · mock frames — the per-world CSS product skeletons ───────── */
 .landing .ln-mock {
-  border-radius: 16px;
+  border-radius: var(--r-xl);
   border: 1px solid var(--ln-line);
   border-block-start-color: color-mix(in srgb, var(--ln-world) 45%, var(--ln-line));
   background: var(--ln-glass);
@@ -2031,7 +2077,7 @@
   align-items: center;
   gap: 12px;
   padding: 9px 11px;
-  border-radius: 11px;
+  border-radius: var(--r-md);
   border: 1px solid var(--ln-line-soft);
   background: rgba(7, 11, 22, 0.28);
 }
@@ -2039,7 +2085,7 @@
   flex-shrink: 0;
   inline-size: 38px;
   block-size: 38px;
-  border-radius: 9px;
+  border-radius: var(--r-sm);
   background: linear-gradient(135deg, color-mix(in srgb, var(--ln-world) 30%, transparent), var(--ln-line-soft));
 }
 .landing .ln-mock-lines {
@@ -2071,7 +2117,7 @@
   gap: 6px;
   max-inline-size: 82%;
   padding: 10px 13px;
-  border-radius: 13px;
+  border-radius: var(--r-lg);
 }
 .landing .ln-mock-bubble.is-in {
   justify-self: start;
@@ -2126,13 +2172,13 @@
   display: grid;
   gap: 6px;
   padding: 8px;
-  border-radius: 11px;
+  border-radius: var(--r-md);
   border: 1px solid var(--ln-line-soft);
   background: rgba(7, 11, 22, 0.28);
 }
 .landing .ln-mock-tile-art {
   block-size: 44px;
-  border-radius: 8px;
+  border-radius: var(--r-sm);
   background: linear-gradient(135deg, color-mix(in srgb, var(--ln-world) 32%, transparent), var(--ln-line-soft));
 }
 .landing .ln-mock-tile-line {
@@ -2144,7 +2190,7 @@
   display: grid;
   gap: 8px;
   padding: var(--sp-3);
-  border-radius: 11px;
+  border-radius: var(--r-md);
   border: 1px dashed color-mix(in srgb, var(--ln-world) 50%, transparent);
   background: color-mix(in srgb, var(--ln-world) 7%, transparent);
 }
@@ -2229,7 +2275,7 @@
 .landing .ln-cockpit-panel {
   max-inline-size: 980px;
   margin-inline: auto;
-  border-radius: 20px;
+  border-radius: var(--r-2xl);
   border: 1px solid var(--ln-line);
   background: var(--ln-glass);
   backdrop-filter: blur(16px);
@@ -2335,7 +2381,7 @@
   display: grid;
   gap: 3px;
   padding: var(--sp-4);
-  border-radius: 13px;
+  border-radius: var(--r-lg);
   border: 1px solid var(--ln-line-soft);
   background: rgba(7, 11, 22, 0.28);
 }
@@ -2355,7 +2401,7 @@
 .landing .ln-ground {
   max-inline-size: 980px;
   margin-inline: auto;
-  border-radius: 20px;
+  border-radius: var(--r-2xl);
   border: 1px solid var(--ln-line);
   background: var(--ln-glass);
   backdrop-filter: blur(16px);

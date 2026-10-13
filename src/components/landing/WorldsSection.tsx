@@ -118,7 +118,12 @@ export function WorldsSection() {
       <div className="ln-chapter-head">
         <span className="ln-label">{"01 — العوالم"}</span>
         <RevealCssClass as="h2" className="ln-chapter-title" delay={1}>
-          ثلاثة عوالم تعمل <em>الآن</em>
+          {/* r151 (P3-3، تدقيق r151-a0a): the live audit caught a one-word
+              orphan («الآن» alone on the last line, 82px vs 387px) even
+              with text-wrap: balance. The NBSP binds «تعمل الآن» so the
+              break lands between «عوالم»/«تعمل» — copy verbatim, accent
+              device verbatim, deterministic at every width. */}
+          ثلاثة عوالم تعمل&nbsp;<em>الآن</em>
         </RevealCssClass>
         <RevealCssClass as="p" className="ln-chapter-lede" delay={2}>
           لكل منتجٍ عالمه الخاص بلونه وترابه: منيوٌ يتفاعل، وبوتٌ يردّ،

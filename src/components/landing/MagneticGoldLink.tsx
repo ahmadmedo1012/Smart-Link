@@ -36,7 +36,10 @@ export function MagneticGoldLink({
       aria-label={ariaLabel}
     >
       {children}
-      {withArrow && <ArrowLeft size={xl ? 16 : 14} aria-hidden="true" />}
+      {/* r151 (P3-2, audit-SL C2): the xl ternary split the ONE gold-pill
+          family into 14px/16px icons — the header/finale/world CTAs ride
+          16 while the hero measured 14. One pill family, one icon size. */}
+      {withArrow && <ArrowLeft size={16} aria-hidden="true" />}
     </a>
   )
 }

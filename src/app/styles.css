@@ -313,19 +313,33 @@
      flat-diet retired the last gradient-text site; the tokens were
      shipping 4 dead declarations per theme.) */
 
-  /* ── Pastel section families (§1.4 dark column) — the full canonical
-     9: peach/lavender/mint consumed by service gradients today; sky/
-     yellow/rose/sand/grey ride the same bg/ink/deep triad pattern for
-     section parity with Madarek (status bases resolve to them). ── */
-  --c-peach-bg: #2C1A16;  --c-peach-ink: #F2A07F;  --c-peach-deep: #FCD9C4;
-  --c-lavender-bg: #221B3A;  --c-lavender-ink: #B7A0F4;  --c-lavender-deep: #DCD2F9;
-  --c-mint-bg: #0F241C;  --c-mint-ink: #7FD39A;  --c-mint-deep: #C9EAD3;
-  --c-sky-bg: #14213A;  --c-sky-ink: #8FBBF2;  --c-sky-deep: #C9DCEE;
-  --c-yellow-bg: #2C2410;  --c-yellow-ink: #ECC97D;  --c-yellow-deep: #F8E5B5;
-  --c-rose-bg: #2C1620;  --c-rose-ink: #F0938F;  --c-rose-deep: #FACDD2;
-  --c-sand-bg: #241F14;  --c-sand-ink: #D9C18C;  --c-sand-deep: #EFE2C5;
-  --c-grey-bg: #161D33;  --c-grey-ink: #A9B0C8;  --c-grey-deep: #D5DAE8;
-  --c-copper-bg: #2C2312;  --c-copper-ink: #E9B44C;  --c-copper-deep: #F5D48A;
+  /* ── §0a2-promotion (phase6, P6-2-a2): the three product-foreshadow
+     identities, promoted from the landing layer (landing.css §0a2) into
+     the product-page scope — the /pricing plan wells are their first
+     consumer (the pastel families they replace are RETIRED below-both-
+     themes). Duplicate definitions BY DESIGN: the landing keeps its own
+     .landing-scoped set with IDENTICAL values (parity pins the two
+     sheets equal — a one-sheet value change is drift, not a decision).
+     Two grades per world, the §0a2 law:
+       · LIT (the base name): text + CTA fills + icon ink — ≥ 4.5:1;
+       · TRUE (*-true): the literal sibling identity — swatch chips,
+         motif devices, decorative edges ONLY, non-text ≥ 3:1 (WCAG
+         1.4.11; never body text: terracotta/orange miss the 4.5 floor);
+       · WELL (-well): the product-page icon-well ground; the LIT ink on
+         it measures ≥ 4.5:1 in BOTH directions, both themes.
+     The --ln- prefix is inherited from the landing origin (ln = landing)
+     — the name is now historical, the tokens are product-scope
+     identities. R4 is re-truthed: styles.css declares EXACTLY these 9
+     --ln-* tokens per theme, nothing else. ── */
+  --ln-menu:        #E07A5F;  /* Smart Menu lit terracotta — 6.66:1 on night */
+  --ln-menu-true:   #C2452D;  /* identity — 3.91:1 non-text (3.64 on card) */
+  --ln-menu-well:   #2E1A14;  /* plate ground — lit ink on it 5.9:1 */
+  --ln-bot:         #17C3A4;  /* SmartBot signal teal — 8.78:1 on night */
+  --ln-bot-true:    #17C3A4;  /* the one identity hex that is its own lit grade */
+  --ln-bot-well:    #0F2320;  /* circuit ground — lit ink on it 7.3:1 */
+  --ln-order:       #EF7A35;  /* Smart Order lit delivery-orange — 7.02:1 on night */
+  --ln-order-true:  #D14900;  /* identity — 4.37:1 non-text (4.06 on card) */
+  --ln-order-well:  #2B1608;  /* route ground — lit ink on it 6.2:1 */
 
   /* ── Radius ladder — Madarek "Notion-soft" (§1.2) ── */
   --r-xs: 6px;  --r-sm: 8px;  --r-md: 10px;  --r-lg: 12px;
@@ -557,16 +571,23 @@
   /* (r131 A3 D3: the light --gradient-text-mid/end twins are deleted
      with the dead @utility gradient-text — see the :root note.) */
 
-  /* ── Pastel section families (§1.4 light column) — full canonical 9 ── */
-  --c-peach-bg: #FFE9DC;  --c-peach-ink: #E07856;  --c-peach-deep: #6B2D1A;
-  --c-lavender-bg: #ECE6FA;  --c-lavender-ink: #8A6FE0;  --c-lavender-deep: #3F2D7A;
-  --c-mint-bg: #DCF1E2;  --c-mint-ink: #4FA66D;  --c-mint-deep: #1F4F30;
-  --c-sky-bg: #DDEBF7;  --c-sky-ink: #5C8FCE;  --c-sky-deep: #1F3D63;
-  --c-yellow-bg: #FCF1CD;  --c-yellow-ink: #D6A330;  --c-yellow-deep: #6B4C0B;
-  --c-rose-bg: #FCE0E2;  --c-rose-ink: #DD6E78;  --c-rose-deep: #6B2128;
-  --c-sand-bg: #F1ECDF;  --c-sand-ink: #B59868;  --c-sand-deep: #5A4623;
-  --c-grey-bg: #EFECE7;  --c-grey-ink: #6B665E;  --c-grey-deep: #2D2A24;
-  --c-copper-bg: #F4E4D2;  --c-copper-ink: #B57438;  --c-copper-deep: #5C3416;
+  /* ── §0a2-promotion (light): the foreshadow identities in their
+     CREAM grades — the landing twins stay night-only (the landing never
+     renders on cream). Computed law, same two grades: LIT ≥ 4.5:1 on
+     #FBFAF9 · TRUE ≥ 3:1 non-text on the white card. The literal hexes
+     survive on cream for terracotta (#C2452D 4.8:1) and orange
+     (#D14900 4.3:1) — only teal shifts: the literal #17C3A4 measures
+     2.15:1 on cream, so the light TRUE grade takes its one daylight
+     detour #0F8A73 (4.1:1, still recognizably the sibling teal). ── */
+  --ln-menu:        #A24226;  /* lit terracotta on cream — 6.0:1 */
+  --ln-menu-true:   #C2452D;  /* 4.8:1 non-text on cream · 5.0:1 on card */
+  --ln-menu-well:   #F9E7E1;  /* lit ink on it 5.2:1 */
+  --ln-bot:         #0E6B58;  /* lit teal on cream — 6.2:1 */
+  --ln-bot-true:    #0F8A73;  /* the daylight teal — 4.1:1 non-text */
+  --ln-bot-well:    #DDF1EC;  /* lit ink on it 5.5:1 */
+  --ln-order:       #B34700;  /* lit orange on cream — 5.3:1 */
+  --ln-order-true:  #D14900;  /* 4.3:1 non-text on cream · 4.5:1 on card */
+  --ln-order-well:  #FCE7DB;  /* lit ink on it 4.6:1 */
 
   /* ── Shadows + elevation ladder (§1.9 light: soft two-layer). ── */
   --elev-1: 0 1px 2px rgba(0, 0, 0, 0.04), 0 1px 1px rgba(0, 0, 0, 0.06);
@@ -1350,6 +1371,95 @@
   font-weight: 600;
   overflow-wrap: anywhere;
 }
+
+/* ════════════════════════════════════════════════════════════════════
+   §0a2-promotion (phase6, P6-2-a2) · the foreshadow motif devices +
+   per-product wells, product skin
+   ════════════════════════════════════════════════════════════════════
+   Geometry duplicated verbatim from the landing twins (landing.css
+   §14c-motif). The landing's devices stay scoped there and paint from
+   --ln-world-true (its per-card resolver); these product twins paint
+   each device from its OWN product's true hex — the devices ARE
+   world-specific (plate = Smart Menu · circuit = SmartBot · route =
+   Smart Order), so the indirection would only hide the source. Specific
+   note: the landing twins (0,2,0) beat these (0,1,0) inside .landing,
+   and the geometry is identical, so the landing renders byte-identical.
+   Radius rides var(--r-full) — the product vocabulary of the landing's
+   --ln-radius-pill (same value). Decorative furniture: aria-hidden at
+   every consumer; the sibling's REAL UI carries the meaning. */
+.ln-motif {
+  position: relative;
+  display: inline-block;
+  flex-shrink: 0;
+  block-size: 15px;
+  inline-size: 15px;
+}
+/* the PLATE — a terracotta serving circle: rim + center */
+.ln-motif--plate {
+  border: 1.5px solid var(--ln-menu-true);
+  border-radius: var(--r-full);
+}
+.ln-motif--plate::after {
+  content: '';
+  position: absolute;
+  inset: 3.5px;
+  border-radius: var(--r-full);
+  background: var(--ln-menu-true);
+}
+/* the CIRCUIT — a teal trace with node dots at both ends */
+.ln-motif--circuit {
+  inline-size: 24px;
+  block-size: 12px;
+  margin-block-start: 1px;
+  border-block-start: 2px solid var(--ln-bot-true);
+}
+.ln-motif--circuit::before,
+.ln-motif--circuit::after {
+  content: '';
+  position: absolute;
+  inset-block-start: -3px;
+  inline-size: 6px;
+  block-size: 6px;
+  border-radius: var(--r-full);
+  background: var(--ln-bot-true);
+}
+.ln-motif--circuit::before { inset-inline-start: -1px; }
+.ln-motif--circuit::after { inset-inline-end: -1px; }
+/* the ROUTE — an orange dashed line, origin dot → destination ring */
+.ln-motif--route {
+  inline-size: 26px;
+  block-size: 12px;
+  margin-block-start: 1px;
+  border-block-start: 2px dashed var(--ln-order-true);
+}
+.ln-motif--route::before {
+  content: '';
+  position: absolute;
+  inset-block-start: -2px;
+  inset-inline-start: -1px;
+  inline-size: 6px;
+  block-size: 6px;
+  border-radius: var(--r-full);
+  background: var(--ln-order-true);
+}
+.ln-motif--route::after {
+  content: '';
+  position: absolute;
+  inset-block-start: -4px;
+  inset-inline-end: -3px;
+  inline-size: 10px;
+  block-size: 10px;
+  border: 2px solid var(--ln-order-true);
+  border-radius: var(--r-full);
+}
+
+/* the per-product icon wells (the retired pastel wells' successor):
+   well ground + LIT icon ink (the ink rides `color` — lucide strokes
+   and the check glyphs inherit it), both theme-graded (see the token
+   block for the measured pairs). */
+.ln-well--menu { background: var(--ln-menu-well); color: var(--ln-menu); }
+.ln-well--bot { background: var(--ln-bot-well); color: var(--ln-bot); }
+.ln-well--order { background: var(--ln-order-well); color: var(--ln-order); }
 
 /* ════════════════════════════════════════════════════════════════
    r131 (A10 F1/SL-1) · DUAL-VARIANT BRAND WORDMARK

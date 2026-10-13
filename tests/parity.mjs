@@ -223,27 +223,38 @@ const STATUS_LIGHT = {
   '--success': '#4FA66D', '--success-ink': '#1F4F30',
   '--destructive': '#DD6E78', '--destructive-ink': '#6B2128',
 };
-const FAMILIES_DARK = {
-  peach: ['#2C1A16', '#F2A07F', '#FCD9C4'],
-  mint: ['#0F241C', '#7FD39A', '#C9EAD3'],
-  lavender: ['#221B3A', '#B7A0F4', '#DCD2F9'],
-  sky: ['#14213A', '#8FBBF2', '#C9DCEE'],
-  yellow: ['#2C2410', '#ECC97D', '#F8E5B5'],
-  rose: ['#2C1620', '#F0938F', '#FACDD2'],
-  sand: ['#241F14', '#D9C18C', '#EFE2C5'],
-  grey: ['#161D33', '#A9B0C8', '#D5DAE8'],
-  copper: ['#2C2312', '#E9B44C', '#F5D48A'],
+/* phase6 (P6-2-a2, §0a2-promotion): the pastel section families are
+   RETIRED from both themes — their last consumers were the /pricing
+   wells, which now ride the per-product foreshadow identities (the
+   FORESHADOW tables below). Pinning deleted tokens is how drift hides
+   (the r131 A3 D3 / r144 lesson); an extinction sweep asserts the
+   retirement itself. */
+const FORESHADOW_DARK = {
+  /* lit ≥ 4.5:1 on night · true ≥ 3:1 non-text · well = icon-well ground
+     (lit ink on it ≥ 4.5:1) — the §0a2 law, product grades. */
+  '--ln-menu': '#E07A5F',
+  '--ln-menu-true': '#C2452D',
+  '--ln-menu-well': '#2E1A14',
+  '--ln-bot': '#17C3A4',
+  '--ln-bot-true': '#17C3A4',
+  '--ln-bot-well': '#0F2320',
+  '--ln-order': '#EF7A35',
+  '--ln-order-true': '#D14900',
+  '--ln-order-well': '#2B1608',
 };
-const FAMILIES_LIGHT = {
-  peach: ['#FFE9DC', '#E07856', '#6B2D1A'],
-  mint: ['#DCF1E2', '#4FA66D', '#1F4F30'],
-  lavender: ['#ECE6FA', '#8A6FE0', '#3F2D7A'],
-  sky: ['#DDEBF7', '#5C8FCE', '#1F3D63'],
-  yellow: ['#FCF1CD', '#D6A330', '#6B4C0B'],
-  rose: ['#FCE0E2', '#DD6E78', '#6B2128'],
-  sand: ['#F1ECDF', '#B59868', '#5A4623'],
-  grey: ['#EFECE7', '#6B665E', '#2D2A24'],
-  copper: ['#F4E4D2', '#B57438', '#5C3416'],
+const FORESHADOW_LIGHT = {
+  /* cream grades — LIT ≥ 4.5:1 on #FBFAF9 · TRUE ≥ 3:1 non-text on the
+     white card; teal's literal hex is 2.15:1 on cream and takes the one
+     daylight detour #0F8A73 (documented in the styles.css block). */
+  '--ln-menu': '#A24226',
+  '--ln-menu-true': '#C2452D',
+  '--ln-menu-well': '#F9E7E1',
+  '--ln-bot': '#0E6B58',
+  '--ln-bot-true': '#0F8A73',
+  '--ln-bot-well': '#DDF1EC',
+  '--ln-order': '#B34700',
+  '--ln-order-true': '#D14900',
+  '--ln-order-well': '#FCE7DB',
 };
 const RADIUS = {
   '--r-xs': '6px', '--r-sm': '8px', '--r-md': '10px', '--r-lg': '12px',
@@ -475,16 +486,16 @@ pinAll(light, 'light', STATUS_LIGHT);
 pin(dark, 'glass-dark', '--glass-bg', 'rgba(11, 16, 32, 0.78)');
 pin(light, 'glass-light', '--glass-bg', 'rgba(251, 250, 249, 0.78)');
 
-for (const [family, [bg, ink, deep]] of Object.entries(FAMILIES_DARK)) {
-  pin(dark, 'family-dark', `--c-${family}-bg`, bg);
-  pin(dark, 'family-dark', `--c-${family}-ink`, ink);
-  pin(dark, 'family-dark', `--c-${family}-deep`, deep);
-}
-for (const [family, [bg, ink, deep]] of Object.entries(FAMILIES_LIGHT)) {
-  pin(light, 'family-light', `--c-${family}-bg`, bg);
-  pin(light, 'family-light', `--c-${family}-ink`, ink);
-  pin(light, 'family-light', `--c-${family}-deep`, deep);
-}
+/* phase6 (§0a2-promotion): the pastel family pins are retired WITH the
+   tokens (zero var() consumers after the /pricing well migration); the
+   promoted foreshadow identities take their place in BOTH themes, plus
+   an extinction sweep so the pastels can never resurrect silently. */
+pinAll(dark, 'foreshadow-dark', FORESHADOW_DARK);
+pinAll(light, 'foreshadow-light', FORESHADOW_LIGHT);
+check(
+  !/--c-(peach|lavender|mint|sky|yellow|rose|sand|grey|copper)-/.test(css),
+  'phase6 pastel extinction: the 9 --c-* section families are gone from styles.css (both themes — retired with the /pricing well migration)'
+);
 
 // radius + motion are theme-independent (:root) — assert in both scopes
 for (const scope of [dark, light]) {
@@ -730,13 +741,34 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
     'landing marquee RM off-switch: .ln-marquee-track { animation: none } under prefers-reduced-motion: reduce'
   );
 
-  // 7 ── R4 scope isolation, both directions: the product css declares
-  //     no --ln-* tokens, and every --ln-* declaration in landing.css
-  //     lives inside a .landing-scoped (or at-rule-nested) block.
-  check(
-    !/--ln-[\w-]+\s*:/.test(css),
-    'R4 isolation: product styles.css declares no --ln-* tokens'
-  );
+  // 7 ── R4 scope isolation, re-truthed (phase6 §0a2-promotion): the
+  //     product sheet now carries EXACTLY the promoted foreshadow set
+  //     (lit/true/well per world) — anything else --ln-* in styles.css
+  //     is still a leak. landing.css keeps its own .landing-scoped set
+  //     (or at-rule-nested) for everything, and the drift gate below
+  //     pins the two sheets equal.
+  {
+    const allowed = new Set([
+      '--ln-menu', '--ln-menu-true', '--ln-menu-well',
+      '--ln-bot', '--ln-bot-true', '--ln-bot-well',
+      '--ln-order', '--ln-order-true', '--ln-order-well',
+    ]);
+    const declared = [...css.matchAll(/--ln-[\w-]+(?=\s*:)/g)].map((m) => m[0]);
+    const leaks = declared.filter((t) => !allowed.has(t));
+    check(
+      leaks.length === 0,
+      `R4 isolation: styles.css declares ONLY the promoted §0a2 set (leaks: ${JSON.stringify([...new Set(leaks)])})`
+    );
+    // the two-sheet drift gate: the six identity tokens must be equal in
+    // both sheets (the landing is night-only; the -well grounds have no
+    // landing twin by design — they are product-page anatomy).
+    for (const name of ['--ln-menu', '--ln-menu-true', '--ln-bot', '--ln-bot-true', '--ln-order', '--ln-order-true']) {
+      check(
+        norm(dark[name]) === norm(landingScope[name]),
+        `§0a2 promotion drift gate: styles.css ${name} (${dark[name]}) must equal the landing twin (${landingScope[name]}) — one-sheet value changes are drift, not decisions`
+      );
+    }
+  }
   {
     let leak = null;
     let i = 0;
@@ -1308,6 +1340,16 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
   const mainNav = read('components/main-nav.tsx');
   const backToTop = read('components/back-to-top.tsx');
   const siteChrome = read('components/site-chrome.tsx');
+
+  // §0a2-promotion (phase6, P6-2-a2): the /pricing wells consume the
+  // promoted identity classes — per-product wells + motifs live on all
+  // three plan cards, the pastel var() consumers are extinct.
+  check(
+    pricing.includes('ln-well--menu') && pricing.includes('ln-well--bot') && pricing.includes('ln-well--order')
+      && pricing.includes('ln-motif--plate') && pricing.includes('ln-motif--circuit') && pricing.includes('ln-motif--route')
+      && !/var\(--c-/.test(pricing),
+    'phase6 wells: /pricing plan cards ride the per-product foreshadow wells + motifs (the pastel var() consumers are extinct)'
+  );
 
   // A ── legal pages (D1+D5): H2s consume --fs-h2; prose inherits the
   //     body 15/1.65 rule; 72ch reading measure (no leading-relaxed,
@@ -2172,8 +2214,15 @@ if (failures.length > 0) {
    10 added: gold pair + the three §0a2 world lit+true pairs + night
    glass pair) and SIX foreshadow checks (worlds swatch/motif registry,
    gold-bloom engine, motif devices on --ln-world-true, identity strip,
-   eco-card motif, plate-round menu mock). */
-const EXPECTED_ASSERTIONS = 537;
+   eco-card motif, plate-round menu mock).
+   phase6 (P6-2-a2): 537 → 509 — the §0a2 PROMOTION: the 54 pastel
+   family pins (9 families × bg/ink/deep × 2 themes) retired WITH the
+   tokens (zero var() consumers after the /pricing well migration —
+   the r144 doctrine: pinning deleted tokens is how drift hides); added
+   18 product-scope foreshadow pins (lit/true/well × 3 worlds × 2
+   themes) + the extinction sweep + the two-sheet drift gate (6) + the
+   /pricing well-consumption pin (1) + the R4 re-truth. */
+const EXPECTED_ASSERTIONS = 509;
 check(
   passed + 1 === EXPECTED_ASSERTIONS,
   `self-count: the suite must run exactly ${EXPECTED_ASSERTIONS} assertions (ran ${passed + 1}) — bump EXPECTED_ASSERTIONS with every intentional pin change`

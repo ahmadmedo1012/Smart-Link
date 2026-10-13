@@ -13,10 +13,11 @@ import { breadcrumbJsonLd, faqJsonLd } from "@/lib/schema"
 //
 // r128 F6 (A4 §6): flat-diet on the plan cards — the gradient washes,
 // the gradient top-accent line and the glow hover are gone; cards are
-// hairline + border-shift (.ln-card), the pastel family survives ONLY
-// as flat icon wells (à la the landing megamenu ico tones), the price
-// speaks in the mono machine-voice (.ln-mono), the eyebrow is the
-// ln-label technical label.
+// hairline + border-shift (.ln-card), the price speaks in the mono
+// machine-voice (.ln-mono), the eyebrow is the ln-label technical label.
+// §0a2-promotion (phase6, P6-2-a2): the pastel icon wells are retired —
+// the wells + motifs + check bullets ride the per-product foreshadow
+// identities promoted into styles.css (see the plans array note).
 //
 // r150 (20-IDEAL-CTA completion): the plan CTAs ride the r150 fleet
 // button canon — rectangles 44/13/600/r10 (h-11 = 44px, --fs-sm 13px,
@@ -63,9 +64,17 @@ const plans = [
     icon: Smartphone,
     price: "مجاني",
     period: "الخطة الأساسية",
-    /* the pastel family as flat tone wells only (A4 §6) */
-    well: "var(--c-peach-bg)",
-    wellInk: "var(--c-peach-ink)",
+    /* §0a2-promotion (phase6, P6-2-a2): the pastel wells are RETIRED —
+       each plan card wears its product's OWN foreshadow identity (the
+       styles.css promotion): LIT icon ink on the well + the TRUE-hex
+       motif beside the title + LIT check bullets. Grade law: lit ink
+       ≥ 4.5:1 on the well in BOTH themes; the motif paints the true hex
+       (non-text ≥ 3:1). The identity is the only difference between the
+       cards — all three plans stay «مجاني» (honest: no invented plan
+       tiers), and the CTA keeps the family gold canon: the hub sells in
+       gold, the siblings deliver in their own worlds. */
+    well: "ln-well--menu",
+    motif: "ln-motif--plate",
     features: [
       "منيو رقمي تفاعلي غير محدود العناصر",
       "طلبات عبر واتساب",
@@ -82,8 +91,8 @@ const plans = [
     icon: Bot,
     price: "مجاني",
     period: "الخطة الأساسية",
-    well: "var(--c-lavender-bg)",
-    wellInk: "var(--c-lavender-ink)",
+    well: "ln-well--bot",
+    motif: "ln-motif--circuit",
     features: [
       "ردود تلقائية ذكية",
       "تصنيف النوايا الأساسي",
@@ -105,8 +114,8 @@ const plans = [
     icon: ShoppingBag,
     price: "مجاني",
     period: "الخطة الأساسية",
-    well: "var(--c-mint-bg)",
-    wellInk: "var(--c-mint-ink)",
+    well: "ln-well--order",
+    motif: "ln-motif--route",
     features: [
       "متجر رقمي يعمل فوراً",
       "15 منتجاً و3 أقسام",
@@ -169,14 +178,21 @@ export default function PricingPage() {
                 key={plan.title}
                 className={`reveal-up reveal-d-${Math.min(i + 1, 4)} ln-card group relative rounded-2xl p-7 md:p-8 flex flex-col`}
               >
-                {/* flat tone well — the pastel family's only survivor */}
+                {/* the per-product identity well (§0a2-promotion): LIT
+                    icon ink on the well ground — the classes carry both,
+                    theme-graded in styles.css. */}
                 <div
-                  className="w-12 h-12 rounded-xl flex items-center justify-center mb-5"
-                  style={{ background: plan.well, color: plan.wellInk }}
+                  className={`w-12 h-12 rounded-xl flex items-center justify-center mb-5 ${plan.well}`}
                 >
                   <Icon className="w-6 h-6" aria-hidden="true" />
                 </div>
-                <h2 className="text-[length:var(--fs-h3)] font-bold text-foreground mb-1">{plan.title}</h2>
+                {/* the foreshadow motif opens the card head (the landing
+                    eco-card grammar): the sibling's own mark in its true
+                    identity hex, decorative + aria-hidden. */}
+                <div className="flex items-center gap-2.5 mb-1">
+                  <span className={plan.motif} aria-hidden="true" />
+                  <h2 className="text-[length:var(--fs-h3)] font-bold text-foreground">{plan.title}</h2>
+                </div>
                 {/* r133 (A7 §2.2 / R16): the plan card's prose trio — subtitle,
                     period and features — rides --fs-body 15px (was raw
                     text-sm 14px — the UI-chrome rung). */}
@@ -192,8 +208,11 @@ export default function PricingPage() {
                 <ul className="space-y-3 mb-8 flex-1">
                   {plan.features.map((f, fi) => (
                     <li key={fi} className="flex items-center gap-2.5 text-[length:var(--fs-body)] text-muted-foreground">
-                      <div className="w-5 h-5 rounded-full bg-[var(--accent)] flex items-center justify-center shrink-0">
-                        <Check className="w-3 h-3 text-primary" />
+                      {/* §0a2-promotion: the value list rides the same
+                          per-product well — quiet identity, no invented
+                          plan differences. The Check inherits the lit ink. */}
+                      <div className={`w-5 h-5 rounded-full flex items-center justify-center shrink-0 ${plan.well}`}>
+                        <Check className="w-3 h-3" />
                       </div>
                       <span>{f}</span>
                     </li>

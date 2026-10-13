@@ -33,11 +33,13 @@ export type SceneState = {
   /* built content — (re)assigned from buildScene()'s return value */
   stars: Star[];
   nebula: HTMLCanvasElement | null;
-  /* boot-time mirrors of the parent's pinned constants + sampled palette */
+  /* boot-time mirrors of the parent's pinned constants + sampled palette
+     (r152 phase5: G is the family GOLD — the core bloom / nebula / star
+     tint; the violet V retired with the Orbit-Ink layer) */
   orbits: readonly OrbitSpec[];
   lowTier: boolean;
   C: Triplet;
-  V: Triplet;
+  G: Triplet;
   W: readonly Triplet[];
   glowW: HTMLCanvasElement[];
   glowCore: HTMLCanvasElement;
@@ -58,7 +60,7 @@ export function createSceneState(): SceneState {
     orbits: [],
     lowTier: false,
     C: [0, 0, 0],
-    V: [0, 0, 0],
+    G: [0, 0, 0],
     W: [],
     glowW: [],
     /* placeholders only — replaced by the boot-built sprites in the
@@ -70,7 +72,7 @@ export function createSceneState(): SceneState {
 }
 
 export function buildScene(S: SceneState): { stars: Star[]; nebula: HTMLCanvasElement | null } {
-  const { w, h, systemR, cx, cy, C, V, lowTier } = S;
+  const { w, h, systemR, cx, cy, C, G, lowTier } = S;
   const area = w * h;
   const starCount = lowTier
     ? Math.min(54, Math.max(20, Math.round(area / 20000)))
@@ -83,11 +85,12 @@ export function buildScene(S: SceneState): { stars: Star[]; nebula: HTMLCanvasEl
       r: (0.5 + Math.random() * 1.1) * (depth === 1 ? 1.15 : 0.85),
       base: (0.4 + Math.random() * 0.42) * (depth === 1 ? 1 : 0.82),
       depth,
-      color: Math.random() < 0.86 ? rgb(C, 1) : rgb(V, 1),
+      color: Math.random() < 0.86 ? rgb(C, 1) : rgb(G, 1),
     };
   });
-  // Depth bloom — violet light source at the core + a faint horizon
-  // where the page continues below the fold.
+  // Depth bloom — the GOLD light source at the core (r152: the family
+  // accent paints the hub's own halo; was violet in Orbit-Ink) + a
+  // faint sand horizon where the page continues below the fold.
   const nebula = document.createElement('canvas');
   nebula.width = Math.max(1, w);
   nebula.height = Math.max(1, h);
@@ -95,7 +98,7 @@ export function buildScene(S: SceneState): { stars: Star[]; nebula: HTMLCanvasEl
   if (ng) {
     const rr = systemR * 1.7;
     const grad = ng.createRadialGradient(cx, cy, 0, cx, cy, rr);
-    grad.addColorStop(0, rgb(V, 0.22));
+    grad.addColorStop(0, rgb(G, 0.18));
     grad.addColorStop(1, 'rgba(0,0,0,0)');
     ng.fillStyle = grad;
     ng.fillRect(0, 0, w, h);

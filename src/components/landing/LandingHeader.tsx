@@ -164,7 +164,7 @@ export function LandingHeader() {
               </button>
               <div id="landing-megamenu" className="landing-megamenu" onClick={closeMegamenu}>
                 <a href="#products" className="landing-megamenu-item">
-                  <span className="ln-menu-ico azure" aria-hidden="true"><Smartphone size={20} /></span>
+                  <span className="ln-menu-ico signal" aria-hidden="true"><Smartphone size={20} /></span>
                   <span className="landing-megamenu-item-body">
                     <span className="landing-megamenu-item-title">المنتجات</span>
                     {/* r140 (صدق الثلاثية — تدقيق A140-SL #4): كانت تعدّ

@@ -24,8 +24,15 @@ export type World = {
   desc: string
   /** Exactly THREE real claims, folded from the page's shipped copy. */
   claims: readonly [string, string, string]
-  /** The world hue — a landing.css token name (never a literal color). */
+  /** The world hue — a landing.css token name (never a literal color).
+     r152 (phase5): the LIT foreshadow grade — text/CTA fills/nodes. */
   token: string
+  /** The world's TRUE identity hex token — swatch chips + motifs
+     (non-text grade; the sibling's literal Phase-5 color). */
+  swatch: string
+  /** The sibling's Phase-5 world mark (r152): plate / circuit /
+     route — the foreshadow motif rendered beside the domain. */
+  motif: "plate" | "circuit" | "route"
   /** The live domain host (display form, mono/LTR). */
   host: string
   /** The live URL (SITE.products.*.url verbatim). */
@@ -45,7 +52,9 @@ export const WORLDS: readonly World[] = [
       "الطلبات تصل مباشرة على واتساب — بدون تطبيق ولا تسجيل",
       "QR كود مخصص لكل طاولة ولوحة تحكم عربية كاملة",
     ],
-    token: "--ln-ember",
+    token: "--ln-menu",
+    swatch: "--ln-menu-true",
+    motif: "plate",
     host: "menu.smart-link.ly",
     url: "https://menu.smart-link.ly",
     numeral: "٠١",
@@ -60,7 +69,9 @@ export const WORLDS: readonly World[] = [
       "بث جماعي وإدارة الصفحات من لوحة عربية واحدة",
       "تقارير مباشرة ترفع لك المحادثات المهمة فقط",
     ],
-    token: "--ln-cyan",
+    token: "--ln-bot",
+    swatch: "--ln-bot-true",
+    motif: "circuit",
     host: "bot.smart-link.ly",
     url: "https://bot.smart-link.ly",
     numeral: "٠٢",
@@ -75,7 +86,9 @@ export const WORLDS: readonly World[] = [
       "طرق دفع محلية ومنطقة توصيل قابلة للضبط",
       "الطلبات تصل مرتبة وواضحة — بطريقة الدفع ومنطقة التوصيل",
     ],
-    token: "--ln-lime",
+    token: "--ln-order",
+    swatch: "--ln-order-true",
+    motif: "route",
     host: "order.smart-link.ly",
     url: "https://order.smart-link.ly",
     numeral: "٠٣",

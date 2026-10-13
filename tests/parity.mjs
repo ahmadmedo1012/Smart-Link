@@ -614,22 +614,37 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
     ...allTopLevelBlocks(lcss, '.landing').map(parseDecls)
   );
 
-  // 1 ── the --ln-* token surface (canonical Orbit-Ink, PORT-KIT §1).
-  //     The motion aliases pin the CHAIN (var(--t-*)/var(--ease-*)) —
-  //     those tokens are not redefined inside .landing, so resolve()
-  //     leaves the reference verbatim; --ln-t-reveal resolves through
-  //     the in-scope 360ms bridge to its canonical value.
+  // 1 ── the --ln-* token surface (r152 phase5: مدارك Night — the family
+  //     identity). The Orbit-Ink values (ink #252A3E / lime #DFEDB2 /
+  //     violet #7A6BF2) retired with the experiment; the landing now
+  //     paints the styles.css night world's OWN values (night #070B16 /
+  //     sand #F2EFE6 / gold #E9B44C) + the §0a2 product-foreshadow pairs
+  //     (the three siblings' Phase-5 identity hexes, lit + true grades)
+  //     + the night glass. The motion aliases pin the CHAIN (var(--t-*)/
+  //     var(--ease-*)) — those tokens are not redefined inside .landing,
+  //     so resolve() leaves the reference verbatim; --ln-t-reveal
+  //     resolves through the in-scope 360ms bridge to its canonical value.
   pinAll(landingScope, 'landing', {
-    '--ln-ink':         '#252A3E',
-    '--ln-ink-2':       '#1C2032',
-    '--ln-cream':       '#F5F3E7',
-    '--ln-cream-dim':   '#C9C6B4',
-    '--ln-lime':        '#DFEDB2',
-    '--ln-lime-deep':   '#B9D778',
-    '--ln-violet':      '#7A6BF2',
-    '--ln-violet-deep': '#4E2FB8',
-    '--ln-line':        'rgba(245, 243, 231, 0.14)',
-    '--ln-line-soft':   'rgba(245, 243, 231, 0.07)',
+    '--ln-ink':         '#070B16',
+    '--ln-ink-2':       '#0D1428',
+    '--ln-cream':       '#F2EFE6',
+    '--ln-cream-dim':   '#C3C8DC',
+    '--ln-gold':        '#E9B44C',
+    '--ln-gold-deep':   '#F5D48A',
+    '--ln-line':        'rgba(242, 239, 230, 0.14)',
+    '--ln-line-soft':   'rgba(242, 239, 230, 0.07)',
+    /* §0a2 — the product-foreshadow accents (the ecosystem mandate):
+       lit grades carry text/CTA-fills/nodes (all ≥ 4.5:1 on night, ink
+       on their own fill), true hexes carry swatches/motifs (non-text
+       ≥ 3:1 — terracotta 3.91 · teal 8.78 · orange 4.37). */
+    '--ln-menu':        '#E07A5F',
+    '--ln-menu-true':   '#C2452D',
+    '--ln-bot':         '#17C3A4',
+    '--ln-bot-true':    '#17C3A4',
+    '--ln-order':       '#EF7A35',
+    '--ln-order-true':  '#D14900',
+    '--ln-glass':       'rgba(13, 20, 40, 0.72)',
+    '--ln-glass-strong': 'rgba(13, 20, 40, 0.9)',
     '--ln-grain-op':    '0.075', /* r129: canonical landing-local P3-22 lift (Madarek landing.css:58) — ruling adopted over PORT-KIT R7's 0.05 */
     '--ln-radius-pill': 'var(--r-full)',
     '--ln-h1':          'clamp(2.75rem, 8.2vw, 6.75rem)',
@@ -751,11 +766,13 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
   // 8 ── NEGATIVE CONTROL — the new landing pins must have teeth: pin()
   //     against a scope carrying a DRIFTED --ln-ink has to record a
   //     failure. The planted failure is then retracted so the control
-  //     itself never fails the suite.
+  //     itself never fails the suite. (r152: the planted drift is now
+  //     the RETIRED Orbit-Ink ground — the exact regression the pin
+  //     guards against, an accidental return of the old layer.)
   {
     const before = failures.length;
     const passedBefore = passed;
-    pin({ ...landingScope, '--ln-ink': '#070B16' }, 'landing-neg', '--ln-ink', '#252A3E');
+    pin({ ...landingScope, '--ln-ink': '#252A3E' }, 'landing-neg', '--ln-ink', '#070B16');
     check(
       failures.length === before + 1 && passed === passedBefore,
       'negative control: a drifted --ln-ink value FAILS the landing pin'
@@ -794,8 +811,8 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
 
   // A ── P4-18 label halo + the resting micro-depth family (P3-28..35).
   check(
-    /radial-gradient\(ellipse at center, var\(--ln-lime\) 0%, transparent 70%\)/.test(topLevelBlock(lcss, '.landing .ln-label::before')),
-    'landing .ln-label::before: lime halo radial (P4-18)'
+    /radial-gradient\(ellipse at center, var\(--ln-gold\) 0%, transparent 70%\)/.test(topLevelBlock(lcss, '.landing .ln-label::before')),
+    'landing .ln-label::before: gold halo radial (P4-18; r152 repaint)'
   );
   check(
     allTopLevelBlocks(lcss, '.landing .ln-label').some((b) => /position:\s*relative/.test(b)),
@@ -921,8 +938,8 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
   );
   const skip = topLevelBlock(lcss, '.landing .ln-skip-link');
   check(
-    /background:\s*var\(--ln-lime\)/.test(skip) && /z-index:\s*2100/.test(skip),
-    'landing .ln-skip-link: lime pill above the grain veil (z-2100)'
+    /background:\s*var\(--ln-gold\)/.test(skip) && /z-index:\s*2100/.test(skip),
+    'landing .ln-skip-link: gold pill above the grain veil (z-2100; r152 repaint)'
   );
   // 15-SL (قبول 14-a P3): التوأم الميت حُفر — ال layout الجذري لا يصيّر
   //    حبوبة تخطٍّ ذهبية إلى #main-content أبدًا (كانت على ال landing
@@ -999,7 +1016,12 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
   );
   check(
     (worldsSrc.match(/token: "--ln-/g) || []).length === 3,
-    'r142 worlds: exactly THREE world hues — --ln-ember / --ln-cyan / --ln-lime (token names only, never literals)'
+    'r152 worlds: exactly THREE world hues — --ln-menu / --ln-bot / --ln-order (token names only, never literals)'
+  );
+  check(
+    worldsSrc.includes('swatch: "--ln-menu-true"') && worldsSrc.includes('swatch: "--ln-bot-true"') && worldsSrc.includes('swatch: "--ln-order-true"')
+      && worldsSrc.includes('motif: "plate"') && worldsSrc.includes('motif: "circuit"') && worldsSrc.includes('motif: "route"'),
+    'r152 foreshadow: every world carries its swatch token (the sibling\'s literal identity hex) + its motif (plate/circuit/route)'
   );
   check(
     worldsSrc.includes('menu.smart-link.ly') && worldsSrc.includes('bot.smart-link.ly') && worldsSrc.includes('order.smart-link.ly'),
@@ -1014,8 +1036,12 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
     'r142 engine: ZERO hex in the canvas — every hue resolves from landing.css tokens at boot (getComputedStyle)'
   );
   check(
-    orbitSrc.includes('readToken') && orbitSrc.includes('--ln-ember') && orbitSrc.includes('--ln-cyan') && orbitSrc.includes('--ln-lime'),
-    'r142 engine: the token reader resolves the three world hues (the canvas and the DOM share one palette)'
+    orbitSrc.includes('readToken') && orbitSrc.includes('--ln-menu') && orbitSrc.includes('--ln-bot') && orbitSrc.includes('--ln-order'),
+    'r142 engine: the token reader resolves the three world hues (the canvas and the DOM share one palette; r152 foreshadow names)'
+  );
+  check(
+    orbitSrc.includes("readToken(root, '--ln-gold')") && !orbitSrc.includes('--ln-violet'),
+    'r152 engine: the core bloom rides the family GOLD (violet retired with Orbit-Ink)'
   );
   check(
     /hoverK/.test(orbitSrc) && /selectK/.test(orbitSrc),
@@ -1849,12 +1875,48 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
 
   // I ── r144 (P4-4SL): the .ln-role-ico.azure 3:1 fix pin retired WITH
   //     the dead roles chapter (its deep contrast NOTE lives in git
-  //     history; the megamenu sibling .ln-menu-ico.azure still ships its
-  //     0.16 wash on the darker --ln-ink-2 panel ground — that rule stays).
+  //     history). r152 (phase5): the live megamenu sibling itself is
+  //     re-toned — azure (violet) is retired with Orbit-Ink and the
+  //     accent-toned well is SIGNAL: a gold 0.16 wash + gold icon
+  //     (7.37:1 on the washed panel — one accent, zero second hue).
   check(
     !/\.ln-role-ico/.test(landingCss134)
-      && /\.landing \.ln-menu-ico\.azure\s*\{[^}]*rgb\(122 107 242 \/ 0\.16\)/.test(landingCss134),
-    'r144: role-ico.azure retired with the roles chapter; the live megamenu .ln-menu-ico.azure keeps its 0.16 wash (3.295:1 on --ln-ink-2)'
+      && !/\.ln-menu-ico\.azure|\.ln-platform-ico\.azure/.test(landingCss134)
+      && !/rgb\(122 107 242/.test(landingCss134)
+      && /\.landing \.ln-menu-ico\.signal\s*\{[^}]*rgb\(233 180 76 \/ 0\.16\)[^}]*var\(--ln-gold\)/.test(landingCss134)
+      && /\.landing \.ln-platform-ico\.signal\s*\{[^}]*rgb\(233 180 76 \/ 0\.14\)/.test(landingCss134),
+    'r152: role-ico.azure retired with the roles chapter; the live wells are signal-toned (gold 0.16/0.14 washes + gold icon — violet fully excised from landing.css)'
+  );
+
+  // I2 ── r152 (phase5) — the FORESHADOW system pins: the motif devices
+  //     (plate/circuit/route) + the identity strip + the eco-card head
+  //     all ride --ln-world-true (the literal sibling identity hex —
+  //     never the lit text grade), and every inset is logical (the
+  //     motifs mirror under RTL).
+  check(
+    /\.landing \.ln-motif\s*\{[^}]*position:\s*relative/.test(landingCss134)
+      && /\.ln-motif--plate\s*\{[^}]*var\(--ln-world-true\)/.test(landingCss134)
+      && /\.ln-motif--circuit\s*\{[^}]*var\(--ln-world-true\)/.test(landingCss134)
+      && /\.ln-motif--route\s*\{[^}]*dashed var\(--ln-world-true\)/.test(landingCss134)
+      && !/\.ln-motif[^\n{]*\{[^}]*var\(--ln-world\)/.test(landingCss134),
+    'r152 motifs: plate/circuit/route devices paint from var(--ln-world-true) (the literal identity hex, non-text grade — never the lit text grade)'
+  );
+  check(
+    /\.landing \.ln-world-identity\s*\{[^}]*display:\s*flex/.test(landingCss134)
+      && read('components/landing/WorldsSection.tsx').includes('ln-world-identity')
+      && read('components/landing/WorldsSection.tsx').includes('data-world={w.id}')
+      && read('components/landing/WorldsSection.tsx').includes('"--ln-world-true": `var(${w.swatch})`'),
+    'r152 worlds: the identity strip (motif + live domain) opens every panel; data-world + --ln-world-true ride the article'
+  );
+  check(
+    read('components/landing/EcosystemConstellation.tsx').includes('ln-motif ln-motif--${world.motif}')
+      && read('components/landing/EcosystemConstellation.tsx').includes("'--ln-world-true': `var(${world.swatch})`")
+      && !read('components/landing/EcosystemConstellation.tsx').includes('ln-eco-card-dot'),
+    'r152 eco-card: the hero glass card opens with the world motif (the plain hue dot is retired)'
+  );
+  check(
+    /\[data-world="menu"\] \.ln-mock-thumb\s*\{[^}]*border-radius:\s*var\(--ln-radius-pill\)/.test(landingCss134),
+    'r152 menu mock: the dish avatars go plate-round (the plate motif echoes inside the mock)'
   );
 
   // J ── fix 10a: the r133-A10 autofill/caret port (madarek base.css:
@@ -2103,8 +2165,15 @@ if (failures.length > 0) {
    r148 wave).
    r150: 524 → 525 — the 44px CTA-canon completion pin (§8): the
    inner-page set + global-error prove the h-10 40px rung extinct
-   (one intentional pin added with the source change it protects). */
-const EXPECTED_ASSERTIONS = 525;
+   (one intentional pin added with the source change it protects).
+   r152 (phase5): 525 → 537 — the مدارك Night repaint + the foreshadow
+   system: the landing token surface re-anchored to the family values
+   (night/sand/gold; the 4 lime/violet pins retired with Orbit-Ink,
+   10 added: gold pair + the three §0a2 world lit+true pairs + night
+   glass pair) and SIX foreshadow checks (worlds swatch/motif registry,
+   gold-bloom engine, motif devices on --ln-world-true, identity strip,
+   eco-card motif, plate-round menu mock). */
+const EXPECTED_ASSERTIONS = 537;
 check(
   passed + 1 === EXPECTED_ASSERTIONS,
   `self-count: the suite must run exactly ${EXPECTED_ASSERTIONS} assertions (ran ${passed + 1}) — bump EXPECTED_ASSERTIONS with every intentional pin change`
@@ -2116,4 +2185,4 @@ if (failures.length > 0) {
   process.exit(1);
 }
 
-console.log(`✓ Madarek parity snapshot: ${passed} assertions passed (styles.css product tokens + landing.css Orbit-Ink layer == canonical values)`);
+console.log(`✓ Madarek parity snapshot: ${passed} assertions passed (styles.css product tokens + landing.css مدارك Night layer == canonical values — the family identity + the §0a2 foreshadow pairs)`);

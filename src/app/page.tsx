@@ -14,10 +14,12 @@
    → المنصّات (ground control console) → نقطة البداية (massive type
    + merged FAQ).
 
-   New world hues enter ONLY as tokens in §0a2: --ln-ember (Smart Menu),
-   --ln-cyan (SmartBot), --ln-lime (Smart Order, the existing accent).
-   The canvas engine resolves them at runtime via getComputedStyle —
-   zero hex in any landing TSX (parity-enforced).
+   New world hues enter ONLY as tokens in §0a2 (r152 phase5: the
+   foreshadow pairs): --ln-menu (Smart Menu, terracotta), --ln-bot
+   (SmartBot, signal teal), --ln-order (Smart Order, delivery-orange),
+   each with its *-true swatch twin — the siblings' literal Phase-5
+   identity hexes. The canvas engine resolves them at runtime via
+   getComputedStyle — zero hex in any landing TSX (parity-enforced).
 
    The page stays a SERVER component — the h1 and hero sub render inline
    (instant-paint LCP doctrine, r8/r9); client islands are exactly:

@@ -19,7 +19,7 @@ const PLATFORMS = [
     tag: "INSTANT",
   },
   {
-    icon: Bot, tone: "azure", name: "فيسبوك",
+    icon: Bot, tone: "signal", name: "فيسبوك",
     desc: "البوت الذكي يردّ على رسائل صفحتك ويصنّف نوايا العملاء تلقائياً.",
     tag: "AUTO",
   },

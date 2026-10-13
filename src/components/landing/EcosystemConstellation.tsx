@@ -24,12 +24,13 @@ import { paintCore, paintLinks, paintOrbits, paintStars } from './ecosystem/scen
  * composed static frame, returning-visitor calm via the same
  * 'smartlink.intro.seen' sessionStorage key) into a NEW anatomy:
  *
- * · a SmartLink CORE (cream nucleus + violet depth bloom + breathing
- *   hairline ring) at the system's heart;
+ * · a SmartLink CORE (sand nucleus + GOLD depth bloom + breathing
+ *   hairline ring) at the system's heart — r152 (phase5): the bloom
+ *   follows the family accent; the violet retired with Orbit-Ink;
  * · THREE product nodes ride tilted ellipses in their OWN world hues —
  *   read at runtime from landing.css tokens via getComputedStyle (zero
- *   hex in TSX, ever): Smart Menu = --ln-ember, SmartBot = --ln-cyan,
- *   Smart Order = --ln-lime;
+ *   hex in TSX, ever): Smart Menu = --ln-menu, SmartBot = --ln-bot,
+ *   Smart Order = --ln-order (the lit foreshadow grades, §0a2);
  * · PULSING DATA LINKS core↔node: a faint hairline plus a bright bead
  *   travelling each line (orders in, answers out) — the connected-tissue
  *   of the منظومة;
@@ -129,16 +130,16 @@ export function EcosystemConstellation({
     // ── palette from the token layer ──────────────────────────────────
     const root = canvas.closest('.landing') ?? canvas;
     const cream = readToken(root, '--ln-cream');
-    const violet = readToken(root, '--ln-violet');
+    const gold = readToken(root, '--ln-gold');
     const worlds = WORLDS.map((w) => readToken(root, w.token));
-    if (!cream || !violet || worlds.some((w) => w === null)) {
+    if (!cream || !gold || worlds.some((w) => w === null)) {
       // The token layer is the source of truth — without it the engine
       // refuses to paint guesswork; the CSS sky fallback below stays.
       queueMicrotask(() => setFailed(true));
       return;
     }
     const C = cream!;
-    const V = violet!;
+    const G = gold!;
     const W = worlds as readonly Triplet[];
 
     // r147 split: the scene state the extracted geometry/painter modules
@@ -149,7 +150,7 @@ export function EcosystemConstellation({
     S.orbits = ORBITS;
     S.lowTier = lowTier;
     S.C = C;
-    S.V = V;
+    S.G = G;
     S.W = W;
 
     // ── sizing ────────────────────────────────────────────────────────
@@ -206,7 +207,7 @@ export function EcosystemConstellation({
     // glow sprites — one per world + core + bloom (built once)
     const glowW = W.map((t) => makeGlowSprite(64, t, 0.4));
     const glowCore = makeGlowSprite(64, C, 0.34);
-    const glowBloom = makeGlowSprite(128, V, 0.3);
+    const glowBloom = makeGlowSprite(128, G, 0.3);
     S.glowW = glowW;
     S.glowCore = glowCore;
     S.glowBloom = glowBloom;
@@ -620,10 +621,16 @@ export function ConstellationDock() {
           aria-modal="false"
           aria-labelledby="ln-eco-card-title"
           tabIndex={-1}
-          style={{ '--ln-world': `var(${world.token})` } as CSSProperties}
+          style={{
+            '--ln-world': `var(${world.token})`,
+            '--ln-world-true': `var(${world.swatch})`,
+          } as CSSProperties}
         >
           <header className="ln-eco-card-head">
-            <span className="ln-eco-card-dot" aria-hidden="true" />
+            {/* r152 (phase5): the FORESHADOW motif — the sibling's own
+                world mark (plate / circuit / route) in its literal
+                identity hex replaces the plain hue dot. */}
+            <span className={`ln-motif ln-motif--${world.motif}`} aria-hidden="true" />
             <span className="ln-eco-card-id">
               <b id="ln-eco-card-title">{world.name}</b>
               <i>{world.sub}</i>

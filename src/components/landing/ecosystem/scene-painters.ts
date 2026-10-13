@@ -105,7 +105,9 @@ export function paintOrbits(
   }
 }
 
-/* the core — violet bloom, breathing ring, cream nucleus */
+/* the core — gold bloom (r152 phase5: the family accent paints the
+   hub's halo; was violet in the Orbit-Ink era), breathing sand ring,
+   sand nucleus */
 export function paintCore(
   ctx: CanvasRenderingContext2D,
   S: SceneState,

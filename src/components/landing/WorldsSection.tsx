@@ -6,9 +6,20 @@ import { WORLDS, type World } from "./worlds"
 /* r142 «الكوكبة الحية» — Chapter 01 «العوالم»: the editorial worlds
  * chapter that REPLACES the old products-constellation + roles-ledger
  * pair. Three full-bleed world panels, asymmetrically alternated — each
- * product is a WORLD in its own hue (--ln-world token per panel: ember /
- * cyan / lime), a giant Arabic-Indic numeral, exactly THREE real claims
+ * product is a WORLD in its own hue (r152 phase5: the foreshadow pair
+ * --ln-world/--ln-world-true per panel — menu terracotta / bot teal /
+ * order orange), a giant Arabic-Indic numeral, exactly THREE real claims
  * folded from the page's shipped copy, and a CTA to its LIVE domain.
+ *
+ * r152 (phase5) — the FORESHADOW layer: every panel opens with an
+ * identity strip whose motif is the sibling's own Phase-5 world mark
+ * (pure CSS, aria-hidden, zero images):
+ *   · Menu  — the PLATE: a terracotta circle with a serving ring
+ *   · Bot   — the CIRCUIT: a teal stepped trace with node dots
+ *   · Order — the ROUTE: an orange dashed line, origin → destination
+ * The mocks echo them (menu thumbs go plate-round; the order ticket's
+ * dashed border IS the route). Copy untouched — the honest r137-r144
+ * audit language ships verbatim.
  *
  * The visual column is an ORIGINAL composition per product (pure CSS
  * mock, aria-hidden, zero images, zero invented data — skeletons stand
@@ -112,6 +123,16 @@ const MOCKS: Record<World["id"], () => JSX.Element> = {
   order: OrderMock,
 }
 
+/* r152 (phase5) — the foreshadow motif: the sibling's world mark,
+ * one device per product (plate / circuit / route — worlds.ts carries
+ * the motif name), drawn purely in CSS from the --ln-world-true
+ * identity hex. aria-hidden furniture — the words around it carry
+ * the meaning. */
+function WorldMotif({ id }: { id: World["id"] }) {
+  const w = WORLDS.find((wd) => wd.id === id)
+  return <span className={`ln-motif ln-motif--${w?.motif ?? "plate"}`} aria-hidden="true" />
+}
+
 export function WorldsSection() {
   return (
     <section id="products" className="ln-chapter ln-worlds">
@@ -138,14 +159,23 @@ export function WorldsSection() {
             <RevealCssClass
               as="article"
               key={w.id}
+              data-world={w.id}
               className={`ln-world${i % 2 === 1 ? " ln-world--flip" : ""}`}
-              style={{ "--ln-world": `var(${w.token})` } as CSSProperties}
+              style={{
+                "--ln-world": `var(${w.token})`,
+                "--ln-world-true": `var(${w.swatch})`,
+              } as CSSProperties}
               delay={1}
             >
               <span className="ln-world-num" aria-hidden="true">{w.numeral}</span>
 
               <div className="ln-world-body">
-                <span className="ln-world-host ln-mono">{w.host}</span>
+                {/* r152 (phase5): the identity strip — the sibling's motif
+                    (its literal identity hex) beside the live domain. */}
+                <div className="ln-world-identity">
+                  <WorldMotif id={w.id} />
+                  <span className="ln-world-host ln-mono">{w.host}</span>
+                </div>
                 <h3 className="ln-world-name">{w.name}</h3>
                 <p className="ln-world-sub">{w.sub}</p>
                 <ul className="ln-world-claims">

@@ -75,7 +75,7 @@ export default function ContactPage() {
             ln-chapter-head anatomy (label / title / lede, like /about) —
             was a centered text-5xl/6xl 800-weight header behind a
             GLASS eyebrow-badge pill; the label device is now the mono
-            ln-label (with the canonical lime halo), one device site-wide. */}
+            ln-label (with the canonical accent halo), one device site-wide. */}
         <div className="ln-chapter-head max-w-3xl">
           <span className="ln-label reveal-up reveal-d-1">تواصل</span>
           <h1 className="ln-page-title"><em>تواصل</em> معنا</h1>

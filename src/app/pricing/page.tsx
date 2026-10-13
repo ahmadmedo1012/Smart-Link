@@ -23,7 +23,7 @@ import { breadcrumbJsonLd, faqJsonLd } from "@/lib/schema"
 // weight 600, rounded-md = 10px; was the r131 40/13/600/r10 rung —
 // the h-10 40px CTA debt the family 44/48/52 canon retired; worklog
 // FLEET RULINGS + the SO Button twin — the pill is the landing hero's
-// 46px lime grammar only). Sibling evidence (G4-verified): SO/SB/SM
+// 48px gold-pill grammar only). Sibling evidence (G4-verified): SO/SB/SM
 // Buttons are all rounded-md (10px) + 600, and the madarek reference
 // .btn is var(--r-md). The CTA label also resolves the deferred
 // 14px no-rung question for BUTTONS: 13px = the --fs-sm rung.

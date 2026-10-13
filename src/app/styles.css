@@ -381,7 +381,7 @@
      rung choice: header --z-dropdown < ribbon --z-popover < veil
      --z-lightbox. Two documented exceptions keep raw values:
      · .landing .ln-skip-link z-index: 2100 — parity pins the literal
-       (parity.mjs "lime pill above the grain veil"); partial adoption
+       (parity.mjs "gold pill above the grain veil" — the r152 repaint kept the raw rung); partial adoption
        beats pin breakage.
      · --z-float (SM's unique 30 rung) stays SM-local per R10.4 until
        an ecosystem ruling promotes it. TSX z-classes (z-40/z-50/z-[100])
@@ -442,10 +442,10 @@
   /* ── r130 (W1-D P1-2): the ln-label halo (canonical landing P4-18
      device) on product pages — a 0.12-alpha blurred ellipse behind
      the label. r131 (A3 D7): the hue now follows the label's own ink —
-     the landing pairs a lime halo with lime label text; the product
+     the landing pairs a gold halo with gold label text (r152); the product
      pages label in accent ink (gold/copper), so the halo rides
      --primary-text and flips with the theme (gold #E9B44C on night ·
-     copper #5C3416 on cream) instead of the landing's lime — same
+     copper #5C3416 on cream) — same
      device, same-hue pairing. */
   --label-halo: var(--primary-text);
 
@@ -1095,7 +1095,7 @@
    exactly that guard shape.
    Deliberately NOT ported (zero consumers on a marketing site):
    sidebar/topbar/has-shell, tables, modals/sheets/toasts, skeletons
-   (no async surfaces), role/college accents, Orbit-Ink landing rules.
+   (no async surfaces), role/college accents, the landing's own scoped rules (landing.css, R4).
    ═══════════════════════════════════════════════════════════════════ */
 
 /* 1 ── Accent-fill foreground ink (§5.1 .btn.accent recipe) ──────────
@@ -1175,7 +1175,7 @@
 /* ════════════════════════════════════════════════════════════════════
    r128 F6 · INNER-PAGE ln-PATTERN BRIDGE (A4 §6 secondary-pages wave)
    ════════════════════════════════════════════════════════════════════
-   The landing keeps its own Orbit-Ink world (src/app/landing.css, every
+   The landing keeps its own scoped world (src/app/landing.css — مدارك Night, every
    rule scoped .landing — R4). These globals carry the same PATTERNS onto
    the product token world for the secondary pages (about/pricing/
    contact/privacy/terms/404): mono machine voice, technical section

@@ -74,7 +74,7 @@ export { expect }
  *
  * r133 (A7 §1 re-base): r128 Stage B (F2b) نقل كروم المنتج (MainNav/
  * Footer/BackToTop/مبدّل المظهر) من ال landing إلى الصفحات الداخلية —
- * الرئيسية صارت عالم Orbit-Ink خاصاً بها (LandingHeader/LandingFooter).
+ * الرئيسية صارت عالمها الخاص بها (Orbit-Ink في r128؛ مدارك Night منذ r152) (LandingHeader/LandingFooter).
  * عنوان h1 للرئيسية هو نص الهيرو الحقيقي «كلُّ عملٍ يبدأ رابطًا ويصبح
  * منظومةً» (page.tsx:99-102) — لا يحمل كلمة SmartLink إطلاقاً. كل spec
  * يبني على هذه المصفوفة يرث العقد المصحّح تلقائياً. */

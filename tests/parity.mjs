@@ -1357,12 +1357,16 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
 
   // §0a2-promotion (phase6, P6-2-a2): the /pricing wells consume the
   // promoted identity classes — per-product wells + motifs live on all
-  // three plan cards, the pastel var() consumers are extinct.
+  // three plan cards, the pastel var() consumers are extinct. The
+  // motifs must compose the BASE class (`ln-motif ${plan.motif}` — the
+  // P6-2-a4 fix: a modifier-only span is unpositioned and its absolute
+  // pseudos escape to the card, painting a card-filling plate oval).
   check(
     pricing.includes('ln-well--menu') && pricing.includes('ln-well--bot') && pricing.includes('ln-well--order')
       && pricing.includes('ln-motif--plate') && pricing.includes('ln-motif--circuit') && pricing.includes('ln-motif--route')
+      && pricing.includes('ln-motif ${plan.motif}')
       && !/var\(--c-/.test(pricing),
-    'phase6 wells: /pricing plan cards ride the per-product foreshadow wells + motifs (the pastel var() consumers are extinct)'
+    'phase6 wells: /pricing plan cards ride the per-product foreshadow wells + motifs on the positioned .ln-motif base (the pastel var() consumers are extinct)'
   );
 
   // A ── legal pages (D1+D5): H2s consume --fs-h2; prose inherits the

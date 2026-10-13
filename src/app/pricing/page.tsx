@@ -202,9 +202,16 @@ export default function PricingPage() {
                 </div>
                 {/* the foreshadow motif opens the card head (the landing
                     eco-card grammar): the sibling's own mark in its true
-                    identity hex, decorative + aria-hidden. */}
+                    identity hex, decorative + aria-hidden. phase6 fix
+                    (P6-2-a4): the BASE .ln-motif class is composed in
+                    here — the modifier alone left the span unpositioned,
+                    so the plate's ::after (absolute, inset 3.5px)
+                    escaped to the nearest positioned ancestor (the CARD)
+                    and painted a card-filling terracotta oval — caught by
+                    the phase6 screenshot re-capture (the landing twins
+                    always compose `ln-motif ln-motif--${motif}`). */}
                 <div className="flex items-center gap-2.5 mb-1">
-                  <span className={plan.motif} aria-hidden="true" />
+                  <span className={`ln-motif ${plan.motif}`} aria-hidden="true" />
                   <h2 className="text-[length:var(--fs-h3)] font-bold text-foreground">{plan.title}</h2>
                 </div>
                 {/* r133 (A7 §2.2 / R16): the plan card's prose trio — subtitle,

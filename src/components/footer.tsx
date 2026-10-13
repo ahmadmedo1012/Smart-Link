@@ -30,7 +30,7 @@ export function Footer() {
       <div className="container-base py-16 relative">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
           {/* Brand — r131 (A10 F1): dual-variant wordmark (gold on night,
-              copper on cream via the .light class — see main-nav.tsx;
+              deep gold on cream via the .light class — see main-nav.tsx;
               display:none drops the inactive variant from the a11y tree). */}
           <div>
             <div className="flex items-center gap-2.5 mb-4">

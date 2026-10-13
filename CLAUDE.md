@@ -26,7 +26,7 @@ Next.js 16 App Router, RTL Arabic, Tailwind CSS v4.
 ## Brand assets
 - `public/og-smartlink.jpg` (1200×630 JPEG, ~35 KB) — OG/Twitter preview image (the `.svg` source was deleted in r9; social crawlers don't support SVG)
 - `public/manifest.webmanifest` + `icon-192.png`, `icon-512.png`, `icon-512-maskable.png` (PWA)
-- `public/logo.png` (600×409, ~61 KB) — also referenced in JSON-LD `Organization.logo` as ImageObject
+- `public/logo.png` (600×409, ~59 KB) — the night-gold wordmark twin, also referenced in JSON-LD `Organization.logo` as ImageObject; `public/logo-light.png` (same geometry) is the phase6 deep-gold re-ink for the light theme (#8A6420 glyph, alpha channel byte-identical to the gold twin — regenerate with `node scripts/regen-logo-light.mjs`, which pixel-verifies its own output; the r131 copper raster is retired) — selected by the `.light` class via styles.css (flash-free, no-JS keeps exactly one visible logo)
 - `public/favicon-32.png` (32×32 real), `apple-touch-icon.png` (180×180)
 
 ## Performance guardrails (do not regress)

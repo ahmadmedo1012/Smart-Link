@@ -59,11 +59,12 @@ test.describe("الترويسات الأمنية", () => {
       "/icon-96.png",
       /* r132 (A6 §1 / A9 SL-1): the probe pointed at /images/smart-menu.jpg
          (a 203 KB screenshot with zero src/ consumers — deleted this round).
-         Repointed at /logo-light.png — the r131 copper light-wordmark that
-         main-nav + footer render on every page; it was the ONE rendered
-         public/ image outside any cache rule (revalidated per visit while
-         its dark sibling logo.png cached for a year). It now rides the
-         immutable list in next.config.ts, and this probe locks that. */
+         Repointed at /logo-light.png — the light wordmark (phase6: deep-gold
+         re-ink, scripts/regen-logo-light.mjs) that main-nav + footer render
+         on every page; it was the ONE rendered public/ image outside any
+         cache rule (revalidated per visit while its dark sibling logo.png
+         cached for a year). It now rides the immutable list in
+         next.config.ts, and this probe locks that. */
       "/logo-light.png",
     ]) {
       const res = await request.get(path)

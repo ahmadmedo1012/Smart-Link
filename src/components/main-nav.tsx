@@ -174,12 +174,13 @@ export function MainNav() {
             first load). The logo dimensions now match the source ratio
             (600×409) at a display-appropriate size (was 150×38 — the
             optimizer was generating a 384w AVIF for a ~53px slot).
-            r131 (A10 F1): dual-variant wordmark — gold on night, copper
-            recolor on cream (logo-light.png, alpha-identical), selected
-            by the .light class via styles.css (flash-free: the head boot
-            script paints the class before this parses). display:none
-            removes the inactive variant from the a11y tree, so both
-            images may carry the same alt. */}
+            r131 (A10 F1): dual-variant wordmark — gold on night, deep-gold
+            re-ink on cream (logo-light.png, alpha-identical twin generated
+            by scripts/regen-logo-light.mjs — phase6 closed the r131 copper
+            raster gap), selected by the .light class via styles.css
+            (flash-free: the head boot script paints the class before this
+            parses). display:none removes the inactive variant from the
+            a11y tree, so both images may carry the same alt. */}
         <Link href="/" prefetch={false} className="flex items-center self-stretch group relative">
           <Image src="/logo.png" alt="SmartLink — الرئيسية" width={120} height={82} sizes="(max-width: 768px) 48px, 54px" className="logo-dark h-8 md:h-9 w-auto object-contain transition-transform duration-[var(--t-base)] group-hover:scale-105" priority />
           <Image src="/logo-light.png" alt="SmartLink — الرئيسية" width={120} height={82} sizes="(max-width: 768px) 48px, 54px" className="logo-light h-8 md:h-9 w-auto object-contain transition-transform duration-[var(--t-base)] group-hover:scale-105" priority />

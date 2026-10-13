@@ -1583,15 +1583,17 @@
    ruling); the raster wordmark (public/logo.png) ships a single gold
    variant that measures 1.79:1 on the cream ground. There is no SVG
    source to recolor via tokens, so the light world keeps its warm
-   raster recolor (public/logo-light.png — same geometry, copper
-   #B57438 ink ≈3.7:1 on cream) — a DOCUMENTED phase6 gap: the raster
-   re-ink to the deep-gold family awaits the brand-raster regen pass —
-   selected purely by the theme class. The pre-paint boot script
-   (layout.tsx) guarantees html.light is set before the header parses,
-   so the swap is flash-free; with no JS (no class ever lands) the dark
-   gold variant alone renders — the no-JS contract keeps exactly one
-   visible logo. Both variants keep their alt text: display:none removes
-   the hidden one from the accessibility tree automatically. */
+   raster re-ink — REGENERATED in phase6 (P6-2-a4,
+   scripts/regen-logo-light.mjs): the glyph is deep gold #8A6420
+   (the ruling's text grade, 5.13:1 on cream) with the alpha channel
+   byte-identical to the gold twin (the r131 copper #B57438 raster is
+   retired — same geometry, same 600×409) — selected purely by the
+   theme class. The pre-paint boot script (layout.tsx) guarantees
+   html.light is set before the header parses, so the swap is
+   flash-free; with no JS (no class ever lands) the dark gold variant
+   alone renders — the no-JS contract keeps exactly one visible logo.
+   Both variants keep their alt text: display:none removes the hidden
+   one from the accessibility tree automatically. */
 .logo-light { display: none; }
 .light .logo-light { display: block; }
 .light .logo-dark { display: none; }

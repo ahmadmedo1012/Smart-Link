@@ -274,10 +274,10 @@ export function MainNav() {
                               className="flex items-start gap-3 px-3 py-3 rounded-xl hover:bg-[var(--accent)] transition-[background-color,color] duration-[var(--t-fast)] group/item"
                             >
                               <div className="w-10 h-10 rounded-xl bg-[var(--accent)] flex items-center justify-center shrink-0 group-hover/item:scale-110 transition-transform duration-[var(--t-fast)]">
-                                {Icon && <Icon className="w-5 h-5 text-primary" />}
+                                {Icon && <Icon className="w-5 h-5 text-[var(--primary-text)]" />}
                               </div>
                               <div className="min-w-0">
-                                <div className="text-sm font-semibold text-foreground group-hover/item:text-primary transition-colors">{child.label}</div>
+                                <div className="text-sm font-semibold text-foreground group-hover/item:text-[var(--primary-text)] transition-colors">{child.label}</div>
                                 {/* r132 (A6 §3/§6): megamenu micro-copy
                                     consumes --fs-xs (identical 12px). */}
                                 <div className="text-[length:var(--fs-xs)] text-muted-foreground mt-0.5">{child.desc}</div>
@@ -391,7 +391,7 @@ export function MainNav() {
                                 aria-label={`${child.label} — رابط خارجي`}
                                 className="flex items-center gap-3 px-3 py-2.5 text-sm text-muted-foreground hover:text-foreground rounded-xl hover:bg-[var(--accent)] transition-[background-color,color] duration-[var(--t-fast)]"
                               >
-                                {child.icon && <child.icon className="w-4 h-4 text-primary" />}
+                                {child.icon && <child.icon className="w-4 h-4 text-[var(--primary-text)]" />}
                                 <div>
                                   <div className="font-medium">{child.label}</div>
                                   {/* r132 (A6 §3/§6): mobile-menu micro-copy

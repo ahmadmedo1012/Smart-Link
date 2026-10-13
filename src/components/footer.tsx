@@ -120,7 +120,7 @@ export function Footer() {
                     className="flex flex-col gap-0.5 text-sm text-muted-foreground hover:text-foreground transition-colors duration-[var(--t-fast)] group rounded py-1 max-md:py-2"
                   >
                     <span className="flex items-center gap-2">
-                      <l.icon className="w-3.5 h-3.5 text-primary group-hover:scale-110 transition-transform" />
+                      <l.icon className="w-3.5 h-3.5 text-[var(--primary-text)] group-hover:scale-110 transition-transform" />
                       {l.label}
                     </span>
                     {/* r13 (a11y audit P2): /60 measured 2.27:1 in light —

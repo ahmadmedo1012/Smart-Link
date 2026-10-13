@@ -96,13 +96,13 @@ export default function AboutPage() {
                 className={`reveal-up reveal-d-${Math.min(i + 1, 4)} ln-card rounded-2xl p-6 group`}
               >
                 <div className="w-10 h-10 rounded-xl bg-[var(--accent)] flex items-center justify-center mb-3 group-hover:scale-110 transition-transform duration-[var(--t-base)]">
-                  <item.icon className="w-5 h-5 text-primary" />
+                  <item.icon className="w-5 h-5 text-[var(--primary-text)]" />
                 </div>
                 {/* r132 (A6 §3/§6): card titles consume --fs-body-lg —
                     was raw text-lg 18px (Tailwind's default step, off
                     the ladder); snapped onto the 17px body-lg rung
                     (−1px, on-ladder). */}
-                <h3 className="font-bold text-foreground text-[length:var(--fs-body-lg)] mb-1 group-hover:text-primary transition-colors">{item.title}</h3>
+                <h3 className="font-bold text-foreground text-[length:var(--fs-body-lg)] mb-1 group-hover:text-[var(--primary-text)] transition-colors">{item.title}</h3>
                 {/* r133 (A7 §2.2 / R16): prose body-copy rides --fs-body 15px
                     (was raw text-sm 14px — the UI-chrome rung). */}
                 <p className="text-[length:var(--fs-body)] text-muted-foreground leading-relaxed">{item.desc}</p>
@@ -122,7 +122,7 @@ export default function AboutPage() {
           <div className="reveal-up reveal-d-2">
             <div className="ln-card rounded-2xl p-6 md:p-8 flex flex-col md:flex-row items-start md:items-center gap-5 group">
               <div className="w-16 h-16 rounded-2xl flex items-center justify-center shrink-0 bg-[var(--accent)] group-hover:scale-110 transition-transform duration-[var(--t-base)]">
-                <User className="w-8 h-8 text-primary" />
+                <User className="w-8 h-8 text-[var(--primary-text)]" />
               </div>
               <div className="max-w-[60ch]">
                 {/* r133 (A7 §2.2 / R16): founder name — was text-base 16px

@@ -40,14 +40,19 @@ export function FaqAccordion({
             <h3 className="font-semibold">
               <button
                 onClick={() => setOpen(isOpen ? null : i)}
-                className="w-full px-5 py-4 flex items-center justify-between text-start text-[length:var(--fs-body)] font-semibold text-foreground hover:bg-[var(--accent)]/30 transition-colors"
+                /* phase6 (P6-2-a2, chrome quiet gold): the OPEN question's
+                   ink lifts to the text-grade gold (dark = the same gold
+                   the chevron already carried; light = deep gold) — an
+                   open-state accent, the closed state and every behavior
+                   (aria-expanded/controls, the .acc panel) unchanged. */
+                className={`w-full px-5 py-4 flex items-center justify-between text-start text-[length:var(--fs-body)] font-semibold transition-colors ${isOpen ? "text-[var(--primary-text)]" : "text-foreground"} hover:bg-[var(--accent)]/30`}
                 aria-expanded={isOpen}
                 aria-controls={`faq-panel-${i}`}
                 id={`faq-button-${i}`}
               >
                 {faq.q}
                 <ChevronLeft
-                  className={`w-4 h-4 shrink-0 transition-transform duration-[var(--t-base)] ${isOpen ? "rotate-180 text-primary" : ""}`}
+                  className={`w-4 h-4 shrink-0 transition-transform duration-[var(--t-base)] ${isOpen ? "rotate-180 text-[var(--primary-text)]" : ""}`}
                   aria-hidden="true"
                 />
               </button>

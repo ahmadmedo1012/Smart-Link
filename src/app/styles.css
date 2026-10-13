@@ -219,8 +219,9 @@
    Smart-Link's original token NAMES are preserved (27 are consumed by
    components) — only the values changed. The former flame-orange oklch
    world is retired. Smart-Link's --primary = Madarek's accent family
-   (gold here, copper in .light): CTAs, focus, links and icon tints all
-   ride it, exactly like the copper/gold accent carries Madarek.
+   (gold in BOTH themes since the phase6 light ruling): CTAs, focus,
+   links and icon tints all ride it, exactly like the accent carries
+   Madarek.
    ═══════════════════════════════════════════════════════════════════ */
 :root {
   --scroll-offset: 6rem;
@@ -368,13 +369,14 @@
   --scrollbar-thumb: rgba(142, 151, 184, 0.20);
   --scrollbar-thumb-hover: rgba(142, 151, 184, 0.34);
 
-  /* ── GenArt stroke (r126, P4-A3 §3.4) — replaces the only off-palette
-     literal in src/ (theme-blind oklch(0.55 0.01 260)) with palette
-     neutrals: dark neutral-500 #8E97B8 / light neutral-500 #6F6C66.
-     Consumed by gen-art-background.tsx via inline style attributes
-     (SVG presentation attributes cannot hold var()). ── */
-  --genart-accent: #8E97B8;
-  --genart-accent-dim: rgb(142 151 184 / 0.04);
+  /* ── GenArt stroke (phase6, P6-2-a2 — the observatory re-tone): the
+     neutral-gray accents (r126) are retired; the generative grounds
+     paint night-gold observatory hairlines/rings now — the family
+     accent itself at the generative opacities (0.01–0.08). Consumed by
+     gen-art-background.tsx via inline style attributes (SVG
+     presentation attributes cannot hold var()). ── */
+  --genart-accent: #E9B44C;
+  --genart-accent-dim: rgb(233 180 76 / 0.04);
 
   /* ── Motion ladder (§4.1/§4.2/§4.3) — durations, easings, and the
      RTL direction multiplier for any X-axis motion. ── */
@@ -464,9 +466,10 @@
      device) on product pages — a 0.12-alpha blurred ellipse behind
      the label. r131 (A3 D7): the hue now follows the label's own ink —
      the landing pairs a gold halo with gold label text (r152); the product
-     pages label in accent ink (gold/copper), so the halo rides
+     pages label in accent ink (gold in both themes since the phase6
+     light ruling), so the halo rides
      --primary-text and flips with the theme (gold #E9B44C on night ·
-     copper #5C3416 on cream) — same
+     deep gold #8A6420 on cream) — same
      device, same-hue pairing. */
   --label-halo: var(--primary-text);
 
@@ -501,9 +504,16 @@
 }
 
 /* ═══════════════════════════════════════════════════════════════════
-   m15 — MADAREK TOKEN BRIDGE (light theme)
-   Exact values from refs/madarek-reference.md "LIGHT" column:
-   warm-cream ground #FBFAF9 · ink #191918 · copper accent #B57438.
+   m15 — MADAREK TOKEN BRIDGE (light theme) — phase6 (P6-2-a2) LIGHT
+   GOLD RULING (coordinator decision): the grounds/ink/hairlines stay
+   the Madarek cream column, but the product accent migrates COPPER →
+   GOLD-ON-CREAM — one family, one accent, both themes. Computed law:
+   · fill #E9B44C carries #1A0F06 ink (9.96:1) — the dual-lightness
+     pattern preserved (deep ink on a light fill);
+   · TEXT/ink grade = deep gold #8A6420, 5.13:1 on cream (≥ 4.5);
+   · hover darkens to #C9962F (7.08:1 with the fill ink);
+   · wash 15% (the dark twin's alpha — gold earns the parity);
+   · ring/focus = #8A6420 (the accent-strong resolver pattern).
    ═══════════════════════════════════════════════════════════════════ */
 .light {
   color-scheme: light;
@@ -512,16 +522,17 @@
   --background: #FBFAF9;
   --foreground: #191918;
   --card: #FFFFFF;
-  /* --primary = the copper accent (§1.5 light --accent). Copper with
-     white text measures 3.8:1, so filled CTAs carry --primary-fg
-     (#1A0F06, 4.95:1) — the Madarek .btn.accent light recipe. */
-  --primary: #B57438;
-  /* --primary-text = Madarek --accent-ink light: copper-deep #5C3416
-     as TEXT, 10.29:1 on cream (dual-lightness pattern preserved). */
-  --primary-text: #5C3416;
+  /* --primary = the family GOLD fill (phase6 ruling). #E9B44C with
+     white text is 1.9:1, so filled CTAs carry --primary-fg (#1A0F06,
+     9.96:1) — the dual-lightness recipe preserved. */
+  --primary: #E9B44C;
+  /* --primary-text = the TEXT-grade deep gold: #8A6420, 5.13:1 on
+     cream (≥ 4.5 — the coordinator ruling's computed floor). Links,
+     labels, icon inks and hover accents ride it. */
+  --primary-text: #8A6420;
   --primary-fg: #1A0F06;
-  /* Copper wash at the original 12% (Smart-Link wash semantics). */
-  --accent: rgb(181 116 56 / 0.12);
+  /* Gold wash at the dark twin's 15% (Smart-Link wash semantics). */
+  --accent: rgb(233 180 76 / 0.15);
   --muted-foreground: #4F4D48;
   /* Status base = canonical §2.6 light values (family -ink hues —
      fills/strokes/dots); -ink companions = family -deep for TEXT. */
@@ -530,20 +541,22 @@
   --input-border: color-mix(in oklab, var(--muted-foreground) 80%, var(--card));
   --border: #E9E7E2;
   --border-strong: #D9D6D0;
-  /* --ring = Madarek --state-focus-ring-color light = --accent-strong
-     #5C3416 (10.29:1) — the AA focus ring Madarek pins. */
-  --ring: #5C3416;
+  /* --ring = the ruling's text-grade deep gold #8A6420 (5.13:1) — the
+     AA focus ring, same accent-strong resolver pattern. */
+  --ring: #8A6420;
   --success: #4FA66D;
   --success-ink: #1F4F30;
   /* r144 (P4-4SL): --warning/--warning-ink/--info/--info-ink الفاتحة
      حُذفت مع توأميهما الداكنين — صفر مستهلكين. */
 
-  /* ── Madarek accent family (§1.5 light column), exact ── */
-  --accent-solid: #B57438;
-  --accent-hover: #9A5F25;
-  --accent-soft: #F4E4D2;
-  --accent-strong: #5C3416;
-  --accent-ink: #5C3416;
+  /* ── The gold-on-cream accent family (phase6 ruling — was the copper
+     §1.5 light column): fill #E9B44C · hover darkens #C9962F · soft
+     wash #F7ECD2 · strong/text #8A6420 · on-fill ink #1A0F06. ── */
+  --accent-solid: #E9B44C;
+  --accent-hover: #C9962F;
+  --accent-soft: #F7ECD2;
+  --accent-strong: #8A6420;
+  --accent-ink: #8A6420;
   --accent-fg: #1A0F06;
 
   /* r144 (P4-4SL): --gold/--gold-ink الفاتحة حُذفت مع عائلة الداكن —
@@ -566,14 +579,15 @@
   /* ── Tonal shadows → Madarek §1.9 light recipes ── */
   --t-shadow-lg: 0 1px 2px rgba(15, 15, 15, 0.04), 0 8px 24px rgba(15, 15, 15, 0.08);
   --t-shadow-xl: 0 12px 36px rgba(15, 15, 15, 0.10), 0 32px 80px rgba(15, 15, 15, 0.14);
-  --t-glow: 0 0 30px rgb(181 116 56 / 0.12);
-  --t-glow-strong: 0 0 60px rgb(181 116 56 / 0.2);
+  --t-glow: 0 0 30px rgb(233 180 76 / 0.14);
+  --t-glow-strong: 0 0 60px rgb(233 180 76 / 0.22);
 
   /* r144 (P4-4SL): توكنات تدرّجات الخدمات الفاتحة حُذفت مع توأميهما
      الداكنين — صفر مستهلكين. */
 
-  /* ── Grid pattern — copper hairline at the original 6% ── */
-  --grid-line: rgb(181 116 56 / 0.06);
+  /* ── Grid pattern — gold hairline at 8% (gold is lighter than the
+     retired copper; +2% alpha holds the whisper) ── */
+  --grid-line: rgb(233 180 76 / 0.08);
 
   /* phase6 (P6-2-a2): the chapter hairline in its cream grade — deep
      gold #8A6420 at a whisper alpha carries the hue on cream. */
@@ -615,9 +629,11 @@
   --scrollbar-thumb: rgba(25, 25, 24, 0.16);
   --scrollbar-thumb-hover: rgba(25, 25, 24, 0.28);
 
-  /* ── GenArt stroke (light) — see the :root twin. ── */
-  --genart-accent: #6F6C66;
-  --genart-accent-dim: rgb(111 108 102 / 0.04);
+  /* ── GenArt stroke (light) — the observatory re-tone's cream grade:
+     the strong-gold hue #C9962F (the ruling's hover rung) at the same
+     generative opacities. See the :root twin. ── */
+  --genart-accent: #C9962F;
+  --genart-accent-dim: rgb(201 150 47 / 0.05);
 
   /* ── r130 (W1-H SL-1): muted-text tiers, cream scope (Madarek light
      tokens.css:487/492 — T3-F4 WCAG-fixed values: muted #6E6C65 =
@@ -790,7 +806,7 @@
   position: absolute;
   inset: 0;
   /* m15: Madarek sheen — the accent sweeps at 30/50% (was hardcoded
-     flame oklch; rides --primary so both themes stay copper/gold). */
+     flame oklch; rides --primary so both themes stay gold). */
   background: linear-gradient(90deg,
     transparent 0%,
     color-mix(in srgb, var(--primary) 30%, transparent) 20%,
@@ -1131,8 +1147,9 @@
    ═══════════════════════════════════════════════════════════════════ */
 
 /* 1 ── Accent-fill foreground ink (§5.1 .btn.accent recipe) ──────────
-   Copper/gold fills carry their dedicated dark-brown ink, never white:
-   white-on-gold measures 1.89:1 (dark), white-on-copper 3.8:1 (light) —
+   Gold fills carry their dedicated dark-brown ink, never white:
+   white-on-gold measures 1.89:1 (dark), and the light gold fill needs
+   the same dark ink (9.96:1) —
    both under the 4.5:1 every CTA label needs. --primary-fg =
    Madarek --accent-fg (light #1A0F06 4.95:1 · dark #05070F ~10.6:1).
    Covers both class forms the codebase writes (utility bg-primary and
@@ -1199,7 +1216,7 @@
    The contact form already carries the 16px iOS zoom floor (r13) and a
    2px --ring halo via utilities; the token bridge points --ring at the
    r130 re-adjudicated canonical focus values (dark var(--accent)
-   #E9B44C ~10.4:1 on night · light --accent-strong copper-deep #5C3416
+   #E9B44C ~10.4:1 on night · light --accent-strong deep gold #8A6420
    10.29:1 on cream), which completes the §4.5 input-focus recipe.
    Nothing further to add — documented here so the pattern's home is
    findable. */
@@ -1239,8 +1256,8 @@
    blurred ellipse behind the label, so one label device serves every
    inner page (the glass eyebrow-badge is retired).
    r131 (A3 D7): the halo hue follows the label's own ink (--label-halo
-   chains --primary-text — gold on night, copper on cream); the
-   landing's lime pairing stays lime, each world in its own hue.) */
+   chains --primary-text — gold on night, deep gold on cream since the
+   phase6 light ruling); the landing keeps its own gold pairing.) */
 .ln-label {
   display: block;
   position: relative;
@@ -1562,12 +1579,14 @@
 /* ════════════════════════════════════════════════════════════════
    r131 (A10 F1/SL-1) · DUAL-VARIANT BRAND WORDMARK
    ════════════════════════════════════════════════════════════════
-   The family canon is gold-on-night / copper-on-cream; the raster
-   wordmark (public/logo.png) ships a single gold variant that measures
-   1.79:1 on the cream ground. There is no SVG source to recolor via
-   tokens, so the light world gets an alpha-identical copper recolor
-   (public/logo-light.png — same geometry, copper #B57438 ink ≈3.7:1 on
-   cream) selected purely by the theme class. The pre-paint boot script
+   The family canon is gold-on-night / gold-on-cream (phase6 light
+   ruling); the raster wordmark (public/logo.png) ships a single gold
+   variant that measures 1.79:1 on the cream ground. There is no SVG
+   source to recolor via tokens, so the light world keeps its warm
+   raster recolor (public/logo-light.png — same geometry, copper
+   #B57438 ink ≈3.7:1 on cream) — a DOCUMENTED phase6 gap: the raster
+   re-ink to the deep-gold family awaits the brand-raster regen pass —
+   selected purely by the theme class. The pre-paint boot script
    (layout.tsx) guarantees html.light is set before the header parses,
    so the swap is flash-free; with no JS (no class ever lands) the dark
    gold variant alone renders — the no-JS contract keeps exactly one

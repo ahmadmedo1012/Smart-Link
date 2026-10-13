@@ -205,11 +205,16 @@ const ACCENT_DARK = {
   '--accent-fg': '#05070F',
 };
 const ACCENT_LIGHT = {
-  '--accent-solid': '#B57438',
-  '--accent-hover': '#9A5F25',
-  '--accent-soft': '#F4E4D2',
-  '--accent-strong': '#5C3416',
-  '--accent-ink': '#5C3416',
+  /* phase6 (P6-2-a2) LIGHT GOLD RULING (coordinator decision): the
+     copper family (#B57438/#9A5F25/#5C3416) migrates to gold-on-cream —
+     fill #E9B44C (ink #1A0F06 on it 9.96:1) · hover #C9962F · soft
+     #F7ECD2 · strong/ink = the text-grade deep gold #8A6420 (5.13:1
+     on cream ≥ 4.5 — computed-checked) · fg #1A0F06. */
+  '--accent-solid': '#E9B44C',
+  '--accent-hover': '#C9962F',
+  '--accent-soft': '#F7ECD2',
+  '--accent-strong': '#8A6420',
+  '--accent-ink': '#8A6420',
   '--accent-fg': '#1A0F06',
 };
 const STATUS_DARK = {
@@ -293,11 +298,12 @@ const BRIDGE_DARK = {
   '--input-border': 'color-mix(in oklab, #C3C8DC 70%, #0D1428)', // resolved r13 3:1 border recipe
 };
 const BRIDGE_LIGHT = {
-  '--primary': '#B57438', // Madarek --accent light (copper)
-  '--primary-text': '#5C3416', // Madarek --accent-ink light (10.29:1)
-  '--primary-fg': '#1A0F06', // Madarek --accent-fg light (4.95:1)
-  '--ring': '#5C3416', // --state-focus-ring-color light = --accent-strong
-  '--accent': 'rgb(181 116 56 / 0.12)',
+  /* phase6 light gold ruling — see ACCENT_LIGHT. */
+  '--primary': '#E9B44C', // the family gold fill (was copper #B57438)
+  '--primary-text': '#8A6420', // text-grade deep gold — 5.13:1 on cream
+  '--primary-fg': '#1A0F06', // Madarek --accent-fg light (9.96:1 on the gold fill)
+  '--ring': '#8A6420', // the ruling's text-grade gold — the AA focus ring
+  '--accent': 'rgb(233 180 76 / 0.15)',
   '--input-border': 'color-mix(in oklab, #4F4D48 80%, #FFFFFF)',
 };
 
@@ -333,8 +339,9 @@ const SHADOWS_LIGHT = {
   '--shadow-modal': '0 12px 36px rgba(15, 15, 15, 0.10), 0 32px 80px rgba(15, 15, 15, 0.14)',
   '--t-shadow-lg': '0 1px 2px rgba(15, 15, 15, 0.04), 0 8px 24px rgba(15, 15, 15, 0.08)',
   '--t-shadow-xl': '0 12px 36px rgba(15, 15, 15, 0.10), 0 32px 80px rgba(15, 15, 15, 0.14)',
-  '--t-glow': '0 0 30px rgb(181 116 56 / 0.12)',
-  '--t-glow-strong': '0 0 60px rgb(181 116 56 / 0.2)',
+  /* phase6 light gold ruling: the glows ride the gold hue (was copper). */
+  '--t-glow': '0 0 30px rgb(233 180 76 / 0.14)',
+  '--t-glow-strong': '0 0 60px rgb(233 180 76 / 0.22)',
 };
 
 // ── r126: surfaces, scrollbar, gen-art, gradients ───────────────────────────
@@ -349,8 +356,13 @@ const SCROLLBAR_LIGHT = {
   '--scrollbar-thumb': 'rgba(25, 25, 24, 0.16)',
   '--scrollbar-thumb-hover': 'rgba(25, 25, 24, 0.28)',
 };
-const GENART_DARK = { '--genart-accent': '#8E97B8', '--genart-accent-dim': 'rgb(142 151 184 / 0.04)' };
-const GENART_LIGHT = { '--genart-accent': '#6F6C66', '--genart-accent-dim': 'rgb(111 108 102 / 0.04)' };
+const GENART_DARK = {
+  /* phase6 (P6-2-a2) — the observatory re-tone: neutral grays retired,
+     night-gold hairlines/rings in both grades (decorative furniture). */
+  '--genart-accent': '#E9B44C',
+  '--genart-accent-dim': 'rgb(233 180 76 / 0.04)',
+};
+const GENART_LIGHT = { '--genart-accent': '#C9962F', '--genart-accent-dim': 'rgb(201 150 47 / 0.05)' };
 const GRADIENTS_DARK = {
   /* (r131 A3 D3: --gradient-text-mid/end removed with the dead
      @utility gradient-text — the tokens had zero consumers since the
@@ -362,8 +374,10 @@ const GRADIENTS_DARK = {
 };
 const GRADIENTS_LIGHT = {
   /* (r131 A3 D3: light --gradient-text-mid/end twins removed likewise.
-     r144 P4-4SL: the service-gradient light twins removed likewise.) */
-  '--grid-line': 'rgb(181 116 56 / 0.06)',
+     r144 P4-4SL: the service-gradient light twins removed likewise.
+     phase6 light gold ruling: the grid hairline rides the gold hue at
+     +2% alpha — gold is lighter than the retired copper.) */
+  '--grid-line': 'rgb(233 180 76 / 0.08)',
 };
 
 // ── r126: easings (exact rubric béziers) + RTL motion direction ─────────────
@@ -1577,7 +1591,11 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
   // F ── label halo + stat radius (D7): the halo follows the label's
   //     own ink per theme; .ln-stat joins its 20px siblings.
   pin(dark, 'dark', '--label-halo', '#E9B44C');
-  pin(light, 'light', '--label-halo', '#5C3416');
+  /* phase6 (P6-2-a2) light gold ruling: --label-halo chains
+     --primary-text, which migrated copper-deep #5C3416 → text-grade
+     deep gold #8A6420 (5.13:1 on cream ≥ 4.5) — re-pinned, not
+     weakened: the chain itself is pinned via BRIDGE_LIGHT. */
+  pin(light, 'light', '--label-halo', '#8A6420');
   check(
     /\.ln-stat\s*\{[^}]*border-radius:\s*var\(--r-2xl\)/.test(css),
     '.ln-stat: radius rides var(--r-2xl) 20px — landing + ln-card sibling parity (A3 D7)'

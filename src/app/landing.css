@@ -2576,6 +2576,26 @@
   border-inline-start: 1px solid var(--ln-line-soft);
 }
 .landing .ln-ground-cell:first-child { border-inline-start: 0; }
+/* phase6 (P6-2-a2): state completion — the ground cells were the landing's
+   one pointer-dead surface. A pointer pass now answers with the whisper
+   wash + the start hairline waking to the full --ln-line (the r14
+   sticky-hover guard owns the :hover half). :focus-visible carries the
+   landing's canonical cream outline for the day a cell gains a
+   focusable child (furniture today — the cells are articles, not
+   controls). */
+.landing .ln-ground-cell {
+  transition: background-color var(--t-base) var(--ease-out);
+}
+@media (hover: hover) {
+  .landing .ln-ground-cell:hover {
+    background: rgb(242 239 230 / 0.03);
+    border-inline-start-color: var(--ln-line);
+  }
+}
+.landing .ln-ground-cell:focus-visible {
+  outline: 2px solid var(--ln-cream);
+  outline-offset: 3px;
+}
 .landing .ln-ground-name {
   font-size: 1.05rem;
   font-weight: var(--fw-semibold);

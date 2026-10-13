@@ -118,7 +118,7 @@ export default function ContactPage() {
                   className={`reveal-up reveal-d-${Math.min(i + 3, 5)} ln-card ln-card--keyline rounded-2xl p-5 text-center group`}
                 >
                   <div className="w-9 h-9 rounded-xl bg-[var(--accent)] flex items-center justify-center mx-auto mb-2.5 group-hover:scale-110 transition-transform duration-[var(--t-base)]">
-                    <item.icon className="w-4.5 h-4.5 text-primary" />
+                    <item.icon className="w-4.5 h-4.5 text-[var(--primary-text)]" />
                   </div>
                   {/* r131 (A3 D1): card H2s consume the --fs-body rung (15px,
                       was raw text-sm 14px — off the body scale). */}

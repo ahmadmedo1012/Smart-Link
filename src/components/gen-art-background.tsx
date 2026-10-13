@@ -14,11 +14,17 @@
    r126 (P4-A3 §3.4): the accent color was the only off-palette literal in
    src/ — a theme-blind oklch(0.55 0.01 260) cool-grey baked identically
    onto night AND cream. Colors now ride the --genart-accent /
-   --genart-accent-dim tokens (dark neutral-500 #8E97B8 · light
-   neutral-500 #6F6C66, declared in styles.css per theme) via inline
-   style attributes — SVG presentation attributes cannot hold var(), but
-   style can, and the SVG is inline in the page so the cascade resolves
-   the right theme. */
+   --genart-accent-dim tokens via inline style attributes — SVG
+   presentation attributes cannot hold var(), but style can, and the SVG
+   is inline in the page so the cascade resolves the right theme.
+
+   phase6 (P6-2-a2 — the observatory re-tone): the neutral-gray tokens
+   (dark #8E97B8 / light #6F6C66) are retired — the generative grounds
+   paint night-gold OBSERVATORY hairlines/rings now: the family gold
+   #E9B44C on night, the strong-gold #C9962F on cream, at the same
+   generative opacities (0.01–0.08, decorative aria-hidden furniture —
+   no grade binds, the hue is the identity). Zero generator geometry
+   changed — only the token values it reads. */
 
 function mulberry32(s: number) {
   return function () {

@@ -268,7 +268,7 @@ export default function PricingPage() {
           </div>
           <div className="ln-card ln-card--dashed rounded-2xl p-8 text-center reveal-up reveal-d-2">
             <div className="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-5 bg-[var(--accent)]">
-              <Sparkles className="w-7 h-7 text-primary" />
+              <Sparkles className="w-7 h-7 text-[var(--primary-text)]" />
             </div>
             <Link
               href="/contact"

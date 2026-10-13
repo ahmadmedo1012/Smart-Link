@@ -31,7 +31,7 @@ export default function OfflinePage() {
   return (
     <SiteChrome>
     <section className="min-h-dvh flex flex-col items-center justify-center bg-[var(--background)] px-6 text-center">
-      <WifiOff className="w-14 h-14 text-primary mb-6" aria-hidden="true" />
+      <WifiOff className="w-14 h-14 text-[var(--primary-text)] mb-6" aria-hidden="true" />
       {/* r132 (A6 §4): the H1 rides the --fs-h1 30px rung — text-3xl is
           the identical value (the r131-F9b swap landed 404 but missed
           this boundary twin). */}

@@ -17,6 +17,14 @@ import AxeBuilder from "@axe-core/playwright"
 export const SHOT_DIR = process.env.SIM_SHOTS_DIR ?? "test-results/sim-shots"
 mkdirSync(SHOT_DIR, { recursive: true })
 
+/* r-phase6 (P6-2-a): منفذ الاختبار — نفس منطق playwright.config.ts.
+   اختبارات الـ socket الخام وno-JS كانت تحفر 3000 حرفياً فتضرب أياً
+   كان يستمع هناك (في بيئة الصندوق المشترك هذا خادم mission-control
+   — تطبيق مختلف كلياً!). الآن الجميع يقرأ E2E_PORT نفسه (الافتراضي
+   3111)، والـ CI بلا ضبط يحصل على الافتراضي كما هو. */
+export const E2E_PORT = Number(process.env.E2E_PORT || 3111)
+export const E2E_ORIGIN = `http://localhost:${E2E_PORT}`
+
 export const slug = (p: string) => (p === "/" ? "home" : p.replace(/^\//, ""))
 
 /** بوابة الترطيب: إثبات أن React اكتمل ترطيبه قبل أي تفاعل بالهيدر

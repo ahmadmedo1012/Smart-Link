@@ -1,5 +1,5 @@
 import { test, expect } from "./fixtures"
-import { isoHeaders } from "./helpers"
+import { isoHeaders, E2E_PORT } from "./helpers"
 import net from "node:net"
 
 /* r10 (testing audit G3): the length caps were tested only from the
@@ -140,7 +140,7 @@ test.describe("r13 — بوابة الحجم تقيس الجسم الفعلي", 
   test("Transfer-Encoding: chunked بجسم 70KB وبلا content-length → 413", async () => {
     const payload = JSON.stringify({ ...VALID, message: "x".repeat(70_000) })
     const res = await new Promise<string>((resolve, reject) => {
-      const sock = net.connect(3000, "127.0.0.1")
+      const sock = net.connect(E2E_PORT, "127.0.0.1")
       sock.setTimeout(10_000)
       let data = ""
       sock.on("connect", () => {
@@ -154,7 +154,7 @@ test.describe("r13 — بوابة الحجم تقيس الجسم الفعلي", 
         chunks.push("0\r\n\r\n")
         sock.write(
           "POST /api/contact HTTP/1.1\r\n" +
-            "Host: localhost:3000\r\n" +
+            `Host: localhost:${E2E_PORT}\r\n` +
             "Content-Type: application/json\r\n" +
             "Transfer-Encoding: chunked\r\n" +
             "Connection: close\r\n\r\n" +

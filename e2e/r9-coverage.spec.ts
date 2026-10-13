@@ -1,4 +1,5 @@
 import { test, expect, PAGES } from "./fixtures"
+import { E2E_ORIGIN } from "./helpers"
 import AxeBuilder from "@axe-core/playwright"
 
 /**
@@ -110,7 +111,7 @@ test.describe("r9 — صمود no-JS (الموقع SSR-first بلا جافاسك
   test("الرئيسية تعرض المحتوى والقيم النهائية بلا أي JS", async ({ browser }) => {
     const ctx = await browser.newContext({ javaScriptEnabled: false })
     const page = await ctx.newPage()
-    await page.goto("http://localhost:3000/", { waitUntil: "domcontentloaded" })
+    await page.goto(`${E2E_ORIGIN}/`, { waitUntil: "domcontentloaded" })
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible()
     await expect(page.locator(".ln-trust .ln-stat", { hasText: "منتجات حيّة" }).first()).toBeVisible()
     // التنقل الديكوري لا يكسر الصفحة: عنوان فصل حقيقي موجود
@@ -123,7 +124,7 @@ test.describe("r9 — صمود no-JS (الموقع SSR-first بلا جافاسك
   test("pricing بلا JS: الخطط والأسعار كاملة", async ({ browser }) => {
     const ctx = await browser.newContext({ javaScriptEnabled: false })
     const page = await ctx.newPage()
-    await page.goto("http://localhost:3000/pricing", { waitUntil: "domcontentloaded" })
+    await page.goto(`${E2E_ORIGIN}/pricing`, { waitUntil: "domcontentloaded" })
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible()
     await expect(page.locator("text=مجاني").first()).toBeVisible()
     await ctx.close()

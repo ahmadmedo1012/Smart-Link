@@ -129,14 +129,28 @@ yellow·rose·sand·grey·copper}-{bg/-ink/-deep}` in both themes.
   (1000px inset `--card` box-shadow + `-webkit-text-fill-color`) +
   Firefox `:autofill`.
 - **Landing pills (sanctioned exemption, madarek §1a):** the landing's
-  primary CTA is a **46px pill** (`min-block-size: 46px`, xl 48px) —
-  lime fill, the ONE lime-filled surface; ghost pills stay cream on a
-  hairline. The compact header CTA re-skin (r129 ruling) is 44px/12px.
-  These pill heights are landing-world vocabulary and do NOT migrate to
-  product surfaces, which ride the 44/13/600/r10 canon above.
+  primary CTA is a **48px pill** (`min-block-size: 48px`; the finale xl
+  pair 52px; the compact header pair 44px) — lime fill, the ONE
+  lime-filled surface; ghost pills stay cream on a hairline; the world
+  CTAs ride the same 48px pill in the world hue (r151). Every landing
+  CTA is radius-full — **the pill IS the landing vocabulary** (r151
+  ruling: the header CTA stays a pill; the old «44px/12px» note referred
+  to its 12px label/padding treatment, never its radius). These pill
+  heights are landing-world vocabulary and do NOT migrate to product
+  surfaces, which ride the 44/13/600/r10 canon above.
+- **Landing vertical rhythm (r151):** the desktop section paddings
+  resolve onto the 4/8 grid at the 1440×900 reference — hero 128/128 ·
+  chapters 112 · finale 144 · FAQ 80 (the vh-clamps keep scaling around
+  those floors; the ≤768 density pass is the sanctioned mobile
+  exception).
 - **Focus rings, two worlds:** product = universal `*:focus-visible`
   2px `var(--ring)` outline, offset 2px (gold `#E9B44C` dark / copper
-  `#5C3416` light); landing = 2px `--ln-cream` outline, offset 3px.
+  `#5C3416` light); landing = 2px `--ln-cream` outline, offset 3px —
+  **ONE ring color on the landing** (r151: the world-tinted/dim
+  variants are retired). The single documented exception class: pills
+  filled with a LIGHT surface (the lime `ln-btn-gold`; the world-filled
+  `ln-eco-card-cta`) take the `--ln-ink` outline — the ring must hold
+  contrast against its own fill edge, not just the ink ground.
   Never mix the two sub-languages.
 - Icon wells: tone-coded (`gold/mist/azure`); the **azure well recipe
   is per-ground** — `.ln-menu-ico.azure` 0.16 on the ink-2 panel,

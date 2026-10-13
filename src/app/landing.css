@@ -35,7 +35,13 @@
   --ln-grain-op:   0.075;
   --ln-radius-pill: var(--r-full);
   --ln-h1:         clamp(2.75rem, 8.2vw, 6.75rem);
-  --ln-h1-lh:      1.04;
+  /* r151 (P3-4, audit-SL C4): 1.04 → 1.12 — the Arabic display floor.
+     The hero monolith carries tashkeel («كلُّ عملٍ يبدأ رابطًا»); at 108px
+     a 1.04 leading clips diacritics on any future wrap and reads cramped
+     for the connected script. 1.12 is the landing-family identity floor
+     for LARGE ARABIC display only — the Latin world names
+     (.ln-world-name, direction:ltr) keep their 1.08 by design. */
+  --ln-h1-lh:      1.12;
   --ln-t-fast:      var(--t-fast);    /* 160ms */
   --ln-t-base:      var(--t-base);    /* 240ms */
   --ln-t-slow:      var(--t-slow);    /* 380ms */
@@ -471,7 +477,12 @@
 /* ── 0h · chapter scaffolding — canonical landing.css:767-818 ──────── */
 .landing .ln-chapter {
   position: relative;
-  padding: clamp(96px, 12vh, 140px) var(--page-gutter); /* 96–140 rhythm (spec §4.2.10) */
+  /* r151 (P2-1, audit-SL B1): min bound 96 → 112 — at the 1440×900
+     reference 12vh computes 108px (off the 4/8 grid); the floor now
+     lands the four chapters EXACTLY on 112 (max follows ln-cta's 144).
+     The clamp keeps scaling on taller stages; the ≤768 density pass
+     below is the sanctioned mobile exception. */
+  padding: clamp(112px, 12vh, 144px) var(--page-gutter); /* 112–144 rhythm on the 4/8 grid (spec §4.2.10) */
   /* P3-27: subtle bottom hairline to separate chapters visually */
   border-block-end: 1px solid var(--ln-line-soft);
 }
@@ -773,7 +784,11 @@
   min-block-size: max(680px, 100svh);
   display: grid;
   align-content: center;
-  padding: clamp(110px, 15vh, 170px) max(7vw, 16px) clamp(96px, 13vh, 140px);
+  /* r151 (P2-1, audit-SL B1): 135/117 was off-grid AND 18px lopsided —
+     both block edges now share one symmetric clamp that resolves to a
+     grid value (128) at the 1440×900 reference and scales to 176 on
+     taller stages. Inline gutter untouched. */
+  padding: clamp(128px, 13.5vh, 176px) max(7vw, 16px);
   isolation: isolate;
 }
 /* the sky: flat ink + the single sanctioned depth radial (α 0.10 ≤ 0.12) */
@@ -1272,7 +1287,10 @@
    finale in the same flat grammar: hairline rows, cream questions,
    dim answers, rotating chevron. */
 .landing .ln-faq {
-  padding: clamp(60px, 9vh, 100px) var(--page-gutter);
+  /* r151 (P2-1, audit-SL B1): min 60 + 9vh computed 81px at 1440×900 —
+     off the 4/8 grid. 8.5vh sits under the new 80px floor, so the
+     reference resolves EXACTLY on 80 and taller stages climb to 100. */
+  padding: clamp(80px, 8.5vh, 100px) var(--page-gutter);
   border-block-end: 1px solid var(--ln-line-soft);
 }
 .landing .ln-faq-head {
@@ -1573,12 +1591,18 @@
 /* r129 (canonical landing.css:1783-1794): the landing's universal focus
    ring — 2px cream, offset 3px, EVERY focusable thing inside .landing.
    Without it the buttons fall to the global gold *:focus-visible ring
-   (2px --ring, offset 2) — wrong world inside Orbit-Ink. */
+   (2px --ring, offset 2) — wrong world inside Orbit-Ink.
+   r151 (P2-2, audit-SL B2): the ring language is ONE color again — the
+   six live hues (cream / cream-dim / three world tints / ink) collapse
+   onto the documented cream ring; the world-tinted overrides on the eco
+   chip/card/close/cta and the worlds CTA are retired. The SINGLE
+   exception class: pills filled with a LIGHT surface (the lime gold
+   pill; the world-filled eco-card CTA) take the ink outline — the ring
+   must survive against its own fill edge, not just the ink ground. */
 .landing :focus-visible {
   outline: 2px solid var(--ln-cream);
   outline-offset: 3px;
 }
-.landing .ln-btn-ghost:focus-visible { outline-color: var(--ln-cream); }
 .landing .ln-btn-gold:focus-visible { outline-color: var(--ln-ink); }
 
 /* ── 14 · reduced motion — canonical landing.css:1800-1831 ─────────── */
@@ -1687,10 +1711,8 @@
   background: color-mix(in srgb, var(--ln-world) 12%, var(--ln-glass));
   border-color: var(--ln-world);
 }
-.landing .ln-eco-chip:focus-visible {
-  outline: 2px solid var(--ln-world);
-  outline-offset: 3px;
-}
+/* r151 (P2-2): the world-tinted focus overrides retired — every ring on
+   the landing rides the universal cream rule (see the §14 focus block). */
 .landing .ln-eco-chip-dot {
   inline-size: 9px;
   block-size: 9px;
@@ -1729,10 +1751,7 @@
   from { opacity: 0; transform: translateY(10px); }
   to   { opacity: 1; transform: none; }
 }
-.landing .ln-eco-card:focus-visible {
-  outline: 2px solid var(--ln-world);
-  outline-offset: 3px;
-}
+/* r151 (P2-2): the card panel rides the universal cream ring. */
 .landing .ln-eco-card-head {
   display: flex;
   align-items: center;
@@ -1789,10 +1808,7 @@
   color: var(--ln-cream);
   border-color: var(--ln-world);
 }
-.landing .ln-eco-card-close:focus-visible {
-  outline: 2px solid var(--ln-world);
-  outline-offset: 3px;
-}
+/* r151 (P2-2): rides the universal cream ring. */
 .landing .ln-eco-card-facts {
   display: grid;
   gap: var(--sp-2);
@@ -1848,10 +1864,10 @@
   transform: translateX(-2px); /* RTL forward = inline-start */
   opacity: 0.92;
 }
-.landing .ln-eco-card-cta:focus-visible {
-  outline: 2px solid var(--ln-world);
-  outline-offset: 3px;
-}
+/* r151 (P2-2): the ONE exception class with the gold pill — this CTA is
+   filled with the light world hue, so its ring goes ink to survive the
+   fill edge (cream would wash out at 1.5–1.9:1 against ember/cyan). */
+.landing .ln-eco-card-cta:focus-visible { outline-color: var(--ln-ink); }
 /* the canvas hover tip (positioned imperatively in canvas space) */
 .landing .ln-eco-tip {
   position: absolute;
@@ -1980,7 +1996,12 @@
   align-items: center;
   gap: 8px;
   margin-block-start: var(--sp-3);
-  padding: 11px 20px;
+  /* r151 (P2-3, audit-SL B3): 11px block padding measured 49px — off the
+     licensed ladder. 10px + the 48px min-block-size floor (the same
+     border-box device as the ≤640 CTA twins) lands the world CTAs
+     EXACTLY on the 48 rung. */
+  padding: 10px 20px;
+  min-block-size: 48px;
   border-radius: var(--ln-radius-pill);
   border: 1px solid color-mix(in srgb, var(--ln-world) 55%, transparent);
   color: var(--ln-world);
@@ -1995,10 +2016,8 @@
   color: var(--ln-ink);
   transform: translateX(-2px);
 }
-.landing .ln-world-cta:focus-visible {
-  outline: 2px solid var(--ln-world);
-  outline-offset: 3px;
-}
+/* r151 (P2-2): the world-tinted ring is retired — transparent pill, so
+   the universal cream ring reads cleanly against the ink ground. */
 /* the stage — each world renders its own pure-CSS product mock */
 .landing .ln-world-stage {
   position: relative;

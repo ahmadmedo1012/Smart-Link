@@ -147,7 +147,12 @@ const jsonLd = [
 export default function PricingPage() {
   return (
     <SiteChrome>
-    <div className="pt-28 pb-16 relative overflow-hidden">
+    {/* phase6 (P6-2-a2): chapter rhythm + full-width composition — the
+        three plan cards compose at the 1200px container (one row, no
+        max-w-4xl void), the coming-soon banner spans it, the FAQ keeps
+        a measured 3xl column (answers are prose). Chapters ride the
+        .ln-chapter fluid rhythm + the gold hairline. */}
+    <div className="pt-28 relative overflow-hidden">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -157,20 +162,29 @@ export default function PricingPage() {
         {/* r130 (W1-D P1-2): the page head unifies on the canonical
             ln-chapter-head anatomy (label / title / lede, like /about) —
             was a centered text-5xl/6xl 800-weight header. The title
-            rides the display clamp (34→56px, 700 — Plex has no 800). */}
-        <div className="ln-chapter-head max-w-3xl">
-          <span className="ln-label reveal-up reveal-d-1">الأسعار</span>
-          <h1 className="ln-page-title"><em>الخطط</em> والأسعار</h1>
-          <p className="ln-chapter-lede">
-            اختر الخطة المناسبة لأعمالك — ابدأ مجاناً وطور خدماتك معنا
-          </p>
-        </div>
+            rides the display clamp (34→56px, 700 — Plex has no 800).
+            phase6: the --head chapter, full container width. */}
+        <header className="ln-chapter ln-chapter--head">
+          <div className="ln-chapter-head">
+            <span className="ln-label reveal-up reveal-d-1">الأسعار</span>
+            <h1 className="ln-page-title"><em>الخطط</em> والأسعار</h1>
+            <p className="ln-chapter-lede">
+              اختر الخطة المناسبة لأعمالك — ابدأ مجاناً وطور خدماتك معنا
+            </p>
+          </div>
+        </header>
 
         {/* Pricing cards — CSS reveal (LCP element, paints pre-JS).
             r128 F6: flat hairline cards, border-shift only.
             r137: three cards — lg:grid-cols-3 keeps them on one row on
-            desktop; md keeps the 2-col grammar (the third wraps). */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 max-w-4xl mx-auto mb-16">
+            desktop; md keeps the 2-col grammar (the third wraps).
+            phase6: the row composes at the FULL container width (was
+            max-w-4xl mx-auto — a centered 896px island in a 1152px
+            container). The plan row is its own chapter (the cards are the
+            chapter's content — no head needed: the page head introduces
+            them). */}
+        <section className="ln-chapter" aria-label="خطط المنتجات">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
           {plans.map((plan, i) => {
             const Icon = plan.icon
             return (
@@ -232,13 +246,16 @@ export default function PricingPage() {
               </div>
             )
           })}
-        </div>
+          </div>
+        </section>
 
         {/* Coming soon — flat dashed hairline (was glass + gradient well).
             r131 D4: the centered bare h2 becomes the ln-chapter-head
             anatomy (label + title + lede, start-aligned like every
-            /about chapter); the card keeps the icon well + CTA. */}
-        <div className="max-w-2xl mx-auto mb-16 reveal-up reveal-d-4">
+            /about chapter); the card keeps the icon well + CTA.
+            phase6: a full-width chapter — the dashed banner spans the
+            container (was a centered max-w-2xl island). */}
+        <section className="ln-chapter">
           <div className="ln-chapter-head">
             <span className="ln-label reveal-up reveal-d-1">01 — القادم</span>
             <h2 className="text-[length:var(--fs-h2)] font-bold text-foreground reveal-up reveal-d-1">قريباً — خطط مدفوعة</h2>
@@ -249,7 +266,7 @@ export default function PricingPage() {
               الليبي على منصته.
             </p>
           </div>
-          <div className="ln-card ln-card--dashed rounded-2xl p-8 text-center">
+          <div className="ln-card ln-card--dashed rounded-2xl p-8 text-center reveal-up reveal-d-2">
             <div className="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-5 bg-[var(--accent)]">
               <Sparkles className="w-7 h-7 text-primary" />
             </div>
@@ -260,19 +277,24 @@ export default function PricingPage() {
               تواصل معنا لمعرفة المزيد <ChevronLeft className="w-3.5 h-3.5 transition-transform group-hover:-translate-x-0.5" />
             </Link>
           </div>
-        </div>
+        </section>
 
         {/* FAQ — the only client island on this page (CSS accordion).
             r131 D4: the last centered bare h2 unifies on the chapter-head
-            anatomy (label + title + lede); title rides the --fs-h2 rung. */}
-        <div className="max-w-2xl mx-auto">
+            anatomy (label + title + lede); title rides the --fs-h2 rung.
+            phase6: full-width chapter head + a measured 3xl column for
+            the accordion (the answers are prose — the measure is the
+            composition, not dead space). */}
+        <section className="ln-chapter">
           <div className="ln-chapter-head">
             <span className="ln-label reveal-up reveal-d-1">02 — الأسئلة</span>
             <h2 className="text-[length:var(--fs-h2)] font-bold text-foreground reveal-up reveal-d-1">أسئلة شائعة</h2>
             <p className="ln-chapter-lede">إجابات سريعة عن الخطط والأسعار قبل أن تبدأ</p>
           </div>
-          <FaqAccordion faqs={faqs} />
-        </div>
+          <div className="max-w-3xl">
+            <FaqAccordion faqs={faqs} />
+          </div>
+        </section>
       </div>
     </div>
     </SiteChrome>

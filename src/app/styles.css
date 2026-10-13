@@ -308,6 +308,13 @@
   /* ── Grid pattern — gold hairline at the original 10% ── */
   --grid-line: rgb(233 180 76 / 0.1);
 
+  /* ── Chapter separator hairline (phase6, P6-2-a2): the product-page
+     .ln-chapter rhythm's gold hairline — the family accent at whisper
+     grades per theme. Dark: the luminous gold; light: the deep text-
+     safe gold (the luminous #E9B44C is 1.8:1 on cream and would
+     vanish — see the .light twin). ── */
+  --chapter-line: rgb(233 180 76 / 0.16);
+
   /* (r131 A3 D3: the --gradient-text-mid/end stops are deleted with the
      dead @utility gradient-text — zero TSX consumers since the r128
      flat-diet retired the last gradient-text site; the tokens were
@@ -567,6 +574,10 @@
 
   /* ── Grid pattern — copper hairline at the original 6% ── */
   --grid-line: rgb(181 116 56 / 0.06);
+
+  /* phase6 (P6-2-a2): the chapter hairline in its cream grade — deep
+     gold #8A6420 at a whisper alpha carries the hue on cream. */
+  --chapter-line: rgb(138 100 32 / 0.25);
 
   /* (r131 A3 D3: the light --gradient-text-mid/end twins are deleted
      with the dead @utility gradient-text — see the :root note.) */
@@ -1312,6 +1323,35 @@
   color: var(--muted-foreground);
 }
 
+/* ── the product-page chapter rhythm (phase6, P6-2-a2) ──────────────
+   The landing's fluid rhythm (landing.css §0i — its mobile density
+   value) promoted as the supporting routes' shared utility: these pages
+   are single-brief documents, not scroll narratives, so they adopt the
+   compact chapter scale clamp(60px, 9vh, 84px) at EVERY viewport. Each
+   chapter closes on the gold hairline (--chapter-line) — the quiet
+   family device that threads the five routes. Variants:
+   · --head: the page-head chapter — no top rhythm (the route wrapper's
+     fixed-header clearance owns the top edge), a half-step bottom, and
+     the inner head's own margin zeroes (nothing follows it inside);
+   · --prose: the legal body chapter — the rhythm's half step (legal
+     pages are utilitarian documents; the full cadence between every
+     clause would inflate the scroll — the sections keep their space-y-6
+     flow inside ONE chapter). ── */
+.ln-chapter {
+  position: relative;
+  padding-block: clamp(60px, 9vh, 84px);
+  border-block-end: 1px solid var(--chapter-line);
+}
+.ln-chapter--head {
+  padding-block: 0 clamp(40px, 6vh, 56px);
+}
+.ln-chapter--head .ln-chapter-head {
+  margin-block-end: 0;
+}
+.ln-chapter--prose {
+  padding-block: clamp(32px, 4.5vh, 48px) clamp(48px, 7vh, 64px);
+}
+
 /* flat hairline card — the secondary-pages replacement for the glass
    card on marketing surfaces: product card ground, hairline border,
    border-shift ONLY on hover (no lift, no shadow, no glass — A4 §6
@@ -1334,6 +1374,24 @@
    utilities. Declared after .ln-card so same-origin order wins. */
 .ln-card--dashed {
   border-style: dashed;
+}
+
+/* gold-keyline card (phase6, P6-2-a2): the contact info cards carry a
+   quiet gold hairline at the block-start edge — the rest of the anatomy
+   is pure .ln-card. (The class is spelled --keyline, not --gold: the
+   r144 dead-token sweep bans any `--gold…:` token shape, and a
+   --gold-suffixed selector + pseudo-class would false-positive it.)
+   Hover deepens the keyline; the rule sits AFTER .ln-card(:hover) so
+   the longhand wins the cascade at equal specificity, and the hover
+   half lives inside the r14 sticky-hover guard like every hand-written
+   :hover. */
+.ln-card--keyline {
+  border-block-start-color: color-mix(in srgb, var(--primary) 40%, var(--border));
+}
+@media (hover: hover) {
+  .ln-card--keyline:hover {
+    border-block-start-color: color-mix(in srgb, var(--primary) 70%, var(--border-strong));
+  }
 }
 
 /* flat stat cell (landing.css .ln-stat family, product skin) — carries
@@ -1460,6 +1518,46 @@
 .ln-well--menu { background: var(--ln-menu-well); color: var(--ln-menu); }
 .ln-well--bot { background: var(--ln-bot-well); color: var(--ln-bot); }
 .ln-well--order { background: var(--ln-order-well); color: var(--ln-order); }
+
+/* ── the legal TOC (phase6, P6-2-a2): the quiet anchor nav under the
+   legal page heads — a hairline shell with 44px-touch link rows and
+   the canonical gold underline device on hover (P4-13: 2px /
+   offset 4px — the same accent every product link carries). Two
+   columns wherever the 72ch container fits them; the anchor scroll
+   clearance rides html's scroll-padding-top (--scroll-offset). The
+   hover half sits inside the r14 sticky-hover guard. ── */
+.ln-toc {
+  margin-block-start: clamp(24px, 3.5vh, 36px);
+  border: 1px solid var(--border);
+  border-radius: var(--r-2xl);
+  padding: 10px;
+}
+.ln-toc ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 2px;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+}
+.ln-toc a {
+  display: block;
+  padding: 12px 14px;
+  border-radius: var(--r-md);
+  color: var(--muted-foreground);
+  font-size: var(--fs-sm);
+  font-weight: 500;
+  transition: color var(--t-fast) var(--ease), background-color var(--t-fast) var(--ease);
+}
+@media (hover: hover) {
+  .ln-toc a:hover {
+    color: var(--primary-text);
+    background: var(--accent);
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 4px;
+  }
+}
 
 /* ════════════════════════════════════════════════════════════════
    r131 (A10 F1/SL-1) · DUAL-VARIANT BRAND WORDMARK

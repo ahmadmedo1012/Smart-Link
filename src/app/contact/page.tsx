@@ -64,7 +64,13 @@ const contacts = [
 export default function ContactPage() {
   return (
     <SiteChrome>
-    <div className="pt-28 pb-16 relative overflow-hidden">
+    {/* phase6 (P6-2-a2): recomposed page grid — the form (the page's
+        primary action) holds the reading-start 3/5 of the container, the
+        four info cards ride a 2×2 gold-keyline rail beside it; on mobile
+        the form leads (primary action first — was cards-then-form).
+        The ContactForm island itself is byte-untouched (the r13-hardened
+        a11y contract). Chapters own the vertical rhythm. */}
+    <div className="pt-28 relative overflow-hidden">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
@@ -75,53 +81,65 @@ export default function ContactPage() {
             ln-chapter-head anatomy (label / title / lede, like /about) —
             was a centered text-5xl/6xl 800-weight header behind a
             GLASS eyebrow-badge pill; the label device is now the mono
-            ln-label (with the canonical accent halo), one device site-wide. */}
-        <div className="ln-chapter-head max-w-3xl">
-          <span className="ln-label reveal-up reveal-d-1">تواصل</span>
-          <h1 className="ln-page-title"><em>تواصل</em> معنا</h1>
-          <p className="ln-chapter-lede">
-            فريقنا جاهز لمساعدتك — تواصل معنا بأي طريقة من الطرق التالية
-          </p>
-        </div>
-
-        {/* Contact info cards — CSS reveal (paints pre-JS, above fold).
-            r128 F6: flat hairline cards, border-shift only. */}
-        <div className="grid md:grid-cols-4 gap-4 max-w-3xl mx-auto mb-10">
-          {contacts.map((item, i) => (
-            <div
-              key={item.title}
-              className={`reveal-up reveal-d-${Math.min(i + 1, 4)} ln-card rounded-2xl p-5 text-center group`}
-            >
-              <div className="w-9 h-9 rounded-xl bg-[var(--accent)] flex items-center justify-center mx-auto mb-2.5 group-hover:scale-110 transition-transform duration-[var(--t-base)]">
-                <item.icon className="w-4.5 h-4.5 text-primary" />
-              </div>
-              {/* r131 (A3 D1): card H2s consume the --fs-body rung (15px,
-                  was raw text-sm 14px — off the body scale). */}
-              <h2 className="font-bold text-foreground text-[length:var(--fs-body)] mb-1">{item.title}</h2>
-              {item.href ? (
-                /* r132 (A6 §3/§6): micro-copy consumes --fs-xs — text-xs is
-                   the identical 12px (exact-match swap).
-                   r149 (self-audit): 35.8px measured — the card's only
-                   action rides the 44px touch floor via min-h (padding
-                   rhythm untouched), and the hover joins the canonical
-                   P4-13 underline device (2px / offset 4px) used by every
-                   other footer/contact link. */
-                <a href={item.href} className="text-[length:var(--fs-xs)] text-primary-text hover:underline decoration-2 underline-offset-4 rounded inline-flex items-center justify-center min-h-[44px] py-2">{item.desc}</a>
-              ) : (
-                <p className="text-[length:var(--fs-xs)] text-muted-foreground">{item.desc}</p>
-              )}
-            </div>
-          ))}
-        </div>
-
-        {/* Form — the page's only client island (r9). Flat shell (F6);
-           the island's internals are untouched. */}
-        <div className="max-w-xl mx-auto reveal-up reveal-d-3">
-          <div className="ln-card rounded-2xl p-6 md:p-8">
-            <h2 className="font-bold text-foreground text-[length:var(--fs-h3)] mb-5">أرسل رسالة</h2>
-            <ContactForm />
+            ln-label (with the canonical accent halo), one device site-wide.
+            phase6: the --head chapter, full container width. */}
+        <header className="ln-chapter ln-chapter--head">
+          <div className="ln-chapter-head">
+            <span className="ln-label reveal-up reveal-d-1">تواصل</span>
+            <h1 className="ln-page-title"><em>تواصل</em> معنا</h1>
+            <p className="ln-chapter-lede">
+              فريقنا جاهز لمساعدتك — تواصل معنا بأي طريقة من الطرق التالية
+            </p>
           </div>
-        </div>
+        </header>
+
+        {/* phase6 (P6-2-a2): one chapter, two rails — the form island at
+            col-span-3 (reading start under RTL) and the info cards in a
+            2×2 gold-keyline rail (col-span-2). r128 F6: flat hairline
+            cards, border-shift only; the gold keyline is the quiet
+            family accent on the info surface. The ContactForm island is
+            untouched — zero behavior changes. */}
+        <section className="ln-chapter">
+          <div className="grid lg:grid-cols-5 gap-6 lg:gap-8 items-start">
+            {/* Form — the page's only client island (r9). Flat shell
+                (F6); the island's internals are untouched. */}
+            <div className="lg:col-span-3 reveal-up reveal-d-2">
+              <div className="ln-card rounded-2xl p-6 md:p-8">
+                <h2 className="font-bold text-foreground text-[length:var(--fs-h3)] mb-5">أرسل رسالة</h2>
+                <ContactForm />
+              </div>
+            </div>
+
+            {/* Contact info cards — CSS reveal (paints pre-JS). */}
+            <div className="lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {contacts.map((item, i) => (
+                <div
+                  key={item.title}
+                  className={`reveal-up reveal-d-${Math.min(i + 3, 5)} ln-card ln-card--keyline rounded-2xl p-5 text-center group`}
+                >
+                  <div className="w-9 h-9 rounded-xl bg-[var(--accent)] flex items-center justify-center mx-auto mb-2.5 group-hover:scale-110 transition-transform duration-[var(--t-base)]">
+                    <item.icon className="w-4.5 h-4.5 text-primary" />
+                  </div>
+                  {/* r131 (A3 D1): card H2s consume the --fs-body rung (15px,
+                      was raw text-sm 14px — off the body scale). */}
+                  <h2 className="font-bold text-foreground text-[length:var(--fs-body)] mb-1">{item.title}</h2>
+                  {item.href ? (
+                    /* r132 (A6 §3/§6): micro-copy consumes --fs-xs — text-xs is
+                       the identical 12px (exact-match swap).
+                       r149 (self-audit): 35.8px measured — the card's only
+                       action rides the 44px touch floor via min-h (padding
+                       rhythm untouched), and the hover joins the canonical
+                       P4-13 underline device (2px / offset 4px) used by every
+                       other footer/contact link. */
+                    <a href={item.href} className="text-[length:var(--fs-xs)] text-primary-text hover:underline decoration-2 underline-offset-4 rounded inline-flex items-center justify-center min-h-[44px] py-2">{item.desc}</a>
+                  ) : (
+                    <p className="text-[length:var(--fs-xs)] text-muted-foreground">{item.desc}</p>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
       </div>
     </div>
     </SiteChrome>

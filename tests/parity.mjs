@@ -2189,6 +2189,67 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
   );
 }
 
+/* ═══ phase6 (P6-2-a2) — chapter rhythm + the five-route composition:
+   the .ln-chapter utility (landing §0i rhythm + gold hairline), the
+   --head/--prose variants, the legal TOC lockstep, the contact grid
+   recompose, and the negative sweeps that keep the centered islands
+   and narrow head caps extinct. ═════════════════════════════════ */
+{
+  const lnChapterRule = css.match(/\.ln-chapter\s*\{([^}]*)\}/)?.[1] ?? '';
+  check(
+    /padding-block:\s*clamp\(60px, 9vh, 84px\)/.test(lnChapterRule)
+      && /border-block-end:\s*1px solid var\(--chapter-line\)/.test(lnChapterRule),
+    'phase6 rhythm: .ln-chapter rides the landing fluid clamp(60px, 9vh, 84px) + the --chapter-line gold hairline'
+  );
+  pin(dark, 'chapter-line-dark', '--chapter-line', 'rgb(233 180 76 / 0.16)');
+  pin(light, 'chapter-line-light', '--chapter-line', 'rgb(138 100 32 / 0.25)');
+  check(
+    /\.ln-chapter--head\s*\{/.test(css) && /\.ln-chapter--prose\s*\{/.test(css)
+      && /\.ln-toc\s*\{/.test(css) && /\.ln-card--keyline\s*\{/.test(css),
+    'phase6 composition utilities: the --head/--prose chapter variants, the legal .ln-toc, and the gold-keyline card all exist in styles.css'
+  );
+
+  const read6 = (p) => readFileSync(new URL(`../src/${p}`, import.meta.url), 'utf8')
+    .replace(/\/\*[\s\S]*?\*\//g, ' ').replace(/\/\/.*$/gm, ' ');
+  const pages = {
+    about: read6('app/about/page.tsx'),
+    pricing: read6('app/pricing/page.tsx'),
+    contact: read6('app/contact/page.tsx'),
+    privacy: read6('app/privacy/page.tsx'),
+    terms: read6('app/terms/page.tsx'),
+  };
+  const minChapters = { about: 4, pricing: 4, contact: 2, privacy: 2, terms: 2 };
+  for (const [name, src] of Object.entries(pages)) {
+    check(
+      (src.match(/ln-chapter\b/g) ?? []).length >= minChapters[name],
+      `phase6 rhythm: /${name} composes as .ln-chapter chapters (≥${minChapters[name]})`
+    );
+  }
+  check(
+    !/max-w-[\w[\]-]+ mx-auto/.test(pages.about + pages.pricing + pages.contact)
+      && !/ln-chapter-head max-w/.test(pages.about + pages.pricing + pages.contact),
+    'phase6 composition: no centered content islands or capped heads survive on about/pricing/contact (full-width composition; measures are start-aligned at the element)'
+  );
+  for (const [name, src] of [['privacy', pages.privacy], ['terms', pages.terms]]) {
+    const tocIds = [...src.matchAll(/id:\s*"([\w-]+)",\s*label:/g)].map((m) => m[1]);
+    const tocLabels = [...src.matchAll(/label:\s*"([^"]+)"\s*\}/g)].map((m) => m[1]);
+    check(
+      tocIds.length >= 10 && src.includes('aria-label="محتويات الصفحة"')
+        && tocIds.every((id) => src.includes(`id="${id}"`)),
+      `phase6 TOC: ${name} ships the semantic nav + every TOC id rides a real <section> (no dead anchors)`
+    );
+    check(
+      tocLabels.every((label) => src.includes(`>${label}</h2>`)),
+      `phase6 TOC: every ${name} TOC label mirrors its section H2 exactly (label drift breaks the nav contract)`
+    );
+  }
+  check(
+    pages.contact.includes('lg:grid-cols-5') && pages.contact.includes('lg:col-span-3')
+      && pages.contact.includes('ln-card--keyline'),
+    'phase6 contact: the recomposed grid — form island (col-span-3, primary action at the reading start) + the gold-keyline info rail'
+  );
+}
+
 if (failures.length > 0) {
   console.error(`✗ Madarek parity snapshot FAILED (${failures.length} assertion(s)):`);
   for (const f of failures) console.error(`  • ${f}`);
@@ -2221,8 +2282,13 @@ if (failures.length > 0) {
    the r144 doctrine: pinning deleted tokens is how drift hides); added
    18 product-scope foreshadow pins (lit/true/well × 3 worlds × 2
    themes) + the extinction sweep + the two-sheet drift gate (6) + the
-   /pricing well-consumption pin (1) + the R4 re-truth. */
-const EXPECTED_ASSERTIONS = 509;
+   /pricing well-consumption pin (1) + the R4 re-truth.
+   phase6 (P6-2-a2, commit 2): 509 → 524 — the chapter-rhythm wave: the
+   .ln-chapter rule pin + both --chapter-line grades + the composition
+   utilities check + 5 route-adoption pins + the centered-island/head-cap
+   negative sweep + 4 TOC lockstep pins (ids ride real sections; labels
+   mirror the H2s) + the contact grid-recompose pin. */
+const EXPECTED_ASSERTIONS = 524;
 check(
   passed + 1 === EXPECTED_ASSERTIONS,
   `self-count: the suite must run exactly ${EXPECTED_ASSERTIONS} assertions (ran ${passed + 1}) — bump EXPECTED_ASSERTIONS with every intentional pin change`

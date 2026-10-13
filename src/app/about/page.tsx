@@ -50,7 +50,14 @@ const breadcrumbLd = breadcrumbJsonLd([
 export default function AboutPage() {
   return (
     <SiteChrome>
-    <div className="pt-28 pb-16 relative overflow-hidden">
+    {/* phase6 (P6-2-a2): chapter rhythm + full-width composition — the
+        page composes for the 1200px container: the head and the card
+        chapters span it deliberately (the title/lede self-measure 22/62ch),
+        the value grid goes 4-up, only the story prose keeps its reading
+        measure. Every chapter rides the .ln-chapter fluid rhythm + the
+        gold hairline; the wrapper keeps only the fixed-header clearance
+        (pt-28) — the chapters own the vertical cadence now. */}
+    <div className="pt-28 relative overflow-hidden">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
@@ -62,23 +69,27 @@ export default function AboutPage() {
             rides the reveal ladder. r130 (W1-D P1-2): the H1 moves to the
             ln-page-title display rung (clamp 34→56px, 700) so all five
             inner pages share ONE head grammar; chapter H2s keep the
-            ln-chapter-title rung. */}
-        <div className="ln-chapter-head max-w-3xl">
-          <span className="ln-label reveal-up reveal-d-1">عن المنصة</span>
-          <h1 className="ln-page-title">عن <em>SmartLink</em></h1>
-          <p className="ln-chapter-lede">
-            SmartLink منصة رقمية ليبية متكاملة تهدف إلى توفير حلول ذكية للأعمال في العالم العربي.
-            نؤمن بأن التكنولوجيا يجب أن تكون سهلة، متاحة، وفعالة للجميع.
-          </p>
-        </div>
+            ln-chapter-title rung. phase6: the head is the --head chapter
+            (full container width — the lede self-measures 62ch). */}
+        <header className="ln-chapter ln-chapter--head">
+          <div className="ln-chapter-head">
+            <span className="ln-label reveal-up reveal-d-1">عن المنصة</span>
+            <h1 className="ln-page-title">عن <em>SmartLink</em></h1>
+            <p className="ln-chapter-lede">
+              SmartLink منصة رقمية ليبية متكاملة تهدف إلى توفير حلول ذكية للأعمال في العالم العربي.
+              نؤمن بأن التكنولوجيا يجب أن تكون سهلة، متاحة، وفعالة للجميع.
+            </p>
+          </div>
+        </header>
 
-        {/* Chapter 01 — القيم */}
-        <section className="mb-14" aria-labelledby="about-values">
-          <div className="ln-chapter-head max-w-3xl">
+        {/* Chapter 01 — القيم (phase6: 4-up at the container width; was a
+            max-w-3xl 2-up grid leaving half the container dead). */}
+        <section className="ln-chapter" aria-labelledby="about-values">
+          <div className="ln-chapter-head">
             <span className="ln-label reveal-up reveal-d-1">01 — القيم</span>
             <h2 id="about-values" className="ln-chapter-title reveal-up reveal-d-1">قيمنا</h2>
           </div>
-          <div className="grid md:grid-cols-2 gap-5 max-w-3xl">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {values.map((item, i) => (
               <div
                 key={item.title}
@@ -100,18 +111,20 @@ export default function AboutPage() {
           </div>
         </section>
 
-        {/* Chapter 02 — المؤسس */}
-        <section className="mb-14" aria-labelledby="about-founder">
-          <div className="ln-chapter-head max-w-3xl">
+        {/* Chapter 02 — المؤسس (phase6: the card spans the container; the
+            text keeps a 60ch measure inside — full-width surface,
+            measured reading). */}
+        <section className="ln-chapter" aria-labelledby="about-founder">
+          <div className="ln-chapter-head">
             <span className="ln-label reveal-up reveal-d-1">02 — المؤسس</span>
             <h2 id="about-founder" className="ln-chapter-title reveal-up reveal-d-1">المؤسس</h2>
           </div>
-          <div className="reveal-up reveal-d-2 max-w-3xl">
+          <div className="reveal-up reveal-d-2">
             <div className="ln-card rounded-2xl p-6 md:p-8 flex flex-col md:flex-row items-start md:items-center gap-5 group">
               <div className="w-16 h-16 rounded-2xl flex items-center justify-center shrink-0 bg-[var(--accent)] group-hover:scale-110 transition-transform duration-[var(--t-base)]">
                 <User className="w-8 h-8 text-primary" />
               </div>
-              <div>
+              <div className="max-w-[60ch]">
                 {/* r133 (A7 §2.2 / R16): founder name — was text-base 16px
                     (no rung); the 15px body rung is the on-ladder step. */}
                 <p className="text-[length:var(--fs-body)] text-foreground font-medium">أحمد خيري</p>
@@ -121,13 +134,15 @@ export default function AboutPage() {
           </div>
         </section>
 
-        {/* Chapter 03 — قصتنا */}
-        <section className="max-w-3xl" aria-labelledby="about-story">
+        {/* Chapter 03 — قصتنا (phase6: prose keeps the 72ch reading measure
+            inside the wide container — measure is the composition here,
+            not dead space). */}
+        <section className="ln-chapter" aria-labelledby="about-story">
           <div className="ln-chapter-head">
             <span className="ln-label reveal-up reveal-d-1">03 — قصتنا</span>
             <h2 id="about-story" className="ln-chapter-title reveal-up reveal-d-1">قصتنا</h2>
           </div>
-          <div className="reveal-scroll">
+          <div className="reveal-scroll max-w-[72ch]">
             <p className="text-muted-foreground mb-4">
               انطلقت SmartLink في <strong>20 نوفمبر 2025</strong> من رؤية واضحة: تقديم حلول رقمية متكاملة تلبي احتياجات السوق الليبي والعربي،
               بدءاً من المطاعم والمقاهي التي تحتاج لمنيو رقمي احترافي، إلى أصحاب الصفحات على فيسبوك

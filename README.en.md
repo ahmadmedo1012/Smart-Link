@@ -6,9 +6,9 @@
 
 [![CI](https://github.com/ahmadmedo1012/Smart-Link/actions/workflows/ci.yml/badge.svg)](https://github.com/ahmadmedo1012/Smart-Link/actions/workflows/ci.yml)
 [![Live](https://img.shields.io/website?url=https%3A%2F%2Fsmart-link.ly%2F&label=smart-link.ly)](https://smart-link.ly)
-[![License](https://img.shields.io/badge/license-proprietary-%23B57438)](./LICENSE)
+[![License](https://img.shields.io/badge/license-proprietary-%238A6420)](./LICENSE)
 
-**Live site:** <https://smart-link.ly> · **Support:** WhatsApp 24/7
+**Live site:** <https://smart-link.ly> · **Support:** WhatsApp during office hours (9am–9pm)
 
 ![SmartLink landing page — night sky with glowing orbits and the headline “every business starts as a link and becomes a system”](docs/screenshots/hero-landing.webp)
 
@@ -18,7 +18,7 @@
 
 - **The agency site**: introduces the services and showcases the ecosystem's current products — [Smart Menu](https://menu.smart-link.ly) (digital menu & WhatsApp ordering), [SmartBot](https://bot.smart-link.ly) (Messenger bot & automation for Facebook pages), and [Smart Order](https://order.smart-link.ly) (digital storefront, orders, delivery & local payments) — through a full landing journey from headline to final call-to-action.
 - **The ecosystem's home**: the official starting point of the wider Smart family (Madarek) — see the [family footer](#-part-of-the-madarek-ecosystem--جزء-من-منظومة-مدارك) at the bottom of this page.
-- **The conversion channel**: clear pricing plans, an FAQ, and a contact form that actually delivers — with 24/7 WhatsApp support.
+- **The conversion channel**: clear pricing plans, an FAQ, and a contact form that actually delivers — with WhatsApp support during office hours.
 
 The site is Arabic-first (fully RTL), ships a dark/light theme, and is built to be fast and accessible from the first request.
 
@@ -26,7 +26,7 @@ The site is Arabic-first (fully RTL), ships a dark/light theme, and is built to 
 
 ### Pages & sections
 
-- **A full Orbit-Ink landing journey**: the orbit sky (a real **OrbitScene** canvas engine — living stars and orbits, not a static image), an RTL product marquee with a seamless 42s loop, a mission-control readout with verifiable published figures (3 live products, SmartBot from 19 LYD, Smart Order base plan free, 100% Arabic interface — r143 truth wave), product orbits, a five-station connection journey with a light path, the progress story, the platforms ground plate, roles, and a finale CTA.
+- **A full Madarek-Night landing journey (r152 «الكوكبة الحيّة»)**: a living interactive constellation canvas in the hero (the **EcosystemConstellation** engine — the SmartLink core orbited by the three product nodes in their world hues, interactive on click/hover, paused off-screen), an RTL product marquee with a seamless 42s loop, the worlds chapter with true claims and live domain links, a five-station connection journey with a light path, the mission-control cockpit with verifiable published figures (3 live products, SmartBot from 19 LYD, Smart Order base plan free, 100% Arabic interface — r143 truth wave), the platforms ground, and a finale CTA crowned by the family crest (family.webp — restored by r144), then the FAQ.
 - **Six inner pages**: About · Pricing · Contact · Privacy · Terms · an Offline page — plus custom 404/error pages.
 - **Fully responsive** from 320px up to wide screens, with touch targets no smaller than 44px.
 
@@ -44,7 +44,7 @@ The site is Arabic-first (fully RTL), ships a dark/light theme, and is built to 
 
 - **A contact form that actually delivers**: dual validation (HTML then API), XSS escaping, a honeypot, and rate limiting — then delivery via Resend with two react-email templates (owner notification + sender confirmation).
 - **Loud failure, never fake success**: without the sending key the API returns 503 with WhatsApp fallbacks — messages never disappear silently.
-- Direct WhatsApp buttons (24/7 support) and magnetic gold links to the products.
+- Direct WhatsApp buttons (office hours) and magnetic gold links to the products.
 
 ### Language, theme & performance
 
@@ -73,7 +73,7 @@ The site is Arabic-first (fully RTL), ships a dark/light theme, and is built to 
 ## Tech stack
 
 - **Next.js 16** (App Router) — every page is a Server Component; interaction lives in small client islands only.
-- **Tailwind CSS v4** via `@theme` — the **Madarek** design-token bridge in both modes: night/gold `#070B16`/`#E9B44C` and cream/copper `#FBFAF9`/`#B57438` (AA contrast), nine pastel families × {bg, ink, deep}, 6–28 radii and 80–720ms motion.
+- **Tailwind CSS v4** via `@theme` — the **Madarek** design-token bridge in both modes: night/gold `#070B16`/`#E9B44C` and light cream/gold — the phase-6 gold-on-cream ruling (fill `#E9B44C` with its dark ink; text-grade deep gold `#8A6420`, 5.13:1 on cream ≥ AA); the three foreshadow identities (menu terracotta · bot teal · order orange) ride the pricing-card wells (the nine pastel families are retired), radii 6–28 and motion 80–720ms.
 - **IBM Plex Sans Arabic** 400–700, self-hosted (`public/fonts/` — woff2 files for the Arabic sans ar+la and Latin mono) — zero external font requests.
 - **TypeScript** strict (checked at build time).
 - **Resend + react-email** for transactional email, **next-themes** for theming, **Playwright + axe-core** for testing.
@@ -123,7 +123,7 @@ src/
 │   ├── sitemap.ts robots.ts   # dynamic (lastmod on every deploy)
 │   ├── error.tsx global-error.tsx not-found.tsx
 │   └── layout.tsx       # Fonts + JSON-LD + root metadata
-├── components/        # Client islands (OrbitScene, form, accordion…) and server components
+├── components/        # Client islands (EcosystemConstellation, form, accordion…) and server components
 ├── emails/            # react-email templates for notification & confirmation
 └── lib/               # site.ts (the single source of truth for figures/links) + seo.ts + schema.ts
 e2e/                  # E2E suite — 23 spec files (Playwright + axe-core)
@@ -171,7 +171,7 @@ Automatic via the GitHub → Vercel integration (project `smartlink`). Every pus
 
 ## 🛰️ Part of the Madarek Ecosystem — جزء من منظومة مدارك
 
-> One design system across all projects · the Madarek identity: night/gold `#070B16`/`#E9B44C` dark — cream/copper `#FBFAF9`/`#B57438` light — IBM Plex Sans Arabic
+> One design system across all projects · the Madarek identity: night/gold `#070B16`/`#E9B44C` dark — light cream/gold `#FBFAF9`/`#8A6420` (deep-gold text grade; fill `#E9B44C`) — IBM Plex Sans Arabic
 
 | Project | Role | GitHub | Live |
 |---|---|---|---|

@@ -4,10 +4,14 @@
 > in code — follow them; change them only deliberately and update this file
 > in the same commit.
 >
-> **Constitution version: Phase 5 (r152) — «مدارك Night: The Ecosystem
-> Observatory».** The hub KEEPS and now truly OWNS the family identity
-> (ink night · sand · luminous gold) and FORESHADOWS its three siblings'
-> new worlds inside itself. **Token SSOT in this repo:** `src/app/styles.css`
+> **Constitution version: Phase 6 (P6-2) — Phase-5 «مدارك Night: The
+> Ecosystem Observatory» + the Phase-6 additions** (gold-on-cream light
+> ruling · §0a2 foreshadow promotion to the product pages · genart
+> observatory re-tone · the product-page chapter rhythm — §“Phase-6
+> additions” below). The hub KEEPS and now truly OWNS the family identity
+> (ink night · sand · luminous gold — in BOTH themes since the phase6
+> light ruling) and FORESHADOWS its three siblings' new worlds inside
+> itself. **Token SSOT in this repo:** `src/app/styles.css`
 > (the product layer: `:root` = night, `.light` = cream, `@theme inline` =
 > Tailwind bridge) + `src/app/landing.css` (the مدارك Night landing layer,
 > scoped `.landing`). If this file and the CSS disagree, the CSS wins —
@@ -21,15 +25,17 @@ one place where the family identity lives intact AND the one place where
 you can see all three worlds at a glance.
 
 1. **The product layer** (`styles.css`, every route except `/`) —
-   gold-on-night (default) / copper-on-cream (`.light`). Night world:
-   ground `#070B16` night-indigo, surfaces `#0D1428 / #121A36`, ink
-   `#F2EFE6` warm sand, accent `#E9B44C` gold (hover `#F5D48A` · strong
+   gold-on-night (default) / gold-on-cream (`.light`, phase6 ruling).
+   Night world: ground `#070B16` night-indigo, surfaces `#0D1428 / #121A36`,
+   ink `#F2EFE6` warm sand, accent `#E9B44C` gold (hover `#F5D48A` · strong
    `#C9962F` · soft `#2C2312` · on-accent ink `#05070F`), hairlines
    `#1B2444 / #263052`, secondary text `#C3C8DC`. Light mode is a
    first-class parity mode: cream ground `#FBFAF9`, white cards, ink
-   `#191918`, copper accent `#B57438` (hover `#9A5F25` · strong/deep
-   `#5C3416` · soft `#F4E4D2` · fg `#1A0F06`), hairlines `#E9E7E2 /
-   #D9D6D0`. All dual-lightness (both layers AA-verified).
+   `#191918`, the gold-on-cream family (phase6 — fill `#E9B44C` with
+   `--primary-fg` ink `#1A0F06` 9.96:1 · text-grade deep gold `#8A6420`
+   5.13:1 on cream · hover `#C9962F` · soft wash `#F7ECD2`), hairlines
+   `#E9E7E2 / #D9D6D0`. The copper light column is RETIRED (see the
+   Phase-6 additions). All dual-lightness (both layers AA-verified).
 2. **The مدارك Night landing layer** (`landing.css`, scoped `.landing`,
    r152) — painted identically in BOTH themes (intentional dark stage).
    It carries the SAME family values as the product night world —
@@ -42,17 +48,74 @@ you can see all three worlds at a glance.
    palette (ink `#252A3E` · lime `#DFEDB2` · violet `#7A6BF2`) is
    RETIRED — its return is the negative control's planted failure.
 
-**Hard isolation (parity-enforced):** styles.css declares no `--ln-*`
-tokens; every `--ln-*` declaration in landing.css lives inside a
-`.landing`-scoped block. The landing imports BOTH sheets but only the
-home route renders `.landing`.
+**Hard isolation (parity-enforced, R4 re-truthed for phase6):**
+styles.css declares EXACTLY the 9 promoted §0a2 tokens
+(`--ln-{menu,bot,order}` × lit/true/well) per theme — nothing else in
+the `--ln-*` namespace; every other `--ln-*` declaration in
+landing.css lives inside a `.landing`-scoped block. The landing
+imports BOTH sheets but only the home route renders `.landing`; a
+product page never consumes the landing's surface tokens.
 
 **Token-name bridge** (Smart-Link keeps its own utility vocabulary over
 Madarek values): `--background/--card/--foreground/--muted-foreground/
---border/--border-strong`, `--primary` = the gold/copper accent,
-`--primary-fg` = on-accent ink, `--accent` = the 15% translucent wash,
-`--destructive(+--ink)`, 9 pastel families `--c-{peach·mint·lavender·sky·
-yellow·rose·sand·grey·copper}-{bg/-ink/-deep}` in both themes.
+--border/--border-strong`, `--primary` = the gold accent (both themes —
+the light copper column is retired), `--primary-text` = the text-grade
+accent (gold `#E9B44C` night / deep gold `#8A6420` cream),
+`--primary-fg` = on-accent ink, `--accent` = the 15% translucent wash
+(both themes since phase6), `--destructive(+--ink)`, and the promoted
+§0a2 product identities (below) — the nine pastel families
+`--c-*-{bg,ink,deep}` are RETIRED from both themes (phase6).
+
+## Phase-6 additions (P6-2 — the finishing wave)
+
+Four rulings landed on top of the r152 constitution (all
+parity-pinned; see the enforcement numbers):
+
+1. **The §0a2 foreshadow promotion to the product pages.** The three
+   product-foreshadow identities left the landing scope: `styles.css`
+   now declares the `--ln-{menu,bot,order}` LIT/TRUE/WELL tokens per
+   theme (the landing keeps its `.landing`-scoped twins with IDENTICAL
+   values — parity pins the two sheets equal; a one-sheet change is
+   drift, not a decision). First consumer: the `/pricing` plan cards.
+   The pastel icon wells are RETIRED (the nine families with their 54
+   pins + extinction path); each card wears its product's identity —
+   LIT icon ink on the WELL ground (`.ln-well--{menu,bot,order}`;
+   night wells `#2E1A14/#0F2320/#2B1608` — lit ink ≥ 4.5:1 on the well
+   in BOTH directions, both themes) + the TRUE-hex motif beside the
+   title + LIT check bullets on mini-wells. The identity is the only
+   difference between the cards: all three plans stay «مجاني» (no
+   invented tiers) and the CTAs keep the family gold — the hub sells
+   in gold, the siblings deliver in their own worlds.
+2. **The light-theme gold ruling (coordinator decision).** Copper is
+   retired from the light theme — one family, one accent, both
+   themes. Computed law (measured, not eyeballed): fill `#E9B44C`
+   carries `--primary-fg` ink `#1A0F06` at **9.96:1**; the TEXT grade
+   is deep gold `#8A6420` at **5.13:1** on cream (≥ 4.5 — the ruling's
+   floor); hover darkens to `#C9962F` (7.08:1 with the fill ink); the
+   wash rides the dark twin's **15%** alpha; ring/focus = `#8A6420`
+   (the accent-strong resolver pattern). The halo, glow, and grid
+   hairline re-pinned on the family; the quiet-touch chrome
+   (nav/footer/accordion/product-page icons + hover/focus inks) rides
+   `--primary-text` instead of `--primary` fills — night keeps its
+   gold 10.4:1, light gains the readable deep gold where the copper
+   fill-on-cream grade used to sit at 1.82:1.
+3. **The genart observatory re-tone.** The r126 neutral-gray genart
+   stroke tokens are retired: `--genart-accent` = `#E9B44C` (night) /
+   `#C9962F` (cream) — the generative grounds paint night-gold
+   observatory hairlines and rings at the same generation opacities
+   (0.01–0.08). Purely decorative `aria-hidden` furniture; ZERO
+   geometry/seed change (the SVG is deterministic and server-rendered).
+4. **The chapter rhythm utility.** `.ln-chapter` (styles.css, the
+   unlayered bridge — not scoped `.landing`): supporting routes are
+   single-brief documents, not scroll narratives, so they adopt the
+   landing's compact fluid chapter scale `clamp(60px, 9vh, 84px)` at
+   EVERY viewport, each chapter closing on the gold hairline
+   `--chapter-line` (night `rgb(233 180 76 / 0.16)` · cream
+   `rgb(138 100 32 / 0.25)` — the deep gold at whisper alpha; the
+   luminous gold would sit at 1.8:1 on cream and vanish). Variants:
+   `--head` (the page-head chapter — no top rhythm, a half-step
+   bottom) and `--prose` (legal bodies — the half cadence, the
+   sections keep their `space-y-6` flow inside ONE chapter).
 
 ## Color architecture
 
@@ -62,7 +125,9 @@ yellow·rose·sand·grey·copper}-{bg/-ink/-deep}` in both themes.
   triplets, which cannot read CSS vars at all: the engine resolves
   `--ln-*` tokens at boot via getComputedStyle).
 - **The §0a2 product-foreshadow pairs** (r152 — NEW canonical tokens,
-  parity-pinned). The hub advertises its siblings' Phase-5 identities:
+  parity-pinned; phase6 promoted into the product scope with a third
+  WELL grade per world — see «Phase-6 additions»). The hub advertises
+  its siblings' Phase-5 identities:
 
   | world | sibling identity | lit grade (text/fill/node) | true hex (swatch/motif) |
   |---|---|---|---|
@@ -84,10 +149,11 @@ yellow·rose·sand·grey·copper}-{bg/-ink/-deep}` in both themes.
   selection pair, the finale orbit traveller, the canvas core bloom,
   the signal icon wells. One accent per chapter — the roster discipline
   the lime carried in Orbit-Ink now carries the family gold.
-- Status: `--success/--warning/--info` base = fill/stroke duty,
-  `-ink` = the text-grade variant; `-deep` companions carry AA text on
-  tinted grounds. Status boxes on the contact form derive their tints
-  via `oklch(from var(--destructive) …)` color-mix.
+- Status: `--success` and `--destructive` base = fill/stroke duty,
+  `-ink` = the text-grade variant (the `--warning/--info` pairs were
+  deleted with zero consumers in r144 — do not resurrect them).
+  Status boxes on the contact form derive their tints via
+  `oklch(from var(--destructive) …)` color-mix.
 - Muted tiers: `--text-muted #8E97B8` (dark) / `#6E6C65` (light) =
   6.80 / 5.04:1; `--text-faint #7A83A0` / `#74706A` = 5.22 / 4.72:1 —
   `::placeholder` rides `--text-faint` with `opacity: 1`.
@@ -187,8 +253,9 @@ yellow·rose·sand·grey·copper}-{bg/-ink/-deep}` in both themes.
   destination ring) — all logical-property insets (RTL-mirroring), all
   painted from `--ln-world-true`. They open every world panel (the
   identity strip: motif + live domain), replace the eco-card's hue dot
-  in the hero glass card, and echo inside the mocks (menu dish thumbs
-  go plate-round via `[data-world="menu"]`).
+  in the hero glass card, echo inside the mocks (menu dish thumbs go
+  plate-round via `[data-world="menu"]`), and — since the phase6
+  promotion — open each `/pricing` plan card beside the product name.
 - Icons: lucide named imports only. Forward motion in RTL points LEFT.
 
 ## Motion
@@ -223,10 +290,11 @@ machine URLs bare.
 
 - Photography/art is generated in-repo: the seeded-SVG
   `GenArtBackground` (product pages, strokes on `--genart-accent`
-  theme tokens) and `public/images/ecosystem/family.webp` (the finale
-  crest — plate + robot ball + gold-threaded box, masked circular,
-  9s float). No stock, no remote images (CSP keeps the surface
-  minimal).
+  theme tokens — phase6: night-gold observatory hairlines `#E9B44C`
+  dark / `#C9962F` light, the r126 neutral grays retired) and
+  `public/images/ecosystem/family.webp` (the finale crest — plate +
+  robot ball + gold-threaded box, masked circular, 9s float). No
+  stock, no remote images (CSP keeps the surface minimal).
 - The canvas paints its own light (gold nebula, sand horizon, world
   glows) — never ship a bitmap sky.
 - Icons: lucide-react named imports, 16px on pills, `strokeWidth 1.7`
@@ -243,18 +311,33 @@ in `lib/seo.ts` (Next merges openGraph shallowly).
 
 ## Enforcement — how this system is gated
 
-`npm run test:parity` (`tests/parity.mjs`, **537 assertions**): pins
-every product token (both themes), the `@theme inline` bridges, the
-10-face font manifest, the prefers-contrast port, the RM belt + token
-zeroing, the FULL مدارك Night landing surface (the family values + the
-§0a2 foreshadow pairs + night glass), the marquee seam arithmetic, the
-scope isolation in both directions (R4), per-file type-scale
-consumption + negative sweeps, the r134 fix set, and the r152
-foreshadow devices (motifs on `--ln-world-true`, the identity strips,
-the eco-card motif, the gold-bloom engine, the plate-round mock echo).
-The negative control plants the RETIRED Orbit-Ink ground as the drift.
+`npm run test:parity` (`tests/parity.mjs`, **524 assertions** — the
+suite self-counts via `EXPECTED_ASSERTIONS`; phase6: 537 → 509 with
+the §0a2 promotion — the nine pastel families retired with their 54
+pins + the extinction path — then 509 → 524 across the chapter-rhythm
+and light-gold waves): pins every product token (both themes), the
+`@theme inline` bridges, the 10-face font manifest, the
+prefers-contrast port, the RM belt + token zeroing, the FULL مدارك
+Night landing surface (the family values + the §0a2 foreshadow pairs
++ night glass), the §0a2 promotion (the `/pricing` wells/motifs on
+the promoted tokens, the pastel extinction, the two-sheets-equal
+drift gate), the light gold family (fill/text/fg/ring/wash per the
+ruling's computed values), the genart re-tone, the `.ln-chapter`
+rhythm, the marquee seam arithmetic, the scope isolation in both
+directions (R4), per-file type-scale consumption + negative sweeps,
+the r134 fix set, and the r152 foreshadow devices (motifs on
+`--ln-world-true`, the identity strips, the eco-card motif, the
+gold-bloom engine, the plate-round mock echo). The negative control
+plants the RETIRED Orbit-Ink ground as the drift.
 `npm run lint` (ESLint 9, 0/0) + `npm run build` (13 static pages) +
-`npm run test:e2e` (Playwright, 302+ tests) run in CI (`ci.yml`).
+`npm run test:e2e` (Playwright, **309 tests, 23 spec files**) run in
+CI (`ci.yml`). The e2e port/workers are env-configurable (phase6):
+`E2E_PORT` (default 3111 — deliberately never collides with the
+mission-control server on 3000 in shared boxes; CI sets nothing and
+gets 3111) and `E2E_WORKERS` (memory-constrained boxes can lower the
+parallelism instead of crashing chromium — same tests, same
+assertions, the local green baseline is 309/309 on
+`E2E_PORT=3111 E2E_WORKERS=2`).
 
 ## Do's and Don'ts
 
@@ -275,5 +358,9 @@ The negative control plants the RETIRED Orbit-Ink ground as the drift.
   override.
 - Don't resurrect the Orbit-Ink palette (lime/violet/`#252A3E` ink) —
   the parity negative control exists to catch exactly that.
+- Don't resurrect the light-theme copper column (`#B57438`/`#5C3416`)
+  or the nine pastel families — both retired by the phase6 rulings
+  (gold-on-cream is the ONE light accent; the products' identities
+  live in the promoted §0a2 tokens).
 - Don't write world-true hexes as text or CTA fills — they are
   swatch/motif/edge furniture only.

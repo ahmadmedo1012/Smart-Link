@@ -224,9 +224,12 @@ export function LandingHeader() {
             aria-expanded={menuOpen}
             /* r148 (19-AUDIT-SL D7): عقود الإفصاح اكتملت — البرغر كان
                يحمل aria-expanded وحده بينما ميجامنيو الهيدر يملك العقد
-               الكاملة (:157-158). aria-controls يشير إلى id الدرج
-               (يُصيَّر عند الفتح — نمط الإفصاح المعتمد). */
-            aria-controls="landing-mobile-menu"
+               الكاملة (:157-158). r150: aria-controls يُعلَن فقط وهو
+               موجود فعلاً — الدرج يُصيَّر عند الفتح، فالإشارة المعلّقة
+               عندما يكون مغلقاً كانت مرجعاً ميتاً (twin r13: main-nav
+               يُبقي درجه mounting دائماً؛ هنا نُصدِق المرجع بدل تغيير
+               نمط التصيير المعتمد). */
+            aria-controls={menuOpen ? "landing-mobile-menu" : undefined}
             ref={burgerRef}
             onClick={() => setMenuOpen((v) => !v)}
           >

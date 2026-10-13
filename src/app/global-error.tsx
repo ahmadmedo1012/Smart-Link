@@ -1,5 +1,5 @@
 "use client"
-import { useEffect } from "react"
+import { useEffect, useRef } from "react"
 
 /* Root error boundary — replaces <html> itself, so it ships its own markup
    and full-page dark styling (brand fallback) rather than relying on layout. */
@@ -11,8 +11,14 @@ export default function GlobalError({
   error: Error & { digest?: string }
   reset: () => void
 }) {
+  const headingRef = useRef<HTMLHeadingElement>(null)
+
   useEffect(() => {
     console.error("[smartlink] global error:", error?.message, error?.digest)
+    /* r150: the focus-to-h1 contract — the segment twin ships it
+       (error.tsx:20-25); the root boundary now announces the swap and
+       lands keyboard focus on the heading the same way. */
+    headingRef.current?.focus()
   }, [error])
 
   return (
@@ -53,7 +59,11 @@ export default function GlobalError({
           {/* r132 (A6 §7-8): weight 700 — the brand tops at 700 (Plex has
               no 800 cut; the parity gate bans 800-weight utilities in TSX,
               and this inline 800 had escaped it). */}
-          <h1 style={{ fontSize: 28, fontWeight: 700, margin: "0 0 12px" }}>
+          <h1
+            ref={headingRef}
+            tabIndex={-1}
+            style={{ fontSize: 28, fontWeight: 700, margin: "0 0 12px", outline: "none" }}
+          >
             حدث خطأ في المنصة
           </h1>
           <p style={{ opacity: 0.75, lineHeight: 1.9, margin: "0 0 32px" }}>

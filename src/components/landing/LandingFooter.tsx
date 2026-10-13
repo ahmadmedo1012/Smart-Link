@@ -54,14 +54,14 @@ export function LandingFooter() {
             </p>
           </div>
           <div className="landing-footer-col">
-            <div className="landing-footer-heading">الرحلة</div>
+            <h3 className="landing-footer-heading">الرحلة</h3>
             <a href="#products" className="landing-footer-link">العوالم</a>
             <a href="#journey" className="landing-footer-link">رحلة الربط</a>
             <a href="#progress" className="landing-footer-link">قراءة القيادة</a>
             <a href="#platforms" className="landing-footer-link">المنصّات</a>
           </div>
           <div className="landing-footer-col">
-            <div className="landing-footer-heading">منظومة الربط الذكي</div>
+            <h3 className="landing-footer-heading">منظومة الربط الذكي</h3>
             {/* 15-SL: النص الظاهر هو الاسم الكنسي (بدون aria-label
                 يطغى على الظاهر — عقد التذييلين الأخوين نفسه). */}
             {ECOSYSTEM.map((l) => (
@@ -78,7 +78,7 @@ export function LandingFooter() {
             <Link href="/pricing" prefetch={false} className="landing-footer-link">الخطط والأسعار</Link>
           </div>
           <div className="landing-footer-col">
-            <div className="landing-footer-heading">المؤسسة</div>
+            <h3 className="landing-footer-heading">المؤسسة</h3>
             <Link href="/about" prefetch={false} className="landing-footer-link">عن SmartLink</Link>
             <Link href="/contact" prefetch={false} className="landing-footer-link">تواصل معنا</Link>
             <Link href="/privacy" prefetch={false} className="landing-footer-link">سياسة الخصوصية</Link>

@@ -10,7 +10,7 @@
 
 **Live site:** <https://smart-link.ly> · **Support:** WhatsApp during office hours (9am–9pm)
 
-![SmartLink landing page — night sky with glowing orbits and the headline “every business starts as a link and becomes a system”](docs/screenshots/hero-landing.webp)
+![SmartLink landing page — the Madarek-night sky with the living product constellation and the headline “every business starts as a link and becomes a system”](docs/screenshots/hero-landing.webp)
 
 ## What is this?
 
@@ -55,10 +55,9 @@ The site is Arabic-first (fully RTL), ships a dark/light theme, and is built to 
 
 ## Screenshots
 
-<!-- r138 (fleet truth): the shots below pre-date r137 (before Smart Order
-     became a first-class product) — the two pricing shots were re-captured
-     on the r138 build; the hero shot is still r130's (its only change is
-     the eyebrow line). -->
+<!-- phase6 (P6-2-a4): all three shots re-captured on the phase-6 build —
+     the present: Madarek Night on the landing + the foreshadow wells on
+     the pricing cards (the previous era was r130/r138). -->
 
 ![Pricing page — the Smart Menu, SmartBot and Smart Order cards on the free basic plan](docs/screenshots/pricing-plans.png)
 

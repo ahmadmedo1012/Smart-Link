@@ -913,7 +913,7 @@
   font-weight: var(--fw-bold);
   /* P12-3a fix: the lockup uses the Kufi display cut (spec S1) — the
      inherited default sans robbed the hero of its display contrast */
-  font-family: var(--font-display-arabic), var(--font-body), sans-serif;
+  font-family: var(--font-display-arabic), sans-serif;
   letter-spacing: 0; /* Arabic joins — never negative tracking */
   color: var(--ln-cream);
   /* r129 P4-10 (canonical effective value — Madarek landing.css:1983
@@ -3068,7 +3068,7 @@ html.light .landing .ln-ground-status { background: rgb(7 11 22 / 0.05); }
 }
 /* THE LOCKUP: Noto Kufi Arabic 800, clamp(56px,13vw,190px), lh 0.92 */
 .landing .ln-hero--kode .ln-hero-title {
-  font-family: var(--font-display-arabic), var(--font-body), sans-serif;
+  font-family: var(--font-display-arabic), sans-serif;
   font-weight: 800;
   font-size: var(--ln-h1);
   line-height: var(--ln-h1-lh);
@@ -3262,7 +3262,7 @@ html.light .landing .ln-worlds--kode { background: #050507; color: #FFFFFF; } /*
   flex-wrap: wrap;
 }
 .landing .ln-world-name {
-  font-family: var(--font-display-latin), var(--font-body), sans-serif;
+  font-family: var(--font-display-latin), sans-serif;
   font-weight: 700;
   font-size: clamp(24px, 3.4vw, 44px);
   direction: ltr;

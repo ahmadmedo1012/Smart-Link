@@ -201,8 +201,8 @@ test.describe("r9 — إشارات الزحف والـ PWA المضافة", () =
 test("r13 — رؤوس head: theme-color للوضعين + Apple كاملة + format-detection", async ({ page }) => {
   await page.goto("/")
 
-  // theme-color يطابق توكن الخلفية رياضياً (r10-D؛ m15: أرضيات مدارك —
-  // الليلي #070B16 والكريمي #FBFAF9 بدل الأسود/الرمادي القديمين)
+  // theme-color يطابق توكن الخلفية رياضياً (r10-D؛ P13-2a KODE re-pin:
+  // أرضيات كود — الحبر #050507 والورق #F4F2ED بدل مدارك القديمة)
   //
   // r134 (CI race fix): هذه أزواج HTML الخادم الثابتة — لكن ThemeColorSync
   // (r14-M7) يعيد كتابة content الوسمين بعد الترطيب ليتبعا ثيم المستخدم
@@ -219,11 +219,12 @@ test("r13 — رؤوس head: theme-color للوضعين + Apple كاملة + for
     tags.some(
       (t) => t.includes(`media="${media}"`) && t.includes(`content="${content}"`)
     )
-  expect(pair("(prefers-color-scheme: dark)", "#070B16")).toBe(true)
-  expect(pair("(prefers-color-scheme: light)", "#FBFAF9")).toBe(true)
+  expect(pair("(prefers-color-scheme: dark)", "#050507")).toBe(true)
+  expect(pair("(prefers-color-scheme: light)", "#F4F2ED")).toBe(true)
 
   // r134: العقد الثاني — بعد الترطيب يوحّد ThemeColorSync الوسمين على
-  // شريط الثيم النشط (defaultTheme="dark" → #070B16 للوسمين معاً).
+  // شريط الثيم النشط (defaultTheme="dark" → #050507 للوسمين معاً —
+  // P13-2a KODE re-pin: أرض الحبر).
   await page.waitForFunction(
     () => {
       const metas = Array.from(
@@ -231,7 +232,7 @@ test("r13 — رؤوس head: theme-color للوضعين + Apple كاملة + for
       )
       return (
         metas.length === 2 &&
-        metas.every((m) => m.getAttribute("content") === "#070B16")
+        metas.every((m) => m.getAttribute("content") === "#050507")
       )
     },
     undefined,

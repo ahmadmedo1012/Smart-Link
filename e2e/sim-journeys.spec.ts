@@ -155,7 +155,7 @@ test("ج2 «عميل مهتم»: الأسعار + FAQ + إرسال النموذ�
  * ──────────────────────────────────────────────────────────────── */
 test("ج3 «روابط مباشرة»: كل الصفحات الست عبر goto مباشر", async ({ page, consoleErrors }) => {
   const pages = [
-    { url: "/", h1: /كلُّ عملٍ يبدأ رابطًا/, content: "Smart Menu" },
+    { url: "/", h1: /كلُّ عملٍ يبدأ\s*رابطًا/, content: "Smart Menu" },
     { url: "/about", h1: /عن SmartLink/, content: "SmartLink" },
     { url: "/pricing", h1: /الخطط والأسعار/, content: "مجاني" },
     { url: "/contact", h1: /تواصل معنا/, content: "إرسال الرسالة" },

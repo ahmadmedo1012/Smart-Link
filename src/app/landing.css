@@ -2787,9 +2787,9 @@
      · --ln-order #B23E00 on paper ..........  5.10:1 / on ink-2 4.70:1
      · true hexes (non-text furniture) ......  #C2452D 4.37:1 ·
         #D14900 3.92:1 · #0A7558 4.94:1 — all ≥ 3:1 on paper
-     · btn-gold override: #E9B44C fill + #1A0F06 ink ....  9.95:1
-        (the product layer's LIGHT gold-CTA ruling — the luminous gold
-        stays luminous in the day chapter; hover #C9962F = 7.07:1)
+     · btn-gold override: #FF4C00 fill + #050507 ink .... ≈6.3:1
+        (P13-2a KODE retirement — the luminous-fill exception now rides
+        the flood orange; hover #E04400, the light hover direction)
 
    Foreshadow grade law (day): the LIT grades flip to darkened variants
    of the siblings' identities (their own light-theme grades where they
@@ -2887,17 +2887,20 @@ html.light .landing .ln-btn-gold:hover {
     0 0 0 1px rgba(7,11,22,0.18);
 }
 
-/* THE CTA EXCEPTION (product-layer light-gold ruling, phase6 P6-2-a2):
-   the ONE luminous-gold fill stays LUMINOUS in the day chapter —
-   #E9B44C fill + #1A0F06 ink (9.95:1), hover #C9962F (7.07:1). The
-   token flip alone would paint the deep text-gold (#7E5B1C) as the
-   fill — correct AA, wrong DRAMA: the conversion pill is the family's
-   luminous accent, and the product pages already run exactly this
-   pair in light mode. :active (also the RM press path) rides the same
-   #C9962F family so the RM tint never lands on the text grade. */
-html.light .landing .ln-btn-gold { background: #E9B44C; color: #1A0F06; }
-html.light .landing .ln-btn-gold:hover { background: #C9962F; }
-html.light .landing .ln-btn-gold:active { background: #C9962F; }
+/* THE CTA EXCEPTION (P13-2a KODE retirement — was the phase6 P6-2-a2
+   light-gold ruling): the ONE luminous fill stays LUMINOUS in the day
+   chapter, but the retired family gold gives way to the KODE flood
+   orange — #FF4C00 fill + #050507 ink (≈6.3:1 — the --ln-flood /
+   --ln-flood-ink pair: a flood is a flood, both stages). Hover/active
+   #E04400: the KODE light accent-hover direction (darkens on paper,
+   styles.css --accent-hover). The token flip alone would paint the
+   text-grade orange (#B23E00) as the fill — correct AA, wrong DRAMA:
+   the conversion pill is the page's luminous accent. :active (also
+   the RM press path) rides the same family so the RM tint never lands
+   on the text grade. */
+html.light .landing .ln-btn-gold { background: #FF4C00; color: #050507; }
+html.light .landing .ln-btn-gold:hover { background: #E04400; }
+html.light .landing .ln-btn-gold:active { background: #E04400; }
 
 /* hero: the sky wash + the crisp-day title (the night's black depth
    text-shadow reads muddy on paper — the day chapter is crisp) */

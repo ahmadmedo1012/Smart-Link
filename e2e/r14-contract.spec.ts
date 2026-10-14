@@ -22,17 +22,17 @@ test.describe("r14 — theme-color يتبع المستخدم", () => {
     await page.goto("/about", { waitUntil: "load" })
     await hydrationGate(page)
     // النظام داكن + الموقع داكن (الافتراضي) → الشريط داكن
-    // m15: أرض مدارك الليلية #070B16 (كانت #000000)
+    // P13-2a KODE re-pin: أرض الحبر #050507 (كانت مدارك #070B16)
     const metas = page.locator('meta[name="theme-color"]')
     await expect(metas).toHaveCount(2)
-    await expect(metas.first()).toHaveAttribute("content", "#070B16")
-    await expect(metas.nth(1)).toHaveAttribute("content", "#070B16")
+    await expect(metas.first()).toHaveAttribute("content", "#050507")
+    await expect(metas.nth(1)).toHaveAttribute("content", "#050507")
     // المستخدم يبدّل إلى الفاتح → الوسمان يتبعانه رغم بقاء OS داكناً
     await page.getByRole("button", { name: "تفعيل المظهر الفاتح" }).click()
     await expect(page.locator("html")).toHaveClass(/light/)
-    // m15: الكريمي #FBFAF9 (كان #fafafa)
-    await expect(metas.first()).toHaveAttribute("content", "#FBFAF9")
-    await expect(metas.nth(1)).toHaveAttribute("content", "#FBFAF9")
+    // P13-2a KODE re-pin: الورق #F4F2ED (كان الكريمي #FBFAF9)
+    await expect(metas.first()).toHaveAttribute("content", "#F4F2ED")
+    await expect(metas.nth(1)).toHaveAttribute("content", "#F4F2ED")
   })
 })
 

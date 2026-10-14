@@ -68,9 +68,20 @@ test.describe("r10 — أزرار بطاقات التسعير", () => {
     }
   })
 
-  test("بطاقة «قريباً» → رابطها الداخلي /contact", async ({ page }) => {
+  /* P13-2a (T2): بطاقة «قريباً» تقاعدت مع وصول الحقيقة — الخطط
+     المدفوعة حيّة على منصات المنتجات، والفصل الاستبدالي (01 —
+     المنظومة الحيّة) يقود لصفحة أسعار كل منتج مباشرة. */
+  test("فصل المنظومة الحيّة → ثلاثة روابط لصفحات أسعار المنتجات", async ({ page }) => {
     await page.goto("/pricing", { waitUntil: "domcontentloaded" })
-    const soon = page.getByRole("link", { name: /تواصل معنا لمعرفة المزيد/ })
-    await expect(soon).toHaveAttribute("href", "/contact")
+    const links = page.getByRole("link", { name: /تفاصيل الخطط على منصّة/ })
+    await expect(links).toHaveCount(3)
+    const hrefs = await links.evaluateAll((els) => els.map((e) => (e as HTMLAnchorElement).getAttribute("href")))
+    expect(hrefs).toContain("https://bot.smart-link.ly/pricing")
+    expect(hrefs).toContain("https://menu.smart-link.ly/pricing")
+    expect(hrefs).toContain("https://order.smart-link.ly/pricing")
+    for (const el of await links.all()) {
+      await expect(el).toHaveAttribute("target", "_blank")
+      await expect(el).toHaveAttribute("rel", "noopener noreferrer")
+    }
   })
 })

@@ -1533,9 +1533,12 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
   );
   check(
     (pricing.match(/ln-chapter-head/g) ?? []).length >= 3
-      && /ln-label[^>]*>01 — القادم/.test(pricing)
+      /* P13-2a KODE/ecosystem re-pin: «01 — القادم» retired WITH the
+         قريباً story (T2) — the live ecosystem pricing chapter owns the
+         numbered slot now; the FAQ label is unchanged. */
+      && /ln-label[^>]*>01 — المنظومة الحيّة/.test(pricing)
       && /ln-label[^>]*>02 — الأسئلة/.test(pricing),
-    'pricing: coming-soon + FAQ section heads ride the ln-chapter-head anatomy with numbered ln-labels (A3 D4)'
+    'pricing: the live-ecosystem + FAQ section heads ride the ln-chapter-head anatomy with numbered ln-labels (A3 D4; P13-2a: قادمة → المنظومة الحيّة)'
   );
   check(
     !/text-center mb-8/.test(pricing),
@@ -1800,8 +1803,8 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
     'r16 prose: faq-accordion answer + question ride --fs-body (zero code text-sm)');
   check(count(about, /\btext-sm\b/g) === 0 && count(about, /\btext-base\b/g) === 0 && count(about, FS_BODY) === 4,
     'r16 prose: about values-desc/founder pair/quote-mobile ride --fs-body (no raw text-sm/text-base)');
-  check(count(pricing, /\btext-sm\b/g) === 0 && count(pricing, FS_BODY) === 3,
-    'r16 prose: pricing subtitle/period/features ride --fs-body (zero code text-sm)');
+  check(count(pricing, /\btext-sm\b/g) === 0 && count(pricing, FS_BODY) === 6,
+    'r16 prose: pricing subtitle/period/features ride --fs-body (zero code text-sm; P13-2a: 3 → 6 — the live-ecosystem mini-tables add subtitle/plan-name/period-note on the same rung)');
   check(count(footerProd, FS_BODY) === 1,
     'r16 prose: footer brand blurb rides --fs-body');
   check(count(footerProd, /\btext-sm\b/g) === 8,
@@ -2168,11 +2171,15 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
       && money.includes('د.ل'),
     'r137-1: lib/money.ts ships formatLyd — Western digits + ar-LY dot grouping + « د.ل» (fleet seam: madarek formatNum / SO formatLyd twins, hydration-safe hand-rolled grouping)'
   );
-  // B ── honesty over invention: ZERO invented LYD amounts on the pricing
-  //     page — every plan stays «مجاني»; the seam waits for real prices.
+  // B ── honesty over invention — P13-2a re-truth: the seam no longer
+  //     waits; the REAL sibling ladders (0/19/29/129/299) live on the
+  //     page now. The LAW survives unchanged and is STRENGTHENED: zero
+  //     hand-spelled digit+«د.ل» pairs anywhere (metadata prose included
+  //     — it rides formatLyd too), and the page must actually consume
+  //     the seam (formatLyd( wired into the render).
   check(
-    !/\d\s*د\.ل/.test(pricing),
-    'r137-1: pricing renders zero invented LYD amounts (no digits+«د.ل» pair anywhere — formatLyd is wired, not used to fake prices)'
+    !/\d\s*د\.ل/.test(pricing) && /formatLyd\(/.test(pricing),
+    'r137-1: every LYD amount on /pricing rides formatLyd — zero hand-spelled digit+«د.ل» pairs (P13-2a: the seam carries the live sibling ladders now; the r137 no-invention law holds)'
   );
   // C ── the phone seam: the Smart-Menu r136 Eastern-digit fold + the
   //     Libyan contract (the r138 fleet-unified shape: mobile 09 at

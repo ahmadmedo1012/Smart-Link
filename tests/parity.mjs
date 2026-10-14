@@ -181,28 +181,32 @@ function check(ok, message) {
 // ── canonical snapshot (madarek tokens.css, live-verified) ──────────────────
 
 const GROUNDS_DARK = {
-  '--background': '#070B16', // Madarek --bg (neutral-50 night)
-  '--card': '#0D1428', // Madarek --surface (neutral-0)
-  '--foreground': '#F2EFE6', // Madarek --text (neutral-900 sand)
-  '--muted-foreground': '#C3C8DC', // Madarek --text-secondary
-  '--border': '#1B2444', // Madarek hairline (neutral-200)
-  '--border-strong': '#263052',
+  /* r160 KODE (P12-2a): night ground = the near-black stage #050507,
+     white text, neutral-grey hairlines (the night-indigo/sand family
+     retired with the gold — same mechanism, new canonical values). */
+  '--background': '#050507', // the KODE night stage
+  '--card': '#0B0B10', // the night surface step
+  '--foreground': '#FFFFFF', // stage white
+  '--muted-foreground': '#A9ACB4', // grey secondary
+  '--border': '#17171F', // neutral hairline
+  '--border-strong': '#26262E',
 };
 const GROUNDS_LIGHT = {
-  '--background': '#FBFAF9',
+  '--background': '#F4F2ED', // r160: the KODE paper stage
   '--card': '#FFFFFF',
-  '--foreground': '#191918',
-  '--muted-foreground': '#4F4D48',
+  '--foreground': '#0A0A0A', // stage ink
+  '--muted-foreground': '#55534E', // warm grey secondary
   '--border': '#E9E7E2',
   '--border-strong': '#D9D6D0',
 };
 const ACCENT_DARK = {
-  '--accent-solid': '#E9B44C', // Madarek --accent (their --accent is the 15% wash twin)
-  '--accent-hover': '#F5D48A',
-  '--accent-soft': '#2C2312',
-  '--accent-strong': '#C9962F',
-  '--accent-ink': '#E9B44C',
-  '--accent-fg': '#05070F',
+  /* r160 KODE: the safety-orange column (#FF4C00) — gold retired. */
+  '--accent-solid': '#FF4C00',
+  '--accent-hover': '#FF6A2E', // brightens on night (direction law kept)
+  '--accent-soft': '#221008',
+  '--accent-strong': '#FF6A2E',
+  '--accent-ink': '#FF4C00',
+  '--accent-fg': '#050507', // black ink on orange ≈ 6.3:1
 };
 const ACCENT_LIGHT = {
   /* phase6 (P6-2-a2) LIGHT GOLD RULING (coordinator decision): the
@@ -210,12 +214,15 @@ const ACCENT_LIGHT = {
      fill #E9B44C (ink #1A0F06 on it 9.96:1) · hover #C9962F · soft
      #F7ECD2 · strong/ink = the text-grade deep gold #8A6420 (5.13:1
      on cream ≥ 4.5 — computed-checked) · fg #1A0F06. */
-  '--accent-solid': '#E9B44C',
-  '--accent-hover': '#C9962F',
-  '--accent-soft': '#F7ECD2',
-  '--accent-strong': '#8A6420',
-  '--accent-ink': '#8A6420',
-  '--accent-fg': '#1A0F06',
+  /* r160 KODE: orange-on-paper — fill #FF4C00 (ink #0A0A0A on it ≈
+     5.8:1) · hover darkens #E04400 · soft #FFE3D6 · strong/ink = the
+     text-grade #B23E00 (5.2:1 on paper) · fg #0A0A0A. */
+  '--accent-solid': '#FF4C00',
+  '--accent-hover': '#E04400',
+  '--accent-soft': '#FFE3D6',
+  '--accent-strong': '#B23E00',
+  '--accent-ink': '#B23E00',
+  '--accent-fg': '#0A0A0A',
 };
 const STATUS_DARK = {
   '--success': '#7FD39A', '--success-ink': '#7FD39A',
@@ -235,31 +242,35 @@ const STATUS_LIGHT = {
    (the r131 A3 D3 / r144 lesson); an extinction sweep asserts the
    retirement itself. */
 const FORESHADOW_DARK = {
-  /* lit ≥ 4.5:1 on night · true ≥ 3:1 non-text · well = icon-well ground
-     (lit ink on it ≥ 4.5:1) — the §0a2 law, product grades. */
-  '--ln-menu': '#E07A5F',
-  '--ln-menu-true': '#C2452D',
-  '--ln-menu-well': '#2E1A14',
-  '--ln-bot': '#17C3A4',
-  '--ln-bot-true': '#17C3A4',
-  '--ln-bot-well': '#0F2320',
-  '--ln-order': '#EF7A35',
-  '--ln-order-true': '#D14900',
-  '--ln-order-well': '#2B1608',
+  /* r160 KODE: the promoted set collapses onto the safety-orange pair
+     (S3 discipline — per-world hues retired with the constellation).
+     lit = accent grade · true = the literal orange · well = the dark
+     orange-brown ground (lit ink on it ≥ 4.5:1). */
+  '--ln-menu': '#FF4C00',
+  '--ln-menu-true': '#FF4C00',
+  '--ln-menu-well': '#221008',
+  '--ln-bot': '#FF4C00',
+  '--ln-bot-true': '#FF4C00',
+  '--ln-bot-well': '#221008',
+  '--ln-order': '#FF4C00',
+  '--ln-order-true': '#FF4C00',
+  '--ln-order-well': '#221008',
 };
 const FORESHADOW_LIGHT = {
   /* cream grades — LIT ≥ 4.5:1 on #FBFAF9 · TRUE ≥ 3:1 non-text on the
      white card; teal's literal hex is 2.15:1 on cream and takes the one
      daylight detour #0F8A73 (documented in the styles.css block). */
-  '--ln-menu': '#A24226',
-  '--ln-menu-true': '#C2452D',
-  '--ln-menu-well': '#F9E7E1',
-  '--ln-bot': '#0E6B58',
-  '--ln-bot-true': '#0F8A73',
-  '--ln-bot-well': '#DDF1EC',
-  '--ln-order': '#B34700',
-  '--ln-order-true': '#D14900',
-  '--ln-order-well': '#FCE7DB',
+  /* r160 KODE: lit #B23E00 (5.2:1 on paper) · true the literal
+     #FF4C00 · well the paper-orange wash. */
+  '--ln-menu': '#B23E00',
+  '--ln-menu-true': '#FF4C00',
+  '--ln-menu-well': '#FFE3D6',
+  '--ln-bot': '#B23E00',
+  '--ln-bot-true': '#FF4C00',
+  '--ln-bot-well': '#FFE3D6',
+  '--ln-order': '#B23E00',
+  '--ln-order-true': '#FF4C00',
+  '--ln-order-well': '#FFE3D6',
 };
 const RADIUS = {
   '--r-xs': '6px', '--r-sm': '8px', '--r-md': '10px', '--r-lg': '12px',
@@ -287,30 +298,30 @@ const ELEV_LIGHT = {
 // ── r126: component-facing bridge tokens (the ~130-consumer surface) ────────
 
 const BRIDGE_DARK = {
-  '--primary': '#E9B44C', // Madarek --accent dark (gold)
-  '--primary-text': '#E9B44C', // Madarek --accent-ink dark (10.3:1 as text)
-  '--primary-fg': '#05070F', // Madarek --accent-fg dark (text ON gold)
-  // r130: re-adjudicated vs madarek tokens.css:233 — dark ring resolves
-  // through var(--accent) = #E9B44C (gold). The r127/r129 "#C9962F
-  // cascade" reading conflated the LIGHT-side --accent-strong path.
-  '--ring': '#E9B44C',
-  '--accent': 'rgb(233 180 76 / 0.15)', // translucent wash semantics
-  '--input-border': 'color-mix(in oklab, #C3C8DC 70%, #0D1428)', // resolved r13 3:1 border recipe
+  /* r160 KODE: the safety-orange bridge — #FF4C00 accents on the night
+     stage (4.0:1, the spec's accent-grade ruling; body text stays
+     --foreground white). */
+  '--primary': '#FF4C00',
+  '--primary-text': '#FF4C00',
+  '--primary-fg': '#050507', // black ink on orange ≈ 6.3:1
+  '--ring': '#FF4C00', // the orange focus ring (recolored per spec S5)
+  '--accent': 'rgb(255 76 0 / 0.15)', // translucent wash semantics
+  '--input-border': 'color-mix(in oklab, #A9ACB4 70%, #0B0B10)', // resolved r13 3:1 border recipe
 };
 const BRIDGE_LIGHT = {
-  /* phase6 light gold ruling — see ACCENT_LIGHT. */
-  '--primary': '#E9B44C', // the family gold fill (was copper #B57438)
-  '--primary-text': '#8A6420', // text-grade deep gold — 5.13:1 on cream
-  '--primary-fg': '#1A0F06', // Madarek --accent-fg light (9.96:1 on the gold fill)
-  '--ring': '#8A6420', // the ruling's text-grade gold — the AA focus ring
-  '--accent': 'rgb(233 180 76 / 0.15)',
-  '--input-border': 'color-mix(in oklab, #4F4D48 80%, #FFFFFF)',
+  /* r160 KODE: orange-on-paper — see ACCENT_LIGHT. */
+  '--primary': '#FF4C00',
+  '--primary-text': '#B23E00', // text-grade orange — 5.2:1 on paper
+  '--primary-fg': '#0A0A0A',
+  '--ring': '#B23E00', // the AA focus ring
+  '--accent': 'rgb(255 76 0 / 0.12)',
+  '--input-border': 'color-mix(in oklab, #55534E 80%, #FFFFFF)',
 };
 
 // ── r126: glass + shadow stacks (the runtime side of @theme utilities) ──────
 
 const GLASS_DARK = {
-  '--glass-bg-strong': 'rgba(13, 20, 40, 0.92)',
+  '--glass-bg-strong': 'rgba(13, 13, 18, 0.92)', /* r160: neutralized night glass */
   '--glass-border': 'rgba(142, 151, 184, 0.12)',
   '--glass-shadow': '0 8px 16px rgba(0, 0, 0, 0.40), inset 0 1px 0 rgba(255, 255, 255, 0.06)',
   '--glass-shadow-lg': '0 16px 32px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.07)',
@@ -346,7 +357,7 @@ const SHADOWS_LIGHT = {
 
 // ── r126: surfaces, scrollbar, gen-art, gradients ───────────────────────────
 
-const SURFACES_DARK = { '--surface-sunken': '#0D1428' }; /* r144: --surface-raised removed — zero consumers */
+const SURFACES_DARK = { '--surface-sunken': '#0B0B10' }; /* r160 KODE neutral night step */
 const SURFACES_LIGHT = { '--surface-sunken': '#F7F6F3' };
 const SCROLLBAR_DARK = {
   '--scrollbar-thumb': 'rgba(142, 151, 184, 0.20)',
@@ -359,10 +370,10 @@ const SCROLLBAR_LIGHT = {
 const GENART_DARK = {
   /* phase6 (P6-2-a2) — the observatory re-tone: neutral grays retired,
      night-gold hairlines/rings in both grades (decorative furniture). */
-  '--genart-accent': '#E9B44C',
-  '--genart-accent-dim': 'rgb(233 180 76 / 0.04)',
+  '--genart-accent': '#FF4C00',
+  '--genart-accent-dim': 'rgb(255 76 0 / 0.04)',
 };
-const GENART_LIGHT = { '--genart-accent': '#C9962F', '--genart-accent-dim': 'rgb(201 150 47 / 0.05)' };
+const GENART_LIGHT = { '--genart-accent': '#B23E00', '--genart-accent-dim': 'rgb(178 62 0 / 0.05)' };
 const GRADIENTS_DARK = {
   /* (r131 A3 D3: --gradient-text-mid/end removed with the dead
      @utility gradient-text — the tokens had zero consumers since the
@@ -370,14 +381,14 @@ const GRADIENTS_DARK = {
      (r144 P4-4SL: the three --gradient-smart-* / --gradient-coming-soon
      service tokens removed for the SAME reason — zero var() consumers
      since the r128 card rebuild; only the live --grid-line stays.) */
-  '--grid-line': 'rgb(233 180 76 / 0.1)',
+  '--grid-line': 'rgb(255 76 0 / 0.1)',
 };
 const GRADIENTS_LIGHT = {
   /* (r131 A3 D3: light --gradient-text-mid/end twins removed likewise.
      r144 P4-4SL: the service-gradient light twins removed likewise.
      phase6 light gold ruling: the grid hairline rides the gold hue at
      +2% alpha — gold is lighter than the retired copper.) */
-  '--grid-line': 'rgb(233 180 76 / 0.08)',
+  '--grid-line': 'rgb(255 76 0 / 0.08)',
 };
 
 // ── r126: easings (exact rubric béziers) + RTL motion direction ─────────────
@@ -497,7 +508,7 @@ pinAll(dark, 'dark', ACCENT_DARK);
 pinAll(light, 'light', ACCENT_LIGHT);
 pinAll(dark, 'dark', STATUS_DARK);
 pinAll(light, 'light', STATUS_LIGHT);
-pin(dark, 'glass-dark', '--glass-bg', 'rgba(11, 16, 32, 0.78)');
+pin(dark, 'glass-dark', '--glass-bg', 'rgba(11, 11, 16, 0.78)'); /* r160: neutralized night glass */
 pin(light, 'glass-light', '--glass-bg', 'rgba(251, 250, 249, 0.78)');
 
 /* phase6 (§0a2-promotion): the pastel family pins are retired WITH the
@@ -650,29 +661,29 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
   //     so resolve() leaves the reference verbatim; --ln-t-reveal
   //     resolves through the in-scope 360ms bridge to its canonical value.
   pinAll(landingScope, 'landing', {
-    '--ln-ink':         '#070B16',
-    '--ln-ink-2':       '#0D1428',
-    '--ln-cream':       '#F2EFE6',
-    '--ln-cream-dim':   '#C3C8DC',
-    '--ln-gold':        '#E9B44C',
-    '--ln-gold-deep':   '#F5D48A',
-    '--ln-line':        'rgba(242, 239, 230, 0.14)',
-    '--ln-line-soft':   'rgba(242, 239, 230, 0.07)',
-    /* §0a2 — the product-foreshadow accents (the ecosystem mandate):
-       lit grades carry text/CTA-fills/nodes (all ≥ 4.5:1 on night, ink
-       on their own fill), true hexes carry swatches/motifs (non-text
-       ≥ 3:1 — terracotta 3.91 · teal 8.78 · orange 4.37). */
-    '--ln-menu':        '#E07A5F',
-    '--ln-menu-true':   '#C2452D',
-    '--ln-bot':         '#17C3A4',
-    '--ln-bot-true':    '#17C3A4',
-    '--ln-order':       '#EF7A35',
-    '--ln-order-true':  '#D14900',
-    '--ln-glass':       'rgba(13, 20, 40, 0.72)',
-    '--ln-glass-strong': 'rgba(13, 20, 40, 0.9)',
+    /* r160 KODE: the landing scope re-pinned to the 3-color discipline
+       (S3) — night #050507 / white + grey / #FF4C00. The per-world
+       foreshadow hues collapsed onto the accent; the glass slots carry
+       the flat night panel values (glass retired). */
+    '--ln-ink':         '#050507',
+    '--ln-ink-2':       '#0B0B10',
+    '--ln-cream':       '#FFFFFF',
+    '--ln-cream-dim':   '#A9ACB4',
+    '--ln-gold':        '#FF4C00',
+    '--ln-gold-deep':   '#FF6A2E',
+    '--ln-line':        'rgba(255, 255, 255, 0.16)',
+    '--ln-line-soft':   'rgba(255, 255, 255, 0.08)',
+    '--ln-menu':        '#FF4C00',
+    '--ln-menu-true':   '#FF4C00',
+    '--ln-bot':         '#FF4C00',
+    '--ln-bot-true':    '#FF4C00',
+    '--ln-order':       '#FF4C00',
+    '--ln-order-true':  '#FF4C00',
+    '--ln-glass':       'rgba(11, 11, 16, 0.92)',
+    '--ln-glass-strong': 'rgba(11, 11, 16, 0.97)',
     '--ln-grain-op':    '0.075', /* r129: canonical landing-local P3-22 lift (Madarek landing.css:58) — ruling adopted over PORT-KIT R7's 0.05 */
     '--ln-radius-pill': 'var(--r-full)',
-    '--ln-h1':          'clamp(2.75rem, 8.2vw, 6.75rem)',
+    '--ln-h1':          'clamp(3.5rem, 13vw, 11.875rem)', /* r160 S1: the KODE lockup scale */
     '--ln-dur-marquee': '42s',
     '--ln-t-fast':      'var(--t-fast)',
     '--ln-t-base':      'var(--t-base)',
@@ -842,7 +853,9 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
   const lcssP9 = readFileSync(new URL('../src/app/landing.css', import.meta.url), 'utf8')
     .replace(/\/\*[\s\S]*?\*\//g, ' ');
   const headerSrcP9 = readFileSync(new URL('../src/components/landing/LandingHeader.tsx', import.meta.url), 'utf8');
-  const orbitSrcP9 = readFileSync(new URL('../src/components/landing/EcosystemConstellation.tsx', import.meta.url), 'utf8');
+  /* r160: the sculpture engine replaces the constellation engine in the
+     theme-repaint contract. */
+  const chainSrcP9 = readFileSync(new URL('../src/components/landing/ChainSculpture.tsx', import.meta.url), 'utf8');
 
   const lightBlocks = allTopLevelBlocks(lcssP9, 'html.light .landing');
   check(
@@ -869,41 +882,45 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
     `phase9 light stage: every --ln-* color token flips (missing: ${LIGHT_MUST_FLIP.filter((t) => landingLight[t] === undefined).join(', ')})`
   );
 
-  // the day values (contrast ratios documented in landing.css §15 header):
+  // the day values (r160 KODE: paper #F4F2ED / ink #0A0A0A / orange —
+  // lit #B23E00 text-grade, true #FF4C00; ratios in landing.css §15a):
   pinAll(landingLight, 'landing-light', {
-    '--ln-ink':        '#F2EFE6',
-    '--ln-ink-2':      '#EAE6DA',
-    '--ln-cream':      '#070B16',
-    '--ln-cream-dim':  '#444C5F',
-    '--ln-gold':       '#7E5B1C',
-    '--ln-gold-deep':  '#6E4F18',
-    '--ln-line':       'rgba(7, 11, 22, 0.16)',
-    '--ln-line-soft':  'rgba(7, 11, 22, 0.08)',
+    '--ln-ink':        '#F4F2ED',
+    '--ln-ink-2':      '#EAE7DF',
+    '--ln-cream':      '#0A0A0A',
+    '--ln-cream-dim':  '#55534E',
+    '--ln-gold':       '#B23E00',
+    '--ln-gold-deep':  '#8F3000',
+    '--ln-line':       'rgba(10, 10, 10, 0.18)',
+    '--ln-line-soft':  'rgba(10, 10, 10, 0.09)',
     '--ln-grain-op':   '0.05',
-    '--ln-menu':       '#A93A26',
-    '--ln-menu-true':  '#C2452D',
-    '--ln-bot':        '#0A7558',
-    '--ln-bot-true':   '#0A7558',
+    '--ln-menu':       '#B23E00',
+    '--ln-menu-true':  '#FF4C00',
+    '--ln-bot':        '#B23E00',
+    '--ln-bot-true':   '#FF4C00',
     '--ln-order':      '#B23E00',
-    '--ln-order-true': '#D14900',
-    '--ln-glass':       'rgba(250, 249, 245, 0.72)',
-    '--ln-glass-strong': 'rgba(252, 251, 247, 0.9)',
+    '--ln-order-true': '#FF4C00',
+    '--ln-glass':       'rgba(244, 242, 237, 0.94)',
+    '--ln-glass-strong': 'rgba(244, 242, 237, 0.98)',
   });
 
   // the night stage stays the DEFAULT: the exact-.landing scope (which
   // the dark pins above already value-pin) must not carry the PAPER
   // ground — the day values may live only under the html.light compound.
   check(
-    nightScopeP9['--ln-ink'] === '#070B16',
-    'phase9 light stage: the default .landing scope stays the NIGHT stage (--ln-ink #070B16 — the paper ground lives only under html.light)'
+    nightScopeP9['--ln-ink'] === '#050507',
+    'phase9 light stage: the default .landing scope stays the NIGHT stage (--ln-ink #050507 — the paper ground lives only under html.light)'
   );
 
-  // the luminous-gold CTA exception (the product-layer light ruling):
-  // #E9B44C fill + #1A0F06 ink — the pill stays luminous in the day.
+  // r160 KODE: the CTA family is the ORANGE UNDERLINE SWEEP now (the
+  // gold pill retired) — the night scope carries the sweep anatomy and
+  // the light scope keeps the text-grade orange ink (#B23E00 = var
+  // (--ln-gold) in the day). The sweep itself is stage-independent.
   check(
-    /html\.light \.landing \.ln-btn-gold\s*\{[^}]*background:\s*#E9B44C;[^}]*color:\s*#1A0F06;/.test(lcssP9)
-      && /html\.light \.landing \.ln-btn-gold:hover\s*\{[^}]*background:\s*#C9962F;/.test(lcssP9),
-    'phase9 light stage: the gold CTA keeps the luminous fill pair (#E9B44C + #1A0F06, hover #C9962F — the product-layer light ruling)'
+    /\.landing \.ln-btn-gold\s*\{[^}]*background:\s*transparent;[^}]*color:\s*var\(--ln-gold\)/.test(lcssP9)
+      && /\.landing \.ln-btn-gold::before\s*\{[^}]*background:\s*currentColor/.test(lcssP9)
+      && /\.landing \.ln-btn-gold:hover::before[\s\S]*?transform:\s*scaleX\(1\)/.test(lcssP9),
+    'r160 CTA: .ln-btn-gold is the flat orange underline sweep (transparent ground, currentColor rule, scaleX(1) on hover — S4 finale treatment)'
   );
 
   // the toggle: the family twin contract on the landing chrome —
@@ -922,14 +939,14 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
     'phase9 toggle: the 44px touch floor + the icon flip transition (landing.css §15c)'
   );
 
-  // the engine: the canvas follows the theme (MutationObserver on the
-  // html class → re-read tokens → rebuild sprites/scene → repaint).
+  // the engine: the sculpture follows the theme (MutationObserver on
+  // the html class → readStage() re-reads the --ln-* tokens → repaint).
   check(
-    orbitSrcP9.includes('repaintFromTokens')
-      && orbitSrcP9.includes("new MutationObserver(repaintFromTokens)")
-      && orbitSrcP9.includes('attributeFilter') && orbitSrcP9.includes("attributeFilter: ['class']")
-      && orbitSrcP9.includes('themeObserver.disconnect()'),
-    'phase9 engine: EcosystemConstellation re-reads the landing tokens on html class change (MutationObserver + rebuild + teardown)'
+    chainSrcP9.includes('readStage')
+      && chainSrcP9.includes('new MutationObserver(paint)')
+      && /attributeFilter: \[['"]class['"]\]/.test(chainSrcP9)
+      && chainSrcP9.includes('mo.disconnect()'),
+    'r160 engine: ChainSculpture re-reads the landing tokens on html class change (MutationObserver + paint + teardown)'
   );
 }
 
@@ -957,7 +974,7 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
   const siteChromeRaw = readFileSync(new URL('../src/components/site-chrome.tsx', import.meta.url), 'utf8');
   const faqSrc = read('LandingFaq.tsx');
   const footerSrc = read('LandingFooter.tsx');
-  const orbitSrc = read('EcosystemConstellation.tsx');
+  const orbitSrc = read('ChainSculpture.tsx'); /* r160: the sculpture is the hero engine now */
   const worldsSrc = read('worlds.ts');
   const lrm129 = allTopLevelBlocks(lcss, '@media (prefers-reduced-motion: reduce)').join('\n');
 
@@ -1184,28 +1201,26 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
     'r142 worlds: each world carries exactly THREE real claims (no invented marketing filler)'
   );
   check(
-    !/[#][0-9a-fA-F]{3,8}\b/.test(orbitSrc),
-    'r142 engine: ZERO hex in the canvas — every hue resolves from landing.css tokens at boot (getComputedStyle)'
+    orbitSrc.includes('getComputedStyle') && orbitSrc.includes('--ln-chain-metal')
+      && orbitSrc.includes('--ln-gold') && orbitSrc.includes('--ln-ink'),
+    'r160 sculpture: the STAGE (metal/rim/fog) resolves from landing.css tokens at mount (getComputedStyle — the canvas and the DOM share one palette; the studio rig temperatures are engine-internal)'
   );
   check(
-    orbitSrc.includes('readToken') && orbitSrc.includes('--ln-menu') && orbitSrc.includes('--ln-bot') && orbitSrc.includes('--ln-order'),
-    'r142 engine: the token reader resolves the three world hues (the canvas and the DOM share one palette; r152 foreshadow names)'
+    /new WebGLRenderer/.test(orbitSrc) && /MeshStandardMaterial/.test(orbitSrc) && /TorusGeometry/.test(orbitSrc),
+    'r160 sculpture: plain three.js, MeshStandardMaterial + TorusGeometry (5–7 interlocked links — no r3f)'
   );
   check(
-    orbitSrc.includes("readToken(root, '--ln-gold')") && !orbitSrc.includes('--ln-violet'),
-    'r152 engine: the core bloom rides the family GOLD (violet retired with Orbit-Ink)'
+    orbitSrc.includes('LINKS = 7'),
+    'r160 sculpture: 7 interlocked torus links (the ascending chain — رابط → منظومة)'
   );
   check(
-    /hoverK/.test(orbitSrc) && /selectK/.test(orbitSrc),
-    'r142 engine: eased hover/select glow per node (the living constellation responds, not a static chart)'
+    /pointerdown/.test(orbitSrc) && /pointermove/.test(orbitSrc) && /velY \*= 0\.92/.test(orbitSrc),
+    'r160 sculpture: pointer-drag rotation with inertia (velocity decay 0.92)'
   );
   check(
-    /role="dialog"/.test(orbitSrc) && /aria-modal=("false"|\{false\})/.test(orbitSrc) && /Escape/.test(orbitSrc),
-    'r142 dock: the preview card is a NON-modal dialog — Escape closes and focus returns (disclosure contract)'
-  );
-  check(
-    /aria-expanded=\{open\}/.test(orbitSrc) && /aria-controls="ln-eco-card"/.test(orbitSrc),
-    'r142 dock: every chip carries aria-expanded + aria-controls (the canvas scene stays decorative)'
+    readFileSync(new URL('../src/components/landing/ChainSculptureMount.tsx', import.meta.url), 'utf8')
+      .includes('ssr: false'),
+    'r160 sculpture: mounted via the client wrapper (dynamic ssr:false lives in ChainSculptureMount — Server Components cannot pass it)'
   );
 
   // J ── marquee fill (P2-10): ≥15 items so one copy fills ≥2200px.
@@ -1218,10 +1233,10 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
   // K ── chapter labels: the r142 canonical sequence (01 worlds → 02
   //     journey → 03 cockpit → finale unnumbered-04 → faq 05; platforms
   //     stays unlabelled).
-  check(productsSrc.includes('01 — العوالم'), "r142 chapter label: '01 — العوالم' (canonical sequence)");
-  check(finaleSrc.includes('04 — الوصول'), "r142 chapter label: '04 — الوصول' (canonical sequence)");
+  check(productsSrc.includes('001 — العوالم'), "r160 chapter label: '001 — العوالم' (S5 mono index sequence)");
+  check(finaleSrc.includes('004 — الوصول'), "r160 chapter label: '004 — الوصول' (S5 mono index sequence)");
   check(!platformsSrc.includes('className="ln-label"'), 'platforms chapter carries NO ln-label (canonical campus is unlabelled)');
-  check(faqSrc.includes('05 — الأسئلة'), 'r142 faq label follows the canonical sequence (05)');
+  check(faqSrc.includes('005 — الأسئلة'), 'r160 faq label follows the mono index sequence (005)');
 
   // L ── main landmark: focusable skip target (P0-28).
   check(
@@ -1229,19 +1244,15 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
     'landing main: id="main" + tabIndex -1 (focusable skip target)'
   );
 
-  // M ── the EcosystemConstellation canvas port (r142) — engine
-  //     constants + craft discipline (the OrbitScene port values that
-  //    survive are re-asserted on the new engine).
-  check(orbitSrc.includes('0.00009') && orbitSrc.includes('0.000062') && orbitSrc.includes('0.000045'), 'r142 engine: omegas in rad/ms (0.00009/0.000062/0.000045 — real angular speeds, never rescaled)');
-  check(/biasX/.test(orbitSrc) && pageSrc.includes('biasX={-0.35}'), 'constellation: biasX prop + hero mount biasX={-0.35} (RTL physical sign)');
-  check(orbitSrc.includes('smartlink.intro.seen'), "constellation: per-product sessionStorage intro key 'smartlink.intro.seen'");
-  check(
-    /DPR_CAP = 1\.5/.test(orbitSrc) && /Math\.min\(window\.devicePixelRatio \|\| 1, DPR_CAP\)/.test(orbitSrc),
-    'constellation: DPR hard cap 1.5 (retina paints ≤2.25× CSS px)'
-  );
-  check(orbitSrc.includes('DT_MAX = 48'), 'r142 engine: DT_MAX 48ms clamp (tab-return visual diet)');
-  check(orbitSrc.includes("IO_ROOT_MARGIN = '80px 0px'"), "constellation: IntersectionObserver rootMargin '80px 0px' (offscreen pause)");
-  check(orbitSrc.includes('prefers-reduced-motion') && orbitSrc.includes('drawStatic'), 'constellation: reduced-motion → single drawStatic() composed frame');
+  // M ── the ChainSculpture craft contract (r160 — the constellation
+  //     port pins re-asserted on the NEW engine, values honest to it).
+  check(/Math\.min\(window\.devicePixelRatio \|\| 1, 2\)/.test(orbitSrc), 'r160 sculpture: DPR hard cap 2 (retina paints ≤2× CSS px)');
+  check(/Math\.min\(\(now - last\) \/ 1000, 0\.05\)/.test(orbitSrc), 'r160 sculpture: 50ms dt clamp (tab-return visual diet)');
+  check(/new IntersectionObserver/.test(orbitSrc) && /document\.hidden/.test(orbitSrc), 'r160 sculpture: IntersectionObserver + document.hidden pause (offscreen the rAF stops)');
+  check(orbitSrc.includes('prefers-reduced-motion') && orbitSrc.includes('poster frame'), 'r160 sculpture: reduced-motion → ONE static poster frame, no rAF, no drag');
+  check(/renderer\.dispose\(\)/.test(orbitSrc) && /linkGeo\.dispose\(\)/.test(orbitSrc) && /linkMat\.dispose\(\)/.test(orbitSrc), 'r160 sculpture: full disposal on unmount (renderer + geometry + material + env)');
+  check(pageSrc.includes('ChainSculptureMount') && !pageSrc.includes('EcosystemConstellation') && !pageSrc.includes('ConstellationDock'),
+    'r160 hero: the page mounts the sculpture through the wrapper — the constellation + dock are retired from the render path');
   check(
     !existsSync(new URL('../src/components/landing/HeroOrbits.tsx', import.meta.url)) && !pageSrc.includes('HeroOrbits'),
     'the flat HeroOrbits SVG is retired from the render path (file deleted, no references)'
@@ -1286,7 +1297,7 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
   pin(light, 'light', '--hover-lift-lg', '-3px');
   pin(dark, 'dark', '--ease-spring-snappy', 'cubic-bezier(0.5, 1.6, 0.4, 1)');
   pin(light, 'light', '--ease-spring-snappy', 'cubic-bezier(0.5, 1.6, 0.4, 1)');
-  pin(dark, 'dark', '--ring', '#E9B44C'); // r130 ruling: gold, per madarek tokens.css:233 cascade
+  pin(dark, 'dark', '--ring', '#FF4C00'); // r160 KODE: the orange focus ring (gold retired)
   {
     const landingScope129 = Object.assign(
       {},
@@ -1700,12 +1711,12 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
 
   // F ── label halo + stat radius (D7): the halo follows the label's
   //     own ink per theme; .ln-stat joins its 20px siblings.
-  pin(dark, 'dark', '--label-halo', '#E9B44C');
+  pin(dark, 'dark', '--label-halo', '#FF4C00'); /* r160: follows --primary-text orange */
   /* phase6 (P6-2-a2) light gold ruling: --label-halo chains
      --primary-text, which migrated copper-deep #5C3416 → text-grade
      deep gold #8A6420 (5.13:1 on cream ≥ 4.5) — re-pinned, not
      weakened: the chain itself is pinned via BRIDGE_LIGHT. */
-  pin(light, 'light', '--label-halo', '#8A6420');
+  pin(light, 'light', '--label-halo', '#B23E00'); /* r160: text-grade orange twin */
   check(
     /\.ln-stat\s*\{[^}]*border-radius:\s*var\(--r-2xl\)/.test(css),
     '.ln-stat: radius rides var(--r-2xl) 20px — landing + ln-card sibling parity (A3 D7)'
@@ -1854,7 +1865,7 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
   const platforms144 = read('components/landing/PlatformsSection.tsx');
   const contact144 = read('app/contact/page.tsx');
   const site144 = read('lib/site.ts');
-  const eco144 = read('components/landing/EcosystemConstellation.tsx');
+  const eco144 = read('components/landing/ChainSculpture.tsx'); /* r160: the sculpture carries the canvas-semantics twin */
   check(
     count(page144, /تواصل واتساب مباشر/g) === 2 && !page144.includes('24/7'),
     'r144 claims: the homepage carries the TRUE WhatsApp claim twice (hero meta + marquee) and the unverifiable «دعم واتساب 24/7» promise is gone (comments stripped)'
@@ -1887,14 +1898,13 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
     'r144 polish: footer links become full-width ≥44px touch rows on mobile (width auto + 10px block padding under the 768 block)'
   );
   check(
-    eco144.includes('role="img"') && eco144.includes('aria-label="الكوكبة الحية'),
-    'r144 semantics: the constellation canvas carries role=img + an Arabic scene label (the decorative scene is named; the dock stays the interactive twin)'
+    eco144.includes('setAttribute("role", "img")') && eco144.includes('aria-label'),
+    'r160 semantics: the sculpture canvas carries role=img + an Arabic scene label (the WebGL scene is named; the hero text stays the content twin)'
   );
   check(
-    /gap = Math\.atan2\(Math\.sin\(gap\), Math\.cos\(gap\)\)/.test(eco144)
-      && /-Math\.PI \/ 2 - n\.angle/.test(eco144)
-      && /r \+ 6 \+ n\.hoverK \* 3 \+ n\.selectK \* 7/.test(eco144),
-    'r144 constellation: the OPEN node rides to the orbit\'s top vantage (wrap-around ease) and its ring reads past the card edge (up to +13px, full alpha) — the 1440 occlusion finding stays fixed'
+    /link\.rotation\.z = i \* Math\.PI \* 0\.5/.test(eco144)
+      && /Math\.sin\(i \* 0\.85\)/.test(eco144),
+    'r160 sculpture: each link counter-rotates 90° against its neighbour (real chain weave) and steps a gentle spiral — the ascending chain geometry'
   );
 
   // 3 ── A7 §2.3: the 404 numeral is DOCUMENTED display-art — raw
@@ -2058,31 +2068,27 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
     'r152: role-ico.azure retired with the roles chapter; the live wells are signal-toned (gold 0.16/0.14 washes + gold icon — violet fully excised from landing.css)'
   );
 
-  // I2 ── r152 (phase5) — the FORESHADOW system pins: the motif devices
-  //     (plate/circuit/route) + the identity strip + the eco-card head
-  //     all ride --ln-world-true (the literal sibling identity hex —
-  //     never the lit text grade), and every inset is logical (the
-  //     motifs mirror under RTL).
+  // I2 ── r160 (KODE): the FORESHADOW render pins retired WITH the
+  //     motif/identity-strip anatomy (the type-card worlds replace it);
+  //     re-pinned to the new truth: black chapter 001, hairline type-
+  //     cards, real links, no motif devices in the render path.
   check(
-    /\.landing \.ln-motif\s*\{[^}]*position:\s*relative/.test(landingCss134)
-      && /\.ln-motif--plate\s*\{[^}]*var\(--ln-world-true\)/.test(landingCss134)
-      && /\.ln-motif--circuit\s*\{[^}]*var\(--ln-world-true\)/.test(landingCss134)
-      && /\.ln-motif--route\s*\{[^}]*dashed var\(--ln-world-true\)/.test(landingCss134)
-      && !/\.ln-motif[^\n{]*\{[^}]*var\(--ln-world\)/.test(landingCss134),
-    'r152 motifs: plate/circuit/route devices paint from var(--ln-world-true) (the literal identity hex, non-text grade — never the lit text grade)'
+    /\.landing \.ln-world-card\s*\{[^}]*border-block-end:\s*1px solid rgba\(255, 255, 255, 0\.22\)/.test(landingCss134)
+      && /\.landing \.ln-worlds--kode\s*\{[^}]*background:\s*#050507/.test(landingCss134)
+      && /html\.light \.landing \.ln-worlds--kode\s*\{[^}]*background:\s*#050507/.test(landingCss134),
+    'r160 worlds: chapter 001 is the BLACK stage in BOTH themes with hairline-ruled type-cards (the KODE inverted chapter)'
   );
   check(
-    /\.landing \.ln-world-identity\s*\{[^}]*display:\s*flex/.test(landingCss134)
-      && read('components/landing/WorldsSection.tsx').includes('ln-world-identity')
+    read('components/landing/WorldsSection.tsx').includes('ln-world-card')
       && read('components/landing/WorldsSection.tsx').includes('data-world={w.id}')
-      && read('components/landing/WorldsSection.tsx').includes('"--ln-world-true": `var(${w.swatch})`'),
-    'r152 worlds: the identity strip (motif + live domain) opens every panel; data-world + --ln-world-true ride the article'
+      && read('components/landing/WorldsSection.tsx').includes('ln-world-claims')
+      && (read('components/landing/WorldsSection.tsx').match(/href=\{w\.url\}/g) ?? []).length === 1,
+    'r160 worlds: minimal type-cards carry the real anatomy (data-world + claims + the WORLDS.map renders the three LIVE product links)'
   );
   check(
-    read('components/landing/EcosystemConstellation.tsx').includes('ln-motif ln-motif--${world.motif}')
-      && read('components/landing/EcosystemConstellation.tsx').includes("'--ln-world-true': `var(${world.swatch})`")
-      && !read('components/landing/EcosystemConstellation.tsx').includes('ln-eco-card-dot'),
-    'r152 eco-card: the hero glass card opens with the world motif (the plain hue dot is retired)'
+    !read('components/landing/WorldsSection.tsx').includes('ln-motif')
+      && !read('components/landing/WorldsSection.tsx').includes('MockFrame'),
+    'r160 worlds: the CSS mocks + motif devices are retired from the render path (type-led cards, S3 discipline)'
   );
   check(
     /\[data-world="menu"\] \.ln-mock-thumb\s*\{[^}]*border-radius:\s*var\(--ln-radius-pill\)/.test(landingCss134),
@@ -2491,7 +2497,7 @@ if (failures.length > 0) {
    non-landing routes + the shared product chrome + metadata/emails/
    manifest) + the 500-boundary icon ink-grade pin + the global-error
    inline alert-triangle SVG pin (⚠️ emoji retirement, SO P9-3-d twin). */
-const EXPECTED_ASSERTIONS = 553;
+const EXPECTED_ASSERTIONS = 551;
 check(
   passed + 1 === EXPECTED_ASSERTIONS,
   `self-count: the suite must run exactly ${EXPECTED_ASSERTIONS} assertions (ran ${passed + 1}) — bump EXPECTED_ASSERTIONS with every intentional pin change`

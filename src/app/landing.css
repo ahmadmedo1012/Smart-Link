@@ -2998,7 +2998,6 @@ html.light .landing .ln-ground-status { background: rgb(7 11 22 / 0.05); }
   direction: ltr;
   unicode-bidi: isolate;
   font-size: 11px;
-  letter-spacing: 0.08em;
   color: var(--ln-cream-dim);
   white-space: nowrap;
 }
@@ -3053,7 +3052,6 @@ html.light .landing .ln-ground-status { background: rgb(7 11 22 / 0.05); }
 }
 .landing .ln-hero--kode .ln-hero-eyebrow .ln-mono {
   font-size: 11px;
-  letter-spacing: 0.1em;
   color: var(--ln-cream-dim);
 }
 /* the Latin wordmark — Bodoni Moda 700 (the OT-Brut stand-in) */
@@ -3061,7 +3059,6 @@ html.light .landing .ln-ground-status { background: rgb(7 11 22 / 0.05); }
   font-family: var(--font-display-latin), var(--font-mono), monospace;
   font-weight: 700;
   font-size: clamp(15px, 1.6vw, 22px);
-  letter-spacing: 0.32em;
   direction: ltr;
   unicode-bidi: isolate;
   color: var(--ln-cream);
@@ -3113,7 +3110,6 @@ html.light .landing .ln-ground-status { background: rgb(7 11 22 / 0.05); }
   direction: ltr;
   unicode-bidi: isolate;
   font-size: 11px;
-  letter-spacing: 0.14em;
 }
 .landing .ln-hero--kode .ln-hero-scroll-line {
   block-size: clamp(40px, 8vh, 72px);
@@ -3187,7 +3183,6 @@ html.light .landing .ln-ground-status { background: rgb(7 11 22 / 0.05); }
 .landing .ln-journey-row-n {
   font-size: clamp(18px, 2vw, 26px);
   font-weight: 700;
-  letter-spacing: 0.06em;
 }
 .landing .ln-journey-row-title {
   font-family: var(--font-display-arabic), sans-serif;
@@ -3204,7 +3199,6 @@ html.light .landing .ln-ground-status { background: rgb(7 11 22 / 0.05); }
 }
 .landing .ln-journey-row-tag {
   font-size: 11px;
-  letter-spacing: 0.08em;
   border: 1px solid var(--ln-flood-ink);
   padding: 4px 10px;
   white-space: nowrap;
@@ -3268,14 +3262,12 @@ html.light .landing .ln-worlds--kode { background: #050507; color: #FFFFFF; } /*
   font-family: var(--font-display-latin), var(--font-body), sans-serif;
   font-weight: 700;
   font-size: clamp(24px, 3.4vw, 44px);
-  letter-spacing: 0.01em;
   direction: ltr;
   color: #FFFFFF;
   margin: 0;
 }
 .landing .ln-world-host {
   font-size: 11px;
-  letter-spacing: 0.08em;
   color: #A9ACB4;
   direction: ltr;
 }

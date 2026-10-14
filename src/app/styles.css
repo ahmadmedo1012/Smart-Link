@@ -309,7 +309,7 @@
      نفّذها r131 A3 D3 لتوكنات gradient-text). */
 
   /* ── Grid pattern — gold hairline at the original 10% ── */
-  --grid-line: rgb(233 180 76 / 0.1);
+  --grid-line: rgb(255 76 0 / 0.1);
 
   /* ── Chapter separator hairline (phase6, P6-2-a2): the product-page
      .ln-chapter rhythm's gold hairline — the family accent at whisper
@@ -593,7 +593,7 @@
 
   /* ── Grid pattern — gold hairline at 8% (gold is lighter than the
      retired copper; +2% alpha holds the whisper) ── */
-  --grid-line: rgb(233 180 76 / 0.08);
+  --grid-line: rgb(255 76 0 / 0.08);
 
   /* phase6 (P6-2-a2): the chapter hairline in its cream grade — deep
      gold #8A6420 at a whisper alpha carries the hue on cream. */

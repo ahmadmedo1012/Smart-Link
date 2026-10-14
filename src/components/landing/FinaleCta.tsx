@@ -55,7 +55,7 @@ export function FinaleCta() {
             className="ln-cta-family-img"
           />
         </RevealCssClass>
-        <span className="ln-label">{"04 — الوصول · ACCESS"}</span>
+        <span className="ln-label ln-mono">{"004 — الوصول · ACCESS"}</span>
         <RevealCssClass as="h2" className="ln-cta-title" delay={1}>
           رابطك الأول{" "}
           <span className="ln-cta-line">يبدأ <em>من هنا</em></span>

@@ -42,7 +42,7 @@ export function LandingFaq() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }}
       />
       <div className="ln-faq-head">
-        <span className="ln-label">{"05 — الأسئلة الشائعة"}</span>
+        <span className="ln-label">{"005 — الأسئلة الشائعة"}</span>
         <RevealCssClass as="h2" className="ln-chapter-title" delay={1}>
           الأسئلة <em>الشائعة</em>
         </RevealCssClass>

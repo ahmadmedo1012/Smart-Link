@@ -4,18 +4,19 @@
 > in code — follow them; change them only deliberately and update this file
 > in the same commit.
 >
-> **Constitution version: Phase 6 (P6-2) — Phase-5 «مدارك Night: The
-> Ecosystem Observatory» + the Phase-6 additions** (gold-on-cream light
-> ruling · §0a2 foreshadow promotion to the product pages · genart
-> observatory re-tone · the product-page chapter rhythm — §“Phase-6
-> additions” below). The hub KEEPS and now truly OWNS the family identity
-> (ink night · sand · luminous gold — in BOTH themes since the phase6
-> light ruling) and FORESHADOWS its three siblings' new worlds inside
-> itself. **Token SSOT in this repo:** `src/app/styles.css`
-> (the product layer: `:root` = night, `.light` = cream, `@theme inline` =
-> Tailwind bridge) + `src/app/landing.css` (the مدارك Night landing layer,
-> scoped `.landing`). If this file and the CSS disagree, the CSS wins —
-> fix the doc.
+> **Constitution version: Phase 9 (P9-3-a) — Phase-5 «مدارك Night: The
+> Ecosystem Observatory» + the Phase-6 additions + the Phase-9 dual-stage
+> landing** (gold-on-cream light ruling · §0a2 foreshadow promotion to the
+> product pages · genart observatory re-tone · the product-page chapter
+> rhythm · the landing's working DAY stage — §“Phase-9 additions” below).
+> The hub KEEPS and now truly OWNS the family identity
+> (ink night · sand · luminous gold) and FORESHADOWS its three siblings'
+> new worlds inside itself. **Token SSOT in this repo:**
+> `src/app/styles.css` (the product layer: `:root` = night, `.light` =
+> cream, `@theme inline` = Tailwind bridge) + `src/app/landing.css` (the
+> مدارك Night landing layer, scoped `.landing` — night default +
+> `html.light .landing` day stage §15). If this file and the CSS disagree,
+> the CSS wins — fix the doc.
 
 ## Identity — one family, one night, four worlds
 
@@ -37,10 +38,11 @@ you can see all three worlds at a glance.
    `#E9E7E2 / #D9D6D0`. The copper light column is RETIRED (see the
    Phase-6 additions). All dual-lightness (both layers AA-verified).
 2. **The مدارك Night landing layer** (`landing.css`, scoped `.landing`,
-   r152) — painted identically in BOTH themes (intentional dark stage).
-   It carries the SAME family values as the product night world —
-   `--ln-ink #070B16` (the ground), `--ln-ink-2 #0D1428` (the surface
-   step), `--ln-cream #F2EFE6` sand (17.09:1 AAA) / `--ln-cream-dim
+   r152) — night stage by DEFAULT (phase9: the old "identical in BOTH
+   themes" doctrine retired — the header toggle now flips a real DAY
+   stage, §15). It carries the SAME family values as the product night
+   world — `--ln-ink #070B16` (the ground), `--ln-ink-2 #0D1428` (the
+   surface step), `--ln-cream #F2EFE6` sand (17.09:1 AAA) / `--ln-cream-dim
    #C3C8DC` (11.81:1 AAA), the gold pair `--ln-gold #E9B44C` (10.39:1) /
    `--ln-gold-deep #F5D48A` (hover, 13.73:1), sand hairlines
    `rgba(242,239,230,0.14 / 0.07)`, night glass `rgba(13,20,40,0.72 /
@@ -116,6 +118,55 @@ parity-pinned; see the enforcement numbers):
    `--head` (the page-head chapter — no top rhythm, a half-step
    bottom) and `--prose` (legal bodies — the half cadence, the
    sections keep their `space-y-6` flow inside ONE chapter).
+
+## Phase-9 additions (P9-3-a — the dual-stage landing)
+
+1. **The DAY stage (mission E3).** The old "the landing paints night in
+   BOTH themes" doctrine is retired. `landing.css` §15 redefines the
+   full `--ln-*` color surface under `html.light .landing` (next-themes
+   class strategy, the same convention the layout boot script paints
+   pre-hydration — no flash): ground/ink SWAP to the family's own
+   `#F2EFE6` paper / `#070B16` ink (17.09:1 AAA — the night pair in
+   reverse), surface step `#EAE6DA`, secondary `#444C5F` (7.47:1 AAA),
+   ink hairlines `rgba(7,11,22,0.16 / 0.08)`, ivory glass
+   `rgba(250,249,245,0.72 / 0.9)`, grain back to the 0.05 canonical.
+   The night §0a block stays the untouched default (parity-pinned
+   byte-identical; the day twin carries its own 17 pins + completeness
+   gate). The raw night/sand literals that cannot flip via tokens got
+   1:1 day twins (ink-wash hovers, paper scrolled header, paper console
+   strips, 0.04–0.05 ink card washes, crisp day title — no black
+   text-shadow).
+2. **The day gold grades.** Text grade `--ln-gold #7E5B1C` (the
+   product-layer `#8A6420` light ruling, one step deeper because the
+   landing's `--ln-ink-2` paper is darker than the product cream:
+   5.37:1 on paper AND 4.95:1 on ink-2); hover `--ln-gold-deep #6E4F18`
+   (darkens on paper, mirroring the night's lighter-on-#F5D48A law).
+   **The CTA exception:** `.ln-btn-gold` keeps the LUMINOUS fill in the
+   day — `#E9B44C` fill + `#1A0F06` ink (9.95:1), hover `#C9962F`
+   (7.07:1), exactly the product pages' light-mode gold pair. The
+   conversion pill stays gold in both chapters; only the grades around
+   it invert.
+3. **The day foreshadow grades.** LIT grades darken to the siblings'
+   own light-theme grades where they exist: `--ln-menu #A93A26`
+   (Smart-Menu's hover terracotta, 5.50:1), `--ln-bot #0A7558`
+   (darkened signal teal, 4.94:1 — `#17C3A4` misses the 3:1 non-text
+   floor on paper, so its one-hex symmetry rides the darkened grade in
+   BOTH lit and true), `--ln-order #B23E00` (5.10:1). TRUE hexes keep
+   the literal identities (`#C2452D` 4.37:1 · `#D14900` 3.92:1 ·
+   `#0A7558` — non-text ≥ 3:1 on paper).
+4. **The working toggle + the living canvas.** `LandingHeader` carries
+   the family twin (main-nav pattern: mounted guard via
+   `useSyncExternalStore`, `resolvedTheme`, the Arabic aria-labels
+   «تفعيل المظهر الفاتح/الداركن», Sun/Moon lucide icons, 44px floor —
+   `landing.css` §15c, token-driven so it flips with the stage).
+   `EcosystemConstellation` watches the `html` class with a
+   `MutationObserver` and re-reads the SAME landing tokens → rebuilds
+   sprites/star field/nebula → repaints (ink nodes on paper; the RM
+   path redraws its single composed frame; a failed re-read keeps the
+   last good palette — never guesswork). e2e:
+   `e2e/landing-theme.spec.ts` (token flip, CTA pair, canvas pixel
+   delta, persistence) + the axe light scans now exercise the REAL day
+   stage.
 
 ## Color architecture
 

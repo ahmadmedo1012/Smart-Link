@@ -37,7 +37,9 @@ export type World = {
   host: string
   /** The live URL (SITE.products.*.url verbatim). */
   url: string
-  /** The giant editorial numeral (Arabic-Indic, chapter furniture). */
+  /** The giant editorial numeral (Western digits — the mission E1
+     *     display contract: every number the UI renders is 1234567890;
+     *     money.ts/phone.ts normalize Arabic-Indic INPUT the same way). */
   numeral: string
 }
 
@@ -57,7 +59,7 @@ export const WORLDS: readonly World[] = [
     motif: "plate",
     host: "menu.smart-link.ly",
     url: "https://menu.smart-link.ly",
-    numeral: "٠١",
+    numeral: "01",
   },
   {
     id: "bot",
@@ -74,7 +76,7 @@ export const WORLDS: readonly World[] = [
     motif: "circuit",
     host: "bot.smart-link.ly",
     url: "https://bot.smart-link.ly",
-    numeral: "٠٢",
+    numeral: "02",
   },
   {
     id: "order",
@@ -91,7 +93,7 @@ export const WORLDS: readonly World[] = [
     motif: "route",
     host: "order.smart-link.ly",
     url: "https://order.smart-link.ly",
-    numeral: "٠٣",
+    numeral: "03",
   },
 ] as const
 

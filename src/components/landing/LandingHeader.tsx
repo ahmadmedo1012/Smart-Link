@@ -1,8 +1,9 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useRef, useState, useSyncExternalStore } from "react"
 import Link from "next/link"
-import { Menu, X, ChevronDown, ArrowLeft, Route, Smartphone, BarChart3, Share2 } from "lucide-react"
+import { Menu, X, ChevronDown, ArrowLeft, Route, Smartphone, BarChart3, Share2, Sun, Moon } from "lucide-react"
+import { useTheme } from "next-themes"
 import { SITE } from "@/lib/site"
 
 /* r128 Stage B (F2b) — the landing header, converted from the product's
@@ -35,6 +36,20 @@ const SPY_SECTIONS = "#products, #journey, #progress, #platforms"
 export function LandingHeader() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [megamenuOpen, setMegamenuOpen] = useState(false)
+  /* phase9 (P9-3-a E3): the landing earns its own theme toggle — the
+     family twin of main-nav.tsx (mounted guard + resolvedTheme, the
+     r131 A10 SL-2 ruling: resolvedTheme is always the class actually
+     painted, never a raw stored "system" string). Server snapshot
+     false → the button renders post-hydration only, so SSR HTML and
+     first client paint agree (no hydration mismatch); the pre-paint
+     boot script in layout.tsx already painted html.dark/light before
+     this parses, so there is no flash either. */
+  const mounted = useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false
+  )
+  const { resolvedTheme, setTheme } = useTheme()
   const megamenuTriggerRef = useRef<HTMLButtonElement>(null)
   /* r134 (R134-W1-SL P2): the burger trigger — Escape on the mobile
      drawer closes it and returns focus here (mirrors the MainNav twin
@@ -235,6 +250,31 @@ export function LandingHeader() {
           >
             {menuOpen ? <X size={20} aria-hidden="true" /> : <Menu size={20} aria-hidden="true" />}
           </button>
+
+          {/* phase9 (P9-3-a E3): the theme toggle — the family twin of
+              main-nav.tsx (same aria-labels, same Sun/Moon flip, same
+              44px touch floor). Sits AFTER the burger in the flex row so
+              it survives the ≤1080px drawer breakpoint (the CTA cluster
+              hides there; this stays the one always-visible control).
+              Keyboard: a plain <button> — Tab + Enter/Space by default;
+              the universal .landing :focus-visible ring carries the
+              visible focus contract. */}
+          {mounted && (
+            <button
+              type="button"
+              className="landing-theme-toggle"
+              onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
+              aria-label={resolvedTheme === "dark" ? "تفعيل المظهر الفاتح" : "تفعيل المظهر الداكن"}
+            >
+              <span
+                className="landing-theme-toggle-icon"
+                aria-hidden="true"
+                style={{ transform: resolvedTheme === "dark" ? undefined : "rotate(180deg)" }}
+              >
+                {resolvedTheme === "dark" ? <Sun size={20} /> : <Moon size={20} />}
+              </span>
+            </button>
+          )}
         </div>
 
         {menuOpen && (

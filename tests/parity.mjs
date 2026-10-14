@@ -797,7 +797,11 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
         j += 1;
       }
       const prelude = lcss.slice(i, open).split(/[;}]/).pop().trim();
-      if (!prelude.startsWith('.landing') && !prelude.startsWith('@') && /--ln-[\w-]+\s*:/.test(lcss.slice(open + 1, j - 1))) {
+      /* phase9 (P9-3-a E3): html.light .landing is the sanctioned DAY-STAGE
+         scope (§15a) — it still carries the .landing root inside the
+         compound selector, so R4's "no --ln-* outside .landing" law holds;
+         every other scope (html.dark, body, .anything-else) stays a leak. */
+      if (!prelude.startsWith('.landing') && !prelude.startsWith('html.light .landing') && !prelude.startsWith('@') && /--ln-[\w-]+\s*:/.test(lcss.slice(open + 1, j - 1))) {
         leak = prelude;
         break;
       }
@@ -825,6 +829,108 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
     );
     failures.length = before;
   }
+}
+
+// ── phase9 (P9-3-a) · the LIGHT stage (mission E3: the toggle must    ──────
+//    meaningfully affect the landing). The night §0a pins above stay
+//    byte-identical; this block pins the DAY twin — the html.light
+//    .landing token block (§15a of landing.css), its completeness (a
+//    forgotten token would silently paint night values on paper), the
+//    luminous-gold CTA exception, the toggle's contract, and the
+//    engine's theme repaint wiring.
+{
+  const lcssP9 = readFileSync(new URL('../src/app/landing.css', import.meta.url), 'utf8')
+    .replace(/\/\*[\s\S]*?\*\//g, ' ');
+  const headerSrcP9 = readFileSync(new URL('../src/components/landing/LandingHeader.tsx', import.meta.url), 'utf8');
+  const orbitSrcP9 = readFileSync(new URL('../src/components/landing/EcosystemConstellation.tsx', import.meta.url), 'utf8');
+
+  const lightBlocks = allTopLevelBlocks(lcssP9, 'html.light .landing');
+  check(
+    lightBlocks.length === 1,
+    `phase9 light stage: exactly ONE html.light .landing token block (§15a — found ${lightBlocks.length})`
+  );
+  const landingLight = Object.assign({}, ...lightBlocks.map(parseDecls));
+
+  // completeness: every color-ish var the night stage defines must have
+  // a day twin — the flip is total or it is a leak of night paint.
+  const nightScopeP9 = Object.assign(
+    {},
+    ...allTopLevelBlocks(lcssP9, '.landing').map(parseDecls)
+  );
+  const LIGHT_MUST_FLIP = [
+    '--ln-ink', '--ln-ink-2', '--ln-cream', '--ln-cream-dim',
+    '--ln-gold', '--ln-gold-deep', '--ln-line', '--ln-line-soft',
+    '--ln-grain-op', '--ln-glass', '--ln-glass-strong',
+    '--ln-menu', '--ln-menu-true', '--ln-bot', '--ln-bot-true',
+    '--ln-order', '--ln-order-true',
+  ];
+  check(
+    LIGHT_MUST_FLIP.every((t) => landingLight[t] !== undefined),
+    `phase9 light stage: every --ln-* color token flips (missing: ${LIGHT_MUST_FLIP.filter((t) => landingLight[t] === undefined).join(', ')})`
+  );
+
+  // the day values (contrast ratios documented in landing.css §15 header):
+  pinAll(landingLight, 'landing-light', {
+    '--ln-ink':        '#F2EFE6',
+    '--ln-ink-2':      '#EAE6DA',
+    '--ln-cream':      '#070B16',
+    '--ln-cream-dim':  '#444C5F',
+    '--ln-gold':       '#7E5B1C',
+    '--ln-gold-deep':  '#6E4F18',
+    '--ln-line':       'rgba(7, 11, 22, 0.16)',
+    '--ln-line-soft':  'rgba(7, 11, 22, 0.08)',
+    '--ln-grain-op':   '0.05',
+    '--ln-menu':       '#A93A26',
+    '--ln-menu-true':  '#C2452D',
+    '--ln-bot':        '#0A7558',
+    '--ln-bot-true':   '#0A7558',
+    '--ln-order':      '#B23E00',
+    '--ln-order-true': '#D14900',
+    '--ln-glass':       'rgba(250, 249, 245, 0.72)',
+    '--ln-glass-strong': 'rgba(252, 251, 247, 0.9)',
+  });
+
+  // the night stage stays the DEFAULT: the exact-.landing scope (which
+  // the dark pins above already value-pin) must not carry the PAPER
+  // ground — the day values may live only under the html.light compound.
+  check(
+    nightScopeP9['--ln-ink'] === '#070B16',
+    'phase9 light stage: the default .landing scope stays the NIGHT stage (--ln-ink #070B16 — the paper ground lives only under html.light)'
+  );
+
+  // the luminous-gold CTA exception (the product-layer light ruling):
+  // #E9B44C fill + #1A0F06 ink — the pill stays luminous in the day.
+  check(
+    /html\.light \.landing \.ln-btn-gold\s*\{[^}]*background:\s*#E9B44C;[^}]*color:\s*#1A0F06;/.test(lcssP9)
+      && /html\.light \.landing \.ln-btn-gold:hover\s*\{[^}]*background:\s*#C9962F;/.test(lcssP9),
+    'phase9 light stage: the gold CTA keeps the luminous fill pair (#E9B44C + #1A0F06, hover #C9962F — the product-layer light ruling)'
+  );
+
+  // the toggle: the family twin contract on the landing chrome —
+  // mounted guard, resolvedTheme, the family aria-labels, 44px floor.
+  check(
+    /landing-theme-toggle/.test(headerSrcP9)
+      && headerSrcP9.includes('useSyncExternalStore')
+      && headerSrcP9.includes('resolvedTheme')
+      && headerSrcP9.includes('"تفعيل المظهر الفاتح"')
+      && headerSrcP9.includes('"تفعيل المظهر الداكن"'),
+    'phase9 toggle: LandingHeader carries the family twin (mounted guard + resolvedTheme + the family aria-labels)'
+  );
+  check(
+    /\.landing \.landing-theme-toggle\s*\{[^}]*block-size:\s*44px;[^}]*min-block-size:\s*44px;/.test(lcssP9)
+      && /\.landing \.landing-theme-toggle-icon\s*\{[^}]*transition:\s*transform/.test(lcssP9),
+    'phase9 toggle: the 44px touch floor + the icon flip transition (landing.css §15c)'
+  );
+
+  // the engine: the canvas follows the theme (MutationObserver on the
+  // html class → re-read tokens → rebuild sprites/scene → repaint).
+  check(
+    orbitSrcP9.includes('repaintFromTokens')
+      && orbitSrcP9.includes("new MutationObserver(repaintFromTokens)")
+      && orbitSrcP9.includes('attributeFilter') && orbitSrcP9.includes("attributeFilter: ['class']")
+      && orbitSrcP9.includes('themeObserver.disconnect()'),
+    'phase9 engine: EcosystemConstellation re-reads the landing tokens on html class change (MutationObserver + rebuild + teardown)'
+  );
 }
 
 // ── r129 F1 · canonical differential fixes (audits/r129/smartlink- ──────────
@@ -2309,8 +2415,15 @@ if (failures.length > 0) {
    .ln-chapter rule pin + both --chapter-line grades + the composition
    utilities check + 5 route-adoption pins + the centered-island/head-cap
    negative sweep + 4 TOC lockstep pins (ids ride real sections; labels
-   mirror the H2s) + the contact grid-recompose pin. */
-const EXPECTED_ASSERTIONS = 524;
+   mirror the H2s) + the contact grid-recompose pin.
+   phase9 (P9-3-a): 524 → 548 — the LIGHT STAGE (mission E3): 17 day-token
+   pins (html.light .landing §15a — the full color surface flips, night
+   values byte-identical) + 7 structural checks (one-light-block,
+   completeness, night-stays-default, luminous-CTA pair, toggle TSX
+   contract, toggle 44px CSS, engine MutationObserver repaint)
+   (the R4 gate was EXTENDED, not weakened: html.light .landing is the
+   sanctioned day scope, every other leak class still fails). */
+const EXPECTED_ASSERTIONS = 548;
 check(
   passed + 1 === EXPECTED_ASSERTIONS,
   `self-count: the suite must run exactly ${EXPECTED_ASSERTIONS} assertions (ran ${passed + 1}) — bump EXPECTED_ASSERTIONS with every intentional pin change`

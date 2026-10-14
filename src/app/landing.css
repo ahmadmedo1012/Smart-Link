@@ -8,8 +8,14 @@
    luminous gold #E9B44C, the exact styles.css :root values. One
    Madarek night world across hub + product sheets; R4 scope isolation
    intact (every --ln-* declaration lives inside .landing, the product
-   token pins in styles.css never move). The landing still paints in
-   BOTH themes — the intentional dark stage, now the family's own.
+   token pins in styles.css never move).
+   phase9 (P9-3-a E3) — the dual-stage doctrine replaces the old
+   "intentional dark stage": the dark §0a block stays the DEFAULT stage,
+   and §15 at the tail redefines the whole --ln-* palette under
+   html.light .landing — the Madarek DAY world (paper #F2EFE6 ground,
+   ink #070B16 text, gold kept as the accent) — so the header toggle
+   meaningfully flips the landing scene (the canvas engine re-reads the
+   tokens through a MutationObserver).
    Import: src/app/page.tsx (the landing route only).
 
    NEW in r152 (the ecosystem mandate): the three siblings got their
@@ -2038,8 +2044,10 @@
   font-weight: var(--fw-bold);
   line-height: 1;
   /* solid translucent fill — the r142 first pass used -webkit-text-stroke,
-     which fragments the Arabic-Indic glyphs (٠١) into detached rectangles
-     on the canvas-heavy hero contrast. A flat wash reads as one clean
+     which fragments the giant display glyphs into detached rectangles
+     on the canvas-heavy hero contrast (first seen on the old Arabic-Indic
+     ٠١ pair; phase9 E1 ships Western 01/02/03 numerals — the flat-wash
+     law holds for any script). A flat wash reads as one clean
      numeral and never fights the panel's world hue. */
   color: color-mix(in srgb, var(--ln-world) 20%, transparent);
   pointer-events: none;
@@ -2731,4 +2739,229 @@
   .landing .ln-eco-chip,
   .landing .ln-eco-card-cta,
   .landing .ln-world-cta { transition: none; }
+}
+
+/* ════════════════════════════════════════════════════════════════════
+   §15 · المرحلة الفاتحة — the Madarek DAY stage (phase9, P9-3-a E3).
+
+   The mission E3 ruling resolves the old "intentional dark stage"
+   contradiction: the toggle must MEANINGINGFULLY affect the landing.
+   The night §0a block above stays the untouched default (parity-pinned
+   byte-for-byte); everything here is ADDITIVE under html.light .landing
+   (next-themes attribute="class" — the same convention the boot script
+   in layout.tsx paints pre-hydration, so there is no flash).
+
+   THE DAY WORLD (KODE-informed day/night chapter, Madarek family):
+   the ground/ink pair SWAPS (paper #F2EFE6 ground — the family sand;
+   ink #070B16 text — 17.09:1, the same AAA pair the night stage runs
+   in reverse), the gold STAYS the accent in its text-grade form
+   (#7E5B1C — the product layer's light-gold #8A6420 ruling, one step
+   deeper because the landing's --ln-ink-2 paper surface is darker than
+   the product cream: 5.37:1 on paper AND 4.95:1 on ink-2, both ≥ 4.5),
+   and every line/wash softens to ink-based rgba (the brief's law).
+
+   Computed pairs (WCAG 2.1, all ≥ 4.5:1 text / ≥ 3:1 non-text):
+     · ink #070B16 on paper #F2EFE6 ......... 17.09:1 (AAA)
+     · ink #070B16 on ink-2 #EAE6DA ......... 15.75:1 (AAA)
+     · secondary #444C5F on paper ...........  7.47:1 (AAA)
+     · secondary #444C5F on ink-2 ...........  6.88:1 (AAA)
+     · gold #7E5B1C on paper ................  5.37:1 (AA)
+     · gold #7E5B1C on ink-2 ................  4.95:1 (AA)
+     · gold-deep (hover) #6E4F18 on paper ...  6.54:1 (AA)
+     · --ln-menu #A93A26 on paper ...........  5.50:1 / on ink-2 5.07:1
+     · --ln-bot  #0A7558 on paper ...........  4.94:1 / on ink-2 4.55:1
+     · --ln-order #B23E00 on paper ..........  5.10:1 / on ink-2 4.70:1
+     · true hexes (non-text furniture) ......  #C2452D 4.37:1 ·
+        #D14900 3.92:1 · #0A7558 4.94:1 — all ≥ 3:1 on paper
+     · btn-gold override: #E9B44C fill + #1A0F06 ink ....  9.95:1
+        (the product layer's LIGHT gold-CTA ruling — the luminous gold
+        stays luminous in the day chapter; hover #C9962F = 7.07:1)
+
+   Foreshadow grade law (day): the LIT grades flip to darkened variants
+   of the siblings' identities (their own light-theme grades where they
+   have one — #A93A26 IS Smart-Menu's hover terracotta); the TRUE hexes
+   keep the literal identities (swatch/motif furniture ≥ 3:1). SmartBot
+   keeps its one-hex symmetry: #17C3A4 misses the 3:1 non-text floor on
+   paper (1.95:1), so BOTH its grades ride the darkened #0A7558 — the
+   "one grade" law survives, now honestly on paper.
+   ════════════════════════════════════════════════════════════════════ */
+
+/* ── 15a · the day token block — every color var the night stage
+   defines, redefined for paper (motion/type/measure inherit §0a). ── */
+html.light .landing {
+  --ln-ink:        #F2EFE6;   /* the family sand — now the PAPER ground */
+  --ln-ink-2:      #EAE6DA;   /* the paper surface step (deeper sand) */
+  --ln-cream:      #070B16;   /* ink text — 17.09:1 AAA on paper */
+  --ln-cream-dim:  #444C5F;   /* night-tinted secondary ink — 7.47:1 AAA */
+  --ln-gold:       #7E5B1C;   /* text-grade deep gold — 5.37:1 (see header) */
+  --ln-gold-deep:  #6E4F18;   /* hover/active gold — DARKENS on paper 6.54:1
+                                 (mirrors the night stage's lighter-on-night
+                                 #F5D48A; same direction law, inverted) */
+  --ln-line:       rgba(7, 11, 22, 0.16);   /* ink hairlines on paper */
+  --ln-line-soft:  rgba(7, 11, 22, 0.08);
+  /* grain softens back to the tokens.css canonical 0.05 — white noise
+     reads far stronger on paper than on night; 0.075 would film over
+     the day world (Madarek declares the split for exactly this case). */
+  --ln-grain-op:   0.05;
+  /* §15-foreshadow — the day grades (law in the section header above) */
+  --ln-menu:        #A93A26;  /* Smart Menu day lit — the sibling's OWN
+                                 light-theme hover hex, 5.50:1 */
+  --ln-menu-true:   #C2452D;  /* identity terracotta — non-text 4.37:1 */
+  --ln-bot:         #0A7558;  /* darkened signal teal — 4.94:1 */
+  --ln-bot-true:    #0A7558;  /* the one-hex symmetry, kept honest on paper */
+  --ln-order:       #B23E00;  /* darkened delivery orange — 5.10:1 */
+  --ln-order-true:  #D14900;  /* identity orange — non-text 3.92:1 */
+  /* ivory glass — the paper card family (KODE day chapter): cards sit
+     LIGHTER than the sand ground instead of darker than night */
+  --ln-glass:         rgba(250, 249, 245, 0.72);
+  --ln-glass-strong:  rgba(252, 251, 247, 0.9);
+  background: var(--ln-ink); color: var(--ln-cream);
+}
+
+/* selection rides the day gold pair — #7E5B1C on paper text, 5.37:1 */
+/* (the §0 rule resolves var() through this scope automatically) */
+
+/* ── 15b · the night literals that cannot flip via tokens — their day
+   twins. Same anatomy, ink-based rgba washes (each maps the night
+   rule 1:1; nothing else about the component changes). ───────────── */
+
+/* chrome: the progress track + the scrolled header band */
+html.light .landing .landing-progress { background: rgb(7 11 22 / 0.08); }
+html.light .landing .landing-header.scrolled { background: rgb(242 239 230 / 0.92); }
+
+/* chrome: hover/active washes (the night sand-tint washes on paper) */
+html.light .landing header[data-active-section="products"] .landing-nav-link[href="#products"],
+html.light .landing header[data-active-section="journey"] .landing-nav-link[href="#journey"],
+html.light .landing header[data-active-section="progress"] .landing-nav-link[href="#progress"],
+html.light .landing header[data-active-section="platforms"] .landing-nav-link[href="#platforms"] {
+  background: rgb(7 11 22 / 0.07);
+}
+html.light .landing .landing-nav-group.open .landing-nav-link { background: rgb(7 11 22 / 0.04); }
+html.light .landing .landing-nav-link:hover { background: rgb(7 11 22 / 0.04); }
+html.light .landing .landing-burger:hover { background: rgb(7 11 22 / 0.04); }
+html.light .landing .landing-megamenu-item:focus-visible { background: rgb(7 11 22 / 0.05); }
+
+/* chrome: the icon wells (gold/mist) — ink wash on paper */
+html.light .landing .ln-menu-ico.gold,
+html.light .landing .ln-menu-ico.mist { background: rgb(7 11 22 / 0.06); }
+html.light .landing .ln-platform-ico.gold,
+html.light .landing .ln-platform-ico.mist { background: rgb(7 11 22 / 0.06); }
+
+/* pills: the ghost pair + the gold ring (ink hairlines on paper) */
+html.light .landing .ln-btn-ghost {
+  border-color: rgb(7 11 22 / 0.30);
+}
+html.light .landing .ln-btn-ghost:hover {
+  background: rgb(7 11 22 / 0.06);
+  border-color: rgb(7 11 22 / 0.45);
+}
+html.light .landing .ln-btn-gold {
+  box-shadow:
+    0 1px 2px rgba(0,0,0,0.12),
+    0 4px 12px rgba(0,0,0,0.16),
+    0 0 0 1px rgba(7,11,22,0.14);
+}
+html.light .landing .ln-btn-gold:hover {
+  box-shadow:
+    0 2px 4px rgba(0,0,0,0.16),
+    0 8px 20px rgba(0,0,0,0.20),
+    0 0 0 1px rgba(7,11,22,0.18);
+}
+
+/* THE CTA EXCEPTION (product-layer light-gold ruling, phase6 P6-2-a2):
+   the ONE luminous-gold fill stays LUMINOUS in the day chapter —
+   #E9B44C fill + #1A0F06 ink (9.95:1), hover #C9962F (7.07:1). The
+   token flip alone would paint the deep text-gold (#7E5B1C) as the
+   fill — correct AA, wrong DRAMA: the conversion pill is the family's
+   luminous accent, and the product pages already run exactly this
+   pair in light mode. :active (also the RM press path) rides the same
+   #C9962F family so the RM tint never lands on the text grade. */
+html.light .landing .ln-btn-gold { background: #E9B44C; color: #1A0F06; }
+html.light .landing .ln-btn-gold:hover { background: #C9962F; }
+html.light .landing .ln-btn-gold:active { background: #C9962F; }
+
+/* hero: the sky wash + the crisp-day title (the night's black depth
+   text-shadow reads muddy on paper — the day chapter is crisp) */
+html.light .landing .ln-hero-sky::after {
+  background: radial-gradient(ellipse at 70% 60%, rgba(7,11,22,0.03) 0%, transparent 60%);
+}
+html.light .landing .ln-hero-title { text-shadow: none; }
+
+/* chapter seams: the sand fade gradients above the ink-2 bands */
+html.light .landing .ln-trust::before {
+  background: linear-gradient(180deg, transparent 0%, rgba(7,11,22,0.04) 100%);
+}
+html.light .landing .landing-footer::before {
+  background: linear-gradient(180deg, transparent 0%, rgba(7,11,22,0.04) 100%);
+}
+
+/* journey + cockpit cards: the paper equivalents of the night washes */
+html.light .landing .ln-station-card { background: rgb(7 11 22 / 0.04); }
+html.light .landing .ln-station-ico { background: rgb(7 11 22 / 0.06); }
+html.light .landing .ln-station-node { box-shadow: 0 0 0 4px rgb(7 11 22 / 0.14); }
+html.light .landing .ln-station:last-child .ln-station-node { box-shadow: 0 0 0 5px rgb(7 11 22 / 0.18); }
+html.light .landing .ln-stat { background: rgb(7 11 22 / 0.04); }
+html.light .landing .ln-faq-item { background: rgb(7 11 22 / 0.03); }
+
+/* the mock frames: rows/bubbles/tiles sit as ink-tinted paper rows
+   on the ivory glass (the night ran 0.28–0.35 dark washes; the day
+   whisper is 0.04–0.05 — KODE paper UI, hairlines do the structure) */
+html.light .landing .ln-mock-bar { background: rgb(7 11 22 / 0.05); }
+html.light .landing .ln-mock-row { background: rgb(7 11 22 / 0.04); }
+html.light .landing .ln-mock-bubble.is-in { background: rgb(7 11 22 / 0.05); }
+html.light .landing .ln-mock-tile { background: rgb(7 11 22 / 0.04); }
+
+/* cockpit: the console status strip + scope dial + readout wells */
+html.light .landing .ln-cockpit-status { background: rgb(7 11 22 / 0.05); }
+html.light .landing .ln-cockpit-scope {
+  background:
+    radial-gradient(circle at center, transparent 58%, rgb(7 11 22 / 0.06) 59%, transparent 60%),
+    radial-gradient(circle at center, transparent 34%, rgb(7 11 22 / 0.05) 35%, transparent 36%),
+    rgb(7 11 22 / 0.04);
+}
+html.light .landing .ln-cockpit-readout .ln-stat { background: rgb(7 11 22 / 0.04); }
+
+/* ground control: the console status strip + the pointer whisper */
+html.light .landing .ln-ground-status { background: rgb(7 11 22 / 0.05); }
+@media (hover: hover) {
+  html.light .landing .ln-ground-cell:hover { background: rgb(7 11 22 / 0.04); }
+}
+
+/* ── 15c · the theme toggle (phase9 E3) — token-driven, so it flips
+   with the stage automatically: hairline ring + icon in cream-dim,
+   hover wakes to cream with a token-mixed wash (color-mix reads the
+   flipped --ln-cream — ink on paper — no literal to override). The
+   44px touch floor + the universal .landing :focus-visible ring
+   (which flips to the ink ring in day) carry the a11y contract. ──── */
+.landing .landing-theme-toggle {
+  display: grid;
+  place-items: center;
+  inline-size: 44px;
+  block-size: 44px;
+  min-inline-size: 44px;
+  min-block-size: 44px;
+  border-radius: var(--ln-radius-pill);
+  border: 1px solid var(--ln-line);
+  background: transparent;
+  color: var(--ln-cream-dim);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition:
+    color var(--ln-t-base) var(--ln-ease),
+    background var(--ln-t-base) var(--ln-ease),
+    border-color var(--ln-t-base) var(--ln-ease);
+}
+.landing .landing-theme-toggle:hover {
+  color: var(--ln-cream);
+  background: color-mix(in srgb, var(--ln-cream) 6%, transparent);
+  border-color: color-mix(in srgb, var(--ln-cream) 28%, transparent);
+}
+.landing .landing-theme-toggle-icon {
+  display: grid;
+  place-items: center;
+  transition: transform var(--ln-t-slow) var(--ln-ease-spring);
+}
+@media (prefers-reduced-motion: reduce) {
+  .landing .landing-theme-toggle,
+  .landing .landing-theme-toggle-icon { transition: none; }
 }

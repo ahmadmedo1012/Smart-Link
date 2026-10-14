@@ -138,9 +138,11 @@ export function EcosystemConstellation({
       queueMicrotask(() => setFailed(true));
       return;
     }
-    const C = cream!;
-    const G = gold!;
-    const W = worlds as readonly Triplet[];
+    // let (not const): the palette is REASSIGNED on theme flip below —
+    // the same closure vars draw() reads keep the engine one palette.
+    let C: Triplet = cream!;
+    let G: Triplet = gold!;
+    let W: readonly Triplet[] = worlds as readonly Triplet[];
 
     // r147 split: the scene state the extracted geometry/painter modules
     // read — the parent mirrors its pinned constants, the sampled palette
@@ -204,10 +206,11 @@ export function EcosystemConstellation({
       nebula = built.nebula;
     }
 
-    // glow sprites — one per world + core + bloom (built once)
-    const glowW = W.map((t) => makeGlowSprite(64, t, 0.4));
-    const glowCore = makeGlowSprite(64, C, 0.34);
-    const glowBloom = makeGlowSprite(128, G, 0.3);
+    // glow sprites — one per world + core + bloom (built once at boot,
+    // REBUILT on theme flip below — phase9)
+    let glowW = W.map((t) => makeGlowSprite(64, t, 0.4));
+    let glowCore = makeGlowSprite(64, C, 0.34);
+    let glowBloom = makeGlowSprite(128, G, 0.3);
     S.glowW = glowW;
     S.glowCore = glowCore;
     S.glowBloom = glowBloom;
@@ -218,6 +221,44 @@ export function EcosystemConstellation({
     const mouse = { x: 0.5, y: 0.5, sx: 0.5, sy: 0.5, active: false };
     const pointer = { x: -1, y: -1, inside: false };
     let canvasHover: WorldId | null = null;
+
+    /* phase9 (P9-3-a E3) — theme repaint: the landing toggle flips
+       html.dark/html.light and the light stage REDEFINES the very tokens
+       sampled at boot. One MutationObserver on the html class re-reads
+       the same landing.css tokens (getComputedStyle resolves them
+       through the new cascade — ink stars/rings on paper, darkened node
+       grades), rebuilds the glow sprites + star field + nebula, and the
+       running loop paints the new world on its next frame (the
+       reduced-motion path redraws its single composed frame). A failed
+       re-read keeps the last good palette — the engine never paints
+       guesswork (the boot law holds for every repaint). */
+    function repaintFromTokens() {
+      const nextCream = readToken(root, '--ln-cream');
+      const nextGold = readToken(root, '--ln-gold');
+      const nextWorlds = WORLDS.map((w) => readToken(root, w.token));
+      if (!nextCream || !nextGold || nextWorlds.some((t) => t === null)) return;
+      C = nextCream;
+      G = nextGold;
+      W = nextWorlds as readonly Triplet[];
+      S.C = C;
+      S.G = G;
+      S.W = W;
+      glowW = W.map((t) => makeGlowSprite(64, t, 0.4));
+      glowCore = makeGlowSprite(64, C, 0.34);
+      glowBloom = makeGlowSprite(128, G, 0.3);
+      S.glowW = glowW;
+      S.glowCore = glowCore;
+      S.glowBloom = glowBloom;
+      const built = buildScene(S);
+      S.stars = built.stars;
+      nebula = built.nebula;
+      if (reducedMotion) drawStatic();
+    }
+    const themeObserver = new MutationObserver(repaintFromTokens);
+    themeObserver.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class'],
+    });
 
     function systemScale() {
       return 0.94 + 0.06 * introT;
@@ -478,6 +519,7 @@ export function EcosystemConstellation({
       running = false;
       io.disconnect();
       ro.disconnect();
+      themeObserver.disconnect();
       document.removeEventListener('visibilitychange', onVisibility);
       window.removeEventListener('scroll', onScroll);
       canvas.removeEventListener('pointermove', onPointerMove);

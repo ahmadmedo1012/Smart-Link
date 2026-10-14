@@ -301,22 +301,24 @@
      shadow-xl = --shadow-modal (heavier + 1px light ring). ── */
   --t-shadow-lg: 0 2px 4px rgba(2, 4, 12, 0.55), 0 10px 28px rgba(2, 4, 12, 0.62), 0 0 0 1px rgba(142, 151, 184, 0.10);
   --t-shadow-xl: 0 12px 32px rgba(2, 4, 12, 0.66), 0 32px 80px rgba(2, 4, 12, 0.70), 0 0 0 1px rgba(142, 151, 184, 0.12);
-  --t-glow: 0 0 30px rgb(233 180 76 / 0.25);
-  --t-glow-strong: 0 0 60px rgb(233 180 76 / 0.35);
+  /* P13-2a KODE retirement: the glows ride the safety orange now
+     (was the Madarek gold rgb(233 180 76 / …) — same alpha ladder). */
+  --t-glow: 0 0 30px rgb(255 76 0 / 0.25);
+  --t-glow-strong: 0 0 60px rgb(255 76 0 / 0.35);
 
   /* r144 (P4-4SL): توكنات تدرّجات الخدمات الثلاثة حُذفت — صفر
      مستهلكي var() منذ إسقاط البطاقات المتدرجة (نفس فئة الحذف التي
      نفّذها r131 A3 D3 لتوكنات gradient-text). */
 
-  /* ── Grid pattern — gold hairline at the original 10% ── */
+  /* ── Grid pattern — P13-2a: the orange hairline at the original 10% ── */
   --grid-line: rgb(255 76 0 / 0.1);
 
   /* ── Chapter separator hairline (phase6, P6-2-a2): the product-page
-     .ln-chapter rhythm's gold hairline — the family accent at whisper
-     grades per theme. Dark: the luminous gold; light: the deep text-
-     safe gold (the luminous #E9B44C is 1.8:1 on cream and would
-     vanish — see the .light twin). ── */
-  --chapter-line: rgb(233 180 76 / 0.16);
+     .ln-chapter rhythm's accent hairline — the family accent at whisper
+     grades per theme. P13-2a KODE retirement: dark rides the luminous
+     orange; light rides the deep text-safe orange #B23E00 (the luminous
+     #FF4C00 is ~2.9:1 on paper and would vanish — see the .light twin). ── */
+  --chapter-line: rgb(255 76 0 / 0.16);
 
   /* (r131 A3 D3: the --gradient-text-mid/end stops are deleted with the
      dead @utility gradient-text — zero TSX consumers since the r128
@@ -585,19 +587,22 @@
   /* ── Tonal shadows → Madarek §1.9 light recipes ── */
   --t-shadow-lg: 0 1px 2px rgba(15, 15, 15, 0.04), 0 8px 24px rgba(15, 15, 15, 0.08);
   --t-shadow-xl: 0 12px 36px rgba(15, 15, 15, 0.10), 0 32px 80px rgba(15, 15, 15, 0.14);
-  --t-glow: 0 0 30px rgb(233 180 76 / 0.14);
-  --t-glow-strong: 0 0 60px rgb(233 180 76 / 0.22);
+  /* P13-2a KODE retirement: the light glows ride the safety orange
+     (was the phase6 gold rgb(233 180 76 / …) — same alpha ladder). */
+  --t-glow: 0 0 30px rgb(255 76 0 / 0.14);
+  --t-glow-strong: 0 0 60px rgb(255 76 0 / 0.22);
 
   /* r144 (P4-4SL): توكنات تدرّجات الخدمات الفاتحة حُذفت مع توأميهما
      الداكنين — صفر مستهلكين. */
 
-  /* ── Grid pattern — gold hairline at 8% (gold is lighter than the
-     retired copper; +2% alpha holds the whisper) ── */
+  /* ── Grid pattern — P13-2a: the orange hairline at 8% (a whisper on
+     paper; +2% vs night holds the visibility) ── */
   --grid-line: rgb(255 76 0 / 0.08);
 
-  /* phase6 (P6-2-a2): the chapter hairline in its cream grade — deep
-     gold #8A6420 at a whisper alpha carries the hue on cream. */
-  --chapter-line: rgb(138 100 32 / 0.25);
+  /* phase6 (P6-2-a2) → P13-2a KODE retirement: the chapter hairline in
+     its paper grade — deep text-orange #B23E00 at a whisper alpha
+     carries the hue on paper (was the deep gold #8A6420). */
+  --chapter-line: rgb(178 62 0 / 0.25);
 
   /* (r131 A3 D3: the light --gradient-text-mid/end twins are deleted
      with the dead @utility gradient-text — see the :root note.) */

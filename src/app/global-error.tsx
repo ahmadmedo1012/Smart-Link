@@ -30,9 +30,10 @@ export default function GlobalError({
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          /* m15: Madarek night — ground #070B16, sand ink #F2EFE6 */
-          background: "#070B16",
-          color: "#F2EFE6",
+          /* P13-2a KODE retirement — KODE ink ground + paper text
+             (was Madarek night #070B16 + sand #F2EFE6) */
+          background: "#050507",
+          color: "#F4F2ED",
           fontFamily: "system-ui, 'Segoe UI', Tahoma, sans-serif",
           textAlign: "center",
           padding: "2rem",
@@ -45,8 +46,9 @@ export default function GlobalError({
               height: 56,
               borderRadius: 16,
               margin: "0 auto 24px",
-              /* m15: gold wash — the dark accent at 15% */
-              background: "rgba(233, 180, 76, 0.15)",
+              /* P13-2a KODE retirement: the orange wash — the dark
+                 accent at 15% (was the Madarek gold wash) */
+              background: "rgba(255, 76, 0, 0.15)",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
@@ -57,14 +59,15 @@ export default function GlobalError({
                 كان آخر إيموجي في واجهة المستودع؛ أيقونات الواجهة SVG
                 (عائلة lucide) هنا. مخطط alert-triangle مُضمَّن حرفياً
                 (هذا الحدّ يُبحر بلا حزمة CSS/بلا قطعة lucide — مذهب
-                «قيم فقط» الحدودي نفسه)، والحبر = ذهب مدارك الداكن
-                #E9B44C ≈ 7.6:1 على الغسيل الممزوج بالأرض الليلية. */}
+                «قيم فقط» الحدودي نفسه). P13-2a KODE retirement: الحبر
+                = برتقال كود #FF4C00 (≈5.5:1 على الغسيل الممزوج
+                بأرض الحبر الداكنة). */}
             <svg
               width="28"
               height="28"
               viewBox="0 0 24 24"
               fill="none"
-              stroke="#E9B44C"
+              stroke="#FF4C00"
               strokeWidth="2"
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -98,10 +101,11 @@ export default function GlobalError({
                 alignItems: "center",
                 borderRadius: 10,
                 border: "none",
-                /* m15: Madarek .btn.accent dark — gold fill + dark ink
-                   (#05070F on #E9B44C ≈ 10.6:1; white was 1.9:1) */
-                background: "#E9B44C",
-                color: "#05070F",
+                /* P13-2a KODE retirement — the KODE accent recipe:
+                   safety-orange fill + ink #050507 on it (≈6.3:1;
+                   was Madarek gold #E9B44C + #05070F) */
+                background: "#FF4C00",
+                color: "#050507",
                 /* r150 (20-IDEAL-CTA completion): the full fleet
                    button canon 44/13/600/r10 as INLINE values
                    (no CSS bundle on this boundary — A6: "values only");
@@ -129,9 +133,11 @@ export default function GlobalError({
                 borderRadius: 10,
                 border: "1px solid rgba(255,255,255,0.14)",
                 background: "rgba(255,255,255,0.04)",
-                color: "#F2EFE6",
+                /* P13-2a KODE retirement: paper text on the ghost twin
+                   (was sand #F2EFE6) */
+                color: "#F4F2ED",
                 /* r150 (20-IDEAL-CTA completion): 44/13/600/r10 —
-                   the ghost twin of the gold button above (inline
+                   the ghost twin of the orange button above (inline
                    values only on this boundary). */
                 fontWeight: 600,
                 fontSize: 13,

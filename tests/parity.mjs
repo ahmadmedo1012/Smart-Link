@@ -340,8 +340,10 @@ const SHADOWS_DARK = {
   '--shadow-modal': '0 12px 32px rgba(2, 4, 12, 0.66), 0 32px 80px rgba(2, 4, 12, 0.70), 0 0 0 1px rgba(142, 151, 184, 0.12)',
   '--t-shadow-lg': '0 2px 4px rgba(2, 4, 12, 0.55), 0 10px 28px rgba(2, 4, 12, 0.62), 0 0 0 1px rgba(142, 151, 184, 0.10)',
   '--t-shadow-xl': '0 12px 32px rgba(2, 4, 12, 0.66), 0 32px 80px rgba(2, 4, 12, 0.70), 0 0 0 1px rgba(142, 151, 184, 0.12)',
-  '--t-glow': '0 0 30px rgb(233 180 76 / 0.25)',
-  '--t-glow-strong': '0 0 60px rgb(233 180 76 / 0.35)',
+  /* P13-2a KODE retirement — re-pin: the glows ride the safety orange
+     (was the Madarek gold rgb(233 180 76 / …); alpha ladder unchanged). */
+  '--t-glow': '0 0 30px rgb(255 76 0 / 0.25)',
+  '--t-glow-strong': '0 0 60px rgb(255 76 0 / 0.35)',
 };
 const SHADOWS_LIGHT = {
   '--shadow-card': '0 1px 2px rgba(0,0,0,0.04), 0 1px 1px rgba(0,0,0,0.06)', // = --elev-1
@@ -350,9 +352,10 @@ const SHADOWS_LIGHT = {
   '--shadow-modal': '0 12px 36px rgba(15, 15, 15, 0.10), 0 32px 80px rgba(15, 15, 15, 0.14)',
   '--t-shadow-lg': '0 1px 2px rgba(15, 15, 15, 0.04), 0 8px 24px rgba(15, 15, 15, 0.08)',
   '--t-shadow-xl': '0 12px 36px rgba(15, 15, 15, 0.10), 0 32px 80px rgba(15, 15, 15, 0.14)',
-  /* phase6 light gold ruling: the glows ride the gold hue (was copper). */
-  '--t-glow': '0 0 30px rgb(233 180 76 / 0.14)',
-  '--t-glow-strong': '0 0 60px rgb(233 180 76 / 0.22)',
+  /* phase6 light gold ruling → P13-2a KODE retirement — re-pin: the
+     glows ride the safety orange (alpha ladder unchanged). */
+  '--t-glow': '0 0 30px rgb(255 76 0 / 0.14)',
+  '--t-glow-strong': '0 0 60px rgb(255 76 0 / 0.22)',
 };
 
 // ── r126: surfaces, scrollbar, gen-art, gradients ───────────────────────────
@@ -2340,10 +2343,13 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
   check(
     /padding-block:\s*clamp\(60px, 9vh, 84px\)/.test(lnChapterRule)
       && /border-block-end:\s*1px solid var\(--chapter-line\)/.test(lnChapterRule),
-    'phase6 rhythm: .ln-chapter rides the landing fluid clamp(60px, 9vh, 84px) + the --chapter-line gold hairline'
+    'phase6 rhythm: .ln-chapter rides the landing fluid clamp(60px, 9vh, 84px) + the --chapter-line accent hairline'
   );
-  pin(dark, 'chapter-line-dark', '--chapter-line', 'rgb(233 180 76 / 0.16)');
-  pin(light, 'chapter-line-light', '--chapter-line', 'rgb(138 100 32 / 0.25)');
+  /* P13-2a KODE retirement — re-pin: gold → orange hairlines (the
+     alpha grades keep the phase6 structure; light rides the deep
+     text-orange #B23E00 grade). */
+  pin(dark, 'chapter-line-dark', '--chapter-line', 'rgb(255 76 0 / 0.16)');
+  pin(light, 'chapter-line-light', '--chapter-line', 'rgb(178 62 0 / 0.25)');
   check(
     /\.ln-chapter--head\s*\{/.test(css) && /\.ln-chapter--prose\s*\{/.test(css)
       && /\.ln-toc\s*\{/.test(css) && /\.ln-card--keyline\s*\{/.test(css),
@@ -2448,9 +2454,9 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
   );
   check(
     !globalError10.includes('\u26A0')
-      && globalError10.includes('stroke="#E9B44C"')
+      && globalError10.includes('stroke="#FF4C00"')
       && globalError10.includes('m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z'),
-    'P10-1c emoji retirement: global-error carries the inline lucide alert-triangle SVG in the Madarek gold ink (#E9B44C) — the ⚠️ text emoji is gone (SO P9-3-d twin; the boundary keeps its zero-dependency values-only doctrine)'
+    'P10-1c emoji retirement: global-error carries the inline lucide alert-triangle SVG in the KODE safety-orange ink (#FF4C00 — P13-2a KODE retirement, was the Madarek gold #E9B44C) — the ⚠️ text emoji is gone (SO P9-3-d twin; the boundary keeps its zero-dependency values-only doctrine)'
   );
 }
 

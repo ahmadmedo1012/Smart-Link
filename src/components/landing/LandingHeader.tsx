@@ -146,6 +146,11 @@ export function LandingHeader() {
             </span>
           </Link>
 
+          {/* P12-2a (r160 S5): the bracketed mono status chrome — KODE's
+              near-zero interface furniture. LTR mono on purpose (status
+              labels are machine voice in an RTL page). */}
+          <span className="ln-status ln-mono" aria-hidden="true">[ SMART LINK — 001 ]</span>
+
           <nav className="landing-nav-links" aria-label="أقسام الرحلة">
             <div
               className={`landing-nav-group${megamenuOpen ? " open" : ""}`}
@@ -216,6 +221,7 @@ export function LandingHeader() {
           </nav>
 
           <div className="landing-header-cta">
+            <span className="ln-status ln-status--libya ln-mono" aria-hidden="true">[ LIBYA ]</span>
             <Link href="/contact" className="ln-btn-ghost">تواصل معنا</Link>
             <a
               href={SITE.products.menu.url}

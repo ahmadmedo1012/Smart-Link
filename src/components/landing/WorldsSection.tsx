@@ -1,209 +1,63 @@
 import { ArrowLeft } from "lucide-react"
-import type { CSSProperties, JSX, ReactNode } from "react"
 import { RevealCssClass } from "@/hooks/useReveal"
-import { WORLDS, type World } from "./worlds"
+import { WORLDS } from "./worlds"
 
-/* r142 «الكوكبة الحية» — Chapter 01 «العوالم»: the editorial worlds
- * chapter that REPLACES the old products-constellation + roles-ledger
- * pair. Three full-bleed world panels, asymmetrically alternated — each
- * product is a WORLD in its own hue (r152 phase5: the foreshadow pair
- * --ln-world/--ln-world-true per panel — menu terracotta / bot teal /
- * order orange), a giant Arabic-Indic numeral, exactly THREE real claims
- * folded from the page's shipped copy, and a CTA to its LIVE domain.
- *
- * r152 (phase5) — the FORESHADOW layer: every panel opens with an
- * identity strip whose motif is the sibling's own Phase-5 world mark
- * (pure CSS, aria-hidden, zero images):
- *   · Menu  — the PLATE: a terracotta circle with a serving ring
- *   · Bot   — the CIRCUIT: a teal stepped trace with node dots
- *   · Order — the ROUTE: an orange dashed line, origin → destination
- * The mocks echo them (menu thumbs go plate-round; the order ticket's
- * dashed border IS the route). Copy untouched — the honest r137-r144
- * audit language ships verbatim.
- *
- * The visual column is an ORIGINAL composition per product (pure CSS
- * mock, aria-hidden, zero images, zero invented data — skeletons stand
- * for content, never fake numbers/names):
- *   · MenuMock  — a menu window: category chips + dish rows with
- *     skeleton names/prices (prices stay abstract: no invented LYD).
- *   · BotMock   — a page inbox: incoming bubble + intent chip + auto
- *     reply (the real تصنيف النوايا / ردود تلقائية story).
- *   · OrderMock — a store grid + an order ticket with the REAL
- *     دفع محلي / توصيل chips.
- * Layout is explicit grid placement (grid-column), which keeps the
- * alternation stable under RTL without any physical left/right. */
-
-function MockFrame({ host, children }: { host: string; children: ReactNode }) {
-  return (
-    <div className="ln-mock">
-      <div className="ln-mock-bar" aria-hidden="true">
-        <span className="ln-mock-dots" aria-hidden="true">
-          <i /><i /><i />
-        </span>
-        <span className="ln-mock-host ln-mono">{host}</span>
-      </div>
-      <div className="ln-mock-body">{children}</div>
-    </div>
-  )
-}
-
-function MenuMock() {
-  return (
-    <MockFrame host="menu.smart-link.ly">
-      <div className="ln-mock-chips" aria-hidden="true">
-        <span className="ln-mock-chip is-active">الأطباق الرئيسية</span>
-        <span className="ln-mock-chip">المقبلات</span>
-        <span className="ln-mock-chip">المشروبات</span>
-      </div>
-      <div className="ln-mock-rows">
-        {[64, 46, 54].map((wdt, i) => (
-          <div className="ln-mock-row" key={i}>
-            <span className="ln-mock-thumb" aria-hidden="true" />
-            <span className="ln-mock-lines" aria-hidden="true">
-              <i style={{ inlineSize: `${wdt}%` }} />
-              <i style={{ inlineSize: `${100 - wdt}%` }} />
-            </span>
-            <span className="ln-mock-price" aria-hidden="true" />
-          </div>
-        ))}
-      </div>
-    </MockFrame>
-  )
-}
-
-function BotMock() {
-  return (
-    <MockFrame host="bot.smart-link.ly">
-      <div className="ln-mock-chat">
-        <div className="ln-mock-bubble is-in">
-          <span className="ln-mock-line" style={{ inlineSize: "78%" }} aria-hidden="true" />
-          <span className="ln-mock-line" style={{ inlineSize: "52%" }} aria-hidden="true" />
-          <span className="ln-mock-intent ln-mono">INTENT · منيو</span>
-        </div>
-        <div className="ln-mock-bubble is-out">
-          <span className="ln-mock-line" style={{ inlineSize: "84%" }} aria-hidden="true" />
-          <span className="ln-mock-line" style={{ inlineSize: "38%" }} aria-hidden="true" />
-          <span className="ln-mock-auto ln-mono">AUTO REPLY</span>
-        </div>
-        <div className="ln-mock-typing" aria-hidden="true">
-          <i /><i /><i />
-        </div>
-      </div>
-    </MockFrame>
-  )
-}
-
-function OrderMock() {
-  return (
-    <MockFrame host="order.smart-link.ly">
-      <div className="ln-mock-grid" aria-hidden="true">
-        {[0, 1, 2].map((i) => (
-          <span className="ln-mock-tile" key={i}>
-            <i className="ln-mock-tile-art" />
-            <i className="ln-mock-tile-line" />
-          </span>
-        ))}
-      </div>
-      <div className="ln-mock-ticket">
-        <span className="ln-mock-ticket-head ln-mono">ORDER · طلب جديد</span>
-        <span className="ln-mock-line" style={{ inlineSize: "70%" }} aria-hidden="true" />
-        <span className="ln-mock-line" style={{ inlineSize: "45%" }} aria-hidden="true" />
-        <span className="ln-mock-chips" aria-hidden="true">
-          <span className="ln-mock-chip is-active">دفع محلي</span>
-          <span className="ln-mock-chip">توصيل</span>
-        </span>
-      </div>
-    </MockFrame>
-  )
-}
-
-const MOCKS: Record<World["id"], () => JSX.Element> = {
-  menu: MenuMock,
-  bot: BotMock,
-  order: OrderMock,
-}
-
-/* r152 (phase5) — the foreshadow motif: the sibling's world mark,
- * one device per product (plate / circuit / route — worlds.ts carries
- * the motif name), drawn purely in CSS from the --ln-world-true
- * identity hex. aria-hidden furniture — the words around it carry
- * the meaning. */
-function WorldMotif({ id }: { id: World["id"] }) {
-  const w = WORLDS.find((wd) => wd.id === id)
-  return <span className={`ln-motif ln-motif--${w?.motif ?? "plate"}`} aria-hidden="true" />
-}
+/* P12-2a (r160 KODE) — Chapter 001 «العوالم» re-cast as the BLACK stage:
+ * a huge Kufi chapter header and three minimal TYPE-CARDS separated by
+ * hairline rules (the spec's S3 discipline: ink/white/orange only — the
+ * per-world hue panels + CSS mocks retired with the constellation era).
+ * Everything REAL survives: the three live domains, the shipped copy,
+ * the three real claims per world, the Western numerals (E1). The
+ * worlds.ts registry stays the single data source. */
 
 export function WorldsSection() {
   return (
-    <section id="products" className="ln-chapter ln-worlds">
-      <div className="ln-chapter-head">
-        <span className="ln-label">{"01 — العوالم"}</span>
-        <RevealCssClass as="h2" className="ln-chapter-title" delay={1}>
-          {/* r151 (P3-3، تدقيق r151-a0a): the live audit caught a one-word
-              orphan («الآن» alone on the last line, 82px vs 387px) even
-              with text-wrap: balance. The NBSP binds «تعمل الآن» so the
-              break lands between «عوالم»/«تعمل» — copy verbatim, accent
-              device verbatim, deterministic at every width. */}
+    <section id="products" className="ln-chapter ln-worlds ln-worlds--kode">
+      <header className="ln-chapter-head ln-chapter-head--kode">
+        <span className="ln-label ln-mono">{"001 — العوالم"}</span>
+        <RevealCssClass as="h2" className="ln-chapter-title ln-chapter-title--kode" delay={1}>
           ثلاثة عوالم تعمل&nbsp;<em>الآن</em>
         </RevealCssClass>
         <RevealCssClass as="p" className="ln-chapter-lede" delay={2}>
-          لكل منتجٍ عالمه الخاص بلونه وترابه: منيوٌ يتفاعل، وبوتٌ يردّ،
-          ومتجرٌ يبيع — كل عالم يفتح من نطاقه الحي مباشرة.
+          لكل منتجٍ عالمه الخاص: منيوٌ يتفاعل، وبوتٌ يردّ، ومتجرٌ يبيع —
+          كل عالم يفتح من نطاقه الحي مباشرة.
         </RevealCssClass>
-      </div>
+      </header>
 
-      <div className="ln-worlds-list">
-        {WORLDS.map((w, i) => {
-          const Mock = MOCKS[w.id]
-          return (
-            <RevealCssClass
-              as="article"
-              key={w.id}
-              data-world={w.id}
-              className={`ln-world${i % 2 === 1 ? " ln-world--flip" : ""}`}
-              style={{
-                "--ln-world": `var(${w.token})`,
-                "--ln-world-true": `var(${w.swatch})`,
-              } as CSSProperties}
-              delay={1}
-            >
-              <span className="ln-world-num" aria-hidden="true">{w.numeral}</span>
-
-              <div className="ln-world-body">
-                {/* r152 (phase5): the identity strip — the sibling's motif
-                    (its literal identity hex) beside the live domain. */}
-                <div className="ln-world-identity">
-                  <WorldMotif id={w.id} />
-                  <span className="ln-world-host ln-mono">{w.host}</span>
-                </div>
+      <div className="ln-worlds-list ln-worlds-list--kode">
+        {WORLDS.map((w, i) => (
+          <RevealCssClass
+            as="article"
+            key={w.id}
+            data-world={w.id}
+            className="ln-world-card"
+            delay={(i + 1) as 1 | 2 | 3}
+          >
+            <span className="ln-world-num ln-mono" aria-hidden="true">{w.numeral}</span>
+            <div className="ln-world-card-body">
+              <div className="ln-world-card-head">
                 <h3 className="ln-world-name">{w.name}</h3>
-                <p className="ln-world-sub">{w.sub}</p>
-                <ul className="ln-world-claims">
-                  {w.claims.map((c) => (
-                    <li key={c}>
-                      <span className="ln-world-claim-dot" aria-hidden="true" />
-                      {c}
-                    </li>
-                  ))}
-                </ul>
-                <a
-                  className="ln-world-cta"
-                  href={w.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={`ادخل عالم ${w.name} — النطاق الحي، رابط خارجي`}
-                >
-                  ادخل عالم {w.name}
-                  <ArrowLeft size={16} aria-hidden="true" />
-                </a>
+                <span className="ln-world-host ln-mono">{w.host}</span>
               </div>
-
-              <div className="ln-world-stage" aria-hidden="true">
-                <Mock />
-              </div>
-            </RevealCssClass>
-          )
-        })}
+              <p className="ln-world-sub">{w.sub}</p>
+              <ul className="ln-world-claims">
+                {w.claims.map((c) => (
+                  <li key={c}>{c}</li>
+                ))}
+              </ul>
+              <a
+                className="ln-world-cta"
+                href={w.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`ادخل عالم ${w.name} — النطاق الحي، رابط خارجي`}
+              >
+                ادخل عالم {w.name}
+                <ArrowLeft size={16} aria-hidden="true" />
+              </a>
+            </div>
+          </RevealCssClass>
+        ))}
       </div>
     </section>
   )

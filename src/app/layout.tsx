@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next"
+import { Bodoni_Moda, Noto_Kufi_Arabic } from "next/font/google"
 import { ThemeProvider } from "@/components/theme-provider"
 import { ThemeColorSync } from "@/components/theme-color-sync"
 import { LazyAnalytics } from "@/components/lazy-analytics"
@@ -20,6 +21,25 @@ import "./styles.css"
    one-for-one: the body text paints in the 400 arabic cut and every
    heading/CTA label in the 700 arabic cut (~86 KB together, same
    preload budget as before). */
+
+/* P12-2a (r160 KODE): the DISPLAY pair — Latin Didone + Arabic Kufi.
+ * Bodoni_Moda 700 = the free OT-Brut stand-in (Latin wordmark/numbers);
+ * Noto_Kufi_Arabic 700+800 = the Arabic display cuts for the 3-line hero
+ * lockup + chapter headers. UI/body stays the self-hosted IBM Plex pair
+ * above. Wired as vars — landing.css consumes --font-display-latin /
+ * --font-display-arabic; nothing else changes. */
+const bodoni = Bodoni_Moda({
+  subsets: ["latin"],
+  weight: "700",
+  display: "swap",
+  variable: "--font-display-latin",
+})
+const kufi = Noto_Kufi_Arabic({
+  subsets: ["arabic"],
+  weight: ["700", "800"],
+  display: "swap",
+  variable: "--font-display-arabic",
+})
 
 export const metadata: Metadata = {
   title: {
@@ -104,8 +124,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {/* m15: browser bar follows the Madarek grounds — night-indigo
             #070B16 (dark) / warm cream #FBFAF9 (light); ThemeColorSync
             re-points both metas to the user's resolved theme. */}
-        <meta name="theme-color" content="#070B16" media="(prefers-color-scheme: dark)" />
-        <meta name="theme-color" content="#FBFAF9" media="(prefers-color-scheme: light)" />
+        <meta name="theme-color" content="#050507" media="(prefers-color-scheme: dark)" />
+        <meta name="theme-color" content="#F4F2ED" media="(prefers-color-scheme: light)" />
         <meta name="mobile-web-app-capable" content="yes" />
         {/* r9 (SEO audit P2-4): the documented iOS standalone meta —
             mobile-web-app-capable alone is not read by older iOS/Safari
@@ -147,7 +167,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           dangerouslySetInnerHTML={{ __html: JSON.stringify(servicesJsonLd()) }}
         />
       </head>
-      <body className="min-h-dvh flex flex-col antialiased overflow-x-clip bg-[var(--background)]">
+      <body className={`${bodoni.variable} ${kufi.variable} min-h-dvh flex flex-col antialiased overflow-x-clip bg-[var(--background)]`}>
         {/* 15-SL (قبول 14-a P3): حبوبة التخطّي الذهبية انتقلت من هنا إلى
             SiteChrome — هدفها الوحيد <main id="main-content"> يعيش داخل
             SiteChrome نفسه، فعلى ال landing كانت توأمًا ميتًا (هدف بلا

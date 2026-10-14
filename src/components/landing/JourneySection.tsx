@@ -1,106 +1,78 @@
 "use client"
 
-import { UserPlus, Smartphone, SlidersHorizontal, Share2, Zap } from "lucide-react"
 import { RevealCssClass } from "@/hooks/useReveal"
 import { useSectionProgress } from "@/hooks/useSectionProgress"
 
-/* r142 «الكوكبة الحية» — Chapter 02 «الرحلة»: the planetary-winding path.
- * The measured SVG serpentine (JourneyLightPath) is retired for a PURE
- * CSS vertical beam: a hairline spine at the stage's center, a lit
- * segment + a travelling bead scrubbed by the section's --sp
- * (useSectionProgress — native scrolling, no hijacking, reduced-motion
- * pins --sp to 1 = the fully-lit final state). Five stations alternate
- * across the spine on desktop (the winding), stack on the gutter on
- * mobile. The five stations are the page's REAL journey — every desc
- * traces to shipped copy (r128 content truth; r140 station-02 counts
- * the three live products). */
+/* P12-2a (r160 KODE) — Chapter 002 «الرحلة» re-cast as the ORANGE FLOOD
+ * (the spec's S4): flat #FF4C00 ground, black text, mono indices 001–005,
+ * hairline rules. The winding beam + station cards retire; the five
+ * stations become editorial type-rows (index / title / desc / tag), each
+ * real copy verbatim (r128 content truth; r140 station-02 counts the
+ * three live products). useSectionProgress's --sp survives: it lights
+ * the rows' rule sequentially as the chapter scrubs. */
 
-const STATIONS: Array<{
-  n: string
-  icon: typeof UserPlus
-  title: string
-  desc: string
-  tag: string
-}> = [
+const STATIONS: Array<{ n: string; title: string; desc: string; tag: string }> = [
   {
-    n: "01", icon: UserPlus, title: "أنشئ حسابك المجاني",
+    n: "01", title: "أنشئ حسابك المجاني",
     desc: "حساب واحد على SmartLink — مجاناً وبدون بطاقة ائتمان. دقائق معدودة تفصلك عن الانطلاق.",
     tag: "مجاناً",
   },
   {
     /* r140 (صدق الثلاثية — تدقيق A140-SL #3): المحطة تعدّ ثلاثة
      * منتجات — الصيغة توازية: لمطعمك/لصفحتك/لأعمالك. */
-    n: "02", icon: Smartphone, title: "اختر خدمتك",
+    n: "02", title: "اختر خدمتك",
     desc: "منيو رقمي لمطعمك، أو بوت ذكي لصفحتك، أو متجر طلبات لأعمالك — كل خدمة تُجهَّز من لوحة تحكم عربية واحدة.",
     tag: "التهيئة",
   },
   {
-    n: "03", icon: SlidersHorizontal, title: "الإعداد السريع",
+    n: "03", title: "الإعداد السريع",
     desc: "أضف قائمتك أو جهّز ردودك عبر خطوات إعداد موجّهة بالعربية — الإعداد كله لا يأخذ وقتاً طويلاً.",
     tag: "الإعداد",
   },
   {
-    n: "04", icon: Share2, title: "شارك رابطك",
+    n: "04", title: "شارك رابطك",
     desc: "رابط واحد لكل أعمالك: على واتساب وفيسبوك، أو QR كود على الطاولات — عملاؤك يصلون بنقرة.",
     tag: "الانطلاق",
   },
   {
-    n: "05", icon: Zap, title: "استقبل وردّ آلياً",
+    n: "05", title: "استقبل وردّ آلياً",
     desc: "طلبات المنيو تصلك على واتساب فوراً، والبوت يردّ على عملاء فيسبوك نيابةً عنك — وأنت تركّز على عملك.",
     tag: "الأتمتة",
   },
 ]
 
 export function JourneySection() {
-  /* --sp on this section scrubs the beam's lit segment + bead. */
+  /* --sp on this section lights the rows' rules as the flood scrubs. */
   const ref = useSectionProgress<HTMLElement>()
 
   return (
-    <section id="journey" ref={ref} className="ln-chapter ln-journey">
-      <div className="ln-chapter-head">
-        <span className="ln-label">{"02 — الرحلة"}</span>
-        <RevealCssClass as="h2" className="ln-chapter-title" delay={1}>
+    <section id="journey" ref={ref} className="ln-chapter ln-journey ln-journey--kode">
+      <header className="ln-chapter-head ln-chapter-head--flood">
+        <span className="ln-label ln-mono">{"002 — الرحلة"}</span>
+        <RevealCssClass as="h2" className="ln-chapter-title ln-chapter-title--kode" delay={1}>
           من نقرة إلى <em>أتمتة</em> — خمس محطات
         </RevealCssClass>
         <RevealCssClass as="p" className="ln-chapter-lede" delay={2}>
-          شعاعٌ واحد يلتوي بين محطاتك؛ كل محطة تبني على ما قبلها حتى
-          يكتمل المسار.
+          خمس محطات متتالية؛ كل محطة تبني على ما قبلها حتى يكتمل المسار.
         </RevealCssClass>
-      </div>
+      </header>
 
-      <div className="ln-journey-stage">
-        {/* the winding beam — spine + lit segment + travelling bead,
-            all scrubbed by --sp (pure CSS; geometry-free by design) */}
-        <div className="ln-beam" aria-hidden="true">
-          <span className="ln-beam-line" />
-          <span className="ln-beam-lit" />
-          <span className="ln-beam-head" />
-        </div>
-
-        <ol className="ln-journey-stations">
-          {STATIONS.map((s, i) => (
-            <RevealCssClass
-              as="li"
-              key={s.n}
-              className={`ln-station${i % 2 === 0 ? " from-start" : " from-end"}`}
-              delay={(i + 1) as 1 | 2 | 3 | 4 | 5}
-            >
-              <span className="ln-station-node" aria-hidden="true">
-                <span className="ln-station-node-core" />
-              </span>
-              <article className="ln-station-card">
-                <header className="ln-station-head">
-                  <span className="ln-mono ln-station-n">{s.n}</span>
-                  <span className="ln-station-ico" aria-hidden="true"><s.icon size={20} /></span>
-                  <span className="ln-station-tag">{s.tag}</span>
-                </header>
-                <h3 className="ln-station-title">{s.title}</h3>
-                <p className="ln-station-desc">{s.desc}</p>
-              </article>
-            </RevealCssClass>
-          ))}
-        </ol>
-      </div>
+      <ol className="ln-journey-rows">
+        {STATIONS.map((s, i) => (
+          <RevealCssClass
+            as="li"
+            key={s.n}
+            className="ln-journey-row"
+            style={{ ["--row" as string]: i }}
+            delay={(i + 1) as 1 | 2 | 3 | 4 | 5}
+          >
+            <span className="ln-journey-row-n ln-mono">{s.n}</span>
+            <h3 className="ln-journey-row-title">{s.title}</h3>
+            <p className="ln-journey-row-desc">{s.desc}</p>
+            <span className="ln-journey-row-tag ln-mono">{s.tag}</span>
+          </RevealCssClass>
+        ))}
+      </ol>
     </section>
   )
 }

@@ -1,39 +1,16 @@
-/* ════════════════════════════════════════════════════════════════════
-   r142 «الكوكبة الحية» — the Smart-Link landing REBUILT as one living
-   organism (the radical redesign: the owner rejected the incremental
-   r141 pass; this is a new visual experience from the first screen to
-   the last chapter, inspired by immersive-interactive references
-   WITHOUT copying any identity).
-
-   The r128 Orbit-Ink layer stays the GROUND (R4 isolation intact — the
-   product token pins in styles.css are never touched; every --ln-*
-   declaration lives inside .landing). What changes is the anatomy:
-   المدار (the LIVING CONSTELLATION hero — real canvas, tappable worlds)
-   → شريط البث (data broadcast) → العوالم (editorial world panels)
-   → الرحلة (the winding beam) → القيادة (mono data cockpit)
-   → المنصّات (ground control console) → نقطة البداية (massive type
-   + merged FAQ).
-
-   New world hues enter ONLY as tokens in §0a2 (r152 phase5: the
-   foreshadow pairs): --ln-menu (Smart Menu, terracotta), --ln-bot
-   (SmartBot, signal teal), --ln-order (Smart Order, delivery-orange),
-   each with its *-true swatch twin — the siblings' literal Phase-5
-   identity hexes. The canvas engine resolves them at runtime via
-   getComputedStyle — zero hex in any landing TSX (parity-enforced).
-
-   The page stays a SERVER component — the h1 and hero sub render inline
-   (instant-paint LCP doctrine, r8/r9); client islands are exactly:
-   LandingHeader (chrome/spy/menus), EcosystemConstellation (the living
-   canvas), ConstellationDock (world chips + glass preview card),
-   MagneticGoldLink (CTA pull), JourneySection (beam + --sp),
-   CockpitSection (--sp + CountUp), and the RevealCssClass observers.
+/* P12-2a (r160 KODE) — «الرابط والمنظومة»: the Smart-Link landing
+   re-skinned in the KODE Immersive translation (P12 spec): a 3-line
+   Kufi type-block hero with the chain sculpture in the negative-space
+   diamond, orange flood chapters, black chapter stages, mono status
+   chrome, and the brutalist 3-color discipline (ink/paper/orange). All
+   real Arabic content, links, FAQ and footer survive verbatim.
    ════════════════════════════════════════════════════════════════════ */
 import "./landing.css"
 import { Check, MessageCircle, Languages } from "lucide-react"
 import { RevealCssClass } from "@/hooks/useReveal"
 import { SITE } from "@/lib/site"
 import { LandingHeader } from "@/components/landing/LandingHeader"
-import { EcosystemConstellation, ConstellationDock } from "@/components/landing/EcosystemConstellation"
+import { ChainSculptureMount } from "@/components/landing/ChainSculptureMount"
 import { MagneticGoldLink } from "@/components/landing/MagneticGoldLink"
 import { LandingMarquee } from "@/components/landing/LandingMarquee"
 import { WorldsSection } from "@/components/landing/WorldsSection"
@@ -92,31 +69,36 @@ export default function Home() {
           anatomy (LandingPage.tsx:340); the attribute makes programmatic
           focus land cleanly after the skip. */}
       <main id="main" tabIndex={-1}>
-        {/* ═══ الفصل ٠ — الكوكبة الحية: the living constellation ═══ */}
-        <section className="ln-hero" aria-label="SmartLink — منصّة الروابط الذكية">
-          {/* the living sky: the REAL EcosystemConstellation engine —
-              a SmartLink core orbited by the three product worlds on
-              pulsing data links (r142 evolution of the r129 OrbitScene
-              craft: DPR cap, IO pause, RM static frame). It fails safe
-              to the CSS sky gradients below it.
-              r144 (P4-4SL، دلالة QA): الكانفس لم يعد aria-hidden صامتًا —
-              يحمل role="img" وتسمية عربية تشرح المشهد؛ التفاعل كله يبقى
-              في الرصيف المتاح أسفله (chips + بطاقة زجاجية) والتلميح نفسه
-              aria-hidden (توأم نصي لأسماء الرصيف). */}
+        {/* ═══ الفصل ٠ — القفل الطباعي + السلسلة: the KODE type-block hero
+             (P12-2a r160). 3-line Kufi lockup, the real headline re-broken
+             so the SHORT middle line carves the diamond of negative space
+             the chain sculpture occupies (canvas BEHIND text, never holds
+             content hostage). No traditional button CTA carries the hero —
+             the scroll cue + the object do. */}
+        <section className="ln-hero ln-hero--kode" aria-label="SmartLink — منصّة الروابط الذكية">
+          {/* the sculpture stage: 7 interlocked torus links, studio-lit,
+              drag-rotatable, theme-aware, DPR-capped, RM poster frame */}
           <div className="ln-hero-sky">
-            <EcosystemConstellation className="ln-hero-canvas" biasX={-0.35} />
+            <ChainSculptureMount className="ln-hero-canvas" />
           </div>
 
           <div className="ln-hero-content">
             <RevealCssClass as="p" className="ln-hero-eyebrow">
-              <span className="ln-mono">SmartLink · Smart Menu · SmartBot · Smart Order · ليبيا</span>
+              <span className="ln-hero-wordmark" aria-hidden="true">SMART LINK</span>
+              <span className="ln-mono">[ SMART LINK — 001 ]</span>
+              <span className="ln-mono">[ LIBYA ]</span>
             </RevealCssClass>
 
-            {/* h1 + sub paint INSTANTLY — server-rendered inline, no reveal,
-                no client gate (LCP doctrine). One lime word: منظومةً. */}
+            {/* h1 paints INSTANTLY — server-rendered inline, no reveal, no
+                client gate (LCP doctrine). 3 lines: كل عملٍ يبدأ / رابطًا /
+                ويصبح منظومةً — the middle line is the short one; the one
+                orange word is رابطًا (the link → the chain under it). */}
             <h1 className="ln-hero-title">
-              <span className="ln-hero-line">كلُّ عملٍ يبدأ <em>رابطًا</em></span>
-              <span className="ln-hero-line">ويصبح <em className="ln-hero-gold">منظومةً</em></span>
+              <span className="ln-hero-line">كلُّ عملٍ يبدأ</span>
+              <span className="ln-hero-line ln-hero-line--mid">
+                <em>رابطًا</em>
+              </span>
+              <span className="ln-hero-line">ويصبح <em>منظومةً</em></span>
             </h1>
 
             <p className="ln-hero-sub">
@@ -135,15 +117,6 @@ export default function Home() {
               <a href="#products" className="ln-btn-ghost">اكتشف العوالم</a>
             </RevealCssClass>
 
-            {/* the tappable worlds — the constellation's dock: on desktop
-                the chips mirror the canvas nodes (hover either one, the
-                other glows; click opens the glass preview card with the
-                product's real facts + its live domain). On mobile these
-                chips ARE the nodes. */}
-            <RevealCssClass as="div" className="ln-eco-dock" delay={4}>
-              <ConstellationDock />
-            </RevealCssClass>
-
             <RevealCssClass as="ul" className="ln-hero-meta" delay={5}>
               <li><Check size={12} aria-hidden="true" /> بدون بطاقة ائتمان</li>
               <li aria-hidden="true" className="ln-hero-meta-dot" />
@@ -155,9 +128,9 @@ export default function Home() {
             </RevealCssClass>
           </div>
 
-          {/* scroll invitation — into the worlds chapter */}
+          {/* scroll invitation — into the worlds chapter (S5 bilingual cue) */}
           <a href="#products" className="ln-hero-scroll" aria-label="تابع الرحلة">
-            <span className="ln-mono">تابع الرحلة</span>
+            <span className="ln-mono">SCROLL — تصفّح</span>
             <span className="ln-hero-scroll-line" aria-hidden="true" />
           </a>
         </section>

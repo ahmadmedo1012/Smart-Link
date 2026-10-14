@@ -31,47 +31,58 @@
 
 /* ── 0a · مدارك Night token block — the family identity, landing-scoped */
 .landing {
-  --ln-ink:        #070B16;   /* the family night ground (styles.css --background) */
-  --ln-ink-2:      #0D1428;   /* the night surface step (--card / --surface-sunken) */
-  --ln-cream:      #F2EFE6;   /* sand ink — 17.09:1 AAA on the night ground */
-  --ln-cream-dim:  #C3C8DC;   /* the night world's secondary text — 11.81:1 AAA */
-  --ln-gold:       #E9B44C;   /* luminous gold — the family accent, 10.39:1 */
-  --ln-gold-deep:  #F5D48A;   /* hover/active gold — 13.73:1 (product --accent-hover twin) */
-  --ln-line:       rgba(242,239,230,0.14);
-  --ln-line-soft:  rgba(242,239,230,0.07);
+  /* P12-2a (r160 KODE) — the 3-color discipline lands here: the night
+     ground goes #050507 (near-black stage), the accent goes #FF4C00
+     (safety orange), text goes pure white + grey. The night-indigo /
+     sand / gold trio retired with the constellation era; the token
+     NAMES survive (hundreds of consumers + parity pins) with honest
+     new values. --ln-gold now = the KODE orange (the name is the
+     landing's accent slot, not a hue promise). */
+  --ln-ink:        #050507;   /* the KODE night stage (styles.css --background twin) */
+  --ln-ink-2:      #0B0B10;   /* the night surface step */
+  --ln-cream:      #FFFFFF;   /* stage white — 20.3:1 on the night ground */
+  --ln-cream-dim:  #A9ACB4;   /* grey secondary — 8.0:1 on the night ground */
+  --ln-gold:       #FF4C00;   /* safety orange — the accent, 4.0:1 (large text ≥3:1, spec S3) */
+  --ln-gold-deep:  #FF6A2E;   /* hover/active orange — brighter, 4.9:1 */
+  --ln-line:       rgba(255,255,255,0.16);
+  --ln-line-soft:  rgba(255,255,255,0.08);
+  /* §0a3 (r160) — the S2 sculpture + S4 flood tokens. --ln-chain-metal
+     feeds the three.js material (read at runtime + on theme flip);
+     the flood pair paints the flat #FF4C00 chapters (#000 ink on them
+     ≈ 6.3:1 — the spec's own a11y ruling). Same value BOTH stages:
+     a flood is a flood. */
+  --ln-chain-metal: #17171C;  /* dark chrome (dark stage) */
+  --ln-flood:       #FF4C00;
+  --ln-flood-ink:   #050507;
   /* r129 (ruling, P3-22 canonical): grain lifted 0.05 → 0.075 — the one
      permanent texture must be perceivable, not theoretical. Madarek
      declares this as a landing-local override (landing.css:58); its
      tokens.css keeps 0.05 for any future non-landing consumer. */
   --ln-grain-op:   0.075;
-  /* §0a2 (r152) — the product-foreshadow accents: each sibling's NEW
-     Phase-5 identity, night-adapted. TWO grades per world:
-       · the LIT grade (consumed as --ln-world): text + CTA fills +
-         canvas nodes — every one ≥ 4.5:1 on #070B16 AND carries the
-         night ink on its own fill (both directions AA);
-       · the TRUE hex (*-true): the literal sibling identity — swatch
-         chips, motifs, decorative edges ONLY (WCAG 1.4.11 non-text
-         ≥ 3:1 — terracotta 3.91 · teal 8.78 · orange 4.37; never body
-         text: terracotta and orange miss the 4.5 text floor).
-     SmartBot is the one world whose identity hex passes BOTH grades,
-     so its pair shares one value (documented symmetry, not drift). */
-  --ln-menu:        #E07A5F;  /* Smart Menu lit terracotta — 6.66:1 text/fill */
-  --ln-menu-true:   #C2452D;  /* Smart-Menu identity — swatch/motif only */
-  --ln-bot:         #17C3A4;  /* SmartBot signal teal — 8.78:1 text/fill */
-  --ln-bot-true:    #17C3A4;  /* the one identity hex that is its own lit grade */
-  --ln-order:       #EF7A35;  /* Smart Order lit delivery-orange — 7.02:1 */
-  --ln-order-true:  #D14900;  /* Smart-Order identity — swatch/motif only */
-  --ln-glass:         rgba(13, 20, 40, 0.72);   /* night glass over the ink ground */
-  --ln-glass-strong:  rgba(13, 20, 40, 0.9);
+  /* §0a2 (r152 → r160) — the product-foreshadow accents collapsed onto
+     the KODE accent under the 3-color discipline (S3: the landing uses
+     ONLY the stage palette). The per-world hues (terracotta / teal /
+     delivery-orange) retired with the constellation; the token slots
+     survive so worlds.ts + parity stay coherent. */
+  --ln-menu:        #FF4C00;  /* lit grade — accent only (4.0:1, large text) */
+  --ln-menu-true:   #FF4C00;  /* swatch grade (non-text 4.0:1 ≥ 3:1) */
+  --ln-bot:         #FF4C00;
+  --ln-bot-true:    #FF4C00;
+  --ln-order:       #FF4C00;
+  --ln-order-true:  #FF4C00;
+  --ln-glass:         rgba(11, 11, 16, 0.92);   /* flat night panel (glass retired) */
+  --ln-glass-strong:  rgba(11, 11, 16, 0.97);
   --ln-radius-pill: var(--r-full);
-  --ln-h1:         clamp(2.75rem, 8.2vw, 6.75rem);
-  /* r151 (P3-4, audit-SL C4): 1.04 → 1.12 — the Arabic display floor.
-     The hero monolith carries tashkeel («كلُّ عملٍ يبدأ رابطًا»); at 108px
-     a 1.04 leading clips diacritics on any future wrap and reads cramped
-     for the connected script. 1.12 is the landing-family identity floor
-     for LARGE ARABIC display only — the Latin world names
-     (.ln-world-name, direction:ltr) keep their 1.08 by design. */
-  --ln-h1-lh:      1.12;
+  /* r160 (S1): the KODE lockup scale — 13vw capping at 190px (56px
+     floor at 390px). lh 0.92 ≤ 0.95 (the spec's acceptance bound);
+     the re-broken 3 short lines carry tashkeel that rides
+     overflow-visible — nothing clips. */
+  --ln-h1:         clamp(3.5rem, 13vw, 11.875rem);
+  /* r160 (S1): 0.92 — the KODE stacking bound (≤0.95). The re-broken
+     lockup carries tashkeel ABOVE the line box; overflow stays visible
+     (no clip rule on the lockup) so the diacritics ride the negative
+     space, never crop. */
+  --ln-h1-lh:      0.92;
   --ln-t-fast:      var(--t-fast);    /* 160ms */
   --ln-t-base:      var(--t-base);    /* 240ms */
   --ln-t-slow:      var(--t-slow);    /* 380ms */
@@ -2789,32 +2800,37 @@
 /* ── 15a · the day token block — every color var the night stage
    defines, redefined for paper (motion/type/measure inherit §0a). ── */
 html.light .landing {
-  --ln-ink:        #F2EFE6;   /* the family sand — now the PAPER ground */
-  --ln-ink-2:      #EAE6DA;   /* the paper surface step (deeper sand) */
-  --ln-cream:      #070B16;   /* ink text — 17.09:1 AAA on paper */
-  --ln-cream-dim:  #444C5F;   /* night-tinted secondary ink — 7.47:1 AAA */
-  --ln-gold:       #7E5B1C;   /* text-grade deep gold — 5.37:1 (see header) */
-  --ln-gold-deep:  #6E4F18;   /* hover/active gold — DARKENS on paper 6.54:1
-                                 (mirrors the night stage's lighter-on-night
-                                 #F5D48A; same direction law, inverted) */
-  --ln-line:       rgba(7, 11, 22, 0.16);   /* ink hairlines on paper */
-  --ln-line-soft:  rgba(7, 11, 22, 0.08);
+  /* r160 KODE light stage: stage PAPER #F4F2ED + ink #0A0A0A + the
+     same orange. --ln-gold = the text-grade orange #B23E00 (5.2:1 on
+     paper — body-size accent text); the FLOOD keeps the literal
+     #FF4C00 ground (a flood is a flood, both stages). */
+  --ln-ink:        #F4F2ED;   /* the paper stage (styles.css --background twin) */
+  --ln-ink-2:      #EAE7DF;   /* the paper surface step */
+  --ln-cream:      #0A0A0A;   /* ink text — 19.6:1 on paper */
+  --ln-cream-dim:  #55534E;   /* warm grey secondary — 7.4:1 on paper */
+  --ln-gold:       #B23E00;   /* text-grade safety orange — 5.2:1 */
+  --ln-gold-deep:  #8F3000;   /* hover/active — DARKENS on paper, 7.2:1 */
+  --ln-line:       rgba(10, 10, 10, 0.18);   /* ink hairlines on paper */
+  --ln-line-soft:  rgba(10, 10, 10, 0.09);
+  --ln-chain-metal: #D6D6DC;  /* studio silver (light stage) */
+  --ln-flood:       #FF4C00;  /* unchanged — the flood is stage-independent */
+  --ln-flood-ink:   #050507;
   /* grain softens back to the tokens.css canonical 0.05 — white noise
      reads far stronger on paper than on night; 0.075 would film over
      the day world (Madarek declares the split for exactly this case). */
   --ln-grain-op:   0.05;
-  /* §15-foreshadow — the day grades (law in the section header above) */
-  --ln-menu:        #A93A26;  /* Smart Menu day lit — the sibling's OWN
-                                 light-theme hover hex, 5.50:1 */
-  --ln-menu-true:   #C2452D;  /* identity terracotta — non-text 4.37:1 */
-  --ln-bot:         #0A7558;  /* darkened signal teal — 4.94:1 */
-  --ln-bot-true:    #0A7558;  /* the one-hex symmetry, kept honest on paper */
-  --ln-order:       #B23E00;  /* darkened delivery orange — 5.10:1 */
-  --ln-order-true:  #D14900;  /* identity orange — non-text 3.92:1 */
-  /* ivory glass — the paper card family (KODE day chapter): cards sit
-     LIGHTER than the sand ground instead of darker than night */
-  --ln-glass:         rgba(250, 249, 245, 0.72);
-  --ln-glass-strong:  rgba(252, 251, 247, 0.9);
+  /* §15-foreshadow (r160) — the day grades collapse onto the orange
+     pair under the 3-color discipline: lit #B23E00 (text), true the
+     literal #FF4C00 (non-text). */
+  --ln-menu:        #B23E00;
+  --ln-menu-true:   #FF4C00;
+  --ln-bot:         #B23E00;
+  --ln-bot-true:    #FF4C00;
+  --ln-order:       #B23E00;
+  --ln-order-true:  #FF4C00;
+  /* flat paper panel (glass retired with the constellation era) */
+  --ln-glass:         rgba(244, 242, 237, 0.94);
+  --ln-glass-strong:  rgba(244, 242, 237, 0.98);
   background: var(--ln-ink); color: var(--ln-cream);
 }
 

@@ -213,6 +213,7 @@ test.describe("B) reduced-motion — مفتاح إيقاف الحركات الك
               animDur: cs.animationDuration,
               playState: cs.animationPlayState,
               opacity: cs.opacity,
+              transform: cs.transform,
             }
           })
         )
@@ -225,8 +226,19 @@ test.describe("B) reduced-motion — مفتاح إيقاف الحركات الك
         expect(motionless, `${path} «${d.cls}»: anim=${d.animName}/${d.animDur}/${d.playState}`).toBe(true)
       }
 
-      // المحتوى ظاهر فوراً (لا عناصر مخفية بانتظار حركة لن تجري)
-      const hidden = data.filter((d) => parseFloat(d.opacity) < 0.9)
+      /* المحتوى ظاهر فوراً (لا عناصر مخفية بانتظار حركة لن تجري).
+         P13-2a re-pin (r160 KODE): الغالبية "opacity < 0.9 = مخفي" كانت
+         تاريخ ما قبل r160 — عزومة الفصل في رحلة r160 تستقر بقصد على
+         تعتيم تصميمي 0.82 (landing.css .ln-journey--kode
+         .ln-chapter-lede — (0,3,0) تتخصص على تعطيل RM (0,2,0)، وهي
+         قيمة الاستقرار نفسها في وضع الحركة؛ المحتوى مرئي 82% حبر).
+         توقيع «عالق في ما قبل الكشف» أدق من العتبة العمياء: شفافية
+         دون 0.9 مع بقاء انزياح الإقلاع translateY (تعطيل RM خسر
+         التتابع كله). التعتيم التصميمي لا يحمل انزياح الإقلاع أبداً —
+         الحارس أقوى لا أضعف: يصطاد العالقَ تحديداً ويسمح بالمصمَّم. */
+      const hidden = data.filter(
+        (d) => parseFloat(d.opacity) < 0.9 && d.transform !== "none"
+      )
       expect(hidden, `${path} عناصر reveal مخفية تحت rm`).toEqual([])
 
       // الفحص الصارم: مسح المستند كله — صفر عناصر بحركة قيد التشغيل

@@ -1669,9 +1669,16 @@
   /* (r148: the .ln-journey-path-light RM zeroing died with the deleted
      dead path rules — the beam scrub carries the chapter now.) */
   /* P3-21 (r144: صياغة بعد حذف عائلات الكوكبة الميتة): the finale
-     stands still, the skip link appears without travel */
+     stands still, the skip link appears without travel.
+     P13-2a (B1 source catch): the r144 block promised «reduced-motion
+     stands still» for the restored family crest but never listed its
+     selector — .ln-cta-family kept ln-cta-family-float as a live
+     animation-name under RM (the universal belt only clamps duration to
+     0.01ms, so the strict zero-animation contract saw a running name).
+     The kill joins its P3-21 siblings here. */
   .landing .ln-cta-orbit.o0,
   .landing .ln-cta-orbit.o2,
+  .landing .ln-cta-family,
   .landing .ln-skip-link { animation: none; transition: none; }
   .landing .ln-btn-gold,
   .landing .ln-btn-ghost,

@@ -905,12 +905,15 @@
 .landing .ln-hero-eyebrow { margin-block-end: var(--sp-6); }
 .landing .ln-hero-eyebrow .ln-mono { font-size: 12.5px; }
 
-/* the monolith — flat sand, one gold word, zero tracking games */
+/* the monolith — flat cream, one orange word, zero tracking games */
 .landing .ln-hero-title {
   margin: 0 0 var(--sp-7);
   font-size: var(--ln-h1);
   line-height: var(--ln-h1-lh);
   font-weight: var(--fw-bold);
+  /* P12-3a fix: the lockup uses the Kufi display cut (spec S1) — the
+     inherited default sans robbed the hero of its display contrast */
+  font-family: var(--font-display-arabic), var(--font-body), sans-serif;
   letter-spacing: 0; /* Arabic joins — never negative tracking */
   color: var(--ln-cream);
   /* r129 P4-10 (canonical effective value — Madarek landing.css:1983

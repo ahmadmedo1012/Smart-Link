@@ -3432,3 +3432,14 @@ html.light .landing .ln-btn-gold:hover { color: var(--ln-gold-deep); }
 
 /* §16i — the sculpture canvas element fills its stage box */
 .landing .ln-hero-canvas canvas { display: block; width: 100%; height: 100%; }
+
+/* §16j (fit pass): the lockup owns the viewport — on short viewports the
+   meta row folds (its three facts live in the marquee + footer too) and
+   the stage paddings tighten so the 3rd line + scroll cue stay in-frame. */
+.landing .ln-hero--kode { overflow: visible; }
+@media (max-height: 960px) {
+  .landing .ln-hero--kode { padding-block: 88px 40px; }
+  .landing .ln-hero--kode .ln-hero-content { gap: 14px; }
+  .landing .ln-hero--kode .ln-hero-meta { display: none; }
+  .landing .ln-hero--kode .ln-hero-sub { font-size: 14px; line-height: 1.8; }
+}

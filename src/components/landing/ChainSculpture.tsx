@@ -25,7 +25,7 @@ import {
   MathUtils,
   Mesh,
   MeshStandardMaterial,
-  PCFSoftShadowMap,
+  PCFShadowMap,
   PMREMGenerator,
   PerspectiveCamera,
   PlaneGeometry,
@@ -84,7 +84,7 @@ export default function ChainSculpture({ className }: { className?: string }) {
     }
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2))
     renderer.shadowMap.enabled = true
-    renderer.shadowMap.type = PCFSoftShadowMap
+    renderer.shadowMap.type = PCFShadowMap
 
     const scene = new Scene()
     const camera = new PerspectiveCamera(38, 1, 0.1, 100)

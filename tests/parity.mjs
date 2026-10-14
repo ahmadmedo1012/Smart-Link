@@ -2378,6 +2378,69 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
   );
 }
 
+/* ═══ phase10 (P10-1c) — امتداد سياسة الأرقام الغربية (E1) ما بعد
+   الرئيسية + إصلاحا درجة التوكن والإيموجي على حدود الأخطاء:
+   (1) كل ملفات نطاق المسارات غير الرئيسية (المسارات التسعة + كروم
+   المنتج المشترك + القوالب البريدية + مكتبات الميتا) تخلو من أي
+   رقم عربي-هندي في الكود بعد تجريد التعليقات (التعليقات تاريخ
+   موثق؛ المدخلات في phone.ts/money.ts تطبيع محصون بعقود r137)؛
+   (2) حبر أيقونة حد 500 يركب --primary-text (درجة النص) لا
+   --primary (درجة التعبئة) — عقد m15 «حبر الأيقونات يركب درجة
+   النص» (التوأم: أيقونة المؤسس على /about)؛
+   (3) الحد الجذري global-error يتقاعد عن إيموجي ⚠️ لصالح مخطط
+   alert-triangle المُضمَّن (توأم SO P9-3-d؛ مذهب «قيم فقط»). ═══ */
+{
+  const read10 = (p) => readFileSync(new URL(`../src/${p}`, import.meta.url), 'utf8')
+    .replace(/\/\*[\s\S]*?\*\//g, ' ').replace(/\/\/.*$/gm, ' ');
+  const ARABIC_INDIC = /[\u0660-\u0669\u06F0-\u06F9]/;
+  const ROUTES10 = [
+    'app/about/page.tsx', 'app/contact/page.tsx', 'app/pricing/page.tsx',
+    'app/privacy/page.tsx', 'app/terms/page.tsx', 'app/offline/page.tsx',
+    'app/not-found.tsx', 'app/error.tsx', 'app/global-error.tsx',
+  ];
+  const CHROME10 = [
+    'components/site-chrome.tsx', 'components/main-nav.tsx', 'components/footer.tsx',
+    'components/contact-form.tsx', 'components/faq-accordion.tsx',
+    'components/back-to-top.tsx', 'components/current-year.tsx',
+    'components/gen-art-background.tsx', 'components/ui/CountUp.tsx',
+    'components/reveal-observer.tsx', 'components/theme-color-sync.tsx',
+  ];
+  const META10 = [
+    'app/layout.tsx', 'lib/site.ts', 'lib/seo.ts', 'lib/schema.ts',
+    'lib/content-dates.ts', 'emails/contact-emails.tsx',
+  ];
+  check(
+    ROUTES10.every((p) => !ARABIC_INDIC.test(read10(p))),
+    'P10-1c digits: the nine non-landing routes render ZERO Arabic-Indic codepoints (E1 extended beyond the landing — comment-stripped source; the landing-only comment numerals stay legal)'
+  );
+  check(
+    CHROME10.every((p) => !ARABIC_INDIC.test(read10(p))),
+    'P10-1c digits: the shared product chrome (nav/footer/forms/FAQ/islands) renders ZERO Arabic-Indic codepoints'
+  );
+  check(
+    META10.every((p) => !ARABIC_INDIC.test(read10(p)))
+      && !ARABIC_INDIC.test(
+        readFileSync(new URL('../public/manifest.webmanifest', import.meta.url), 'utf8')
+      ),
+    'P10-1c digits: metadata/JSON-LD libs + the contact email templates + the PWA manifest render ZERO Arabic-Indic codepoints (Western digits with Arabic text — the E1 law)'
+  );
+
+  const errorPage10 = read10('app/error.tsx');
+  const globalError10 = read10('app/global-error.tsx');
+  check(
+    errorPage10.includes('text-[var(--primary-text)]')
+      && ![...ROUTES10, ...CHROME10].map((p) => read10(p))
+        .some((s) => s.includes('text-[var(--primary)]')),
+    'P10-1c icon ink: the 500-boundary alert icon rides --primary-text (the text/ink grade — light #8A6420 ≈4.3:1 on the gold wash); the bare fill-grade text-[var(--primary)] spelling is extinct across the route scope (the about Quote watermark text-primary/30 is a different, deliberate device)'
+  );
+  check(
+    !globalError10.includes('\u26A0')
+      && globalError10.includes('stroke="#E9B44C"')
+      && globalError10.includes('m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z'),
+    'P10-1c emoji retirement: global-error carries the inline lucide alert-triangle SVG in the Madarek gold ink (#E9B44C) — the ⚠️ text emoji is gone (SO P9-3-d twin; the boundary keeps its zero-dependency values-only doctrine)'
+  );
+}
+
 if (failures.length > 0) {
   console.error(`✗ Madarek parity snapshot FAILED (${failures.length} assertion(s)):`);
   for (const f of failures) console.error(`  • ${f}`);
@@ -2422,8 +2485,13 @@ if (failures.length > 0) {
    completeness, night-stays-default, luminous-CTA pair, toggle TSX
    contract, toggle 44px CSS, engine MutationObserver repaint)
    (the R4 gate was EXTENDED, not weakened: html.light .landing is the
-   sanctioned day scope, every other leak class still fails). */
-const EXPECTED_ASSERTIONS = 548;
+   sanctioned day scope, every other leak class still fails).
+   phase10 (P10-1c): 548 → 553 — the E1 digits policy extended beyond
+   the landing: three comment-stripped codepoint sweeps (the nine
+   non-landing routes + the shared product chrome + metadata/emails/
+   manifest) + the 500-boundary icon ink-grade pin + the global-error
+   inline alert-triangle SVG pin (⚠️ emoji retirement, SO P9-3-d twin). */
+const EXPECTED_ASSERTIONS = 553;
 check(
   passed + 1 === EXPECTED_ASSERTIONS,
   `self-count: the suite must run exactly ${EXPECTED_ASSERTIONS} assertions (ran ${passed + 1}) — bump EXPECTED_ASSERTIONS with every intentional pin change`

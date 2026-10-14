@@ -50,11 +50,29 @@ export default function GlobalError({
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              fontSize: 28,
             }}
             aria-hidden="true"
           >
-            ⚠️
+            {/* P10-1c (تقاعد الإيموجي — توأم SO P9-3-d): رمز ⚠️ النصي
+                كان آخر إيموجي في واجهة المستودع؛ أيقونات الواجهة SVG
+                (عائلة lucide) هنا. مخطط alert-triangle مُضمَّن حرفياً
+                (هذا الحدّ يُبحر بلا حزمة CSS/بلا قطعة lucide — مذهب
+                «قيم فقط» الحدودي نفسه)، والحبر = ذهب مدارك الداكن
+                #E9B44C ≈ 7.6:1 على الغسيل الممزوج بالأرض الليلية. */}
+            <svg
+              width="28"
+              height="28"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="#E9B44C"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z" />
+              <path d="M12 9v4" />
+              <path d="M12 17h.01" />
+            </svg>
           </div>
           {/* r132 (A6 §7-8): weight 700 — the brand tops at 700 (Plex has
               no 800 cut; the parity gate bans 800-weight utilities in TSX,

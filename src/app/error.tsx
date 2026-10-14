@@ -35,7 +35,16 @@ export default function Error({
             border/bg for ln-card. */}
         <div className="max-w-xl mx-auto text-center ln-card rounded-2xl p-10 reveal-up">
           <div className="w-16 h-16 rounded-2xl mx-auto mb-6 flex items-center justify-center bg-[var(--accent)]">
-            <AlertTriangle className="w-8 h-8 text-[var(--primary)]" aria-hidden="true" />
+            {/* P10-1c (تصحيح درجة التوكن): الحبر كان --primary (درجة
+                التعبئة) لا --primary-text (درجة النص/الأيقونات) — في
+                الوضع الفاتح رسم المثلث #E9B44C على غسيل الذهب فوق
+                البطاقة البيضاء (≈1.7:1) شبه مختفٍ، بينما حبر درجة النص
+                #8A6420 ≈ 4.3:1 هناك. التوأم المطابق: أيقونة المؤسس
+                8×8 في نفس الغسيل على /about (w-8 h-8
+                text-[var(--primary-text)]) — عقد مدارك m15: «حبر
+                الأيقونات يركب --primary-text». الداكن لم يتغير (القيمتان
+                هناك واحدة #E9B44C). */}
+            <AlertTriangle className="w-8 h-8 text-[var(--primary-text)]" aria-hidden="true" />
           </div>
           {/* r132 (A6 §4): the H1 rides the --fs-h1 30px rung — text-3xl
               is the identical value; this closes the r131-F9b gap (it

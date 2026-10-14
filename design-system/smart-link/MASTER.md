@@ -1,13 +1,17 @@
 # Design System Master File
 
-> **LOGIC:** When building a specific page, first check `design-system/pages/[page-name].md`.
-> If that file exists, its rules **override** this Master file.
-> If not, strictly follow the rules below.
+> **P13-2a (truth pass):** this file was AUTO-GENERATED and its original
+> palette/typography/component recipes (glass white + system blue, Inter,
+> gsap) NEVER matched this repo's code. The sections below were re-pinned
+> to the real tokens; the generic recipe/keyword sections that remain are
+> auto-generated guidance, not this project's system. The SSOT is
+> `src/app/styles.css` + `src/app/landing.css` — if anything here
+> disagrees with the CSS, **the CSS wins; fix this file**.
 
 ---
 
 **Project:** smart-link
-**Generated:** 2026-10-14 00:29:32
+**Generated:** 2026-10-14 00:29:32 · **Token truth re-pinned:** P13-2a (r160 KODE)
 **Category:** Spatial Computing OS / App
 **Design Dials:** Variance 8/10 (Bold / Asymmetric) | Motion 6/10 (Standard)
 
@@ -15,40 +19,60 @@
 
 ## Global Rules
 
-### Color Palette
+### Color Palette (KODE, r160 — the real tokens)
+
+Dark (`:root`, the default theme) — near-black stage + white + safety orange:
 
 | Role | Hex | CSS Variable |
 |------|-----|--------------|
-| Primary | `#FFFFFF` | `--color-primary` |
-| On Primary | `#0F172A` | `--color-on-primary` |
-| Secondary | `#E5E5E5` | `--color-secondary` |
-| On Secondary | `#0F172A` | `--color-on-secondary` |
-| Accent/CTA | `#FFFFFF` | `--color-accent` |
-| On Accent/CTA | `#0F172A` | `--color-on-accent` |
-| Background | `#888888` | `--color-background` |
-| Foreground | `#000000` | `--color-foreground` |
-| Card | `#999999` | `--color-card` |
-| Card Foreground | `#000000` | `--color-card-foreground` |
-| Muted | `#E5E7EB` | `--color-muted` |
-| Muted Foreground | `#5F6673` | `--color-muted-foreground` |
-| Border | `#CCCCCC` | `--color-border` |
-| Destructive | `#FF3B30` | `--color-destructive` |
-| On Destructive | `#000000` | `--color-on-destructive` |
-| Ring | `#000000` | `--color-ring` |
+| Background (stage) | `#050507` | `--background` |
+| Foreground (stage text) | `#FFFFFF` | `--foreground` |
+| Card | `#0B0B10` | `--card` |
+| Accent/CTA fill | `#FF4C00` | `--primary` / `--accent-solid` |
+| On-accent ink | `#050507` | `--primary-fg` / `--accent-fg` |
+| Accent as text | `#FF4C00` | `--primary-text` (4.0:1, accent-size text) |
+| Accent hover | `#FF6A2E` | `--accent-hover` / `--accent-strong` |
+| Accent soft | `#221008` | `--accent-soft` |
+| Muted foreground | `#A9ACB4` | `--muted-foreground` |
+| Border | `#17171F` | `--border` |
+| Ring (focus) | `#FF4C00` | `--ring` |
+| World tokens (menu/bot/order, lit+true) | `#FF4C00` | `--ln-{menu,bot,order}[-true]` |
+| World wells | `#221008` | `--ln-{menu,bot,order}-well` |
 
-**Color Notes:** Glass white + system blue [Accent adjusted from #007AFF]
+Light (`.light`) — paper + ink + the same orange:
 
-### Typography
+| Role | Hex | CSS Variable |
+|------|-----|--------------|
+| Background (paper) | `#F4F2ED` | `--background` |
+| Foreground (ink) | `#0A0A0A` | `--foreground` |
+| Card | `#FFFFFF` | `--card` |
+| Accent/CTA fill | `#FF4C00` | `--primary` |
+| On-accent ink | `#0A0A0A` | `--primary-fg` |
+| Accent as text | `#B23E00` (5.2:1 on paper) | `--primary-text` |
+| Accent hover | `#E04400` | `--accent-hover` |
+| Accent soft | `#FFE3D6` | `--accent-soft` |
+| Muted foreground | `#55534E` | `--muted-foreground` |
+| Border | `#E9E7E2` | `--border` |
+| Ring (focus) | `#B23E00` | `--ring` |
 
-- **Heading Font:** Inter
-- **Body Font:** Inter
-- **Mood:** spatial, legible, glass, system, clean, neutral
-- **Google Fonts:** [Inter + Inter](https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap)
+**Color Notes:** the landing layer (`landing.css`, scoped `.landing`) rides
+the same 3-color discipline with `--ln-ink #050507` / `--ln-cream` white /
+orange flood accents; filled CTAs always carry the on-accent ink
+(≈6.3:1 dark / 5.8:1 light — white-on-orange is only 2.8:1). The retired
+Madarek values (night `#070B16` · gold `#E9B44C` · cream `#FBFAF9` ·
+per-product terracotta/teal/orange worlds) are HISTORY — never
+re-introduce them as current.
 
-**CSS Import:**
-```css
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
-```
+### Typography (the real fonts)
+
+- **Body/UI font:** IBM Plex Sans Arabic 400–700 (self-hosted woff2 in `public/fonts/`; `@font-face` in `src/app/styles.css`)
+- **Display Arabic:** Noto Kufi Arabic 700/800 (next/font — the hero 3-line lockup + r160 display rules)
+- **Display Latin:** Bodoni Moda 700 (next/font — the Latin wordmark)
+- **Mono:** IBM Plex Mono (self-hosted; the status chrome `SCROLL — تصفّح`, `[ SMART LINK — 001 ]` labels)
+- **Mood:** ink/paper/safety-orange, studio-lit sculpture, flat orange floods, mono status chrome
+- **NO Google Fonts request at all** — everything self-hosted or next/font-bundled; never add a `fonts.googleapis.com` import.
+
+**CSS Import:** none — the fonts are wired in `src/app/layout.tsx` (next/font) and `src/app/styles.css` (@font-face).
 
 ### Spacing Variables
 

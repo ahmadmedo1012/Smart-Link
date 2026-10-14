@@ -35,15 +35,14 @@ export default function Error({
             border/bg for ln-card. */}
         <div className="max-w-xl mx-auto text-center ln-card rounded-2xl p-10 reveal-up">
           <div className="w-16 h-16 rounded-2xl mx-auto mb-6 flex items-center justify-center bg-[var(--accent)]">
-            {/* P10-1c (تصحيح درجة التوكن): الحبر كان --primary (درجة
-                التعبئة) لا --primary-text (درجة النص/الأيقونات) — في
-                الوضع الفاتح رسم المثلث #E9B44C على غسيل الذهب فوق
-                البطاقة البيضاء (≈1.7:1) شبه مختفٍ، بينما حبر درجة النص
-                #8A6420 ≈ 4.3:1 هناك. التوأم المطابق: أيقونة المؤسس
-                8×8 في نفس الغسيل على /about (w-8 h-8
-                text-[var(--primary-text)]) — عقد مدارك m15: «حبر
-                الأيقونات يركب --primary-text». الداكن لم يتغير (القيمتان
-                هناك واحدة #E9B44C). */}
+            {/* P10-1c (تصحيح درجة التوكن) — P13-2a re-word للحاضر KODE:
+                الحبر كان --primary (درجة التعبئة) لا --primary-text
+                (درجة النص/الأيقونات) — قبل r160 كان ذلك يرسم الذهب
+                #E9B44C على غسيل الذهب فوق البطاقة (≈1.7:1) شبه مختفٍ
+                في الفاتح. عقد الأسطول: «حبر الأيقونات يركب
+                --primary-text» (اليوم برتقالي: #FF4C00 داكن / #B23E00
+                فاتح). التوأم المطابق: أيقونة المؤسس 8×8 في نفس الغسيل
+                على /about (w-8 h-8 text-[var(--primary-text)]). */}
             <AlertTriangle className="w-8 h-8 text-[var(--primary-text)]" aria-hidden="true" />
           </div>
           {/* r132 (A6 §4): the H1 rides the --fs-h1 30px rung — text-3xl

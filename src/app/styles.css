@@ -213,15 +213,15 @@
 }
 
 /* ═══════════════════════════════════════════════════════════════════
-   m15 — MADAREK TOKEN BRIDGE (dark = default theme)
-   Values are exact from refs/madarek-reference.md (the "DARK" column):
-   night-indigo ground #070B16 · sand ink #F2EFE6 · gold accent #E9B44C.
-   Smart-Link's original token NAMES are preserved (27 are consumed by
-   components) — only the values changed. The former flame-orange oklch
-   world is retired. Smart-Link's --primary = Madarek's accent family
-   (gold in BOTH themes since the phase6 light ruling): CTAs, focus,
-   links and icon tints all ride it, exactly like the accent carries
-   Madarek.
+   m15 — the TOKEN BRIDGE (dark = default theme), r160 KODE values.
+   History: born as the Madarek token bridge (m15 — night-indigo
+   #070B16 · sand #F2EFE6 · gold #E9B44C, exact from
+   refs/madarek-reference.md); P12-2a (r160) re-pointed the same names
+   to the KODE 3-color discipline — near-black stage + white + safety
+   orange. Smart-Link's token NAMES survived both waves (27 are
+   consumed by components) — only the values moved. --primary = the
+   accent family (orange in BOTH themes): CTAs, focus, links and icon
+   tints all ride it.
    ═══════════════════════════════════════════════════════════════════ */
 :root {
   --scroll-offset: 6rem;

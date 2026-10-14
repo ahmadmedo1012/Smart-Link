@@ -4,19 +4,37 @@
 > in code — follow them; change them only deliberately and update this file
 > in the same commit.
 >
-> **Constitution version: Phase 9 (P9-3-a) — Phase-5 «مدارك Night: The
-> Ecosystem Observatory» + the Phase-6 additions + the Phase-9 dual-stage
-> landing** (gold-on-cream light ruling · §0a2 foreshadow promotion to the
-> product pages · genart observatory re-tone · the product-page chapter
-> rhythm · the landing's working DAY stage — §“Phase-9 additions” below).
-> The hub KEEPS and now truly OWNS the family identity
-> (ink night · sand · luminous gold) and FORESHADOWS its three siblings'
-> new worlds inside itself. **Token SSOT in this repo:**
-> `src/app/styles.css` (the product layer: `:root` = night, `.light` =
-> cream, `@theme inline` = Tailwind bridge) + `src/app/landing.css` (the
-> مدارك Night landing layer, scoped `.landing` — night default +
-> `html.light .landing` day stage §15). If this file and the CSS disagree,
-> the CSS wins — fix the doc.
+> **Constitution version: Phase 13 (P13-2a) — ACTIVE SYSTEM: KODE (r160,
+> «الرابط والمنظومة»)**. Per the CSS-wins law below, the operative system
+> is what `styles.css`/`landing.css` declare today, and that is KODE:
+> near-black stage `#050507` · paper `#F4F2ED` · safety orange `#FF4C00`
+> (light text-grade `#B23E00` · on-fill ink `#050507`/`#0A0A0A` · hover
+> `#E04400`) · white stage text · mono status chrome · display fonts
+> **Noto Kufi Arabic 700/800** (hero lockup/headings) + **Bodoni Moda 700**
+> (Latin) over IBM Plex Sans Arabic. The landing hero is the
+> **ChainSculpture** WebGL chain (7 interlocked links, drag-rotatable,
+> theme-aware) behind a 3-line Kufi type-block; the product worlds ride
+> the unified KODE orange wells (`--ln-{menu,bot,order}` = `#FF4C00` /
+> well `#221008` — the per-product terracotta/teal/orange hues retired
+> with r160). Every Madarek-identity statement in the sections below is
+> **historical lineage** (m15 bridge → phase5 «مدارك Night» r152 →
+> phase6 gold-on-cream → r160 KODE), kept for archaeology — do NOT
+> re-introduce night/gold `#070B16`/`#E9B44C` or gold-on-cream rulings
+> as if current. **Token SSOT in this repo:**
+> `src/app/styles.css` (the product layer: `:root` = KODE night,
+> `.light` = KODE paper, `@theme inline` = Tailwind bridge) +
+> `src/app/landing.css` (the landing layer, scoped `.landing` — KODE
+> stage, night default + `html.light .landing` paper stage §15/§16b).
+> If this file and the CSS disagree, **the CSS wins — fix the doc.**
+>
+> Previous constitution version (Phase 9, P9-3-a — historical record):
+> Phase-5 «مدارك Night: The Ecosystem Observatory» + the Phase-6
+> additions + the Phase-9 dual-stage landing (gold-on-cream light
+> ruling · §0a2 foreshadow promotion to the product pages · genart
+> observatory re-tone · the product-page chapter rhythm · the landing's
+> working DAY stage). The hub then kept the family identity
+> (ink night · sand · luminous gold) and foreshadowed its three
+> siblings' worlds inside itself — all superseded by r160 KODE above.
 
 ## Identity — one family, one night, four worlds
 

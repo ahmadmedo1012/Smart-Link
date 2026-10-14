@@ -121,8 +121,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             crossorigin is mandatory for font fetches even same-origin. */}
         <link rel="preload" href="/fonts/plex-sans-arabic-400-normal-arabic.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
         <link rel="preload" href="/fonts/plex-sans-arabic-700-normal-arabic.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
-        {/* m15: browser bar follows the Madarek grounds — night-indigo
-            #070B16 (dark) / warm cream #FBFAF9 (light); ThemeColorSync
+        {/* m15 → P13-2a re-word: browser bar follows the KODE grounds —
+            ink #050507 (dark) / paper #F4F2ED (light); ThemeColorSync
             re-points both metas to the user's resolved theme. */}
         <meta name="theme-color" content="#050507" media="(prefers-color-scheme: dark)" />
         <meta name="theme-color" content="#F4F2ED" media="(prefers-color-scheme: light)" />

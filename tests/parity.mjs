@@ -2461,7 +2461,7 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
 }
 
 if (failures.length > 0) {
-  console.error(`✗ Madarek parity snapshot FAILED (${failures.length} assertion(s)):`);
+  console.error(`✗ KODE parity snapshot FAILED (${failures.length} assertion(s)):`);
   for (const f of failures) console.error(`  • ${f}`);
   process.exit(1);
 }
@@ -2522,4 +2522,4 @@ if (failures.length > 0) {
   process.exit(1);
 }
 
-console.log(`✓ Madarek parity snapshot: ${passed} assertions passed (styles.css product tokens + landing.css مدارك Night layer == canonical values — the family identity + the §0a2 foreshadow pairs)`);
+console.log(`✓ KODE parity snapshot: ${passed} assertions passed (styles.css product tokens + landing.css KODE layer == the r160 canonical values — ink/paper/safety-orange + the ChainSculpture engine/worlds/CTA contracts; born as the r126 Madarek parity snapshot, re-pinned P12-2a r160)`);

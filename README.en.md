@@ -10,7 +10,9 @@
 
 **Live site:** <https://smart-link.ly> · **Support:** WhatsApp during office hours (9am–9pm)
 
-![SmartLink landing page — the Madarek-night sky with the living product constellation and the headline “every business starts as a link and becomes a system”](docs/screenshots/hero-landing.webp)
+![SmartLink landing page — the three-line Kufi type-block lockup with the ascending chain sculpture behind it](docs/screenshots/hero-landing.webp)
+
+*The hero shot is from the pre-r160 era (Madarek Night) — re-capturing on the current KODE build is deferred to the visual-verification wave; see [CAPTIONS.md](docs/screenshots/CAPTIONS.md).*
 
 ## What is this?
 
@@ -26,14 +28,14 @@ The site is Arabic-first (fully RTL), ships a dark/light theme, and is built to 
 
 ### Pages & sections
 
-- **A full Madarek-Night landing journey (r152 «الكوكبة الحيّة»)**: a living interactive constellation canvas in the hero (the **EcosystemConstellation** engine — the SmartLink core orbited by the three product nodes in their world hues, interactive on click/hover, paused off-screen), an RTL product marquee with a seamless 42s loop, the worlds chapter with true claims and live domain links, a five-station connection journey with a light path, the mission-control cockpit with verifiable published figures (3 live products, SmartBot from 19 LYD, Smart Order base plan free, 100% Arabic interface — r143 truth wave), the platforms ground, and a finale CTA crowned by the family crest (family.webp — restored by r144), then the FAQ.
+- **A full KODE landing journey (r160 «الرابط والمنظومة»)**: an ascending metallic chain sculpture on WebGL in the hero (the **ChainSculpture** engine — 7 interlocked links standing for link→system, drag-rotatable, re-reads its theme tokens on flip), a three-line Kufi type-block lockup in the display cut, flat orange flood chapters, mono status chrome, an RTL product marquee with a seamless 42s loop, the worlds chapter with true claims and live domain links, a light-path connection journey, the mission-control cockpit with verifiable published figures (3 live products, SmartBot from 19 LYD, Smart Order base plan free, 100% Arabic interface — r143 truth wave), the platforms ground, a finale CTA, then the FAQ.
 - **Six inner pages**: About · Pricing · Contact · Privacy · Terms · an Offline page — plus custom 404/error pages.
 - **Fully responsive** from 320px up to wide screens, with touch targets no smaller than 44px.
 
 ### Pricing plans
 
 - Three plan cards — **Smart Menu**, **SmartBot** and **Smart Order** — on the free basic tier, each with its feature list, tabular-numeral prices, and direct start links.
-- A “paid plans coming soon” badge for the upcoming upgrade path (Smart Order's paid tiers are already live in LYD on its own platform).
+- **The live ecosystem pricing**: the paid tiers are actually live in Libyan dinars on all three product platforms (from 19 LYD) — the pricing page mirrors each product's ladder and links straight to each platform's pricing page.
 
 ### FAQ
 
@@ -55,9 +57,10 @@ The site is Arabic-first (fully RTL), ships a dark/light theme, and is built to 
 
 ## Screenshots
 
-<!-- phase6 (P6-2-a4): all three shots re-captured on the phase-6 build —
-     the present: Madarek Night on the landing + the foreshadow wells on
-     the pricing cards (the previous era was r130/r138). -->
+<!-- phase6 (P6-2-a4) → P13-2a: all three shots are from the phase-6 build —
+     historical now (Madarek Night + the foreshadow wells; the previous era
+     was r130/r138). Not re-captured since r160 (KODE) — re-capture is
+     deferred to the visual-verification wave; see CAPTIONS.md. -->
 
 ![Pricing page — the Smart Menu, SmartBot and Smart Order cards on the free basic plan](docs/screenshots/pricing-plans.png)
 
@@ -72,8 +75,8 @@ The site is Arabic-first (fully RTL), ships a dark/light theme, and is built to 
 ## Tech stack
 
 - **Next.js 16** (App Router) — every page is a Server Component; interaction lives in small client islands only.
-- **Tailwind CSS v4** via `@theme` — the **Madarek** design-token bridge in both modes: night/gold `#070B16`/`#E9B44C` and light cream/gold — the phase-6 gold-on-cream ruling (fill `#E9B44C` with its dark ink; text-grade deep gold `#8A6420`, 5.13:1 on cream ≥ AA); the three foreshadow identities (menu terracotta · bot teal · order orange) ride the pricing-card wells (the nine pastel families are retired), radii 6–28 and motion 80–720ms.
-- **IBM Plex Sans Arabic** 400–700, self-hosted (`public/fonts/` — woff2 files for the Arabic sans ar+la and Latin mono) — zero external font requests.
+- **Tailwind CSS v4** via `@theme` — the **KODE** design tokens in both modes (r160): ink `#050507` / paper `#F4F2ED` / safety orange `#FF4C00` (light text-grade `#B23E00`) — each product keeps its own visual world, with the accent wells on the pricing cards; radii 6–28 and motion 80–720ms.
+- **Self-hosted fonts**: **IBM Plex Sans Arabic** 400–700 for body and UI (`public/fonts/` — woff2 files for the Arabic sans ar+la and Latin mono) plus the display pair **Bodoni Moda 700** (Latin) and **Noto Kufi Arabic 700/800** (the hero lockup and headings) via next/font — zero external font requests.
 - **TypeScript** strict (checked at build time).
 - **Resend + react-email** for transactional email, **next-themes** for theming, **Playwright + axe-core** for testing.
 - **Pure CSS motion** — `animation-timeline`/keyframes guarded by `prefers-reduced-motion`; no framer-motion, no animation library.
@@ -107,7 +110,7 @@ npm run build && npm run test:e2e
 | `npm run build` | Production build (runs the TypeScript check automatically) |
 | `npm run start` | Serve the production build locally |
 | `npm run lint` | ESLint — zero errors required |
-| `npm run test:parity` | Madarek design-token parity snapshot (plain node — enforced in CI) |
+| `npm run test:parity` | KODE design-token parity snapshot (plain node — enforced in CI) |
 | `npm run test:e2e` | Full suite: build ← `next start` ← Playwright + axe-core |
 | `npm run test:live:sim` | Simulation against the live smart-link.ly (separate Playwright config) |
 
@@ -122,11 +125,11 @@ src/
 │   ├── sitemap.ts robots.ts   # dynamic (lastmod on every deploy)
 │   ├── error.tsx global-error.tsx not-found.tsx
 │   └── layout.tsx       # Fonts + JSON-LD + root metadata
-├── components/        # Client islands (EcosystemConstellation, form, accordion…) and server components
+├── components/        # Client islands (ChainSculpture, form, accordion…) and server components
 ├── emails/            # react-email templates for notification & confirmation
 └── lib/               # site.ts (the single source of truth for figures/links) + seo.ts + schema.ts
 e2e/                  # E2E suite — 23 spec files (Playwright + axe-core)
-tests/parity.mjs      # Madarek token parity snapshot (plain node)
+tests/parity.mjs      # KODE token parity snapshot (plain node)
 docs/                 # Reports + screenshots
 public/               # Self-hosted fonts + icons + sw.js + manifest
 .github/workflows/ci.yml   # CI: lint ← parity ← build ← e2e on every push to main
@@ -142,7 +145,7 @@ public/               # Self-hosted fonts + icons + sw.js + manifest
 
 ## Testing
 
-An in-repo E2E suite — **23 spec files** under `e2e/`, run against a production build (`next start`) via Playwright + axe-core, alongside the **Madarek token parity snapshot** enforced in CI (counts grow every round — see [CHANGELOG.md](CHANGELOG.md)):
+An in-repo E2E suite — **23 spec files** under `e2e/`, run against a production build (`next start`) via Playwright + axe-core, alongside the **KODE token parity snapshot** enforced in CI (counts grow every round — see [CHANGELOG.md](CHANGELOG.md)):
 
 - **Smoke**: pages + 404 (200/RTL/h1/title/zero console errors) and the stat counters.
 - **Behavior**: mobile menu, dropdown, theme toggle, back-to-top, touch & devices (320px and up).
@@ -168,9 +171,13 @@ Automatic via the GitHub → Vercel integration (project `smartlink`). Every pus
 
 ---
 
-## 🛰️ Part of the Madarek Ecosystem — جزء من منظومة مدارك
+## 🛰️ Part of the Smart family — جزء من عائلة سمارت
 
-> One design system across all projects · the Madarek identity: night/gold `#070B16`/`#E9B44C` dark — light cream/gold `#FBFAF9`/`#8A6420` (deep-gold text grade; fill `#E9B44C`) — IBM Plex Sans Arabic
+<!-- P13-2a: historically «the Madarek Ecosystem» — Madarek stays a family row
+     (the original m15 token bridge), but this site's identity since r160 is
+     KODE (ink/paper/safety orange), not the Madarek night/gold identity. -->
+
+> The Smart project family under one umbrella · this site's identity since r160: KODE — ink `#050507` / paper `#F4F2ED` / safety orange `#FF4C00` (fonts: Noto Kufi Arabic + Bodoni Moda + IBM Plex Sans Arabic) · Madarek = the historical reference for the m15 token bridge
 
 | Project | Role | GitHub | Live |
 |---|---|---|---|

@@ -2981,3 +2981,462 @@ html.light .landing .ln-ground-status { background: rgb(7 11 22 / 0.05); }
   .landing .landing-theme-toggle,
   .landing .landing-theme-toggle-icon { transition: none; }
 }
+
+
+/* ════════════════════════════════════════════════════════════════════
+   §16 · r160 «KODE» — the P12-2a Immersive translation layer
+   (S1–S5). Appended AFTER every earlier chapter so the KODE paint wins
+   the cascade without deleting the r128–r152 anatomy underneath (the
+   marquee loop arithmetic, the reveal belt, the skip link, the spy —
+   all parity-pinned contracts — keep working untouched).
+   Palette law (S3): only stage ink / stage white / #FF4C00 per stage.
+   No gradients, no glass, no per-world hues anywhere in this layer.
+   ════════════════════════════════════════════════════════════════════ */
+
+/* ── 16a · S5 — the bracketed mono status chrome ─────────────────── */
+.landing .ln-status {
+  direction: ltr;
+  unicode-bidi: isolate;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--ln-cream-dim);
+  white-space: nowrap;
+}
+.landing .ln-status--libya { color: var(--ln-gold); }
+@media (max-width: 1080px) {
+  .landing .ln-status { display: none; } /* the drawer breakpoint — chrome yields to the burger */
+}
+
+/* ── 16b · S1 — the type-block hero (3-line Kufi lockup) ─────────── */
+.landing .ln-hero--kode {
+  min-block-size: 100svh;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  align-items: center;
+  position: relative;
+  padding-block: clamp(84px, 12vh, 140px) 56px;
+  overflow: hidden;
+}
+/* the sculpture canvas: absolute, centered on the middle-line diamond,
+   BEHIND the lockup (z-0); the text column sits above (z-1). */
+.landing .ln-hero--kode .ln-hero-sky {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: transparent;
+}
+.landing .ln-hero--kode .ln-hero-sky::after {
+  content: none; /* the old sky gradient retired — flat stage only */
+}
+.landing .ln-hero--kode .ln-hero-canvas {
+  position: absolute;
+  inset-inline: 0;
+  block-size: 100%;
+  margin-inline: auto;
+  touch-action: pan-y; /* drag rotates the sculpture, page still scrolls */
+}
+.landing .ln-hero--kode .ln-hero-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: clamp(14px, 2.4vh, 26px);
+}
+.landing .ln-hero--kode .ln-hero-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.landing .ln-hero--kode .ln-hero-eyebrow .ln-mono {
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: var(--ln-cream-dim);
+}
+/* the Latin wordmark — Bodoni Moda 700 (the OT-Brut stand-in) */
+.landing .ln-hero-wordmark {
+  font-family: var(--font-display-latin), var(--font-mono), monospace;
+  font-weight: 700;
+  font-size: clamp(15px, 1.6vw, 22px);
+  letter-spacing: 0.32em;
+  direction: ltr;
+  unicode-bidi: isolate;
+  color: var(--ln-cream);
+}
+/* THE LOCKUP: Noto Kufi Arabic 800, clamp(56px,13vw,190px), lh 0.92 */
+.landing .ln-hero--kode .ln-hero-title {
+  font-family: var(--font-display-arabic), var(--font-body), sans-serif;
+  font-weight: 800;
+  font-size: var(--ln-h1);
+  line-height: var(--ln-h1-lh);
+  color: var(--ln-cream);
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: visible; /* tashkeel rides the negative space, never crops */
+  text-wrap: balance;
+}
+.landing .ln-hero--kode .ln-hero-title em {
+  font-style: normal;
+  color: var(--ln-gold);
+}
+/* the SHORT middle line — the diamond's apex; the sculpture lives here */
+.landing .ln-hero--kode .ln-hero-line--mid {
+  padding-inline: clamp(48px, 14vw, 260px); /* the sculpture's breathing gap */
+}
+.landing .ln-hero--kode .ln-hero-sub {
+  max-inline-size: 56ch;
+  color: var(--ln-cream-dim);
+  font-size: clamp(15px, 1.4vw, 17px);
+  line-height: 1.9;
+  margin: 0;
+}
+.landing .ln-hero--kode .ln-hero-sub strong { color: var(--ln-cream); font-weight: var(--fw-semibold); }
+.landing .ln-hero--kode .ln-hero-meta li { color: var(--ln-cream-dim); }
+.landing .ln-hero--kode .ln-hero-meta li svg { color: var(--ln-gold); }
+/* the bottom bilingual scroll cue (S5) */
+.landing .ln-hero--kode .ln-hero-scroll {
+  position: relative;
+  z-index: 1;
+  justify-self: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  color: var(--ln-cream-dim);
+}
+.landing .ln-hero--kode .ln-hero-scroll .ln-mono {
+  direction: ltr;
+  unicode-bidi: isolate;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+}
+.landing .ln-hero--kode .ln-hero-scroll-line {
+  block-size: clamp(40px, 8vh, 72px);
+  inline-size: 1px;
+  background: var(--ln-line);
+  position: relative;
+  overflow: hidden;
+}
+.landing .ln-hero--kode .ln-hero-scroll-line::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--ln-gold);
+  transform-origin: top;
+  animation: ln-scrollcue 2.4s var(--ln-ease-linear) infinite;
+}
+@keyframes ln-scrollcue {
+  0% { transform: translateY(-100%); }
+  60%, 100% { transform: translateY(100%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .landing .ln-hero--kode .ln-hero-scroll-line::after { animation: none; transform: translateY(0); opacity: 0.6; }
+  .landing .ln-hero--kode .ln-hero-canvas { touch-action: auto; }
+}
+
+/* ── 16c · S4 — the flat #FF4C00 floods (marquee + journey) ──────── */
+.landing .ln-marquee {
+  background: var(--ln-flood);
+  color: var(--ln-flood-ink);
+  border-block: 1px solid var(--ln-flood-ink);
+}
+.landing .ln-marquee::before,
+.landing .ln-marquee::after { background: transparent; } /* edge fades retired — flat flood */
+.landing .ln-marquee .ln-mono,
+.landing .ln-marquee-tag { color: var(--ln-flood-ink); }
+.landing .ln-marquee-tag { display: none; } /* the flood is pure vocabulary */
+.landing .ln-marquee-item { color: var(--ln-flood-ink); font-weight: 600; }
+.landing .ln-marquee-sep { color: var(--ln-flood-ink); opacity: 0.55; }
+
+/* chapter 002 — the JOURNEY flood: black ink on orange, mono indices,
+   hairline rules (both stages — a flood is a flood) */
+.landing .ln-journey--kode {
+  background: var(--ln-flood);
+  color: var(--ln-flood-ink);
+  padding-block: clamp(72px, 10vh, 120px);
+}
+.landing .ln-journey--kode .ln-chapter-head--flood {
+  border-block-end: 1px solid var(--ln-flood-ink);
+  padding-block-end: clamp(28px, 4vh, 44px);
+  margin-block-end: 0;
+}
+.landing .ln-journey--kode .ln-label { color: var(--ln-flood-ink); }
+.landing .ln-journey--kode .ln-chapter-title--kode { color: var(--ln-flood-ink); }
+.landing .ln-journey--kode .ln-chapter-title--kode em { color: var(--ln-flood-ink); }
+.landing .ln-journey--kode .ln-chapter-lede { color: var(--ln-flood-ink); opacity: 0.82; }
+.landing .ln-journey-rows {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  counter-reset: none;
+}
+.landing .ln-journey-row {
+  display: grid;
+  grid-template-columns: minmax(72px, 120px) 1fr auto;
+  align-items: baseline;
+  column-gap: clamp(20px, 3vw, 56px);
+  padding-block: clamp(22px, 3.6vh, 40px);
+  border-block-end: 1px solid var(--ln-flood-ink);
+}
+.landing .ln-journey-row:last-child { border-block-end: none; }
+.landing .ln-journey-row-n {
+  font-size: clamp(18px, 2vw, 26px);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+.landing .ln-journey-row-title {
+  font-family: var(--font-display-arabic), sans-serif;
+  font-weight: 700;
+  font-size: clamp(20px, 3vw, 34px);
+  margin: 0 0 6px;
+}
+.landing .ln-journey-row-desc {
+  margin: 0;
+  max-inline-size: 62ch;
+  font-size: 15px;
+  line-height: 1.85;
+  opacity: 0.85;
+}
+.landing .ln-journey-row-tag {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  border: 1px solid var(--ln-flood-ink);
+  padding: 4px 10px;
+  white-space: nowrap;
+  align-self: center;
+}
+@media (max-width: 760px) {
+  .landing .ln-journey-row { grid-template-columns: 64px 1fr; }
+  .landing .ln-journey-row-tag { display: none; }
+}
+/* the beam retired with the winding — the flood carries the chapter */
+.landing .ln-journey--kode .ln-journey-stage,
+.landing .ln-journey--kode .ln-beam { display: none; }
+
+/* ── 16d · chapter 001 — WORLDS: the BLACK stage (both themes) ───── */
+.landing .ln-worlds--kode {
+  background: #050507;
+  color: #FFFFFF;
+  padding-block: clamp(72px, 10vh, 128px);
+}
+html.light .landing .ln-worlds--kode { background: #050507; color: #FFFFFF; } /* the inverted chapter keeps its black in the day */
+.landing .ln-worlds--kode .ln-label { color: #FF4C00; }
+.landing .ln-worlds--kode .ln-chapter-title--kode {
+  font-family: var(--font-display-arabic), sans-serif;
+  font-weight: 800;
+  font-size: clamp(2.6rem, 7.5vw, 6.5rem);
+  line-height: 1.04;
+  color: #FFFFFF;
+  margin: 12px 0 0;
+}
+.landing .ln-worlds--kode .ln-chapter-title--kode em { color: #FF4C00; }
+.landing .ln-worlds--kode .ln-chapter-lede { color: #A9ACB4; max-inline-size: 60ch; }
+.landing .ln-worlds--kode .ln-chapter-head--kode {
+  border-block-end: 1px solid rgba(255, 255, 255, 0.22);
+  padding-block-end: clamp(28px, 4vh, 44px);
+  margin-block-end: clamp(8px, 2vh, 24px);
+}
+/* the type-cards: hairline-ruled rows, mono numeral + name + host +
+   three claims + the live link. No cards, no glass, no hue chips. */
+.landing .ln-worlds-list--kode { display: block; }
+.landing .ln-world-card {
+  display: grid;
+  grid-template-columns: minmax(84px, 180px) 1fr;
+  column-gap: clamp(24px, 4vw, 72px);
+  padding-block: clamp(30px, 4.4vh, 52px);
+  border-block-end: 1px solid rgba(255, 255, 255, 0.22);
+}
+.landing .ln-world-card:last-child { border-block-end: none; }
+.landing .ln-world-num {
+  font-size: clamp(28px, 4vw, 56px);
+  font-weight: 700;
+  color: #FF4C00;
+  direction: ltr;
+}
+.landing .ln-world-card-head {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.landing .ln-world-name {
+  font-family: var(--font-display-latin), var(--font-body), sans-serif;
+  font-weight: 700;
+  font-size: clamp(24px, 3.4vw, 44px);
+  letter-spacing: 0.01em;
+  direction: ltr;
+  color: #FFFFFF;
+  margin: 0;
+}
+.landing .ln-world-host {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: #A9ACB4;
+  direction: ltr;
+}
+.landing .ln-world-sub {
+  color: #A9ACB4;
+  font-size: 15px;
+  margin: 6px 0 0;
+}
+.landing .ln-world-claims {
+  list-style: none;
+  margin: 18px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+  max-inline-size: 72ch;
+}
+.landing .ln-world-claims li {
+  color: #EDEDF0;
+  font-size: 14.5px;
+  line-height: 1.8;
+  padding-inline-start: 18px;
+  position: relative;
+}
+.landing .ln-world-claims li::before {
+  content: "";
+  position: absolute;
+  inset-inline-start: 0;
+  top: 0.72em;
+  inline-size: 8px;
+  block-size: 1px;
+  background: #FF4C00;
+}
+.landing .ln-worlds--kode .ln-world-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-block-start: 22px;
+  color: #FF4C00;
+  font-weight: 700;
+  font-size: 16px;
+  min-block-size: 44px;
+  text-decoration: none;
+  border-block-end: 2px solid transparent;
+}
+.landing .ln-worlds--kode .ln-world-cta:hover {
+  color: #FF6A2E;
+  border-block-end-color: currentColor;
+}
+.landing .ln-worlds--kode .ln-world-cta:focus-visible {
+  outline: 2px solid #FF4C00;
+  outline-offset: 3px;
+}
+@media (max-width: 760px) {
+  .landing .ln-world-card { grid-template-columns: 1fr; row-gap: 10px; }
+  .landing .ln-world-num { font-size: 32px; }
+}
+
+/* ── 16e · chapter 003 — COCKPIT: black stage, mono hairlines ────── */
+.landing .ln-cockpit {
+  background: #050507;
+  color: #FFFFFF;
+  padding-block: clamp(72px, 10vh, 120px);
+}
+html.light .landing .ln-cockpit { background: #050507; color: #FFFFFF; }
+.landing .ln-cockpit .ln-label { color: #FF4C00; }
+.landing .ln-cockpit .ln-chapter-title {
+  font-family: var(--font-display-arabic), sans-serif;
+  font-weight: 800;
+  color: #FFFFFF;
+}
+.landing .ln-cockpit .ln-chapter-title em { color: #FF4C00; }
+.landing .ln-cockpit .ln-chapter-lede { color: #A9ACB4; }
+.landing .ln-cockpit-panel {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 0;
+  box-shadow: none;
+  backdrop-filter: none;
+}
+.landing .ln-cockpit-status {
+  border-block-end: 1px solid rgba(255, 255, 255, 0.22);
+  color: #A9ACB4;
+}
+.landing .ln-cockpit .ln-stat-value { color: #FF4C00; }
+.landing .ln-cockpit .ln-stat-label { color: #FFFFFF; }
+.landing .ln-cockpit .ln-stat-note { color: #A9ACB4; }
+.landing .ln-cockpit .ln-cockpit-source { color: #A9ACB4; }
+html.light .landing .ln-cockpit .ln-stat-label { color: #FFFFFF; }
+html.light .landing .ln-cockpit-panel,
+html.light .landing .ln-cockpit-status,
+html.light .landing .ln-cockpit .ln-chapter-lede,
+html.light .landing .ln-cockpit .ln-stat-note,
+html.light .landing .ln-cockpit .ln-cockpit-source,
+html.light .landing .ln-cockpit .ln-chapter-title { /* keep the night chapter honest in the day */ }
+
+/* ── 16f · the CTA family — the orange underline sweep (S4/S3) ──── */
+.landing .ln-btn-gold {
+  background: transparent;
+  color: var(--ln-gold);
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  font-weight: 700;
+  padding: 10px 4px;
+  position: relative;
+}
+.landing .ln-btn-gold::after { display: none; } /* hero sheen retired */
+.landing .ln-btn-gold::before {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  bottom: 8px;
+  block-size: 2px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform var(--ln-t-base) var(--ln-ease-out);
+}
+.landing .ln-btn-gold:hover,
+.landing .ln-btn-gold:focus-visible {
+  color: var(--ln-gold-deep);
+  background: transparent;
+}
+.landing .ln-btn-gold:hover::before,
+.landing .ln-btn-gold:focus-visible::before { transform: scaleX(1); }
+html.light .landing .ln-btn-gold:hover { color: var(--ln-gold-deep); }
+.landing .ln-btn-ghost {
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  color: var(--ln-cream);
+  box-shadow: none;
+  font-weight: 600;
+  padding: 10px 4px;
+}
+.landing .ln-btn-ghost:hover,
+.landing .ln-btn-ghost:focus-visible {
+  background: transparent;
+  color: var(--ln-cream);
+  border-block-end: 2px solid var(--ln-gold);
+}
+/* KODE: the hero/finale CTAs ride the same sweep — flat, type-led */
+.landing .ln-hero-actions { gap: clamp(20px, 3vw, 36px); flex-wrap: wrap; }
+.landing .ln-hero-actions .ln-btn-gold,
+.landing .ln-hero-actions .ln-btn-ghost { font-size: 16px; }
+
+/* ── 16g · platforms / finale / FAQ / footer — minimal type ──────── */
+.landing .ln-cta .ln-cta-title {
+  font-family: var(--font-display-arabic), sans-serif;
+  font-weight: 800;
+}
+.landing .ln-cta .ln-cta-line em { color: var(--ln-gold); }
+.landing .ln-platforms .ln-label,
+.landing .ln-faq .ln-label { color: var(--ln-gold); }
+.landing .ln-grain { opacity: 0.5; } /* quieter film on the KODE stage */
+
+/* ── 16h · S5 — the orange focus ring + hairline chapter rules ──── */
+.landing :is(a, button, summary, input, textarea, select, [tabindex]):focus-visible {
+  outline: 2px solid var(--ln-gold);
+  outline-offset: 3px;
+}
+
+/* §16i — the sculpture canvas element fills its stage box */
+.landing .ln-hero-canvas canvas { display: block; width: 100%; height: 100%; }

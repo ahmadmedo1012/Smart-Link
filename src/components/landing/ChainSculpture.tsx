@@ -119,7 +119,6 @@ export default function ChainSculpture({ className }: { className?: string }) {
       link.rotation.x = 0.16 * Math.sin(i * 1.7)
       link.castShadow = true
       chain.add(link)
-      meshes.push(link)
     }
     chain.rotation.x = -0.12
     scene.add(chain)

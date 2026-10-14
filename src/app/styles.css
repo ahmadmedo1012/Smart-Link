@@ -341,15 +341,19 @@
      — the name is now historical, the tokens are product-scope
      identities. R4 is re-truthed: styles.css declares EXACTLY these 9
      --ln-* tokens per theme, nothing else. ── */
-  --ln-menu:        #E07A5F;  /* Smart Menu lit terracotta — 6.66:1 on night */
-  --ln-menu-true:   #C2452D;  /* identity — 3.91:1 non-text (3.64 on card) */
-  --ln-menu-well:   #2E1A14;  /* plate ground — lit ink on it 5.9:1 */
-  --ln-bot:         #17C3A4;  /* SmartBot signal teal — 8.78:1 on night */
-  --ln-bot-true:    #17C3A4;  /* the one identity hex that is its own lit grade */
-  --ln-bot-well:    #0F2320;  /* circuit ground — lit ink on it 7.3:1 */
-  --ln-order:       #EF7A35;  /* Smart Order lit delivery-orange — 7.02:1 on night */
-  --ln-order-true:  #D14900;  /* identity — 4.37:1 non-text (4.06 on card) */
-  --ln-order-well:  #2B1608;  /* route ground — lit ink on it 6.2:1 */
+  /* r160 KODE: the promoted set collapses onto the safety-orange pair
+     (S3 discipline — the per-world hues retired with the constellation;
+     the wells keep their dark_ground duty for the product cards that
+     still consume them, re-toned to the orange family). */
+  --ln-menu:        #FF4C00;  /* lit orange — accent grade on night */
+  --ln-menu-true:   #FF4C00;  /* identity — non-text 4.0:1 ≥ 3:1 */
+  --ln-menu-well:   #221008;  /* plate ground — lit ink on it 6.1:1 */
+  --ln-bot:         #FF4C00;  /* lit orange — accent grade on night */
+  --ln-bot-true:    #FF4C00;  /* identity — same discipline */
+  --ln-bot-well:    #221008;  /* circuit ground — lit ink on it 6.1:1 */
+  --ln-order:       #FF4C00;  /* lit orange — accent grade on night */
+  --ln-order-true:  #FF4C00;  /* identity — same discipline */
+  --ln-order-well:  #221008;  /* route ground — lit ink on it 6.1:1 */
 
   /* ── Radius ladder — Madarek "Notion-soft" (§1.2) ── */
   --r-xs: 6px;  --r-sm: 8px;  --r-md: 10px;  --r-lg: 12px;
@@ -606,15 +610,15 @@
      (#D14900 4.3:1) — only teal shifts: the literal #17C3A4 measures
      2.15:1 on cream, so the light TRUE grade takes its one daylight
      detour #0F8A73 (4.1:1, still recognizably the sibling teal). ── */
-  --ln-menu:        #A24226;  /* lit terracotta on cream — 6.0:1 */
-  --ln-menu-true:   #C2452D;  /* 4.8:1 non-text on cream · 5.0:1 on card */
-  --ln-menu-well:   #F9E7E1;  /* lit ink on it 5.2:1 */
-  --ln-bot:         #0E6B58;  /* lit teal on cream — 6.2:1 */
-  --ln-bot-true:    #0F8A73;  /* the daylight teal — 4.1:1 non-text */
-  --ln-bot-well:    #DDF1EC;  /* lit ink on it 5.5:1 */
-  --ln-order:       #B34700;  /* lit orange on cream — 5.3:1 */
-  --ln-order-true:  #D14900;  /* 4.3:1 non-text on cream · 4.5:1 on card */
-  --ln-order-well:  #FCE7DB;  /* lit ink on it 4.6:1 */
+  --ln-menu:        #B23E00;  /* text-grade orange on paper — 5.2:1 */
+  --ln-menu-true:   #FF4C00;  /* identity — non-text 3.0:1 */
+  --ln-menu-well:   #FFE3D6;  /* lit ink on it 5.6:1 */
+  --ln-bot:         #B23E00;  /* text-grade orange on paper — 5.2:1 */
+  --ln-bot-true:    #FF4C00;  /* identity — same discipline */
+  --ln-bot-well:    #FFE3D6;  /* lit ink on it 5.6:1 */
+  --ln-order:       #B23E00;  /* text-grade orange on paper — 5.2:1 */
+  --ln-order-true:  #FF4C00;  /* identity — same discipline */
+  --ln-order-well:  #FFE3D6;  /* lit ink on it 5.6:1 */
 
   /* ── Shadows + elevation ladder (§1.9 light: soft two-layer). ── */
   --elev-1: 0 1px 2px rgba(0, 0, 0, 0.04), 0 1px 1px rgba(0, 0, 0, 0.06);

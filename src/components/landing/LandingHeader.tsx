@@ -218,6 +218,12 @@ export function LandingHeader() {
             <a href="#products" className="landing-nav-link">العوالم</a>
             <a href="#journey" className="landing-nav-link">الرحلة</a>
             <a href="#progress" className="landing-nav-link">القيادة</a>
+            {/* P13-2a (T4): /pricing joins the desktop nav — the landing
+                advertised anchor sections only while the pricing page (and
+                the LIVE ecosystem ladders it mirrors) was reachable only
+                from the footer. Same landing-nav-link family styling;
+                the journey anchors stay intact. */}
+            <Link href="/pricing" className="landing-nav-link">الأسعار</Link>
           </nav>
 
           <div className="landing-header-cta">
@@ -303,6 +309,9 @@ export function LandingHeader() {
             <a href="#journey" className="ln-btn-ghost">رحلة الربط</a>
             <a href="#progress" className="ln-btn-ghost">القيادة</a>
             <a href="#platforms" className="ln-btn-ghost">المنصّات</a>
+            {/* P13-2a (T4): /pricing in the drawer — the twin of the
+                desktop nav link above. */}
+            <Link href="/pricing" className="ln-btn-ghost">الأسعار</Link>
             <Link href="/contact" className="ln-btn-ghost">تواصل معنا</Link>
             <a
               href={SITE.products.menu.url}

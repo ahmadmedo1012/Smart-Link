@@ -14,7 +14,11 @@ const LCP_MARKS: Record<string, { h1: string; intro?: string }> = {
      line and the intro is the live sub (page.tsx:99-108). */
   "/": { h1: "كلُّ عملٍ يبدأ", intro: "منصّة ليبية تجمع حلولنا الرقمية" },
   "/about": { h1: "عن SmartLink", intro: "SmartLink منصة رقمية ليبية متكاملة" },
-  "/pricing": { h1: "الخطط والأسعار", intro: "اختر الخطة المناسبة لأعمالك" },
+  /* P13-2a honest re-pin: /pricing was rewritten for the live ecosystem
+   * truth (e3a5dbc) — h1 is now «<em>الخطط</em> والأسعار» (em-wrapped
+   * first word, so only «الخطط» is contiguous in raw HTML) and the lede
+   * states the per-product live ladders. */
+  "/pricing": { h1: "الخطط", intro: "ابدأ مجاناً وطور خدماتك معنا — ولكل منتج سلّم باقاته الحيّ على منصّته" },
   "/contact": { h1: "تواصل معنا", intro: "فريقنا جاهز لمساعدتك" },
   "/privacy": { h1: "سياسة الخصوصية" },
   "/terms": { h1: "شروط الاستخدام" },

@@ -82,8 +82,24 @@ export default function ChainSculpture({ className }: { className?: string }) {
       /* No WebGL → the CSS hero stands alone (content never hostage). */
       return
     }
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2))
-    renderer.shadowMap.enabled = true
+    /* P13-2a low-power path — software raster (SwiftShader/llvmpipe:
+     * CI runners, sandboxed test boxes, weak devices without GPU)
+     * pegs the main thread at full quality and starves input dispatch
+     * (the e2e/CI "input timeout" family). Detect once and shed load
+     * honestly: ¼ torus geometry, no shadows, no PMREM env, DPR 1,
+     * ~30fps gate. GPU users keep the full-quality scene unchanged. */
+    const lowPower = (() => {
+      try {
+        const gl = renderer.getContext()
+        const ext = gl.getExtension("WEBGL_debug_renderer_info")
+        const r = ext ? String(gl.getParameter(ext.UNMASKED_RENDERER_WEBGL) ?? "") : ""
+        return /swiftshader|software|llvmpipe|basic/i.test(r)
+      } catch {
+        return false
+      }
+    })()
+    renderer.setPixelRatio(lowPower ? 1 : Math.min(window.devicePixelRatio || 1, 2))
+    renderer.shadowMap.enabled = !lowPower
     renderer.shadowMap.type = PCFShadowMap
 
     const scene = new Scene()
@@ -94,7 +110,7 @@ export default function ChainSculpture({ className }: { className?: string }) {
      * behind-left + a faint ambient floor. Repainted per stage below. */
     const key = new DirectionalLight(0xfff3e6, 2.4)
     key.position.set(3.5, 5, 3)
-    key.castShadow = true
+    key.castShadow = !lowPower
     key.shadow.mapSize.set(1024, 1024)
     scene.add(key)
     const rim = new DirectionalLight(0xff4c00, 3.2)
@@ -105,7 +121,7 @@ export default function ChainSculpture({ className }: { className?: string }) {
     /* The chain: 7 torus links, each rotated 90° against its neighbour
      * (real chain weave) and stepping up a gentle spiral. */
     const chain = new Group()
-    const linkGeo = new TorusGeometry(1, 0.34, 48, 96)
+    const linkGeo = new TorusGeometry(1, 0.34, lowPower ? 24 : 48, lowPower ? 48 : 96)
     const linkMat = new MeshStandardMaterial({
       color: 0x17171c,
       metalness: 0.92,
@@ -138,6 +154,7 @@ export default function ChainSculpture({ className }: { className?: string }) {
      * degrades silently to the 3-light rig (still readable). */
     let disposeEnv: (() => void) | undefined
     try {
+      if (lowPower) throw new Error("low-power: env skipped")
       const pmrem = new PMREMGenerator(renderer)
       const envScene = new RoomEnvironment()
       scene.environment = pmrem.fromScene(envScene, 0.04).texture
@@ -183,6 +200,7 @@ export default function ChainSculpture({ className }: { className?: string }) {
     let running = true
     let inView = true
     let last = performance.now()
+    let lastRender = 0
     let t = 0
     /* drag state — velocity in rad/frame, decays (inertia) */
     let dragging = false
@@ -195,6 +213,13 @@ export default function ChainSculpture({ className }: { className?: string }) {
 
     const tick = (now: number) => {
       raf = 0
+      /* low-power: ~30fps gate — skip renders that arrive too soon
+       * (animation stays time-based via dt, so pacing is correct). */
+      if (lowPower && now - lastRender < 31) {
+        raf = requestAnimationFrame(tick)
+        return
+      }
+      lastRender = now
       const dt = Math.min((now - last) / 1000, 0.05)
       last = now
       t += dt

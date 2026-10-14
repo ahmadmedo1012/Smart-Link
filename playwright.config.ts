@@ -41,6 +41,14 @@ export default defineConfig({
     baseURL: E2E_BASE_URL,
     trace: "on-first-retry",
     locale: "ar-LY",
+    /* P13-2a (Wave-3 triage): the sandbox can't reach the Playwright
+     * CDN (download fails), but it carries a full Chrome from the
+     * agent-browser cache. E2E_CHROME_BIN routes the suite to that
+     * binary — env-gated so CI (which installs its own browsers)
+     * is untouched. --no-sandbox: container-grade namespaces. */
+    launchOptions: process.env.E2E_CHROME_BIN
+      ? { executablePath: process.env.E2E_CHROME_BIN, args: ["--no-sandbox"] }
+      : undefined,
     /* r14 (M7): الحزام والسبتنك — الموقع يسجل الآن SW على كل صفحة.
      حجبه هنا يجعل الـ268+ اختباراً محصنين من أي سلوك SW مستقبلي
      (اعتراض الطلبات/الكاش) بلا استثناء واحد، وspec الأوفلاين المخصص

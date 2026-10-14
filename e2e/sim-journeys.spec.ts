@@ -97,7 +97,10 @@ test("ج2 «عميل مهتم»: الأسعار + FAQ + إرسال النموذ�
 
   // يفتح سؤالاً من أسئلة الأسعار الشائعة (accordion)
   const q = page.getByRole("button", { name: "ما الفرق بين الخطة المجانية والمدفوعة؟" })
-  const answer = page.getByText("الخطة المجانية توفر الميزات الأساسية")
+  /* P13-2a honest re-pin: the /pricing FAQ was rewritten for the live
+   * ecosystem pricing truth (e3a5dbc) — the free-vs-paid answer now
+   * states the paid tiers are LIVE from 19 LYD across the three products. */
+  const answer = page.getByText("الباقات المدفوعة متاحة الآن على منصات المنتجات الثلاثة")
   await expect(q).toHaveAttribute("aria-expanded", "false")
   await q.click()
   await expect(q).toHaveAttribute("aria-expanded", "true")

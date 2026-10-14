@@ -79,6 +79,11 @@ test.describe("مبدّل مظهر الرئيسية — المرحلة الفا�
   })
 
   test("المنحوتة الحية تعيد الرسم عند التبديل (مقارنة بكسل لقطة المسرح)", async ({ page }) => {
+    /* P13-2a Wave-3: this probe screenshots the FULL 1280×1242 stage box
+     * THREE times and folds ~1.9M pixels in-page — under software raster
+     * the 30s default starves mid-flow (setup+poll+3 shots). Legitimately
+     * heavy contract → tripled budget, same assertions. */
+    test.slow()
     /* P13-2a re-author: الكوكبة تقاعدت مع r160 — ChainSculpture محرك
        WebGL بلا preserveDrawingBuffer، فأي قراءة getContext('2d')
        للكانفس تعيد فراغًا دائمًا (المسبار القديم كان يقيس محركًا لم
@@ -109,7 +114,18 @@ test.describe("مبدّل مظهر الرئيسية — المرحلة الفا�
       if (landing) landing.style.background = "#808080"
     })
 
-    const stageMean = async () => {
+    /* P13-2a (Wave-3 recalibration): the original >15 mean-luminance
+     * threshold assumed the full-quality render (shadows + env). The
+     * honest low-power path (no shadows/env — software raster boxes)
+     * shrinks the MEAN diff to ~4-6 while the repaint stays plainly
+     * measurable: live measurement on the sandbox build = theme flip
+     * changes 21.7% of stage pixels by >60 luminance vs 11.1% pure
+     * rotation noise (same stage, 600ms apart) → a +10.6pp signature.
+     * The probe below self-calibrates: it measures the flip-fraction
+     * AND a same-stage control fraction in the same run, then demands
+     * the flip signature exceed the machine's own noise floor by a
+     * fixed margin — machine-speed-proof, no magic constant. */
+    const stageStats = async () => {
       const png = await page.locator(".ln-hero-canvas").screenshot()
       return page.evaluate(async (b64) => {
         const img = new Image()
@@ -122,30 +138,44 @@ test.describe("مبدّل مظهر الرئيسية — المرحلة الفا�
         if (!ctx) return null
         ctx.drawImage(img, 0, 0)
         const data = ctx.getImageData(0, 0, c.width, c.height).data
-        let sum = 0
-        let n = 0
+        const lum: number[] = []
         for (let i = 0; i < data.length; i += 4) {
-          sum += 0.2126 * data[i]! + 0.7152 * data[i + 1]! + 0.0722 * data[i + 2]!
-          n += 1
+          lum.push(0.2126 * data[i]! + 0.7152 * data[i + 1]! + 0.0722 * data[i + 2]!)
         }
-        return sum / Math.max(1, n)
+        return lum
       }, png.toString("base64"))
     }
+    const changedFraction = (a: number[] | null, b: number[] | null) => {
+      if (!a || !b || a.length !== b.length) return null
+      let changed = 0
+      for (let i = 0; i < a.length; i++) if (Math.abs(a[i]! - b[i]!) > 60) changed++
+      return (100 * changed) / a.length
+    }
 
-    const darkMean = await stageMean()
-    expect(darkMean, "قياس المسرح الداكن موجود").not.toBeNull()
+    const dark = await stageStats()
+    expect(dark, "قياس المسرح الداكن موجود").not.toBeNull()
 
     await page.locator(".landing-theme-toggle").click()
     await expect(page.locator("html")).toHaveClass(/light/)
     // المراقب يعمل في نفس الدورة + إطار واحد للرسم — مهلة صغيرة تكفي
     await page.waitForTimeout(400)
-    const lightMean = await stageMean()
-    expect(lightMean, "قياس المسرح الفاتح موجود").not.toBeNull()
+    const light = await stageStats()
+    expect(light, "قياس المسرح الفاتح موجود").not.toBeNull()
 
-    // المنحوتة تملأ معظم إطار الكانفس: كروم داكن على الحبر مقابل فضة
-    // استوديوهية على الورق — الفرق الجوهري يعني إعادة رسم حقيقية
-    // (لو تجاهل المحرك الثيم لبقي الفرق ضوضاء دوران < العتبة).
-    expect(Math.abs((darkMean as number) - (lightMean as number))).toBeGreaterThan(15)
+    // عيّنة ضابطة على نفس المسرح: أرضية ضوضاء الدوران لهذه الآنة تحديدًا
+    await page.waitForTimeout(600)
+    const control = await stageStats()
+
+    const flip = changedFraction(dark, light)
+    const noise = changedFraction(light, control)
+    expect(flip, "كسر البكسلات المتغيرة بالتبديل قابل للقياس").not.toBeNull()
+    expect(noise, "أرضية الضوضاء قابلة للقياس").not.toBeNull()
+    // توقيع إعادة الرسم: التبديل يتجاوز ضوضاء الدوران بهامش ثابت
+    // (المترجم يتجاهل الثيم → flip ≈ noise → الفارق ~0)
+    expect(
+      (flip as number) - (noise as number),
+      "التبديل يغيّر المسرح فوق أرضية الضوضاء (توقيع إعادة الرسم)"
+    ).toBeGreaterThan(5)
   })
 
   test("الاختيار يثبت عبر إعادة التحميل (next-themes + سكربت الإقلاع)", async ({ page }) => {

@@ -801,6 +801,15 @@
   background: var(--ln-ink-2);
   border-block-end: 1px solid var(--ln-line-soft);
   display: none;
+  /* P13-2a (wave-3 · r133 landscape contract): the drawer lives inside
+     the sticky header — at short viewports (667×375 landscape) the
+     stacked 48px links overflow the viewport and the lower links become
+     unreachable (page scroll can't raise a sticky header's content).
+     Clamp the panel to the remaining viewport and scroll inside it. */
+  max-block-size: calc(100dvh - 96px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
 }
 /* Smart-Link adaptation: the canonical mobile menu rides the product's
    .btn.ghost/.btn.primary re-skins — this repo has no .btn base, so the

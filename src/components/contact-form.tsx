@@ -56,6 +56,13 @@ export function ContactForm() {
   const [sentMessage, setSentMessage] = useState("")
   const [error, setError] = useState("")
   const [fieldErrors, setFieldErrors] = useState<FieldErrors>({})
+  /* 4-a (3-a audit P2): the subject select is controlled ONLY to carry
+     the placeholder grade — «اختر الموضوع» rendered identical to a
+     chosen value (a <select> has no ::placeholder). While the value is
+     empty the closed control rides the same --text-faint tier the
+     text inputs' placeholders ride; any real choice flips it back to
+     --foreground. reset-after-send keeps the two in lockstep. */
+  const [subject, setSubject] = useState("")
 
   const handleSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault()
@@ -142,6 +149,7 @@ export function ContactForm() {
       setSent(true)
       setSentMessage(json.message)
       form.reset()
+      setSubject("") /* 4-a: the controlled select's placeholder grade rides the state, not the DOM reset */
       setTimeout(() => {
         setSent(false)
         setSentMessage("")
@@ -250,7 +258,20 @@ export function ContactForm() {
             appearance-none + a custom logical-side chevron; pe-10 keeps the
             option text clear of the icon in RTL. */}
         <div className="relative">
-          <select id="subject" name="subject" className={`${inputBase} border-[var(--input-border)] hover:border-[var(--border-strong)] appearance-none pe-10 cursor-pointer`}>
+          <select
+            id="subject"
+            name="subject"
+            value={subject}
+            onChange={(e) => setSubject(e.target.value)}
+            className={cn(
+              inputBase,
+              "border-[var(--input-border)] hover:border-[var(--border-strong)] appearance-none pe-10 cursor-pointer",
+              /* 4-a (3-a P2): placeholder-grade ink while nothing is chosen —
+                 cn/tailwind-merge resolves the text-foreground conflict in
+                 the conditional's favor when it is present. */
+              !subject && "text-[var(--text-faint)]"
+            )}
+          >
             <option value="">اختر الموضوع</option>
             {/* r13: خيارات الموضوع من العقد المشترك — كانت الخريطة نفسها
                 منسوخة حرفياً بين هذا الملف وroute.ts */}

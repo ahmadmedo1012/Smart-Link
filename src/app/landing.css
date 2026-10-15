@@ -1193,7 +1193,19 @@
   line-height: 1.1;
   direction: ltr;
 }
-.landing .ln-stat-unit { color: var(--ln-cream-dim); font-size: 24px; margin-inline-start: 2px; }
+/* 4-a (P2 currency discipline, 3-a audit): the unit rode a 2px gap —
+   «19د.ل» glued, while formatLyd (lib/money.ts, the ONE spelling
+   regime) prints «19 د.ل» everywhere else. A word-space at the unit's
+   own scale (0.3em ≈ 7px at 24px) joins the family contract. SIDE
+   NOTE (bidi, live-measured): the readout line is .ln-mono's
+   unicode-bidi:plaintext paragraph — first strong character is the
+   Arabic unit, so the LINE runs RTL (number right, unit left) while
+   the unit element itself inherits direction:ltr from
+   .ln-stat-value. margin-inline-START therefore resolved to the
+   unit's OUTER (left) edge — a 7px gap nobody sees — the gap must
+   ride the unit's inline-END (the edge facing the number) to land
+   between «19» and «د.ل» (measured 7.2px after this flip; 0px before). */
+.landing .ln-stat-unit { color: var(--ln-cream-dim); font-size: 24px; margin-inline-end: 0.3em; }
 .landing .ln-stat-label { margin-block-start: 8px; color: var(--ln-cream); font-size: 14px; font-weight: var(--fw-semibold); overflow-wrap: anywhere; }
 .landing .ln-stat-note { margin-block-start: 3px; color: var(--ln-cream-dim); font-size: 12px; line-height: 1.6; overflow-wrap: anywhere; }
 
@@ -3107,6 +3119,56 @@ html.light .landing .ln-ground-status { background: rgb(7 11 22 / 0.05); }
 .landing .ln-hero--kode .ln-hero-line--mid {
   padding-inline: clamp(48px, 14vw, 260px); /* the sculpture's breathing gap */
 }
+/* 4-a (P1 fold, 3-a audit): the KODE lockup is a CENTERED 3-line
+   type-block — but the pre-KODE asymmetric copy column (§0c
+   min(46vw,720px) at ≥1025px, the old sky-far-side composition) was
+   never widened for it, so «كلُّ عملٍ يبدأ» wrapped into FIVE visual
+   lines (861px) at 1440: the third line cut mid-lockup at the 900
+   fold and the sub-headline + both CTAs rode below it (still cut at
+   1080). The centered chapter now takes the full measure — 1280
+   column, uncapped title, nowrap lines → the DESIGNED 3×0.92em
+   lockup (517px at 187px), and the full stack lands in-fold at
+   1440×1080 (CTA pair bottom 998 < 1080). The base
+   .ln-hero-title keeps its 20ch measure (P4-10 pin) for every
+   non-KODE consumer; below 1025px nothing changes (mobile 390 fit
+   is untouched — the vw scale rules there). */
+@media (min-width: 1025px) {
+  .landing .ln-hero--kode .ln-hero-content {
+    max-inline-size: 1280px;
+    margin-inline: auto;
+    /* min-inline-size: 0 — WITHOUT it the nowrap lines' max-content
+       (line 3 ≈ 7.42em ≈ 96.5vw) became the grid item's automatic
+       minimum: the item outgrew its track (86–90vw) and, with
+       negative free space, margin-inline: auto collapsed to 0 — the
+       box pinned to the inline-START (right, RTL) and spilled its
+       whole overflow off the inline-END edge: live-measured, line 3
+       «ويصبح منظومةً» clipped −45px / −38px / −36px at 1280/1100/
+       1025 (1440 alone survived). min-width: 0 restores the track
+       box; the h1 (same override below) then centers inside it and
+       the overflow splits symmetrically — measured post-fix: 23→1257
+       at 1280, 18→1007 at 1025, 48→1392 at 1440×900, 25→1415 at
+       1440×1080 — every line fully in-viewport at every width. */
+    min-inline-size: 0;
+  }
+  .landing .ln-hero--kode .ln-hero-title { max-inline-size: none; min-inline-size: 0; }
+  .landing .ln-hero--kode .ln-hero-line { white-space: nowrap; }
+}
+/* 4-a (P1 fold, cont.): short desktop stages — the lockup scale also
+   follows the HEIGHT budget so the CTA pair stays in-fold at the
+   900-tall fold itself, not just below it: 3 lines (2.76em at lh
+   0.92) + the measured fixed furniture — 231px of header/padding/
+   eyebrow + 14 + 76 sub + 14 + 48 CTA = 383px — so the budget 400px
+   leaves the CTA pair a real ~17px margin under 100svh (at 1440×900
+   the un-budgeted 13vw scale landed the pair at 899.5, flush with
+   the fold: in-fold by 0.5px and one subpixel from a lie). A no-op
+   at ≥917-tall (13vw stays the smaller term) and never applied
+   under 1025px wide — the §16j rhythm block below keeps serving
+   every width as before. */
+@media (min-width: 1025px) and (max-height: 960px) {
+  .landing .ln-hero--kode .ln-hero-title {
+    font-size: min(var(--ln-h1), calc((100svh - 400px) / 2.76));
+  }
+}
 .landing .ln-hero--kode .ln-hero-sub {
   max-inline-size: 56ch;
   color: var(--ln-cream-dim);
@@ -3127,6 +3189,22 @@ html.light .landing .ln-ground-status { background: rgb(7 11 22 / 0.05); }
   align-items: center;
   gap: 10px;
   color: var(--ln-cream-dim);
+  /* 4-a (P1 fold, cont.): §16 made the cue a grid item (position:
+     relative) but never swept the §3 absolute-era offsets — so
+     bottom: calc(100% - 100svh + 95px) kept resolving against the
+     CUE'S OWN grid-area height (row 2 ≈ 100px) = ≈ −705px, and
+     left: 50% kept adding +½ of the grid area on top: the invite
+     painted ~700px BELOW the hero, off-center right, straight over
+     chapter 001's first world card (under its stacking context —
+     stray grey «SCROLL — تصفّح» + hairline floating in the worlds,
+     r160-shipped, live-measured y 1628-1728 at 1440×900). The reset
+     returns the cue to its designed home: the last grid row's own
+     box, centered, inside the hero (measured 923-1023 at 1440×900 /
+     1098-1198 at 1440×1080 — under the fold line, exactly where a
+     scroll invitation belongs). */
+  bottom: auto;
+  left: auto;
+  translate: none;
 }
 .landing .ln-hero--kode .ln-hero-scroll .ln-mono {
   direction: ltr;
@@ -3205,6 +3283,14 @@ html.light .landing .ln-ground-status { background: rgb(7 11 22 / 0.05); }
 .landing .ln-journey-row-n {
   font-size: clamp(18px, 2vw, 26px);
   font-weight: 700;
+  /* 4-a (P1 a11y, 3-a audit): the step numerals carried .ln-mono's
+     grey (var(--ln-cream-dim) = #A9ACB4 dark / #55534E light) on the
+     full-bleed flood — 1.47:1 / 2.30:1, the page's worst text. The
+     flood's own ink pair (--ln-flood-ink on --ln-flood = 6.10:1,
+     BOTH stages — a flood is a flood) already ruled the titles/desc;
+     the furniture joins it. Same cascade slot as .ln-mono (0,2,0) but
+     later in the file, so this wins without a scope fight. */
+  color: var(--ln-flood-ink);
 }
 .landing .ln-journey-row-title {
   font-family: var(--font-display-arabic), sans-serif;
@@ -3221,6 +3307,7 @@ html.light .landing .ln-ground-status { background: rgb(7 11 22 / 0.05); }
 }
 .landing .ln-journey-row-tag {
   font-size: 11px;
+  color: var(--ln-flood-ink); /* 4-a (P1 a11y): same re-ink as the numerals — 11px mono was 1.47:1/2.30:1 on the orange */
   border: 1px solid var(--ln-flood-ink);
   padding: 4px 10px;
   white-space: nowrap;
@@ -3384,6 +3471,41 @@ html.light .landing .ln-cockpit .ln-chapter-lede,
 html.light .landing .ln-cockpit .ln-stat-note,
 html.light .landing .ln-cockpit .ln-cockpit-source,
 html.light .landing .ln-cockpit .ln-chapter-title { /* keep the night chapter honest in the day */ }
+
+/* 4-a (P1 a11y, 3-a audit): the §16e intent above — «the cockpit keeps
+   its night chapter in the day» — leaked in three places: the .ln-trust
+   readout ground still rode var(--ln-ink-2), which FLIPS to paper
+   #EAE7DF in the day (stat labels landed white-on-paper 1.24:1, values
+   #FF4C00 2.70:1, notes #A9ACB4 1.84:1 — the page's worst light-theme
+   cluster); the console .ln-mono voice resolved the day --ln-cream-dim
+   #55534E onto the kept-black stage (2.65:1); and the hairline tokens
+   went ink-on-ink. The night hold restores the chapter's own grammar:
+   readout back to the night surface step #0B0B10 (labels 18:1, values
+   #FF4C00 5.88:1, notes #A9ACB4 8.6:1), console mono back to the night
+   grey #A9ACB4 (8.97:1), night hairlines on the stat cells. Scoped to
+   the cockpit — .ln-trust's only live consumer is this readout (the
+   standalone trust band retired in r144; the class rides as the e2e
+   hook). */
+html.light .landing .ln-cockpit .ln-trust {
+  background: #0B0B10;
+  border-block-color: rgba(255, 255, 255, 0.14);
+}
+html.light .landing .ln-cockpit .ln-stat {
+  border-color: rgba(255, 255, 255, 0.10);
+}
+html.light .landing .ln-cockpit .ln-cockpit-status .ln-mono,
+html.light .landing .ln-cockpit .ln-cockpit-scope-label .ln-mono {
+  color: #A9ACB4;
+}
+/* 4-a (P1 a11y, cont.): the same night-hold's one miss — .ln-stat-unit
+   carries NO §16e literal (it rides the token var(--ln-cream-dim) at
+   (0,2,0)), so the day flip re-inked it #55534E onto the restored
+   night surface #0B0B10 = 2.56:1 (the sweep's only settled light-theme
+   text failure). The hold joins the family: night grey #A9ACB4 on
+   #0B0B10 = 8.6:1 — same grade as the note row under it. */
+html.light .landing .ln-cockpit .ln-stat-unit {
+  color: #A9ACB4;
+}
 
 /* ── 16f · the CTA family — the orange underline sweep (S4/S3) ──── */
 .landing .ln-btn-gold {

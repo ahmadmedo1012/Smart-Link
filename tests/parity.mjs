@@ -2460,6 +2460,95 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
   );
 }
 
+/* ═══ 4-a (3-a audit fixes): the P1 a11y re-inks + the P2 truth/discipline
+   wave. Every rule the fix ships is pinned here so the grades cannot
+   silently drift back the way the §16e day-leak did. Measured evidence
+   (computed-style sweeps, dev + live, both themes): journey furniture
+   1.47:1/2.30:1 → 6.1:1 both stages; cockpit .ln-trust cluster in the
+   day 1.24–2.70:1 → 5.88–18:1; .ln-stat-unit day miss 2.56:1 → 8.6:1;
+   .ln-label day grades 4.74–5.24:1 (paper) and 6.1:1 (held-black
+   chapters); .ln-world-host 8.97:1 on the held-black chapter 001. ═══ */
+{
+  const strip = (p) => readFileSync(new URL(`../src/${p}`, import.meta.url), 'utf8')
+    .replace(/\/\*[\s\S]*?\*\//g, ' ');
+  const lcss4a = strip('app/landing.css');
+  const faq4a = strip('components/landing/LandingFaq.tsx');
+  const contact4a = strip('components/contact-form.tsx');
+
+  // P1-1 · the journey flood furniture joins the flood ink
+  check(
+    /\.landing \.ln-journey-row-n\s*\{[^}]*color:\s*var\(--ln-flood-ink\)/.test(lcss4a)
+      && /\.landing \.ln-journey-row-tag\s*\{[^}]*color:\s*var\(--ln-flood-ink\)/.test(lcss4a),
+    '4-a P1: the #journey flood furniture (step numerals + mono tags) rides the flood ink var(--ln-flood-ink) — the .ln-mono grey (1.47:1 dark / 2.30:1 light on the orange) can never inherit back'
+  );
+  // P1-2 · the cockpit night-hold: the whole readout family, unit included
+  check(
+    /html\.light \.landing \.ln-cockpit \.ln-trust\s*\{[^}]*background:\s*#0B0B10/.test(lcss4a)
+      && /html\.light \.landing \.ln-cockpit \.ln-cockpit-status \.ln-mono,\s*html\.light \.landing \.ln-cockpit \.ln-cockpit-scope-label \.ln-mono\s*\{[^}]*color:\s*#A9ACB4/.test(lcss4a)
+      && /html\.light \.landing \.ln-cockpit \.ln-stat-unit\s*\{[^}]*color:\s*#A9ACB4/.test(lcss4a),
+    '4-a P1: the cockpit day night-hold covers the whole console family (.ln-trust ground #0B0B10 + status/scope mono + the stat unit — the unit was the hold\'s one miss at 2.56:1)'
+  );
+  // P1-2b · the label grade source: token, never a raw orange, at base scope
+  check(
+    /\.landing \.ln-label\s*\{[^}]*color:\s*var\(--ln-gold\)/.test(lcss4a)
+      && !/\.landing \.ln-label\s*\{[^}]*color:\s*#FF4C00/.test(lcss4a),
+    '4-a P1: the chapter eyebrow rides var(--ln-gold) at base scope — the day block resolves the text-grade #B23E00 (4.74–5.24:1 on paper/ink-2; the raw #FF4C00 spellings live ONLY inside the held-black chapters 001/003 where they measure 6.1:1)'
+  );
+  // P1-3 · the world-card host chips stay night-grey on the held-black chapter
+  check(
+    /\.landing \.ln-world-host\s*\{[^}]*color:\s*#A9ACB4/.test(lcss4a),
+    '4-a P1: the world-card domain chips keep the night grey #A9ACB4 (8.97:1 on chapter 001\'s both-theme black — the r160 day-hold pin above is the other half of the pair; a paper flip would fail this grade loudly, not silently)'
+  );
+  // P1-4 · the hero fold: the centered measure + the height-budget clamp
+  // + the min-width: 0 RTL-clip guard (without it the nowrap lines'
+  // max-content pinned the content grid item to the inline-start edge
+  // and spilled line 3 off the LEFT viewport edge at 1025–1280:
+  // live-measured −36/−38/−45px — 1440 alone survived).
+  check(
+    /@media \(min-width: 1025px\)\s*\{[^}]*\.ln-hero--kode \.ln-hero-content\s*\{[^}]*max-inline-size:\s*1280px[^}]*min-inline-size:\s*0/.test(lcss4a)
+      && /\.ln-hero--kode \.ln-hero-title\s*\{[^}]*max-inline-size:\s*none;\s*min-inline-size:\s*0/.test(lcss4a)
+      && /\.ln-hero--kode \.ln-hero-line\s*\{\s*white-space:\s*nowrap/.test(lcss4a)
+      && /@media \(min-width: 1025px\) and \(max-height: 960px\)\s*\{[^}]*\.ln-hero--kode \.ln-hero-title\s*\{[^}]*min\(var\(--ln-h1\), calc\(\(100svh - 400px\) \/ 2\.76\)\)/.test(lcss4a),
+    '4-a P1: the KODE lockup takes the full 1280 measure with nowrap lines (the designed 3×0.92em block, not the 5-line wrap) + the short-stage height budget (100svh−400px)/2.76 + min-inline-size: 0 on the content/title (the RTL clip guard — line 3 measured −45px off-viewport at 1280 without it) — full lockup + both CTAs in-fold at 1440×900/1080, every line in-viewport at 1025–1440, 390 untouched'
+  );
+  // P1-4b · the scroll cue's §3 absolute-era offsets are swept in the kode
+  // layer: §16 switched the cue to a grid item (position: relative) but
+  // left bottom: calc(100% - 100svh + 95px) + left: 50% + translate: -50% 0
+  // alive — bottom resolved against the cue's OWN ~100px grid row =
+  // ≈ −705px and left added +½ the area: the invite painted ~700px below
+  // the hero, off-center, over chapter 001's first world card (measured
+  // y 1628–1728 at 1440×900). The reset pins it to its designed grid row.
+  check(
+    /\.ln-hero--kode \.ln-hero-scroll\s*\{[^}]*position:\s*relative[^}]*bottom:\s*auto[^}]*left:\s*auto[^}]*translate:\s*none/.test(lcss4a),
+    '4-a P1: the hero scroll cue rides the kode grid (position: relative) with the §3 absolute-era offsets swept (bottom/left/translate reset) — the cue stays in its designed last-row home inside the hero instead of painting ~700px below it over the worlds chapter'
+  );
+  // P2-5 · the currency word-space joins formatLyd's «19 د.ل» — on the
+  // side that FACES the number: the readout line is .ln-mono plaintext
+  // (first strong char = the Arabic unit → the line runs RTL: number
+  // right, unit left) while the unit element itself is ltr — so
+  // inline-START resolved to the outer edge and the pair stayed glued
+  // (measured 0px); inline-END lands the 0.3em between «19» and «د.ل»
+  // (measured 7.2px).
+  check(
+    /\.landing \.ln-stat-unit\s*\{[^}]*margin-inline-end:\s*0\.3em/.test(lcss4a)
+      && !/\.landing \.ln-stat-unit\s*\{[^}]*margin-inline-start/.test(lcss4a),
+    '4-a P2: the stat unit rides a word-space on its number-facing edge (margin-inline-end 0.3em ≈ 7px at 24px — the plaintext-RTL line makes inline-start the OUTER edge, a gap nobody sees) — «19د.ل» gluing is dead; formatLyd\'s one spelling regime holds on the landing readout too'
+  );
+  // P2-6 · the FAQ future-horizon tail stays dead (comment-stripped source)
+  check(
+    !faq4a.includes('مع خطط لإطلاق المزيد من الخدمات قريباً')
+      && faq4a.includes('وSmart Order (متجر الطلبات الرقمي).'),
+    '4-a P2: FAQ answer 1 carries the live trio and NO future-horizon tail — the JSON-LD mirrors it (the P14 family\'s one survivor, swept with its source)'
+  );
+  // P2-7 · the contact subject select placeholder grade
+  check(
+    contact4a.includes('value={subject}')
+      && contact4a.includes('!subject && "text-[var(--text-faint)]"')
+      && contact4a.includes('setSubject("")'),
+    '4-a P2: the contact subject select is controlled for the placeholder grade — «اختر الموضوع» rides the same --text-faint tier as the text inputs\' ::placeholder, a real choice flips to --foreground, and reset-after-send keeps the pair in lockstep'
+  );
+}
+
 if (failures.length > 0) {
   console.error(`✗ KODE parity snapshot FAILED (${failures.length} assertion(s)):`);
   for (const f of failures) console.error(`  • ${f}`);
@@ -2509,8 +2598,15 @@ if (failures.length > 0) {
    the landing: three comment-stripped codepoint sweeps (the nine
    non-landing routes + the shared product chrome + metadata/emails/
    manifest) + the 500-boundary icon ink-grade pin + the global-error
-   inline alert-triangle SVG pin (⚠️ emoji retirement, SO P9-3-d twin). */
-const EXPECTED_ASSERTIONS = 551;
+   inline alert-triangle SVG pin (⚠️ emoji retirement, SO P9-3-d twin).
+   4-a (3-a audit fixes): 551 → 560 — the P1/P2 wave pins: journey
+   flood furniture re-ink, cockpit day night-hold family (trust ground
+   + console mono + stat unit), label token-grade source, world-host
+   night-grey, hero fold (1280 measure + min-inline-size: 0 RTL-clip
+   guard + nowrap + the (100svh−400px)/2.76 height budget), the scroll
+   cue offset sweep, the stat-unit word-space, the FAQ future-
+   horizon ban, and the contact select placeholder grade. */
+const EXPECTED_ASSERTIONS = 560;
 check(
   passed + 1 === EXPECTED_ASSERTIONS,
   `self-count: the suite must run exactly ${EXPECTED_ASSERTIONS} assertions (ran ${passed + 1}) — bump EXPECTED_ASSERTIONS with every intentional pin change`

@@ -12,11 +12,16 @@
  * byte-identical on server and client regardless of ICU build
  * (hydration-safe family policy; matches Intl ar-LY exactly).
  *
- * r137 DECISION (honesty over invention): every Smart-Link plan today is
- * «مجاني» and the paid tiers are «قريباً» — NO real LYD price exists on
- * the site, so the pricing page renders no invented amounts. When a real
- * price lands, author it in whole dinars (19) or with dirhams ("19.500")
- * and render it through `formatLyd` — never hand-roll a second spelling.
+ * r137 DECISION (honesty over invention) — P14-P0B refresh: Smart-Link
+ * the hub still sells no plan of its own; every LYD amount on this site
+ * is a SIBLING product's live price relayed by /pricing since the
+ * P13-2a ecosystem-truth rewrite (from 19 د.ل — bot /api/plans-verified
+ * at the time, menu /pricing live in dinars). Those amounts are authored
+ * in whole dinars (19) or with dirhams ("19.500") and rendered through
+ * `formatLyd` — never hand-roll a second spelling. The old r137 note
+ * («NO real LYD price exists on the site / paid tiers as a future
+ * horizon») described the pre-P13-2a site and was retired with it; the
+ * homepage FAQ joined the honest side in P14-P0B.
  */
 
 /** Dot-group the integer part (ar-LY regime): "12500000" → "12.500.000". */

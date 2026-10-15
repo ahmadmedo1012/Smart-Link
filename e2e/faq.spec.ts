@@ -57,4 +57,30 @@ test.describe("أسئلة JSON — أكورديون الرئيسية و/الأس
     await first.locator("summary").click()
     await expect(first).not.toHaveAttribute("open")
   })
+
+  /* P14-P0B (regression — truth): جواب «هل الخدمة مجانية؟» على
+     الرئيسية عاد مرة كاملة بعد إصلاح /pricing (P13-2a أصلح صفحة
+     الأسعار ونسي سؤال الرئيسية). هذا الاختبار يمنع عودة الوعد
+     المستقبلي بالباقات المدفوعة من أي مصدر محتوى مكرر: لا صياغة
+     مستقبلية في جواب المجانية، والحقيقة الحيّة («متاحة اليوم»)
+     حاضرة إيجابياً. */
+  test("/ — جواب المجانية لا يعِد بأفق مدفوع مستقبلي (P14-P0B)", async ({ page }) => {
+    await page.goto("/", { waitUntil: "networkidle" })
+    const texts = await page.locator("details.ln-faq-item .ln-faq-a").allTextContents()
+    expect(texts.length).toBeGreaterThanOrEqual(6)
+
+    const freeAnswer = texts.find((t) => t.includes("بدون بطاقة ائتمان"))
+    expect(freeAnswer, "جواب المجانية موجود").toBeTruthy()
+    // لا وعد مستقبلي: كل أدوات المستقبل القديمة محظورة في هذا الجواب
+    expect(freeAnswer).not.toMatch(/قريباً|قادمة|ستُطلَق|قادم/)
+    // الحقيقة الحيّة موجودة إيجابياً: الباقات المدفوعة متاحة اليوم
+    expect(freeAnswer).toMatch(/متاحة اليوم/)
+
+    // وبأي جواب آخر: ذكر «مدفوع» لا يرافقه أفق زمني مستقبلي
+    for (const t of texts) {
+      if (t.includes("مدفوع")) {
+        expect(t, `جواب يذكر المدفوع بلا أفق مستقبلي: ${t.slice(0, 60)}`).not.toMatch(/قريباً|قادمة|ستُطلَق/)
+      }
+    }
+  })
 })

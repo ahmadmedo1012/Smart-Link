@@ -174,3 +174,31 @@ test.describe("r10 — BreadcrumbList لكل صفحة فرعية", () => {
     })
   }
 })
+
+/* P14-P0B (regression — truth): عروض الخدمات الثلاث في JSON-LD كانت
+   تصف الباقات المدفوعة كأفق مستقبلي بينما هي حيّة بالدينار على
+   منصّات المنتجات (bot /api/plans + menu /pricing موثّقان حياً).
+   نفس العائلة التي أصلحتها P13-2a على /pricing — البوابة هنا تمنع
+   تسرب الصياغة المستقبلية إلى البيانات المنظمة مجدداً. */
+test.describe("P14-P0B — عروض الخدمات تصف الواقع الحي", () => {
+  test("/ — ثلاث خدمات، ولا أفق مستقبلي في أي عرض", async ({ page }) => {
+    await page.goto("/", { waitUntil: "domcontentloaded" })
+    const { byType } = await ldScripts(page)
+    const services = byType("Service")
+    expect(services.length).toBeGreaterThanOrEqual(3)
+
+    const names = services.map((s) => (s as { name?: string }).name)
+    expect(names).toEqual(expect.arrayContaining(["Smart Menu", "SmartBot", "Smart Order"]))
+
+    for (const s of services) {
+      const name = (s as { name?: string }).name
+      const offer = (s as { offers?: { description?: string } }).offers
+      expect(offer, `عرض ${name} موجود`).toBeTruthy()
+      const desc = offer?.description ?? ""
+      // لا أفق مستقبلي في وصف العرض
+      expect(desc, `عرض ${name}: ${desc}`).not.toMatch(/قريباً|قادمة|قادم|ستُطلَق|عند الإطلاق/)
+      // والعرض يقرّ بالباقات المدفوعة الحيّة (صدق الطبقة المدفولة)
+      expect(desc, `عرض ${name}: ${desc}`).toMatch(/مدفوعة|مجانية|مجاني/)
+    }
+  })
+})

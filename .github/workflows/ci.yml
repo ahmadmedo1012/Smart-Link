@@ -61,6 +61,14 @@ jobs:
       - name: Madarek parity snapshot
         run: npm run test:parity
 
+      # P14-P0B: truth gate — walks ALL of src/ for future-paid-plan
+      # claims. The stale claim was fixed on /pricing (P13-2a) and then
+      # reappeared from the homepage FAQ — page-level e2e alone cannot
+      # see a claim living in an unrendered source file. Zero deps, same
+      # pattern as parity.
+      - name: Paid-plans truth gate (P14-P0B)
+        run: npm run test:truth
+
       - name: Playwright browser
         run: npx playwright install --with-deps chromium
 

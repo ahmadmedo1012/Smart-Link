@@ -55,7 +55,11 @@ export function FinaleCta() {
             className="ln-cta-family-img"
           />
         </RevealCssClass>
-        <span className="ln-label ln-mono">{"004 — الوصول · ACCESS"}</span>
+        {/* P18-W2-b (KODE P3 — one strict label grammar): «· ACCESS»
+            حُذف — كان الفصل الوحيد من الخمسة الذي يحمل لاحقة لاتينية
+            (الفصل يقول 00n — عربي؛ اللاحقة الثنائية عائلة رقائق
+            الكونسول TELEMETRY/BROADCAST/SCAN، لا عائلة عناوين الفصول). */}
+        <span className="ln-label ln-mono">{"004 — الوصول"}</span>
         <RevealCssClass as="h2" className="ln-cta-title" delay={1}>
           رابطك الأول{" "}
           <span className="ln-cta-line">يبدأ <em>من هنا</em></span>

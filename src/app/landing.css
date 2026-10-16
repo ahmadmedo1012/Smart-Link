@@ -1053,7 +1053,13 @@
   inset-block-end: 100%;
   inline-size: 100%;
   block-size: 40px;
-  background: linear-gradient(180deg, transparent 0%, rgba(242,239,230,0.03) 100%);
+  /* P18-W2-b (KODE P4 — the breath must PAINT): this seam shipped the
+     pre-r160 Madarek SAND literal rgba(242,239,230,0.03) — on the r160
+     near-black stage #050507 a 3% warm-sand wash over black is a ~0.4%
+     luminance delta: the designed 40px breath above the readout died
+     with the re-skin. Re-anchored to the stage-cream family (3% white
+     ≈ visible seam, the day twin below holds the kept-black chapter). */
+  background: linear-gradient(180deg, transparent 0%, rgba(255,255,255,0.03) 100%);
   pointer-events: none;
 }
 /* the band is a quiet mono DATA strip — the numbers carry the proof
@@ -1363,7 +1369,14 @@
 /* ── 10 · FAQ — compact, ln-styled, native <details> (zero JS) ───────
    The home's six real Q&As (FAQPage JSON-LD preserved) follow the
    finale in the same flat grammar: hairline rows, cream questions,
-   dim answers, rotating chevron. */
+   dim answers, rotating chevron.
+   P18-W2-b (KODE craft pass): the rows join the worlds/journey HAIRLINE
+   grammar — the rounded-card treatment (r-md boxes + a wash) read as a
+   generic component, not the brand's editorial voice; the questions
+   take the display face's small rung (Kufi 700 ≈19px) so the last trust
+   station before the footer speaks at the page's scale, and the flat
+   rows carry single hairlines (gap 0 + border-block-end, the journey
+   rows' own seam math — no doubled borders between items). */
 .landing .ln-faq {
   /* r151 (P2-1, audit-SL B1): min 60 + 9vh computed 81px at 1440×900 —
      off the 4/8 grid. 8.5vh sits under the new 80px floor, so the
@@ -1382,14 +1395,20 @@
   max-inline-size: 860px;
   margin-inline: auto;
   display: grid;
-  gap: var(--sp-2);
+  /* P18-W2-b: --sp-2 gaps boxed every row; the hairline family runs
+     flush rows sharing single seams (the worlds list's own rhythm). */
+  gap: 0;
 }
 .landing .ln-faq-item {
-  border: 1px solid var(--ln-line-soft);
-  border-radius: var(--r-md);
-  background: rgb(242 239 230 / 0.02);
+  /* P18-W2-b: flat hairline row — was a rounded card (r-md) on a dead
+     sand 2% wash; the r160 grammar is "hairlines do the structure". */
+  border: 0;
+  border-block-end: 1px solid var(--ln-line-soft);
+  border-radius: 0;
+  background: transparent;
   transition: border-color var(--ln-t-base) var(--ln-ease);
 }
+.landing .ln-faq-item:last-child { border-block-end: none; }
 .landing .ln-faq-item:hover,
 .landing .ln-faq-item[open] { border-color: var(--ln-line); }
 .landing .ln-faq-q {
@@ -1397,20 +1416,25 @@
   align-items: center;
   justify-content: space-between;
   gap: var(--sp-4);
-  padding: 16px 20px;
+  padding: 18px 8px;
   cursor: pointer;
   color: var(--ln-cream);
-  font-size: 15.5px;
-  font-weight: var(--fw-semibold);
+  /* P18-W2-b: the display voice's small rung — Kufi 700 at
+     clamp(16.5px…19px) (the journey row-title's own family); 15.5px
+     sans semibold read as a default component. */
+  font-family: var(--font-display-arabic), sans-serif;
+  font-weight: 700;
+  font-size: clamp(16.5px, 1.5vw, 19px);
+  line-height: 1.5;
   list-style: none;
   min-block-size: 48px;
-  border-radius: var(--r-md);
+  border-radius: 0;
 }
 .landing .ln-faq-q::-webkit-details-marker { display: none; }
 .landing .ln-faq-q:focus-visible { outline: 2px solid var(--ln-cream); outline-offset: 3px; }
 .landing .ln-faq-q svg { color: var(--ln-cream-dim); transition: transform var(--ln-t-base) var(--ln-ease); flex-shrink: 0; }
-.landing .ln-faq-item[open] .ln-faq-q svg { transform: rotate(180deg); }
-.landing .ln-faq-a { padding: 0 20px 18px; color: var(--ln-cream-dim); font-size: 14.5px; line-height: 1.7; overflow-wrap: anywhere; }
+.landing .ln-faq-item[open] .ln-faq-q svg { transform: rotate(180deg); color: var(--ln-gold); }
+.landing .ln-faq-a { padding: 0 8px 20px; color: var(--ln-cream-dim); font-size: 14.5px; line-height: 1.75; overflow-wrap: anywhere; }
 
 /* ── 11 · footer — the ground plate, canonical landing.css:1486-1552 ── */
 .landing .landing-footer {
@@ -1426,7 +1450,12 @@
   inset-block-end: 100%;
   inline-size: 100%;
   block-size: 60px;
-  background: linear-gradient(180deg, transparent 0%, rgba(242,239,230,0.03) 100%);
+  /* P18-W2-b (KODE P4): the 60px footer breath carried the retired sand
+     literal rgba(242,239,230,0.03) — invisible on the r160 night ground
+     (the FAQ→footer seam read as an abrupt hard cut; the design meant a
+     fade). Stage-cream 3% restores it on the night; the day twin keeps
+     its ink 4% on paper (§15b). */
+  background: linear-gradient(180deg, transparent 0%, rgba(255,255,255,0.03) 100%);
   pointer-events: none;
 }
 .landing .landing-footer-grid {
@@ -1437,9 +1466,18 @@
 .landing .landing-footer-col { display: grid; gap: var(--sp-3); align-content: start; }
 .landing .landing-footer-about { margin: var(--sp-2) 0 0; color: var(--ln-cream-dim); font-size: 13px; line-height: 1.7; max-inline-size: 34ch; }
 .landing .landing-footer-heading {
-  color: var(--ln-cream-dim);
-  font-size: 12px;
-  font-weight: var(--fw-semibold);
+  /* P18-W2-b (KODE P6 — the footer closes the instrument): the column
+     heads were 12px cream-dim sans — SMALLER than the 14px links they
+     govern (no weight differentiation, generic site-footer voice).
+     They join the mono micro-label family instead (the [ 00n ] chapter
+     grammar's own voice): var(--ln-mono) 11px medium, gold — 5.88:1 on
+     the night ink-2 #0B0B10 / 4.74:1 on the paper ink-2 #EAE7DF (the
+     §15a documented day grade), both ≥ 4.5 for small text. Arabic heads ride
+     the fallback chain (the r133 mixed-script law, tracking 0). */
+  font-family: var(--ln-mono);
+  font-size: 11px;
+  font-weight: var(--fw-medium);
+  color: var(--ln-gold);
   margin-block-end: var(--sp-3);
 }
 /* generous leading = comfortable ≈44px rows (spec §4.3)
@@ -2479,7 +2517,11 @@
   gap: 12px;
   padding: 11px 18px;
   border-block-end: 1px solid var(--ln-line-soft);
-  background: rgba(13, 20, 40, 0.35);
+  /* P18-W2-b (r160 3-color law): was rgba(13,20,40,0.35) — the retired
+     Orbit-Ink INDIGO wash leaked through the re-skin (a blue-tinted lift
+     on the flat black stage). Stage-cream 3% keeps the strip's structure
+     inside the ink/white/orange discipline; the §15b day twin holds. */
+  background: rgb(255 255 255 / 0.03);
   font-size: 0.68rem;
   color: var(--ln-cream-dim);
 }
@@ -2519,9 +2561,14 @@
   border-radius: 50%;
   border: 1px solid var(--ln-line);
   background:
-    radial-gradient(circle at center, transparent 58%, rgba(13, 20, 40, 0.35) 59%, transparent 60%),
-    radial-gradient(circle at center, transparent 34%, rgba(13, 20, 40, 0.3) 35%, transparent 36%),
-    rgba(13, 20, 40, 0.25);
+    /* P18-W2-b (r160 3-color law): the dial's concentric rings were the
+       retired indigo rgba(13,20,40,·) — near-invisible navy-on-black
+       (the instrument read as a void). Stage-cream rings restore the
+       KODE instrument look: quiet white hairlines on the flat stage,
+       same opacity ladder (0.30/0.24 rings, 0.05 ground). */
+    radial-gradient(circle at center, transparent 58%, rgb(255 255 255 / 0.30) 59%, transparent 60%),
+    radial-gradient(circle at center, transparent 34%, rgb(255 255 255 / 0.24) 35%, transparent 36%),
+    rgb(255 255 255 / 0.05);
   overflow: hidden;
 }
 .landing .ln-cockpit-scope-ring {
@@ -2571,7 +2618,11 @@
   padding: var(--sp-4);
   border-radius: var(--r-lg);
   border: 1px solid var(--ln-line-soft);
-  background: rgba(13, 20, 40, 0.28);
+  /* P18-W2-b (r160 3-color law): was the retired indigo wash
+     rgba(13,20,40,0.28) — the stat cells re-anchor to the stage-cream
+     3% family (the day grammar's own "hairlines do the structure"
+     whisper, now honest on the night stage too). */
+  background: rgb(255 255 255 / 0.03);
 }
 .landing .ln-stat-note {
   font-size: 0.78rem;
@@ -2605,7 +2656,9 @@
   gap: 12px;
   padding: 11px 18px;
   border-block-end: 1px solid var(--ln-line-soft);
-  background: rgba(13, 20, 40, 0.35);
+  /* P18-W2-b (r160 3-color law): indigo wash → the stage-cream family
+     (the twin of the cockpit status strip — one grammar, one family). */
+  background: rgb(255 255 255 / 0.03);
   font-size: 0.68rem;
   color: var(--ln-cream-dim);
 }
@@ -2638,7 +2691,9 @@
 }
 @media (hover: hover) {
   .landing .ln-ground-cell:hover {
-    background: rgb(242 239 230 / 0.03);
+    /* P18-W2-b: the sand 3% whisper was invisible on the night stage —
+       stage-cream 3% (the day twin keeps its ink 4% on paper). */
+    background: rgb(255 255 255 / 0.03);
     border-inline-start-color: var(--ln-line);
   }
 }
@@ -2937,9 +2992,13 @@ html.light .landing .ln-hero-sky::after {
 }
 html.light .landing .ln-hero-title { text-shadow: none; }
 
-/* chapter seams: the sand fade gradients above the ink-2 bands */
+/* chapter seams: the sand fade gradients above the ink-2 bands.
+   P18-W2-b: the .ln-trust twin re-anchors with its night source — the
+   4-a day hold keeps the readout cluster BLACK in the day, so the old
+   ink 4% twin painted dark-on-black = the dead seam in BOTH stages;
+   the white 3% wash holds the kept-black chapter grade both stages. */
 html.light .landing .ln-trust::before {
-  background: linear-gradient(180deg, transparent 0%, rgba(7,11,22,0.04) 100%);
+  background: linear-gradient(180deg, transparent 0%, rgba(255,255,255,0.03) 100%);
 }
 html.light .landing .landing-footer::before {
   background: linear-gradient(180deg, transparent 0%, rgba(7,11,22,0.04) 100%);
@@ -2951,7 +3010,9 @@ html.light .landing .ln-station-ico { background: rgb(7 11 22 / 0.06); }
 html.light .landing .ln-station-node { box-shadow: 0 0 0 4px rgb(7 11 22 / 0.14); }
 html.light .landing .ln-station:last-child .ln-station-node { box-shadow: 0 0 0 5px rgb(7 11 22 / 0.18); }
 html.light .landing .ln-stat { background: rgb(7 11 22 / 0.04); }
-html.light .landing .ln-faq-item { background: rgb(7 11 22 / 0.03); }
+/* P18-W2-b: the faq-item day wash twin retired WITH its night source —
+   the rows are flat hairlines now (§10's r160 grammar); a day-only wash
+   would fork the two stages' row anatomy. */
 
 /* the mock frames: rows/bubbles/tiles sit as ink-tinted paper rows
    on the ivory glass (the night ran 0.28–0.35 dark washes; the day
@@ -3702,4 +3763,57 @@ html.light .landing .ln-btn-gold:hover { color: var(--ln-gold-deep); }
 @media print {
   .landing .ln-grain { display: none; }
   .landing .ln-counter { display: none; }
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   §16l (P18-W2-b) — the KODE craft pass: the ground console joins the
+   flat instrument grammar + the CTA scale rungs. Same layer law as
+   §16/§16k: appended last, additive only — no earlier rule is edited
+   here (the §16e cockpit panel is the precedent this layer extends).
+   ══════════════════════════════════════════════════════════════════════ */
+
+/* ── 16l-a · المنصّات — the ground console joins §16e's flat grammar ──
+   The cockpit panel got the r160 translation (transparent ground, no
+   blur, square corners, one hairline) but .ln-ground never did — the
+   platforms console kept the retired GLASS recipe (var(--ln-glass)
+   + backdrop-filter 16px + r-2xl radius): the last CONSOLE on it (the
+   worlds' .ln-mock frames + the eco-chip furniture still ride the
+   near-opaque 0.92 panel token with vestigial blur — content/mock
+   surfaces, not instrument consoles; the console grammar owns the
+   consoles). The two consoles now read as one grammar:
+   flat framed instruments. var(--ln-line) is the token pair
+   (rgba(255,255,255,0.16) night / rgba(10,10,10,0.18) day) so the ONE
+   rule flips both stages — the §15b status-strip/cell twins resolve
+   through their own (0,2,1) scopes as designed. */
+.landing .ln-ground {
+  background: transparent;
+  border-radius: 0;
+  border: 1px solid var(--ln-line);
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+/* ── 16l-b · the CTA scale rungs (KODE P1 — keep the delta) ──────────
+   The hero pair sat at 16px — BELOW the 17.5px sub-headline and one
+   rung above the 13px meta row: the conversion action collapsed into
+   the furniture. The rung order is restored: lockup (190px) ≫ CTA
+   (19px) ≫ sub (17.5px) ≫ meta (13px) — the primary action owns the
+   second rung,
+   the sweep underline keeps the KODE type-led affordance, and the 48px
+   pill floor + the universal focus ring carry the touch contract.
+   1.32vw: 19px at 1440, 16px floor under ~1212px (the 390 fit rides
+   the floor untouched). */
+.landing .ln-hero-actions .ln-btn-gold,
+.landing .ln-hero-actions .ln-btn-ghost {
+  font-size: clamp(16px, 1.32vw, 19px);
+}
+
+/* the finale pair rides the same lift one rung up its 52px boxes
+   (16px → 17px: the lede is 16.5px — the CTA must outrank its own
+   support line). Scoped to the finale actions so the §0g xl rung
+   stays canonical for any future consumer. */
+.landing .ln-cta-actions .ln-btn-gold.xl,
+.landing .ln-cta-actions .ln-btn-ghost.xl {
+  font-size: 17px;
 }

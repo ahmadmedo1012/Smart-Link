@@ -2559,6 +2559,101 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
   );
 }
 
+
+/* ═══ P18-W2-b (KODE craft pass): the r160 leak sweep + the instrument
+   grammar completion. Every rule the pass ships is pinned here so the
+   retired families (sand washes, indigo washes, the glass console, the
+   generic FAQ cards, the weak footer heads) can never silently recur.
+   Evidence: the seams/washes carried pre-r160 Madarek literals that
+   painted NOTHING on the r160 near-black stage (3% sand over #050507
+   ≈ 0.4% luminance); the indigo rgba(13,20,40,·) washes violated the
+   r160 3-color discipline; .ln-ground was the page's one surviving
+   glassmorphism surface after §16e flattened the cockpit. ═══ */
+{
+  const stripW2b = (p) => readFileSync(new URL(`../src/${p}`, import.meta.url), 'utf8')
+    .replace(/\/\*[\s\S]*?\*\//g, ' ');
+  const lcssW2b = stripW2b('app/landing.css');
+  const finaleW2b = stripW2b('components/landing/FinaleCta.tsx');
+
+  // W2b-1 · the breath seams paint again (KODE P4 — a dead seam is a
+  // broken transition): the footer + trust gradients re-anchor to the
+  // stage-cream family, and the day twins hold their grounds (the
+  // trust twin rides the kept-black cockpit chapter; the footer twin
+  // keeps the ink-on-paper fade).
+  check(
+    /\.landing \.landing-footer::before\s*\{[^}]*rgba\(255,255,255,0\.03\)[^}]*\}/.test(lcssW2b)
+      && /\.landing \.ln-trust::before\s*\{[^}]*rgba\(255,255,255,0\.03\)[^}]*\}/.test(lcssW2b)
+      && /html\.light \.landing \.ln-trust::before\s*\{[^}]*rgba\(255,255,255,0\.03\)/.test(lcssW2b)
+      && /html\.light \.landing \.landing-footer::before\s*\{[^}]*rgba\(7,11,22,0\.04\)/.test(lcssW2b)
+      && !/\.landing-footer::before\s*\{[^}]*242,?239,?230/.test(lcssW2b)
+      && !/\.ln-trust::before\s*\{[^}]*242,?239,?230/.test(lcssW2b),
+    'P18-W2-b: the footer/trust breath seams PAINT on both stages (stage-cream 3% night; the trust day twin joins its kept-black chapter, the footer twin keeps ink-on-paper) — the retired sand literals are gone from both seam blocks'
+  );
+
+  // W2b-2 · the console washes join the 3-color discipline: the cockpit
+  // status strip + scope dial + stat cells and the ground status strip +
+  // cell hover re-anchor from the retired Orbit-Ink indigo
+  // rgba(13,20,40,·) to the stage-cream family.
+  check(
+    /\.landing \.ln-cockpit-status\s*\{[^}]*rgb\(255 255 255 \/ 0\.03\)/.test(lcssW2b)
+      && /\.landing \.ln-ground-status\s*\{[^}]*rgb\(255 255 255 \/ 0\.03\)/.test(lcssW2b)
+      && /\.landing \.ln-cockpit-readout \.ln-stat\s*\{[^}]*rgb\(255 255 255 \/ 0\.03\)/.test(lcssW2b)
+      && /radial-gradient\(circle at center, transparent 58%, rgb\(255 255 255 \/ 0\.30\) 59%/.test(lcssW2b)
+      && !/13, ?20, ?40/.test(
+        (lcssW2b.match(/\.landing \.ln-cockpit-status\s*\{[^}]*\}/) ?? ['x'])[0]
+          + (lcssW2b.match(/\.landing \.ln-cockpit-scope\s*\{[^}]*\}/) ?? ['x'])[0]
+          + (lcssW2b.match(/\.landing \.ln-cockpit-readout \.ln-stat\s*\{[^}]*\}/) ?? ['x'])[0]
+          + (lcssW2b.match(/\.landing \.ln-ground-status\s*\{[^}]*\}/) ?? ['x'])[0]),
+    'P18-W2-b: the cockpit + ground console washes ride the stage-cream family (3% strips/cells, 0.30/0.24/0.05 scope rings) — the retired indigo rgba(13,20,40,·) literals are extinct in every live console block (the r160 3-color law holds)'
+  );
+
+  // W2b-3 · the ground console joins §16e's flat instrument grammar:
+  // transparent ground, NO backdrop blur, square corners, the token
+  // hairline (flips both stages) — the page's last glassmorphism
+  // surface is retired.
+  check(
+    /\.landing \.ln-ground\s*\{[^}]*background:\s*transparent[^}]*border-radius:\s*0[^}]*\}/.test(lcssW2b)
+      && /\.landing \.ln-ground\s*\{[^}]*backdrop-filter:\s*none/.test(lcssW2b)
+      && /\.landing \.ln-ground\s*\{[^}]*border:\s*1px solid var\(--ln-line\)/.test(lcssW2b),
+    'P18-W2-b: .ln-ground is the flat framed instrument (transparent, no blur, radius 0, var(--ln-line) hairline — the §16e cockpit twin) — the retired glass panel treatment can never inherit back'
+  );
+
+  // W2b-4 · the FAQ rows join the worlds/journey hairline grammar and
+  // the questions take the display voice's small rung.
+  check(
+    /\.landing \.ln-faq-list\s*\{[^}]*gap:\s*0/.test(lcssW2b)
+      && /\.landing \.ln-faq-item\s*\{[^}]*border:\s*0;[^}]*border-block-end:\s*1px solid var\(--ln-line-soft\)[^}]*border-radius:\s*0;[^}]*background:\s*transparent/.test(lcssW2b)
+      && /\.landing \.ln-faq-q\s*\{[^}]*font-family:\s*var\(--font-display-arabic\)[^}]*font-weight:\s*700[^}]*font-size:\s*clamp\(16\.5px, 1\.5vw, 19px\)/.test(lcssW2b)
+      && !/\.ln-faq-item\s*\{[^}]*242 239 230/.test(lcssW2b),
+    'P18-W2-b: the FAQ rides flat hairline rows (gap 0 + single border-block-end seams, transparent ground) with Kufi-700 clamp(16.5–19px) questions — the rounded-card-on-dead-sand-wash generic treatment is extinct'
+  );
+
+  // W2b-5 · the footer heads join the mono micro-label family (the
+  // instrument closes the page — KODE P6).
+  check(
+    /\.landing \.landing-footer-heading\s*\{[^}]*font-family:\s*var\(--ln-mono\)[^}]*font-size:\s*11px[^}]*color:\s*var\(--ln-gold\)/.test(lcssW2b),
+    'P18-W2-b: the footer column heads are the mono micro-label voice (var(--ln-mono) 11px gold — 5.88:1 night / 4.74:1 day on the ink-2 surfaces) — no more 12px sans heads smaller than the links they govern'
+  );
+
+  // W2b-6 · one strict chapter-label grammar: the finale drops its lone
+  // Latin suffix (the console chips TELEMETRY/BROADCAST/SCAN own that
+  // grammar; the five chapter labels are 00n — Arabic).
+  check(
+    finaleW2b.includes('004 — الوصول')
+      && !finaleW2b.includes('ACCESS'),
+    'P18-W2-b: the finale label reads «004 — الوصول» — the only Latin-suffixed chapter label is gone; the five chapters share one grammar and the bilingual suffixes stay with the console chips'
+  );
+
+  // W2b-7 · the CTA scale rungs: the hero pair owns the second rung
+  // (19px > the 17px sub, ≫ the 12px meta) and the finale xl pair
+  // outranks its 16.5px lede.
+  check(
+    /\.ln-hero-actions \.ln-btn-gold,\s*\.landing \.ln-hero-actions \.ln-btn-ghost\s*\{[^}]*font-size:\s*clamp\(16px, 1\.32vw, 19px\)/.test(lcssW2b)
+      && /\.landing \.ln-cta-actions \.ln-btn-gold\.xl,\s*\.landing \.ln-cta-actions \.ln-btn-ghost\.xl\s*\{[^}]*font-size:\s*17px/.test(lcssW2b),
+    'P18-W2-b: the conversion rows own their scale rungs (hero clamp(16–19px) above the sub-headline; finale xl 17px above the lede) — the primary action no longer collapses into the furniture row'
+  );
+}
+
 if (failures.length > 0) {
   console.error(`✗ KODE parity snapshot FAILED (${failures.length} assertion(s)):`);
   for (const f of failures) console.error(`  • ${f}`);
@@ -2616,7 +2711,7 @@ if (failures.length > 0) {
    guard + nowrap + the (100svh−400px)/2.76 height budget), the scroll
    cue offset sweep, the stat-unit word-space, the FAQ future-
    horizon ban, and the contact select placeholder grade. */
-const EXPECTED_ASSERTIONS = 560;
+const EXPECTED_ASSERTIONS = 567;
 check(
   passed + 1 === EXPECTED_ASSERTIONS,
   `self-count: the suite must run exactly ${EXPECTED_ASSERTIONS} assertions (ran ${passed + 1}) — bump EXPECTED_ASSERTIONS with every intentional pin change`

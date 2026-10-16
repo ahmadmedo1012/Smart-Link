@@ -572,13 +572,21 @@ for (const [file, family, weight, style] of FONT_MANIFEST) {
     failures.push(`font-face for /fonts/${file} is missing from styles.css`);
     continue;
   }
+  /* P16-W7 re-anchor: the two PRELOADED above-fold faces (plex 400/700
+     arabic) moved swap→optional (the CLS font-swap layer fix — see
+     styles.css). Every other face keeps the swap contract. */
+  const preloaded = file === 'plex-sans-arabic-400-normal-arabic.woff2' ||
+    file === 'plex-sans-arabic-700-normal-arabic.woff2';
+  const displayOk = preloaded
+    ? block.includes('font-display: optional')
+    : block.includes('font-display: swap');
   const ok =
     block.includes(`font-family: '${family}'`) &&
     block.includes(`font-weight: ${weight}`) &&
     block.includes(`font-style: ${style}`) &&
-    block.includes('font-display: swap') &&
+    displayOk &&
     /unicode-range:\s*U\+/.test(block);
-  check(ok, `font-face ${file} must carry family '${family}', weight ${weight}, style ${style}, font-display: swap and a unicode-range`);
+  check(ok, `font-face ${file} must carry family '${family}', weight ${weight}, style ${style}, font-display: ${preloaded ? 'optional' : 'swap'} and a unicode-range`);
   check(
     existsSync(new URL(`../public/fonts/${file}`, import.meta.url)),
     `public/fonts/${file} must exist on disk (the manifest points at it)`

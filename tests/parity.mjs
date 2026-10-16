@@ -562,7 +562,7 @@ pinAll(theme, 'theme', THEME_COLORS);
 pinAll(theme, 'theme', THEME_EASE);
 
 // r126: the font-face manifest — a renamed file or a dropped
-// font-display: swap used to pass 134/134. r132-F4: 12 → 10 faces (the
+// font-display pins follow the optional law since P18-W2-b. r132-F4: 12 → 10 faces (the
 // two IBM Plex Serif italic latin cuts deleted — zero consumers).
 const fontFaceBlocks = allTopLevelBlocks(css, '@font-face');
 check(fontFaceBlocks.length === 10, `font-face manifest must declare exactly 10 faces (got ${fontFaceBlocks.length})`);
@@ -572,21 +572,23 @@ for (const [file, family, weight, style] of FONT_MANIFEST) {
     failures.push(`font-face for /fonts/${file} is missing from styles.css`);
     continue;
   }
-  /* P16-W7 re-anchor: the two PRELOADED above-fold faces (plex 400/700
-     arabic) moved swap→optional (the CLS font-swap layer fix — see
-     styles.css). Every other face keeps the swap contract. */
-  const preloaded = file === 'plex-sans-arabic-400-normal-arabic.woff2' ||
-    file === 'plex-sans-arabic-700-normal-arabic.woff2';
-  const displayOk = preloaded
-    ? block.includes('font-display: optional')
-    : block.includes('font-display: swap');
+  /* P18-W2-b re-anchor (CLS gate closure, CI red at 55a89cc → sim-devices
+     CLS 0.053 > 0.02): root-caused to the font-swap layer — a cold first
+     visit swapped the Plex faces in at ~772ms and reflowed the hero
+     +56px. The P16-W7 no-swap law (optional) is extended from the two
+     preloaded faces to ALL TEN (no swap event can exist anywhere), and
+     the above-fold faces are preloaded in layout.tsx so optional still
+     lands the real cut on first paint. Value re-anchor only — manifest
+     structure, families, weights, unicode-ranges and the disk-existence
+     gates are untouched. */
+  const displayOk = block.includes('font-display: optional');
   const ok =
     block.includes(`font-family: '${family}'`) &&
     block.includes(`font-weight: ${weight}`) &&
     block.includes(`font-style: ${style}`) &&
     displayOk &&
     /unicode-range:\s*U\+/.test(block);
-  check(ok, `font-face ${file} must carry family '${family}', weight ${weight}, style ${style}, font-display: ${preloaded ? 'optional' : 'swap'} and a unicode-range`);
+  check(ok, `font-face ${file} must carry family '${family}', weight ${weight}, style ${style}, font-display: optional and a unicode-range`);
   check(
     existsSync(new URL(`../public/fonts/${file}`, import.meta.url)),
     `public/fonts/${file} must exist on disk (the manifest points at it)`

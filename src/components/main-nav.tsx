@@ -316,8 +316,16 @@ export function MainNav() {
         </nav>
 
         <div className="flex items-center gap-2">
-          {mounted && (
-            <MagneticButton>
+          {/* P18-W2-b (CLS gate closure): the toggle was {mounted && …} —
+              zero SSR box, +44px at hydration, pricing header grew 33px →
+              CLS 0.0197 (gate 0.02). The family law (SmartBot ThemeToggle):
+              always render the same-size slot; only the CONTENT is
+              mounted-gated. The placeholder is the exact button box
+              (p-3 + w-5 icon = 44×44) — hydration swaps content, not
+              layout. aria-label + icon stay mounted-gated (resolvedTheme
+              is undefined server-side — rendering them would mismatch). */}
+          <MagneticButton>
+            {mounted ? (
               <button
                 onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
                 aria-label={resolvedTheme === "dark" ? "تفعيل المظهر الفاتح" : "تفعيل المظهر الداكن"}
@@ -329,8 +337,12 @@ export function MainNav() {
                   {resolvedTheme === "dark" ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
                 </span>
               </button>
-            </MagneticButton>
-          )}
+            ) : (
+              <div className="p-3 rounded-xl" aria-hidden="true">
+                <span className="block w-5 h-5" />
+              </div>
+            )}
+          </MagneticButton>
 
           <MagneticButton>
             <button

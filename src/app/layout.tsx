@@ -121,6 +121,19 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             crossorigin is mandatory for font fetches even same-origin. */}
         <link rel="preload" href="/fonts/plex-sans-arabic-400-normal-arabic.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
         <link rel="preload" href="/fonts/plex-sans-arabic-700-normal-arabic.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
+        {/* P18-W2-b (CLS gate closure): the remaining above-fold faces now
+            that every @font-face is font-display:optional (the P16-W7
+            no-swap law, extended to all Plex faces). optional only uses a
+            font that lands inside the ~100ms block window — so the faces
+            the first viewport paints with must be preloaded to win that
+            race: eyebrow/mono technical chips (mono 400), digits+latin
+            runs (sans 400 latin), nav/strong semibold (sans 500/600
+            arabic). Without these the cold first visit would fall back to
+            Tajawal/system — CLS-zero but typographically wrong. */}
+        <link rel="preload" href="/fonts/plex-mono-400-normal-latin.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
+        <link rel="preload" href="/fonts/plex-sans-arabic-400-normal-latin.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
+        <link rel="preload" href="/fonts/plex-sans-arabic-500-normal-arabic.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
+        <link rel="preload" href="/fonts/plex-sans-arabic-600-normal-arabic.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
         {/* m15 → P13-2a re-word: browser bar follows the KODE grounds —
             ink #050507 (dark) / paper #F4F2ED (light); ThemeColorSync
             re-points both metas to the user's resolved theme. */}

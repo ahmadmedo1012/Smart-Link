@@ -388,7 +388,12 @@ export function LandingHeader() {
               Keyboard: a plain <button> — Tab + Enter/Space by default;
               the universal .landing :focus-visible ring carries the
               visible focus contract. */}
-          {mounted && (
+          {/* P18-W2-b (CLS gate closure): same law as main-nav.tsx — the
+              toggle was {mounted && …} with zero SSR box; its post-hydration
+              appearance shifted the header rail 68px (the `/` residual CLS
+              0.0022). Always render the fixed 44×44 slot (the class itself
+              is the box); only label+icon are mounted-gated. */}
+          {mounted ? (
             <button
               type="button"
               className="landing-theme-toggle"
@@ -403,6 +408,8 @@ export function LandingHeader() {
                 {resolvedTheme === "dark" ? <Sun size={20} /> : <Moon size={20} />}
               </span>
             </button>
+          ) : (
+            <div className="landing-theme-toggle" aria-hidden="true" />
           )}
         </div>
 

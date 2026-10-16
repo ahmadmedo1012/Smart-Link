@@ -15,6 +15,7 @@ import { MagneticGoldLink } from "@/components/landing/MagneticGoldLink"
 import { LandingMarquee } from "@/components/landing/LandingMarquee"
 import { WorldsSection } from "@/components/landing/WorldsSection"
 import { JourneySection } from "@/components/landing/JourneySection"
+import { SentenceBand } from "@/components/landing/SentenceBand"
 import { CockpitSection } from "@/components/landing/CockpitSection"
 import { PlatformsSection } from "@/components/landing/PlatformsSection"
 import { FinaleCta } from "@/components/landing/FinaleCta"
@@ -144,6 +145,12 @@ export default function Home() {
 
         {/* ═══ الفصل ٢ — الرحلة: the winding beam ═══ */}
         <JourneySection />
+
+        {/* ═══ الجُمَل — the display-sentence band (P16-4a, KODE S2/S3):
+             the three core value props as poster-scale sentences on the
+             void-reset seam between the flood and the proof — unlabelled
+             breathing hole, the counter holds its number across it ═══ */}
+        <SentenceBand />
 
         {/* ═══ الفصل ٣ — القيادة: the mono data cockpit (the old trust
              band + progress story merged) ═══ */}

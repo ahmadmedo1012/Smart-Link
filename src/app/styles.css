@@ -1378,6 +1378,24 @@
 }
 .ln-chapter--prose {
   padding-block: clamp(32px, 4.5vh, 48px) clamp(48px, 7vh, 64px);
+  /* P16-4a (the deferred r132-band P2, landed): legal body prose gets
+     its own reading leading — 1.7 over the 1.65 body default. Long-form
+     clause prose is the one surface that earns the extra step (the
+     A3-D5 ruling was about NOT silently overriding to 1.625; this is
+     the deliberate, documented ≥1.7 rung for it). */
+  line-height: 1.7;
+}
+/* P16-4a (the other deferred P2, landed): /pricing's plan-cards chapter
+   opens at HALF rhythm. At the 1440×900 reference the full chapter rung
+   (clamp(60px, 9vh, 84px) → 81px) pushed the first card's «ابدأ الآن»
+   CTA to bottom 938 — 38px under the fold. The half rung
+   (31.5px at 900) lands the card's price AND CTA inside the 900px fold
+   (measured 888.5) while the lede→cards visual gap keeps the head
+   chapter's own bottom padding, so the composition doesn't read
+   cramped. Scoped to this page's cards chapter only — the shared
+   .ln-chapter rhythm is untouched for every other route. */
+.ln-chapter--plans {
+  padding-block-start: clamp(24px, 3.5vh, 48px);
 }
 
 /* flat hairline card — the secondary-pages replacement for the glass

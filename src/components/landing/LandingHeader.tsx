@@ -33,6 +33,21 @@ import { SITE } from "@/lib/site"
    sections they pointed at. */
 const SPY_SECTIONS = "#products, #journey, #progress, #platforms"
 
+/* P16-4a (KODE S5 chrome) — the section counter's chapter map. The [ 00n ]
+   corner instrument ticks to the page's OWN published numbering (the mono
+   labels each chapter head physically paints): 001 العوالم / 002 الرحلة /
+   003 القيادة / 004 الوصول / 005 الأسئلة. The platforms + sentence-band
+   seams are unlabelled breathing holes — the counter HOLDS its last value
+   there (never invents a number); above the first chapter it reads 000.
+   Mirrors the spy contract: the anchors are the same section ids. */
+const COUNTER_CHAPTERS: ReadonlyArray<{ sel: string; n: string }> = [
+  { sel: "#products", n: "001" },
+  { sel: "#journey", n: "002" },
+  { sel: "#progress", n: "003" },
+  { sel: ".ln-cta", n: "004" },
+  { sel: ".ln-faq", n: "005" },
+]
+
 export function LandingHeader() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [megamenuOpen, setMegamenuOpen] = useState(false)
@@ -59,6 +74,10 @@ export function LandingHeader() {
      re-render per scroll event was the canonical round-3 regression. */
   const headerRef = useRef<HTMLElement>(null)
   const progressBarRef = useRef<HTMLDivElement>(null)
+  /* P16-4a: the corner counter — same doctrine (zero setState: the IO
+     writes textContent + a re-trigger class directly on the DOM). */
+  const counterNumRef = useRef<HTMLSpanElement>(null)
+  const counterRootRef = useRef<HTMLDivElement>(null)
 
   /* Scroll-driven chrome with ZERO setState: coalesced to one rAF per frame
      (pending-flag pattern, mirrors useSectionProgress) and written straight
@@ -125,6 +144,84 @@ export function LandingHeader() {
     return () => observer.disconnect()
   }, [])
 
+  /* P16-4a (KODE S5) — the [ 00n ] section counter. IntersectionObserver
+     over the five labelled chapters; the winner is the LAST chapter in
+     DOM order intersecting the upper-viewport band (rootMargin mirrors
+     the nav spy's geometry). No intersection = either the prologue
+     (above #products → 000) or an unlabelled breathing seam (hold the
+     last number). The tick itself is a transform/opacity keyframe on a
+     class — killed by the universal RM belt, the number still updates. */
+  useEffect(() => {
+    const num = counterNumRef.current
+    const root = counterRootRef.current
+    if (!num || !root) return
+
+    const chapters = COUNTER_CHAPTERS
+      .map((c) => ({ ...c, el: document.querySelector<HTMLElement>(c.sel) }))
+      .filter((c): c is { sel: string; n: string; el: HTMLElement } => c.el !== null)
+    if (chapters.length === 0) return
+
+    let current = "000"
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)")
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = new Set(
+          entries.filter((e) => e.isIntersecting).map((e) => e.target)
+        )
+        let next = ""
+        for (const c of chapters) if (visible.has(c.el)) next = c.n
+        if (!next) {
+          /* nothing labelled in the band: the prologue (first chapter still
+             below the viewport top) resets to 000; a mid-page seam holds. */
+          const firstTop = chapters[0].el.getBoundingClientRect().top
+          next = firstTop > 0 ? "000" : current
+        }
+        if (next !== current) {
+          current = next
+          num.textContent = next
+          /* the tick: a transform/opacity-only Web Animations blip (the
+             number itself still updates under reduced motion — only the
+             blip is skipped; no CSS class juggling, no forced reflow). */
+          if (!reducedMotion.matches) {
+            num.animate(
+              [
+                { transform: "translateY(5px)", opacity: 0.25 },
+                { transform: "none", opacity: 1 },
+              ],
+              { duration: 160, easing: "ease-out" }
+            )
+          }
+        }
+      },
+      { threshold: [0], rootMargin: "-20% 0px -55% 0px" }
+    )
+
+    for (const c of chapters) observer.observe(c.el)
+
+    /* the ground floor: chrome ends where the footer's last row begins —
+       the counter would otherwise sit over the © line at full scroll. */
+    let floorObs: IntersectionObserver | null = null
+    const footerBottom = document.querySelector(".landing-footer-bottom")
+    if (footerBottom) {
+      floorObs = new IntersectionObserver(
+        (entries) => {
+          for (const e of entries) {
+            if (e.isIntersecting) root.setAttribute("data-at-ground", "")
+            else root.removeAttribute("data-at-ground")
+          }
+        },
+        { threshold: [0] }
+      )
+      floorObs.observe(footerBottom)
+    }
+
+    return () => {
+      observer.disconnect()
+      floorObs?.disconnect()
+    }
+  }, [])
+
   /* Megamenu: Escape closes with focus return; blur outside the group closes. */
   const closeMegamenu = () => setMegamenuOpen(false)
 
@@ -137,6 +234,26 @@ export function LandingHeader() {
 
       {/* Header — the .scrolled state class is toggled imperatively */}
       <header className="landing-header" ref={headerRef}>
+        {/* P16-4a (KODE S5) — the ticking section counter, first child so
+            the nav + drawer (in-flow, later DOM) always paint above it:
+            fixed at the bottom inline-start corner, z -1 inside this
+            header's stacking context (above the page sections, below the
+            open drawer — the drawer never gets covered by chrome).
+            aria-hidden: pure furniture; the chapter heads carry the real
+            numbers in the a11y tree. The LTR-isolated mono run keeps the
+            [ 001 ] bracket grammar intact inside the RTL page. */}
+        <div
+          className="ln-counter"
+          aria-hidden="true"
+          ref={counterRootRef}
+          /* menuOpen rides the header's own state — the counter also dims
+             with the drawer (the z:-1 rung already keeps the open drawer
+             above it; this removes the peeking sliver at the capped
+             landscape drawer edge too). */
+          data-drawer-open={menuOpen || undefined}
+        >
+          <span className="ln-mono">[ <span className="ln-counter-n" ref={counterNumRef}>000</span> ]</span>
+        </div>
         <div className="landing-nav">
           <Link href="/" className="landing-brand" aria-label="SmartLink — الرئيسية">
             <span className="landing-brand-mark" aria-hidden="true">S</span>

@@ -3566,7 +3566,12 @@ html.light .landing .ln-btn-gold:hover { color: var(--ln-gold-deep); }
 .landing .ln-cta .ln-cta-line em { color: var(--ln-gold); }
 .landing .ln-platforms .ln-label,
 .landing .ln-faq .ln-label { color: var(--ln-gold); }
-.landing .ln-grain { opacity: 0.5; } /* quieter film on the KODE stage */
+/* P16-4a: the raw `opacity: 0.5` override that stood here was a live
+   defect — its own comment said “quieter film” but 0.5 is 6.6× the
+   designed 0.075 token film (measured 11.3% mean luminance perturbation
+   on the flat hero field). Retired: the veil rides --ln-grain-op again
+   (the canonical 0.075 night / 0.05 paper, parity-pinned), and the
+   transparency/print contract lives in §16k-c below. */
 
 /* ── 16h · S5 — the orange focus ring + hairline chapter rules ──── */
 .landing :is(a, button, summary, input, textarea, select, [tabindex]):focus-visible {
@@ -3586,4 +3591,115 @@ html.light .landing .ln-btn-gold:hover { color: var(--ln-gold-deep); }
   .landing .ln-hero--kode .ln-hero-content { gap: 14px; }
   .landing .ln-hero--kode .ln-hero-meta { display: none; }
   .landing .ln-hero--kode .ln-hero-sub { font-size: 14px; line-height: 1.8; }
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   §16k (P16-4a) — the KODE narrative instruments: the ticking [ 00n ]
+   section counter (S5), the display-sentence band (S2/S3 value props
+   as poster sentences on a void-reset seam), and the grain veil's
+   transparency/print contract. Appended last — same layer law as §16.
+   ════════════════════════════════════════════════════════════════════ */
+
+/* ── 16k-a · S5 — the [ 00n ] section counter (KODE's mono chrome) ── */
+.landing .ln-counter {
+  position: fixed;
+  inset-inline-start: clamp(16px, 2.2vw, 32px);
+  inset-block-end: clamp(14px, 2.4vh, 26px);
+  /* Lives inside the header's stacking context (--z-dropdown): the
+     negative rung paints it above the page sections (the whole header
+     context composites there) but below every in-flow header child —
+     so the open mobile drawer always covers the corner instead of
+     being covered by it. pointer-events: the furniture never blocks. */
+  z-index: -1;
+  padding: 6px 10px 5px;
+  pointer-events: none;
+  /* the instrument plate: the counter crosses four grounds (stage ink /
+     the orange flood / the inverted black chapters / paper), so it
+     carries its own translucent ground to stay legible on all of them
+     in BOTH themes — composites measured ≥ 8.9:1 (worst case: the day
+     plate over the kept-black worlds chapter). Flat by law: no blur,
+     no gradient, one hairline. */
+  background: color-mix(in srgb, var(--ln-ink) 78%, transparent);
+  border: 1px solid var(--ln-line);
+  transition:
+    opacity var(--ln-t-fast) var(--ln-ease-out),
+    transform var(--ln-t-fast) var(--ln-ease-out);
+}
+.landing .ln-counter .ln-mono {
+  font-size: 11px;
+  line-height: 1;
+  color: var(--ln-cream);
+  /* LTR-isolated: the [ 001 ] bracket grammar travels whole inside the
+     RTL page (the twin of .ln-status's isolation law). */
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+/* the WAAPI tick's transform anchor (inline-block so translateY works) */
+.landing .ln-counter .ln-counter-n { display: inline-block; }
+/* the ground floor: chrome ends where the footer's last row begins —
+   the counter would otherwise sit over the © line at full scroll.
+   The open mobile drawer takes the corner with it (the capped
+   landscape drawer can reach the corner band). Transform/opacity only. */
+.landing .ln-counter[data-at-ground],
+.landing .ln-counter[data-drawer-open] {
+  opacity: 0;
+  transform: translateY(6px);
+}
+
+/* ── 16k-b · the display-sentence band (KODE S2/S3) — the three core
+   value props as poster-scale sentences, NOT a features grid. Rides the
+   void-reset seam (flood shout → this quiet stage → cockpit proof).
+   Deliberately unlabelled + unnumbered (a breathing hole like platforms:
+   the counter holds its last number across it). Every sentence traces
+   to shipped copy — see SentenceBand.tsx. */
+.landing .ln-sentences {
+  padding-block: clamp(88px, 13vh, 160px) clamp(72px, 11vh, 136px);
+  padding-inline: var(--page-gutter);
+}
+.landing .ln-sentence {
+  margin: 0;
+  margin-inline: auto;
+  max-inline-size: 1280px;
+  padding-block: clamp(36px, 5.5vh, 64px);
+  font-family: var(--font-display-arabic), sans-serif;
+  font-weight: 800;
+  /* the poster scale — clamp(40px, 5vw, 72px); Kufi 800 is the repo's
+     ExtraBold rung (IBM Plex Sans Arabic self-hosts 400–700 only). */
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  line-height: 1.16; /* ≥ the r151 cross-Arabic floor (1.12), tashkeel
+     rides the line box without clipping (overflow visible by default) */
+  color: var(--ln-cream);
+  text-wrap: balance;
+}
+.landing .ln-sentence + .ln-sentence {
+  border-block-start: 1px solid var(--ln-line-soft);
+}
+.landing .ln-sentence em {
+  font-style: normal;
+  /* the one orange word — the chapter-title em convention (large-text
+     grade: 4.0:1 night / 5.2:1 paper at 40–72px bold). */
+  color: var(--ln-gold);
+}
+@media (max-width: 920px) {
+  /* the §0i mobile gutter law (the twin of .ln-chapter's switch): the
+     band is not an .ln-chapter, so it must adopt the 20px mobile gutter
+     itself — otherwise the poster sentences get 48px gutters while every
+     other block on the phone reads 20px. */
+  .landing .ln-sentences { padding-inline: var(--page-gutter-mobile); }
+}
+@media (max-width: 760px) {
+  .landing .ln-sentences { padding-block: clamp(64px, 9vh, 96px) clamp(56px, 8vh, 84px); }
+  .landing .ln-sentence { padding-block: clamp(24px, 3.5vh, 40px); }
+}
+
+/* ── 16k-c · the grain contract (P16-4a): the veil rides its token
+   (0.075 night / 0.05 paper — the §16g 0.5 defect retired above) and
+   yields entirely where texture is unwanted: reduced-transparency
+   users and print get the flat stage, and fixed chrome never prints. */
+@media (prefers-reduced-transparency: reduce) {
+  .landing .ln-grain { display: none; }
+}
+@media print {
+  .landing .ln-grain { display: none; }
+  .landing .ln-counter { display: none; }
 }

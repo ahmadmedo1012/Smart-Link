@@ -238,8 +238,11 @@ export default function PricingPage() {
             desktop; md keeps the 2-col grammar (the third wraps).
             phase6: the row composes at the FULL container width.
             P13-2a: هذه هي بطاقات المنظومة المجانية الثلاث (الرابط
-            الذكي نفسه مجاني) — القصة المدفوعة انتقلت للفصل الحي أدناه. */}
-        <section className="ln-chapter" aria-label="خطط المنتجات">
+            الذكي نفسه مجاني) — القصة المدفوعة انتقلت للفصل الحي أدناه.
+            P16-4a: ln-chapter--plans — the half-rhythm opening so the
+            first card's price + «ابدأ الآن» CTA land inside the 900px
+            fold at 1440 (the deferred fold P2 — see styles.css). */}
+        <section className="ln-chapter ln-chapter--plans" aria-label="خطط المنتجات">
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
           {plans.map((plan, i) => {
             const Icon = plan.icon

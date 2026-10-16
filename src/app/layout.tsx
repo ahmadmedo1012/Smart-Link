@@ -31,13 +31,13 @@ import "./styles.css"
 const bodoni = Bodoni_Moda({
   subsets: ["latin"],
   weight: "700",
-  display: "swap",
+  display: "optional", /* P16-W7: no swap event ever — CLS-zero under font-latency */
   variable: "--font-display-latin",
 })
 const kufi = Noto_Kufi_Arabic({
   subsets: ["arabic"],
   weight: ["700", "800"],
-  display: "swap",
+  display: "optional", /* P16-W7: no swap event ever — CLS-zero under font-latency */
   variable: "--font-display-arabic",
 })
 

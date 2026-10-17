@@ -27,9 +27,12 @@ import { LandingFooter } from "@/components/landing/LandingFooter"
    marquee kit for the seamless 42s RTL loop. r129 (P2-10): 15 entries so
    ONE copy (≈2.7–3.2k px) still fills ≥2200px viewports — the seam math
    assumes copy-1 ≥ viewport. The three additions are the platform's own
-   verifiable claims (one account, Arabic-first, a direct WhatsApp line).
-   r144 (صدق P4-4SL): «دعم واتساب 24/7» كان ادعاءً بلا عملية دعم خلفه —
-   استُبدل بالقناة الحقيقية نفسها بلا وعد ساعات. */
+   verifiable claims (a separate account per service, Arabic-first, a
+   direct WhatsApp line). r144 (صدق P4-4SL): «دعم واتساب 24/7» كان ادعاءً
+   بلا عملية دعم خلفه — استُبدل بالقناة الحقيقية نفسها بلا وعد ساعات.
+   W2-A1 (صدق الحساب — تدقيق W2-R1): «حساب واحد لكل الخدمات» كان
+   ادعاءً بلا مصدر — مظلة SmartLink نفسها بلا تسجيل، وكل منتج له
+   حسابه المستقل؛ الكلمة الحيّة الآن تقول الحقيقة. */
 const MARQUEE_ITEMS = [
   "Smart Menu",
   "المنيو الرقمي للمطاعم",
@@ -49,7 +52,7 @@ const MARQUEE_ITEMS = [
   "متجر الطلبات الرقمي",
   "طلبات وتوصيل",
   "مدفوعات ليبية",
-  "حساب واحد لكل الخدمات",
+  "حساب مستقل لكل خدمة",
   "واجهة عربية بالكامل",
   "تواصل واتساب مباشر",
 ]

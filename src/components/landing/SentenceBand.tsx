@@ -14,8 +14,11 @@ import { RevealCssClass } from "@/hooks/useReveal"
  * · «رابط واحد» — the hero sub-headline's strong line (كل ما تحتاجه
  *   لتنمية أعمالك خلف رابط واحد) + journey station 004 (رابط واحد
  *   لكل أعمالك).
- * · «حساب واحد» — journey station 002 (كل خدمة تُجهَّز من لوحة تحكم
- *   عربية واحدة) + the marquee vocabulary (حساب واحد لكل الخدمات).
+ * · «حساب مستقل» — journey station 002 (كل خدمة تُجهَّز من لوحة تحكم
+ *   عربية خاصة بها) + the marquee vocabulary (حساب مستقل لكل خدمة).
+ *   W2-A1 (صدق الحساب — تدقيق W2-R1): the old «حساب واحد» claim was
+ *   false — the SmartLink hub has no auth; each product keeps its own
+ *   account, so the sentence carries the per-product truth now.
  * · «واجهة عربية بالكامل» — the cockpit's verifiable 100% stat + the
  *   marquee vocabulary. No numerals, no new claims.
  * Type law: the repo's actual Arabic display face — Noto Kufi Arabic
@@ -26,7 +29,7 @@ import { RevealCssClass } from "@/hooks/useReveal"
 
 const SENTENCES: Array<{ key: string; node: ReactNode }> = [
   { key: "link", node: <>رابطٌ <em>واحد</em> يحمل كلَّ أعمالك.</> },
-  { key: "account", node: <>منيوٌ وبوتٌ ومتجر — تُدار جميعها من <em>حسابٍ واحد</em>.</> },
+  { key: "account", node: <>منيوٌ وبوتٌ ومتجر — لكلٍّ منها <em>حسابٌ مستقلٌّ</em>.</> },
   { key: "arabic", node: <>واجهةٌ عربيةٌ <em>بالكامل</em> — من أول نقرةٍ إلى آخر طلب.</> },
 ]
 

@@ -633,7 +633,19 @@
 .landing .reveal-d-4.in-view { transition-delay: 320ms; }
 .landing .reveal-d-5.in-view { transition-delay: 400ms; }
 @media (prefers-reduced-motion: reduce) {
-  .landing .reveal-up { opacity: 1; transform: none; }
+  /* W2-A1 (عقد 1e651e2 — إغلاق الفجوة): the styles.css twin zeroes
+     duration+delay so a mid-reveal reducedMotion flip SNAPS; this
+     landing block forced only opacity/transform, leaving the
+     .reveal-d-N delays (specificity 0,3,0) live — the forced state
+     could hold a mid-fade value for up to 400ms (the phantom axe
+     contrast frame). Zero duration+delay at .in-view specificity. */
+  .landing .reveal-up,
+  .landing .reveal-up.in-view {
+    opacity: 1;
+    transform: none;
+    transition-duration: 0s;
+    transition-delay: 0s;
+  }
 }
 /* r133 (A7 §1 / A6 probe): the no-JS contract. styles.css ships
    `@media (scripting: none) { .reveal-up { opacity: 1 } }` at (0,1,0) —

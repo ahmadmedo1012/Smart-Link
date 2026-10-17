@@ -3863,3 +3863,144 @@ html.light .landing .ln-btn-gold:hover { color: var(--ln-gold-deep); }
 .landing .ln-cta-actions .ln-btn-ghost.xl {
   font-size: 17px;
 }
+
+/* ══════════════════════════════════════════════════════════════════════
+   §17 (P21-A) — the KODE coherence pass (r161). Reference: kodeimmersive
+   + kodemedia (p21-research/kode/VLM-KODE.md, GAP-SMARTLINK.md). Same
+   layer law as §16/§16k/§16l: appended last, ADDITIVE only — no earlier
+   rule is edited here; the cascade (equal-or-higher specificity, later
+   position) carries the paint. Parity-pinned declarations are untouched
+   (the lede 72ch measures, the faq-q rung, the marquee track animation,
+   the reveal belt, the §16e/§16l flat-instrument pins all keep their
+   source forms).
+   Three moves, one purpose — the story below the hero keeps ONE voice:
+   17a · the chapter-title grammar stops forking mid-page (chapters
+        001/002 spoke Kufi-800 posters at clamp(2.6rem…6.5rem); 003/
+        platforms/005/finale fell back to the pre-KODE Plex title at
+        half the scale and lost the accent em — KODE's coherence law
+        is one type system, scale contrast does the hierarchy).
+   17b · the editorial lists breathe (kodemedia's Latest index runs one
+        row per ~viewport; the worlds/journey rows were 40–52px dense
+        at desktop — lifted ≥1025px only, phone pacing untouched).
+   17c · the worlds rows gain ONE hover verb — the page's own KODE
+        sweep (the .ln-btn-gold ::before grammar) now arms the
+        editorial list's CTAs, the row's numeral warms, and the
+        broadcast strip pauses for a hovering reader.
+   ══════════════════════════════════════════════════════════════════════ */
+
+/* ── 17a · chapter-title grammar unification ─────────────────────────
+   Stage law (mirrors §16d/e): held-black chapters (cockpit) keep their
+   literal #FFFFFF/#FF4C00 pair in BOTH themes; ink-stage chapters
+   (platforms / faq / finale) ride the TOKEN pair so the day flip stays
+   automatic (cream → ink #0A0A0A, gold → text-grade #B23E00). Leading
+   1.1–1.12: the P20-A2 lesson — Kufi 800 diacritics need ≥1.08. */
+.landing .ln-cockpit .ln-chapter-title {
+  font-family: var(--font-display-arabic), sans-serif;
+  font-weight: 800;
+  font-size: clamp(2.4rem, 5.5vw, 4.75rem);
+  line-height: 1.1;
+  color: #FFFFFF;
+  max-inline-size: none;
+}
+.landing .ln-cockpit .ln-chapter-title em { color: #FF4C00; }
+.landing .ln-platforms .ln-chapter-title {
+  font-family: var(--font-display-arabic), sans-serif;
+  font-weight: 800;
+  font-size: clamp(2.4rem, 5.5vw, 4.75rem);
+  line-height: 1.1;
+  color: var(--ln-cream);
+  max-inline-size: none;
+}
+.landing .ln-platforms .ln-chapter-title em { color: var(--ln-gold); }
+.landing .ln-faq .ln-chapter-title {
+  font-family: var(--font-display-arabic), sans-serif;
+  font-weight: 800;
+  font-size: clamp(2.2rem, 4.5vw, 3.75rem);
+  line-height: 1.12;
+  color: var(--ln-cream);
+  max-inline-size: none;
+}
+.landing .ln-faq .ln-chapter-title em { color: var(--ln-gold); }
+/* the finale's two lines share ONE rung (the title was cream-dim Plex
+   4.25rem over a bolder 4.2rem gold-em line — two voices inside one
+   h2); the poster rung joins the chapters, the em keeps its gold */
+.landing .ln-cta .ln-cta-title {
+  font-family: var(--font-display-arabic), sans-serif;
+  font-weight: 800;
+  font-size: clamp(2.75rem, 6vw, 5.5rem);
+  line-height: 1.1;
+  color: var(--ln-cream);
+}
+.landing .ln-cta .ln-cta-line {
+  font-family: var(--font-display-arabic), sans-serif;
+  font-weight: 800;
+  font-size: clamp(2.75rem, 6vw, 5.5rem);
+  line-height: 1.1;
+}
+
+/* ── 17b · editorial rhythm — desktop only (≥1025px; the ≤760px kode
+   blocks and the §0i mobile density pass keep phone pacing canonical).
+   kodemedia's index rows breathe 200–400px at 1440; the worlds/journey
+   rows sat at 40–52px. The lift is deliberate but bounded — full
+   one-row-per-viewport pacing would double an already-10.5kpx page;
+   this lands the poster feel without the scroll tax. ───────────── */
+@media (min-width: 1025px) {
+  .landing .ln-world-card { padding-block: clamp(40px, 7vh, 92px); }
+  .landing .ln-world-name { font-size: clamp(26px, 4vw, 54px); }
+  .landing .ln-journey-row { padding-block: clamp(30px, 5.5vh, 64px); }
+  /* the mono index becomes the row's scale OBJECT (KODE's index-forward
+     grammar: numeral ≈ 80% of the title, not 65%) */
+  .landing .ln-journey-row-n { font-size: clamp(20px, 2.6vw, 34px); }
+  .landing .ln-journey-row-title {
+    font-size: clamp(22px, 3.2vw, 44px);
+    line-height: 1.25;
+  }
+}
+
+/* ── 17c · the worlds row's ONE hover verb ───────────────────────────
+   The page already owns the KODE link verb — the ::before scaleX
+   underline sweep (.ln-btn-gold, origin: right for RTL). The editorial
+   list's CTAs now ride the same sweep instead of the abrupt 2px
+   border-bottom flip; hovering the ROW arms it (the card's only
+   interactive element is its CTA — the affordance is honest), the
+   mono numeral warms one rung, and the arrow slides its own way.
+   Transition-based (the --ln-t-* aliases zero under
+   prefers-reduced-motion via styles.css — states stay, motion goes). */
+.landing .ln-worlds--kode .ln-world-cta {
+  border-block-end: 0;
+  position: relative;
+  padding-block-end: 6px;
+}
+.landing .ln-worlds--kode .ln-world-cta::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  block-size: 2px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform var(--ln-t-base) var(--ln-ease-out);
+}
+.landing .ln-worlds--kode .ln-world-cta:hover::after,
+.landing .ln-worlds--kode .ln-world-cta:focus-visible::after,
+.landing .ln-world-card:hover .ln-world-cta::after { transform: scaleX(1); }
+.landing .ln-worlds--kode .ln-world-cta svg {
+  transition: translate var(--ln-t-base) var(--ln-ease-out);
+}
+@media (hover: hover) {
+  .landing .ln-worlds--kode .ln-world-cta:hover svg { translate: -5px 0; }
+  /* the numeral's one-rung warm (the worlds chapter is held-black in
+     both themes — literal #FF6A2E ≈ 5.0:1 on #050507, large-text safe) */
+  .landing .ln-worlds--kode .ln-world-num {
+    transition: color var(--ln-t-base) var(--ln-ease-out);
+  }
+  .landing .ln-world-card:hover .ln-world-num { color: #FF6A2E; }
+}
+
+/* the broadcast respects a hovering reader — the vocabulary pauses
+   (play-state only: the pinned 42s loop arithmetic, its RM off-switch
+   and the seam math are untouched; pausing never moves the track). */
+@media (hover: hover) {
+  .landing .ln-marquee:hover .ln-marquee-track { animation-play-state: paused; }
+}

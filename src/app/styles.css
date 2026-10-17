@@ -896,7 +896,22 @@
 .reveal-d-4.in-view { transition-delay: 320ms; }
 .reveal-d-5.in-view { transition-delay: 400ms; }
 @media (prefers-reduced-motion: reduce) {
-  .reveal-up { opacity: 1; transform: none; }
+  /* P21-CI (a11y-states flake, root cause): forcing opacity:1 here while
+     the base .reveal-up transition (duration --t-slower + the .reveal-d-N
+     delays above, which win on specificity 0,2,0) still applies means the
+     FORCED state itself eases in over ~400ms — axeScan() flips
+     reducedMotion mid-reveal and can sample a mid-fade frame (e.g.
+     opacity .8 → effective ink #646b83 = 3.73:1, a phantom wcag143
+     violation on a resting state that is 5.22:1 AA-clean). Zeroing
+     duration+delay AT .reveal-up.in-view specificity (>= the delay
+     rules, later in source) makes the reduce flip SNAP instantly. */
+  .reveal-up,
+  .reveal-up.in-view {
+    opacity: 1;
+    transform: none;
+    transition-duration: 0s;
+    transition-delay: 0s;
+  }
 }
 /* no-JS contract (same doctrine as the .acc scripting:none rule): a
    scripting:none browser reveals everything — content must never stay

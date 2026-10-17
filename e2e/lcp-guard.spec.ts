@@ -75,7 +75,11 @@ test.describe("r9 — محتوى pricing الخادم (تدقيق P1-4)", () => 
     expect(html.match(/مجاني/g)?.length ?? 0).toBeGreaterThanOrEqual(2)
     // ميزة جوهرية من كل خطة
     expect(html).toContain("منيو رقمي تفاعلي")
-    expect(html).toContain("ردود تلقائية ذكية")
+    /* P19-A re-anchor (value only — logic unchanged: a core feature of
+       each plan must be server-rendered): بطاقة SmartBot المجانية صارت
+       مرآة كتالوج الباقة الحي (bot /api/plans) — «ردود تلقائية ذكية»
+       التسويقية استُبدلت بحدّ الكتالوج الصادق. */
+    expect(html).toContain("ردود تلقائية (100/شهر)")
     expect(html).toContain("متجر رقمي يعمل فوراً")
     // CTA الخطة يقود للمنتج مباشرة (r9 C10) وليس لنموذج التواصل
     expect(html).toContain('href="https://menu.smart-link.ly"')

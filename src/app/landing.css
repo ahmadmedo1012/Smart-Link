@@ -80,19 +80,19 @@
      orphaned أ — the ≤1024px block in §16b now carries the viewport-fit
      scale so the 3-line lockup holds at every width. */
   --ln-h1:         clamp(3.5rem, 13vw, 11.875rem);
-  /* P20-A1: 0.97 — the measured-ink fix. At 0.92 the lockup's line
-     boxes (166.67px at 1440) sat below the font's em box (181.16px)
-     and the real Noto Kufi ink collided: measured 1px minimum
-     distance between the white ع descender («عملٍ», line 1) and the
-     orange ر bowl («رابطًا», line 2) at 1440 dark + light (canvas
-     actualBoundingBox math: adjacent ink boxes overlap 100px; the
-     3× crop inspection reads "direct collision"). 0.97 restores
-     ~10px of measured clearance per junction (the KODE display
-     tension stays — tight-but-clean, the case-study craft bar) and
-     the short-stage budget divisor is re-anchored 2.76 → 2.91
-     (= 3 × 0.97) so the CTA-pair fold math stays true. Tashkeel
+  /* P20-A1→P20-A2: 1.08 — the pixel-proven leading. The 0.92 lockup
+     collided (canvas metrics: 1px worst-case junction); 0.97 was the
+     P20-A1 fix — but PIXEL PROOF on the live 1440 render (junction
+     1-2 crop, column-scan white-vs-orange ink) measured a 14px
+     OVERLAP between line-1's white descender and line-2's orange
+     tashkeel (the Kufi 800 diacritic stacks are taller than the
+     ink-box model credited). 1.08 clears the real raster ink (~10px
+     measured gap at the worst junction) while the short-stage budget
+     divisor 3.24 = 3 × 1.08 keeps the 500px lockup box and the CTA
+     fold margin exactly true (taller leading ⇒ proportionally
+     smaller budget-capped font — total height invariant). Tashkeel
      still rides overflow-visible — nothing clips. */
-  --ln-h1-lh:      0.97;
+  --ln-h1-lh:      1.08;
   --ln-t-fast:      var(--t-fast);    /* 160ms */
   --ln-t-base:      var(--t-base);    /* 240ms */
   --ln-t-slow:      var(--t-slow);    /* 380ms */
@@ -3168,7 +3168,7 @@ html.light .landing .ln-ground-status { background: rgb(7 11 22 / 0.05); }
   unicode-bidi: isolate;
   color: var(--ln-cream);
 }
-/* THE LOCKUP: Noto Kufi Arabic 800, clamp(56px,13vw,190px), lh 0.97 (P20-A1) */
+/* THE LOCKUP: Noto Kufi Arabic 800, clamp(56px,13vw,190px), lh 1.08 (P20-A2 pixel-proven) */
 .landing .ln-hero--kode .ln-hero-title {
   font-family: var(--font-display-arabic), sans-serif;
   font-weight: 800;
@@ -3197,9 +3197,10 @@ html.light .landing .ln-ground-status { background: rgb(7 11 22 / 0.05); }
    lines (861px) at 1440: the third line cut mid-lockup at the 900
    fold and the sub-headline + both CTAs rode below it (still cut at
    1080). The centered chapter now takes the full measure — 1280
-   column, uncapped title, nowrap lines → the DESIGNED 3×0.97em
-   lockup (545px at 187px), and the full stack lands in-fold at
-   1440×1080 (CTA pair bottom 998 < 1080). The base
+   column, uncapped title, nowrap lines → the DESIGNED 3×1.08em
+   lockup (606px at 187px), and the full stack lands in-fold at
+   1440×1080 (CTA pair bottom ~1060 < 1080, the P20-A2 leading's
+   62px growth still inside the fold margin). The base
    .ln-hero-title keeps its 20ch measure (P4-10 pin) for every
    non-KODE consumer; below 1025px the P20-A1 lockup-integrity block
    (immediately below) carries the same nowrap grammar with a
@@ -3257,21 +3258,22 @@ html.light .landing .ln-ground-status { background: rgb(7 11 22 / 0.05); }
 }
 /* 4-a (P1 fold, cont.): short desktop stages — the lockup scale also
    follows the HEIGHT budget so the CTA pair stays in-fold at the
-   900-tall fold itself, not just below it: 3 lines (2.91em at lh
-   0.97) + the measured fixed furniture — 231px of header/padding/
+   900-tall fold itself, not just below it: 3 lines (3.24em at lh
+   1.08) + the measured fixed furniture — 231px of header/padding/
    eyebrow + 14 + 76 sub + 14 + 48 CTA = 383px — so the budget 400px
    leaves the CTA pair a real ~17px margin under 100svh (at 1440×900
    the un-budgeted 13vw scale landed the pair at 899.5, flush with
    the fold: in-fold by 0.5px and one subpixel from a lie). A no-op
    at ≥917-tall (13vw stays the smaller term) and never applied
    under 1025px wide — the §16j rhythm block below keeps serving
-   every width as before. P20-A1: the divisor moved 2.76 → 2.91 with
-   the lh re-anchor (3 × 0.97); at 1440×900 the budget term reads
-   500/2.91 = 171.8px so the lockup keeps its exact 500px box — the
-   pair's fold margin is unchanged, only the leading grew. */
+   every width as before. P20-A2: the divisor moved 2.76 → 2.91 →
+   3.24 with the lh re-anchors (3 × 1.08); at 1440×900 the budget
+   term reads 500/3.24 = 154.3px so the lockup keeps its exact 500px
+   box — the pair's fold margin is unchanged, only the leading grew
+   (the font shrinks to pay for it). */
 @media (min-width: 1025px) and (max-height: 960px) {
   .landing .ln-hero--kode .ln-hero-title {
-    font-size: min(var(--ln-h1), calc((100svh - 400px) / 2.91));
+    font-size: min(var(--ln-h1), calc((100svh - 400px) / 3.24));
   }
 }
 .landing .ln-hero--kode .ln-hero-sub {

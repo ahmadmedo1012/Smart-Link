@@ -2515,17 +2515,22 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
   // and spilled line 3 off the LEFT viewport edge at 1025–1280:
   // live-measured −36/−38/−45px — 1440 alone survived).
   // P20-A1 (value-only re-anchor): the lh re-anchor 0.92 → 0.97 moved
-  // the budget divisor 2.76 → 2.91 (= 3 × 0.97) — the lockup's 500px
-  // box at 1440×900 is unchanged; only the leading grew (+9px/junction
-  // of measured ink clearance). The label's “390 untouched” claim died
-  // with the P20-A1 lockup-integrity block (below) — 390 is now the
-  // nowrap + 12.6vw viewport-fit lockup, pinned separately.
+  // the budget divisor 2.76 → 2.91 — the lockup's 500px box at 1440×900
+  // unchanged. P20-A2 (value-only re-anchor): 0.97 → 1.08 — PIXEL PROOF
+  // on the live 1440 render measured a 14px white-descender/orange-
+  // tashkeel OVERLAP at 0.97 (the Kufi 800 diacritic stacks outgrew the
+  // ink-box model); 1.08 clears the raster ink (~10px measured gap) and
+  // the divisor follows 3 × 1.08 = 3.24 — the total-height budget keeps
+  // the 500px box and the CTA fold margin exactly true. The label's
+  // “390 untouched” claim died with the P20-A1 lockup-integrity block
+  // (below) — 390 is now the nowrap + 12.6vw viewport-fit lockup, pinned
+  // separately.
   check(
     /@media \(min-width: 1025px\)\s*\{[^}]*\.ln-hero--kode \.ln-hero-content\s*\{[^}]*max-inline-size:\s*1280px[^}]*min-inline-size:\s*0/.test(lcss4a)
       && /\.ln-hero--kode \.ln-hero-title\s*\{[^}]*max-inline-size:\s*none;\s*min-inline-size:\s*0/.test(lcss4a)
       && /\.ln-hero--kode \.ln-hero-line\s*\{\s*white-space:\s*nowrap/.test(lcss4a)
-      && /@media \(min-width: 1025px\) and \(max-height: 960px\)\s*\{[^}]*\.ln-hero--kode \.ln-hero-title\s*\{[^}]*min\(var\(--ln-h1\), calc\(\(100svh - 400px\) \/ 2\.91\)\)/.test(lcss4a),
-    '4-a P1: the KODE lockup takes the full 1280 measure with nowrap lines (the designed 3×0.97em block, not the 5-line wrap) + the short-stage height budget (100svh−400px)/2.91 + min-inline-size: 0 on the content/title (the RTL clip guard — line 3 measured −45px off-viewport at 1280 without it) — full lockup + both CTAs in-fold at 1440×900/1080, every line in-viewport at 1025–1440'
+      && /@media \(min-width: 1025px\) and \(max-height: 960px\)\s*\{[^}]*\.ln-hero--kode \.ln-hero-title\s*\{[^}]*min\(var\(--ln-h1\), calc\(\(100svh - 400px\) \/ 3\.24\)\)/.test(lcss4a),
+    '4-a P1: the KODE lockup takes the full 1280 measure with nowrap lines (the designed 3-line block, not the 5-line wrap) + the short-stage height budget (100svh−400px)/3.24 + min-inline-size: 0 on the content/title (the RTL clip guard — line 3 measured −45px off-viewport at 1280 without it) — full lockup + both CTAs in-fold at 1440×900/1080, every line in-viewport at 1025–1440'
   );
   // P20-A1 · lockup integrity below 1025px: the desktop nowrap grammar
   // + the viewport-fit scale. At f8e8210 the clamp floor (56px) and the
@@ -2540,8 +2545,8 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
     /@media \(max-width: 1024px\)\s*\{[^@]*\.ln-hero--kode \.ln-hero-content\s*\{[^}]*min-inline-size:\s*0/.test(lcss4a)
       && /@media \(max-width: 1024px\)\s*\{[^@]*\.ln-hero--kode \.ln-hero-title\s*\{[^}]*min-inline-size:\s*0;[^}]*font-size:\s*min\(var\(--ln-h1\), 12\.6vw\)/.test(lcss4a)
       && /@media \(max-width: 1024px\)\s*\{[^@]*\.ln-hero--kode \.ln-hero-line\s*\{\s*white-space:\s*nowrap/.test(lcss4a)
-      && /--ln-h1-lh:\s*0\.97/.test(lcss4a),
-    'P20-A1: the 3-line KODE lockup holds at EVERY width — below 1025px the nowrap + min-inline-size: 0 + viewport-fit scale (min(--ln-h1, 12.6vw)) replace the ragged 5-line wrap (orphaned أ at 390 measured), and the measured-ink lh 0.97 keeps adjacent lines from colliding (1px clearance at 1440 pre-fix)'
+      && /--ln-h1-lh:\s*1\.08/.test(lcss4a),
+    'P20-A1: the 3-line KODE lockup holds at EVERY width — below 1025px the nowrap + min-inline-size: 0 + viewport-fit scale (min(--ln-h1, 12.6vw)) replace the ragged 5-line wrap (orphaned أ at 390 measured), and the measured-ink lh 1.08 keeps the raster ink of adjacent lines from colliding (P20-A2 pixel-proof: 0.97 left a 14px overlap; 1.08 leaves a clean dark band)'
   );
   // P1-4b · the scroll cue's §3 absolute-era offsets are swept in the kode
   // layer: §16 switched the cue to a grid item (position: relative) but
@@ -2730,7 +2735,7 @@ if (failures.length > 0) {
    flood furniture re-ink, cockpit day night-hold family (trust ground
    + console mono + stat unit), label token-grade source, world-host
    night-grey, hero fold (1280 measure + min-inline-size: 0 RTL-clip
-   guard + nowrap + the (100svh−400px)/2.91 height budget), the scroll
+   guard + nowrap + the (100svh−400px)/3.24 height budget), the scroll
    cue offset sweep, the stat-unit word-space, the FAQ future-
    horizon ban, and the contact select placeholder grade. */
 const EXPECTED_ASSERTIONS = 568;

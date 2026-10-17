@@ -4004,3 +4004,27 @@ html.light .landing .ln-btn-gold:hover { color: var(--ln-gold-deep); }
 @media (hover: hover) {
   .landing .ln-marquee:hover .ln-marquee-track { animation-play-state: paused; }
 }
+
+/* ── 17d (P21-A verification follow-up) · chapter 002 joins the poster
+   voice — the last fork closes. Independent re-verification of the
+   pushed §17 found ONE chapter head still off-voice: §16c only re-INKED
+   the flood title (color rules at 3372-3373) — its TYPE never left the
+   pre-KODE base (.ln-chapter-title = Plex 700 clamp(2rem,3.9vw,3.875rem)
+   = 56.16px @1440, measured), while 17a moved cockpit/platforms/faq/
+   finale to the Kufi-800 poster voice on the belief journey already
+   spoke it (the bb87f48 message says "the worlds+journey chapters
+   already speak the poster voice" — journey did not). The flood — the
+   twin poster chapter of the black stage 001 — now rides the worlds
+   rung clamp(2.6rem,7.5vw,6.5rem) (104px @1440) with the P20-A2
+   measured-ink leading (1.08 — worlds' 1.04 predates the lesson; the
+   flood title carries tashkeel-free but tall Kufi ink).
+   The ink law is untouched: §16c keeps title + em at var(--ln-flood-ink)
+   (6.10:1 on #FF4C00, both themes — a flood is a flood; no accent em
+   inside the flood). Parity pins unaffected (the faq-q rung, the
+   journey furniture ink pins, the 42s marquee math all untouched). */
+.landing .ln-journey--kode .ln-chapter-title--kode {
+  font-family: var(--font-display-arabic), sans-serif;
+  font-weight: 800;
+  font-size: clamp(2.6rem, 7.5vw, 6.5rem);
+  line-height: 1.08;
+}

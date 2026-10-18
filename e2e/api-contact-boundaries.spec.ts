@@ -36,6 +36,37 @@ test.describe("r10 — الحدود من جهة القبول", () => {
   })
 })
 
+/* ══════════════════════════════════════════════════════════════
+ * P21-W5-C2 (W5-A2 audit P3) — سقف الموضوع SUBJECT_MAX=64
+ *
+ * القبعات الأخرى (254/100/5000 و64KB) لها حدود قبول ورفض منذ
+ * r10 — سقف الموضوع وحده (route.ts: SUBJECT_MAX=64، والفحص بعد
+ * sanitize وخريطة التصنيفات) بلا أي تغطية: إسقاط الفحص أو
+ * إعادة ترتيبه بعد الخريطة كان سيسبح أخضر (صنف الانحدار الذي
+ * أغلقته r10 G3 لإخوته). الرفض من جهة 65 + القبول بالحدّ
+ * نفسه 64 — نفس تشريح إخوته أعلاه تماماً.
+ * ══════════════════════════════════════════════════════════════ */
+test.describe("P21-W5-C2 — سقف الموضوع 64 (آخر القبعات بلا عقد)", () => {
+  test("موضوع بطول 65 → 400 بالخطأ المشترك للطول (لا field — ليس خطأ حقل)", async ({ request }) => {
+    const res = await request.post("/api/contact", {
+      data: { ...VALID, subject: "x".repeat(65) },
+      headers: isoHeaders(96),
+    })
+    expect(res.status()).toBe(400)
+    /* الشكل الحرفي لرد route.ts: خطأ عام بلا مفتاح field — التطابق
+       التام يمنع انحدار الرسالة نفسها، لا الحالة فقط. */
+    expect(await res.json()).toEqual({ error: "أحد الحقول أطول من المسموح" })
+  })
+
+  test("موضوع بطول 64 بالضبط → مقبول (503 بلا مفتاح، ليس 400)", async ({ request }) => {
+    const res = await request.post("/api/contact", {
+      data: { ...VALID, subject: "x".repeat(64) },
+      headers: isoHeaders(97),
+    })
+    expect(res.status()).toBe(503)
+  })
+})
+
 test.describe("r10 — حمولات Unicode وCRLF", () => {
   test("سطور جديدة CRLF داخل الرسالة → لا 500 (تصل كما هي لجسم البريد)", async ({ request }) => {
     const res = await request.post("/api/contact", {

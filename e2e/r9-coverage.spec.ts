@@ -49,7 +49,7 @@ test.describe("r9 — عقد footer (روابط التواصل على كل صف�
      (واتساب/بريد/اجتماعية)، والرئيسية تحمل LandingFooter (أعمدة الرحلة
      الحقيقية + المنتجان الخارجيان + القانونية). عقد كل سطح على حقيقته. */
   for (const p of PAGES.filter((x) => x.path !== "/")) {
-    test(`${p.path} — واتساب/بريد/قانونية/منتجان بـ target وrel (فوتور المنتج)`, async ({ page }) => {
+    test(`${p.path} — واتساب/قانونية/منتجات الثلاثة بـ target وrel، وبلا بريد no-reply معلن (فوتور المنتج)`, async ({ page }) => {
       await page.goto(p.path, { waitUntil: "domcontentloaded" })
       const footer = page.getByRole("contentinfo")
 
@@ -58,11 +58,12 @@ test.describe("r9 — عقد footer (روابط التواصل على كل صف�
       await expect(wa).toHaveAttribute("target", "_blank")
       await expect(wa).toHaveAttribute("rel", "noopener noreferrer")
 
-      // البريد — r126: الهوية العامة على نطاق الموقع (SITE.email)
-      await expect(footer.locator('a[href^="mailto:"]').first()).toHaveAttribute(
-        "href",
-        /mailto:noreply@smart-link\.ly/
-      )
+      // البريد — W6-B2 (صدق القنوات، تدقيق W6-A2 P2): لا يُعلَن بريد
+      // no-reply قناة تواصل بعد الآن (لا صندوق مراقَبًا يمكن التحقق
+      // منه) — القنوات الصادقة: واتساب (أعلاه) + نموذج التواصل
+      // (/contact مرتبط من عمود الروابط السريعة). السالب يمنع عودة
+      // mailto من أي مصدر مستقبلي.
+      await expect(footer.locator('a[href^="mailto:"]')).toHaveCount(0)
 
       // الصفحتان القانونيتان
       await expect(footer.getByRole("link", { name: "سياسة الخصوصية" })).toHaveAttribute("href", "/privacy")

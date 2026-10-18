@@ -12,11 +12,19 @@ export const SITE = {
      from, verified in fromEmail) so no personal Gmail is advertised on
      contact surfaces, JSON-LD or API error fallbacks. The owner's
      personal inbox stays as the PRIVATE notification destination below
-     — it is never rendered. */
+     — it is never rendered.
+     W6-B2 (صدق القنوات — تدقيق W6-A2 P2): هذا العنوان هو هوية
+     الإرسال الآلي على النطاق، لا قناة دعم — لا مصدر يثبت صندوقًا
+     مراقَبًا (اسمه نفسه يقول «لا رد»)، فلم يعد يُعلَن في أي سطح
+     تواصل (البطاقة/التذييل/JSON-LD/رسائل الخطأ/القانونية). القنوات
+     الصادقة المعلنة: واتساب + نموذج التواصل. لو تهيّأ يومًا صندوق
+     بريد مراقَب فتغيير هذا السطر وحده يعيدها في كل مكان (قانون
+     المصدر الواحد r9). */
   email: "noreply@smart-link.ly",
 
   /** Private destination for contact-form notifications (the owner's
-      real inbox). Never displayed — public surfaces render SITE.email. */
+      real inbox). Never displayed — W6-B2: no public surface renders
+      SITE.email anymore (it is the sending identity only). */
   ownerEmail: "ahmedmedo1012@gmail.com",
 
   /** Transactional from-address on the site's OWN domain (r13 — was the

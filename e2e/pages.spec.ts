@@ -98,4 +98,16 @@ test.describe("الدخان — الصفحات الست", () => {
     // وأيضاً: لم تعد أصفاراً مجردة في البطاقات
     expect(html).not.toMatch(/tabular-nums tracking-tight">0</)
   })
+
+  test("W6-B2 — «قصتنا» تروي حقيقة المنتجات الثلاثة الحيّة (لا وعد بخدمات مستقبلية)", async ({ page }) => {
+    /* W6-A2 audit P2: الفقرة الختامية في /about كانت تختم بوعد بخدمات
+       مستقبلية من حقبة المنتجين (قبل r137) بينما إحصاءة الصفحة نفسها
+       تقول «3 منتجات حيّة» — العائلة نفسها التي طهّرتها r137/r143 من
+       كل سطح آخر. العقد: القصة الثلاثية حاضرة إيجابياً، والوعد غائب
+       (عائلة truth-gate W6-B2 تحظر عودة الصياغة في المصدر). */
+    await page.goto("/about", { waitUntil: "networkidle" })
+    const main = await page.locator("main").textContent()
+    expect(main).toContain("ثلاثة منتجات حيّة")
+    expect(main).not.toMatch(/خدمات\s*قادمة/)
+  })
 })

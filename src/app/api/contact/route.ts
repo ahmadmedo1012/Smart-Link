@@ -22,7 +22,10 @@ import {
 
 /* r126 (P4-A3 §3.7): notifications still go to the owner's private
    inbox — SITE.ownerEmail; SITE.email is now the on-domain PUBLIC
-   identity and would be a delivery dead-end as a destination. */
+   identity and would be a delivery dead-end as a destination.
+   W6-B2 (صدق القنوات — تدقيق W6-A2 P2): رسائل الخطأ لم تعد تعلن
+   البريد بديلاً للتواصل — لا صندوق مراقَبًا يمكن التحقق منه؛
+   البديل الحقيقي هو واتساب. */
 const OWNER_EMAIL = SITE.ownerEmail
 /* r13: نطاق المرسل بات في مصدر الحقيقة الواحد مع باقي الثوابت
    التجارية — كان آخر حرف نطاق خارج SITE (route.ts:13). */
@@ -257,7 +260,7 @@ export async function POST(req: Request) {
       return NextResponse.json(
         {
           error:
-            `خدمة البريد غير مهيأة حالياً. تواصل معنا مباشرة عبر واتساب ${SITE.whatsapp.local} أو ${SITE.email}`,
+            `خدمة البريد غير مهيأة حالياً. تواصل معنا مباشرة عبر واتساب ${SITE.whatsapp.local}`,
         },
         { status: 503 }
       )
@@ -300,7 +303,7 @@ export async function POST(req: Request) {
       return NextResponse.json(
         {
           error:
-            `تعذّر إرسال الرسالة مؤقتاً. تواصل معنا مباشرة عبر واتساب ${SITE.whatsapp.local} أو ${SITE.email}`,
+            `تعذّر إرسال الرسالة مؤقتاً. تواصل معنا مباشرة عبر واتساب ${SITE.whatsapp.local}`,
         },
         { status: 502 }
       )
@@ -331,7 +334,7 @@ export async function POST(req: Request) {
     return NextResponse.json(
       {
         error:
-          `حدث خطأ في إرسال الرسالة. تواصل معنا مباشرة عبر واتساب ${SITE.whatsapp.local} أو ${SITE.email}`,
+          `حدث خطأ في إرسال الرسالة. تواصل معنا مباشرة عبر واتساب ${SITE.whatsapp.local}`,
       },
       { status: 500 }
     )

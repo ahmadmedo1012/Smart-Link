@@ -27,15 +27,18 @@ async function ldScripts(page: import("@playwright/test").Page) {
 }
 
 test.describe("JSON-LD — الرئيسية", () => {
-  test("Organization كاملة: بريد صحيح + منظمتان فرعيتان + روابط sameAs", async ({ page }) => {
+  test("Organization كاملة: قناة هاتف صادقة بلا بريد no-reply + ثلاث منظومات فرعية + روابط sameAs", async ({ page }) => {
     await page.goto("/", { waitUntil: "domcontentloaded" })
     const { byType } = await ldScripts(page)
     const org = byType("Organization")[0]
     expect(org).toBeTruthy()
 
-    // انحدار r6: البريد الموحّد عبر كل الأسطح
-    expect(org.contactPoint.email).toBe("noreply@smart-link.ly")
-    expect(org.contactPoint.availableLanguage).toContain("ar")
+    // W6-B2 (صدق القنوات، تدقيق W6-A2 P2): لا email على contactPoint —
+    // noreply@ عنوان إرسال آلي لا قناة دعم؛ الهاتف (واتساب) هو القناة
+    // المعلنة، والدعم بالعربية حصراً ("en" بلا سطح يدعمه — حُذف).
+    expect(org.contactPoint.email).toBeUndefined()
+    expect(org.contactPoint.telephone).toBe("+218910089975")
+    expect(org.contactPoint.availableLanguage).toEqual(["ar"])
     expect(org.url).toBe("https://smart-link.ly")
     expect(org.logo["@type"]).toBe("ImageObject")
 
@@ -56,7 +59,10 @@ test.describe("JSON-LD — الرئيسية", () => {
     const { byType } = await ldScripts(page)
     const lb = byType("LocalBusiness")[0]
     expect(lb).toBeTruthy()
-    expect(lb.priceRange).toBe("$")
+    /* W6-B2 (صدق JSON-LD، تدقيق W6-A2 P3): "$" كان من حقبة «كل شيء
+       مجاني عند الإطلاق» — الحقيقة الحيّة: سلّم 0–299 د.ل (موثّق
+       /pricing + تدقيق W5-A2 صفر انحراف) بعملة المنظومة نفسها. */
+    expect(lb.priceRange).toBe("LYD 0-299")
     expect(lb.image["@type"]).toBe("ImageObject")
     expect(lb.image.url).toBe("https://smart-link.ly/og-smartlink.jpg")
   })

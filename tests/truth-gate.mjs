@@ -22,10 +22,11 @@
  * PRODUCT.md — P21-W3-D). CHANGELOG.md is deliberately NOT walked: it is
  * a historical record whose entries quote dead claims to document their
  * removal — matching there is meta-discussion, not a shipped claim.
- * Roadmap statements that never
- * mention paid plans (e.g. «المزيد من الخدمات قريباً» — intent phrasing,
- * not a commercial-availability claim) are deliberately NOT banned: the
- * mission bans false present-tense facts, not future intent.
+ * Roadmap statements that never promise an unavailable catalog (e.g.
+ * «المزيد من الخدمات قريباً» — pure temporal intent) stay legal, but the
+ * ADJECTIVAL availability promise («خدمات قادمة» — W6-B2 family below)
+ * is banned: the mission bans false present-tense facts and promises of
+ * things that do not exist, not future intent itself.
  */
 import { readdirSync, readFileSync, statSync, existsSync } from "node:fs"
 import { join } from "node:path"
@@ -66,6 +67,24 @@ const DOC_BANNED = [
   /(coming|launching)\s*-?\s*soon\s+paid\s+(plans|tiers|packages)/i,
 ]
 
+/* W6-B2 — the future-SERVICES family. «خدمات قادمة» shipped on /about
+ * from the two-product era (69152c19, 2026-10-08 — three days before
+ * r137 made Smart-Order the third live product) until W6-B2, while the
+ * SAME page's verified stat said «3 منتجات حيّة»: a promise of services
+ * that do not exist, sailing past the paid-plan family above (its
+ * regexes bind قريباً to مدفوعة/باقات). Each pattern below is a real
+ * phrasing that shipped to production once; narrow on purpose —
+ * temporal intent («قريباً») stays legal, the adjectival upcoming-
+ * catalog promise does not. */
+const SERVICES_BANNED = [
+  // «…إلى خدمات قادمة تطمح لتغيير…» (the /about two-product-era promise)
+  /خدمات\s*قادمة/u,
+  // the same shape with «حلول» (solutions) as the noun
+  /حلول\s*قادمة/u,
+  // English surface (metadata/demos/docs)
+  /upcoming\s+services/i,
+]
+
 const EXT = /\.(ts|tsx|js|jsx|mjs|json)$/
 let files = 0
 const hits = []
@@ -93,7 +112,7 @@ const walk = (dir) => {
     }
     if (!EXT.test(entry)) continue
     files += 1
-    scanFile(p, BANNED)
+    scanFile(p, [...BANNED, ...SERVICES_BANNED])
   }
 }
 
@@ -107,14 +126,15 @@ for (const doc of DOC_FILES) {
   const p = join(ROOT, doc)
   if (!existsSync(p)) continue
   files += 1
-  scanFile(p, [...BANNED, ...DOC_BANNED])
+  scanFile(p, [...BANNED, ...DOC_BANNED, ...SERVICES_BANNED])
 }
 
 if (hits.length) {
-  console.error(`✗ truth-gate: ${hits.length} future-paid-plan claim(s) in src/ + curated docs (P14-P0B ban):\n`)
+  console.error(`✗ truth-gate: ${hits.length} future-paid-plan / future-service claim(s) in src/ + curated docs (P14-P0B + W6-B2 bans):\n`)
   for (const h of hits) console.error(`  ${h}`)
   console.error("\nThe fleet's paid plans are LIVE (P13-2a, verified: bot /api/plans, menu /pricing).")
+  console.error("The platform's services are THREE and LIVE (r137/r143) — promising upcoming ones contradicts the same page's own stats.")
   console.error("Fix the claim — do not weaken the gate.")
   process.exit(1)
 }
-console.log(`✓ truth-gate: ${files} files (src/ + 3 curated docs) — zero future-paid-plan claims (P14-P0B ban holds)`)
+console.log(`✓ truth-gate: ${files} files (src/ + 3 curated docs) — zero future-paid-plan and zero future-service claims (P14-P0B + W6-B2 bans hold)`)

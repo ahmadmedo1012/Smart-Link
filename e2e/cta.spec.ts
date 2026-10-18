@@ -23,6 +23,23 @@ test.describe("r10 — أزرار التحويل (hero)", () => {
       .toBeLessThan(200)
   })
 
+  /* W6-B2 (توصيل الرصاصة — تدقيق W6-A2 1g): رصاصة «تواصل واتساب مباشر»
+     كانت نصاً خاماً في شريط الهيرو — الدوم المصيَّر للرئيسية كان بلا أي
+     رابط wa.me (السائح الليبي الواتسابي يحتاج نقرتين عبر /contact).
+     العقد: الرصاصة رابط wa.me حقيقي بفتّاحة معبأة (عرف r134) مع
+     اصطلاح الروابط الخارجية — يمتد عقد r9 ولا يضعفه. */
+  test("W6-B2 — «تواصل واتساب مباشر» (رصاصة الهيرو) → رابط wa.me بفتّاحة معبأة وtarget/rel آمنين", async ({ page }) => {
+    /* P16-4a (fit pass): على الشاشات القصيرة (ارتفاع < 960px) يطوى شريط
+       الهيرو كله (حقائقه الثلاث تعيش في الماركي والتذييل أيضاً) — الفحص
+       على إطارٍ طويل يجعل الرصاصة مرئية وقابلة للنقر كما تُصيَّر فعلاً. */
+    await page.setViewportSize({ width: 1280, height: 1024 })
+    await page.goto("/", { waitUntil: "domcontentloaded" })
+    const wa = page.locator(".ln-hero-meta").getByRole("link", { name: /تواصل واتساب مباشر/ })
+    await expect(wa).toHaveAttribute("href", /^https:\/\/wa\.me\/218910089975\?text=/)
+    await expect(wa).toHaveAttribute("target", "_blank")
+    await expect(wa).toHaveAttribute("rel", "noopener noreferrer")
+  })
+
   test("«عن SmartLink» (فوتر ال landing) → /about بعنوان h1 صحيح", async ({ page }) => {
     await page.goto("/", { waitUntil: "domcontentloaded" })
     await page.getByRole("contentinfo").getByRole("link", { name: "عن SmartLink" }).click()

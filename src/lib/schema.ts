@@ -94,25 +94,34 @@ export function organizationJsonLd() {
       },
     ],
     contactPoint: {
-      "@type": "ContactPoint",
       /* r6: was "ahmad..." — every other surface (API owner inbox,
          footer, contact page, terms/privacy, the plan doc) uses
          "ahmed..." and the GitHub login is ahmadmedo1012 — one
-         transposed letter was shipping to crawlers via JSON-LD. */
-      email: SITE.email,
+         transposed letter was shipping to crawlers via JSON-LD.
+         W6-B2 (صدق القنوات — تدقيق W6-A2 P3): لا مفتاح email هنا —
+         noreply@ هو عنوان الإرسال الآلي لا قناة دعم؛ contactPoint
+         يعِد بما يمكن التحقق منه فقط: الهاتف (واتساب) بالعربية. */
+      "@type": "ContactPoint",
       telephone: `+${SITE.whatsapp.number}`,
       contactType: "customer service",
-      availableLanguage: ["ar", "en"],
+      /* W6-B2: "en" حُذف — لا سطح عام يقدّم دعماً بالإنجليزية
+         (الموقع عربي بالكامل؛ ادعاء اللهجة الليبية في البوت
+         موثّق من مصدره). */
+      availableLanguage: ["ar"],
     },
     sameAs: [SITE.social.facebook, SITE.social.instagram],
     /* r10 (SEO audit P2): LocalBusiness completeness per Google's local
-       business docs — priceRange (everything is free at launch → "$") and
-       an image. sameAs now points at the REAL identity profiles (the
-       Facebook/Instagram accounts already in SITE.social) instead of a
-       wa.me link and the product domains — the products are already
-       modeled by subOrganization + Service, and Google documents sameAs
-       as the place to link a entity to its official profiles. */
-    priceRange: "$",
+       business docs — priceRange and an image. sameAs now points at the
+       REAL identity profiles (the Facebook/Instagram accounts already in
+       SITE.social) instead of a wa.me link and the product domains — the
+       products are already modeled by subOrganization + Service, and
+       Google documents sameAs as the place to link a entity to its
+       official profiles.
+       W6-B2 (صدق JSON-LD — تدقيق W6-A2 P3): "$" كان من حقبة «كل شيء
+       مجاني عند الإطلاق» (ورمزًا أمريكيًا على عملٍ بالدينار) — الحقيقة
+       الحيّة: سلّم 0–299 د.ل على منصّات المنتجات الثلاثة (موثّق
+       /pricing + تدقيق W5-A2 صفر انحراف). */
+    priceRange: "LYD 0-299",
     image: {
       "@type": "ImageObject",
       url: `${SITE.url}/og-smartlink.jpg`,

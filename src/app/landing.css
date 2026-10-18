@@ -1005,6 +1005,18 @@
 }
 .landing .ln-hero-meta li { display: inline-flex; align-items: center; gap: 12px; padding-block: 6px; }
 .landing .ln-hero-meta li svg { color: var(--ln-cream-dim); }
+/* W6-B2 (truth wiring): the WhatsApp meta bullet is a real wa.me link
+   (the r134 prefilled-opener convention) — the anchor carries the li's
+   own inline-flex rhythm (gap: inherit keeps the ≤560px 8px twin) and
+   inherits the meta cream, so the wiring changes behavior, not pixels.
+   Hover joins the canonical P4-13 underline device. */
+.landing .ln-hero-meta li a {
+  display: inline-flex;
+  align-items: center;
+  gap: inherit;
+  color: inherit;
+}
+.landing .ln-hero-meta li a:hover { text-decoration: underline; text-underline-offset: 4px; }
 .landing .ln-hero-meta-dot {
   inline-size: 3px;
   block-size: 3px;

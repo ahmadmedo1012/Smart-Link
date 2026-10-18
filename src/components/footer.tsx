@@ -1,6 +1,6 @@
 import Link from "next/link"
 import Image from "next/image"
-import { Smartphone, Bot, ShoppingBag, Mail, MapPin, Globe, MessageCircle, Share2 } from "lucide-react"
+import { Smartphone, Bot, ShoppingBag, MapPin, Globe, MessageCircle, Share2 } from "lucide-react"
 import { BackToTop } from "@/components/back-to-top"
 import { CurrentYear } from "@/components/current-year"
 import { SITE, whatsappUrl } from "@/lib/site"
@@ -140,12 +140,11 @@ export function Footer() {
                 (was the last «اتصل بنا» heading on the site). */}
             <h3 className="text-sm font-bold text-foreground mb-4">تواصل معنا</h3>
             <ul className="space-y-3">
-              <li className="flex items-center gap-2 text-sm text-muted-foreground">
-                <div className="w-8 h-8 rounded-lg bg-[var(--accent-soft)] flex items-center justify-center shrink-0">
-                  <Mail className="w-3.5 h-3.5 text-[var(--accent-strong)]" />
-                </div>
-                <a href={`mailto:${SITE.email}`} className="hover:text-foreground transition-colors inline-flex items-center py-3 rounded hover:underline decoration-2 underline-offset-4">{SITE.email}</a>
-              </li>
+              {/* W6-B2 (صدق القنوات — تدقيق W6-A2 P2): صف البريد رحل — كان
+                  يعد بـ noreply@smart-link.ly كقناة تواصل بينما لا مصدر
+                  يثبت صندوقاً مراقباً (الاسم نفسه «لا رد»). القنوات
+                  الصادقة في التذييل: واتساب (الرابط المباشر أدناه) +
+                  «تواصل معنا» في عمود الروابط السريعة. */}
               <li className="flex items-center gap-2 text-sm text-muted-foreground">
                 <div className="w-8 h-8 rounded-lg bg-[var(--accent-soft)] flex items-center justify-center shrink-0">
                   <MapPin className="w-3.5 h-3.5 text-[var(--accent-strong)]" />

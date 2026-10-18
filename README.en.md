@@ -10,9 +10,9 @@
 
 **Live site:** <https://smart-link.ly> · **Support:** WhatsApp during office hours (9am–9pm)
 
-![SmartLink landing page — the three-line Kufi type-block lockup with the ascending chain sculpture behind it](docs/screenshots/hero-landing.webp)
+![SmartLink landing page — the Madarek-night sky and the living constellation under the headline (a historical pre-r160 capture)](docs/screenshots/hero-landing.webp)
 
-*The hero shot is from the pre-r160 era (Madarek Night) — re-capturing on the current KODE build is deferred to the visual-verification wave; see [CAPTIONS.md](docs/screenshots/CAPTIONS.md).*
+*The hero shot is from the pre-r160 era (Madarek Night: the living EcosystemConstellation — an engine retired by r160) — re-capturing on the current KODE build is deferred to the visual-verification wave; see [CAPTIONS.md](docs/screenshots/CAPTIONS.md).*
 
 ## What is this?
 
@@ -62,13 +62,13 @@ The site is Arabic-first (fully RTL), ships a dark/light theme, and is built to 
      was r130/r138). Not re-captured since r160 (KODE) — re-capture is
      deferred to the visual-verification wave; see CAPTIONS.md. -->
 
-![Pricing page — the Smart Menu, SmartBot and Smart Order cards on the free basic plan](docs/screenshots/pricing-plans.png)
+![Pricing page — the three product cards with their feature lists and start buttons (a historical capture: pre-r160, pre-P13-2a, pre-P19-A)](docs/screenshots/pricing-plans.png)
 
-*The pricing page: the three product cards with per-plan features and direct start buttons.*
+*The pricing page — a historical capture: the three foreshadow-well cards, but the pixels predate P13-2a (no live-ecosystem ladder chapter) and P19-A (the SmartBot card still shows the six marketing bullets later replaced with catalog-truth features) — re-capture is deferred to the visual-verification wave.*
 
-![The pricing-page FAQ — an accordion with one question expanded](docs/screenshots/pricing-faq.png)
+![The pricing-page FAQ — an accordion with one question expanded and the site footer (a historical capture: pre-r160, pre-P13-2a)](docs/screenshots/pricing-faq.png)
 
-*The FAQ accordion (one question open) and the site footer with its links and contact channels.*
+*The FAQ accordion (one question open) and the site footer — a historical capture that predates the P13-2a FAQ rewrite (the pixels carry the older answer wording); re-capture is deferred to the visual-verification wave.*
 
 > Full captions and sources in [docs/screenshots/CAPTIONS.md](docs/screenshots/CAPTIONS.md).
 
@@ -128,7 +128,7 @@ src/
 ├── components/        # Client islands (ChainSculpture, form, accordion…) and server components
 ├── emails/            # react-email templates for notification & confirmation
 └── lib/               # site.ts (the single source of truth for figures/links) + seo.ts + schema.ts
-e2e/                  # E2E suite — 23 spec files (Playwright + axe-core)
+e2e/                  # E2E suite — 25 spec files (Playwright + axe-core)
 tests/parity.mjs      # KODE token parity snapshot (plain node)
 docs/                 # Reports + screenshots
 public/               # Self-hosted fonts + icons + sw.js + manifest
@@ -145,7 +145,7 @@ public/               # Self-hosted fonts + icons + sw.js + manifest
 
 ## Testing
 
-An in-repo E2E suite — **23 spec files** under `e2e/`, run against a production build (`next start`) via Playwright + axe-core, alongside the **KODE token parity snapshot** enforced in CI (counts grow every round — see [CHANGELOG.md](CHANGELOG.md)):
+An in-repo E2E suite — **25 spec files** under `e2e/`, run against a production build (`next start`) via Playwright + axe-core, alongside the **KODE token parity snapshot** enforced in CI (counts grow every round — see [CHANGELOG.md](CHANGELOG.md)):
 
 - **Smoke**: pages + 404 (200/RTL/h1/title/zero console errors) and the stat counters.
 - **Behavior**: mobile menu, dropdown, theme toggle, back-to-top, touch & devices (320px and up).

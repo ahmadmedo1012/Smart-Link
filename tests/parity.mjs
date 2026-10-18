@@ -1820,8 +1820,8 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
     'r16 prose: pricing subtitle/period/features ride --fs-body (zero code text-sm; P13-2a: 3 → 6 — the live-ecosystem mini-tables add subtitle/plan-name/period-note on the same rung)');
   check(count(footerProd, FS_BODY) === 1,
     'r16 prose: footer brand blurb rides --fs-body');
-  check(count(footerProd, /\btext-sm\b/g) === 8,
-    'r16 chrome freeze: footer keeps EXACTLY its 8 sanctioned 14px chrome sites (heads/links/contact rows)');
+  check(count(footerProd, /\btext-sm\b/g) === 7,
+    'r16 chrome freeze: footer keeps EXACTLY its 7 sanctioned 14px chrome sites (heads/links/contact rows; W6-B2: 8 → 7 — the email contact row retired with the no-reply channel claim)');
   check(count(mainNav, /\btext-sm\b/g) === 6,
     'r16 chrome freeze: main-nav keeps EXACTLY its 6 sanctioned 14px chrome sites (nav/megamenu/mobile)');
   check(count(contactForm, /\btext-sm\b/g) === 7 && count(contactForm, /\btext-base\b/g) === 1,
@@ -1883,8 +1883,9 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
   const site144 = read('lib/site.ts');
   const eco144 = read('components/landing/ChainSculpture.tsx'); /* r160: the sculpture carries the canvas-semantics twin */
   check(
-    count(page144, /تواصل واتساب مباشر/g) === 2 && !page144.includes('24/7'),
-    'r144 claims: the homepage carries the TRUE WhatsApp claim twice (hero meta + marquee) and the unverifiable «دعم واتساب 24/7» promise is gone (comments stripped)'
+    count(page144, /تواصل واتساب مباشر/g) === 3 && !page144.includes('24/7')
+      && page144.includes('whatsappUrl("هيرو الرئيسية")'),
+    'r144/W6-B2 claims: the homepage carries the TRUE WhatsApp claim (hero meta + marquee) with the hero bullet WIRED to the prefilled wa.me opener (r134 convention — W6-B2, the W6-A2 1g inert-text fix), and the unverifiable «دعم واتساب 24/7» promise is gone (comments stripped)'
   );
   check(
     platforms144.includes('tag: "INSTANT"') && !platforms144.includes('tag: "24/7"')
@@ -2681,6 +2682,59 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
   );
 }
 
+/* ═══ W6-B2 · the truth & evidence pass — the W6-A2 audit's P2/P3 claim
+   findings become contracts (comment-aware reads — the W6-B2 decision
+   comments cite the retired claims as history) ═════════════════════ */
+{
+  const read = (p) => {
+    const raw = readFileSync(new URL(`../src/${p}`, import.meta.url), 'utf8');
+    return raw.replace(/\/\*[\s\S]*?\*\//g, ' ').replace(/\/\/.*$/gm, ' ');
+  };
+  const about = read('app/about/page.tsx');
+  const contact = read('app/contact/page.tsx');
+  const footer = read('components/footer.tsx');
+  const contactForm = read('components/contact-form.tsx');
+  const schema = read('lib/schema.ts');
+  const landingFaq = read('components/landing/LandingFaq.tsx');
+  const landingCssW6 = readFileSync(new URL('../src/app/landing.css', import.meta.url), 'utf8');
+
+  // 1 ── about: the three-live-products story. The «خدمات قادمة»
+  //     two-product-era promise (W6-A2 P2, unchanged since 69152c19)
+  //     contradicted the same page's own «3 منتجات حيّة» stat.
+  check(
+    about.includes('ثلاثة منتجات حيّة') && !/خدمات\s*قادمة/.test(about)
+      && about.includes('دعم اللهجة الليبية'),
+    'W6-B2 about-truth: قصتنا closes on the three-live-products reality (the future-services promise is gone — the truth-gate walks it too; this pin binds the page itself) and the values card states the verified SINGULAR Libyan-dialect claim (the FAQ twin, r144-verified against enhanced_intent.py)'
+  );
+  // 2 ── channel truth: NO surface advertises the no-reply address as a
+  //     contact channel — WhatsApp + the form are the responsive ones.
+  check(
+    !footer.includes('mailto:') && !contact.includes('mailto:') && !contactForm.includes('mailto:'),
+    'W6-B2 channel-truth: footer/contact/form carry ZERO mailto: links — noreply@smart-link.ly is the transactional from-address, never a promised support channel (W6-A2 P2)'
+  );
+  // 3 ── the landing FAQ's support answer names the two real channels
+  //     (it flows into the FAQPage JSON-LD — the old answer promised
+  //     email support with no backed inbox).
+  check(
+    landingFaq.includes('نقدم الدعم الفني عبر واتساب مباشرةً أو من خلال نموذج التواصل')
+      && !/طرق الدعم[^"]*البريد الإلكتروني/.test(landingFaq),
+    'W6-B2 FAQ-truth: the support-channels answer promises WhatsApp + the contact form only — the email-support promise is retired from the answer AND its FAQPage JSON-LD twin'
+  );
+  // 4 ── JSON-LD micro-truth: the LYD price range + Arabic-only service.
+  check(
+    schema.includes('priceRange: "LYD 0-299"') && schema.includes('availableLanguage: ["ar"]')
+      && !/availableLanguage: \["ar", "en"\]/.test(schema),
+    'W6-B2 JSON-LD-truth: priceRange states the live LYD ladder (0-299 — the free-at-launch "$" era is over) and contactPoint service is Arabic-only (["ar"] — the unbacked "en" is gone)'
+  );
+  // 5 ── the hero WhatsApp bullet stays a real link with the li rhythm
+  //     (the wiring changes behavior, not pixels).
+  check(
+    /\.landing \.ln-hero-meta li a\s*\{[^}]*gap:\s*inherit/.test(landingCssW6)
+      && /\.landing \.ln-hero-meta li a:hover\s*\{[^}]*text-underline-offset:\s*4px/.test(landingCssW6),
+    'W6-B2 hero-wiring: the meta anchor carries the li rhythm (gap: inherit — the mobile 8px twin) and the canonical underline hover — the WhatsApp bullet is a link that changes zero pixels'
+  );
+}
+
 if (failures.length > 0) {
   console.error(`✗ KODE parity snapshot FAILED (${failures.length} assertion(s)):`);
   for (const f of failures) console.error(`  • ${f}`);
@@ -2737,8 +2791,17 @@ if (failures.length > 0) {
    night-grey, hero fold (1280 measure + min-inline-size: 0 RTL-clip
    guard + nowrap + the (100svh−400px)/3.24 height budget), the scroll
    cue offset sweep, the stat-unit word-space, the FAQ future-
-   horizon ban, and the contact select placeholder grade. */
-const EXPECTED_ASSERTIONS = 568;
+   horizon ban, and the contact select placeholder grade.
+   W6-B2 (truth & evidence pass): 568 → 573 — the W6-A2 audit's claim
+   findings become contracts: the about three-live-products story (+ the
+   singular Libyan-dialect values card), the channel truth (zero mailto:
+   on footer/contact/form), the landing-FAQ support-channels answer, the
+   JSON-LD LYD priceRange + Arabic-only contactPoint, and the hero
+   WhatsApp bullet's wiring. The r144 WhatsApp-claim pin was re-truthed
+   in place (2 → 3 occurrences: the bullet is now a link) and the r16
+   footer chrome-site count re-truthed (8 → 7: the email row retired
+   WITH the channel claim — both intentional, both same-commit). */
+const EXPECTED_ASSERTIONS = 573;
 check(
   passed + 1 === EXPECTED_ASSERTIONS,
   `self-count: the suite must run exactly ${EXPECTED_ASSERTIONS} assertions (ran ${passed + 1}) — bump EXPECTED_ASSERTIONS with every intentional pin change`

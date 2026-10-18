@@ -324,12 +324,14 @@ export function ContactForm() {
               mode on the tinted error background — foreground/80 clears
               10:1 (the links after it keep their primary-text color). */}
           <span className="block mt-2 text-[length:var(--fs-xs)] text-foreground/80">
+              {/* W6-B2 (صدق القنوات — تدقيق W6-A2 P2): رابط البريد رُحّل —
+                  noreply@ لا يملك صندوقًا مراقَبًا يمكن التحقق منه؛ البديل
+                  الحقيقي الوحيد عند فشل الإرسال هو واتساب المباشر. «واتساب»
+                  تبقى داخل الرابط نفسه (اسم متاح كامل للمستمع، عقد
+                  a11y-states/sim-adversarial). */}
               أو تواصل مباشرة:{" "}
               <a href={whatsappUrl("نموذج التواصل")} className="underline underline-offset-2" style={{ color: "var(--primary-text)" }}>
                 واتساب <span dir="ltr">{SITE.whatsapp.display}</span>
-              </a>{" "}·{" "}
-              <a href={`mailto:${SITE.email}`} className="underline underline-offset-2" style={{ color: "var(--primary-text)" }}>
-                {SITE.email}
               </a>
             </span>
         </div>

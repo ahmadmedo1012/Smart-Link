@@ -8,7 +8,7 @@
 import "./landing.css"
 import { Check, MessageCircle, Languages } from "lucide-react"
 import { RevealCssClass } from "@/hooks/useReveal"
-import { SITE } from "@/lib/site"
+import { SITE, whatsappUrl } from "@/lib/site"
 import { LandingHeader } from "@/components/landing/LandingHeader"
 import { ChainSculptureMount } from "@/components/landing/ChainSculptureMount"
 import { MagneticGoldLink } from "@/components/landing/MagneticGoldLink"
@@ -125,8 +125,22 @@ export default function Home() {
               <li><Check size={12} aria-hidden="true" /> بدون بطاقة ائتمان</li>
               <li aria-hidden="true" className="ln-hero-meta-dot" />
               {/* r144 (صدق P4-4SL): بلا وعد «24/7» — القناة نفسها هي
-                  الحقيقة القابلة للتحقق (wa.me بفتّاحة مصدرها، site.ts). */}
-              <li><MessageCircle size={12} aria-hidden="true" /> تواصل واتساب مباشر</li>
+                  الحقيقة القابلة للتحقق (wa.me بفتّاحة مصدرها، site.ts).
+                  W6-B2 (توصيل الرصاصة — تدقيق W6-A2 1g): الرصاصة كانت
+                  نصاً خاماً يعِن بال مباشرة لا يوصلها — الآن رابط wa.me
+                  حقيقي بفتّاحة معبأة (عرف r134) واصطلاح الروابط
+                  الخارجية (target/rel/aria)، بلا تغيير بكسلي واحد
+                  (قاعدة landing.css §2 تحمل إيقاع الـli نفسه). */}
+              <li>
+                <a
+                  href={whatsappUrl("هيرو الرئيسية")}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="تواصل واتساب مباشر — رابط خارجي"
+                >
+                  <MessageCircle size={12} aria-hidden="true" /> تواصل واتساب مباشر
+                </a>
+              </li>
               <li aria-hidden="true" className="ln-hero-meta-dot" />
               <li><Languages size={12} aria-hidden="true" /> واجهة عربية بالكامل</li>
             </RevealCssClass>

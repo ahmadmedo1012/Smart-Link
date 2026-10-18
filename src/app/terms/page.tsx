@@ -1,7 +1,8 @@
 // Server Component: legal text needs zero client JS (removes ~800ms script
 // evaluation that was a top TBT source on this page).
+import Link from "next/link"
 import { pageMetadata } from "@/lib/seo"
-import { SITE } from "@/lib/site"
+import { SITE, whatsappUrl } from "@/lib/site"
 import { breadcrumbJsonLd } from "@/lib/schema"
 /* r144 (P4-4SL): ختم المحتوى من المصدر الوحيد (يقرؤه الـ sitemap أيضًا). */
 import { LEGAL_UPDATED } from "@/lib/content-dates"
@@ -152,10 +153,23 @@ export default function TermsPage() {
 
           <section id="contact-terms">
             {/* r134 (R134-W1-SL copy P2): unified on r9's «تواصل معنا»
-                (the audit's sweep missed this third leftover). */}
+                (the audit's sweep missed this third leftover).
+                W6-B2 (صدق القنوات — تدقيق W6-A2): القسم كان يوجّه
+                الاستفسارات القانونية إلى noreply@ (عنوان إرسال آلي لا
+                صندوقًا مراقَبًا) — القناتان الصادقتان: واتساب (رابط
+                مُعبّأ وفق عرف r134) + نموذج التواصل. */}
             <h2 className="text-[length:var(--fs-h2)] font-bold text-foreground mt-6 mb-2">تواصل معنا</h2>
-            <p>لأي استفسارات بخصوص شروط الاستخدام، يرجى التواصل عبر البريد الإلكتروني على:</p>
-            <p className="mt-1 font-medium text-foreground">{SITE.email}</p>
+            <p>لأي استفسارات بخصوص شروط الاستخدام، يرجى التواصل معنا مباشرة عبر واتساب على الرقم:</p>
+            <p className="mt-1 font-medium">
+              <a href={whatsappUrl("صفحة الشروط")} target="_blank" rel="noopener noreferrer" dir="ltr" className="text-primary-text underline underline-offset-4 inline-flex min-h-6 items-center">{SITE.whatsapp.display}</a>
+            </p>
+            {/* W6-B2 a11y twins: (١) كلا الرابطين الجديدين يحمل التسطير
+                الدائم + لون primary-text — اصطلاح رابط النثر نفسه في
+                نموذج التواصل (r13 a11y audit) — كي لا يعتمد التمييز على
+                اللون وحده. (٢) كلاهما inline-flex بحد أدنى 24px
+                (WCAG 2.5.8 — قاعدة الجرد في sim-touch-targets: صفر هدف
+                صغير؛ سطر النثر 25.5px فيستوعب الأرضية بلا أي انزياح). */}
+            <p className="mt-2">أو أرسل استفسارك عبر نموذج التواصل في <Link href="/contact" className="text-primary-text underline underline-offset-4 inline-flex min-h-6 items-center">صفحة تواصل معنا</Link>.</p>
           </section>
         </div>
       </div>

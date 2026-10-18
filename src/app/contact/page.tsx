@@ -1,4 +1,4 @@
-import { Mail, MessageCircle, MapPin, Clock } from "lucide-react"
+import { MessageCircle, MapPin, Clock } from "lucide-react"
 import { GenArtBackground } from "@/components/gen-art-background"
 /* r128 F2b: the shared product chrome moved out of the RootLayout
    (the landing owns its own world now) — this page renders it itself. */
@@ -53,9 +53,13 @@ const breadcrumbLd = breadcrumbJsonLd([
 
 /* r134 (R134-W2-SL fix 8): the WhatsApp card carries the prefilled
    wa.me opener (surface: صفحة التواصل) — the bare link opened a blank
-   chat. */
+   chat.
+   W6-B2 (صدق القنوات — تدقيق W6-A2 P2): بطاقة البريد رحلت — كانت
+   تعلن noreply@smart-link.ly قناة تواصل بينما الاسم نفسه يقول
+   «لا رد» ولا مصدر يثبت صندوقاً مراقباً. القناتان الصادقتان (كلاهما
+   في هذه الصفحة): واتساب المباشر + النموذج — جزيرة النموذج على يمين
+   البطاقات هي القناة الثانية أصلاً. */
 const contacts = [
-  { icon: Mail, title: "البريد الإلكتروني", desc: SITE.email, href: `mailto:${SITE.email}` },
   { icon: MessageCircle, title: "واتساب", desc: "تواصل مباشر مع المؤسس", href: whatsappUrl("صفحة التواصل") },
   { icon: MapPin, title: "الموقع", desc: SITE.address },
   { icon: Clock, title: "أوقات الدعم", desc: "واتساب ومكتب · 9 صباحاً — 9 مساءً" },

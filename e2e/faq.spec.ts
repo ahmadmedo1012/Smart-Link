@@ -83,4 +83,21 @@ test.describe("أسئلة JSON — أكورديون الرئيسية و/الأس
       }
     }
   })
+
+  /* W6-B2 (صدق القنوات — تدقيق W6-A2 P2): الجواب كان يعِد بالبريد
+     الإلكتروني قناة دعم بينما العنوان المعلن noreply@ (لا صندوق
+     مراقَبًا يمكن التحقق منه). العقد الجديد: القناتان الصادقتان
+     (واتساب + نموذج التواصل) حاضرتان إيجابياً، والوعد البريدي غائب —
+     والنص نفسه يتدفق إلى FAQPage JSON-LD فالعقد يحمي الزواحف أيضاً. */
+  test("/ — جواب قنوات الدعم يعِد بالقنوات الصادقة فقط (W6-B2)", async ({ page }) => {
+    await page.goto("/", { waitUntil: "networkidle" })
+    const texts = await page.locator("details.ln-faq-item .ln-faq-a").allTextContents()
+
+    const supportAnswer = texts.find((t) => t.includes("نموذج التواصل"))
+    expect(supportAnswer, "جواب قنوات الدعم موجود").toBeTruthy()
+    // القناتان الحقيقيتان: واتساب + النموذج
+    expect(supportAnswer).toContain("واتساب")
+    // لا وعد ببريد لا يملك صندوقًا مراقَبًا
+    expect(supportAnswer).not.toContain("البريد الإلكتروني")
+  })
 })

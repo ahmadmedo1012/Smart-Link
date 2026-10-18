@@ -32,9 +32,9 @@ delivery and local payments — a first-class product since r137).
 
 | Route | Role |
 |---|---|
-| `/` | The Orbit-Ink landing (r142 «الكوكبة الحية») — hero constellation (interactive canvas engine), worlds chapter (3 editorial product worlds), journey (5 stations + light beam), cockpit (honest published stats), platforms, FAQ, finale CTA |
+| `/` | The KODE landing (r160 «سلسلة») — 3-line Kufi hero lockup + the chain sculpture (drag-rotatable three.js canvas, RM poster frame), broadcast marquee, worlds chapter (3 editorial type-cards), journey flood (5 type-rows), sentence band, cockpit (honest published stats), platforms console, finale CTA, native `<details>` FAQ |
 | `/about` | Company story, values, founder (أحمد خيري), the 3-live-products stat (r143 honest figure) |
-| `/pricing` | The three free plans (Smart Menu / SmartBot / Smart Order) + coming-soon paid tiers (Smart Order's paid tiers live on its own platform) + FAQ |
+| `/pricing` | The three free plan cards (Smart Menu / SmartBot / Smart Order) + the live ecosystem pricing chapter (each product's paid ladder in LYD from 19 د.ل, mirroring the product's own pricing page) + FAQ |
 | `/contact` | Contact cards + the lead-gen form (the site's one form) |
 | `/privacy` · `/terms` | Legal (تواصل معنا contact sections) |
 | `/offline` | SW-served offline page for the installed PWA |
@@ -55,8 +55,10 @@ delivery and local payments — a first-class product since r137).
    (`whatsappUrl(surface)` — footer · contact page · form error box ·
    offline page · confirmation email), so chats arrive source-identified.
 
-Support identity: WhatsApp 24/7 (display `+218 91 008 9975`, one format,
-`dir="ltr"` isolated) · office 9-to-9 · public email on the owned domain
+Support identity: WhatsApp (display `+218 91 008 9975`, one format,
+`dir="ltr"` isolated) answered by the office-hours team 9-to-9 — no 24/7
+rota exists (r144 honesty ruling; the bot's *automation* alone runs
+around the clock) · public email on the owned domain
 (noreply@smart-link.ly; the private notification inbox lives only in
 `SITE.ownerEmail`, never rendered).
 
@@ -69,10 +71,12 @@ Support identity: WhatsApp 24/7 (display `+218 91 008 9975`, one format,
   never iframed/mirrored.
 - The lead path must never fail silently: server errors surface loudly
   (fail-loud 503/502) with WhatsApp/email fallbacks in the error box.
-- Free-tier positioning: all three products start free, no credit card
-  (the Smart Menu/SmartBot paid tiers are coming-soon and must never be
-  claimed as live; Smart Order's own paid tiers are live on its platform,
-  never priced here).
+- Free-tier positioning: all three products start free, no credit card.
+  The paid ladders are LIVE on each product's own platform in Libyan
+  dinars (from 19 د.ل — bot `/api/plans`, menu `/pricing`, order
+  `/api/plans`; P13-2a verified). This site mirrors those ladders and
+  links out — it never prices a plan of its own (the hub sells the free
+  tier only).
 
 ## Voice
 
@@ -82,7 +86,7 @@ corporate. The landing speaks in short chapter arcs («كلُّ عملٍ يبد�
 
 ## Evidence
 
-- Parity snapshot `tests/parity.mjs` (525 assertions, self-counted — the suite fails if its own size drifts) pins the design
+- Parity snapshot `tests/parity.mjs` (568 assertions, self-counted — the suite fails if its own size drifts) pins the design
   system; e2e suite (Playwright, Arabic specs) covers conversion CTAs,
   the contact contract, SEO/OG shape, a11y, RTL, PWA/offline and
   adversarial journeys. Lighthouse r14 history: avg 93.5, best LCP 1.67s.

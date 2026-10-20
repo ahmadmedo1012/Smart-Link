@@ -173,6 +173,13 @@ Next.js 16 App Router, RTL Arabic, Tailwind CSS v4.
 - **Evidence layer**: `docs/screenshots/phase9/` (6 files, 2.4MB) DELETED — zero references repo-wide (grep) and pixel-proven pre-KODE (indigo Madarek cast, 0 orange — the W6-A2 probe); README alt texts re-truthed to describe the actual Madarek-era pixels (the old alt described the KODE design over pixels that don't show it), and the two pricing shots' claim eras (pre-P13-2a / pre-P19-A) are documented in CAPTIONS.md. Re-capture on the current build remains the coordinator's visual-verification task.
 - **Parity 568 → 573** (5 new truth pins + the r144 WhatsApp-claim pin re-truthed 2 → 3 + the r16 footer chrome-site count re-truthed 8 → 7 — the email row retired WITH its claim); **e2e 327 → 330** (the hero WhatsApp link, the about three-products story, the FAQ support-channels answer); **truth-gate: the W6-B2 future-services family joins the sweep (57 files walked, zero violations)**.
 
+
+## W7-A + W7-E additions (P21-W7 — القاعدة الجديدة تعلّم، والأدلة تلحق بالحاضر)
+
+- **axe 4.14 rides in main's CI**: the `@axe-core/playwright` bump (4.13→4.14) landed IN THE SAME COMMIT as the fixes for its new `label-content-name-mismatch` rule (serious, WCAG 2.5.3 Label in Name) — three real defects it exposed: the hero scroll cue's aria-label («تابع الرحلة») hid its visible «SCROLL — تصفّح»; the nav + footer brand links carried aria-labels («SmartLink — الرئيسية») that masked their visible text. Law applied: an element's accessible name must CONTAIN its visible text — the brand links now take their names from visible content (the main-nav.tsx:184 doctrine), and the scroll cue's name carries its visible text verbatim. NEVER pin @axe-core below a rule the ecosystem ships — bump + fix together.
+- **dependabot discipline**: PR #15 (the minor-and-patch group ×12, rebased post-fix) SQUASH-MERGED green; majors (typescript 7, eslint 10) stay open with maintainer rationale comments — majors are migration waves, never patch waves.
+- **W7-E — the visual-evidence debt closed**: the three README captures (hero/pricing-ladders/pricing-faq) are now CURRENT-BUILD pixels (2f3dd1b, Playwright 1440px, night default, 2026-10-20), vision-model-verified ON TOP OF byte-audit — quoted strings in CAPTIONS come from the served DOM because VLMs misread Kufi (byte-truth doctrine). The historical-era notes remain in CAPTIONS.md as documented past. RULE: a README screenshot must describe pixels a visitor can actually see on the deployed build; when the design changes epoch, the re-capture is a FIRST-class task, not an open-ended deferral.
+
 <!-- BEGIN:nextjs-agent-rules -->
 
 # This is NOT the Next.js you know

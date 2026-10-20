@@ -10,9 +10,9 @@
 
 **Live site:** <https://smart-link.ly> · **Support:** WhatsApp during office hours (9am–9pm)
 
-![SmartLink landing page — the Madarek-night sky and the living constellation under the headline (a historical pre-r160 capture)](docs/screenshots/hero-landing.webp)
+![SmartLink landing page — the three-line Kufi headline lockup over the ascending metallic chain sculpture on KODE's near-black stage with white ink and safety orange (a W7-E capture on the current 2f3dd1b build)](docs/screenshots/hero-landing.webp)
 
-*The hero shot is from the pre-r160 era (Madarek Night: the living EcosystemConstellation — an engine retired by r160) — re-capturing on the current KODE build is deferred to the visual-verification wave; see [CAPTIONS.md](docs/screenshots/CAPTIONS.md).*
+*The hero shot on the current KODE build (W7-E, 2026-10-20): the three-line lockup «كلُّ عملٍ يبدأ رابطًا ويصبح منظومةً» and the metallic chain sculpture — the pixels are the deployed present; see [CAPTIONS.md](docs/screenshots/CAPTIONS.md).*
 
 ## What is this?
 
@@ -57,18 +57,17 @@ The site is Arabic-first (fully RTL), ships a dark/light theme, and is built to 
 
 ## Screenshots
 
-<!-- phase6 (P6-2-a4) → P13-2a: all three shots are from the phase-6 build —
-     historical now (Madarek Night + the foreshadow wells; the previous era
-     was r130/r138). Not re-captured since r160 (KODE) — re-capture is
-     deferred to the visual-verification wave; see CAPTIONS.md. -->
+<!-- W7-E (P21-W7, 2026-10-20): all three shots re-captured on the current
+     KODE build (2f3dd1b) — the present is what the texts now describe;
+     the Madarek era stays documented in CAPTIONS.md as history. -->
 
-![Pricing page — the three product cards with their feature lists and start buttons (a historical capture: pre-r160, pre-P13-2a, pre-P19-A)](docs/screenshots/pricing-plans.png)
+![Pricing page — the live plan ladders of the three products with their actual published prices in Libyan dinars on the KODE stage (a W7-E capture on the current 2f3dd1b build)](docs/screenshots/pricing-plans.png)
 
-*The pricing page — a historical capture: the three foreshadow-well cards, but the pixels predate P13-2a (no live-ecosystem ladder chapter) and P19-A (the SmartBot card still shows the six marketing bullets later replaced with catalog-truth features) — re-capture is deferred to the visual-verification wave.*
+*The «باقات حيّة بالدينار الليبي» chapter — 0/19/29/129/299 LYD per product, read live from the database (W7-E, 2026-10-20): the pixels show exactly the prices being served.*
 
-![The pricing-page FAQ — an accordion with one question expanded and the site footer (a historical capture: pre-r160, pre-P13-2a)](docs/screenshots/pricing-faq.png)
+![The pricing-page FAQ — the accordion with its first question «هل الخدمة مجانية حقاً؟» open by default (a W7-E capture on the current 2f3dd1b build)](docs/screenshots/pricing-faq.png)
 
-*The FAQ accordion (one question open) and the site footer — a historical capture that predates the P13-2a FAQ rewrite (the pixels carry the older answer wording); re-capture is deferred to the visual-verification wave.*
+*The «أسئلة شائعة» accordion (W7-E, 2026-10-20): the first question open by default with the current P13-2a answer wording — «نعم، لكل منتج خطة مجانية حقيقية تُفعَّل فورًا».*
 
 > Full captions and sources in [docs/screenshots/CAPTIONS.md](docs/screenshots/CAPTIONS.md).
 

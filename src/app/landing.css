@@ -336,7 +336,7 @@
     border-color var(--ln-t-base) var(--ln-ease-soft);
 }
 .landing .landing-header.scrolled {
-  background: rgb(7 11 22 / 0.92);
+  background: rgb(5 5 7 / 0.92); /* W7-G: the KODE night stage #050507 */
   border-block-end-color: var(--ln-line);
 }
 
@@ -362,7 +362,7 @@
 .landing .landing-nav-link svg { transition: transform var(--ln-t-fast) var(--ln-ease-out); }
 
 .landing .landing-nav-group { position: relative; }
-.landing .landing-nav-group.open .landing-nav-link { color: var(--ln-cream); background: rgb(242 239 230 / 0.04); }
+.landing .landing-nav-group.open .landing-nav-link { color: var(--ln-cream); background: rgb(255 255 255 / 0.04); }
 .landing .landing-nav-group.open .landing-nav-link svg { transform: rotate(180deg); }
 
 .landing .landing-megamenu {
@@ -398,7 +398,7 @@
   transition: background var(--ln-t-fast) var(--ln-ease-soft);
 }
 .landing .landing-megamenu-item:hover,
-.landing .landing-megamenu-item:focus-visible { background: rgb(242 239 230 / 0.05); }
+.landing .landing-megamenu-item:focus-visible { background: rgb(255 255 255 / 0.05); }
 .landing .ln-menu-ico {
   inline-size: 38px;
   block-size: 38px;
@@ -412,7 +412,7 @@
    the accent-toned well is SIGNAL now: a gold wash + the gold icon
    (7.37:1 on the wash — tone-coded wells stay tone-coded, one
    accent, zero second hue). */
-.landing .ln-menu-ico.signal { background: rgb(233 180 76 / 0.16); color: var(--ln-gold); }
+.landing .ln-menu-ico.signal { background: color-mix(in srgb, var(--ln-gold) 16%, transparent); color: var(--ln-gold); } /* W7-G: the Madarek gold literal retired — the wash rides the live token */
 .landing .ln-menu-ico.mist { background: rgb(242 239 230 / 0.08); color: var(--ln-cream-dim); }
 .landing .landing-megamenu-item-title { display: block; color: var(--ln-cream); font-size: 14px; font-weight: var(--fw-semibold); }
 .landing .landing-megamenu-item-desc { display: block; color: var(--ln-cream-dim); font-size: 12px; margin-block-start: 2px; }
@@ -756,7 +756,7 @@
     color var(--ln-t-fast) var(--ln-ease-soft),
     background var(--ln-t-fast) var(--ln-ease-soft);
 }
-.landing .landing-nav-link:hover { color: var(--ln-cream); background: rgb(242 239 230 / 0.04); }
+.landing .landing-nav-link:hover { color: var(--ln-cream); background: rgb(255 255 255 / 0.04); }
 .landing .landing-nav-link:focus-visible { outline: 2px solid var(--ln-cream); outline-offset: 3px; border-radius: var(--ln-radius-pill); }
 
 .landing .landing-header-cta { display: flex; align-items: center; gap: var(--sp-2); }
@@ -813,7 +813,7 @@
     color var(--ln-t-base) var(--ln-ease),
     border-color var(--ln-t-base) var(--ln-ease);
 }
-.landing .landing-burger:hover { background: rgb(242 239 230 / 0.04); color: var(--ln-cream); }
+.landing .landing-burger:hover { background: rgb(255 255 255 / 0.04); color: var(--ln-cream); }
 .landing .landing-burger:focus-visible { outline: 2px solid var(--ln-cream); outline-offset: 3px; }
 
 .landing .landing-mobile-menu {
@@ -1276,7 +1276,7 @@
 /* r152 (phase5): per-ground signal wash — 0.14 over the cream-tinted
    cell (the azure recipe re-derived on the gold accent; violet is
    retired with the Orbit-Ink layer). */
-.landing .ln-platform-ico.signal { background: rgb(233 180 76 / 0.14); color: var(--ln-gold); }
+.landing .ln-platform-ico.signal { background: color-mix(in srgb, var(--ln-gold) 16%, transparent); color: var(--ln-gold); } /* W7-G: same mix, one 16% ladder */
 .landing .ln-platform-ico.mist { background: rgb(242 239 230 / 0.08); color: var(--ln-cream-dim); }
 /* r144 (P4-4SL): توأمات التشريح القديم ln-platform-name/desc/tag
    حُذفت — PlatformsSection الحي يستهلك ln-ground-* و.ln-platform-ico فقط. */
@@ -2962,46 +2962,50 @@ html.light .landing {
    rule 1:1; nothing else about the component changes). ───────────── */
 
 /* chrome: the progress track + the scrolled header band */
-html.light .landing .landing-progress { background: rgb(7 11 22 / 0.08); }
-html.light .landing .landing-header.scrolled { background: rgb(242 239 230 / 0.92); }
+html.light .landing .landing-progress { background: rgb(10 10 10 / 0.08); }
+html.light .landing .landing-header.scrolled { background: rgb(244 242 237 / 0.92); } /* W7-G: the KODE paper #F4F2ED */
 
 /* chrome: hover/active washes (the night sand-tint washes on paper) */
 html.light .landing header[data-active-section="products"] .landing-nav-link[href="#products"],
 html.light .landing header[data-active-section="journey"] .landing-nav-link[href="#journey"],
 html.light .landing header[data-active-section="progress"] .landing-nav-link[href="#progress"],
 html.light .landing header[data-active-section="platforms"] .landing-nav-link[href="#platforms"] {
-  background: rgb(7 11 22 / 0.07);
+  background: rgb(10 10 10 / 0.07);
 }
-html.light .landing .landing-nav-group.open .landing-nav-link { background: rgb(7 11 22 / 0.04); }
-html.light .landing .landing-nav-link:hover { background: rgb(7 11 22 / 0.04); }
-html.light .landing .landing-burger:hover { background: rgb(7 11 22 / 0.04); }
-html.light .landing .landing-megamenu-item:focus-visible { background: rgb(7 11 22 / 0.05); }
+html.light .landing .landing-nav-group.open .landing-nav-link { background: rgb(10 10 10 / 0.04); }
+html.light .landing .landing-nav-link:hover { background: rgb(10 10 10 / 0.04); }
+html.light .landing .landing-burger:hover { background: rgb(10 10 10 / 0.04); }
+html.light .landing .landing-megamenu-item:focus-visible { background: rgb(10 10 10 / 0.05); }
 
 /* chrome: the icon wells (gold/mist) — ink wash on paper */
 html.light .landing .ln-menu-ico.gold,
-html.light .landing .ln-menu-ico.mist { background: rgb(7 11 22 / 0.06); }
+html.light .landing .ln-menu-ico.mist { background: rgb(10 10 10 / 0.06); }
 html.light .landing .ln-platform-ico.gold,
-html.light .landing .ln-platform-ico.mist { background: rgb(7 11 22 / 0.06); }
+html.light .landing .ln-platform-ico.mist { background: rgb(10 10 10 / 0.06); }
+/* W7-G: the signal wells finally join the day flip — the same ink-on-paper
+   6% grammar as their gold/mist siblings (the night side rides the mix). */
+html.light .landing .ln-menu-ico.signal,
+html.light .landing .ln-platform-ico.signal { background: rgb(10 10 10 / 0.06); }
 
 /* pills: the ghost pair + the gold ring (ink hairlines on paper) */
 html.light .landing .ln-btn-ghost {
-  border-color: rgb(7 11 22 / 0.30);
+  border-color: rgb(10 10 10 / 0.30);
 }
 html.light .landing .ln-btn-ghost:hover {
-  background: rgb(7 11 22 / 0.06);
-  border-color: rgb(7 11 22 / 0.45);
+  background: rgb(10 10 10 / 0.06);
+  border-color: rgb(10 10 10 / 0.45);
 }
 html.light .landing .ln-btn-gold {
   box-shadow:
     0 1px 2px rgba(0,0,0,0.12),
     0 4px 12px rgba(0,0,0,0.16),
-    0 0 0 1px rgba(7,11,22,0.14);
+    0 0 0 1px rgba(10,10,10,0.14);
 }
 html.light .landing .ln-btn-gold:hover {
   box-shadow:
     0 2px 4px rgba(0,0,0,0.16),
     0 8px 20px rgba(0,0,0,0.20),
-    0 0 0 1px rgba(7,11,22,0.18);
+    0 0 0 1px rgba(10,10,10,0.18);
 }
 
 /* THE CTA EXCEPTION (P13-2a KODE retirement — was the phase6 P6-2-a2
@@ -3022,7 +3026,7 @@ html.light .landing .ln-btn-gold:active { background: #E04400; }
 /* hero: the sky wash + the crisp-day title (the night's black depth
    text-shadow reads muddy on paper — the day chapter is crisp) */
 html.light .landing .ln-hero-sky::after {
-  background: radial-gradient(ellipse at 70% 60%, rgba(7,11,22,0.03) 0%, transparent 60%);
+  background: radial-gradient(ellipse at 70% 60%, rgba(10,10,10,0.03) 0%, transparent 60%);
 }
 html.light .landing .ln-hero-title { text-shadow: none; }
 
@@ -3035,15 +3039,15 @@ html.light .landing .ln-trust::before {
   background: linear-gradient(180deg, transparent 0%, rgba(255,255,255,0.03) 100%);
 }
 html.light .landing .landing-footer::before {
-  background: linear-gradient(180deg, transparent 0%, rgba(7,11,22,0.04) 100%);
+  background: linear-gradient(180deg, transparent 0%, rgba(10,10,10,0.04) 100%);
 }
 
 /* journey + cockpit cards: the paper equivalents of the night washes */
-html.light .landing .ln-station-card { background: rgb(7 11 22 / 0.04); }
-html.light .landing .ln-station-ico { background: rgb(7 11 22 / 0.06); }
-html.light .landing .ln-station-node { box-shadow: 0 0 0 4px rgb(7 11 22 / 0.14); }
-html.light .landing .ln-station:last-child .ln-station-node { box-shadow: 0 0 0 5px rgb(7 11 22 / 0.18); }
-html.light .landing .ln-stat { background: rgb(7 11 22 / 0.04); }
+html.light .landing .ln-station-card { background: rgb(10 10 10 / 0.04); }
+html.light .landing .ln-station-ico { background: rgb(10 10 10 / 0.06); }
+html.light .landing .ln-station-node { box-shadow: 0 0 0 4px rgb(10 10 10 / 0.14); }
+html.light .landing .ln-station:last-child .ln-station-node { box-shadow: 0 0 0 5px rgb(10 10 10 / 0.18); }
+html.light .landing .ln-stat { background: rgb(10 10 10 / 0.04); }
 /* P18-W2-b: the faq-item day wash twin retired WITH its night source —
    the rows are flat hairlines now (§10's r160 grammar); a day-only wash
    would fork the two stages' row anatomy. */
@@ -3051,25 +3055,25 @@ html.light .landing .ln-stat { background: rgb(7 11 22 / 0.04); }
 /* the mock frames: rows/bubbles/tiles sit as ink-tinted paper rows
    on the ivory glass (the night ran 0.28–0.35 dark washes; the day
    whisper is 0.04–0.05 — KODE paper UI, hairlines do the structure) */
-html.light .landing .ln-mock-bar { background: rgb(7 11 22 / 0.05); }
-html.light .landing .ln-mock-row { background: rgb(7 11 22 / 0.04); }
-html.light .landing .ln-mock-bubble.is-in { background: rgb(7 11 22 / 0.05); }
-html.light .landing .ln-mock-tile { background: rgb(7 11 22 / 0.04); }
+html.light .landing .ln-mock-bar { background: rgb(10 10 10 / 0.05); }
+html.light .landing .ln-mock-row { background: rgb(10 10 10 / 0.04); }
+html.light .landing .ln-mock-bubble.is-in { background: rgb(10 10 10 / 0.05); }
+html.light .landing .ln-mock-tile { background: rgb(10 10 10 / 0.04); }
 
 /* cockpit: the console status strip + scope dial + readout wells */
-html.light .landing .ln-cockpit-status { background: rgb(7 11 22 / 0.05); }
+html.light .landing .ln-cockpit-status { background: rgb(10 10 10 / 0.05); }
 html.light .landing .ln-cockpit-scope {
   background:
-    radial-gradient(circle at center, transparent 58%, rgb(7 11 22 / 0.06) 59%, transparent 60%),
-    radial-gradient(circle at center, transparent 34%, rgb(7 11 22 / 0.05) 35%, transparent 36%),
-    rgb(7 11 22 / 0.04);
+    radial-gradient(circle at center, transparent 58%, rgb(10 10 10 / 0.06) 59%, transparent 60%),
+    radial-gradient(circle at center, transparent 34%, rgb(10 10 10 / 0.05) 35%, transparent 36%),
+    rgb(10 10 10 / 0.04);
 }
-html.light .landing .ln-cockpit-readout .ln-stat { background: rgb(7 11 22 / 0.04); }
+html.light .landing .ln-cockpit-readout .ln-stat { background: rgb(10 10 10 / 0.04); }
 
 /* ground control: the console status strip + the pointer whisper */
-html.light .landing .ln-ground-status { background: rgb(7 11 22 / 0.05); }
+html.light .landing .ln-ground-status { background: rgb(10 10 10 / 0.05); }
 @media (hover: hover) {
-  html.light .landing .ln-ground-cell:hover { background: rgb(7 11 22 / 0.04); }
+  html.light .landing .ln-ground-cell:hover { background: rgb(10 10 10 / 0.04); }
 }
 
 /* ── 15c · the theme toggle (phase9 E3) — token-driven, so it flips
@@ -3379,6 +3383,10 @@ html.light .landing .ln-ground-status { background: rgb(7 11 22 / 0.05); }
 .landing .ln-marquee-tag { display: none; } /* the flood is pure vocabulary */
 .landing .ln-marquee-item { color: var(--ln-flood-ink); font-weight: 600; }
 .landing .ln-marquee-sep { color: var(--ln-flood-ink); opacity: 0.55; }
+/* W7-G: the dot is painted by background (§0's var(--ln-gold) = #FF4C00 on
+   the same-hued flood band = invisible in the dark stage); the flood-ink
+   dot reads on the band in both stages. */
+.landing .ln-marquee-sep { background: var(--ln-flood-ink); }
 
 /* chapter 002 — the JOURNEY flood: black ink on orange, mono indices,
    hairline rules (both stages — a flood is a flood) */

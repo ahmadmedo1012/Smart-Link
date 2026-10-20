@@ -2080,9 +2080,9 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
     !/\.ln-role-ico/.test(landingCss134)
       && !/\.ln-menu-ico\.azure|\.ln-platform-ico\.azure/.test(landingCss134)
       && !/rgb\(122 107 242/.test(landingCss134)
-      && /\.landing \.ln-menu-ico\.signal\s*\{[^}]*rgb\(233 180 76 \/ 0\.16\)[^}]*var\(--ln-gold\)/.test(landingCss134)
-      && /\.landing \.ln-platform-ico\.signal\s*\{[^}]*rgb\(233 180 76 \/ 0\.14\)/.test(landingCss134),
-    'r152: role-ico.azure retired with the roles chapter; the live wells are signal-toned (gold 0.16/0.14 washes + gold icon — violet fully excised from landing.css)'
+      && /\.landing \.ln-menu-ico\.signal\s*\{[^}]*color-mix\(in srgb, var\(--ln-gold\) 16%, transparent\)[^}]*var\(--ln-gold\)/.test(landingCss134)
+      && /\.landing \.ln-platform-ico\.signal\s*\{[^}]*color-mix\(in srgb, var\(--ln-gold\) 16%, transparent\)/.test(landingCss134),
+    'r152: role-ico.azure retired with the roles chapter; the live wells are signal-toned (gold 16% color-mix washes + gold icon — violet fully excised from landing.css; W7-G re-pins the retired Madarek rgb(233 180 76 / ·) literals to the live token)'
   );
 
   // I2 ── r160 (KODE): the FORESHADOW render pins retired WITH the
@@ -2612,7 +2612,7 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
     /\.landing \.landing-footer::before\s*\{[^}]*rgba\(255,255,255,0\.03\)[^}]*\}/.test(lcssW2b)
       && /\.landing \.ln-trust::before\s*\{[^}]*rgba\(255,255,255,0\.03\)[^}]*\}/.test(lcssW2b)
       && /html\.light \.landing \.ln-trust::before\s*\{[^}]*rgba\(255,255,255,0\.03\)/.test(lcssW2b)
-      && /html\.light \.landing \.landing-footer::before\s*\{[^}]*rgba\(7,11,22,0\.04\)/.test(lcssW2b)
+      && /html\.light \.landing \.landing-footer::before\s*\{[^}]*rgba\(10,10,10,0\.04\)/.test(lcssW2b)
       && !/\.landing-footer::before\s*\{[^}]*242,?239,?230/.test(lcssW2b)
       && !/\.ln-trust::before\s*\{[^}]*242,?239,?230/.test(lcssW2b),
     'P18-W2-b: the footer/trust breath seams PAINT on both stages (stage-cream 3% night; the trust day twin joins its kept-black chapter, the footer twin keeps ink-on-paper) — the retired sand literals are gone from both seam blocks'

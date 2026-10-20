@@ -66,7 +66,6 @@ export function JourneySection() {
             as="li"
             key={s.n}
             className="ln-journey-row"
-            style={{ ["--row" as string]: i }}
             delay={(i + 1) as 1 | 2 | 3 | 4 | 5}
           >
             <span className="ln-journey-row-n ln-mono">{s.n}</span>

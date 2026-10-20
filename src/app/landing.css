@@ -3166,6 +3166,10 @@ html.light .landing .ln-ground-status { background: rgb(10 10 10 / 0.05); }
   block-size: 100%;
   margin-inline: auto;
   touch-action: pan-y; /* drag rotates the sculpture, page still scrolls */
+  /* W7-G: §2's r129 decorative pointer-events:none is retired on the KODE
+     canvas — the sculpture's drag contract lives again (pointer listeners
+     + grab cursor in ChainSculpture); content above keeps its own events. */
+  pointer-events: auto;
 }
 .landing .ln-hero--kode .ln-hero-content {
   position: relative;
@@ -3684,6 +3688,9 @@ html.light .landing .ln-cockpit .ln-stat-unit {
 .landing .ln-btn-gold:hover::before,
 .landing .ln-btn-gold:focus-visible::before { transform: scaleX(1); }
 html.light .landing .ln-btn-gold:hover { color: var(--ln-gold-deep); }
+/* W7-G: the ghost joins the family verb — the 2px border-block-end toggle
+   (a ~1px label nudge inside the 48px floor) is retired for the same
+   ::before scaleX sweep the gold twin rides; the underline stays gold. */
 .landing .ln-btn-ghost {
   background: transparent;
   border: none;
@@ -3692,13 +3699,26 @@ html.light .landing .ln-btn-gold:hover { color: var(--ln-gold-deep); }
   box-shadow: none;
   font-weight: 600;
   padding: 10px 4px;
+  position: relative;
+}
+.landing .ln-btn-ghost::before {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  bottom: 8px;
+  block-size: 2px;
+  background: var(--ln-gold);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform var(--ln-t-base) var(--ln-ease-out);
 }
 .landing .ln-btn-ghost:hover,
 .landing .ln-btn-ghost:focus-visible {
   background: transparent;
   color: var(--ln-cream);
-  border-block-end: 2px solid var(--ln-gold);
 }
+.landing .ln-btn-ghost:hover::before,
+.landing .ln-btn-ghost:focus-visible::before { transform: scaleX(1); }
 /* KODE: the hero/finale CTAs ride the same sweep — flat, type-led */
 .landing .ln-hero-actions { gap: clamp(20px, 3vw, 36px); flex-wrap: wrap; }
 .landing .ln-hero-actions .ln-btn-gold,

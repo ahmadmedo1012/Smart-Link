@@ -863,21 +863,18 @@
   padding: clamp(128px, 13.5vh, 176px) max(7vw, 16px);
   isolation: isolate;
 }
-/* the sky: flat night + the single sanctioned depth radial (a faint
-   GOLD bloom where the constellation core sits — α 0.08 ≤ 0.12) */
+/* the sky: the sculpture's stage box — the div WRAPS the
+   ChainSculpture canvas (z-0 decor under the z-1 lockup). W7-I: the
+   retired r129 paint (the sanctioned gold-bloom radial + the ::after
+   cream veil) died to §16b's higher-specificity background:transparent /
+   content:none and is excised — dead code since r160. The live geometry
+   (absolute inset-0, the z-floor, the overflow clip on the canvas box)
+   stays load-bearing. */
 .landing .ln-hero-sky {
   position: absolute;
   inset: 0;
   z-index: 0;
   overflow: hidden;
-  background: radial-gradient(46% 54% at 30% 44%, rgb(233 180 76 / 0.08) 0%, transparent 70%);
-}
-.landing .ln-hero-sky::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(ellipse at 70% 60%, rgba(242,239,230,0.02) 0%, transparent 60%);
-  pointer-events: none;
 }
 
 .landing .ln-hero-canvas {
@@ -950,21 +947,18 @@
 }
 .landing .ln-hero-line { display: block; }
 
-/* accent words — the hero carries exactly ONE GOLD word (.ln-hero-gold);
-   a plain <em> stays sand so the accent stays single. */
+/* accent words — r160 §16b: the ONE orange word of the lockup is a
+   plain <em> (painted var(--ln-gold) by §16b's kode scope). The r152
+   .ln-hero-gold device — zero TSX consumers since the r160 hero —
+   is excised WITH its r152 gold-glow text-shadow literals (W7-I
+   dead-CSS surgery, unpinned); the base <em> geometry (relative +
+   nowrap) stays live below. */
 .landing .ln-hero-title em {
   font-style: normal;
   color: var(--ln-cream);
   position: relative;
   white-space: nowrap;
 }
-.landing .ln-hero-title .ln-hero-gold {
-  color: var(--ln-gold);
-  /* P3-34 lineage: subtle depth on the accent word — r152 retunes the
-     glow to the gold's OWN light (a sand halo read ashy on the word). */
-  text-shadow: 0 0 20px rgba(233,180,76,0.28), 0 0 40px rgba(233,180,76,0.10);
-}
-
 .landing .ln-hero-sub {
   margin: 0 0 var(--sp-9);
   /* r129 P4-10 (canonical effective 72ch — Madarek :1984): the sub
@@ -3015,11 +3009,10 @@ html.light .landing .ln-btn-gold { background: #FF4C00; color: #050507; }
 html.light .landing .ln-btn-gold:hover { background: #E04400; }
 html.light .landing .ln-btn-gold:active { background: #E04400; }
 
-/* hero: the sky wash + the crisp-day title (the night's black depth
-   text-shadow reads muddy on paper — the day chapter is crisp) */
-html.light .landing .ln-hero-sky::after {
-  background: radial-gradient(ellipse at 70% 60%, rgba(10,10,10,0.03) 0%, transparent 60%);
-}
+/* hero: the crisp-day title — the night's black depth text-shadow
+   reads muddy on paper, so the day chapter is crisp. W7-I: the day
+   ::after sky-wash twin above died WITH its night source (§16b's
+   content:none) — excised. */
 html.light .landing .ln-hero-title { text-shadow: none; }
 
 /* chapter seams: the sand fade gradients above the ink-2 bands.

@@ -736,7 +736,8 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
   //     against — so it is RETIRED here together with the dead rules
   //     themselves (the .ln-journey-path* family + the straggler
   //     .ln-cta-orbit.o1). The live --sp consumers stay pinned: the
-  //     chapter wash below and the beam family in JourneySection.
+  //     chapter wash below + the cockpit scope sweep (§14f) — the beam
+  //     family followed its path siblings into the grave at W7-I.
   //     EXPECTED_ASSERTIONS 525 → 524 (the ONLY authorized pin-count
   //     change of the r148 wave).
   check(
@@ -1000,11 +1001,14 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
     allTopLevelBlocks(lcss, '.landing .ln-label').some((b) => /position:\s*relative/.test(b)),
     'landing .ln-label: position relative (P4-18 halo anchor)'
   );
-  check(
-    /box-shadow:\s*0 1px 2px rgba\(0,\s*0,\s*0,\s*0\.06\)/.test(topLevelBlock(lcss, '.landing .ln-station-card'))
-      || allTopLevelBlocks(lcss, '.landing .ln-station-card').some((b) => /box-shadow:\s*0 1px 2px rgba\(0,\s*0,\s*0,\s*0\.06\)/.test(b)),
-    'landing .ln-station-card: resting shadow 0 1px 2px rgba(0,0,0,0.06) (P3-28)'
-  );
+  /* W7-I (dead-CSS surgery): the P3-28 .ln-station-card resting-shadow
+     pin is RETIRED WITH its family — JourneySection renders the r160
+     flood rows, so no TSX has produced a station element since the
+     re-cast; the pin was holding ~90 lines of dead CSS alive (the exact
+     drift-hiding class r144 taught against). The LIVE sibling below
+     keeps its pin: .ln-stat (P3-30, the cockpit readout's cell). The
+     family's absence is asserted by the W7-I retirement pin at the
+     suite tail. */
   check(
     /box-shadow:\s*0 1px 2px rgba\(0,\s*0,\s*0,\s*0\.06\)/.test(topLevelBlock(lcss, '.landing .ln-stat')),
     'landing .ln-stat: resting shadow 0 1px 2px rgba(0,0,0,0.06) (P3-30)'
@@ -1030,6 +1034,21 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
   check(
     retiredSelectors.every((sel) => !lcss.includes(`.landing ${sel}`)),
     'r144: every retired r128/r141 chapter family is excised from landing.css (products-constellation/progress/roles/trust-inner/hero-depth/r141-universe-minus-the-crest)'
+  );
+  /* W7-I (defer-if-pinned surgery — the W7-H-A honest-remaining executed):
+     the r142 station/beam anatomy followed the r160 re-cast into the
+     grave. JourneySection renders .ln-journey-row* (the §16e flood) —
+     zero TSX consumers for .ln-station-* · .ln-journey-stage ·
+     .ln-journey-stations · .ln-beam-* since r160, zero JS measurers (the
+     JourneyLightPath engine died with them), zero e2e selectors. The
+     P3-28 pin retired with the family; this retirement pin holds the
+     ABSENCE so the family can never resurrect. */
+  const w7iRetiredSelectors = [
+    '.ln-station', '.ln-journey-stage', '.ln-journey-stations', '.ln-beam',
+  ];
+  check(
+    w7iRetiredSelectors.every((sel) => !lcss.includes(`.landing ${sel}`)),
+    'W7-I: the r142 station/beam anatomy stays excised from landing.css (station family + journey stage/stations + the winding beam — the r160 flood rows own الرحلة)'
   );
   // r144 (P4-4SL, QA P1): the FAMILY CREST returns to the finale. The
   // r142 rewrite had retired the r141 crest image — a unilateral

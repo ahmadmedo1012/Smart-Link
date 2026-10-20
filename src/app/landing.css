@@ -1097,106 +1097,23 @@
    الحية (EcosystemConstellation) منذ r142 ولا مستهلك في أي TSX؛
    المسامير التي كانت تثبّته أُعيدت كتابتها لتثبت الغياب نفسه. */
 
-/* ── 5 · journey — the beam chapter (r148: the .ln-journey-path* SVG
-   rules are DELETED with their pin — zero TSX consumers since the beam
-   rebuild (JourneySection renders .ln-beam*); the pinned --sp consumer
-   they carried was protecting dead CSS, the exact drift-hiding class
-   r144 taught against. The live --sp consumers are .ln-chapter::before
-   (opacity) and the beam family in JourneySection. ── */
+/* ── 5 · journey ── r148 deleted the .ln-journey-path* SVG family with
+   its pin (zero TSX consumers); r160 re-cast the chapter as the flood
+   (JourneySection renders .ln-journey-rows — §16e owns the paint);
+   W7-I completes the retirement: the winding-beam + station anatomy
+   (journey-stage · stations · beam · station family) followed with zero TSX
+   consumers. The live --sp consumers are .ln-chapter::before (opacity)
+   and the cockpit scope sweep (§14f). ── */
 .landing .ln-journey { background: var(--ln-ink-2); }
-.landing .ln-journey-stage {
-  position: relative;
-  max-inline-size: 1080px;
-  margin-inline: auto;
-  padding-block-start: var(--sp-6);
-}
-
-.landing .ln-journey-stations {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: grid;
-  gap: clamp(32px, 5vh, 52px);
-  position: relative;
-  z-index: 1;
-}
-.landing .ln-station { position: relative; display: block; }
-.landing .ln-station-card { max-inline-size: 440px; }
-.landing .ln-station.from-start .ln-station-card { margin-inline-end: auto; }
-.landing .ln-station.from-end .ln-station-card { margin-inline-start: auto; }
-
-/* nodes anchor to the CARD so they hug the center-facing edge; geometry
-   is load-bearing (JourneyLightPath measures these boxes) */
-.landing .ln-station-node {
-  position: absolute;
-  top: 30px;
-  inline-size: 13px;
-  block-size: 13px;
-  display: grid;
-  place-items: center;
-  border-radius: var(--ln-radius-pill);
-  background: var(--ln-cream); /* stations are content, not accent */
-  box-shadow: 0 0 0 4px rgb(242 239 230 / 0.16); /* crisp flat ring, no glow */
-  z-index: 2;
-}
-.landing .ln-station-node-core {
-  display: block;
-  inline-size: 100%;
-  block-size: 100%;
-  border-radius: var(--ln-radius-pill);
-  background: inherit;
-}
-.landing .ln-station.from-start .ln-station-card .ln-station-node { inset-inline-end: -40px; }
-.landing .ln-station.from-end .ln-station-card .ln-station-node { inset-inline-start: -40px; }
-.landing .ln-station:last-child .ln-station-node {
-  inline-size: 17px;
-  block-size: 17px;
-  box-shadow: 0 0 0 5px rgb(242 239 230 / 0.2);
-}
-
-.landing .ln-station-card {
-  position: relative;
-  inline-size: 100%;
-  min-height: 0; /* flex/grid overflow guard */
-  padding: var(--sp-6) var(--sp-7);
-  border-radius: var(--r-2xl);
-  background: rgb(242 239 230 / 0.03); /* card recipe (spec §4.2.6) */
-  border: 1px solid var(--ln-line-soft);
-  transition: border-color var(--ln-t-base) var(--ln-ease);
-  /* P3-28 (canonical landing.css:1066, r129): subtle resting depth for
-     station cards — the flat world's micro-depth layer. */
-  box-shadow: 0 1px 2px rgba(0,0,0,0.06);
-}
-.landing .ln-station-card:hover { border-color: var(--ln-line); }
-.landing .ln-station-head {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 12px;
-  margin-block-end: var(--sp-4);
-}
-.landing .ln-station-n { color: var(--ln-cream-dim); font-size: 13px; }
-.landing .ln-station-ico {
-  inline-size: 40px;
-  block-size: 40px;
-  display: grid;
-  place-items: center;
-  border-radius: var(--r-lg);
-  background: rgb(242 239 230 / 0.08);
-  color: var(--ln-cream-dim);
-  flex-shrink: 0;
-}
-.landing .ln-station-tag {
-  margin-inline-start: auto;
-  padding: 4px 12px;
-  border-radius: var(--ln-radius-pill);
-  border: 1px solid var(--ln-line);
-  color: var(--ln-cream-dim);
-  font-size: 11.5px;
-  overflow-wrap: anywhere;
-}
-.landing .ln-station-title { margin: 0 0 var(--sp-3); font-size: 22px; font-weight: var(--fw-bold); color: var(--ln-cream); }
-.landing .ln-station-desc { margin: 0; color: var(--ln-cream-dim); font-size: 14.5px; line-height: 1.7; overflow-wrap: anywhere; }
+/* W7-I (dead-CSS surgery, defer-if-pinned ruling executed): the ENTIRE
+   .ln-station-* family is excised — JourneySection renders the r160
+   flood rows (.ln-journey-row*), so no TSX has produced a station
+   element since the r160 re-cast, and no JS measures these boxes (the
+   old JourneyLightPath engine died with them). The P3-28 resting-shadow
+   pin that held the family alive is retired WITH it (parity re-authored
+   per the r144 retirement doctrine: pin the absence). The LIVE sibling
+   below survives untouched: .ln-stat (the cockpit readout's cell,
+   parity-pinned P3-30). */
 
 .landing .ln-stat {
   min-height: 0;
@@ -1565,23 +1482,6 @@
   .landing .ln-hero { padding-block: clamp(104px, 14vh, 150px) 88px; }
 }
 @media (max-width: 920px) {
-  /* journey spine — stations stack vertically, nodes ride the gutter.
-     (r148: the .ln-journey-path spine-stroke overrides died with the
-     deleted dead path rules — the beam family owns the chapter now.) */
-  .landing .ln-journey-stage { padding-inline-start: 30px; }
-  .landing .ln-station .ln-station-node {
-    top: 34px;
-    inset-inline-start: -23px;
-    inset-inline-end: auto;
-    inline-size: 11px;
-    block-size: 11px;
-  }
-  .landing .ln-station.from-start .ln-station-card .ln-station-node,
-  .landing .ln-station.from-end .ln-station-card .ln-station-node { inset-inline-start: -23px; inset-inline-end: auto; }
-  .landing .ln-station-card { max-inline-size: none; }
-  .landing .ln-station.from-start .ln-station-card,
-  .landing .ln-station.from-end .ln-station-card { margin-inline: 0; }
-
   .landing .landing-nav { padding-inline: 16px; }
   .landing .landing-mobile-menu { padding-inline: 16px; }
   .landing .ln-chapter { padding-inline: var(--page-gutter-mobile); }
@@ -1595,7 +1495,6 @@
 @media (max-width: 768px) {
   /* GAP-5 · mobile density pass — tighter chapters, tighter heads,
      same narrative, phone-native pacing. */
-  .landing .ln-journey-stations { gap: 28px; }
   .landing .ln-trust { padding-block: var(--sp-5); }
   .landing .ln-cta { padding-block: clamp(72px, 11vh, 104px); }
 
@@ -1620,7 +1519,6 @@
   .landing .landing-footer-col { padding-block: var(--sp-5); border-block-end: 1px solid var(--ln-line-soft); gap: var(--sp-4); }
   .landing .landing-footer-grid .landing-footer-col:last-child { border-block-end: 0; }
 
-  .landing .ln-station-card { padding: var(--sp-5); }
 }
 @media (max-width: 640px) {
   /* WCAG 2.5.5 Target Size (Minimum): 48px floor for landing-page
@@ -1761,8 +1659,7 @@
   .landing .ln-skip-link { animation: none; transition: none; }
   .landing .ln-btn-gold,
   .landing .ln-btn-ghost,
-  .landing .landing-header,
-  .landing .ln-station-card { transition: none; }
+  .landing .landing-header { transition: none; }
 }
 
 /* ── P4-07 (canonical landing.css:1946-1955, r129): under reduced motion
@@ -1783,8 +1680,8 @@
 /* ── 15 · P4 tail — card hover elevation (canonical P4-18) ──────────
    Lift + subtle shadow on hover signals interactivity without violating
    the flat-ground rule (hairlines stay). The press tail (P4-01) and
-   gold prominence (P4-04) already ship in §0g above (R6 cascade). */
-.landing .ln-station-card:hover,
+   gold prominence (P4-04) already ship in §0g above (R6 cascade).
+   W7-I: the .ln-station-card:hover twin line died with the family. */
 .landing .ln-stat:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(0,0,0,0.12), 0 2px 4px rgba(0,0,0,0.06);
@@ -2451,71 +2348,12 @@
   unicode-bidi: isolate;
 }
 
-/* ── 14e · الرحلة — the winding beam (pure CSS, --sp-scrubbed) ─────── */
-.landing .ln-journey-stage {
-  position: relative;
-  max-inline-size: 880px;
-  margin-inline: auto;
-  padding-block: var(--sp-4);
-}
-.landing .ln-beam {
-  position: absolute;
-  inset-block: 0;
-  inset-inline-start: 50%;
-  inline-size: 2px;
-  transform: translateX(-50%);
-  pointer-events: none;
-}
-.landing .ln-beam-line {
-  position: absolute;
-  inset-block: 0;
-  inset-inline: 0;
-  background: repeating-linear-gradient(
-    to bottom,
-    var(--ln-line) 0 10px,
-    transparent 10px 22px
-  );
-}
-.landing .ln-beam-lit {
-  position: absolute;
-  inset-inline: 0;
-  inset-block-start: 0;
-  block-size: calc(var(--sp, 1) * 100%);
-  background: linear-gradient(to bottom, var(--ln-gold), color-mix(in srgb, var(--ln-gold) 30%, transparent));
-  opacity: 0.85;
-}
-.landing .ln-beam-head {
-  position: absolute;
-  inset-inline-start: 50%;
-  top: calc(var(--sp, 1) * 100%);
-  inline-size: 13px;
-  block-size: 13px;
-  border-radius: var(--ln-radius-pill);
-  transform: translate(-50%, -50%);
-  background: var(--ln-gold);
-  box-shadow: 0 0 16px color-mix(in srgb, var(--ln-gold) 70%, transparent),
-              0 0 40px color-mix(in srgb, var(--ln-gold) 30%, transparent);
-}
-/* the stations ride the OLD station family (kept) — spacing over the beam */
-.landing .ln-journey-stations {
-  position: relative;
-  display: grid;
-  gap: clamp(var(--sp-8), 7vw, 84px);
-}
-.landing .ln-journey .ln-station-node {
-  inset-inline-start: 50%;
-  transform: translateX(-50%);
-  inset-block-start: 34px;
-  background: var(--ln-ink);
-  border: 1px solid var(--ln-line);
-  z-index: 1;
-}
-.landing .ln-journey .ln-station-node-core {
-  inline-size: 5px;
-  block-size: 5px;
-  border-radius: var(--ln-radius-pill);
-  background: var(--ln-cream);
-}
+/* W7-I: §14e (the winding beam + its station riders) is EXCISED — r160
+   re-cast الرحلة as the ORANGE FLOOD (JourneySection renders
+   .ln-journey-row*; §16e owns the paint). The beam family — stage,
+   beam/line/lit/head, the --sp-lit gradient head — had ZERO TSX
+   consumers since r160; its §16e display:none guard (below) guarded
+   nothing and retired in the same wave. */
 
 /* ── 14f · القيادة — the mono data cockpit ─────────────────────────── */
 .landing .ln-cockpit-panel {
@@ -2818,17 +2656,6 @@
     align-items: stretch;
   }
   .landing .ln-eco-card-cta { justify-content: center; }
-  .landing .ln-beam { inset-inline-start: 6px; transform: none; }
-  .landing .ln-journey .ln-station-node {
-    inset-inline-start: 6px;
-    transform: translateX(-50%);
-  }
-  .landing .ln-journey .ln-station-card { max-inline-size: none; }
-  .landing .ln-journey .ln-station.from-start .ln-station-card,
-  .landing .ln-journey .ln-station.from-end .ln-station-card {
-    margin-inline-start: 26px;
-    margin-inline-end: 0;
-  }
   .landing .ln-cockpit-grid { grid-template-columns: 1fr; }
   .landing .ln-cockpit-scope { max-inline-size: 210px; }
   .landing .ln-cockpit-readout { grid-template-columns: 1fr 1fr; }
@@ -2851,10 +2678,6 @@
   .landing .ln-mock-typing i { animation: none; opacity: 0.6; }
   .landing .ln-cockpit-live,
   .landing .ln-marquee-live { animation: none; opacity: 0.85; }
-  .landing .ln-beam-lit { transition: none; }
-  .landing .ln-beam-head { transition: none; }
-  .landing .ln-eco-chip,
-  .landing .ln-eco-card-cta,
   .landing .ln-world-cta { transition: none; }
 }
 
@@ -3027,11 +2850,8 @@ html.light .landing .landing-footer::before {
   background: linear-gradient(180deg, transparent 0%, rgba(10,10,10,0.04) 100%);
 }
 
-/* journey + cockpit cards: the paper equivalents of the night washes */
-html.light .landing .ln-station-card { background: rgb(10 10 10 / 0.04); }
-html.light .landing .ln-station-ico { background: rgb(10 10 10 / 0.06); }
-html.light .landing .ln-station-node { box-shadow: 0 0 0 4px rgb(10 10 10 / 0.14); }
-html.light .landing .ln-station:last-child .ln-station-node { box-shadow: 0 0 0 5px rgb(10 10 10 / 0.18); }
+/* journey + cockpit cards: the paper equivalents of the night washes.
+   W7-I: the station-card/ico/node day twins died with the family. */
 html.light .landing .ln-stat { background: rgb(10 10 10 / 0.04); }
 /* P18-W2-b: the faq-item day wash twin retired WITH its night source —
    the rows are flat hairlines now (§10's r160 grammar); a day-only wash
@@ -3445,9 +3265,9 @@ html.light .landing .ln-ground-status { background: rgb(10 10 10 / 0.05); }
   .landing .ln-journey-row { grid-template-columns: 64px 1fr; }
   .landing .ln-journey-row-tag { display: none; }
 }
-/* the beam retired with the winding — the flood carries the chapter */
-.landing .ln-journey--kode .ln-journey-stage,
-.landing .ln-journey--kode .ln-beam { display: none; }
+/* the beam retired with the winding — and W7-I buried it: the §16e
+   display:none guard for the r142 stage/beam markup is excised too
+   (the beam family's rules went with it; nothing left to guard). */
 
 /* ── 16d · chapter 001 — WORLDS: the BLACK stage (both themes) ───── */
 .landing .ln-worlds--kode {

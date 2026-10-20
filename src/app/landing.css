@@ -3487,6 +3487,13 @@ html.light .landing .ln-worlds--kode { background: #050507; color: #FFFFFF; } /*
 }
 .landing .ln-world-card:last-child { border-block-end: none; }
 .landing .ln-world-num {
+  /* W7-G (P0, probe-validated): the r142 §14c abspos numeral never took
+     its grid column — the card body auto-placed into the minmax(84px,180px)
+     track and crushed. static restores the intended two-track card (the
+     numeral owns its column, the body takes the 1fr) at every rung. */
+  position: static;
+  inset-block-start: auto;
+  inset-inline-end: auto;
   font-size: clamp(28px, 4vw, 56px);
   font-weight: 700;
   color: #FF4C00;
@@ -3994,6 +4001,9 @@ html.light .landing .ln-btn-gold:hover { color: var(--ln-gold-deep); }
   border-block-end: 0;
   position: relative;
   padding-block-end: 6px;
+  /* W7-G: the §14c :hover translateX(-2px) sideways nudge dies here —
+     the ::after sweep is the one hover verb on the KODE worlds list. */
+  transform: none;
 }
 .landing .ln-worlds--kode .ln-world-cta::after {
   content: "";

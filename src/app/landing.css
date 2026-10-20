@@ -311,13 +311,19 @@
   /* r148 (R9): --z-popover keeps the ribbon above the sticky header
      (now --z-dropdown) — same paint order the raw 90 vs 60 had. */
   z-index: var(--z-popover);
-  background: rgb(242 239 230 / 0.08);
+  /* W7-H (dead-CSS family sweep, the W7-G known-remaining): the track
+     was the last live night chrome on the RETIRED Madarek sand literal
+     rgb(242 239 230) while its day twin (:15b) already rides the KODE
+     ink rgb(10 10 10 / 0.08) — the same generational asymmetry W7-G
+     swept out of the four hover washes. Stage white (the night
+     --ln-cream #FFFFFF), same 0.08 alpha: ≈1/255-per-channel delta. */
+  background: rgb(255 255 255 / 0.08);
   pointer-events: none;
 }
 .landing .landing-progress-bar {
   block-size: 100%;
   inline-size: calc(var(--p, 0) * 100%);
-  background: var(--ln-cream); /* flat sand — no gradient, no glow, no gold */
+  background: var(--ln-cream); /* flat stage white — no gradient, no glow, no accent (W7-H: the "sand" wording died with the Madarek hue) */
 }
 
 /* header — flat rail, solid ink-2 @ 92% once scrolled, no glass blur
@@ -352,7 +358,9 @@
 .landing header[data-active-section="progress"] .landing-nav-link[href="#progress"],
 .landing header[data-active-section="platforms"] .landing-nav-link[href="#platforms"] {
   color: var(--ln-cream);
-  background: rgb(242 239 230 / 0.08);
+  /* W7-H: same family sweep — retired sand → stage white, alpha kept
+     (the day twin :15b runs the KODE ink rgb(10 10 10 / 0.07)). */
+  background: rgb(255 255 255 / 0.08);
 }
 
 /* ── 0f · megamenu — canonical landing.css:275-322, verbatim ─────────
@@ -407,13 +415,13 @@
   border-radius: var(--r-lg);
   flex-shrink: 0;
 }
-.landing .ln-menu-ico.gold { background: rgb(242 239 230 / 0.08); color: var(--ln-cream-dim); }
+.landing .ln-menu-ico.gold { background: rgb(255 255 255 / 0.08); color: var(--ln-cream-dim); } /* W7-H: the retired sand literal joins the stage-white family — day twin already rides the KODE ink */
 /* r152 (phase5): the azure tone is retired with Orbit-Ink's violet —
    the accent-toned well is SIGNAL now: a gold wash + the gold icon
    (7.37:1 on the wash — tone-coded wells stay tone-coded, one
    accent, zero second hue). */
 .landing .ln-menu-ico.signal { background: color-mix(in srgb, var(--ln-gold) 16%, transparent); color: var(--ln-gold); } /* W7-G: the Madarek gold literal retired — the wash rides the live token */
-.landing .ln-menu-ico.mist { background: rgb(242 239 230 / 0.08); color: var(--ln-cream-dim); }
+.landing .ln-menu-ico.mist { background: rgb(255 255 255 / 0.08); color: var(--ln-cream-dim); } /* W7-H: same sweep */
 .landing .landing-megamenu-item-title { display: block; color: var(--ln-cream); font-size: 14px; font-weight: var(--fw-semibold); }
 .landing .landing-megamenu-item-desc { display: block; color: var(--ln-cream-dim); font-size: 12px; margin-block-start: 2px; }
 
@@ -1272,12 +1280,12 @@
   border-radius: var(--r-xl);
   flex-shrink: 0;
 }
-.landing .ln-platform-ico.gold { background: rgb(242 239 230 / 0.08); color: var(--ln-cream-dim); }
+.landing .ln-platform-ico.gold { background: rgb(255 255 255 / 0.08); color: var(--ln-cream-dim); } /* W7-H: same sweep — day twin already rides the KODE ink */
 /* r152 (phase5): per-ground signal wash — 0.14 over the cream-tinted
    cell (the azure recipe re-derived on the gold accent; violet is
    retired with the Orbit-Ink layer). */
 .landing .ln-platform-ico.signal { background: color-mix(in srgb, var(--ln-gold) 16%, transparent); color: var(--ln-gold); } /* W7-G: same mix, one 16% ladder */
-.landing .ln-platform-ico.mist { background: rgb(242 239 230 / 0.08); color: var(--ln-cream-dim); }
+.landing .ln-platform-ico.mist { background: rgb(255 255 255 / 0.08); color: var(--ln-cream-dim); } /* W7-H: same sweep */
 /* r144 (P4-4SL): توأمات التشريح القديم ln-platform-name/desc/tag
    حُذفت — PlatformsSection الحي يستهلك ln-ground-* و.ln-platform-ico فقط. */
 

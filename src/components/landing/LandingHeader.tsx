@@ -255,7 +255,16 @@ export function LandingHeader() {
           <span className="ln-mono">[ <span className="ln-counter-n" ref={counterNumRef}>000</span> ]</span>
         </div>
         <div className="landing-nav">
-          <Link href="/" className="landing-brand" aria-label="SmartLink — الرئيسية">
+          {/* P21-W7-A (axe 4.14 — label-content-name-mismatch، WCAG 2.5.3
+              Label in Name): الـaria-label «SmartLink — الرئيسية» كان اسمًا
+              مقصودًا لا يحتوي النص الظاهر (الماركة + الشعار الفرعي) —
+              القاعدة الجديدة (ACT 2ee8b8) تُطالب بأن يحمل العنصر التفاعلي
+              نصه المرئي ضمن اسمه المُتاح ليطابق مُستخدمو الإدخال الصوتي
+              ما يقرؤونه على الشاشة. حذف السمة هو الإصلاح القانوني الوحيد:
+              الاسم يصبح من المحتوى المرئي نفسه (نفس عقيدة أخيه في
+              main-nav.tsx:184 — اسم العلامة من محتواها)، والوجهة «/»
+              يفهمها السياق. صفر تغيير في البكسلات — أسماء a11y فقط. */}
+          <Link href="/" className="landing-brand">
             <span className="landing-brand-mark" aria-hidden="true">S</span>
             <span className="landing-brand-text">
               <span className="landing-brand-name">SmartLink</span>

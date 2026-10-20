@@ -146,8 +146,14 @@ export default function Home() {
             </RevealCssClass>
           </div>
 
-          {/* scroll invitation — into the worlds chapter (S5 bilingual cue) */}
-          <a href="#products" className="ln-hero-scroll" aria-label="تابع الرحلة">
+          {/* scroll invitation — into the worlds chapter (S5 bilingual cue)
+              P21-W7-A (axe 4.14 — label-content-name-mismatch، WCAG 2.5.3
+              Label in Name): الاسم المقصود «تابع الرحلة» لم يكن يحوي النص
+              المرئي (SCROLL — تصفّح) فأفلتَ المستخدم الصوتي من التطابق
+              بين ما يُعلَن وما يُقرَأ. القانون: الاسم = الغرض + النص
+              الظاهر حرفيًا — «تابع الرحلة — SCROLL — تصفّح». صفر تغيير في
+              البكسلات. */}
+          <a href="#products" className="ln-hero-scroll" aria-label="تابع الرحلة — SCROLL — تصفّح">
             <span className="ln-mono">SCROLL — تصفّح</span>
             <span className="ln-hero-scroll-line" aria-hidden="true" />
           </a>

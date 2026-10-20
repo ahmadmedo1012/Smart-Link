@@ -41,7 +41,13 @@ export function LandingFooter() {
       <div className="marketing-container">
         <div className="landing-footer-grid">
           <div className="landing-footer-col">
-            <Link href="/" className="landing-brand" aria-label="SmartLink — الرئيسية">
+            {/* P21-W7-A (axe 4.14 — label-content-name-mismatch، WCAG 2.5.3
+                Label in Name): التوأم المُعالَج لLandingHeader.tsx:267 — نفس
+                الحذف القانوني للسمة المقصودة التي كانت تحجب النص الظاهر عن
+                الاسم المُتاح. الاسم الآن من المحتوى المرئي (الماركة +
+                الشعار الفرعي) — ما يراه المبصر يقوله مُستخدم الإدخال
+                الصوتي حرفيًا. صفر تغيير في البكسلات. */}
+            <Link href="/" className="landing-brand">
               <span className="landing-brand-mark" aria-hidden="true">S</span>
               <span className="landing-brand-text">
                 <span className="landing-brand-name">SmartLink</span>

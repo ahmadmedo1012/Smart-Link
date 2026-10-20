@@ -425,18 +425,22 @@
 .landing .landing-megamenu-item-title { display: block; color: var(--ln-cream); font-size: 14px; font-weight: var(--fw-semibold); }
 .landing .landing-megamenu-item-desc { display: block; color: var(--ln-cream-dim); font-size: 12px; margin-block-start: 2px; }
 
-/* ── 0g · buttons — one pill system — canonical landing.css:371-483 ── */
+/* ── 0g · buttons — one pill system — canonical landing.css:371-483 ──
+   W7-I (dead-paint surgery): the resting chrome §16f re-declared later
+   at equal specificity never won a cascade — border-radius, the
+   semibold weight and the border reset are excised (§16f's per-class
+   blocks own those slots for gold AND ghost, both stages). What stays
+   here has NO §16f counterpart and is load-bearing at every CTA
+   site: the flex anatomy, text-decoration, cursor, font-family and
+   the transition belt. */
 .landing .ln-btn-gold,
 .landing .ln-btn-ghost {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
-  border-radius: var(--ln-radius-pill);
-  font-weight: var(--fw-semibold);
   text-decoration: none;
   cursor: pointer;
-  border: 0;
   font-family: inherit;
   transition:
     background var(--ln-t-base) var(--ln-ease),
@@ -445,79 +449,59 @@
     transform var(--ln-t-fast) var(--ln-ease-out);
 }
 
-/* the conversion pill — flat GOLD, ink text, the md rung of the unified
-   height ladder (r149 20-IDEAL C2: 44 header / 48 hero / 52 xl finale —
-   border-box EXACT equality with its ghost twin, no 46/47 split).
-   The ONE gold-filled primary CTA on the page (r152: it finally earns
-   its name — the family gold, night ink on the fill). Carries the magnetic
-   translate (useMagnetic writes --mag-x/--mag-y). */
+/* the conversion pill — r160 §16f owns its face: flat type-led sweep
+   (transparent ground, the family gold as TEXT, the ::before underline
+   — and in the DAY the ONE luminous #FF4C00 flood fill, the §15b
+   CTA exception below).
+   This §0g base carries only what §16f does NOT re-own: the md rung of
+   the height ladder (r149: 44 header / 48 hero / 52 xl finale —
+   border-box EXACT twins), the 15px drawer rung (the mobile-menu CTAs
+   have no other font-size source), and the magnetic translate
+   (useMagnetic writes --mag-x/--mag-y; the header scope flattens it).
+   W7-I: the dead resting paint §16f overrode at equal-or-later
+   specificity — the gold fill + night-ink text, the pill radius, the
+   3-layer P3-25 shadow, the 26px side padding, the ::after sheen
+   (display:none) and the first :active nudge (P4-01 re-owns it below)
+   — is excised; dead code since r160. The :hover LIFT SHADOW survives
+   §16f (its hover block declares only color/background) and stays
+   byte-identical live night+day paint. */
 .landing .ln-btn-gold {
-  padding: 10px 26px;
   font-size: 15px;
   min-block-size: 48px;
-  background: var(--ln-gold);
-  color: var(--ln-ink);
-  border-radius: var(--ln-radius-pill);
   transform: translate(var(--mag-x, 0), var(--mag-y, 0));
-  position: relative;
-  /* Premium depth — world-class button shadow (P3-25, canonical) */
-  box-shadow:
-    0 1px 2px rgba(0,0,0,0.12),
-    0 4px 12px rgba(0,0,0,0.16),
-    0 0 0 1px rgba(242,239,230,0.08);
 }
 .landing .ln-btn-gold:hover {
-  background: var(--ln-gold-deep);
   box-shadow:
     0 2px 4px rgba(0,0,0,0.16),
     0 8px 20px rgba(0,0,0,0.20),
     0 0 0 1px rgba(242,239,230,0.10);
   transform: translate(var(--mag-x, 0), calc(var(--mag-y, 0) - 1px));
 }
-.landing .ln-btn-gold:active {
-  transform: translate(var(--mag-x, 0), calc(var(--mag-y, 0) + 1px));
-}
-/* Premium sheen on hover (canonical P3-25 block — ported verbatim) */
-.landing .ln-btn-gold::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  background: radial-gradient(circle at 50% 0%, rgba(255,255,255,0.2) 0%, transparent 60%);
-  opacity: 0;
-  transition: opacity var(--t-fast) var(--ease);
-  pointer-events: none;
-}
-.landing .ln-btn-gold:hover::after { opacity: 1; }
 /* r149 (C2): the lg rung — the finale pair sits EXACTLY on 52px
-   border-box (the ghost's 11px block padding compensates its 1px
-   borders so both twins measure identically). */
-.landing .ln-btn-gold.xl { padding: 12px 34px; font-size: 16px; min-block-size: 52px; }
+   border-box. W7-I: the 16px font rung died to §16l-b's finale 17px
+   (every .xl site lives inside .ln-cta-actions); the box geometry
+   stays canonical for the rung. */
+.landing .ln-btn-gold.xl { padding: 12px 34px; min-block-size: 52px; }
 
-/* the outline pill — transparent, 1px hairline; hover is
-   a quiet tint, never a gold fill (the one-accent roster law holds).
-   r133 (R12): the faint 0.01em tracking dropped — Arabic labels. */
+/* the outline pill — the ghost twin of the §16f sweep: transparent
+   ground, cream text, the ::before gold underline. This §0g base
+   carries the md rung (48px floor + the 15px drawer rung) and the
+   r133 (R12) letter-spacing-0 law on the Arabic «تواصل معنا» labels
+   (parity-pinned). W7-I: the resting ring chrome §16f overrode — the
+   GAP-3 hairline border, the pill radius, the resting shadow and the
+   24px side padding — is excised; the :hover wash/border nudge died
+   to §16f's later hover block (border-color paints nothing over
+   border-style:none). The :hover lift shadow survives §16f and
+   stays live paint. */
 .landing .ln-btn-ghost {
-  padding: 10px 24px;
   font-size: 15px;
   min-block-size: 48px;
-  /* r133 (R12): 0.01em → 0 — the pill labels are Arabic («تواصل معنا»); */
   letter-spacing: 0;
-  background: transparent;
-  color: var(--ln-cream);
-  /* GAP-3: the old 0.14 hairline read as a disabled field — the pill
-     SHAPE must be visible before the text inside it can feel clickable. */
-  border: 1px solid rgb(242 239 230 / 0.34);
-  border-radius: var(--ln-radius-pill);
-  box-shadow: 0 1px 2px rgba(0,0,0,0.08);
 }
 .landing .ln-btn-ghost:hover {
-  background: rgb(242 239 230 / 0.07);
-  color: var(--ln-cream);
-  border-color: rgb(242 239 230 / 0.52);
   box-shadow: 0 2px 8px rgba(0,0,0,0.10);
 }
-.landing .ln-btn-ghost.xl { padding: 11px 32px; font-size: 16px; min-block-size: 52px; }
+.landing .ln-btn-ghost.xl { padding: 11px 32px; min-block-size: 52px; }
 
 /* r132 (A6 §2): the .ln-btn-text family (base + :hover + -badge, ≈23
    lines incl. its 6 grouped-selector tokens) is deleted — the landing

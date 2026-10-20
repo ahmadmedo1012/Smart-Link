@@ -1042,13 +1042,28 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
      .ln-journey-stations · .ln-beam-* since r160, zero JS measurers (the
      JourneyLightPath engine died with them), zero e2e selectors. The
      P3-28 pin retired with the family; this retirement pin holds the
-     ABSENCE so the family can never resurrect. */
+     ABSENCE so the family can never resurrect. W7-I completion: the
+     constellation-era furniture joins the grave — the eco dock/chips/
+     glass-card/canvas-tip family, the foreshadow-motif LANDING twin
+     (styles.css .ln-motif stays LIVE on /pricing), the world-panel
+     shell (--flip/body/stage/identity/claim-dot), and the ENTIRE mock-
+     frame family (§14d — WorldsSection renders no mock element; the
+     r160 render-path pin above is the positive half of the pair). The
+     r152 menu-mock thumb pin retired WITH the mock family (it asserted
+     paint of a selector nothing renders — dead paint, unpinned
+     truthfully instead). */
   const w7iRetiredSelectors = [
     '.ln-station', '.ln-journey-stage', '.ln-journey-stations', '.ln-beam',
+    '.ln-eco-dock', '.ln-eco-chip', '.ln-eco-card', '.ln-eco-tip',
+    '.ln-motif', '.ln-world-identity', '.ln-world-stage', '.ln-world-body',
+    '.ln-mock',
   ];
   check(
-    w7iRetiredSelectors.every((sel) => !lcss.includes(`.landing ${sel}`)),
-    'W7-I: the r142 station/beam anatomy stays excised from landing.css (station family + journey stage/stations + the winding beam — the r160 flood rows own الرحلة)'
+    w7iRetiredSelectors.every((sel) => !lcss.includes(`.landing ${sel}`))
+      && !/\.landing \.ln-world[\s,{]/.test(lcss)
+      && !/\.landing \.ln-world--flip/.test(lcss)
+      && !/\.landing \.ln-world-claim-dot/.test(lcss),
+    'W7-I: the r142 station/beam/eco/motif/mock/world-shell anatomy stays excised from landing.css (station family + journey stage/stations/beam + the EcosystemConstellation eco dock/chips/card/tip + the landing motif twin + the mock-frame skeletons + the world-panel shell — the r160 type-cards own العوالم; the styles.css motif twin stays live on /pricing)'
   );
   // r144 (P4-4SL, QA P1): the FAMILY CREST returns to the finale. The
   // r142 rewrite had retired the r141 crest image — a unilateral
@@ -1868,17 +1883,25 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
      .ln-mock-intent 0.05em «منيو»، .ln-mock-ticket-head 0.04em
      «طلب جديد») and three wrappers tracked nothing but their mono
      children. All six declarations are excised; the sweep now freezes
-     the WHOLE tracked-declaration inventory at the three sanctioned
-     Latin-only devices. */
+     the WHOLE tracked-declaration inventory at the sanctioned
+     Latin-only devices.
+     W7-I re-author: the third survivor (.ln-eco-tip b 0.02em ←
+     world.name) died WITH its dead eco family (the r142 constellation
+     canvas hover-tip — zero TSX consumers since r160); the freeze now
+     holds the TWO LIVE devices honestly. The three mock devices in
+     the violation sweep below died ENTIRELY with the W7-I mock-family
+     excision — their negative clauses stay satisfied by total absence
+     (kept so a resurrected mock can never ship Arabic tracking again). */
   check(!/\.ln-progress-label/.test(landingCss),
     'r144: the progress-label ls-0 pin retired with the dead .ln-progress chapter');
   check(/\.landing \.ln-btn-ghost\s*\{[^}]*letter-spacing:\s*0/.test(landingCss),
     'r12: ghost-pill labels letter-spacing 0 (Arabic «تواصل معنا» — was 0.01em)');
-  check(count(landingCss, /letter-spacing:\s*0\.0\d+em/g) === 3
-      && /\.landing \.ln-eco-tip b\s*\{[^}]*letter-spacing:\s*0\.02em/.test(landingCss)
+  check(count(landingCss, /letter-spacing:\s*0\.0\d+em/g) === 2
+      && !/\.landing \.ln-eco-tip b/.test(landingCss)
+      && !/\.ln-eco-tip/.test(landingCss)
       && /\.landing \.ln-world-host\s*\{[^}]*letter-spacing:\s*0\.04em/.test(landingCss)
       && /\.landing \.ln-ground-cell-tag\s*\{[^}]*letter-spacing:\s*0\.06em/.test(landingCss),
-    'r144 tracked-inventory freeze: exactly THREE tracked declarations survive — the Latin-only .ln-eco-tip b (world.name)/.ln-world-host (domains)/.ln-ground-cell-tag (INSTANT·AUTO·SCAN·ONE LINK)');
+    'r144 tracked-inventory freeze (W7-I re-authored): exactly TWO tracked declarations survive — the Latin-only .ln-world-host (domains)/.ln-ground-cell-tag (INSTANT·AUTO·SCAN·ONE LINK); the third device (.ln-eco-tip b) died with its dead eco family');
   check(!/\.ln-marquee-tag\s*\{[^}]*letter-spacing/.test(landingCss)
       && !/\.ln-mock-intent[^{]*\{[^}]*letter-spacing/.test(landingCss)
       && !/\.ln-mock-auto\s*\{[^}]*letter-spacing/.test(landingCss)
@@ -2126,10 +2149,14 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
       && !read('components/landing/WorldsSection.tsx').includes('MockFrame'),
     'r160 worlds: the CSS mocks + motif devices are retired from the render path (type-led cards, S3 discipline)'
   );
-  check(
-    /\[data-world="menu"\] \.ln-mock-thumb\s*\{[^}]*border-radius:\s*var\(--ln-radius-pill\)/.test(landingCss134),
-    'r152 menu mock: the dish avatars go plate-round (the plate motif echoes inside the mock)'
-  );
+  /* W7-I (dead-CSS surgery): the r152 menu-mock pin — the dish avatars
+     go plate-round — RETIRED WITH the mock family it described: it
+     asserted the border-radius paint of a [data-world="menu"] mock
+     thumb that NOTHING has rendered since the r160 re-cast (the r160
+     render-path pin directly above is the live contract: no MockFrame
+     in WorldsSection; the W7-I retirement pin holds the CSS absence).
+     Pinning paint of a dead family is how drift hides (the r144
+     doctrine). EXPECTED_ASSERTIONS 573 → 572 in the same commit. */
 
   // J ── fix 10a: the r133-A10 autofill/caret port (madarek base.css:
   //     104-125; the Smart-Menu globals.css twin) — pinned in the
@@ -2819,8 +2846,16 @@ if (failures.length > 0) {
    WhatsApp bullet's wiring. The r144 WhatsApp-claim pin was re-truthed
    in place (2 → 3 occurrences: the bullet is now a link) and the r16
    footer chrome-site count re-truthed (8 → 7: the email row retired
-   WITH the channel claim — both intentional, both same-commit). */
-const EXPECTED_ASSERTIONS = 573;
+   WITH the channel claim — both intentional, both same-commit).
+   W7-I (defer-if-pinned dead-CSS surgery): 573 → 572 — the P3-28
+   station-card resting-shadow pin retired WITH its dead family
+   (commit 8e29949, −1/+1 net-zero: the W7-I retirement pin replaced
+   it), and the r152 menu-mock plate-round pin retired WITH the mock
+   family (the completion commit — dead paint; the r160 render-path
+   pin + the retirement pin hold the truth); the r144 tracked-inventory
+   freeze re-authored honestly 3 → 2 tracked survivors (.ln-eco-tip b
+   died with the eco family) — a re-author, not a count change. */
+const EXPECTED_ASSERTIONS = 572;
 check(
   passed + 1 === EXPECTED_ASSERTIONS,
   `self-count: the suite must run exactly ${EXPECTED_ASSERTIONS} assertions (ran ${passed + 1}) — bump EXPECTED_ASSERTIONS with every intentional pin change`

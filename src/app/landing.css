@@ -1691,9 +1691,10 @@
    r142 «الكوكبة الحية» — the rebuilt chapter families.
    Everything below is token-only (no raw hex outside the token block),
    logical-property RTL, and every animation carries its reduced-motion
-   off-switch. Families: world tokens → eco dock/chips/card/tip →
-   worlds chapter → mock frames → journey beam → cockpit → ground →
-   marquee broadcast tag → finale line → mobile → reduced motion.
+   off-switch. W7-I: the dead r142 furniture (eco dock/chips/card/tip,
+   mock frames, the beam, the world-panel shell) is excised — the
+   surviving families: world tokens → worlds type-cards → cockpit →
+   ground → marquee broadcast tag → finale line → mobile → RM.
    ════════════════════════════════════════════════════════════════════ */
 
 /* ── 14a · world tokens — MOVED to §0a2 (r152) ──────────────────────
@@ -1703,336 +1704,31 @@
    at the top of this sheet. --ln-glass/-strong moved there too — one
    canonical token block, one place to audit. */
 
-/* ── 14b · the constellation dock — tappable worlds + glass card ───── */
-.landing .ln-eco-dock {
-  position: relative;
-  z-index: 3;
-  margin-block-start: var(--sp-6);
-  display: grid;
-  justify-items: start;
-  gap: var(--sp-3);
-}
-.landing .ln-eco-chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--sp-2);
-}
-.landing .ln-eco-chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  padding: 9px 14px 9px 16px;
-  /* r148 (19-AUDIT-SL D1): the mobile floor — the chips are the primary
-     product switchers on touch yet measured 35px at 390 (host line hidden
-     ≤420px leaves a 17px line + 18px padding). min-height keeps the
-     padding rhythm; the dock is a wrapping flex row so nothing overlaps
-     the hero canvas (decorative, pointer-events none, z-index below). */
-  min-height: 44px;
-  border-radius: var(--ln-radius-pill);
-  border: 1px solid var(--ln-line);
-  background: var(--ln-glass);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  color: var(--ln-cream);
-  cursor: pointer;
-  transition: border-color var(--ln-t-base) var(--ln-ease),
-              background var(--ln-t-base) var(--ln-ease),
-              transform var(--ln-t-base) var(--ln-ease);
-}
-.landing .ln-eco-chip:hover,
-.landing .ln-eco-chip.is-hot {
-  border-color: color-mix(in srgb, var(--ln-world) 55%, transparent);
-  transform: translateY(-1px);
-}
-.landing .ln-eco-chip.is-open {
-  background: color-mix(in srgb, var(--ln-world) 12%, var(--ln-glass));
-  border-color: var(--ln-world);
-}
-/* r151 (P2-2): the world-tinted focus overrides retired — every ring on
-   the landing rides the universal cream rule (see the §14 focus block). */
-.landing .ln-eco-chip-dot {
-  inline-size: 9px;
-  block-size: 9px;
-  border-radius: var(--ln-radius-pill);
-  background: var(--ln-world);
-  box-shadow: 0 0 10px color-mix(in srgb, var(--ln-world) 60%, transparent);
-  flex-shrink: 0;
-}
-.landing .ln-eco-chip-body {
-  display: grid;
-  line-height: 1.25;
-  text-align: start;
-}
-.landing .ln-eco-chip-name {
-  font-size: 0.92rem;
-  font-weight: var(--fw-semibold);
-}
-.landing .ln-eco-chip-host {
-  font-size: 0.66rem;
-  color: var(--ln-cream-dim);
-  direction: ltr;
-  unicode-bidi: isolate;
-}
-.landing .ln-eco-card {
-  max-inline-size: 540px;
-  padding: var(--sp-5);
-  border-radius: var(--r-2xl);
-  border: 1px solid color-mix(in srgb, var(--ln-world) 38%, var(--ln-line));
-  background: var(--ln-glass-strong);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  box-shadow: 0 24px 60px rgba(7, 11, 22, 0.45);
-  animation: ln-eco-card-in 280ms var(--ln-ease-out);
-}
-@keyframes ln-eco-card-in {
-  from { opacity: 0; transform: translateY(10px); }
-  to   { opacity: 1; transform: none; }
-}
-/* r151 (P2-2): the card panel rides the universal cream ring. */
-.landing .ln-eco-card-head {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-block-end: var(--sp-3);
-}
-/* r152 (phase5): the plain hue DOT is retired — the card head now
-   opens with the world's FORESHADOW MOTIF (§14c-motif below), the
-   sibling's own mark in its literal identity hex. */
-
-/* ── 14c-motif · the foreshadow motifs (r152 phase5) ──────────────
-   One pure-CSS world mark per sibling, painted ONLY from the true
-   identity hex (--ln-world-true — never the lit text grade): the
-   PLATE (Smart Menu · warm culinary), the CIRCUIT (SmartBot ·
-   circuit petrol), the ROUTE (Smart Order · operational daylight).
-   All insets are LOGICAL — the circuit and route mirror under RTL
-   exactly as their products' own marks would. Decorative furniture
-   (aria-hidden in every consumer); the sibling's REAL UI carries
-   the meaning — these carry recognition. */
-.landing .ln-motif {
-  position: relative;
-  display: inline-block;
-  flex-shrink: 0;
-  block-size: 15px;
-  inline-size: 15px;
-}
-/* the PLATE — a terracotta serving circle: rim + center (menu thumb
-   twins go plate-round below; the mock's dish avatars echo it). */
-.landing .ln-motif--plate {
-  border: 1.5px solid var(--ln-world-true);
-  border-radius: var(--ln-radius-pill);
-}
-.landing .ln-motif--plate::after {
-  content: '';
-  position: absolute;
-  inset: 3.5px;
-  border-radius: var(--ln-radius-pill);
-  background: var(--ln-world-true);
-}
-/* the CIRCUIT — a teal trace with node dots at both ends */
-.landing .ln-motif--circuit {
-  inline-size: 24px;
-  block-size: 12px;
-  margin-block-start: 1px;
-  border-block-start: 2px solid var(--ln-world-true);
-}
-.landing .ln-motif--circuit::before,
-.landing .ln-motif--circuit::after {
-  content: '';
-  position: absolute;
-  inset-block-start: -3px;
-  inline-size: 6px;
-  block-size: 6px;
-  border-radius: var(--ln-radius-pill);
-  background: var(--ln-world-true);
-}
-.landing .ln-motif--circuit::before { inset-inline-start: -1px; }
-.landing .ln-motif--circuit::after { inset-inline-end: -1px; }
-/* the ROUTE — an orange dashed line, origin dot → destination ring */
-.landing .ln-motif--route {
-  inline-size: 26px;
-  block-size: 12px;
-  margin-block-start: 1px;
-  border-block-start: 2px dashed var(--ln-world-true);
-}
-.landing .ln-motif--route::before {
-  content: '';
-  position: absolute;
-  inset-block-start: -2px;
-  inset-inline-start: -1px;
-  inline-size: 6px;
-  block-size: 6px;
-  border-radius: var(--ln-radius-pill);
-  background: var(--ln-world-true);
-}
-.landing .ln-motif--route::after {
-  content: '';
-  position: absolute;
-  inset-block-start: -4px;
-  inset-inline-end: -3px;
-  inline-size: 10px;
-  block-size: 10px;
-  border: 2px solid var(--ln-world-true);
-  border-radius: var(--ln-radius-pill);
-}
-.landing .ln-eco-card-id {
-  display: grid;
-  line-height: 1.3;
-  margin-inline-end: auto;
-}
-.landing .ln-eco-card-id b {
-  font-size: 1.05rem;
-  font-weight: var(--fw-semibold);
-}
-.landing .ln-eco-card-id i {
-  font-style: normal;
-  font-size: 0.8rem;
-  color: var(--ln-cream-dim);
-}
-/* r149 (SL3 + self-audit): the 30×30 close box was the 8th sub-floor
-   target — the ::after halo widens the strike zone to 44×44 with zero
-   layout change, and the corner rides the token ladder (C5: 9px was
-   off-scale). */
-.landing .ln-eco-card-close {
-  position: relative;
-  display: grid;
-  place-items: center;
-  inline-size: 30px;
-  block-size: 30px;
-  border-radius: var(--r-sm);
-  border: 1px solid var(--ln-line);
-  background: transparent;
-  color: var(--ln-cream-dim);
-  cursor: pointer;
-  transition: color var(--ln-t-fast) var(--ln-ease),
-              border-color var(--ln-t-fast) var(--ln-ease);
-}
-.landing .ln-eco-card-close::after {
-  content: '';
-  position: absolute;
-  inset: -7px;
-  border-radius: inherit;
-}
-.landing .ln-eco-card-close:hover {
-  color: var(--ln-cream);
-  border-color: var(--ln-world);
-}
-/* r151 (P2-2): rides the universal cream ring. */
-.landing .ln-eco-card-facts {
-  display: grid;
-  gap: var(--sp-2);
-}
-.landing .ln-eco-card-facts li {
-  display: flex;
-  gap: 10px;
-  font-size: 0.92rem;
-  line-height: 1.6;
-  color: var(--ln-cream);
-}
-.landing .ln-eco-card-mark {
-  flex-shrink: 0;
-  inline-size: 6px;
-  block-size: 6px;
-  margin-block-start: 8px;
-  background: var(--ln-world);
-  transform: rotate(45deg);
-}
-.landing .ln-eco-card-foot {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--sp-3);
-  margin-block-start: var(--sp-4);
-  padding-block-start: var(--sp-3);
-  border-block-start: 1px solid var(--ln-line-soft);
-}
-.landing .ln-eco-card-host {
-  font-size: 0.72rem;
-  color: var(--ln-cream-dim);
-  direction: ltr;
-  unicode-bidi: isolate;
-}
-.landing .ln-eco-card-cta {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  padding: 8px 14px;
-  /* r149 (self-audit): 38px measured — the card's only action rides the
-     44px touch floor like every landing pill. */
-  min-block-size: 44px;
-  border-radius: var(--ln-radius-pill);
-  background: var(--ln-world);
-  color: var(--ln-ink);
-  font-size: 0.85rem;
-  font-weight: var(--fw-semibold);
-  transition: transform var(--ln-t-fast) var(--ln-ease),
-              opacity var(--ln-t-fast) var(--ln-ease);
-}
-.landing .ln-eco-card-cta:hover {
-  transform: translateX(-2px); /* RTL forward = inline-start */
-  opacity: 0.92;
-}
-/* r151 (P2-2): the ONE exception class with the gold pill — this CTA is
-   filled with the light world hue, so its ring goes ink to survive the
-   fill edge (cream would wash out at 1.5–1.9:1 against ember/cyan). */
-.landing .ln-eco-card-cta:focus-visible { outline-color: var(--ln-ink); }
-/* the canvas hover tip (positioned imperatively in canvas space) */
-.landing .ln-eco-tip {
-  position: absolute;
-  top: 0;
-  inset-inline-start: 0;
-  z-index: 2;
-  display: grid;
-  justify-items: center;
-  gap: 4px;
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity var(--ln-t-fast) var(--ln-ease);
-  will-change: transform;
-}
-.landing .ln-eco-tip.on { opacity: 1; }
-.landing .ln-eco-tip b {
-  /* r144 (P4-4SL): التتبّع الوحيد المصرّح به في العوالم اللاتينية —
-     هذا العنصر يحمل world.name حصراً (‎"Smart Menu"…) لا نصًا عربيًا
-     (محرّك الكانفس يكتبه إمبراطورياً) — قانون r133 سليم. */
-  font-family: var(--ln-mono);
-  font-size: 0.68rem;
-  font-weight: 500;
-  letter-spacing: 0.02em;
-  padding: 4px 9px;
-  border-radius: var(--r-sm);
-  border: 1px solid var(--ln-line);
-  background: var(--ln-glass-strong);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  white-space: nowrap;
-}
-.landing .ln-eco-tip i {
-  inline-size: 7px;
-  block-size: 7px;
-  background: var(--ln-glass-strong);
-  border-inline-end: 1px solid var(--ln-line);
-  border-block-end: 1px solid var(--ln-line);
-  transform: rotate(45deg);
-  margin-block-start: -8px;
-}
-.landing .ln-hero-canvas.is-pointer { cursor: pointer; }
-
-/* ── 14c · العوالم — the three editorial world panels ──────────────── */
+/* ── W7-I · the r142 constellation furniture is EXCISED ────────────
+   The EcosystemConstellation dock — eco dock/chips/glass card/canvas
+   hover-tip — and the r152 foreshadow-motif LANDING twin (.ln-motif)
+   had ZERO TSX consumers since the r160 re-cast: WorldsSection renders
+   the type-led cards (no chips, no glass card, no identity strip, no
+   motif spans — r160's render-path pin asserts the absence), and the
+   ChainSculpture hero is a canvas with no DOM furniture. The
+   PRODUCT-sheet motif twin (styles.css .ln-motif) stays LIVE — /pricing
+   composes it on its wells (parity-pinned). The W7-I retirement pin
+   (tests/parity.mjs) holds this absence. What survives below: the
+   world-card anatomy (14c: worlds-list + the num/host/name/sub/
+   claims-li/cta base layers — each keeps the slots §16d does NOT
+   re-own: pointer-events/user-select, the line-heights, unicode-bidi,
+   text-align, the CTA padding/radius/transition belt). W7-I: the
+   claims PARENT base and the ≤960px num/name responsive twins died
+   to §16d's later same-specificity re-declarations — pruned with
+   their deaths documented in place. */
+/* ── 14c · العوالم — the r142 editorial panels (W7-I: the shell —
+   .ln-world/--flip/body/stage/identity/claim-dot — died with the
+   r160 type-cards; the LIVE cell anatomy below survives) ─────── */
 .landing .ln-worlds-list {
   display: grid;
   gap: clamp(var(--sp-9), 9vw, 132px);
   margin-block-start: clamp(var(--sp-8), 6vw, 72px);
 }
-.landing .ln-world {
-  position: relative;
-  display: grid;
-  align-items: center;
-  gap: clamp(var(--sp-6), 4vw, 56px);
-  grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
-}
-.landing .ln-world--flip .ln-world-body { order: 2; }
-.landing .ln-world--flip .ln-world-stage { order: 1; }
 .landing .ln-world-num {
   position: absolute;
   inset-block-start: -0.52em;
@@ -2050,22 +1746,6 @@
   pointer-events: none;
   user-select: none;
   z-index: 0;
-}
-.landing .ln-world-body {
-  position: relative;
-  z-index: 1;
-  display: grid;
-  gap: var(--sp-3);
-  justify-items: start;
-}
-/* r152 (phase5): the identity strip — the sibling's motif (its literal
-   identity hex) beside the live domain. The strip is the FIRST thing
-   every panel says: WHO this world is, in ITS own color. */
-.landing .ln-world-identity {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  min-block-size: 15px;
 }
 .landing .ln-world-host {
   /* r144 (P4-4SL): تتبّع مصرّح به — المحتوى نطاقات لاتينية حصراً
@@ -2089,26 +1769,17 @@
   color: var(--ln-cream);
   line-height: 1.7;
 }
-.landing .ln-world-claims {
-  display: grid;
-  gap: var(--sp-2);
-  margin-block-start: var(--sp-2);
-}
+/* W7-I: the claims PARENT base (display/gap/margin-block-start) is
+   excised — §16d's later same-selector block re-declares every slot
+   it carried (margin: 18px 0 0 / display: grid / gap: 8px); the li
+   base below survives because §16d re-owns only its color/font/
+   line-height slots — the flex row + the 11px gap stay live paint. */
 .landing .ln-world-claims li {
   display: flex;
   gap: 11px;
   font-size: 0.95rem;
   line-height: 1.65;
   color: var(--ln-cream-dim);
-}
-.landing .ln-world-claim-dot {
-  flex-shrink: 0;
-  inline-size: 7px;
-  block-size: 7px;
-  margin-block-start: 9px;
-  border-radius: var(--ln-radius-pill);
-  background: var(--ln-world);
-  opacity: 0.85;
 }
 .landing .ln-world-cta {
   display: inline-flex;
@@ -2137,216 +1808,20 @@
 }
 /* r151 (P2-2): the world-tinted ring is retired — transparent pill, so
    the universal cream ring reads cleanly against the ink ground. */
-/* the stage — each world renders its own pure-CSS product mock */
-.landing .ln-world-stage {
-  position: relative;
-  z-index: 1;
-}
 
-/* ── 14d · mock frames — the per-world CSS product skeletons ───────── */
-.landing .ln-mock {
-  border-radius: var(--r-xl);
-  border: 1px solid var(--ln-line);
-  border-block-start-color: color-mix(in srgb, var(--ln-world) 45%, var(--ln-line));
-  background: var(--ln-glass);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  box-shadow: 0 30px 70px rgba(7, 11, 22, 0.5);
-  overflow: hidden;
-  transform: perspective(1200px) rotateY(0deg);
-}
-.landing .ln-world--flip .ln-mock {
-  transform: perspective(1200px) rotateY(2.4deg);
-}
-.landing .ln-world:not(.ln-world--flip) .ln-mock {
-  transform: perspective(1200px) rotateY(-2.4deg);
-}
-.landing .ln-mock-bar {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 10px 14px;
-  border-block-end: 1px solid var(--ln-line-soft);
-  background: rgba(13, 20, 40, 0.35);
-}
-.landing .ln-mock-dots {
-  display: inline-flex;
-  gap: 5px;
-}
-.landing .ln-mock-dots i {
-  inline-size: 8px;
-  block-size: 8px;
-  border-radius: var(--ln-radius-pill);
-  background: var(--ln-line);
-}
-.landing .ln-mock-host {
-  font-size: 0.68rem;
-  color: var(--ln-cream-dim);
-  direction: ltr;
-  unicode-bidi: isolate;
-}
-.landing .ln-mock-body {
-  display: grid;
-  gap: var(--sp-3);
-  padding: var(--sp-4);
-}
-.landing .ln-mock-chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--sp-2);
-}
-.landing .ln-mock-chip {
-  padding: 5px 11px;
-  border-radius: var(--ln-radius-pill);
-  border: 1px solid var(--ln-line);
-  font-size: 0.72rem;
-  color: var(--ln-cream-dim);
-}
-.landing .ln-mock-chip.is-active {
-  border-color: color-mix(in srgb, var(--ln-world) 60%, transparent);
-  color: var(--ln-world);
-}
-.landing .ln-mock-rows {
-  display: grid;
-  gap: var(--sp-2);
-}
-.landing .ln-mock-row {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 9px 11px;
-  border-radius: var(--r-md);
-  border: 1px solid var(--ln-line-soft);
-  background: rgba(13, 20, 40, 0.28);
-}
-.landing .ln-mock-thumb {
-  flex-shrink: 0;
-  inline-size: 38px;
-  block-size: 38px;
-  border-radius: var(--r-sm);
-  background: linear-gradient(135deg, color-mix(in srgb, var(--ln-world) 30%, transparent), var(--ln-line-soft));
-}
-/* r152 (phase5): the PLATE echo — Smart Menu's dish avatars go
-   plate-round (the sibling's plate motif speaks inside its mock). */
-.landing .ln-world[data-world="menu"] .ln-mock-thumb {
-  border-radius: var(--ln-radius-pill);
-}
-.landing .ln-mock-lines {
-  flex: 1;
-  display: grid;
-  gap: 6px;
-}
-.landing .ln-mock-lines i,
-.landing .ln-mock-line {
-  display: block;
-  block-size: 7px;
-  border-radius: var(--ln-radius-pill);
-  background: var(--ln-line);
-}
-.landing .ln-mock-lines i:first-child { background: color-mix(in srgb, var(--ln-cream) 26%, transparent); }
-.landing .ln-mock-price {
-  flex-shrink: 0;
-  inline-size: 34px;
-  block-size: 9px;
-  border-radius: var(--ln-radius-pill);
-  background: color-mix(in srgb, var(--ln-world) 55%, transparent);
-}
-.landing .ln-mock-chat {
-  display: grid;
-  gap: var(--sp-2);
-}
-.landing .ln-mock-bubble {
-  display: grid;
-  gap: 6px;
-  max-inline-size: 82%;
-  padding: 10px 13px;
-  border-radius: var(--r-lg);
-}
-.landing .ln-mock-bubble.is-in {
-  justify-self: start;
-  border-start-start-radius: 4px;
-  border: 1px solid var(--ln-line);
-  background: rgba(13, 20, 40, 0.32);
-}
-.landing .ln-mock-bubble.is-out {
-  justify-self: end;
-  border-start-end-radius: 4px;
-  border: 1px solid color-mix(in srgb, var(--ln-world) 42%, transparent);
-  background: color-mix(in srgb, var(--ln-world) 10%, transparent);
-}
-/* r144 (P4-4SL، قانون r133): كانت 0.05em على عنصر يحمل النص المختلط
-   «INTENT · منيو» مباشرة (العنصر نفسه يحمل ln-mono، لكن هذه القاعدة
-   أُعلنت بعده فتصادت عليه) — التتبّع كسر الوصل العربية. حُذف الإعلان؛
-   القيمة اللاتينية الصرفة لا تستحق قاعدة مشتركة تجرّ العربية. */
-.landing .ln-mock-intent,
-.landing .ln-mock-auto {
-  font-size: 0.6rem;
-  color: var(--ln-world);
-  direction: ltr;
-  unicode-bidi: isolate;
-}
-.landing .ln-mock-typing {
-  display: inline-flex;
-  gap: 4px;
-  justify-self: start;
-  padding: 8px 11px;
-  border-radius: var(--ln-radius-pill);
-  border: 1px solid var(--ln-line-soft);
-}
-.landing .ln-mock-typing i {
-  inline-size: 5px;
-  block-size: 5px;
-  border-radius: var(--ln-radius-pill);
-  background: var(--ln-cream-dim);
-  animation: ln-mock-typing 1.2s var(--ln-ease-linear) infinite;
-}
-.landing .ln-mock-typing i:nth-child(2) { animation-delay: 0.15s; }
-.landing .ln-mock-typing i:nth-child(3) { animation-delay: 0.3s; }
-@keyframes ln-mock-typing {
-  0%, 60%, 100% { opacity: 0.35; transform: none; }
-  30% { opacity: 1; transform: translateY(-2px); }
-}
-.landing .ln-mock-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--sp-2);
-}
-.landing .ln-mock-tile {
-  display: grid;
-  gap: 6px;
-  padding: 8px;
-  border-radius: var(--r-md);
-  border: 1px solid var(--ln-line-soft);
-  background: rgba(13, 20, 40, 0.28);
-}
-.landing .ln-mock-tile-art {
-  block-size: 44px;
-  border-radius: var(--r-sm);
-  background: linear-gradient(135deg, color-mix(in srgb, var(--ln-world) 32%, transparent), var(--ln-line-soft));
-}
-.landing .ln-mock-tile-line {
-  block-size: 6px;
-  border-radius: var(--ln-radius-pill);
-  background: var(--ln-line);
-}
-.landing .ln-mock-ticket {
-  display: grid;
-  gap: 8px;
-  padding: var(--sp-3);
-  border-radius: var(--r-md);
-  border: 1px dashed color-mix(in srgb, var(--ln-world) 50%, transparent);
-  background: color-mix(in srgb, var(--ln-world) 7%, transparent);
-}
-/* r144 (P4-4SL، قانون r133): كانت 0.04em على «ORDER · طلب جديد» —
-   نص عربي مباشر في العنصر نفسه (جرد W1 أخطأ تصنيفه Latin-OK لأنه
-   يظنّ العربية داخل أبناء ln-mono؛ الحقيقة أن النص ابنٌ مباشر).
-   حُذف الإعلان بنفس منطق ln-marquee-tag. */
-.landing .ln-mock-ticket-head {
-  font-size: 0.68rem;
-  color: var(--ln-world);
-  direction: ltr;
-  unicode-bidi: isolate;
-}
+/* ── 14d · W7-I: the r142 mock frames are EXCISED ────────────────────
+   The per-world CSS product skeletons — mock bar/dots/host/body/chips/
+   rows/thumb/lines/price/chat/bubbles/intent/typing dots/grid/tiles/
+   ticket (+ the flip perspective rungs + the r152 plate-round menu-
+   thumb echo + the §15b day washes below) — had ZERO TSX consumers
+   since the r160 re-cast: WorldsSection renders the type-led cards
+   only (its r160 render-path pin asserts no MockFrame and no motif
+   spans in the render), so nothing has produced a mock element since
+   the constellation era retired. The W7-I retirement pin
+   (tests/parity.mjs) holds the absence; the r144 Arabic-tracking
+   excisions that lived inside this family (intent/auto/ticket-head)
+   are documented by the tracked-inventory freeze — the family's total
+   absence satisfies those negative clauses by construction. */
 
 /* W7-I: §14e (the winding beam + its station riders) is EXCISED — r160
    re-cast الرحلة as the ORANGE FLOOD (JourneySection renders
@@ -2631,31 +2106,12 @@
   .landing .ln-marquee-item {
     color: color-mix(in srgb, var(--ln-cream) 34%, var(--ln-cream-dim));
   }
-  .landing .ln-world,
-  .landing .ln-world--flip {
-    grid-template-columns: 1fr;
-    gap: var(--sp-5);
-  }
-  .landing .ln-world--flip .ln-world-body { order: 1; }
-  .landing .ln-world--flip .ln-world-stage { order: 2; }
-  .landing .ln-world-num {
-    inset-block-start: -0.6em;
-    inset-inline-end: 0;
-    font-size: clamp(4.2rem, 22vw, 6rem);
-  }
-  .landing .ln-world-name { font-size: clamp(1.9rem, 8.4vw, 2.4rem); }
-  .landing .ln-mock { transform: none; }
-  .landing .ln-world--flip .ln-mock,
-  .landing .ln-world:not(.ln-world--flip) .ln-mock { transform: none; }
-  .landing .ln-eco-chips { gap: var(--sp-2); }
-  .landing .ln-eco-chip { padding: 8px 12px; }
-  .landing .ln-eco-chip-name { font-size: 0.85rem; }
-  .landing .ln-eco-card { padding: var(--sp-4); }
-  .landing .ln-eco-card-foot {
-    flex-direction: column;
-    align-items: stretch;
-  }
-  .landing .ln-eco-card-cta { justify-content: center; }
+  /* W7-I: the ≤960px world-num/world-name twins + the mock transform
+     rungs that stood here are EXCISED — dead since §16d's same-
+     specificity rules landed LATER in source (position:static + inset
+     auto + the clamp font-sizes own every rung; the mock family has
+     no TSX consumer at all). §16d's own ≤760px block below is the
+     live mobile paint. */
   .landing .ln-cockpit-grid { grid-template-columns: 1fr; }
   .landing .ln-cockpit-scope { max-inline-size: 210px; }
   .landing .ln-cockpit-readout { grid-template-columns: 1fr 1fr; }
@@ -2669,13 +2125,12 @@
 }
 @media (max-width: 420px) {
   .landing .ln-cockpit-readout { grid-template-columns: 1fr; }
-  .landing .ln-eco-chip-host { display: none; }
 }
 
-/* ── 14j · reduced motion — every r142 animation gets its off-switch ─ */
+/* ── 14j · reduced motion — every r142 animation gets its off-switch ─
+   (W7-I: the eco/mock/beam switches died with their families — the
+   LIVE switch set is the cockpit/marquee pulses + the world-cta) ── */
 @media (prefers-reduced-motion: reduce) {
-  .landing .ln-eco-card { animation: none; }
-  .landing .ln-mock-typing i { animation: none; opacity: 0.6; }
   .landing .ln-cockpit-live,
   .landing .ln-marquee-live { animation: none; opacity: 0.85; }
   .landing .ln-world-cta { transition: none; }
@@ -2857,13 +2312,8 @@ html.light .landing .ln-stat { background: rgb(10 10 10 / 0.04); }
    the rows are flat hairlines now (§10's r160 grammar); a day-only wash
    would fork the two stages' row anatomy. */
 
-/* the mock frames: rows/bubbles/tiles sit as ink-tinted paper rows
-   on the ivory glass (the night ran 0.28–0.35 dark washes; the day
-   whisper is 0.04–0.05 — KODE paper UI, hairlines do the structure) */
-html.light .landing .ln-mock-bar { background: rgb(10 10 10 / 0.05); }
-html.light .landing .ln-mock-row { background: rgb(10 10 10 / 0.04); }
-html.light .landing .ln-mock-bubble.is-in { background: rgb(10 10 10 / 0.05); }
-html.light .landing .ln-mock-tile { background: rgb(10 10 10 / 0.04); }
+/* W7-I: the mock-frame day washes (bar/row/bubble/tile) died WITH
+   the family — excised above with the night source. */
 
 /* cockpit: the console status strip + scope dial + readout wells */
 html.light .landing .ln-cockpit-status { background: rgb(10 10 10 / 0.05); }
@@ -3687,14 +3137,13 @@ html.light .landing .ln-btn-gold:hover { color: var(--ln-gold-deep); }
    blur, square corners, one hairline) but .ln-ground never did — the
    platforms console kept the retired GLASS recipe (var(--ln-glass)
    + backdrop-filter 16px + r-2xl radius): the last CONSOLE on it (the
-   worlds' .ln-mock frames + the eco-chip furniture still ride the
-   near-opaque 0.92 panel token with vestigial blur — content/mock
-   surfaces, not instrument consoles; the console grammar owns the
-   consoles). The two consoles now read as one grammar:
-   flat framed instruments. var(--ln-line) is the token pair
-   (rgba(255,255,255,0.16) night / rgba(10,10,10,0.18) day) so the ONE
-   rule flips both stages — the §15b status-strip/cell twins resolve
-   through their own (0,2,1) scopes as designed. */
+   worlds' dead r142 mock frames + the eco-chip furniture — both
+   excised at W7-I — were the only other glass riders; content
+   surfaces, not instrument consoles). The two consoles now read as
+   one grammar: flat framed instruments. var(--ln-line) is the token
+   pair (rgba(255,255,255,0.16) night / rgba(10,10,10,0.18) day) so the
+   ONE rule flips both stages — the §15b status-strip/cell twins
+   resolve through their own (0,2,1) scopes as designed. */
 .landing .ln-ground {
   background: transparent;
   border-radius: 0;

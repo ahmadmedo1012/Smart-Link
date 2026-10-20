@@ -13,9 +13,12 @@ import { SITE } from "@/lib/site"
    · `.scrolled` + the top progress ribbon's `--p` are written
      imperatively (one passive scroll listener → one rAF → DOM writes);
      React NEVER re-renders for scrolling (zero setState);
-   · scroll-spy (r128 R2): IntersectionObserver thresholds [0,.35,.5,.65,1],
-     rootMargin -20% 0px -40% 0px, candidates ratio > .35, winner by most
-     viewport coverage → header.dataset.activeSection (the landing.css
+   · scroll-spy (r128 R2; re-anchored W7-H): the active chapter is the
+     section containing the viewport's 40% spy line, computed in the
+     SAME rAF-coalesced scroll path as .scrolled/--p (the r128
+     IntersectionObserver's target-ratio > 0.35 metric could never
+     fire for chapters taller than the root band — العوالم والرحلة
+     never lit) → header.dataset.activeSection (the landing.css
      rules read it there);
    · megamenu with tone-coded icon wells (Escape + onBlur close, focus
      return to the trigger);
@@ -86,6 +89,9 @@ export function LandingHeader() {
   useEffect(() => {
     const header = headerRef.current
     const bar = progressBarRef.current
+    const spySections = Array.from(
+      document.querySelectorAll<HTMLElement>(SPY_SECTIONS)
+    )
 
     let raf = 0
     const apply = () => {
@@ -96,6 +102,32 @@ export function LandingHeader() {
         const max = document.documentElement.scrollHeight - window.innerHeight
         const p = max > 0 ? Math.min(1, y / max) : 0
         bar.style.setProperty("--p", p.toFixed(4))
+      }
+      /* W7-H (scroll-spy re-anchor): the active chapter = the section
+         containing the viewport's spy line (40% down — the exact center
+         of the r128 observer's -20%/-40% band). The r128 metric
+         (target-ratio > 0.35) could NEVER fire for chapters taller
+         than rootBand/0.35: العوالم (1721px) والرحلة (1525px) clip to
+         ~0.21/0.24 against the 360px band on a 900px viewport, so the
+         nav highlight silently never lit for the two main chapters
+         (live-verified at HEAD: scrollY 1800, line deep inside
+         #products, attribute null). The geometric line test is
+         height-agnostic, rides the same rAF-coalesced scroll path
+         (still zero setState — one imperative dataset write), and
+         keeps the css contract verbatim: header[data-active-section]
+         with the section ids, empty between chapters. */
+      if (header) {
+        const line = window.innerHeight * 0.4
+        let winner: HTMLElement | null = null
+        for (const s of spySections) {
+          const r = s.getBoundingClientRect()
+          if (r.top <= line && r.bottom >= line) {
+            winner = s
+            break
+          }
+        }
+        if (winner) header.dataset.activeSection = winner.id
+        else delete header.dataset.activeSection
       }
     }
     const onScroll = () => {
@@ -108,40 +140,6 @@ export function LandingHeader() {
       window.removeEventListener("scroll", onScroll)
       if (raf) cancelAnimationFrame(raf)
     }
-  }, [])
-
-  /* Scroll-spy — active section highlight in the nav. Zero setState: written
-     to a data attribute on the header via imperative DOM. */
-  useEffect(() => {
-    const header = headerRef.current
-    if (!header) return
-
-    const sections = Array.from(document.querySelectorAll<HTMLElement>(SPY_SECTIONS))
-    if (sections.length === 0) return
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        /* Collect all entries first, then pick the one with most overlap. */
-        const visible: Array<{ id: string; ratio: number }> = []
-        for (const entry of entries) {
-          if (entry.intersectionRatio > 0.35) {
-            visible.push({ id: entry.target.id, ratio: entry.intersectionRatio })
-          }
-        }
-        /* Pick the section with the most viewport coverage; tie-break by order. */
-        visible.sort((a, b) => b.ratio - a.ratio)
-        if (visible.length > 0) {
-          header.dataset.activeSection = visible[0]!.id
-        } else {
-          delete header.dataset.activeSection
-        }
-      },
-      { threshold: [0, 0.35, 0.5, 0.65, 1], rootMargin: "-20% 0px -40% 0px" },
-    )
-
-    for (const s of sections) observer.observe(s)
-
-    return () => observer.disconnect()
   }, [])
 
   /* P16-4a (KODE S5) — the [ 00n ] section counter. IntersectionObserver

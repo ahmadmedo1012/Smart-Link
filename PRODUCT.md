@@ -86,7 +86,7 @@ corporate. The landing speaks in short chapter arcs («كلُّ عملٍ يبد�
 
 ## Evidence
 
-- Parity snapshot `tests/parity.mjs` (568 assertions, self-counted — the suite fails if its own size drifts) pins the design
+- Parity snapshot `tests/parity.mjs` (573 assertions, self-counted — the suite fails if its own size drifts) pins the design
   system; e2e suite (Playwright, Arabic specs) covers conversion CTAs,
   the contact contract, SEO/OG shape, a11y, RTL, PWA/offline and
   adversarial journeys. Lighthouse r14 history: avg 93.5, best LCP 1.67s.

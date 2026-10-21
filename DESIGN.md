@@ -43,30 +43,35 @@ its three siblings their own distinct worlds; the hub's job is to be the
 one place where the family identity lives intact AND the one place where
 you can see all three worlds at a glance.
 
-1. **The product layer** (`styles.css`, every route except `/`) —
-   gold-on-night (default) / gold-on-cream (`.light`, phase6 ruling).
-   Night world: ground `#070B16` night-indigo, surfaces `#0D1428 / #121A36`,
-   ink `#F2EFE6` warm sand, accent `#E9B44C` gold (hover `#F5D48A` · strong
-   `#C9962F` · soft `#2C2312` · on-accent ink `#05070F`), hairlines
-   `#1B2444 / #263052`, secondary text `#C3C8DC`. Light mode is a
-   first-class parity mode: cream ground `#FBFAF9`, white cards, ink
-   `#191918`, the gold-on-cream family (phase6 — fill `#E9B44C` with
-   `--primary-fg` ink `#1A0F06` 9.96:1 · text-grade deep gold `#8A6420`
-   5.13:1 on cream · hover `#C9962F` · soft wash `#F7ECD2`), hairlines
-   `#E9E7E2 / #D9D6D0`. The copper light column is RETIRED (see the
-   Phase-6 additions). All dual-lightness (both layers AA-verified).
-2. **The مدارك Night landing layer** (`landing.css`, scoped `.landing`,
-   r152) — night stage by DEFAULT (phase9: the old "identical in BOTH
-   themes" doctrine retired — the header toggle now flips a real DAY
-   stage, §15). It carries the SAME family values as the product night
-   world — `--ln-ink #070B16` (the ground), `--ln-ink-2 #0D1428` (the
-   surface step), `--ln-cream #F2EFE6` sand (17.09:1 AAA) / `--ln-cream-dim
-   #C3C8DC` (11.81:1 AAA), the gold pair `--ln-gold #E9B44C` (10.39:1) /
-   `--ln-gold-deep #F5D48A` (hover, 13.73:1), sand hairlines
-   `rgba(242,239,230,0.14 / 0.07)`, night glass `rgba(13,20,40,0.72 /
-   0.9)`, grain veil `--ln-grain-op 0.075`. The r128–r151 Orbit-Ink
-   palette (ink `#252A3E` · lime `#DFEDB2` · violet `#7A6BF2`) is
-   RETIRED — its return is the negative control's planted failure.
+1. **The product layer** (`styles.css`, every route except `/`) — KODE
+   night (default) / KODE paper (`.light`). Night world: ground `#050507`
+   near-black stage, surfaces `#0B0B10`, stage text `#FFFFFF` white,
+   accent `#FF4C00` safety orange (hover brightens `#FF6A2E` · strong
+   `#FF6A2E` · soft `#221008` · on-accent ink `#050507` ≈6.3:1), hairlines
+   `#17171F / #26262E`, secondary text `#A9ACB4`. Light mode is a
+   first-class parity mode: paper ground `#F4F2ED`, white cards, ink
+   `#0A0A0A`, the orange-on-paper family (r160 — fill `#FF4C00` with
+   `--primary-fg` ink `#0A0A0A` ≈5.8:1 · text-grade `#B23E00` 5.2:1 on
+   paper · hover darkens `#E04400` · soft `#FFE3D6`), hairlines
+   `#E9E7E2 / #D9D6D0`. The Madarek gold-on-night / gold-on-cream
+   families (m15 → phase6) are RETIRED history (see the header's lineage
+   note). All dual-lightness (both layers AA-verified).
+2. **The KODE landing layer** (`landing.css`, scoped `.landing`, r160) —
+   night stage by DEFAULT (the header toggle flips a real DAY stage,
+   §15). It carries the SAME 3-color discipline as the product night
+   world — `--ln-ink #050507` (the ground), `--ln-ink-2 #0B0B10` (the
+   surface step), `--ln-cream #FFFFFF` stage white (20.3:1) /
+   `--ln-cream-dim #A9ACB4` grey secondary (8.0:1), the orange pair
+   `--ln-gold #FF4C00` (4.0:1 — the token NAME is the landing's accent
+   slot, not a hue promise) / `--ln-gold-deep #FF6A2E` (hover, 4.9:1),
+   white hairlines `rgba(255,255,255,0.16 / 0.08)`, flat night panels
+   `rgba(11,11,16,0.92 / 0.97)` (glass retired), grain veil
+   `--ln-grain-op 0.075`; §15's paper stage flips `--ln-ink #F4F2ED` /
+   `--ln-cream #0A0A0A` (19.6:1) / text-grade `--ln-gold #B23E00` (5.2:1).
+   The §0a2 world tokens all collapse onto `#FF4C00` (S3: the landing
+   uses ONLY the stage palette). The r128–r151 Orbit-Ink palette (ink
+   `#252A3E` · lime `#DFEDB2` · violet `#7A6BF2`) is RETIRED — its return
+   is the negative control's planted failure.
 
 **Hard isolation (parity-enforced, R4 re-truthed for phase6):**
 styles.css declares EXACTLY the 9 promoted §0a2 tokens
@@ -77,14 +82,17 @@ imports BOTH sheets but only the home route renders `.landing`; a
 product page never consumes the landing's surface tokens.
 
 **Token-name bridge** (Smart-Link keeps its own utility vocabulary over
-Madarek values): `--background/--card/--foreground/--muted-foreground/
---border/--border-strong`, `--primary` = the gold accent (both themes —
-the light copper column is retired), `--primary-text` = the text-grade
-accent (gold `#E9B44C` night / deep gold `#8A6420` cream),
-`--primary-fg` = on-accent ink, `--accent` = the 15% translucent wash
-(both themes since phase6), `--destructive(+--ink)`, and the promoted
-§0a2 product identities (below) — the nine pastel families
-`--c-*-{bg,ink,deep}` are RETIRED from both themes (phase6).
+the KODE values): `--background/--card/--foreground/--muted-foreground/
+--border/--border-strong`, `--primary` = the safety-orange fill
+(`#FF4C00`, both themes), `--primary-text` = the text-grade accent
+(`#FF4C00` night, 4.0:1 accent-size / `#B23E00` paper, 5.2:1),
+`--primary-fg` = on-accent ink (`#050507` / `#0A0A0A`), `--accent` = the
+translucent wash (orange 15% night / 12% paper), `--destructive
+(+--ink)`, the accent family `--accent-{solid,hover,soft,strong,ink,fg}`
+(hover `#FF6A2E` night / `#E04400` paper · soft `#221008` / `#FFE3D6` ·
+strong `#FF6A2E` / `#B23E00` — the icon-well ground/ink pair, W21-A),
+and the promoted §0a2 product identities (below) — the nine pastel
+families `--c-*-{bg,ink,deep}` are RETIRED from both themes (phase6).
 
 ## Phase-6 additions (P6-2 — the finishing wave)
 
@@ -229,12 +237,19 @@ parity-pinned; see the enforcement numbers):
 
 ## Typography
 
-- **IBM Plex Sans Arabic is THE family** (body + display + headings),
-  self-hosted 400/500/600/700 × {arabic, latin} subsets (8 faces) +
-  IBM Plex Mono 400/500 latin (2 faces) — the 10-face `@font-face`
-  manifest in styles.css, `font-display: swap`, the 400/700 arabic cuts
-  preloaded (~86 KB, layout.tsx). Weights ≤ 700 (no 800 exists — no
-  `font-extrabold`).
+- **The r160 font trio**: **IBM Plex Sans Arabic** is THE body/UI family
+  (400/500/600/700, self-hosted × {arabic, latin} subsets — 8 faces) +
+  **IBM Plex Mono 400/500 latin** (2 faces) — the 10-face `@font-face`
+  manifest in styles.css, `font-display: optional` on EVERY face (the
+  P16-W7/P18-W2-b no-swap law — a swap event reflowed the hero +56px,
+  CLS 0.053), the six above-fold faces preloaded (layout.tsx: sans
+  400/500/600/700 arabic + 400 latin + mono 400). The DISPLAY pair
+  rides next/font (r160 — no Google-Fonts runtime request): **Noto Kufi
+  Arabic 700/800** (the hero 3-line lockup + chapter display,
+  `--font-display-arabic`) + **Bodoni Moda 700** (the Latin
+  wordmark/numbers, `--font-display-latin`). UI Plex caps at 700 (no 800
+  face exists and no `font-extrabold` survives in the codebase); the 800
+  display weight lives in the Kufi pair only.
 - **No letter-spacing on Arabic, ever** (r133 R12 — tracking breaks
   cursive joins; every `.ln-*` device carries `letter-spacing: 0`).
   No synthetic italics on Arabic; emphasis = weight + accent ink.
@@ -250,8 +265,11 @@ parity-pinned; see the enforcement numbers):
   a frozen UI-chrome rung (exact-count parity-pinned: footer 8 ·
   main-nav 6 · contact-form 6 labels). The 404 numeral is documented
   display-art (`text-9xl` 128px, off-ladder by design). The landing's
-  own display rung: `--ln-h1 clamp(2.75rem, 8.2vw, 6.75rem)` at
-  `--ln-h1-lh 1.12` (the Arabic display floor with tashkeel).
+  own display rung: `--ln-h1 clamp(3.5rem, 13vw, 11.875rem)` at
+  `--ln-h1-lh 1.08` (the pixel-proven Kufi leading — P20-A2: 0.97 left
+  a 14px descender/tashkeel overlap; 1.08 clears the raster ink; the
+  short-stage budget divisor derives from it, `calc(3 *
+  var(--ln-h1-lh))`, W21-A).
 
 ## Layout & geometry
 

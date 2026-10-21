@@ -34,16 +34,21 @@ export default function Error({
             (like about/pricing), and the ghost CTA swaps its glass
             border/bg for ln-card. */}
         <div className="max-w-xl mx-auto text-center ln-card rounded-2xl p-10 reveal-up">
-          <div className="w-16 h-16 rounded-2xl mx-auto mb-6 flex items-center justify-center bg-[var(--accent)]">
-            {/* P10-1c (تصحيح درجة التوكن) — P13-2a re-word للحاضر KODE:
-                الحبر كان --primary (درجة التعبئة) لا --primary-text
-                (درجة النص/الأيقونات) — قبل r160 كان ذلك يرسم الذهب
-                #E9B44C على غسيل الذهب فوق البطاقة (≈1.7:1) شبه مختفٍ
-                في الفاتح. عقد الأسطول: «حبر الأيقونات يركب
-                --primary-text» (اليوم برتقالي: #FF4C00 داكن / #B23E00
-                فاتح). التوأم المطابق: أيقونة المؤسس 8×8 في نفس الغسيل
-                على /about (w-8 h-8 text-[var(--primary-text)]). */}
-            <AlertTriangle className="w-8 h-8 text-[var(--primary-text)]" aria-hidden="true" />
+          {/* W21-A (icon-well recipe unification): the 500-boundary well
+              joins the ONE fleet recipe — footer's deliberate r160-era
+              implementation: --accent-soft solid ground (#221008 dark /
+              #FFE3D6 light — the §0a2 -well values, the docs' dedicated
+              well ground) + --accent-strong icon ink (#FF6A2E / #B23E00
+              — 6.4:1 / 4.8:1, both AA). History: P10-1c moved the ink off
+              the fill-grade --primary onto the text grade --primary-text
+              (pre-r160 gold-on-gold ≈1.7:1); W21-A retires the
+              translucent-wash well spelling fleet-wide (--accent is an
+              alpha wash — the well's ground rode the surface behind it,
+              a different composite per carrier). The fill-grade
+              text-[var(--primary)] extinction P10-1c won stays
+              parity-pinned (unchanged). */}
+          <div className="w-16 h-16 rounded-2xl mx-auto mb-6 flex items-center justify-center bg-[var(--accent-soft)]">
+            <AlertTriangle className="w-8 h-8 text-[var(--accent-strong)]" aria-hidden="true" />
           </div>
           {/* r132 (A6 §4): the H1 rides the --fs-h1 30px rung — text-3xl
               is the identical value; this closes the r131-F9b gap (it

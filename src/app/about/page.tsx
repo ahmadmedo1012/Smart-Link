@@ -95,8 +95,11 @@ export default function AboutPage() {
                 key={item.title}
                 className={`reveal-up reveal-d-${Math.min(i + 1, 4)} ln-card rounded-2xl p-6 group`}
               >
-                <div className="w-10 h-10 rounded-xl bg-[var(--accent)] flex items-center justify-center mb-3 group-hover:scale-110 transition-transform duration-[var(--t-base)]">
-                  <item.icon className="w-5 h-5 text-[var(--primary-text)]" />
+                {/* W21-A: the values icon well joins the ONE fleet recipe
+                    (footer's) — --accent-soft solid ground + --accent-strong
+                    ink, AA in both themes (see contact's full note). */}
+                <div className="w-10 h-10 rounded-xl bg-[var(--accent-soft)] flex items-center justify-center mb-3 group-hover:scale-110 transition-transform duration-[var(--t-base)]">
+                  <item.icon className="w-5 h-5 text-[var(--accent-strong)]" />
                 </div>
                 {/* r132 (A6 §3/§6): card titles consume --fs-body-lg —
                     was raw text-lg 18px (Tailwind's default step, off
@@ -121,8 +124,11 @@ export default function AboutPage() {
           </div>
           <div className="reveal-up reveal-d-2">
             <div className="ln-card rounded-2xl p-6 md:p-8 flex flex-col md:flex-row items-start md:items-center gap-5 group">
-              <div className="w-16 h-16 rounded-2xl flex items-center justify-center shrink-0 bg-[var(--accent)] group-hover:scale-110 transition-transform duration-[var(--t-base)]">
-                <User className="w-8 h-8 text-[var(--primary-text)]" />
+              {/* W21-A: the founder well joins the ONE fleet recipe (footer's)
+                  — --accent-soft solid ground + --accent-strong ink (was the
+                  translucent wash + --primary-text; see contact's note). */}
+              <div className="w-16 h-16 rounded-2xl flex items-center justify-center shrink-0 bg-[var(--accent-soft)] group-hover:scale-110 transition-transform duration-[var(--t-base)]">
+                <User className="w-8 h-8 text-[var(--accent-strong)]" />
               </div>
               <div className="max-w-[60ch]">
                 {/* r133 (A7 §2.2 / R16): founder name — was text-base 16px

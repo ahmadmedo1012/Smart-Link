@@ -1701,6 +1701,36 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
     'about: card titles + the md quote consume the --fs-body-lg 17px rung; no raw text-lg survives (was 18px off-ladder — r132 A6 §3/§6)'
   );
 
+  // W21-A ── the icon-well recipe is ONE recipe (footer's deliberate
+  //      r160-era implementation, unified fleet-wide): solid tinted ground
+  //      bg-[var(--accent-soft)] (#221008 dark / #FFE3D6 light — the SAME
+  //      ground values as the §0a2 world wells --ln-{menu,bot,order}-well,
+  //      the docs' dedicated icon-well ground) + text-[var(--accent-strong)]
+  //      icon ink (#FF6A2E / #B23E00 — 6.4:1 / 4.8:1 on the ground, both
+  //      AA). The retired competitor was the translucent wash
+  //      (bg-[var(--accent)] 15%/12% + --primary-text ink): --accent is an
+  //      ALPHA token, so the well's ground rode the carrier behind it (the
+  //      15% orange composites ≈#30150E over the night card #0B0B10 but
+  //      ≈#2A1006 over the page ground #050507 — one class, a different
+  //      tint per surface); the solid token paints the identical stable
+  //      well the footer and the /pricing §0a2 wells already paint. The
+  //      radius stays the footer's size-graded grammar (32px→r-lg 12 ·
+  //      36/40/44px→r-xl 16 · 64px→r-2xl 20 — all on the --r-* ladder);
+  //      hover washes keep the --accent translucent semantics (legitimate
+  //      --accent duty, not wells).
+  check(
+    contact.includes('rounded-xl bg-[var(--accent-soft)]')
+      && contact.includes('text-[var(--accent-strong)]')
+      && aboutPage.includes('rounded-xl bg-[var(--accent-soft)]')
+      && aboutPage.includes('rounded-2xl') && aboutPage.includes('shrink-0 bg-[var(--accent-soft)]')
+      && errorPage.includes('bg-[var(--accent-soft)]') && errorPage.includes('text-[var(--accent-strong)]')
+      && mainNav.includes('rounded-xl bg-[var(--accent-soft)]') && mainNav.includes('text-[var(--accent-strong)]')
+      && footerChrome.includes('bg-[var(--accent-soft)]') && footerChrome.includes('text-[var(--accent-strong)]')
+      && ![contact, aboutPage, errorPage].some((s) => /(?<!:)bg-\[var\(--accent\)\]/.test(s))
+      && !mainNav.includes('rounded-xl bg-[var(--accent)]'),
+    'W21-A icon wells: the ONE recipe — --accent-soft solid ground + --accent-strong ink on every product-layer well (footer social+contact, main-nav megamenu tile, contact info cards, about values+founder, the 500 boundary) — the translucent-wash well spelling is extinct (un-prefixed bg-[var(--accent)] survives nowhere on contact/about/error; main-nav keeps it ONLY as the sanctioned nav active-state/hover wash, never a well); the ground values match the §0a2 world wells'
+  );
+
   // E0 ── r132 (A6 §2): the .ln-btn-text family (9 sites, ≈23 lines) and
   //      @keyframes reveal-scale are deleted. Sources are comment-stripped
   //      (module css for styles.css; read() here for landing.css), so the
@@ -2503,11 +2533,16 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
 
   const errorPage10 = read10('app/error.tsx');
   const globalError10 = read10('app/global-error.tsx');
+  // W21-A re-pin: P10-1c moved the icon off the bare fill grade onto the
+  // text grade; W21-A unifies the whole well onto the fleet recipe
+  // (--accent-soft ground + --accent-strong ink — the P10-1c extinction
+  // of the fill-grade spelling still holds below).
   check(
-    errorPage10.includes('text-[var(--primary-text)]')
+    errorPage10.includes('bg-[var(--accent-soft)]')
+      && errorPage10.includes('text-[var(--accent-strong)]')
       && ![...ROUTES10, ...CHROME10].map((p) => read10(p))
         .some((s) => s.includes('text-[var(--primary)]')),
-    'P10-1c icon ink: the 500-boundary alert icon rides --primary-text (the text/ink grade — light #8A6420 ≈4.3:1 on the gold wash); the bare fill-grade text-[var(--primary)] spelling is extinct across the route scope (the about Quote watermark text-primary/30 is a different, deliberate device)'
+    'P10-1c/W21-A icon ink: the 500-boundary alert icon rides the fleet icon-well recipe (--accent-soft ground + --accent-strong ink — 6.4:1 dark / 4.8:1 light; P10-1c first moved it off the bare fill grade); the fill-grade text-[var(--primary)] spelling stays extinct across the route scope (the about Quote watermark text-primary/30 is a different, deliberate device)'
   );
   check(
     !globalError10.includes('\u26A0')
@@ -2568,7 +2603,10 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
   // tashkeel OVERLAP at 0.97 (the Kufi 800 diacritic stacks outgrew the
   // ink-box model); 1.08 clears the raster ink (~10px measured gap) and
   // the divisor follows 3 × 1.08 = 3.24 — the total-height budget keeps
-  // the 500px box and the CTA fold margin exactly true. The label's
+  // the 500px box and the CTA fold margin exactly true. W21-A: the
+  // divisor is now DERIVED — calc(3 * var(--ln-h1-lh)) — so a future
+  // leading change can never desync the 3-line budget (computed value
+  // identical: 3 × 1.08 = 3.24). The label's
   // “390 untouched” claim died with the P20-A1 lockup-integrity block
   // (below) — 390 is now the nowrap + 12.6vw viewport-fit lockup, pinned
   // separately.
@@ -2576,8 +2614,8 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
     /@media \(min-width: 1025px\)\s*\{[^}]*\.ln-hero--kode \.ln-hero-content\s*\{[^}]*max-inline-size:\s*1280px[^}]*min-inline-size:\s*0/.test(lcss4a)
       && /\.ln-hero--kode \.ln-hero-title\s*\{[^}]*max-inline-size:\s*none;\s*min-inline-size:\s*0/.test(lcss4a)
       && /\.ln-hero--kode \.ln-hero-line\s*\{\s*white-space:\s*nowrap/.test(lcss4a)
-      && /@media \(min-width: 1025px\) and \(max-height: 960px\)\s*\{[^}]*\.ln-hero--kode \.ln-hero-title\s*\{[^}]*min\(var\(--ln-h1\), calc\(\(100svh - 400px\) \/ 3\.24\)\)/.test(lcss4a),
-    '4-a P1: the KODE lockup takes the full 1280 measure with nowrap lines (the designed 3-line block, not the 5-line wrap) + the short-stage height budget (100svh−400px)/3.24 + min-inline-size: 0 on the content/title (the RTL clip guard — line 3 measured −45px off-viewport at 1280 without it) — full lockup + both CTAs in-fold at 1440×900/1080, every line in-viewport at 1025–1440'
+      && /@media \(min-width: 1025px\) and \(max-height: 960px\)\s*\{[^}]*\.ln-hero--kode \.ln-hero-title\s*\{[^}]*min\(var\(--ln-h1\), calc\(\(100svh - 400px\) \/ \(3 \* var\(--ln-h1-lh\)\)\)\)/.test(lcss4a),
+    '4-a P1: the KODE lockup takes the full 1280 measure with nowrap lines (the designed 3-line block, not the 5-line wrap) + the short-stage height budget (100svh−400px)/(3 × --ln-h1-lh) — W21-A: the divisor is DERIVED from the leading (was the hand-kept 3.24; computed identical 3 × 1.08) so the 3-line budget cannot desync — + min-inline-size: 0 on the content/title (the RTL clip guard — line 3 measured −45px off-viewport at 1280 without it) — full lockup + both CTAs in-fold at 1440×900/1080, every line in-viewport at 1025–1440'
   );
   // P20-A1 · lockup integrity below 1025px: the desktop nowrap grammar
   // + the viewport-fit scale. At f8e8210 the clamp floor (56px) and the
@@ -2854,8 +2892,16 @@ if (failures.length > 0) {
    family (the completion commit — dead paint; the r160 render-path
    pin + the retirement pin hold the truth); the r144 tracked-inventory
    freeze re-authored honestly 3 → 2 tracked survivors (.ln-eco-tip b
-   died with the eco family) — a re-author, not a count change. */
-const EXPECTED_ASSERTIONS = 572;
+   died with the eco family) — a re-author, not a count change.
+   W21-A (visual contract polish): 572 → 573 — the icon-well recipe
+   unification pin (ONE recipe fleet-wide: --accent-soft ground +
+   --accent-strong ink, footer's implementation; the translucent-wash
+   well spelling retired), the budget-divisor derivation re-pin (the
+   regex follows the new calc(3 * var(--ln-h1-lh)) spelling — same
+   assertion, stronger contract), and the P10-1c 500-boundary icon
+   pin re-based on the same recipe (assertion count unchanged, the
+   value contract moved with the code). */
+const EXPECTED_ASSERTIONS = 573;
 check(
   passed + 1 === EXPECTED_ASSERTIONS,
   `self-count: the suite must run exactly ${EXPECTED_ASSERTIONS} assertions (ran ${passed + 1}) — bump EXPECTED_ASSERTIONS with every intentional pin change`

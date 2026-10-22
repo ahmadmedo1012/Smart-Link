@@ -274,8 +274,14 @@ export function MainNav() {
                               aria-label={`${child.label} — رابط خارجي`}
                               className="flex items-start gap-3 px-3 py-3 rounded-xl hover:bg-[var(--accent)] transition-[background-color,color] duration-[var(--t-fast)] group/item"
                             >
-                              <div className="w-10 h-10 rounded-xl bg-[var(--accent)] flex items-center justify-center shrink-0 group-hover/item:scale-110 transition-transform duration-[var(--t-fast)]">
-                                {Icon && <Icon className="w-5 h-5 text-[var(--primary-text)]" />}
+                              {/* W21-A: the megamenu tile joins the ONE
+                                  fleet icon-well recipe (footer's) —
+                                  --accent-soft solid ground +
+                                  --accent-strong ink (was the translucent
+                                  wash + --primary-text; see contact's
+                                  full note). */}
+                              <div className="w-10 h-10 rounded-xl bg-[var(--accent-soft)] flex items-center justify-center shrink-0 group-hover/item:scale-110 transition-transform duration-[var(--t-fast)]">
+                                {Icon && <Icon className="w-5 h-5 text-[var(--accent-strong)]" />}
                               </div>
                               <div className="min-w-0">
                                 <div className="text-sm font-semibold text-foreground group-hover/item:text-[var(--primary-text)] transition-colors">{child.label}</div>

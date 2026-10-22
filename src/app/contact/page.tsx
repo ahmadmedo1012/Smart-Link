@@ -121,8 +121,24 @@ export default function ContactPage() {
                   key={item.title}
                   className={`reveal-up reveal-d-${Math.min(i + 3, 5)} ln-card ln-card--keyline rounded-2xl p-5 text-center group`}
                 >
-                  <div className="w-9 h-9 rounded-xl bg-[var(--accent)] flex items-center justify-center mx-auto mb-2.5 group-hover:scale-110 transition-transform duration-[var(--t-base)]">
-                    <item.icon className="w-4.5 h-4.5 text-[var(--primary-text)]" />
+                  {/* W21-A (icon-well recipe unification): the ONE fleet
+                      recipe — footer's deliberate r160-era implementation.
+                      Solid tinted ground --accent-soft (#221008 dark /
+                      #FFE3D6 light — the SAME values as the §0a2 world
+                      wells --ln-{menu,bot,order}-well, the docs' dedicated
+                      icon-well ground) + --accent-strong icon ink
+                      (#FF6A2E / #B23E00 — 6.4:1 / 4.8:1 on the ground,
+                      both AA). The old translucent-wash spelling
+                      (bg-[var(--accent)] + --primary-text) is retired:
+                      --accent is an ALPHA wash, so the well's ground rode
+                      whatever surface sat behind it (the 15% orange
+                      composites ≈#30150E over the night card but
+                      ≈#2A1006 over the page ground — one class, a
+                      different tint per carrier) while --accent-soft
+                      paints the identical stable well the footer and the
+                      /pricing §0a2 wells already paint. */}
+                  <div className="w-9 h-9 rounded-xl bg-[var(--accent-soft)] flex items-center justify-center mx-auto mb-2.5 group-hover:scale-110 transition-transform duration-[var(--t-base)]">
+                    <item.icon className="w-4.5 h-4.5 text-[var(--accent-strong)]" />
                   </div>
                   {/* r131 (A3 D1): card H2s consume the --fs-body rung (15px,
                       was raw text-sm 14px — off the body scale). */}

@@ -88,7 +88,9 @@
      tashkeel (the Kufi 800 diacritic stacks are taller than the
      ink-box model credited). 1.08 clears the real raster ink (~10px
      measured gap at the worst junction) while the short-stage budget
-     divisor 3.24 = 3 × 1.08 keeps the 500px lockup box and the CTA
+     divisor (W21-A: now derived, calc(3 * var(--ln-h1-lh)) — the
+     hand-kept 3.24 = 3 × 1.08 could silently desync on a future
+     leading change) keeps the 500px lockup box and the CTA
      fold margin exactly true (taller leading ⇒ proportionally
      smaller budget-capped font — total height invariant). Tashkeel
      still rides overflow-visible — nothing clips. */
@@ -987,7 +989,10 @@
   padding: 0;
   list-style: none;
   color: var(--ln-cream-dim);
-  font-size: 13px;
+  /* W21-A: the meta row rides the --fs-sm ladder rung (13px, the button/
+     small-UI step) — was a raw 13px literal; identical computed value,
+     now ladder-tracked (styles.css --fs-*). */
+  font-size: var(--fs-sm);
 }
 .landing .ln-hero-meta li { display: inline-flex; align-items: center; gap: 12px; padding-block: 6px; }
 .landing .ln-hero-meta li svg { color: var(--ln-cream-dim); }
@@ -2557,10 +2562,13 @@ html.light .landing .ln-ground-status { background: rgb(10 10 10 / 0.05); }
    3.24 with the lh re-anchors (3 × 1.08); at 1440×900 the budget
    term reads 500/3.24 = 154.3px so the lockup keeps its exact 500px
    box — the pair's fold margin is unchanged, only the leading grew
-   (the font shrinks to pay for it). */
+   (the font shrinks to pay for it). W21-A: the divisor is now
+   DERIVED — calc(3 * var(--ln-h1-lh)) — so the 3-line budget can
+   never desync from the leading again (computed value identical:
+   3 × 1.08 = 3.24). */
 @media (min-width: 1025px) and (max-height: 960px) {
   .landing .ln-hero--kode .ln-hero-title {
-    font-size: min(var(--ln-h1), calc((100svh - 400px) / 3.24));
+    font-size: min(var(--ln-h1), calc((100svh - 400px) / (3 * var(--ln-h1-lh))));
   }
 }
 .landing .ln-hero--kode .ln-hero-sub {

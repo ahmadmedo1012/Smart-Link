@@ -241,14 +241,15 @@
   --foreground: #FFFFFF;
   --card: #0B0B10;
   /* --primary = the safety-orange accent (spec S3). White text on it
-     is 2.8:1, so filled CTAs keep carrying --primary-fg ink (black on
-     orange ≈ 6.3:1) — the dual-lightness recipe survives the swap. */
+     is 3.3:1, so filled CTAs keep carrying --primary-fg ink (#050507 on
+     orange 6.1:1 — W21-H recomputed; the old 2.8:1/≈6.3:1 pair figures
+     were the retired gold's) — the dual-lightness recipe survives the swap. */
   --primary: #FF4C00;
-  /* --primary-text = accent AS TEXT, 4.0:1 on the night ground
+  /* --primary-text = accent AS TEXT, 6.1:1 on the night ground
      (accent-size text per the spec's own ruling; body copy stays
-     --foreground). */
+     --foreground; the old 4.0:1 figure was the retired gold's — W21-H). */
   --primary-text: #FF4C00;
-  /* --primary-fg = ink ON an orange fill (≈ 6.3:1). */
+  /* --primary-fg = ink ON an orange fill (6.1:1). */
   --primary-fg: #050507;
   /* --accent keeps the translucent-wash semantics — orange 15%. */
   --accent: rgb(255 76 0 / 0.15);
@@ -355,14 +356,14 @@
      the wells keep their dark_ground duty for the product cards that
      still consume them, re-toned to the orange family). */
   --ln-menu:        #FF4C00;  /* lit orange — accent grade on night */
-  --ln-menu-true:   #FF4C00;  /* identity — non-text 4.0:1 ≥ 3:1 */
-  --ln-menu-well:   #221008;  /* plate ground — lit ink on it 6.1:1 */
+  --ln-menu-true:   #FF4C00;  /* identity — non-text 6.1:1 ≥ 3:1 */
+  --ln-menu-well:   #221008;  /* plate ground — lit ink on it 5.49:1 */
   --ln-bot:         #FF4C00;  /* lit orange — accent grade on night */
   --ln-bot-true:    #FF4C00;  /* identity — same discipline */
-  --ln-bot-well:    #221008;  /* circuit ground — lit ink on it 6.1:1 */
+  --ln-bot-well:    #221008;  /* circuit ground — lit ink on it 5.49:1 */
   --ln-order:       #FF4C00;  /* lit orange — accent grade on night */
   --ln-order-true:  #FF4C00;  /* identity — same discipline */
-  --ln-order-well:  #221008;  /* route ground — lit ink on it 6.1:1 */
+  --ln-order-well:  #221008;  /* route ground — lit ink on it 5.49:1 */
 
   /* ── Radius ladder — Madarek "Notion-soft" (§1.2) ── */
   --r-xs: 6px;  --r-sm: 8px;  --r-md: 10px;  --r-lg: 12px;
@@ -539,8 +540,9 @@
   --foreground: #0A0A0A;
   --card: #FFFFFF;
   /* --primary = the safety-orange fill. #FF4C00 with white text is
-     2.8:1, so filled CTAs carry --primary-fg (#0A0A0A on orange ≈
-     5.8:1) — the dual-lightness recipe preserved. */
+     3.3:1, so filled CTAs carry --primary-fg (#0A0A0A on orange
+     5.9:1 — W21-H recomputed; the old 2.8:1/≈5.8:1 figures were the
+     retired gold's) — the dual-lightness recipe preserved. */
   --primary: #FF4C00;
   /* --primary-text = the TEXT-grade orange: #B23E00, 5.2:1 on paper
      (≥ 4.5). Links, labels, icon inks and hover accents ride it. */
@@ -617,20 +619,22 @@
   /* ── §0a2-promotion (light): the foreshadow identities in their
      CREAM grades — the landing twins stay night-only (the landing never
      renders on cream). Computed law, same two grades: LIT ≥ 4.5:1 on
-     #FBFAF9 · TRUE ≥ 3:1 non-text on the white card. The literal hexes
-     survive on cream for terracotta (#C2452D 4.8:1) and orange
-     (#D14900 4.3:1) — only teal shifts: the literal #17C3A4 measures
-     2.15:1 on cream, so the light TRUE grade takes its one daylight
-     detour #0F8A73 (4.1:1, still recognizably the sibling teal). ── */
+     the paper #F4F2ED (measures 5.2:1) · TRUE ≥ 3:1 non-text on the
+     white card (measures 3.3:1). r160 KODE: the per-world TRUE hexes
+     retired with the constellation — the phase6 cream figures below
+     are lineage, not the present (terracotta #C2452D 4.8:1 · orange
+     #D14900 4.3:1 · teal's #17C3A4 2.15:1 → the #0F8A73 daylight
+     detour 4.1:1 — all computed on the then-cream #FBFAF9): the TRUE
+     grade is the literal #FF4C00 on every world now. ── */
   --ln-menu:        #B23E00;  /* text-grade orange on paper — 5.2:1 */
-  --ln-menu-true:   #FF4C00;  /* identity — non-text 3.0:1 */
-  --ln-menu-well:   #FFE3D6;  /* lit ink on it 5.6:1 */
+  --ln-menu-true:   #FF4C00;  /* identity — non-text 3.3:1 on the white card */
+  --ln-menu-well:   #FFE3D6;  /* lit ink on it 4.8:1 */
   --ln-bot:         #B23E00;  /* text-grade orange on paper — 5.2:1 */
   --ln-bot-true:    #FF4C00;  /* identity — same discipline */
-  --ln-bot-well:    #FFE3D6;  /* lit ink on it 5.6:1 */
+  --ln-bot-well:    #FFE3D6;  /* lit ink on it 4.8:1 */
   --ln-order:       #B23E00;  /* text-grade orange on paper — 5.2:1 */
   --ln-order-true:  #FF4C00;  /* identity — same discipline */
-  --ln-order-well:  #FFE3D6;  /* lit ink on it 5.6:1 */
+  --ln-order-well:  #FFE3D6;  /* lit ink on it 4.8:1 */
 
   /* ── Shadows + elevation ladder (§1.9 light: soft two-layer). ── */
   --elev-1: 0 1px 2px rgba(0, 0, 0, 0.04), 0 1px 1px rgba(0, 0, 0, 0.06);
@@ -1183,8 +1187,10 @@
    Gold fills carry their dedicated dark-brown ink, never white:
    white-on-gold measures 1.89:1 (dark), and the light gold fill needs
    the same dark ink (9.96:1) —
-   both under the 4.5:1 every CTA label needs. --primary-fg =
-   Madarek --accent-fg (light #1A0F06 4.95:1 · dark #05070F ~10.6:1).
+   both under the 4.5:1 every CTA label needs. --primary-fg = the
+   KODE on-accent ink (light #0A0A0A 5.9:1 · dark #050507 6.1:1 on the
+   #FF4C00 fill — W21-H recomputed; the Madarek #1A0F06/#05070F pair
+   retired with the gold).
    Covers both class forms the codebase writes (utility bg-primary and
    arbitrary bg-[var(--primary)]) plus the global skip-link's
    focus-fill (site-chrome since 15-SL — ex-root-layout). The footer's

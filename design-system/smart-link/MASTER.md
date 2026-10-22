@@ -30,7 +30,7 @@ Dark (`:root`, the default theme) — near-black stage + white + safety orange:
 | Card | `#0B0B10` | `--card` |
 | Accent/CTA fill | `#FF4C00` | `--primary` / `--accent-solid` |
 | On-accent ink | `#050507` | `--primary-fg` / `--accent-fg` |
-| Accent as text | `#FF4C00` | `--primary-text` (4.0:1, accent-size text) |
+| Accent as text | `#FF4C00` | `--primary-text` (6.1:1, accent-size text) |
 | Accent hover | `#FF6A2E` | `--accent-hover` / `--accent-strong` |
 | Accent soft | `#221008` | `--accent-soft` |
 | Muted foreground | `#A9ACB4` | `--muted-foreground` |
@@ -58,7 +58,8 @@ Light (`.light`) — paper + ink + the same orange:
 **Color Notes:** the landing layer (`landing.css`, scoped `.landing`) rides
 the same 3-color discipline with `--ln-ink #050507` / `--ln-cream` white /
 orange flood accents; filled CTAs always carry the on-accent ink
-(≈6.3:1 dark / 5.8:1 light — white-on-orange is only 2.8:1). The retired
+(6.1:1 dark / 5.9:1 light — white-on-orange is only 3.3:1; W21-H
+recomputed, the old ≈6.3:1/5.8:1/2.8:1 figures were the retired gold's). The retired
 Madarek values (night `#070B16` · gold `#E9B44C` · cream `#FBFAF9` ·
 per-product terracotta/teal/orange worlds) are HISTORY — never
 re-introduce them as current.

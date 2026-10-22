@@ -41,16 +41,16 @@
   --ln-ink:        #050507;   /* the KODE night stage (styles.css --background twin) */
   --ln-ink-2:      #0B0B10;   /* the night surface step */
   --ln-cream:      #FFFFFF;   /* stage white — 20.3:1 on the night ground */
-  --ln-cream-dim:  #A9ACB4;   /* grey secondary — 8.0:1 on the night ground */
-  --ln-gold:       #FF4C00;   /* safety orange — the accent, 4.0:1 (large text ≥3:1, spec S3) */
-  --ln-gold-deep:  #FF6A2E;   /* hover/active orange — brighter, 4.9:1 */
+  --ln-cream-dim:  #A9ACB4;   /* grey secondary — 9.0:1 on the night ground */
+  --ln-gold:       #FF4C00;   /* safety orange — the accent, 6.1:1 (large text ≥3:1, spec S3) */
+  --ln-gold-deep:  #FF6A2E;   /* hover/active orange — brighter, 7.1:1 */
   --ln-line:       rgba(255,255,255,0.16);
   --ln-line-soft:  rgba(255,255,255,0.08);
   /* §0a3 (r160) — the S2 sculpture + S4 flood tokens. --ln-chain-metal
      feeds the three.js material (read at runtime + on theme flip);
-     the flood pair paints the flat #FF4C00 chapters (#000 ink on them
-     ≈ 6.3:1 — the spec's own a11y ruling). Same value BOTH stages:
-     a flood is a flood. */
+     the flood pair paints the flat #FF4C00 chapters (--ln-flood-ink
+     #050507 on them 6.1:1 — the spec's own a11y ruling). Same value BOTH
+     stages: a flood is a flood. */
   --ln-chain-metal: #17171C;  /* dark chrome (dark stage) */
   --ln-flood:       #FF4C00;
   --ln-flood-ink:   #050507;
@@ -64,8 +64,8 @@
      ONLY the stage palette). The per-world hues (terracotta / teal /
      delivery-orange) retired with the constellation; the token slots
      survive so worlds.ts + parity stay coherent. */
-  --ln-menu:        #FF4C00;  /* lit grade — accent only (4.0:1, large text) */
-  --ln-menu-true:   #FF4C00;  /* swatch grade (non-text 4.0:1 ≥ 3:1) */
+  --ln-menu:        #FF4C00;  /* lit grade — accent only (6.1:1, large text) */
+  --ln-menu-true:   #FF4C00;  /* swatch grade (non-text 6.1:1 ≥ 3:1) */
   --ln-bot:         #FF4C00;
   --ln-bot-true:    #FF4C00;
   --ln-order:       #FF4C00;
@@ -149,8 +149,10 @@
   --motion-duration-ambient-scene: 22s; /* tokens.css:209 — finale breathe */
 }
 
-/* selection rides the gold pair — 10.39:1 both ways on the night
-   ground (the violet depth pair retired with Orbit-Ink, r152) */
+/* selection rides the --ln-gold pair — 6.1:1 both ways on the night
+   ground (the violet depth pair retired with Orbit-Ink, r152; the gold
+   pair's own 10.39:1 figure went with it at r160 — the pair is orange
+   now, recomputed on the #FF4C00/#050507 stage) */
 .landing ::selection { background: var(--ln-gold); color: var(--ln-ink); }
 
 /* ── 0c · base utilities — canonical landing.css:67-109 ────────────── */
@@ -2173,7 +2175,7 @@
      · --ln-order #B23E00 on paper ..........  5.10:1 / on ink-2 4.70:1
      · true hexes (non-text furniture) ......  #C2452D 4.37:1 ·
         #D14900 3.92:1 · #0A7558 4.94:1 — all ≥ 3:1 on paper
-     · btn-gold override: #FF4C00 fill + #050507 ink .... ≈6.3:1
+     · btn-gold override: #FF4C00 fill + #050507 ink ....  6.1:1
         (P13-2a KODE retirement — the luminous-fill exception now rides
         the flood orange; hover #E04400, the light hover direction)
 
@@ -2195,8 +2197,8 @@ html.light .landing {
      #FF4C00 ground (a flood is a flood, both stages). */
   --ln-ink:        #F4F2ED;   /* the paper stage (styles.css --background twin) */
   --ln-ink-2:      #EAE7DF;   /* the paper surface step */
-  --ln-cream:      #0A0A0A;   /* ink text — 19.6:1 on paper */
-  --ln-cream-dim:  #55534E;   /* warm grey secondary — 7.4:1 on paper */
+  --ln-cream:      #0A0A0A;   /* ink text — 17.7:1 on paper */
+  --ln-cream-dim:  #55534E;   /* warm grey secondary — 6.9:1 on paper */
   --ln-gold:       #B23E00;   /* text-grade safety orange — 5.2:1 */
   --ln-gold-deep:  #8F3000;   /* hover/active — DARKENS on paper, 7.2:1 */
   --ln-line:       rgba(10, 10, 10, 0.18);   /* ink hairlines on paper */
@@ -2223,7 +2225,9 @@ html.light .landing {
   background: var(--ln-ink); color: var(--ln-cream);
 }
 
-/* selection rides the day gold pair — #7E5B1C on paper text, 5.37:1 */
+/* selection rides the day --ln-gold pair — #B23E00 ground, paper
+   text, 5.2:1 (the phase9 #7E5B1C/5.37:1 figure retired with the
+   r160 token flip) */
 /* (the §0 rule resolves var() through this scope automatically) */
 
 /* ── 15b · the night literals that cannot flip via tokens — their day
@@ -2280,7 +2284,7 @@ html.light .landing .ln-btn-gold:hover {
 /* THE CTA EXCEPTION (P13-2a KODE retirement — was the phase6 P6-2-a2
    light-gold ruling): the ONE luminous fill stays LUMINOUS in the day
    chapter, but the retired family gold gives way to the KODE flood
-   orange — #FF4C00 fill + #050507 ink (≈6.3:1 — the --ln-flood /
+   orange — #FF4C00 fill + #050507 ink (6.1:1 — the --ln-flood /
    --ln-flood-ink pair: a flood is a flood, both stages). Hover/active
    #E04400: the KODE light accent-hover direction (darkens on paper,
    styles.css --accent-hover). The token flip alone would paint the
@@ -3106,7 +3110,8 @@ html.light .landing .ln-btn-gold:hover { color: var(--ln-gold-deep); }
 .landing .ln-sentence em {
   font-style: normal;
   /* the one orange word — the chapter-title em convention (large-text
-     grade: 4.0:1 night / 5.2:1 paper at 40–72px bold). */
+     grade: 6.1:1 night / 5.2:1 paper at 40–72px bold — the night figure
+     recomputed W21-H; the old 4.0:1 was the retired gold's). */
   color: var(--ln-gold);
 }
 @media (max-width: 920px) {
@@ -3315,7 +3320,8 @@ html.light .landing .ln-btn-gold:hover { color: var(--ln-gold-deep); }
 @media (hover: hover) {
   .landing .ln-worlds--kode .ln-world-cta:hover svg { translate: -5px 0; }
   /* the numeral's one-rung warm (the worlds chapter is held-black in
-     both themes — literal #FF6A2E ≈ 5.0:1 on #050507, large-text safe) */
+     both themes — literal #FF6A2E ≈ 7.1:1 on #050507, large-text safe;
+     W21-H recomputed — the old ≈5.0:1 figure was stale) */
   .landing .ln-worlds--kode .ln-world-num {
     transition: color var(--ln-t-base) var(--ln-ease-out);
   }

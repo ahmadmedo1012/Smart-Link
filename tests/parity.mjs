@@ -206,7 +206,7 @@ const ACCENT_DARK = {
   '--accent-soft': '#221008',
   '--accent-strong': '#FF6A2E',
   '--accent-ink': '#FF4C00',
-  '--accent-fg': '#050507', // black ink on orange ≈ 6.3:1
+  '--accent-fg': '#050507', // ink on orange 6.1:1 (W21-H recomputed; 6.3:1 was #000's figure)
 };
 const ACCENT_LIGHT = {
   /* phase6 (P6-2-a2) LIGHT GOLD RULING (coordinator decision): the
@@ -214,8 +214,9 @@ const ACCENT_LIGHT = {
      fill #E9B44C (ink #1A0F06 on it 9.96:1) · hover #C9962F · soft
      #F7ECD2 · strong/ink = the text-grade deep gold #8A6420 (5.13:1
      on cream ≥ 4.5 — computed-checked) · fg #1A0F06. */
-  /* r160 KODE: orange-on-paper — fill #FF4C00 (ink #0A0A0A on it ≈
-     5.8:1) · hover darkens #E04400 · soft #FFE3D6 · strong/ink = the
+  /* r160 KODE: orange-on-paper — fill #FF4C00 (ink #0A0A0A on it
+     5.9:1 — W21-H recomputed; ≈5.8:1 was the retired gold's figure) ·
+     hover darkens #E04400 · soft #FFE3D6 · strong/ink = the
      text-grade #B23E00 (5.2:1 on paper) · fg #0A0A0A. */
   '--accent-solid': '#FF4C00',
   '--accent-hover': '#E04400',
@@ -245,7 +246,9 @@ const FORESHADOW_DARK = {
   /* r160 KODE: the promoted set collapses onto the safety-orange pair
      (S3 discipline — per-world hues retired with the constellation).
      lit = accent grade · true = the literal orange · well = the dark
-     orange-brown ground (lit ink on it ≥ 4.5:1). */
+     orange-brown ground (lit ink on it 5.49:1 ≥ 4.5 — the W21-H truth
+     pass recomputed; the old 6.1:1 comment figure was the stage-ground
+     pair, not the well). */
   '--ln-menu': '#FF4C00',
   '--ln-menu-true': '#FF4C00',
   '--ln-menu-well': '#221008',
@@ -257,11 +260,12 @@ const FORESHADOW_DARK = {
   '--ln-order-well': '#221008',
 };
 const FORESHADOW_LIGHT = {
-  /* cream grades — LIT ≥ 4.5:1 on #FBFAF9 · TRUE ≥ 3:1 non-text on the
-     white card; teal's literal hex is 2.15:1 on cream and takes the one
-     daylight detour #0F8A73 (documented in the styles.css block). */
+  /* cream grades — LIT ≥ 4.5:1 on the paper #F4F2ED · TRUE ≥ 3:1
+     non-text on the white card (the phase6 per-world/teal-detour
+     lineage is documented in the styles.css block). */
   /* r160 KODE: lit #B23E00 (5.2:1 on paper) · true the literal
-     #FF4C00 · well the paper-orange wash. */
+     #FF4C00 · well the paper-orange wash (lit ink on it 4.8:1 —
+     W21-H recomputed; the old 5.6:1 comment figure was stale). */
   '--ln-menu': '#B23E00',
   '--ln-menu-true': '#FF4C00',
   '--ln-menu-well': '#FFE3D6',
@@ -299,11 +303,12 @@ const ELEV_LIGHT = {
 
 const BRIDGE_DARK = {
   /* r160 KODE: the safety-orange bridge — #FF4C00 accents on the night
-     stage (4.0:1, the spec's accent-grade ruling; body text stays
-     --foreground white). */
+     stage (6.1:1, the spec's accent-grade ruling; body text stays
+     --foreground white; the old 4.0:1 figure was the retired gold's —
+     W21-H recomputed). */
   '--primary': '#FF4C00',
   '--primary-text': '#FF4C00',
-  '--primary-fg': '#050507', // black ink on orange ≈ 6.3:1
+  '--primary-fg': '#050507', // ink on orange 6.1:1 (W21-H recomputed; 6.3:1 was #000's figure)
   '--ring': '#FF4C00', // the orange focus ring (recolored per spec S5)
   '--accent': 'rgb(255 76 0 / 0.15)', // translucent wash semantics
   '--input-border': 'color-mix(in oklab, #A9ACB4 70%, #0B0B10)', // resolved r13 3:1 border recipe

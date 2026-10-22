@@ -47,11 +47,11 @@ you can see all three worlds at a glance.
    night (default) / KODE paper (`.light`). Night world: ground `#050507`
    near-black stage, surfaces `#0B0B10`, stage text `#FFFFFF` white,
    accent `#FF4C00` safety orange (hover brightens `#FF6A2E` · strong
-   `#FF6A2E` · soft `#221008` · on-accent ink `#050507` ≈6.3:1), hairlines
+   `#FF6A2E` · soft `#221008` · on-accent ink `#050507` 6.1:1), hairlines
    `#17171F / #26262E`, secondary text `#A9ACB4`. Light mode is a
    first-class parity mode: paper ground `#F4F2ED`, white cards, ink
    `#0A0A0A`, the orange-on-paper family (r160 — fill `#FF4C00` with
-   `--primary-fg` ink `#0A0A0A` ≈5.8:1 · text-grade `#B23E00` 5.2:1 on
+   `--primary-fg` ink `#0A0A0A` 5.9:1 · text-grade `#B23E00` 5.2:1 on
    paper · hover darkens `#E04400` · soft `#FFE3D6`), hairlines
    `#E9E7E2 / #D9D6D0`. The Madarek gold-on-night / gold-on-cream
    families (m15 → phase6) are RETIRED history (see the header's lineage
@@ -61,13 +61,13 @@ you can see all three worlds at a glance.
    §15). It carries the SAME 3-color discipline as the product night
    world — `--ln-ink #050507` (the ground), `--ln-ink-2 #0B0B10` (the
    surface step), `--ln-cream #FFFFFF` stage white (20.3:1) /
-   `--ln-cream-dim #A9ACB4` grey secondary (8.0:1), the orange pair
-   `--ln-gold #FF4C00` (4.0:1 — the token NAME is the landing's accent
-   slot, not a hue promise) / `--ln-gold-deep #FF6A2E` (hover, 4.9:1),
+   `--ln-cream-dim #A9ACB4` grey secondary (9.0:1), the orange pair
+   `--ln-gold #FF4C00` (6.1:1 — the token NAME is the landing's accent
+   slot, not a hue promise) / `--ln-gold-deep #FF6A2E` (hover, 7.1:1),
    white hairlines `rgba(255,255,255,0.16 / 0.08)`, flat night panels
    `rgba(11,11,16,0.92 / 0.97)` (glass retired), grain veil
    `--ln-grain-op 0.075`; §15's paper stage flips `--ln-ink #F4F2ED` /
-   `--ln-cream #0A0A0A` (19.6:1) / text-grade `--ln-gold #B23E00` (5.2:1).
+   `--ln-cream #0A0A0A` (17.7:1) / text-grade `--ln-gold #B23E00` (5.2:1).
    The §0a2 world tokens all collapse onto `#FF4C00` (S3: the landing
    uses ONLY the stage palette). The r128–r151 Orbit-Ink palette (ink
    `#252A3E` · lime `#DFEDB2` · violet `#7A6BF2`) is RETIRED — its return
@@ -85,7 +85,7 @@ product page never consumes the landing's surface tokens.
 the KODE values): `--background/--card/--foreground/--muted-foreground/
 --border/--border-strong`, `--primary` = the safety-orange fill
 (`#FF4C00`, both themes), `--primary-text` = the text-grade accent
-(`#FF4C00` night, 4.0:1 accent-size / `#B23E00` paper, 5.2:1),
+(`#FF4C00` night, 6.1:1 accent-size / `#B23E00` paper, 5.2:1),
 `--primary-fg` = on-accent ink (`#050507` / `#0A0A0A`), `--accent` = the
 translucent wash (orange 15% night / 12% paper), `--destructive
 (+--ink)`, the accent family `--accent-{solid,hover,soft,strong,ink,fg}`
@@ -306,16 +306,19 @@ parity-pinned; see the enforcement numbers):
   the resting border — invalid fields keep their destructive border on
   hover. Browser surfaces are themed (caret + both autofill engines).
 - **Landing pills (sanctioned exemption):** the landing's primary CTA
-  is a **48px pill** (finale pair 52; compact header pair 44) — gold
-  fill + `--ln-ink` text (10.39:1), the ONE gold-filled primary CTA
-  surface; ghost pills stay sand on a hairline; the world CTAs ride the
+  is a **48px pill** (finale pair 52; compact header pair 44) — accent
+  fill + `--ln-ink` text (6.1:1), the ONE luminous-fill primary CTA
+  surface (the `ln-btn-gold` class name is lineage — the paint is the
+  KODE orange; W21-H recomputed, the r152 gold pair's 10.39:1 went
+  with the gold); ghost pills stay sand on a hairline; the world CTAs ride the
   same 48px pill in the LIT world hue with night ink. Every landing CTA
   is radius-full. These pill heights are landing-world vocabulary and
   do NOT migrate to product surfaces, which ride the 44/13/600/r10
   fleet canon below.
 - **Inner-page CTA canon (r150):** 44/13/600/r10 — `h-11` 44px ·
   `--fs-sm` 13px · 600 · `rounded-md` · press `active:scale-[0.97]` ·
-  gold fill + `--primary-fg` ink (never white-on-gold — 1.89:1).
+  accent fill + `--primary-fg` ink (never white-on-accent — 3.3:1; the
+  retired gold's 1.89:1 founded the rule).
 - **Focus rings, two worlds:** product = universal `*:focus-visible`
   2px `var(--ring)` outline, offset 2px; landing = 2px `--ln-cream`
   outline, offset 3px — ONE ring color on the landing. The single

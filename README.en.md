@@ -10,7 +10,7 @@
 
 **Live site:** <https://smart-link.ly> · **Support:** WhatsApp during office hours (9am–9pm)
 
-![SmartLink landing page — the three-line Kufi headline lockup over the ascending metallic chain sculpture on KODE's near-black stage with white ink and safety orange (a W7-E capture on the current 2f3dd1b build)](docs/screenshots/hero-landing.webp)
+![SmartLink landing page — the three-line Kufi headline lockup over the ascending metallic chain sculpture on KODE's near-black stage with white ink and safety orange (a W7-E capture re-verified unchanged in W21-H on the current f98a74a build)](docs/screenshots/hero-landing.webp)
 
 *The hero shot on the current KODE build (W7-E, 2026-10-20): the three-line lockup «كلُّ عملٍ يبدأ رابطًا ويصبح منظومةً» and the metallic chain sculpture — the pixels are the deployed present; see [CAPTIONS.md](docs/screenshots/CAPTIONS.md).*
 
@@ -58,14 +58,14 @@ The site is Arabic-first (fully RTL), ships a dark/light theme, and is built to 
 ## Screenshots
 
 <!-- W7-E (P21-W7, 2026-10-20): all three shots re-captured on the current
-     KODE build (2f3dd1b) — the present is what the texts now describe;
+     KODE build (f98a74a — re-verified in W21-H) — the present is what the texts now describe;
      the Madarek era stays documented in CAPTIONS.md as history. -->
 
-![Pricing page — the live plan ladders of the three products with their actual published prices in Libyan dinars on the KODE stage (a W7-E capture on the current 2f3dd1b build)](docs/screenshots/pricing-plans.png)
+![Pricing page — the live plan ladders of the three products with their actual published prices in Libyan dinars on the KODE stage (a W7-E capture re-verified unchanged in W21-H on the current f98a74a build)](docs/screenshots/pricing-plans.png)
 
 *The «باقات حيّة بالدينار الليبي» chapter — 0/19/29/129/299 LYD per product, read live from the database (W7-E, 2026-10-20): the pixels show exactly the prices being served.*
 
-![The pricing-page FAQ — the accordion with its first question «هل الخدمة مجانية حقاً؟» open by default (a W7-E capture on the current 2f3dd1b build)](docs/screenshots/pricing-faq.png)
+![The pricing-page FAQ — the accordion with its first question «هل الخدمة مجانية حقاً؟» open by default (a W7-E capture re-verified unchanged in W21-H on the current f98a74a build)](docs/screenshots/pricing-faq.png)
 
 *The «أسئلة شائعة» accordion (W7-E, 2026-10-20): the first question open by default with the current P13-2a answer wording — «نعم، لكل منتج خطة مجانية حقيقية تُفعَّل فورًا».*
 

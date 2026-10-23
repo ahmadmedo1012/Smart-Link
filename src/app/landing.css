@@ -80,21 +80,25 @@
      orphaned أ — the ≤1024px block in §16b now carries the viewport-fit
      scale so the 3-line lockup holds at every width. */
   --ln-h1:         clamp(3.5rem, 13vw, 11.875rem);
-  /* P20-A1→P20-A2: 1.08 — the pixel-proven leading. The 0.92 lockup
-     collided (canvas metrics: 1px worst-case junction); 0.97 was the
-     P20-A1 fix — but PIXEL PROOF on the live 1440 render (junction
-     1-2 crop, column-scan white-vs-orange ink) measured a 14px
-     OVERLAP between line-1's white descender and line-2's orange
-     tashkeel (the Kufi 800 diacritic stacks are taller than the
-     ink-box model credited). 1.08 clears the real raster ink (~10px
-     measured gap at the worst junction) while the short-stage budget
-     divisor (W21-A: now derived, calc(3 * var(--ln-h1-lh)) — the
-     hand-kept 3.24 = 3 × 1.08 could silently desync on a future
-     leading change) keeps the 500px lockup box and the CTA
-     fold margin exactly true (taller leading ⇒ proportionally
-     smaller budget-capped font — total height invariant). Tashkeel
-     still rides overflow-visible — nothing clips. */
-  --ln-h1-lh:      1.08;
+  /* P20-A1→P20-A2→P23-B: 1.08 → 1.18 — the pixel proof, re-measured twice.
+     P20-A2's 1.08 claimed a ~10px worst-junction gap, but the live
+     1440×900 re-measure (per-column ink scan, junction 1→2, white
+     descender vs orange tashkeel) finds a −4px OVERLAP at the worst
+     column (x≈660) and only ~13px at typical columns — the Kufi 800
+     diacritic stacks still ride higher than the ink-box model
+     credited, and a fresh art-director audit read the crash ("the
+     orange ascenders collide with the line above"). The first P23-B
+     step (1.14) measured +1px at the worst column — separated but
+     ZERO perceptual air at poster scale (reads as touching); 1.18
+     buys the real dark band: modeled ≈ +7px short-stage (the
+     height-budget cap self-compensates) / ≈ +13px at the 13vw stage
+     — professional display-leading for a fully-vowelled Kufi 800
+     lockup while the diamond keeps its taper. The
+     short-stage budget divisor stays DERIVED (calc(3 × lh)) so the
+     total lockup box + CTA fold margin stay invariant (taller leading
+     ⇒ proportionally smaller budget-capped font). Tashkeel still
+     rides overflow-visible — nothing clips. */
+  --ln-h1-lh:      1.18;
   --ln-t-fast:      var(--t-fast);    /* 160ms */
   --ln-t-base:      var(--t-base);    /* 240ms */
   --ln-t-slow:      var(--t-slow);    /* 380ms */

@@ -2635,8 +2635,8 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
     /@media \(max-width: 1024px\)\s*\{[^@]*\.ln-hero--kode \.ln-hero-content\s*\{[^}]*min-inline-size:\s*0/.test(lcss4a)
       && /@media \(max-width: 1024px\)\s*\{[^@]*\.ln-hero--kode \.ln-hero-title\s*\{[^}]*min-inline-size:\s*0;[^}]*font-size:\s*min\(var\(--ln-h1\), 12\.6vw\)/.test(lcss4a)
       && /@media \(max-width: 1024px\)\s*\{[^@]*\.ln-hero--kode \.ln-hero-line\s*\{\s*white-space:\s*nowrap/.test(lcss4a)
-      && /--ln-h1-lh:\s*1\.08/.test(lcss4a),
-    'P20-A1: the 3-line KODE lockup holds at EVERY width — below 1025px the nowrap + min-inline-size: 0 + viewport-fit scale (min(--ln-h1, 12.6vw)) replace the ragged 5-line wrap (orphaned أ at 390 measured), and the measured-ink lh 1.08 keeps the raster ink of adjacent lines from colliding (P20-A2 pixel-proof: 0.97 left a 14px overlap; 1.08 leaves a clean dark band)'
+      && /--ln-h1-lh:\s*1\.18/.test(lcss4a),
+    'P20-A1: the 3-line KODE lockup holds at EVERY width — below 1025px the nowrap + min-inline-size: 0 + viewport-fit scale (min(--ln-h1, 12.6vw)) replace the ragged 5-line wrap (orphaned أ at 390 measured), and the measured-ink lh keeps the raster ink of adjacent lines from colliding (P20-A2: 0.97 left a 14px overlap → 1.08; P23-B re-measure found 1.08 still left a −4px worst-column overlap at 1440×900, and 1.14 only bought +1px of separated-but-touching air → 1.18 gives the real dark band ≈+7px, honestly re-pinned)'
   );
   // P1-4b · the scroll cue's §3 absolute-era offsets are swept in the kode
   // layer: §16 switched the cue to a grid item (position: relative) but

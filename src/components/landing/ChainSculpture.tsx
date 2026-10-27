@@ -111,7 +111,11 @@ export default function ChainSculpture({ className }: { className?: string }) {
      * Those sessions get exactly what a WebGL-less browser gets: the
      * CSS hero stands alone (content never hostage, line 82). The
      * theme-contract e2e opts back in via window.__forceChainSculpture
-     * so the live-canvas visual contract keeps its coverage. */
+     * so the live-canvas visual contract keeps its coverage.
+     * P28-B: the Mount now makes this decision BEFORE the import —
+     * automated sessions never download this module at all; this
+     * internal gate stays as defense in depth (probe contexts can
+     * disagree). */
     const automated = navigator.webdriver === true
     const forced =
       (window as unknown as { __forceChainSculpture?: boolean }).__forceChainSculpture ===

@@ -15,6 +15,14 @@ import { hydrationGate } from "./helpers"
 
 test.describe("مبدّل مظهر الرئيسية — المرحلة الفاتحة", () => {
   test.beforeEach(async ({ page }) => {
+    /* P28-A: المنحوتة تتخطى المحركات الآلية افتراضيًا (بوابة
+       navigator.webdriver — قياس Lighthouse الصادق)، وهذا العقد
+       يقفل السلوك الحي للكانفس نفسه (التصاق الكانفس + توقيع
+       إعادة الرسم) فيُجبَر المحرك قبل الإقلاع عبر ختم النافذة —
+       قبل goto حتى يقرأه الأثر عند أول تركيب. */
+    await page.addInitScript(() => {
+      ;(window as unknown as { __forceChainSculpture?: boolean }).__forceChainSculpture = true
+    })
     await page.goto("/", { waitUntil: "networkidle" })
     await hydrationGate(page)
   })

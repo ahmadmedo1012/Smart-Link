@@ -121,6 +121,52 @@ export default function Home() {
               <a href="#products" className="ln-btn-ghost">اكتشف العوالم</a>
             </RevealCssClass>
 
+            {/* P30-C (§3.3 — the choice moment, the settled judgment call):
+                the hero copy sells the PLATFORM (all three worlds named
+                above), but the approved r128 primary CTA goes to the
+                flagship only. The worlds micro-row puts the other two
+                products' doors one tap away AT the decision point — mono
+                system-chrome level (the eyebrow's bracket vocabulary),
+                never a second button row. The primary CTA is untouched;
+                this row is additive and reversible. Label-in-Name holds:
+                each aria-label carries the registry label, which contains
+                the visible word (WCAG 2.5.3). */}
+            <RevealCssClass as="ul" className="ln-hero-meta ln-hero-worlds" delay={4}>
+              <li className="ln-mono">العوالم:</li>
+              <li>
+                <a
+                  href={SITE.products.menu.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Smart Menu — المنيو الرقمي، رابط خارجي"
+                >
+                  المنيو
+                </a>
+              </li>
+              <li aria-hidden="true" className="ln-hero-meta-dot" />
+              <li>
+                <a
+                  href={SITE.products.bot.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="SmartBot — البوت الذكي، رابط خارجي"
+                >
+                  البوت
+                </a>
+              </li>
+              <li aria-hidden="true" className="ln-hero-meta-dot" />
+              <li>
+                <a
+                  href={SITE.products.order.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Smart Order — متجر الطلبات الرقمي، رابط خارجي"
+                >
+                  الطلبات
+                </a>
+              </li>
+            </RevealCssClass>
+
             <RevealCssClass as="ul" className="ln-hero-meta" delay={5}>
               <li><Check size={12} aria-hidden="true" /> بدون بطاقة ائتمان</li>
               <li aria-hidden="true" className="ln-hero-meta-dot" />

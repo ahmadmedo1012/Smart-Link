@@ -2094,6 +2094,39 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
     'r134-5: both pricing CTAs announce «ابدأ الآن — <product>، رابط خارجي»'
   );
 
+  // P30-C (§3.3 — the choice moment, the settled judgment call): the hero
+  // worlds micro-row gives every product a door AT the decision point.
+  // Three pins: the row exists with all three registry doors + external
+  // conventions; the primary CTA contract is untouched; the CSS rule is
+  // ladder-tracked (no new ink/scale — system chrome, not a second button
+  // family). Label-in-Name: each aria-label carries the registry label,
+  // which contains the visible word (WCAG 2.5.3).
+  const homePageP30 = read('app/page.tsx');
+  check(
+    homePageP30.includes('ln-hero-meta ln-hero-worlds') &&
+      homePageP30.includes('SITE.products.menu.url') &&
+      homePageP30.includes('SITE.products.bot.url') &&
+      homePageP30.includes('SITE.products.order.url') &&
+      (homePageP30.match(/target="_blank"\s+rel="noopener noreferrer"/g) ?? []).length >= 3 &&
+      homePageP30.includes('Smart Menu — المنيو الرقمي، رابط خارجي') &&
+      homePageP30.includes('SmartBot — البوت الذكي، رابط خارجي') &&
+      homePageP30.includes('Smart Order — متجر الطلبات الرقمي، رابط خارجي'),
+    'P30-C: the hero worlds micro-row — all three product doors (registry URLs) with the external-link convention (target/rel/«رابط خارجي» aria-labels carrying the registry labels)'
+  );
+  check(
+    (homePageP30.match(/ابدأ مجاناً — Smart Menu، رابط خارجي/g) ?? []).length === 1 &&
+      homePageP30.includes('href="#products" className="ln-btn-ghost"'),
+    'P30-C: the approved r128 primary CTA contract is untouched (one hero CTA → Smart Menu; اكتشف العوالم still scrolls to #products)'
+  );
+  check(
+    /\.landing \.ln-hero-worlds \{ margin-block-end: var\(--sp-8\); \}/.test(landingCss134) &&
+      /\.landing \.ln-hero-worlds li \{ padding-block: 0; \}/.test(landingCss134) &&
+      /\.landing \.ln-hero-worlds li a \{ min-block-size: 44px; \}/.test(landingCss134) &&
+      !/ln-hero-worlds[^{}]*\{[^}]*?(font-size|color):/.test(landingCss134) &&
+      /\.ln-hero-meta:not\(\.ln-hero-worlds\) \{ display: none; \}/.test(landingCss134),
+    'P30-C: the worlds row adds only rhythm + touch-floor rules (margin rhythm, li padding reset, 44px hit zone — the r149 family law for real nav doors) — no new ink or scale (system chrome on the hero meta grammar; the §16j short-viewport fold exempts the worlds row: the choice moment cannot fold away)'
+  );
+
   // D ── fix 2: the about pull-quote glyph rides the LOGICAL end corner.
   check(
     aboutPage.includes('top-4 end-4') && !/top-4 right-4/.test(aboutPage),
@@ -2906,7 +2939,7 @@ if (failures.length > 0) {
    assertion, stronger contract), and the P10-1c 500-boundary icon
    pin re-based on the same recipe (assertion count unchanged, the
    value contract moved with the code). */
-const EXPECTED_ASSERTIONS = 573;
+const EXPECTED_ASSERTIONS = 576;
 check(
   passed + 1 === EXPECTED_ASSERTIONS,
   `self-count: the suite must run exactly ${EXPECTED_ASSERTIONS} assertions (ran ${passed + 1}) — bump EXPECTED_ASSERTIONS with every intentional pin change`

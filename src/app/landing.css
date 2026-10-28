@@ -1021,6 +1021,19 @@
   background: var(--ln-line);
 }
 
+/* P30-C (§3.3 — the choice moment): the worlds micro-row rides the hero
+   meta grammar (flex-wrap pill row, cream ink, --fs-sm ladder rung) with
+   worlds-specific rules only: its bottom rhythm (the meta facts row that
+   follows has margin: 0, so the worlds row owns the separation) and the
+   r149 touch floor — the three anchors are REAL navigation doors, so
+   they carry the 44px hit zone the family law gives every nav target
+   (min-block-size lifts the hit zone; the label rhythm stays 13px).
+   Ladder-tracked; no new ink, no new scale — the row is system chrome,
+   not a second button family. */
+.landing .ln-hero-worlds { margin-block-end: var(--sp-8); }
+.landing .ln-hero-worlds li { padding-block: 0; }
+.landing .ln-hero-worlds li a { min-block-size: 44px; }
+
 /* scroll invitation — physical centering is direction-neutral. The fold
    anchor (canonical P1-6): 100% tracks the hero's REAL height, 100svh
    is the fold, +134px = fixed chrome + breathing room. The +134 offset
@@ -3021,12 +3034,16 @@ html.light .landing .ln-btn-gold:hover { color: var(--ln-gold-deep); }
 
 /* §16j (fit pass): the lockup owns the viewport — on short viewports the
    meta row folds (its three facts live in the marquee + footer too) and
-   the stage paddings tighten so the 3rd line + scroll cue stay in-frame. */
+   the stage paddings tighten so the 3rd line + scroll cue stay in-frame.
+   P30-C: the worlds micro-row is EXEMPT from the fold — unlike the meta
+   facts, its three product doors live nowhere else in the hero (the
+   choice moment cannot fold away). It rides the same tightened paddings;
+   ~47px on ≤960px heights, measured in-frame at 844/900/1024. */
 .landing .ln-hero--kode { overflow: visible; }
 @media (max-height: 960px) {
   .landing .ln-hero--kode { padding-block: 88px 40px; }
   .landing .ln-hero--kode .ln-hero-content { gap: 14px; }
-  .landing .ln-hero--kode .ln-hero-meta { display: none; }
+  .landing .ln-hero--kode .ln-hero-meta:not(.ln-hero-worlds) { display: none; }
   .landing .ln-hero--kode .ln-hero-sub { font-size: 14px; line-height: 1.8; }
 }
 

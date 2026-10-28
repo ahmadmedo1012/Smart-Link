@@ -90,8 +90,12 @@ test.describe("مبدّل مظهر الرئيسية — المرحلة الفا�
     /* P13-2a Wave-3: this probe screenshots the FULL 1280×1242 stage box
      * THREE times and folds ~1.9M pixels in-page — under software raster
      * the 30s default starves mid-flow (setup+poll+3 shots). Legitimately
-     * heavy contract → tripled budget, same assertions. */
-    test.slow()
+     * heavy contract → tripled budget, same assertions.
+     * P30-C: the worlds micro-row grew the hero (and with it the stage
+     * box, which rides inset:0 of the hero) by ~7% — the budget follows
+     * the actual stage (the same re-budget doctrine, one notch further:
+     * 90s → 150s; assertions unchanged). */
+    test.setTimeout(150_000)
     /* P13-2a re-author: الكوكبة تقاعدت مع r160 — ChainSculpture محرك
        WebGL بلا preserveDrawingBuffer، فأي قراءة getContext('2d')
        للكانفس تعيد فراغًا دائمًا (المسبار القديم كان يقيس محركًا لم

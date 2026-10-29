@@ -1,6 +1,7 @@
 import { ArrowLeft } from "lucide-react"
 import { RevealCssClass } from "@/hooks/useReveal"
 import { WORLDS } from "./worlds"
+import { WorldVignette } from "./WorldVignette"
 
 /* P12-2a (r160 KODE) — Chapter 001 «العوالم» re-cast as the BLACK stage:
  * a huge Kufi chapter header and three minimal TYPE-CARDS separated by
@@ -8,7 +9,16 @@ import { WORLDS } from "./worlds"
  * per-world hue panels + CSS mocks retired with the constellation era).
  * Everything REAL survives: the three live domains, the shipped copy,
  * the three real claims per world, the Western numerals (E1). The
- * worlds.ts registry stays the single data source. */
+ * worlds.ts registry stays the single data source.
+ *
+ * P31-A — the product-discovery rebuild: each type-card gains its
+ * VISUAL ANCHOR — the WorldVignette mini product-UI panel (menu-card /
+ * chat-thread / order-ticket), the inline-end region of the card's
+ * 12-column composition (1 numeral + 7 type + 4 vignette; ≤760px it
+ * stacks inline between the sub-line and the claims — see landing.css
+ * §16d·2). The card body is FLATTENED to grid-area children so the
+ * three regions share one grid; every shipped string, claim, href and
+ * aria-label below is byte-identical to the r160 card. */
 
 export function WorldsSection() {
   return (
@@ -34,28 +44,27 @@ export function WorldsSection() {
             delay={(i + 1) as 1 | 2 | 3}
           >
             <span className="ln-world-num ln-mono" aria-hidden="true">{w.numeral}</span>
-            <div className="ln-world-card-body">
-              <div className="ln-world-card-head">
-                <h3 className="ln-world-name">{w.name}</h3>
-                <span className="ln-world-host ln-mono">{w.host}</span>
-              </div>
-              <p className="ln-world-sub">{w.sub}</p>
-              <ul className="ln-world-claims">
-                {w.claims.map((c) => (
-                  <li key={c}>{c}</li>
-                ))}
-              </ul>
-              <a
-                className="ln-world-cta"
-                href={w.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={`ادخل عالم ${w.name} — النطاق الحي، رابط خارجي`}
-              >
-                ادخل عالم {w.name}
-                <ArrowLeft size={16} aria-hidden="true" />
-              </a>
+            <div className="ln-world-card-head">
+              <h3 className="ln-world-name">{w.name}</h3>
+              <span className="ln-world-host ln-mono">{w.host}</span>
             </div>
+            <p className="ln-world-sub">{w.sub}</p>
+            <WorldVignette id={w.id} />
+            <ul className="ln-world-claims">
+              {w.claims.map((c) => (
+                <li key={c}>{c}</li>
+              ))}
+            </ul>
+            <a
+              className="ln-world-cta"
+              href={w.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`ادخل عالم ${w.name} — النطاق الحي، رابط خارجي`}
+            >
+              ادخل عالم {w.name}
+              <ArrowLeft size={16} aria-hidden="true" />
+            </a>
           </RevealCssClass>
         ))}
       </div>

@@ -454,3 +454,55 @@ assertions, the local green baseline is 309/309 on
   live in the promoted §0a2 tokens).
 - Don't write world-true hexes as text or CTA fills — they are
   swatch/motif/edge furniture only.
+
+## Dated note — 2026-10-29, P31-A: the worlds vignette layer
+
+Appended per the append-only law (the history sections above are
+untouched). The audit truth this note records: the r160 type-cards gave
+a first-time visitor ZERO visual anchor for what each product IS — name,
+domain, three claims, no UI glimpse. Chapter 001's cards now carry a
+**product vignette**: a compact, deterministic, pure-CSS «mini
+product-UI» panel per world (`WorldVignette.tsx` + landing.css `§16d·2`),
+`aria-hidden="true"` decorative chrome — generic illustrative content
+only, no fake claims (the real claims + the live link stay byte-identical
+on the type side):
+
+- **Smart Menu** → the *menu-card vignette*: geometric plate motif (CSS
+  circles — hairline rim + orange core) in a recessed «photo» square,
+  two dish rows with hairline price chips («طبق اليوم 29 د.ل» /
+  «مشروب المنزل 8 د.ل»), and a tiny QR corner mark + «امسح الكود» row
+  pinned to the panel foot.
+- **SmartBot** → the *chat-thread vignette*: incoming grey bubble
+  («السلام عليكم، عندكم توصيل؟»), outgoing orange bot bubble («أهلاً!
+  نوصّل داخل بنغازي خلال 45 دقيقة») with a CSS delivery checkmark, and
+  a three-dot typing indicator pinned to the thread foot.
+- **Smart Order** → the *order-ticket vignette*: store header («مطعمك» +
+  «قيد التحضير» orange-soft status pill), two item lines with qty +
+  price (×2 = 58 + ×2 = 16), dashed perforation hairline, the total row
+  «الإجمالي 74 د.ل», and a delivery line (CSS pin) «توصيل داخل بنغازي
+  · 45 دقيقة». The arithmetic is TRUE and consistent with the menu
+  vignette's prices (29 + 8 → ×2 + ×2 = 74).
+
+**Composition law:** the card is a 12-column composition — 1 numeral
+track + 7 type tracks + 4 vignette tracks (`grid-template-areas`
+num/text/sub/viz/list/cta; the vignette is the inline-end panel,
+vertically centered, capped at 380px). At ≤760px the card folds to one
+column in source order: numeral → head → sub-line → **vignette** →
+claims → CTA.
+
+**KODE discipline inside the panels (the r160 law holds):** ink/white/
+orange ONLY — surface `#0B0B10` on the held-black chapter (both themes,
+the §16d literal law — the stage-flipping `--ln-*` tokens are never
+consumed here), hairlines `rgba(255,255,255,0.08/0.16)`, the
+stage-independent orange pair `--ln-flood` `#FF4C00` / `--ln-flood-ink`
+`#050507` for fills + ink-on-orange, literal `#FF6A2E` for the status
+pill ink, `--r-*` radius ladder, mono (`--ln-mono`) for money/qty
+digits. ZERO per-world hues, ZERO gradients, ZERO animation in the
+panels. Shared geometry family: all three panels render at exactly the
+same height (`min-block-size: 184px`), same border grammar, same corner
+scale. The ONE hover verb: panel border brightens 0.08 → 0.16 + a 2px
+lift (`--ln-t-fast` 160ms, explicit RM off-switch). Pinned in
+`tests/parity.mjs` (the P31-A section; the suite is now **582
+assertions** — the Enforcement section's 524 figure above is the stale
+phase6-era prose; the script self-counts and wins).
+

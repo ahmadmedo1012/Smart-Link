@@ -2226,6 +2226,62 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
      Pinning paint of a dead family is how drift hides (the r144
      doctrine). EXPECTED_ASSERTIONS 573 → 572 in the same commit. */
 
+  /* I3 ── P31-A: the worlds vignette layer — the product-discovery
+     rebuild. The owner's repeated VLM audit truth: the r160 type-cards
+     gave a first-time visitor ZERO visual anchor for what each product
+     IS. Each card now carries a compact, deterministic, pure-CSS mini
+     product-UI (WorldVignette, aria-hidden decorative chrome — generic
+     content only, no fake claims; the real claims + the live link stay
+     on the type side, byte-identical). The pins below hold the new
+     truth so the layer can never silently regress or drift out of the
+     r160 KODE discipline. */
+  const vizSrc = read('components/landing/WorldVignette.tsx');
+  check(
+    rolesSrc.includes('<WorldVignette id={w.id} />')
+      && (vizSrc.match(/aria-hidden="true"/g) ?? []).length === 3
+      && (vizSrc.match(/ln-world-viz--/g) ?? []).length === 3,
+    'P31-A: every world card renders its product vignette — exactly THREE variants (menu/bot/order), every variant root aria-hidden="true" (purely decorative chrome; the retired ln-motif/MockFrame render-path pin above still holds — the vignettes are a NEW ln-viz family, not a resurrection)'
+  );
+  check(
+    !/#[0-9a-fA-F]{3,8}\b/.test(vizSrc)
+      && !vizSrc.includes('style={')
+      && (vizSrc.match(/className="[^"]*"/g) ?? []).length > 0
+      && (vizSrc.match(/className="[^"]*"/g) ?? []).every((c) => /^className="ln-[^"]*"$/.test(c)),
+    'P31-A: the vignettes stay pure CSS — zero hex in TSX, zero inline styles, zero Tailwind (every className is an ln-* plain class; the landing-layer hard isolation law)'
+  );
+  check(
+    /\.landing \.ln-world-card\s*\{[^}]*grid-template-areas:[^}]*"num/.test(landingCss134)
+      && /\.landing \.ln-world-viz\s*\{[^}]*grid-area:\s*viz/.test(landingCss134)
+      && /\.landing \.ln-world-claims\s*\{[^}]*grid-area:\s*list/.test(landingCss134)
+      && /\.landing \.ln-world-card\s*\{[^}]*minmax\(84px, 180px\) minmax\(0, 7fr\) minmax\(0, 4fr\)/.test(landingCss134),
+    'P31-A: the 12-col card composition — numeral + 7fr type + 4fr vignette (1+7+4) via grid-template-areas; the vignette is the inline-end panel, the claims own the type list area (the r160 hairline-row pin above is the other half: border-block-end stays on the first card block)'
+  );
+  check(
+    /\.landing \.ln-world-viz\s*\{[^}]*border:\s*1px solid rgba\(255, 255, 255, 0\.08\)/.test(landingCss134)
+      && /\.landing \.ln-world-viz\s*\{[^}]*min-block-size:\s*184px/.test(landingCss134)
+      && /\.landing \.ln-world-card:hover \.ln-world-viz\s*\{[^}]*border-color:\s*rgba\(255, 255, 255, 0\.16\)/.test(landingCss134)
+      && /\.landing \.ln-world-card:hover \.ln-world-viz\s*\{[^}]*translate:\s*0 -2px/.test(landingCss134)
+      && /\.ln-world-viz\s*\{[^}]*var\(--ln-t-fast\)/.test(landingCss134)
+      && /ln-world-viz\s*\{[^}]*transition:\s*none/.test(allTopLevelBlocks(landingCss134, '@media (prefers-reduced-motion: reduce)').join('\n')),
+    'P31-A: the shared vignette geometry family — ONE panel grammar (hairline 0.08 border on the #0B0B10 surface, 184px shared block size = the same-height contract) + the ONE hover verb (border brightens 0.08 → 0.16, 2px lift at --ln-t-fast 160ms ≤ 200ms) with its explicit RM off-switch (belt over the --t-* token zeroing)'
+  );
+  const vizCss = landingCss134.slice(
+    landingCss134.indexOf('.landing .ln-world-viz {'),
+    landingCss134.indexOf('.landing .ln-cockpit {')
+  );
+  check(
+    vizCss.includes('.ln-viz-menu-thumb') && vizCss.includes('.ln-viz-menu-qr')
+      && vizCss.includes('.ln-viz-chat-out') && vizCss.includes('.ln-viz-chat-typing')
+      && vizCss.includes('.ln-viz-ticket-status') && vizCss.includes('.ln-viz-ticket-sep')
+      && !/gradient/.test(vizCss)
+      && !/--ln-(menu|bot|order)\b/.test(vizCss),
+    'P31-A KODE discipline: all three vignette grammars painted in the §16d·2 block — plate/QR menu, bubble/typing chat, status/sep ticket — with ZERO gradients and ZERO per-world hue tokens (ink/white/orange only, the r160 S3 law holds inside the panels)'
+  );
+  check(
+    /@media \(max-width: 760px\)[^@]*grid-template-areas:\s*"num" "text" "sub" "viz" "list" "cta"/.test(landingCss134),
+    'P31-A: the ≤760px stack — the vignette folds inline between the sub-line and the claims (source-order stack: num → head → sub → viz → claims → cta; the panel goes full-measure)'
+  );
+
   // J ── fix 10a: the r133-A10 autofill/caret port (madarek base.css:
   //     104-125; the Smart-Menu globals.css twin) — pinned in the
   //     Smart-Menu/SO style: caret token, both autofill engines.
@@ -2938,8 +2994,20 @@ if (failures.length > 0) {
    regex follows the new calc(3 * var(--ln-h1-lh)) spelling — same
    assertion, stronger contract), and the P10-1c 500-boundary icon
    pin re-based on the same recipe (assertion count unchanged, the
-   value contract moved with the code). */
-const EXPECTED_ASSERTIONS = 576;
+   value contract moved with the code).
+   P30 (the worlds doors wave): 573 → 576 — the hero worlds micro-row
+   pins (P30-C) + the route-inventory truth pins.
+   P31-A (the product-discovery rebuild): 576 → 582 — the worlds
+   vignette layer: SIX new pins (the render contract ×3 aria-hidden
+   variants · the purity contract zero hex/inline/Tailwind · the 12-col
+   card composition (numeral + 7fr type + 4fr vignette grid-template-
+   areas) · the shared panel geometry + hover verb + RM off-switch ·
+   the §16d·2 KODE discipline slice (three grammars, zero gradients,
+   zero per-world hue tokens) · the ≤760px vignette-above-claims
+   stack). No old pin weakened — the r160 worlds pins above all stand
+   byte-identical (the type side keeps its anatomy; the vignettes are
+   the ADDITIVE visual anchor layer). */
+const EXPECTED_ASSERTIONS = 582;
 check(
   passed + 1 === EXPECTED_ASSERTIONS,
   `self-count: the suite must run exactly ${EXPECTED_ASSERTIONS} assertions (ran ${passed + 1}) — bump EXPECTED_ASSERTIONS with every intentional pin change`

@@ -2772,11 +2772,25 @@ html.light .landing .ln-worlds--kode { background: #050507; color: #FFFFFF; } /*
   margin-block-end: clamp(8px, 2vh, 24px);
 }
 /* the type-cards: hairline-ruled rows, mono numeral + name + host +
-   three claims + the live link. No cards, no glass, no hue chips. */
+   three claims + the live link. No cards, no glass, no hue chips.
+   P31-A: the card is now the 12-COLUMN COMPOSITION — 1 numeral track +
+   7 type tracks + 4 vignette tracks (1+7+4 = 12), declared as three
+   fractional regions so eleven inter-column gutters don't eat the
+   rhythm budget (ONE clamp gap between the three regions; the
+   editorial hairline rows keep their full measure). The card body is
+   flattened to grid-area children — num/text/sub/list/cta own the
+   type side, viz owns the inline-end panel (the product vignettes,
+   §16d·2 below). */
 .landing .ln-worlds-list--kode { display: block; }
 .landing .ln-world-card {
   display: grid;
-  grid-template-columns: minmax(84px, 180px) 1fr;
+  grid-template-columns: minmax(84px, 180px) minmax(0, 7fr) minmax(0, 4fr);
+  grid-template-areas:
+    "num text viz"
+    "num sub  viz"
+    "num list viz"
+    "num cta  viz";
+  row-gap: 10px;
   column-gap: clamp(24px, 4vw, 72px);
   padding-block: clamp(30px, 4.4vh, 52px);
   border-block-end: 1px solid rgba(255, 255, 255, 0.22);
@@ -2790,12 +2804,16 @@ html.light .landing .ln-worlds--kode { background: #050507; color: #FFFFFF; } /*
   position: static;
   inset-block-start: auto;
   inset-inline-end: auto;
+  grid-area: num;
+  align-self: start;
   font-size: clamp(28px, 4vw, 56px);
   font-weight: 700;
   color: #FF4C00;
   direction: ltr;
 }
 .landing .ln-world-card-head {
+  grid-area: text;
+  min-inline-size: 0;
   display: flex;
   align-items: baseline;
   gap: 16px;
@@ -2815,13 +2833,17 @@ html.light .landing .ln-worlds--kode { background: #050507; color: #FFFFFF; } /*
   direction: ltr;
 }
 .landing .ln-world-sub {
+  grid-area: sub;
+  min-inline-size: 0;
   color: #A9ACB4;
   font-size: 15px;
-  margin: 6px 0 0;
+  margin: 0;
 }
 .landing .ln-world-claims {
+  grid-area: list;
+  min-inline-size: 0;
   list-style: none;
-  margin: 18px 0 0;
+  margin: 4px 0 0;
   padding: 0;
   display: grid;
   gap: 8px;
@@ -2844,10 +2866,11 @@ html.light .landing .ln-worlds--kode { background: #050507; color: #FFFFFF; } /*
   background: #FF4C00;
 }
 .landing .ln-worlds--kode .ln-world-cta {
+  grid-area: cta;
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  margin-block-start: 22px;
+  margin-block-start: 14px;
   color: #FF4C00;
   font-weight: 700;
   font-size: 16px;
@@ -2863,9 +2886,306 @@ html.light .landing .ln-worlds--kode { background: #050507; color: #FFFFFF; } /*
   outline: 2px solid #FF4C00;
   outline-offset: 3px;
 }
+
+/* ── 16d·2 · P31-A — the product vignettes (the visual anchor layer) ─
+   The owner's repeated VLM audit truth: the r160 type-cards gave a
+   first-time visitor ZERO visual anchor for what each product IS — no
+   UI glimpse, no imagery. Each world card now carries a compact,
+   deterministic, PURE-CSS «mini product-UI» (the WorldVignette panel,
+   aria-hidden decorative chrome): menu-card / chat-thread /
+   order-ticket. The r160 S3 law holds INSIDE the panels: ink / white /
+   orange ONLY — no per-world hues, no gradients, no new colors.
+
+   The held-black literal discipline (§16d's law) extends here: the
+   chapter keeps its black in BOTH themes, so the --ln-* stage tokens
+   (which §15 flips in the day) are NEVER consumed here — the chrome
+   rides the literal blacks/whites/greys exactly like the §16d blocks,
+   plus the stage-INDEPENDENT orange pair var(--ln-flood) #FF4C00 /
+   var(--ln-flood-ink) #050507 (a flood is a flood, both stages —
+   §0a3) and the literal #FF6A2E hover rung (the §17c precedent).
+
+   Shared geometry family (all three panels EXACTLY equal): surface
+   #0B0B10, hairline rgba(255,255,255,0.08) border, --r-lg 12px outer
+   corners, --sp-4 padding, 8px inner rhythm, min-block-size 184px —
+   content top-anchored, one footer row bottom-pinned via
+   margin-block-start: auto (menu: the QR row · bot: the typing
+   indicator · order: the delivery line). Zero animation inside the
+   panels — a static frame at every rung. */
+.landing .ln-world-viz {
+  grid-area: viz;
+  align-self: center;
+  justify-self: end;
+  inline-size: 100%;
+  max-inline-size: 380px;
+  min-block-size: 184px;
+  padding: var(--sp-4);
+  background: #0B0B10;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--r-lg);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+/* — the menu-card vignette: geometric plate motif + 2 dish rows with
+   price chips + the QR corner row pinned to the foot — */
+.landing .ln-viz-menu-thumb {
+  position: relative;
+  align-self: center;
+  flex: none;
+  inline-size: 56px;
+  block-size: 56px;
+  background: #050507;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--r-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.landing .ln-viz-menu-plate {
+  inline-size: 36px;
+  block-size: 36px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 50%;
+}
+.landing .ln-viz-menu-core {
+  position: absolute;
+  inline-size: 13px;
+  block-size: 13px;
+  background: var(--ln-flood);
+  border-radius: 50%;
+}
+.landing .ln-viz-menu-row {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+.landing .ln-viz-menu-name { color: #EDEDF0; font-size: 12.5px; }
+.landing .ln-viz-menu-price {
+  margin-inline-start: auto;
+  color: var(--ln-flood);
+  font-family: var(--ln-mono);
+  font-size: 11px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: var(--r-xs);
+  padding: 1px 7px;
+}
+.landing .ln-viz-menu-foot {
+  margin-block-start: auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-block-start: 10px;
+  border-block-start: 1px solid rgba(255, 255, 255, 0.08);
+}
+.landing .ln-viz-menu-qr {
+  position: relative;
+  flex: none;
+  inline-size: 18px;
+  block-size: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: var(--r-xs);
+}
+.landing .ln-viz-menu-qr::before {
+  content: "";
+  position: absolute;
+  inset-block-start: 3px;
+  inset-inline-start: 3px;
+  inline-size: 5px;
+  block-size: 5px;
+  background: var(--ln-flood);
+}
+.landing .ln-viz-menu-qr::after {
+  content: "";
+  position: absolute;
+  inset-block-end: 3px;
+  inset-inline-end: 3px;
+  inline-size: 5px;
+  block-size: 5px;
+  background: #A9ACB4;
+}
+.landing .ln-viz-menu-scan { color: #A9ACB4; font-size: 10.5px; }
+
+/* — the chat-thread vignette: incoming grey bubble + outgoing orange
+   bot bubble (with the delivery checkmark) + the three-dot typing
+   indicator pinned to the thread foot. RTL messenger grammar: incoming
+   sits at inline-start, the bot answers from inline-end, the tail
+   corners are the top corners nearest their sender. — */
+.landing .ln-viz-chat-in,
+.landing .ln-viz-chat-out {
+  margin: 0;
+  padding: 8px 12px;
+  font-size: 12px;
+  line-height: 1.55;
+}
+.landing .ln-viz-chat-in {
+  align-self: flex-start;
+  max-inline-size: 200px;
+  color: #EDEDF0;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: var(--r-md);
+  border-start-start-radius: var(--r-xs);
+}
+.landing .ln-viz-chat-out {
+  align-self: flex-end;
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+  max-inline-size: 220px;
+  color: var(--ln-flood-ink);
+  background: var(--ln-flood);
+  border-radius: var(--r-md);
+  border-start-end-radius: var(--r-xs);
+  font-weight: 600;
+}
+.landing .ln-viz-chat-check {
+  flex: none;
+  inline-size: 9px;
+  block-size: 5px;
+  /* inline-end border = the physical LEFT border in RTL — the universal
+     ✓ glyph (left + bottom arms rotated -45°), not its RTL mirror. */
+  border-block-end: 2px solid var(--ln-flood-ink);
+  border-inline-end: 2px solid var(--ln-flood-ink);
+  rotate: -45deg;
+  opacity: 0.75;
+  margin-block-end: 3px;
+}
+.landing .ln-viz-chat-typing {
+  margin-block-start: auto;
+  align-self: flex-start;
+  padding: 9px 13px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: var(--r-md);
+}
+.landing .ln-viz-chat-typing::before {
+  content: "";
+  display: block;
+  inline-size: 4px;
+  block-size: 4px;
+  border-radius: 50%;
+  background: #A9ACB4;
+  /* the RTL dot row: the pseudo dot anchors at inline-start (the
+     physical right edge) and the two box-shadow copies extend
+     physically left, INTO the bubble — the app is dir="rtl" only. */
+  box-shadow: -8px 0 0 #A9ACB4, -16px 0 0 #A9ACB4;
+}
+
+/* — the order-ticket vignette: store header + orange-soft status pill,
+   2 item lines with qty + price, the dashed perforation, the total
+   row, the delivery line (CSS pin) pinned to the ticket foot. The
+   arithmetic is TRUE: 29 + 8 د.ل menu prices → ×2 + ×2 = 58 + 16 =
+   74 د.ل. — */
+.landing .ln-viz-ticket-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.landing .ln-viz-ticket-store {
+  color: #FFFFFF;
+  font-size: 12.5px;
+  font-weight: 700;
+}
+.landing .ln-viz-ticket-status {
+  margin-inline-start: auto;
+  color: #FF6A2E;
+  font-size: 10.5px;
+  font-weight: 600;
+  padding: 2px 9px;
+  border-radius: var(--r-full);
+  background: color-mix(in srgb, var(--ln-flood) 16%, transparent);
+}
+.landing .ln-viz-ticket-item {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  color: #EDEDF0;
+  font-size: 12.5px;
+}
+.landing .ln-viz-ticket-qty {
+  color: #A9ACB4;
+  font-family: var(--ln-mono);
+  font-size: 11px;
+}
+.landing .ln-viz-ticket-price {
+  margin-inline-start: auto;
+  color: #EDEDF0;
+  font-family: var(--ln-mono);
+  font-size: 11.5px;
+}
+.landing .ln-viz-ticket-sep {
+  border-block-start: 1px dashed rgba(255, 255, 255, 0.16);
+}
+.landing .ln-viz-ticket-total {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+.landing .ln-viz-ticket-label { color: #A9ACB4; font-size: 11.5px; }
+.landing .ln-viz-ticket-sum {
+  margin-inline-start: auto;
+  color: var(--ln-flood);
+  font-family: var(--ln-mono);
+  font-size: 13px;
+  font-weight: 700;
+}
+.landing .ln-viz-ticket-delivery {
+  margin-block-start: auto;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: #A9ACB4;
+  font-size: 11px;
+}
+.landing .ln-viz-ticket-pin {
+  flex: none;
+  inline-size: 9px;
+  block-size: 9px;
+  background: var(--ln-flood);
+  border-radius: 50% 50% 50% 0;
+  rotate: -45deg;
+}
+
+/* — the ONE hover verb of the vignette family (the §17c sweep stays
+   the CTA's verb): the panel's hairline brightens one rung
+   (0.08 → 0.16 — the sanctioned hairline pair) and the panel lifts
+   2px. Transition-based at --ln-t-fast 160ms (≤200ms); under
+   prefers-reduced-motion the --t-* token zeroing layer (styles.css)
+   nulls the duration AND the explicit off-switch below stands. — */
+@media (hover: hover) {
+  .landing .ln-world-card .ln-world-viz {
+    transition: border-color var(--ln-t-fast) var(--ln-ease-out),
+                translate var(--ln-t-fast) var(--ln-ease-out);
+  }
+  .landing .ln-world-card:hover .ln-world-viz {
+    border-color: rgba(255, 255, 255, 0.16);
+    translate: 0 -2px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .landing .ln-world-viz { transition: none; }
+}
+
+/* — the ≤760px stack: the card folds to ONE column in source order —
+   numeral → head → sub-line → VIGNETTE → claims → CTA (the vignette
+   sits above the claims, the mission's mobile contract) and the panel
+   goes full-measure. This block REPLACES the r160-era one-track fold
+   (same num rung, same row-gap). — */
 @media (max-width: 760px) {
-  .landing .ln-world-card { grid-template-columns: 1fr; row-gap: 10px; }
+  .landing .ln-world-card {
+    grid-template-columns: 1fr;
+    grid-template-areas: "num" "text" "sub" "viz" "list" "cta";
+    row-gap: 10px;
+  }
   .landing .ln-world-num { font-size: 32px; }
+  .landing .ln-world-viz {
+    max-inline-size: none;
+    justify-self: stretch;
+    align-self: auto;
+  }
 }
 
 /* ── 16e · chapter 003 — COCKPIT: black stage, mono hairlines ────── */

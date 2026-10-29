@@ -67,6 +67,13 @@ jobs:
       - name: Lint (ESLint صفر أخطاء)
         run: npm run lint
 
+      # Unit — طبقة node:test بلا أي تبعية (نهج Smart-Order في الأسطولة):
+      # الوحدات النقية (phone/money/contact-rules/site) تُثبَّت في أقل من
+      # ثانية بدل انتظار بناء Playwright كامل — انحراف طيّ الأرقام
+      # الشرقية أو استعادة جذع المحمول أو سقف الأطوال يظهر فوراً.
+      - name: Unit tests (node:test، بلا تبعيات)
+        run: npm run test:unit
+
       # r126 (P4-A3 §2.1): Madarek parity — سكربت node بلا تبعيات يقارن
       # جسر التوكنات في styles.css بالقيم القانونية؛ أي انحراف لون/نصف
       # قوس/حركة يفشل الدفعة قبل البناء أصلاً.

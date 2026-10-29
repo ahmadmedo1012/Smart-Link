@@ -24,11 +24,15 @@ export const NAME_LETTER_ERROR = "الاسم يجب أن يحتوي على أح�
    غير الصالح يُرفض برسالة عربية واحدة للنموذج وAPI معاً — نفس مذهب
    r10/r13 (عقد مشترك، تعيين الخطأ بالمفتاح field:"phone"). القيمة
    المخزنة/المُرسلة هي الشكل المُطبَّع دائماً. */
+/* Relative .ts specifier (the "@/lib/phone" alias still resolves
+   identically through webpack/Next — this form ALSO loads under plain
+   Node, so the zero-dependency node:test unit layer can import this
+   contract module directly; the fleet's Smart-Order convention). */
 export {
   normalizeLibyanPhone,
   toWaMeHref,
   PHONE_ERROR,
-} from "@/lib/phone"
+} from "./phone.ts"
 
 /** Input-box cap only — the regex itself rejects any over-long number;
     the cap keeps pasted garbage from flooding the box (server-side the

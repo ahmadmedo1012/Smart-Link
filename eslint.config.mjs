@@ -17,6 +17,10 @@ const eslintConfig = defineConfig([
     // vendor JS into the lint (thousands of unrelated problems).
     "playwright-report/**",
     "test-results/**",
+    // P22: تطبيق الموبايل (mobile/) له سلسلة أدوات Expo خاصة به —
+    // بوابة mobile المستقلة في CI تفحصه بأعدادها (typecheck/lint/export)،
+    // وlint الويب لا يعبر الحدود.
+    "mobile/**",
   ]),
 ]);
 

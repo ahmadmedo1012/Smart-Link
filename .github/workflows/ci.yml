@@ -11,10 +11,13 @@ name: CI
 # cat/rg المضغوطة (الصف نفسه رآه تدقيق P4-A5 في مستودع آخر). أُضيفت
 # خطوة parity لـCI أدناه.
 on:
+  # r191 (widening): every push on ANY branch + every PR — not just main.
+  # The repo is public (free Actions minutes) and the concurrency group
+  # (ci-<ref>, cancel-in-progress) already collapses rapid pushes to the
+  # same ref, so branch coverage costs nothing while a regression is
+  # caught at the push itself, before the PR is even opened.
   push:
-    branches: [main]
   pull_request:
-    branches: [main]
 
 # r10 (security audit — least privilege): الرمز الافتراضي GITHUB_TOKEN
 # أوسع من حاجة وظيفة قراءة/تشغيل اختبارات.

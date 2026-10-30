@@ -94,9 +94,31 @@ export const SUCCESS_BODY = JSON.stringify({
  *  الصفحة (#010101) فيفشل color-contrast بشكل متقطع (فلّاك) تحت التحميل.
  *  التقييد يسقط الحركات لحالتها النهائية: لا انتظار، لا CSS مُحقن، ولا
  *  ألوان مصطنعة — وبما أن reduce يغيّر المدة فقط لا اللون، يستحيل أن
- *  يخفي انتهاكاً حقيقياً للوضع المستقر. */
+ *  يخفي انتهاكاً حقيقياً للوضع المستقر.
+ *  r192 (إغلاق ثغرة r15): قلب المواصفة — تغيير transition-duration لا
+ *  يمسّ انتقالًا «بدأ فعلًا»: مدة الانتقال تُثبَّت لحظة بدئه، فالعنصر في
+ *  منتصف تدرّج الدخول يُكمل مدته الأصلية (0.6s + تأخيرات d1-d5) رغم
+ *  تقليد reduce، ويقرأ axe تباينه عند شفافية جزئية. الدليل: التشغيلة
+ *  41029201829 (push على فرع التحقق) — 58 انتهاك color-contrast وهميًا
+ *  على .ln-btn-gold (fg #220d06 على خلفية مركّبة داكنة) بينما مسار PR
+ *  على نفس SHA بالضبط أخضر دقيقة قبله؛ فشل السطر a11y-states.spec.ts:23
+ *  ثلاث محاولات ثم نجح أخوه a11y.spec.ts:66 بعد إعادة. الحل الحتمي تحت
+ *  نفس سقف r15 (لا تخفيف توكيد ولا تخطي): بعد التقليد، انتظار حتى يبلغ
+ *  كل .reveal-up.in-view حالته النهائية (opacity 1) — نافذة أقل من
+ *  ثانية، تُغلق السباق للأبد. */
 export async function axeScan(page: Page) {
   await page.emulateMedia({ reducedMotion: "reduce" })
+  /* r192: الشيك على opacity وحدها عمداً — التحويل لا يُمسّ لأن أزرار
+     الهيرو تحمل translate(var(--mag-x/y)) دائمة (المؤثر المغناطيسي،
+     landing.css:479/486/530) فلا تبلغ "none" أبدًا؛ والموضع لا علاقة
+     له بقاعدة color-contrast أصلاً (الشفافية الفعّالة هي ما يُقرأ). */
+  await page.waitForFunction(() => {
+    const els = document.querySelectorAll<HTMLElement>(".reveal-up.in-view")
+    for (const el of els) {
+      if (getComputedStyle(el).opacity !== "1") return false
+    }
+    return true
+  })
   const results = await new AxeBuilder({ page })
     .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"])
     .analyze()

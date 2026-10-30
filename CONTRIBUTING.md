@@ -57,3 +57,10 @@ rounds. Fill the PR checklist; keep `CHANGELOG.md` current.
 
 الواجهة عربية أولًا والمصطلحات من معجم منظومة مدارك (راجع `README.md`).
 | UI copy is Arabic-first; terminology follows the ecosystem glossary.
+
+### CI trigger verification
+
+This branch exists solely to verify the widened  trigger
+(r191): every PR — not just those targeting main — must run the full
+gate. The PR is closed right after the run fires.
+

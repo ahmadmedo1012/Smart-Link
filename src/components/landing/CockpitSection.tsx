@@ -11,9 +11,10 @@ import { CountUp } from "@/components/ui/CountUp"
  * · the .ln-trust class on the readout grid — retained deliberately as
  *   the e2e contract hook (sim-modes B2/D5 read `.ln-trust .ln-mono`,
  *   four stats, each starting with a digit/+);
- * · useSectionProgress's --sp scrubbing the cockpit's live sweep.
+ * · useSectionProgress's --sp settling the gauge ring's presence.
  * What is NEW: the console framing (status strip + hairline readout
- * rows), the mono machine voice, and the sweep dial driven by --sp.
+ * rows), the mono machine voice, and the completed gauge dial whose
+ * presence settles with --sp (P32: the conic sweep retired).
  *
  * r143 (الصدق): القيم الأربع القديمة (+500 عميل نشط، +10K منيو،
  * +50K رد آلي، 99.9% جهوزية) كانت أرقامًا بلا مصدر — منشورة كنص
@@ -63,13 +64,19 @@ export function CockpitSection() {
         </div>
 
         <div className="ln-cockpit-grid">
-          {/* the sweep dial — a --sp-scrubbed conic scan (aria-hidden) */}
+          {/* P32: the dial is a COMPLETED status gauge — a full gold ring
+              (never a partial wedge) stating its own verifiable datum:
+              3/3 services live (the three product sites — same evidence
+              class as the readout's r143 stats). The r142 conic sweep
+              retired: independent review (P31-V residue + a fresh VLM
+              pass) read its static 90° wedge as a frozen loading spinner,
+              and the dial carried no labeled data of its own. */}
           <div className="ln-cockpit-scope" aria-hidden="true">
             <span className="ln-cockpit-scope-ring r0" />
             <span className="ln-cockpit-scope-ring r1" />
-            <span className="ln-cockpit-scope-sweep" />
+            <span className="ln-cockpit-scope-arc" />
             <span className="ln-cockpit-scope-core" />
-            <span className="ln-cockpit-scope-label"><span className="ln-mono">SCAN · المنظومة تتّسع</span></span>
+            <span className="ln-cockpit-scope-label"><span className="ln-mono">STATUS · 3/3 خدمات حيّة</span></span>
           </div>
 
           {/* the readout — .ln-trust rides as the e2e contract hook

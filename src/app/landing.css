@@ -1935,16 +1935,21 @@
   border: 1px solid var(--ln-line-soft);
 }
 .landing .ln-cockpit-scope-ring.r1 { inset: 18%; }
-.landing .ln-cockpit-scope-sweep {
+/* P32 (§14f): the conic sweep retires — the static 90° wedge read as a
+   frozen loading spinner (P31-V residue, confirmed by independent review;
+   the dial carried no labeled datum of its own). Its replacement is a
+   COMPLETED status gauge: a full 360° hairline-weight gold ring — a dial
+   at rest, never a partial wedge. --sp keeps the scroll link honestly:
+   the ring's PRESENCE settles (0.55 → 1) as the section centers — a
+   settle, never a spin. The dial's own label now states its verifiable
+   datum («STATUS · 3/3 خدمات حيّة» — the three product sites, the same
+   evidence class as the readout's r143 stats). */
+.landing .ln-cockpit-scope-arc {
   position: absolute;
-  inset: 0;
+  inset: 9%;
   border-radius: 50%;
-  background: conic-gradient(
-    from 0deg,
-    color-mix(in srgb, var(--ln-gold) calc(var(--sp, 1) * 40%), transparent) 0deg,
-    color-mix(in srgb, var(--ln-gold) calc(var(--sp, 1) * 22%), transparent) 46deg,
-    transparent 90deg
-  );
+  border: 2px solid color-mix(in srgb, var(--ln-gold) 55%, transparent);
+  opacity: calc(0.55 + var(--sp, 0) * 0.45);
 }
 .landing .ln-cockpit-scope-core {
   position: absolute;

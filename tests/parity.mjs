@@ -2236,6 +2236,9 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
      truth so the layer can never silently regress or drift out of the
      r160 KODE discipline. */
   const vizSrc = read('components/landing/WorldVignette.tsx');
+  /* P32: the cockpit dial's own source — same comment-aware read as the
+     siblings (the retired-sweep history in comments stays history). */
+  const cockpitSrc = read('components/landing/CockpitSection.tsx');
   check(
     rolesSrc.includes('<WorldVignette id={w.id} />')
       && (vizSrc.match(/aria-hidden="true"/g) ?? []).length === 3
@@ -2280,6 +2283,32 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
   check(
     /@media \(max-width: 760px\)[^@]*grid-template-areas:\s*"num" "text" "sub" "viz" "list" "cta"/.test(landingCss134),
     'P31-A: the ≤760px stack — the vignette folds inline between the sub-line and the claims (source-order stack: num → head → sub → viz → claims → cta; the panel goes full-measure)'
+  );
+
+  /* I4 ── P32: the cockpit dial graduates from a scan to a status
+     gauge. The r142 conic sweep retired: its static 90° wedge read as
+     a frozen loading spinner (P31-V residue, confirmed by an
+     independent review pass) and the dial carried no labeled datum of
+     its own. EXPECTED_ASSERTIONS 582 → 585 (the P32 section, +3). */
+  check(
+    !cockpitSrc.includes('ln-cockpit-scope-sweep')
+      && !landingCss134.includes('.ln-cockpit-scope-sweep')
+      && !/\.landing \.ln-cockpit-scope[^{]*\{[^}]*conic-gradient/.test(landingCss134),
+    'P32: the conic sweep family is extinct — no scope-sweep span in the TSX, no CSS block, zero conic-gradients in the scope (a partial wedge at rest can never read as a frozen spinner again)'
+  );
+  check(
+    /\.landing \.ln-cockpit-scope-arc\s*\{[^}]*border:\s*2px solid color-mix\(in srgb, var\(--ln-gold\) 55%, transparent\)/.test(landingCss134)
+      && /\.landing \.ln-cockpit-scope-arc\s*\{[^}]*border-radius:\s*50%/.test(landingCss134)
+      && !/\.landing \.ln-cockpit-scope-arc\s*\{[^}]*background/.test(landingCss134)
+      && /\.landing \.ln-cockpit-scope-arc\s*\{[^}]*opacity:\s*calc\(0\.55 \+ var\(--sp, 0\) \* 0\.45\)/.test(landingCss134)
+      && cockpitSrc.includes('ln-cockpit-scope-arc'),
+    'P32: the completed status gauge — a FULL 360° border-painted gold ring (no background gradient, inset 9%) whose PRESENCE settles with --sp (0.55 → 1 as the section centers — a settle, never a spin; the §14f --sp consumer survives the sweep honestly)'
+  );
+  check(
+    cockpitSrc.includes('STATUS · 3/3 خدمات حيّة')
+      && !cockpitSrc.includes('المنظومة تتّسع')
+      && /ln-cockpit-scope-label"><span className="ln-mono">STATUS/.test(cockpitSrc),
+    'P32: the dial states its own verifiable datum — «STATUS · 3/3 خدمات حيّة» (the three product sites; the r143 evidence discipline now reaches the dial itself), keeping the .ln-mono child that carries the pinned light-mode label color'
   );
 
   // J ── fix 10a: the r133-A10 autofill/caret port (madarek base.css:
@@ -3006,8 +3035,16 @@ if (failures.length > 0) {
    zero per-world hue tokens) · the ≤760px vignette-above-claims
    stack). No old pin weakened — the r160 worlds pins above all stand
    byte-identical (the type side keeps its anatomy; the vignettes are
-   the ADDITIVE visual anchor layer). */
-const EXPECTED_ASSERTIONS = 582;
+   the ADDITIVE visual anchor layer).
+   P32 (the cockpit dial graduates): 582 → 585 — THREE new pins (the
+   conic-sweep extinction — no sweep span/block/conic-gradient in the
+   scope, a partial wedge can never read as a frozen spinner again ·
+   the completed status gauge — a full 360° border-painted gold ring
+   whose presence settles with --sp 0.55 → 1 · the dial's own verifi-
+   able datum «STATUS · 3/3 خدمات حيّة» on the .ln-mono label child).
+   No old pin weakened — the §14f rings/label-color pins and the
+   readout stat anatomy all stand byte-identical. */
+const EXPECTED_ASSERTIONS = 585;
 check(
   passed + 1 === EXPECTED_ASSERTIONS,
   `self-count: the suite must run exactly ${EXPECTED_ASSERTIONS} assertions (ran ${passed + 1}) — bump EXPECTED_ASSERTIONS with every intentional pin change`

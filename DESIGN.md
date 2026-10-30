@@ -506,3 +506,29 @@ lift (`--ln-t-fast` 160ms, explicit RM off-switch). Pinned in
 assertions** — the Enforcement section's 524 figure above is the stale
 phase6-era prose; the script self-counts and wins).
 
+
+## 2026-10-30 · P32 — the cockpit dial graduates (scan → status gauge)
+
+Chapter 03 «القيادة» (`#progress`): the r142 conic **sweep retired**. Its
+static 90° wedge read as a frozen loading spinner to a first-time visitor
+(the P31-V review residue, re-confirmed by an independent critique pass:
+spinner-risk, unlabeled ring, poor data-to-ink) and the dial carried no
+labeled datum of its own — disconnected from the honest r143 readout
+beside it.
+
+The dial is now a **completed status gauge**: a full 360° border-painted
+gold ring (`.ln-cockpit-scope-arc`, inset 9%, 2px
+`color-mix(--ln-gold 55%)`, NO background gradient) whose **presence
+settles** with the section scroll (`--sp`: opacity `calc(0.55 + var(--sp,
+0) * 0.45)` — a settle, never a spin; the §14f `--sp` consumer survives
+the sweep honestly). The dial's label now states its own verifiable
+datum: **«STATUS · 3/3 خدمات حيّة»** — the three product sites are live,
+the same evidence class as the readout's r143 stats (every number has a
+pointer the visitor can check). The concentric rings, the live core, the
+status strip, the readout, and the source line are untouched; the
+`.ln-mono` label child keeps carrying the pinned light-mode label color.
+
+Pinned in `tests/parity.mjs` (the P32 section; the suite is now **585
+assertions** — three new pins: the conic-sweep extinction, the completed
+border-painted gauge + settle consumer, the dial's own datum. No old pin
+weakened).

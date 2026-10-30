@@ -113,3 +113,44 @@ jobs:
             test-results/
             playwright-report/
           retention-days: 7
+
+  mobile:
+    # بوابة الموبايل اليومية — نفس نمط العائلة (SmartBot/Smart-Order):
+    # typecheck + vitest (عقد الدينار) + Metro/Hermes export.
+    name: mobile (typecheck + tests + export)
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    defaults:
+      run:
+        working-directory: mobile
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Node 24
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: mobile/package-lock.json
+
+      - name: Dependencies
+        run: npm ci
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Unit tests
+        run: npm run test
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Metro/Hermes export (android)
+        run: CI=1 npx expo export --platform android --output-dir dist-export
+
+      - name: Bundle sanity
+        run: |
+          test -n "$(find dist-export/_expo/static/js/android -name '*.hbc' 2>/dev/null)" \
+            || { echo "no hermes bundle produced"; exit 1; }
+          echo "hermes bundle OK"

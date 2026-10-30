@@ -1,0 +1,64 @@
+{
+  "expo": {
+    "name": "SmartLink",
+    "slug": "smartlink",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "description": "المظلة الرقمية لأعمالك في ليبيا — بوابة منظومة Smart: الخدمات والأسعار والتواصل تحت رابط واحد.",
+    "icon": "./assets/images/icon.png",
+    "scheme": "smartlink",
+    "userInterfaceStyle": "dark",
+    "backgroundColor": "#050507",
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "ly.smartlink.hub",
+      "infoPlist": {
+        "CFBundleAllowMixedLocalizations": true
+      }
+    },
+    "android": {
+      "package": "ly.smartlink.hub",
+      "adaptiveIcon": {
+        "backgroundColor": "#050507",
+        "foregroundImage": "./assets/images/adaptive-icon.png"
+      },
+      "predictiveBackGestureEnabled": false,
+      "permissions": [],
+      "intentFilters": [
+        {
+          "action": "VIEW",
+          "autoVerify": true,
+          "data": [
+            {
+              "scheme": "https",
+              "host": "smart-link.ly"
+            }
+          ],
+          "category": ["BROWSABLE", "DEFAULT"]
+        }
+      ]
+    },
+    "web": {
+      "output": "static",
+      "favicon": "./assets/images/favicon.png"
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#050507",
+          "image": "./assets/images/splash-icon.png",
+          "imageWidth": 160
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": true
+    },
+    "extra": {
+      "apiUrl": "https://smart-link.ly",
+      "router": {}
+    }
+  }
+}

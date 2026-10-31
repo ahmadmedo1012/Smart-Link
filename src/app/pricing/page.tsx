@@ -61,7 +61,12 @@ const plans = [
   {
     title: "Smart Menu",
     subtitle: "المنيو الرقمي للمطاعم",
-    href: SITE.products.menu.url,
+    /* P40-5a (P1-1/P2-7): بطاقات الخطة المجانية تقود الآن لصفحة
+       الاشتراك الخاصة بكل منتج (signupUrl — نفس مسار زرّه الأساسي)
+       بدل جذر صفحة الهبوط؛ جداول «المنظومة الحيّة» أدناه تبقى على
+       {product}/pricing (سياق مقارنة الباقات). توحيد دلالي واحد
+       للصفحة: بطاقة = ابدأ، جدول = تفاصيل. */
+    href: SITE.products.menu.signupUrl,
     icon: Smartphone,
     price: "مجاني",
     period: "الخطة الأساسية",
@@ -89,7 +94,7 @@ const plans = [
   {
     title: "SmartBot",
     subtitle: "البوت الذكي لفيسبوك",
-    href: SITE.products.bot.url,
+    href: SITE.products.bot.signupUrl,
     icon: Bot,
     price: "مجاني",
     period: "الخطة الأساسية",
@@ -120,7 +125,7 @@ const plans = [
   {
     title: "Smart Order",
     subtitle: "متجر الطلبات الرقمي للأعمال",
-    href: SITE.products.order.url,
+    href: SITE.products.order.signupUrl,
     icon: ShoppingBag,
     price: "مجاني",
     period: "الخطة الأساسية",

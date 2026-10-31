@@ -115,54 +115,52 @@ export default function Home() {
             </p>
 
             <RevealCssClass as="div" className="ln-hero-actions" delay={3}>
-              <MagneticGoldLink href={SITE.products.menu.url} external withArrow ariaLabel="ابدأ مجاناً — Smart Menu، رابط خارجي">
+              {/* P40-5a (P1-1 صدق التحويل): الزر الأساسي يظل سمارت منيو
+                  (المنتج الرائد — قرار r128) لكنه الآن يتعمّق إلى صفحة
+                  الاشتراك نفسها التي يقودها زر «ابدأ مجاناً» على جذره،
+                  واللاحقة المرئية تُسمّي الوجهة صادقةً — الاسم المتاح كان
+                  وحده يذكر Smart Menu والمرئي لم يكن يذكر شيئاً
+                  (تدقيق P40-BENCH SL-1). اللاحقة ترث حبر الحبة (ذهب
+                  الليل / حبر فيض النهار) — لا حبر جديد. */}
+              <MagneticGoldLink href={SITE.products.menu.signupUrl} external withArrow ariaLabel="ابدأ مجاناً — سمارت منيو، رابط خارجي">
                 ابدأ مجاناً
+                <span className="ln-hero-cta-suffix">— سمارت منيو</span>
               </MagneticGoldLink>
               <a href="#products" className="ln-btn-ghost">اكتشف العوالم</a>
             </RevealCssClass>
 
-            {/* P30-C (§3.3 — the choice moment, the settled judgment call):
-                the hero copy sells the PLATFORM (all three worlds named
-                above), but the approved r128 primary CTA goes to the
-                flagship only. The worlds micro-row puts the other two
-                products' doors one tap away AT the decision point — mono
-                system-chrome level (the eyebrow's bracket vocabulary),
-                never a second button row. The primary CTA is untouched;
-                this row is additive and reversible. Label-in-Name holds:
-                each aria-label carries the registry label, which contains
-                the visible word (WCAG 2.5.3). */}
+            {/* P30-C §3.3 (the choice moment) → P40-5a (P1-1): the micro-row
+                keeps its mono system-chrome grammar but every door is now a
+                SIGNUP deep link with an intent label — the hero copy sells
+                the PLATFORM, so the other two products' start pages ride one
+                tap from the decision point (Stripe SL-1: one explicit
+                default + labeled audience paths). The r128 primary CTA keeps
+                Smart Menu; this row carries Bot/Order. Browsing doors stay
+                one scroll away («اكتشف العوالم» → #products + the worlds
+                cards + the footer). Label-in-Name holds: each aria-label
+                starts with the visible sentence, then names the registry
+                product + the external convention (WCAG 2.5.3). */}
             <RevealCssClass as="ul" className="ln-hero-meta ln-hero-worlds" delay={4}>
-              <li className="ln-mono">العوالم:</li>
+              <li className="ln-mono">أو:</li>
               <li>
                 <a
-                  href={SITE.products.menu.url}
+                  href={SITE.products.bot.signupUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  aria-label="Smart Menu — المنيو الرقمي، رابط خارجي"
+                  aria-label="تدير صفحة فيسبوك؟ جرّب سمارت بوت — SmartBot، رابط خارجي"
                 >
-                  المنيو
+                  تدير صفحة فيسبوك؟ جرّب سمارت بوت
                 </a>
               </li>
               <li aria-hidden="true" className="ln-hero-meta-dot" />
               <li>
                 <a
-                  href={SITE.products.bot.url}
+                  href={SITE.products.order.signupUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  aria-label="SmartBot — البوت الذكي، رابط خارجي"
+                  aria-label="تبيع منتجات؟ جرّب سمارت أوردر — Smart Order، رابط خارجي"
                 >
-                  البوت
-                </a>
-              </li>
-              <li aria-hidden="true" className="ln-hero-meta-dot" />
-              <li>
-                <a
-                  href={SITE.products.order.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="Smart Order — متجر الطلبات الرقمي، رابط خارجي"
-                >
-                  الطلبات
+                  تبيع منتجات؟ جرّب سمارت أوردر
                 </a>
               </li>
             </RevealCssClass>

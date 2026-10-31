@@ -48,7 +48,18 @@ export const SITE = {
     menu: {
       short: "Smart Menu",
       label: "Smart Menu — المنيو الرقمي",
+      /** The product's public root (browsing context: nav menus, footers,
+          worlds cards). */
       url: "https://menu.smart-link.ly",
+      /* P40-5a (P1-1 صدق التحويل): كل أزرار التحويل في المظلة كانت
+         تهبط على جذور المنتجات (صفحات الهبوط) بدل صفحات الاشتراك —
+         بينما أزرار المنتجات نفسها تتعمّق مباشرة. signupUrl هو مسار
+         الاشتراك الذي يستخدمه كل منتج لأزراره الأساسية (مُتحقَّق حياً
+         2026-10-31: منيو /subscribe هي نفسها زر «ابدأ مجاناً» على
+         جذره ×6، بوت /subscribe ×4، أوردر /register ×6). القانون:
+         أزرار التحويل (هيرو/هيدر/ختام/بطاقات الأسعار) → signupUrl؛
+         سياقات التصفح (قوائم الخدمات/التذييل/بطاقات العوالم) → url. */
+      signupUrl: "https://menu.smart-link.ly/subscribe",
       desc: "حول منيو مطعمك إلى تجربة رقمية تفاعلية",
     },
     bot: {
@@ -57,6 +68,8 @@ export const SITE = {
       short: "SmartBot",
       label: "SmartBot — البوت الذكي",
       url: "https://bot.smart-link.ly",
+      /* P40-5a (P1-1): زر الاشتراك الخاص بالبوت نفسه (تحقّق حي). */
+      signupUrl: "https://bot.smart-link.ly/subscribe",
       desc: "أتمتة الردود على صفحات فيسبوك بذكاء",
     },
     /** r137 (صدق الأسطول): Smart-Order حيّ (order.smart-link.ly) — كان
@@ -67,6 +80,9 @@ export const SITE = {
       short: "Smart Order",
       label: "Smart Order — متجر الطلبات الرقمي",
       url: "https://order.smart-link.ly",
+      /* P40-5a (P1-1): الأوردر يسمّي طريقه «إنشاء حساب» — /register
+        (تحقّق حي؛ منيو/بوت كلاهما /subscribe). */
+      signupUrl: "https://order.smart-link.ly/register",
       desc: "أطلق متجر طلباتك الرقمي بتوصيل ومدفوعات ليبية",
     },
   },
@@ -99,7 +115,8 @@ export const SITE = {
  *  carries a source-identifying Arabic opener (encodeURIComponent —
  *  wa.me wants percent-encoded UTF-8). Machine-facing consumers
  *  (JSON-LD schema.ts) keep the bare url: crawlers don't type openers.
- *  Surfaces shipped: تذييل الصفحة · صفحة التواصل · نموذج التواصل ·
+ *  Surfaces shipped: تذييل الصفحة · رصاصة الهيرو (W6-B2) · هيدر
+ *  الرئيسية ودرجها (P40-5a/SL-7) · صفحة التواصل · نموذج التواصل ·
  *  صفحة عدم الاتصال · بريد التأكيد. */
 export function whatsappUrl(surface: string): string {
   return `${SITE.whatsapp.url}?text=${encodeURIComponent(

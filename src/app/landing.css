@@ -2424,6 +2424,13 @@ html.light .landing .ln-ground-status { background: rgb(10 10 10 / 0.05); }
 @media (max-width: 1080px) {
   .landing .ln-status { display: none; } /* the drawer breakpoint — chrome yields to the burger */
 }
+/* P40-5a (SL-7): ثانوي الواتساب ينضم لعنقود الأزرار — رقاقة [ LIBYA ]
+   الديكورية (aria-hidden، أثاث كروم لا باب) تتنازل عن خانتها في نطاق
+   1081–1280 حتى لا تُقصّ الأزرار الحقيقية على أصغر عروض سطح المكتب؛
+   تعود من 1281 فصاعداً. أثاث فقط يتزحزح — لا باب يختفي. */
+@media (min-width: 1081px) and (max-width: 1280px) {
+  .landing .ln-status--libya { display: none; }
+}
 
 /* ── 16b · S1 — the type-block hero (3-line Kufi lockup) ─────────── */
 .landing .ln-hero--kode {
@@ -3332,6 +3339,16 @@ html.light .landing .ln-btn-gold:hover { color: var(--ln-gold-deep); }
 .landing .ln-hero-actions { gap: clamp(20px, 3vw, 36px); flex-wrap: wrap; }
 .landing .ln-hero-actions .ln-btn-gold,
 .landing .ln-hero-actions .ln-btn-ghost { font-size: 16px; }
+/* P40-5a (P1-1 صدق التحويل): لاحقة الوجهة الصادقة على زر الهيرو —
+   «ابدأ مجاناً — سمارت منيو». اللاحقة ترث حبر الحبة نفسها (ذهب
+   #FF4C00 على حبر الليل 6.1:1 · حبر #050507 على فيض النهار 6:1 —
+   الزوجان الموثقان)، بدرجة سلم واحدة أدنى (--fs-xs 12px) ووزن
+   شبه عريض: لا حبر جديد، لا هندسة جديدة — الحبة تحتفظ بأرضيتها
+   48px وخط سفحها الماسح أسفل النص كله. */
+.landing .ln-hero-actions .ln-btn-gold .ln-hero-cta-suffix {
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-semibold);
+}
 
 /* ── 16g · platforms / finale / FAQ / footer — minimal type ──────── */
 .landing .ln-cta .ln-cta-title {

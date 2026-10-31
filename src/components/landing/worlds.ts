@@ -37,6 +37,14 @@ export type World = {
   host: string
   /** The live URL (SITE.products.*.url verbatim). */
   url: string
+  /** P40-5a (SL-3): the card's CONCRETE action line — each sibling's own
+      published CTA vocabulary (verified live 2026-10-31), so the door says
+      what you can DO, not just that a world exists. The href stays the
+      product ROOT (browsing context); the verb is fulfilled one click
+      into the destination (the menu landing opens with «المنيو الحي»،
+      the bot landing's own CTA is «جرّب البوت»، the order landing's is
+      «اطلب من متجر تجريبي»). */
+  cta: string
   /** The giant editorial numeral (Western digits — the mission E1
      *     display contract: every number the UI renders is 1234567890;
      *     money.ts/phone.ts normalize Arabic-Indic INPUT the same way). */
@@ -59,6 +67,7 @@ export const WORLDS: readonly World[] = [
     motif: "plate",
     host: "menu.smart-link.ly",
     url: "https://menu.smart-link.ly",
+    cta: "شاهد المنيو الحي",
     numeral: "01",
   },
   {
@@ -76,6 +85,7 @@ export const WORLDS: readonly World[] = [
     motif: "circuit",
     host: "bot.smart-link.ly",
     url: "https://bot.smart-link.ly",
+    cta: "جرّب البوت",
     numeral: "02",
   },
   {
@@ -93,6 +103,7 @@ export const WORLDS: readonly World[] = [
     motif: "route",
     host: "order.smart-link.ly",
     url: "https://order.smart-link.ly",
+    cta: "اطلب من متجر تجريبي",
     numeral: "03",
   },
 ] as const

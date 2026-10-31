@@ -1,9 +1,13 @@
 import { test, expect } from "./fixtures"
+import { MOBILE_VIEWPORT } from "./helpers"
 
 /* r10 (testing audit G4): the site's CONVERSION buttons had zero
    coverage — hero CTAs, the closing CTA and the pricing card buttons
    are the entire point of a marketing site. Every assertion here checks
-   the real href/target/rel contract plus the actual click behavior. */
+   the real href/target/rel contract plus the actual click behavior.
+   P40-5a: the suite grew the deep-link routing contract — every hub
+   conversion CTA now lands on the product's own signup page
+   (SITE.products.*.signupUrl), pinned end-to-end. */
 
 test.describe("r10 — أزرار التحويل (hero)", () => {
   /* r133 (A7 §1 re-base): أزرار ال landing الحقيقية — «اكتشف المنتجات"
@@ -50,9 +54,12 @@ test.describe("r10 — أزرار التحويل (hero)", () => {
 
 test.describe("r10 — CTA الختامي", () => {
   test("«ابدأ التجربة» → رابط خارجي للمنتج بـ target/rel آمنين", async ({ page }) => {
+    /* P40-5a (P1-1): زر الختام يتعمّق إلى صفحة اشتراك سمارت منيو
+       نفسها (SITE.products.menu.signupUrl) — كان يهبط على جذر صفحة
+       الهبوط فتضيع خطوة التسجيل. */
     await page.goto("/", { waitUntil: "domcontentloaded" })
     const cta = page.getByRole("link", { name: /ابدأ التجربة/ })
-    await expect(cta).toHaveAttribute("href", "https://menu.smart-link.ly")
+    await expect(cta).toHaveAttribute("href", "https://menu.smart-link.ly/subscribe")
     await expect(cta).toHaveAttribute("target", "_blank")
     await expect(cta).toHaveAttribute("rel", "noopener noreferrer")
   })
@@ -69,16 +76,19 @@ test.describe("r10 — CTA الختامي", () => {
 })
 
 test.describe("r10 — أزرار بطاقات التسعير", () => {
-  test("أزرار «ابدأ الآن» الثلاثة → روابط خارجية بـ target/rel", async ({ page }) => {
-    /* r137 (صدق الأسطول): بطاقة ثالثة — Smart Order حيّ. */
+  test("أزرار «ابدأ الآن» الثلاثة → صفحات اشتراك كل منتج بـ target/rel", async ({ page }) => {
+    /* P40-5a (P1-1/P2-7): كل بطاقة تقود لصفحة الاشتراك الخاصة بمنتجها
+       (منيو/بوت subscribe، أوردر register) — نفس مسار زرّها الأساسي —
+       بدل جذور صفحات الهبوط. الدلالة موحّدة: بطاقة = ابدأ، وجدول
+       «المنظومة الحيّة» = تفاصيل الخطط على منصّة المنتج. */
     await page.goto("/pricing", { waitUntil: "domcontentloaded" })
     const buttons = page.getByRole("link", { name: /ابدأ الآن/ })
     await expect(buttons).toHaveCount(3)
     // getAttribute وليس .href — المتصفح يطبّع العنوان بشرطة ختامية
     const hrefs = await buttons.evaluateAll((els) => els.map((e) => (e as HTMLAnchorElement).getAttribute("href")))
-    expect(hrefs).toContain("https://menu.smart-link.ly")
-    expect(hrefs).toContain("https://bot.smart-link.ly")
-    expect(hrefs).toContain("https://order.smart-link.ly")
+    expect(hrefs).toContain("https://menu.smart-link.ly/subscribe")
+    expect(hrefs).toContain("https://bot.smart-link.ly/subscribe")
+    expect(hrefs).toContain("https://order.smart-link.ly/register")
     for (const el of await buttons.all()) {
       await expect(el).toHaveAttribute("target", "_blank")
       await expect(el).toHaveAttribute("rel", "noopener noreferrer")
@@ -100,5 +110,75 @@ test.describe("r10 — أزرار بطاقات التسعير", () => {
       await expect(el).toHaveAttribute("target", "_blank")
       await expect(el).toHaveAttribute("rel", "noopener noreferrer")
     }
+  })
+})
+
+/* P40-5a — توجيه أزرار التحويل (P1-1 صدق التحويل + SL-1/SL-7 من
+   المعايرة المقارنة): كل أزرار التحويل في المظلة كانت تهبط على جذور
+   صفحات هبوط المنتجات، بينما أزرار المنتجات نفسها تتعمّق لصفحات
+   الاشتراك. العقد الجديد (site.ts signupUrl):
+   · الهيرو: أساسي واحد صادق الوجهة (سمارت منيو) + مساران ثانويان
+     بنوايا معلنة (بوت/أوردر) — بروح Stripe: افتراض صريح واحد.
+   · الهيدر (سطح مكتب + درج): الذهبي لاشتراك المنيو + ثانوي واتساب
+     دائم بفتّاحة معبّأة وتأطير ساعات صادق (SITE.hours — لا 24/7).
+   · بطاقات الأسعار: كل منتج لصفحة اشتراكه هو. */
+test.describe("P40-5a — هيرو الرئيسية: الأساسي والمسارات الثانوية", () => {
+  test("الزر الذهبي → اشتراك سمارت منيو مع لاحقة الوجهة المرئية", async ({ page }) => {
+    await page.goto("/", { waitUntil: "domcontentloaded" })
+    const hero = page.locator(".ln-hero-actions .ln-btn-gold")
+    await expect(hero).toHaveAttribute("href", "https://menu.smart-link.ly/subscribe")
+    await expect(hero).toHaveAttribute("target", "_blank")
+    await expect(hero).toHaveAttribute("rel", "noopener noreferrer")
+    /* صدق الوجهة مرئي لا مسموعاً فقط: اللاحقة تسمّي سمارت منيو
+       (Label-in-Name: النص المرئي داخل الاسم المتاح). */
+    await expect(hero).toContainText("سمارت منيو")
+    await expect(hero).toHaveAccessibleName(/ابدأ مجاناً — سمارت منيو، رابط خارجي/)
+  })
+
+  test("المساران الثانويان بنوايا معلنة → صفحتا اشتراك بوت/أوردر", async ({ page }) => {
+    await page.goto("/", { waitUntil: "domcontentloaded" })
+    const bot = page.locator(".ln-hero-worlds").getByRole("link", { name: /تدير صفحة فيسبوك؟ جرّب سمارت بوت/ })
+    await expect(bot).toHaveAttribute("href", "https://bot.smart-link.ly/subscribe")
+    await expect(bot).toHaveAttribute("target", "_blank")
+    await expect(bot).toHaveAttribute("rel", "noopener noreferrer")
+    const order = page.locator(".ln-hero-worlds").getByRole("link", { name: /تبيع منتجات؟ جرّب سمارت أوردر/ })
+    await expect(order).toHaveAttribute("href", "https://order.smart-link.ly/register")
+    await expect(order).toHaveAttribute("target", "_blank")
+    await expect(order).toHaveAttribute("rel", "noopener noreferrer")
+  })
+})
+
+test.describe("P40-5a — الهيدر: الذهبي للاشتراك + ثانوي واتساب دائم (SL-7)", () => {
+  /* سطح المكتب (1280): عنقود الأزرار ظاهر — الذهبي لاشتراك المنيو
+     وواتساب بجانبه بفتّاحة معبّأة وساعات الدعم الصادقة في الاسم
+     المتاح (SITE.hours: خلال أوقات العمل 9ص–9م — حكم r144: لا وعد
+     24/7 على هذه القناة أبداً). */
+  test("عنقود سطح المكتب: الذهبي → اشتراك المنيو؛ وواتساب → wa.me بفتّاحة وساعات صادقة", async ({ page }) => {
+    await page.goto("/", { waitUntil: "domcontentloaded" })
+    const gold = page.locator(".landing-header-cta .ln-btn-gold")
+    await expect(gold).toHaveAttribute("href", "https://menu.smart-link.ly/subscribe")
+    await expect(gold).toHaveAttribute("target", "_blank")
+    await expect(gold).toHaveAttribute("rel", "noopener noreferrer")
+    const wa = page.locator(".landing-header-cta a[href^='https://wa.me/']")
+    await expect(wa).toHaveAttribute("href", /^https:\/\/wa\.me\/218910089975\?text=/)
+    await expect(wa).toHaveAttribute("target", "_blank")
+    await expect(wa).toHaveAttribute("rel", "noopener noreferrer")
+    await expect(wa).toHaveAccessibleName(/^تحدث معنا واتساب — خلال أوقات العمل.*رابط خارجي$/)
+  })
+
+  test("درج الجوال: الذهبي → اشتراك المنيو؛ وواتساب → wa.me بفتّاحة", async ({ page }) => {
+    await page.setViewportSize(MOBILE_VIEWPORT)
+    await page.goto("/", { waitUntil: "domcontentloaded" })
+    await page.getByRole("button", { name: /فتح القائمة/ }).click()
+    const drawer = page.locator('nav[aria-label="قائمة الجوال"]')
+    const gold = drawer.locator(".ln-btn-gold")
+    await expect(gold).toHaveAttribute("href", "https://menu.smart-link.ly/subscribe")
+    await expect(gold).toHaveAttribute("target", "_blank")
+    await expect(gold).toHaveAttribute("rel", "noopener noreferrer")
+    const wa = drawer.locator("a[href^='https://wa.me/']")
+    await expect(wa).toHaveAttribute("href", /^https:\/\/wa\.me\/218910089975\?text=/)
+    await expect(wa).toHaveAttribute("target", "_blank")
+    await expect(wa).toHaveAttribute("rel", "noopener noreferrer")
+    await expect(wa).toHaveAccessibleName(/^تحدث معنا واتساب — خلال أوقات العمل.*رابط خارجي$/)
   })
 })

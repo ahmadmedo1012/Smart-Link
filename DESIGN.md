@@ -532,3 +532,79 @@ Pinned in `tests/parity.mjs` (the P32 section; the suite is now **585
 assertions** — three new pins: the conic-sweep extinction, the completed
 border-painted gauge + settle consumer, the dial's own datum. No old pin
 weakened).
+
+
+## 2026-10-31 · P40-5a — CTA routing: conversion deep-links, browsing roots (P1-1/P2-7)
+
+Appended per the append-only law. The verified conversion defect this
+note closes: every hub conversion CTA landed on the product LANDING
+ROOTS while each sibling's own primary button deep-links its signup —
+the hub was donating its hottest clicks to an extra scroll-and-hunt
+step (P40-BASELINE lead 1, benchmark rank 1).
+
+**The routing law (the one rule to remember):** a CTA that STARTS a
+journey goes to `SITE.products.*.signupUrl` (site.ts — menu
+`/subscribe` · bot `/subscribe` · order `/register`, each verified live
+as the sibling's own primary-CTA path); a surface that BROWSES keeps
+the product ROOT (`url`). Conversion set = hero primary + header gold
+(desktop + drawer) + finale pill + the pricing plan cards. Browsing set
+= footer columns, services menus (megamenu + product drawer), the
+worlds cards, JSON-LD. The pricing page carries BOTH semantics
+deliberately split: plan cards START (→ signupUrl), the
+«المنظومة الحيّة» tables COMPARE (→ `{product}/pricing`).
+
+**The hero device (SL-1, Stripe's sequenced-start adaptation):** ONE
+primary stays Smart Menu (the r128 flagship ruling) but the pill now
+names its destination visibly — «ابدأ مجاناً <span
+class=ln-hero-cta-suffix>— سمارت منيو</span>». The suffix inherits the
+pill's own ink (night gold 6.1:1 / day-flood ink — zero new color
+declarations, parity-pinned), one ladder rung down (`--fs-xs`,
+`--fw-semibold`). The old worlds micro-row (three browsing doors:
+المنيو/البوت/الطلبات) became the **intent router**: «أو:» + two
+labeled signup paths («تدير صفحة فيسبوك؟ جرّب سمارت بوت» → bot
+/subscribe · «تبيع منتجات؟ جرّب سمارت أوردر» → order /register) —
+mono system-chrome grammar, 44px hit zones, Label-in-Name aria-labels
+that start with the visible sentence.
+
+**The persistent WhatsApp secondary (SL-7, benchmark rank 2):**
+«تحدث معنا واتساب» rides the header cluster on BOTH surfaces (desktop
+`.landing-header-cta` + the mobile drawer) as an `ln-btn-ghost` twin
+with the MessageCircle mark — `whatsappUrl(surface)` prefilled opener
+per surface («هيدر الرئيسية»/«درج الرئيسية»), and the honest r144
+hours framing (`SITE.hours`: خلال أوقات العمل 9ص–9م — never 24/7)
+inside the accessible name + title; the visible text stays the door
+only. Cluster fit: the aria-hidden decorative `[ LIBYA ]` chip yields
+its slot on 1081–1280px so the three real doors never clip (furniture
+moves; no door disappears).
+
+**Worlds cards (SL-3):** the CTA copy says what you can DO, in each
+sibling's own published vocabulary — «شاهد المنيو الحي» · «جرّب البوت»
+· «اطلب من متجر تجريبي» (`worlds.ts cta`) — while the href stays the
+product ROOT (browsing context; the verb is fulfilled one click into
+the destination).
+
+**Fonts (P3-18):** the immutable cache rule narrows from
+`/fonts/:path*` to `/fonts/:file(*.woff2)` — a stray 404 probe (e.g.
+`/fonts/fonts.css`, which the sibling products DO ship under their own
+`/fonts/`) no longer gets stamped `Cache-Control: immutable` for a
+year; only real font bytes are immutable. The SIX above-fold preloads
+in `layout.tsx` stay BY DECISION: every one has a documented first-paint
+consumer under the `font-display: optional` no-swap law (body 400 +
+headings 700 arabic; mono 400 chips; sans 400 latin digits; 500/600
+arabic nav/strong — the P18-W2-b CLS-gate rationale), so trimming any
+of them would fall back the cold first paint to Tajawal/system —
+typographically wrong — to save bytes the 3G visitor already races fine
+with `optional`.
+
+Pinned in `tests/parity.mjs` (the P40-5a section; the suite is now **595
+assertions** — ten new pins: the signupUrl registry, the chrome
+deep-links, the SL-7 WhatsApp secondary + honest hours, the pricing
+cards-vs-tables split, the plan-ladder MIRRORS pinned to their
+P13-2a-documented sources (SB 0/19/29/129/299 · SM 0/19/29/129/299 ·
+SO 0/19/29/129), the SL-3 worlds verbs on ROOT hrefs, the hero suffix
+device (no new ink), the 1081–1280 LIBYA yield, the woff2-only fonts
+rule, and the conversion-surface root extinction. The two P30-C hero
+pins were re-truthed IN PLACE — same intent, new anatomy). The e2e
+contract lives in `e2e/cta.spec.ts` (hero primary + secondary paths +
+both header surfaces, 330 → 334 tests) and `lcp-guard.spec.ts` pins the
+pricing SSR signup hrefs.

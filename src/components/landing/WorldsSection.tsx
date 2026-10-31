@@ -60,9 +60,13 @@ export function WorldsSection() {
               href={w.url}
               target="_blank"
               rel="noopener noreferrer"
-              aria-label={`ادخل عالم ${w.name} — النطاق الحي، رابط خارجي`}
+              /* P40-5a (SL-3): فعل محدد بدل «ادخل عالم X» العام — من مفردات
+                 أخيه المنشورة نفسها (worlds.ts cta). الوجهة تبقى الجذر
+                 (سياق تصفّح)؛ الاسم المتاح يبدأ بالنص المرئي حرفياً ثم
+                 يسمّي المنتج والاصطلاح الخارجي (WCAG 2.5.3). */
+              aria-label={`${w.cta} — ${w.name}، رابط خارجي`}
             >
-              ادخل عالم {w.name}
+              {w.cta}
               <ArrowLeft size={16} aria-hidden="true" />
             </a>
           </RevealCssClass>

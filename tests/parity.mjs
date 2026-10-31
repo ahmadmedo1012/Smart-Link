@@ -2094,29 +2094,29 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
     'r134-5: both pricing CTAs announce «ابدأ الآن — <product>، رابط خارجي»'
   );
 
-  // P30-C (§3.3 — the choice moment, the settled judgment call): the hero
-  // worlds micro-row gives every product a door AT the decision point.
-  // Three pins: the row exists with all three registry doors + external
-  // conventions; the primary CTA contract is untouched; the CSS rule is
-  // ladder-tracked (no new ink/scale — system chrome, not a second button
-  // family). Label-in-Name: each aria-label carries the registry label,
-  // which contains the visible word (WCAG 2.5.3).
+  /* P30-C (§3.3 — the choice moment) → P40-5a (P1-1 صدق التحويل):
+     المسافة الدقيقة أُعيدت كتابتها على الحقيقة الجديدة (عرف r144:
+     المسمار يتبع التشريح). الصف الدقيق كان ثلاثة أبواب تصفّح (جذور
+     المنتجات) — الآن الصف هو موجّه النوايا: مسارا اشتراك بوت/أوردر
+     بفتّاحة نوايا معلنة، والمنتج الرائد يملك الزر الأساسي وحده.
+     Label-in-Name يبقى: كل aria-label يبدأ بالنص المرئي حرفياً ثم
+     يسمّي المنتج من السجل + اصطلاح «رابط خارجي» (WCAG 2.5.3). */
   const homePageP30 = read('app/page.tsx');
   check(
     homePageP30.includes('ln-hero-meta ln-hero-worlds') &&
-      homePageP30.includes('SITE.products.menu.url') &&
-      homePageP30.includes('SITE.products.bot.url') &&
-      homePageP30.includes('SITE.products.order.url') &&
-      (homePageP30.match(/target="_blank"\s+rel="noopener noreferrer"/g) ?? []).length >= 3 &&
-      homePageP30.includes('Smart Menu — المنيو الرقمي، رابط خارجي') &&
-      homePageP30.includes('SmartBot — البوت الذكي، رابط خارجي') &&
-      homePageP30.includes('Smart Order — متجر الطلبات الرقمي، رابط خارجي'),
-    'P30-C: the hero worlds micro-row — all three product doors (registry URLs) with the external-link convention (target/rel/«رابط خارجي» aria-labels carrying the registry labels)'
+      homePageP30.includes('SITE.products.bot.signupUrl') &&
+      homePageP30.includes('SITE.products.order.signupUrl') &&
+      (homePageP30.match(/target="_blank"\s+rel="noopener noreferrer"/g) ?? []).length >= 2 &&
+      homePageP30.includes('تدير صفحة فيسبوك؟ جرّب سمارت بوت — SmartBot، رابط خارجي') &&
+      homePageP30.includes('تبيع منتجات؟ جرّب سمارت أوردر — Smart Order، رابط خارجي'),
+    'P40-5a re-truth of P30-C: the hero micro-row is the intent-labeled SIGNUP router — the two non-flagship products\' start pages (registry signupUrls) one tap from the decision point, external conventions intact, Label-in-Name aria-labels carrying the visible sentence + the registry name'
   );
   check(
-    (homePageP30.match(/ابدأ مجاناً — Smart Menu، رابط خارجي/g) ?? []).length === 1 &&
+    (homePageP30.match(/ابدأ مجاناً — سمارت منيو، رابط خارجي/g) ?? []).length === 1 &&
+      homePageP30.includes('href={SITE.products.menu.signupUrl}') &&
+      homePageP30.includes('ln-hero-cta-suffix') &&
       homePageP30.includes('href="#products" className="ln-btn-ghost"'),
-    'P30-C: the approved r128 primary CTA contract is untouched (one hero CTA → Smart Menu; اكتشف العوالم still scrolls to #products)'
+    'P40-5a re-truth of P30-C: ONE primary hero CTA → the Menu SIGNUP deep link with the visible destination suffix (سمارت منيو — the label is honest, not just the aria); اكتشف العوالم still scrolls to #products'
   );
   check(
     /\.landing \.ln-hero-worlds \{ margin-block-end: var\(--sp-8\); \}/.test(landingCss134) &&
@@ -2942,10 +2942,151 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
   );
 }
 
-if (failures.length > 0) {
-  console.error(`✗ KODE parity snapshot FAILED (${failures.length} assertion(s)):`);
-  for (const f of failures) console.error(`  • ${f}`);
-  process.exit(1);
+/* ═══ P40-5a · صدق التحويل + مسمار المرايا (P1-1/P2-7/P3-18 — the
+   CTA-routing wave): every hub conversion CTA lands on the product's OWN
+   signup page (site.ts signupUrl — the path each sibling's primary
+   button itself uses, verified live 2026-10-31), a persistent WhatsApp
+   secondary rides the header (SL-7) with the honest r144 hours framing,
+   the pricing cards unify on signup vs the tables' /pricing semantics,
+   and the plan-ladder MIRRORS are pinned to their documented sources
+   (comment-aware reads — the decision comments cite the old roots as
+   history). EXPECTED_ASSERTIONS 585 → 595 (the P40-5a section, +10). */
+{
+  const read = (p) => {
+    const raw = readFileSync(new URL(`../src/${p}`, import.meta.url), 'utf8');
+    return raw.replace(/\/\*[\s\S]*?\*\//g, ' ').replace(/\/\/.*$/gm, ' ');
+  };
+  const siteP40 = readFileSync(new URL('../src/lib/site.ts', import.meta.url), 'utf8');
+  const homeP40 = read('app/page.tsx');
+  const headerP40 = read('components/landing/LandingHeader.tsx');
+  const finaleP40 = read('components/landing/FinaleCta.tsx');
+  const pricingPageP40 = read('app/pricing/page.tsx');
+  const worldsRegP40 = read('components/landing/worlds.ts');
+  const worldsSectionP40 = read('components/landing/WorldsSection.tsx');
+  const landingCssP40 = readFileSync(new URL('../src/app/landing.css', import.meta.url), 'utf8')
+    .replace(/\/\*[\s\S]*?\*\//g, ' ');
+  const nextConfigP40 = readFileSync(new URL('../next.config.ts', import.meta.url), 'utf8');
+
+  // 1 ── the registry: signupUrl per product, on the product's OWN
+  //     domain, distinct from the browsing root (the P1-1 fix's SSOT).
+  //     (RAW read — the comment-aware strip eats "https://…" as a line
+  //     comment, and URLs are exactly what this pin protects.)
+  check(
+    siteP40.includes('signupUrl: "https://menu.smart-link.ly/subscribe"')
+      && siteP40.includes('signupUrl: "https://bot.smart-link.ly/subscribe"')
+      && siteP40.includes('signupUrl: "https://order.smart-link.ly/register"'),
+    'P40-5a registry: SITE.products.*.signupUrl — menu/subscribe · bot/subscribe · order/register (the siblings\' own primary-CTA paths, verified live; unit tests/site.test.ts pins the domain + non-root contract)'
+  );
+
+  // 2 ── the chrome CTAs: header (desktop + drawer) + finale all carry
+  //     the SAME default — the Menu signup deep link (r128 flagship
+  //     ruling preserved; only the destination deepened).
+  check(
+    (headerP40.match(/href=\{SITE\.products\.menu\.signupUrl\}/g) ?? []).length === 2
+      && finaleP40.includes('href={SITE.products.menu.signupUrl} external xl withArrow'),
+    'P40-5a chrome: both header CTAs (desktop cluster + mobile drawer) and the finale pill deep-link to menu.smart-link.ly/subscribe — one default everywhere, no surface stranded on the landing root'
+  );
+
+  // 3 ── SL-7: the persistent WhatsApp secondary — a real prefilled
+  //     wa.me link on BOTH header surfaces, with the honest r144 hours
+  //     framing from the one source of truth (SITE.hours — never 24/7).
+  check(
+    headerP40.includes('whatsappUrl("هيدر الرئيسية")')
+      && headerP40.includes('whatsappUrl("درج الرئيسية")')
+      && (headerP40.match(/تحدث معنا واتساب — \$\{SITE\.hours\.support\} \(\$\{SITE\.hours\.office\}\)، رابط خارجي/g) ?? []).length === 2,
+    'P40-5a SL-7: «تحدث معنا واتساب» rides the header (desktop + drawer) — per-surface prefilled openers + the honest support-hours framing (خلال أوقات العمل 9ص–9م) inside the accessible name; the 24/7 claim stays extinct'
+  );
+
+  // 4 ── pricing semantics unified (P2-7): cards → the product's OWN
+  //     signup; the ecosystem tables → {product}/pricing (comparison
+  //     context). One page, one semantic split.
+  check(
+    pricingPageP40.includes('href: SITE.products.menu.signupUrl')
+      && pricingPageP40.includes('href: SITE.products.bot.signupUrl')
+      && pricingPageP40.includes('href: SITE.products.order.signupUrl')
+      && (pricingPageP40.match(/href: `\$\{SITE\.products\.(bot|menu|order)\.url\}\/pricing`/g) ?? []).length === 3,
+    'P40-5a P2-7: the pricing page split is now intentional — plan cards start the journey (per-product signupUrl), the live-ladder tables compare plans ({product}/pricing); no card points at a landing root anymore'
+  );
+
+  // 5 ── the plan-ladder MIRRORS pinned to their documented sources
+  //     (P13-2a): SB fb_dashboard/frontend/src/lib/default-plans.ts
+  //     (0/19/29/129/299), SM DB ladder zz_round92/120 (same figures,
+  //     menu names), SO src/app/api/plans/route.ts FAMILY_PLANS
+  //     (0/19/29/129). A sibling price change that misses this mirror
+  //     now fails HERE — a conscious bump, never silent drift.
+  {
+    const eco = pricingPageP40.slice(
+      pricingPageP40.indexOf('ecosystemPricing'),
+      pricingPageP40.indexOf('const faqs')
+    );
+    const ladder = (from, to) => {
+      const i = eco.indexOf(`title: "${from}"`);
+      const j = to ? eco.indexOf(`title: "${to}"`) : -1;
+      return (eco.slice(i, j === -1 ? undefined : j).match(/name: "[^"]+", price: \d+/g) ?? []).join(' | ');
+    };
+    check(
+      ladder('SmartBot', 'Smart Menu')
+        === 'name: "مجاني", price: 0 | name: "أساسي", price: 19 | name: "مميز", price: 29 | name: "احترافي", price: 129 | name: "مؤسسي", price: 299'
+      && ladder('Smart Menu', 'Smart Order')
+        === 'name: "مجاني", price: 0 | name: "أساسي", price: 19 | name: "بريميوم", price: 29 | name: "احترافي", price: 129 | name: "شركات", price: 299'
+      && ladder('Smart Order', null)
+        === 'name: "مجاني", price: 0 | name: "أساسي", price: 19 | name: "بريميوم", price: 29 | name: "احترافي", price: 129'
+      && eco.includes('د.ل / 30 يومًا') && (eco.match(/د\.ل \/ شهريًا/g) ?? []).length === 2,
+      'P40-5a mirror-pin: the three ecosystem ladders match their documented sources verbatim (SB default-plans.ts 0/19/29/129/299 · SM zz_round92/120 (menu names) · SO FAMILY_PLANS 0/19/29/129) + the cycle labels (شهريًا ×2 · 30 يومًا) — sibling drift breaks this pin loudly'
+    );
+  }
+
+  // 6 ── SL-3: the worlds cards keep their BROWSING doors (roots) but
+  //     the CTA copy is now the concrete sibling vocabulary — never the
+  //     vague «ادخل عالم X» again.
+  check(
+    worldsRegP40.includes('cta: "شاهد المنيو الحي"')
+      && worldsRegP40.includes('cta: "جرّب البوت"')
+      && worldsRegP40.includes('cta: "اطلب من متجر تجريبي"')
+      && (worldsSectionP40.match(/href=\{w\.url\}/g) ?? []).length === 1
+      && worldsSectionP40.includes('aria-label={`${w.cta} — ${w.name}، رابط خارجي`}')
+      && !worldsSectionP40.includes('ادخل عالم'),
+    'P40-5a SL-3: the worlds cards say what you can DO (شاهد المنيو الحي · جرّب البوت · اطلب من متجر تجريبي — each from the sibling\'s own published CTA vocabulary) while the href stays the product ROOT (browsing context) and Label-in-Name rides the cta-first aria'
+  );
+
+  // 7 ── the hero suffix device: honest destination ON the pill — one
+  //     ladder rung down, zero new ink (the suffix inherits the pill's
+  //     own AA-verified pair in both stages).
+  check(
+    /\.landing \.ln-hero-actions \.ln-btn-gold \.ln-hero-cta-suffix\s*\{[^}]*font-size:\s*var\(--fs-xs\)/.test(landingCssP40)
+      && /\.ln-hero-cta-suffix\s*\{[^}]*font-weight:\s*var\(--fw-semibold\)/.test(landingCssP40)
+      && !/\.ln-hero-cta-suffix\s*\{[^}]*color/.test(landingCssP40),
+    'P40-5a suffix device: .ln-hero-cta-suffix rides --fs-xs + --fw-semibold and declares NO color of its own — it inherits the pill\'s ink (night gold 6.1:1 / day-flood ink 6:1), so the honest label adds zero new ink to the system'
+  );
+
+  // 8 ── the SL-7 cluster fit: the decorative [ LIBYA ] chip yields its
+  //     slot on the 1081–1280 band so the three real CTAs never clip
+  //     (chrome furniture only — no door disappears).
+  check(
+    /@media \(min-width: 1081px\) and \(max-width: 1280px\)[^@]*\.ln-status--libya\s*\{[^}]*display:\s*none/.test(landingCssP40),
+    'P40-5a cluster fit: the WhatsApp door joins the header cluster and the aria-hidden LIBYA chip steps aside on 1081–1280px (decorative furniture yields; every real door stays at every width)'
+  );
+
+  // 9 ── P3-18: only real font BYTES are immutable — the old
+  //     /fonts/:path* stamped Cache-Control: immutable on 404s too
+  //     (live-verified: /fonts/fonts.css → 404 + max-age=31536000).
+  check(
+    /source:\s*"\/fonts\/:file\([^)]*woff2[^)]*\)"/.test(nextConfigP40)
+      && !nextConfigP40.includes('source: "/fonts/:path*"'),
+    'P40-5a P3-18: the immutable fonts rule matches ONLY *.woff2 paths (404 misses like /fonts/fonts.css fall through to the default cache policy — a negative answer is never frozen for a year; the six above-fold preloads stay untouched by decision, documented in DESIGN.md)'
+  );
+
+  // 10 ── negative sweep: no conversion surface still points a CTA at a
+  //      product ROOT (browsing surfaces — footer/worlds/main-nav
+  //      services — legitimately keep the roots; the ban is on the
+  //      CONVERSION set only).
+  check(
+    !homeP40.includes('href={SITE.products.menu.url}')
+      && !headerP40.includes('href={SITE.products.menu.url}')
+      && !finaleP40.includes('href={SITE.products.menu.url}')
+      && !pricingPageP40.includes('href: SITE.products.menu.url'),
+    'P40-5a extinction: zero hub conversion surfaces still route to the product landing roots (hero/header/finale/pricing cards all ride signupUrl; the footer + worlds + services-dropdown keep the roots by design — browsing, not converting)'
+  );
 }
 
 /* r144 (P4-4SL) — the self-count assertion. The suite now pins its own
@@ -3043,8 +3184,19 @@ if (failures.length > 0) {
    whose presence settles with --sp 0.55 → 1 · the dial's own verifi-
    able datum «STATUS · 3/3 خدمات حيّة» on the .ln-mono label child).
    No old pin weakened — the §14f rings/label-color pins and the
-   readout stat anatomy all stand byte-identical. */
-const EXPECTED_ASSERTIONS = 585;
+   readout stat anatomy all stand byte-identical.
+   P40-5a (صدق التحويل — the CTA-routing wave): 585 → 595 — TEN new
+   pins (the signupUrl registry contract · the chrome CTAs deep-link
+   the Menu signup · the persistent WhatsApp secondary with the honest
+   r144 hours framing · the pricing cards-vs-tables semantic split ·
+   the plan-ladder MIRRORS pinned to their P13-2a-documented sources ·
+   the worlds cards' concrete sibling-vocabulary CTAs on ROOT hrefs ·
+   the hero suffix device (--fs-xs, zero new ink) · the 1081–1280
+   LIBYA-chip yield · the woff2-only immutable fonts rule (P3-18) ·
+   the conversion-surface root extinction). The two P30-C hero pins
+   were re-truthed IN PLACE to the intent-router anatomy (no count
+   change — same intent, new truth). */
+const EXPECTED_ASSERTIONS = 595;
 check(
   passed + 1 === EXPECTED_ASSERTIONS,
   `self-count: the suite must run exactly ${EXPECTED_ASSERTIONS} assertions (ran ${passed + 1}) — bump EXPECTED_ASSERTIONS with every intentional pin change`

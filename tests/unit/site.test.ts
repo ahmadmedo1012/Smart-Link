@@ -54,6 +54,30 @@ test("SmartBot is one word everywhere (r9 audit C3)", () => {
   assert.equal(SITE.products.bot.label.includes("SmartBot"), true);
 });
 
+/* ── signupUrl (P40-5a / P1-1 — the deep-link routing contract) ──── */
+
+test("every product carries a signupUrl on its OWN domain, distinct from the root", () => {
+  /* P1-1: كل أزرار التحويل في المظلة تتعمّق لصفحة اشتراك المنتج —
+     signupUrl هو نفسه مسار زر المنتج الأساسي (متحقَّق حياً 2026-10-31:
+     منيو /subscribe ×6، بوت /subscribe ×4، أوردر /register ×6 على
+     جذورهم المنشورة). العقد: https + نطاق المنتج نفسه + مسار غير الجذر. */
+  const expected = new Set([
+    "https://menu.smart-link.ly/subscribe",
+    "https://bot.smart-link.ly/subscribe",
+    "https://order.smart-link.ly/register",
+  ]);
+  const actual = new Set([
+    SITE.products.menu.signupUrl,
+    SITE.products.bot.signupUrl,
+    SITE.products.order.signupUrl,
+  ]);
+  assert.deepEqual(actual, expected);
+  for (const p of [SITE.products.menu, SITE.products.bot, SITE.products.order]) {
+    assert.ok(p.signupUrl.startsWith(`${p.url}/`), `${p.signupUrl} must live under ${p.url}`);
+    assert.notEqual(p.signupUrl, p.url);
+  }
+});
+
 /* ── hours (the r144 honesty fix — no 24/7 claim) ─────────────────── */
 
 test("the support hours stay honest (no 24/7 claim)", () => {

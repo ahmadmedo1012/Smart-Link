@@ -81,10 +81,14 @@ test.describe("r9 — محتوى pricing الخادم (تدقيق P1-4)", () => 
        التسويقية استُبدلت بحدّ الكتالوج الصادق. */
     expect(html).toContain("ردود تلقائية (100/شهر)")
     expect(html).toContain("متجر رقمي يعمل فوراً")
-    // CTA الخطة يقود للمنتج مباشرة (r9 C10) وليس لنموذج التواصل
-    expect(html).toContain('href="https://menu.smart-link.ly"')
-    expect(html).toContain('href="https://bot.smart-link.ly"')
-    expect(html).toContain('href="https://order.smart-link.ly"')
+    /* P40-5a (P1-1): CTA الخطة يقود لصفحة الاشتراك الخاصة بمنتجه
+       (منيو/بوت /subscribe، أوردر /register — عقد r9 C10 يتعمّق خطوة:
+       ليس نموذج التواصل ولا جذر صفحة الهبوط). المسار الكامل بعلامة
+       الإغلاق يميّز بطاقة «ابدأ الآن» عن روابط {product}/pricing في
+       جداول «المنظومة الحيّة» وعن جذور التصفح في التذييل. */
+    expect(html).toContain('href="https://menu.smart-link.ly/subscribe"')
+    expect(html).toContain('href="https://bot.smart-link.ly/subscribe"')
+    expect(html).toContain('href="https://order.smart-link.ly/register"')
   })
 
   test("قائمة التنقل الرئيسية تعرض «الأسعار» (تدقيق L2)", async ({ page }) => {

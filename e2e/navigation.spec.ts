@@ -139,7 +139,9 @@ test.describe("التنقل — الجوال: درج ال landing (الرئيس�
     for (const href of ["#products", "#journey", "/contact"]) {
       await expect(mobileNav.locator(`a[href="${href}"]`), `رابط ${href}`).toBeVisible()
     }
-    const external = mobileNav.locator('a[href="https://menu.smart-link.ly"]')
+    /* P40-5a (P1-1): زر الدرج الذهبي يقود لصفحة اشتراك سمارت منيو
+       (SITE.products.menu.signupUrl) — كان الجذر. */
+    const external = mobileNav.locator('a[href="https://menu.smart-link.ly/subscribe"]')
     await expect(external).toHaveAttribute("target", "_blank")
     await expect(external).toHaveAttribute("rel", "noopener noreferrer")
 

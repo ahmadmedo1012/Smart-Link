@@ -44,16 +44,26 @@ delivery and local payments — a first-class product since r137).
 ## Conversion paths (the site's whole job)
 
 1. **Product signup:** hero/header/drawer/finale/pricing CTAs
-   («ابدأ مجاناً», «ابدأ الآن», «ابدأ التجربة») → external links to
-   menu.smart-link.ly / bot.smart-link.ly / order.smart-link.ly
-   (`target=_blank`, `rel="noopener noreferrer"`, announced as
-   «رابط خارجي»).
+   («ابدأ مجاناً», «ابدأ الآن», «ابدأ التجربة») → external links to each
+   product's OWN signup page — menu.smart-link.ly/subscribe ·
+   bot.smart-link.ly/subscribe · order.smart-link.ly/register
+   (`SITE.products.*.signupUrl`, P40-5a — the same path each product's own
+   primary button uses; the hub CTAs used to stop at the landing roots and
+   lose the signup step). `target=_blank`, `rel="noopener noreferrer"`,
+   announced as «رابط خارجي»; the hero primary names its destination
+   visibly («ابدأ مجاناً — سمارت منيو») and the hero micro-row carries
+   the two other products' signup paths with intent labels. Browsing
+   surfaces (footer · services menus · worlds cards) keep the product
+   ROOTS; the pricing ecosystem tables link `{product}/pricing`.
 2. **Contact form:** «تواصل معنا» → `/contact` → validated Arabic form →
    `/api/contact` → owner notification + auto-confirmation email.
 3. **WhatsApp direct:** every WhatsApp CTA deep-links
    `wa.me/218910089975` with a **per-surface prefilled Arabic opener**
-   (`whatsappUrl(surface)` — footer · contact page · form error box ·
-   offline page · confirmation email), so chats arrive source-identified.
+   (`whatsappUrl(surface)` — footer · hero bullet · header cluster +
+   drawer (P40-5a, persistent secondary) · contact page · form error
+   box · offline page · confirmation email), so chats arrive
+   source-identified; the header framing carries the honest r144 hours
+   («خلال أوقات العمل» — never 24/7).
 
 Support identity: WhatsApp (display `+218 91 008 9975`, one format,
 `dir="ltr"` isolated) answered by the office-hours team 9-to-9 — no 24/7
@@ -86,7 +96,9 @@ corporate. The landing speaks in short chapter arcs («كلُّ عملٍ يبد�
 
 ## Evidence
 
-- Parity snapshot `tests/parity.mjs` (573 assertions, self-counted — the suite fails if its own size drifts) pins the design
-  system; e2e suite (Playwright, Arabic specs) covers conversion CTAs,
+- Parity snapshot `tests/parity.mjs` (595 assertions, self-counted — the suite fails if its own size drifts) pins the design
+  system (P40-5a: 585 → 595 — the CTA-routing pins incl. the signupUrl
+  registry and the plan-ladder mirrors); e2e suite (Playwright, Arabic
+  specs) covers conversion CTAs,
   the contact contract, SEO/OG shape, a11y, RTL, PWA/offline and
   adversarial journeys. Lighthouse r14 history: avg 93.5, best LCP 1.67s.

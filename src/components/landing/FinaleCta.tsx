@@ -72,7 +72,10 @@ export function FinaleCta() {
           SmartLink، مجاناً وبدون بطاقة ائتمان.
         </RevealCssClass>
         <RevealCssClass as="div" className="ln-cta-actions" delay={3}>
-          <MagneticGoldLink href={SITE.products.menu.url} external xl withArrow ariaLabel="ابدأ التجربة — Smart Menu، رابط خارجي">
+          {/* P40-5a (P1-1): زر الختام يتعمّق إلى صفحة اشتراك سمارت منيو
+              نفسها (كان يهبط على جذر صفحة الهبوط) — الافتراضي الرائد
+              كما في الهيرو والهيدر. */}
+          <MagneticGoldLink href={SITE.products.menu.signupUrl} external xl withArrow ariaLabel="ابدأ التجربة — Smart Menu، رابط خارجي">
             ابدأ التجربة
           </MagneticGoldLink>
           <Link href="/contact" className="ln-btn-ghost xl">تواصل معنا</Link>

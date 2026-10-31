@@ -2,9 +2,9 @@
 
 import { useEffect, useRef, useState, useSyncExternalStore } from "react"
 import Link from "next/link"
-import { Menu, X, ChevronDown, ArrowLeft, Route, Smartphone, BarChart3, Share2, Sun, Moon } from "lucide-react"
+import { Menu, X, ChevronDown, ArrowLeft, Route, Smartphone, BarChart3, Share2, Sun, Moon, MessageCircle } from "lucide-react"
 import { useTheme } from "next-themes"
-import { SITE } from "@/lib/site"
+import { SITE, whatsappUrl } from "@/lib/site"
 
 /* r128 Stage B (F2b) — the landing header, converted from the product's
    glass MainNav to the canonical Madarek chrome (PORT-KIT §4):
@@ -353,8 +353,25 @@ export function LandingHeader() {
           <div className="landing-header-cta">
             <span className="ln-status ln-status--libya ln-mono" aria-hidden="true">[ LIBYA ]</span>
             <Link href="/contact" className="ln-btn-ghost">تواصل معنا</Link>
+            {/* P40-5a (SL-7 — تحدّي المعايرة رقم 2): قناة واتساب كثانوي
+                دائم بجانب الأساسي — الزائر الليبي الوتسابي كان يحتاج
+                الوصول إلى أسفل الصفحة أو /contact. رابط wa.me بفتّاحة
+                معبّأة (عرف r134)، والتأطير الصادق لساعات الدعم من
+                سجلّ المصدر الواحد SITE.hours (حكم r144: لا وعد 24/7 —
+                القناة نفسها هي القابل للتحقق) داخل الاسم المتاح
+                والعنوان العائم؛ النص المرئي يبقى الباب فقط. */}
             <a
-              href={SITE.products.menu.url}
+              href={whatsappUrl("هيدر الرئيسية")}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`تحدث معنا واتساب — ${SITE.hours.support} (${SITE.hours.office})، رابط خارجي`}
+              title={`تحدث معنا واتساب — ${SITE.hours.support} (${SITE.hours.office})`}
+              className="ln-btn-ghost"
+            >
+              <MessageCircle size={14} aria-hidden="true" /> تحدث معنا واتساب
+            </a>
+            <a
+              href={SITE.products.menu.signupUrl}
               target="_blank"
               rel="noopener noreferrer"
               /* r134 (R134-W1-SL P3): the external-link announcement
@@ -444,8 +461,21 @@ export function LandingHeader() {
                 desktop nav link above. */}
             <Link href="/pricing" className="ln-btn-ghost">الأسعار</Link>
             <Link href="/contact" className="ln-btn-ghost">تواصل معنا</Link>
+            {/* P40-5a (SL-7): توأم الدرج لثانوي الواتساب الدائم في
+                الهيدر — نفس فتّاحة المصدر الخاصة بالسطح، ونفس التأطير
+                الصادق للساعات (SITE.hours — حكم r144). */}
             <a
-              href={SITE.products.menu.url}
+              href={whatsappUrl("درج الرئيسية")}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`تحدث معنا واتساب — ${SITE.hours.support} (${SITE.hours.office})، رابط خارجي`}
+              title={`تحدث معنا واتساب — ${SITE.hours.support} (${SITE.hours.office})`}
+              className="ln-btn-ghost"
+            >
+              <MessageCircle size={16} aria-hidden="true" /> تحدث معنا واتساب
+            </a>
+            <a
+              href={SITE.products.menu.signupUrl}
               target="_blank"
               rel="noopener noreferrer"
               aria-label="ابدأ مجاناً — Smart Menu، رابط خارجي"

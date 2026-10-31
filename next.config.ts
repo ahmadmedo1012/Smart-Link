@@ -61,9 +61,17 @@ const nextConfig: NextConfig = {
          Filenames are family-weight-style-script qualified, so a
          file's bytes only ever change alongside a deploy that renames or
          re-points them — safe for immutable. r132: 12 → 10 faces (the
-         two IBM Plex Serif italic cuts deleted — zero consumers). */
+         two IBM Plex Serif italic cuts deleted — zero consumers).
+         P40-5a (P3-18): the pattern narrows to *.woff2 — the old
+         /fonts/:path* matched ANY path under /fonts/, so a stray request
+         like /fonts/fonts.css (referenced nowhere in this repo; the
+         sibling products each ship their own /fonts/fonts.css, so old
+         links/crawlers probe it here too) got a 404 stamped
+         Cache-Control: immutable for a year — a negative answer a
+         visitor's browser would never re-ask. Only real font bytes are
+         immutable now; misses fall through to the default cache policy. */
       {
-        source: "/fonts/:path*",
+        source: "/fonts/:file([A-Za-z0-9_.-]+[.]woff2)",
         headers: [{ key: "Cache-Control", value: "public, max-age=31536000, immutable" }],
       },
       {

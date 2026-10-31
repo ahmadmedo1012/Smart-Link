@@ -1,4 +1,5 @@
 {
+  "//": "P36-G: أُزيل مرشّح App Links على smart-link.ly (كان autoVerify:true) — تطبيق المظلة الأصلي هذا ليس تطبيق النطاق: مالك النطاق هو PWA الويب (assetlinks.json غير منشور ويجب ألا يُنشر)، وحكم P36 يمنع تطبيقاً أصلياً رابعاً يخطف روابط النطاق. دليل الهوية والتبويبات يبقى كما هو.",
   "expo": {
     "name": "SmartLink",
     "slug": "smartlink",
@@ -23,20 +24,7 @@
         "foregroundImage": "./assets/images/adaptive-icon.png"
       },
       "predictiveBackGestureEnabled": false,
-      "permissions": [],
-      "intentFilters": [
-        {
-          "action": "VIEW",
-          "autoVerify": true,
-          "data": [
-            {
-              "scheme": "https",
-              "host": "smart-link.ly"
-            }
-          ],
-          "category": ["BROWSABLE", "DEFAULT"]
-        }
-      ]
+      "permissions": []
     },
     "web": {
       "output": "static",

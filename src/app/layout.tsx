@@ -3,6 +3,7 @@ import { Bodoni_Moda, Noto_Kufi_Arabic } from "next/font/google"
 import { ThemeProvider } from "@/components/theme-provider"
 import { ThemeColorSync } from "@/components/theme-color-sync"
 import { LazyAnalytics } from "@/components/lazy-analytics"
+import { InstallPrompt } from "@/components/install-prompt"
 import { organizationJsonLd, websiteJsonLd, servicesJsonLd } from "@/lib/schema"
 import { OG_IMAGE } from "@/lib/seo"
 import { SITE } from "@/lib/site"
@@ -202,6 +203,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
           <ThemeColorSync />
           {children}
+          {/* P36-G: تلميح التثبيت العالمي — يُصيَّر فارغاً حتى يُطلق
+              beforeinstallprompt (أو نصل إلى iOS فيتحول للتعليمات
+              اليدوية)؛ ثابت بلا تدفق فلا أثر على CLS، ورفضه يُتذكَّر
+              في localStorage (التفصيل في install-prompt.tsx). */}
+          <InstallPrompt />
           <LazyAnalytics />
         </ThemeProvider>
       </body>

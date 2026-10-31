@@ -12,7 +12,7 @@
 
 ```
 mobile/
-├── app.json                  هوية التطبيق (ly.smartlink.hub) + App Links
+├── app.json                  هوية التطبيق (ly.smartlink.hub) — بلا App Links (أزيلت P36-G: النطاق ملك PWA الويب)
 ├── src/app/
 │   ├── _layout.tsx           خطوط + بوابة RTL + تبويبات (رئيسية/أسعار/تواصل)
 │   └── (tabs)/

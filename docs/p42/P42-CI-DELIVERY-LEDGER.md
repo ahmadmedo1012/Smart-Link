@@ -75,3 +75,23 @@ repo's main quality-gate workflow conclusion on that SHA.
 only inside the two execution windows and restored; branch deleted after
 delete-final executes). Merged temp branches deleted: Smart-Menu
 `p42/deps-mobile`, SmartBot `p42/zod-override`.
+
+### Wave-2 ledger closures (post-merge verification)
+
+- Smart-Menu `4c6dd1c` main CI: **✅ all green** (lint-build-test ✓ prod-qa ✓
+  triage ✓; mobile skipped = no mobile change). Production deployed READY;
+  live check: delete-item 409 copy shipped.
+- Smart-Order `d25f840` final HEAD: **✅ all four jobs + 4/4 Dependabot
+  checks green**. Production READY; live check: /pricing renders the sold
+  ladder with ZERO CountUp attributes and zero «حتى 0» in the document.
+- SmartBot `c4716a8` main CI: **✅ all** (quality-gates, mobile, osv,
+  secret-scan, Dependabot).
+- Smart-Link `a8834cb` (branch-gated: mobile export = the SDK-57 zod smoke
+  ✓ + lint/build/e2e ✓) → merged as main `$(git rev-parse --short HEAD)`
+  (this commit); branch deleted.
+- Smart-Menu demo imagery: live-checked — all four curated Unsplash IDs
+  render on the public demo; the wrong salad-as-basbousa image is gone.
+- Family Dependabot state after the wave: every repo carries at most the
+  single unpatched deepmerge advisory (documented exceptions with upgrade
+  triggers); Smart-Link's 5 open alerts (zod, decode-uri-component ×2,
+  deepmerge ×2) close on the npm-lock rescan following the merge.

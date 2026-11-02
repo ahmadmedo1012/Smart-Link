@@ -343,3 +343,39 @@ the archive; per-file single-QR downloads untouched.
 
 **Next:** W2-ORD-2..5 + W2-LNK-2..6 + W2-BOT-6..9 (the P3 polish wave),
 per the register's priorities.
+
+**W3-6 · The P3 polish wave (four repos, continuous cadence).** With the
+credentials live, every register P3 item shipped the same session:
+- Smart-Link `551b787` (W2-LNK-4/5/6 + two documented dispositions): the
+  landing footer owns the WhatsApp door (twin of the P40-5a header, honest
+  hours in the accessible name, e2e-pinned); the JSON-LD SmartBot Service
+  description became the product's own published identity (the fleet's last
+  «على مدار الساعة»); back-to-top + install-prompt clear the iOS
+  home-indicator zone. theme_color stays single-dark ON PURPOSE (manifest =
+  default-dark brand splash; ThemeColorSync corrects live chrome incl.
+  WebAPK; documented, not churned). Header/drawer CTA naming was already
+  twin-consistent — verified, recorded, no change invented.
+- Smart-Order `6fa9c27` (W2-ORD-2/3/4): checkout totals now re-derive from
+  LIVE prices via a pure lib (the store endpoint already shipped products —
+  they were being discarded); changed lines are marked, unavailable lines
+  announce themselves and block submit (the server refusal was always
+  correct — now the customer knows WHY before pressing). Cross-store cart
+  replacement asks first. Staff page carries the seat counter + upgrade
+  door from the SAME source of truth that refuses the POST (fill-then-fail
+  dead end retired).
+- SmartBot `e2fae51` (W2-BOT-6..9): /api/ai/generate-reply got its first
+  consumer — an in-thread suggest button that plants a DRAFT (the human
+  sends, always); the empty-reply WHY contract surfaces verbatim. The
+  sequences N+1 parallel detail fetch retired (step_count has ridden the
+  row since v24-C4 — the comment claiming otherwise was the map, not the
+  territory). Two bare Loader2 loading states → shape-matched skeletons.
+  Unsubscribe/resubscribe: the engine's status filter was already the
+  truth; now there's a door to it (tenant-scoped, two-step confirm).
+
+**The recurring lesson this wave (kept in commits and tests):** structural
+tests passed a broken ZIP (python's zipfile refused it — EOCD +12 bytes);
+a disabled send-confirm button swallowed an early click silently; an AI
+button fired on a still-loading thread. Three instances of one rule: a
+passing test only proves the contract it actually pins — so each fix
+pinned the contract it learned (full EOCD shape, wait-for-enabled, thread-
+loaded gating).

@@ -187,7 +187,11 @@ export function InstallPrompt() {
        أحداث) — إدراج البطاقة داخله هو ما تعلنه القارئات بلطف. */
     <div
       aria-live="polite"
-      className="pointer-events-none fixed inset-x-0 bottom-20 z-40 flex justify-center px-4 sm:bottom-6"
+      /* W2-LNK-6 (P42-W2، تدقيق 3d): نفس حاشية back-to-top — البطاقة
+         تحت viewport-fit=cover كانت تهبط في منطقة مؤشر الـHome على
+         iOS؛ المسافة القاعدية + env(safe-area-inset-bottom) ببديل
+         صفر للحواف المستقيمة (توأم درج القائمة landing.css P4-06). */
+      className="pointer-events-none fixed inset-x-0 bottom-[calc(env(safe-area-inset-bottom,0px)+5rem)] z-40 flex justify-center px-4 sm:bottom-[calc(env(safe-area-inset-bottom,0px)+1.5rem)]"
     >
       {hint ? (
         <div

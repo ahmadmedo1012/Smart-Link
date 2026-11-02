@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { SITE } from "@/lib/site"
+import { SITE, whatsappUrl } from "@/lib/site"
 import { LibyaFlag } from "@/components/landing/LibyaFlag"
 import { CurrentYear } from "@/components/current-year"
 
@@ -22,7 +22,13 @@ import { CurrentYear } from "@/components/current-year"
  * سمارت بوت «منصة إدارة فيسبوك الذكية» (عنوان bot.smart-link.ly
  * الذاتي)، سمارت منيو «قوائم QR التفاعلية» (تذييل الأوردر — وQR عقد
  * حي في هوية المنيو نفسها)، سمارت أوردر «منصة الطلبات الرقمية»
- * (عنوانه الذاتي)، والصفحة هنا لا تُذكر (عقيدة «المائدة نفسها»). */
+ * (عنوانه الذاتي)، والصفحة هنا لا تُذكر (عقيدة «المائدة نفسها»).
+ * W2-LNK-4 (P42-W2، تدقيق 3d): قناة الواتساب كانت في هيدر الرئيسية
+ * (P40-5a) وفي تذييل الصفحات الداخلية (footer.tsx) فقط — زائر
+ * الرئيسية الوتسابي كان يهبط للأسفل فلا يجد الباب. الآن عمود
+ * «المؤسسة» يحمله: توأم هيدر الرئيسية نفسه (فتّاحة المصدر الخاصة
+ * بالسطح + تأطير الساعات الصادق من SITE.hours — حكم r144: القناة
+ * قابلة للتحقق، لا وعد 24/7؛ الاسم المتاح يعلن الرابط الخارجي). */
 
 const ECOSYSTEM = [
   { href: SITE.products.menu.url, label: "سمارت منيو — قوائم QR التفاعلية" },
@@ -87,6 +93,20 @@ export function LandingFooter() {
             <h3 className="landing-footer-heading">المؤسسة</h3>
             <Link href="/about" prefetch={false} className="landing-footer-link">عن SmartLink</Link>
             <Link href="/contact" prefetch={false} className="landing-footer-link">تواصل معنا</Link>
+            {/* W2-LNK-4: باب الواتساب الدائم — توأم هيدر الرئيسية (P40-5a):
+                نفس فتّاحة r134 + تأطير الساعات الصادق في الاسم المتاح/العنوان،
+                والنص المرئي يبقى الكلمة القصيرة (عقد label-in-name: الظاهر
+                داخل المتاح). */}
+            <a
+              href={whatsappUrl("تذييل الرئيسية")}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`واتساب — ${SITE.hours.support} (${SITE.hours.office})، رابط خارجي`}
+              title={`واتساب — ${SITE.hours.support} (${SITE.hours.office})`}
+              className="landing-footer-link"
+            >
+              واتساب
+            </a>
             <Link href="/privacy" prefetch={false} className="landing-footer-link">سياسة الخصوصية</Link>
             <Link href="/terms" prefetch={false} className="landing-footer-link">شروط الاستخدام</Link>
           </div>

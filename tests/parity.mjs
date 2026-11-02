@@ -1848,8 +1848,39 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
     'a12: services dropdown anchors at end-0 (logical, was physical right-0)'
   );
   check(
-    backToTop.includes('fixed bottom-6 end-6') && !/bottom-6 right-6/.test(backToTop),
-    'a12: back-to-top rides the end-6 logical corner (was physical right-6)'
+    /* W2-LNK-6: the bottom anchor now carries the iOS safe-area inset
+       (calc(env(safe-area-inset-bottom)+1.5rem)) — the end-6 LOGICAL
+       corner contract is the part this pin owns; the physical right-6
+       ban still holds. */
+    backToTop.includes('end-6') && !/bottom-6 right-6/.test(backToTop) && !/\bright-6\b/.test(backToTop),
+    'a12: back-to-top rides the end-6 logical corner (was physical right-6) — W2-LNK-6: bottom anchor carries safe-area-inset'
+  );
+}
+
+/* ══ W2-LNK (P42-W2, polish wave) · safe-area insets + the schema
+   24/7-adjacent claim pin + the footer WhatsApp door ══ */
+{
+  /* comment-stripped reads (the house idiom): the schema fix's own
+     rationale comment NAMES the retired phrase — the pin must judge
+     the shipped strings, not the changelog prose. */
+  const strip = (raw) => raw.replace(/\/\*[\s\S]*?\*\//g, ' ').replace(/\/\/.*$/gm, ' ');
+  const backToTop = strip(readFileSync(new URL('../src/components/back-to-top.tsx', import.meta.url), 'utf8'));
+  const installPrompt = strip(readFileSync(new URL('../src/components/install-prompt.tsx', import.meta.url), 'utf8'));
+  const schema = strip(readFileSync(new URL('../src/lib/schema.ts', import.meta.url), 'utf8'));
+  const landingFooter = strip(readFileSync(new URL('../src/components/landing/LandingFooter.tsx', import.meta.url), 'utf8'));
+  check(
+    backToTop.includes('bottom-[calc(env(safe-area-inset-bottom,0px)+1.5rem)]'),
+    'W2-LNK-6: back-to-top clears the iOS home-indicator zone (viewport-fit=cover + safe-area inset)'
+  );
+  check(
+    installPrompt.includes('bottom-[calc(env(safe-area-inset-bottom,0px)+5rem)]')
+      && installPrompt.includes('sm:bottom-[calc(env(safe-area-inset-bottom,0px)+1.5rem)]'),
+    'W2-LNK-6: install prompt rides the safe-area inset on both breakpoints'
+  );
+  check(
+    !/مدار الساعة|24\/7/.test(schema)
+      && landingFooter.includes('whatsappUrl("تذييل الرئيسية")'),
+    'W2-LNK-5/4: the JSON-LD carries no 24/7-adjacent claim (r144 family retirement) and the landing footer owns the WhatsApp door'
   );
 }
 
@@ -3196,7 +3227,7 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
    the conversion-surface root extinction). The two P30-C hero pins
    were re-truthed IN PLACE to the intent-router anatomy (no count
    change — same intent, new truth). */
-const EXPECTED_ASSERTIONS = 595;
+const EXPECTED_ASSERTIONS = 598;
 check(
   passed + 1 === EXPECTED_ASSERTIONS,
   `self-count: the suite must run exactly ${EXPECTED_ASSERTIONS} assertions (ran ${passed + 1}) — bump EXPECTED_ASSERTIONS with every intentional pin change`

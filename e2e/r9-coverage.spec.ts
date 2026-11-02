@@ -102,6 +102,14 @@ test.describe("r9 — عقد footer (روابط التواصل على كل صف�
     }
 
     // سطر الحقوق الكنسي: © السنة SmartLink + صُنع في ليبيا
+    // W2-LNK-4 (P42-W2): باب الواتساب الدائم في تذييل الرئيسية — توأم
+    // الهيدر (P40-5a): رابط wa.me بفتّاحة المصدر، ساعات صادقة في الاسم
+    // المتاح (حكم r144 — القناة قابلة للتحقق، لا وعد 24/7)، وإعلان خارجي.
+    const wa = footer.locator('a[href*="wa.me"]').first()
+    await expect(wa).toHaveAttribute("target", "_blank")
+    await expect(wa).toHaveAttribute("rel", "noopener noreferrer")
+    await expect(wa).toHaveAccessibleName(/واتساب — .+\(.+\)، رابط خارجي/)
+
     const year = new Date().getFullYear()
     await expect(footer.getByText(`© ${year} SmartLink`)).toBeVisible()
     await expect(footer.getByText("صُنع في ليبيا")).toBeVisible()

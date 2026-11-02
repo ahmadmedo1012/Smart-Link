@@ -164,3 +164,20 @@ so no batch is ever hostage to a sandbox recycle again.
 **Standing cadence from this wave:** every completed unit is pushed to main
 immediately (Owner directive); CI + deploy links land in the worklog the
 moment they complete; nothing accumulates unpushed.
+
+### Wave 3 continuation (same day — the P3 polish wave, continuous-push cadence)
+
+| Repo | Commit | Items | Gates | CI / deploy |
+|---|---|---|---|---|
+| Smart-Link | `551b787` | **W2-LNK-4/5/6**: WhatsApp door in the landing footer (twin of the P40-5a header, e2e-pinned), schema Service description = SmartBot's own published identity (last «مدار الساعة» in the fleet retired), back-to-top + install-prompt safe-area insets (parity-pinned 595→598). W2-LNK-2 documented deliberate (manifest = default-dark brand splash; ThemeColorSync corrects live chrome); W2-LNK-3 verified already-consistent (header/drawer exact twins since P40-5a). | parity 598 ✓ · unit ✓ · tsc/lint ✓ · build ✓ · e2e r9+seo+structured-data 56/56 ✓ | [success](https://github.com/ahmadmedo1012/Smart-Link/actions/runs/41465386308) · smartlink READY (sw.js v2 live-verified earlier) |
+| Smart-Order | `6fa9c27` | **W2-ORD-2/3/4**: checkout totals re-derived from LIVE prices (the store endpoint already shipped them; pure `checkout-refresh` lib + 7 node:test contracts — changed lines marked, unavailable lines block submit), cross-store cart replace gets an explicit confirm (was silent wipe), staff page shows the seat counter + upgrade door from the same source of truth that refuses the POST (was a fill-then-fail dead end). | tsc ✓ · eslint-0 ✓ · unit 266/266 (7 new) ✓ · parity 508/508 ✓ · schema-twins ✓ · build ✓ | [success](https://github.com/ahmadmedo1012/Smart-Order/actions/runs/41468811751) · smart-order READY |
+| SmartBot | `e2fae51` | **W2-BOT-6..9**: first UI consumer of /api/ai/generate-reply (in-thread suggest plants a DRAFT — human sends; empty reply surfaces the server's WHY; button gated on thread load — the same disabled-click race we hit and pinned in the send-confirm test), stale sequences contract comment fixed + the N+1 parallel detail fetch retired (step_count rides the row since v24-C4 — the contract test now pins the one-request shape), 2 bare Loader2 loading states → shape-matched skeletons, unsubscribe/resubscribe endpoints (tenant-scoped, editor-gated, Arabic 400 guards) + two-step confirm in the audience page. | FE tsc ✓ eslint-0 ✓ vitest 612/612 (4 new contracts) ✓ · BE ruff ✓ pytest families + 5 new endpoint contracts ✓ | run [41472976066](https://github.com/ahmadmedo1012/SmartBot/actions/runs/41472976066) at write time — deploys building |
+
+**Honest implementation notes kept in the commits:** the ZIP builder's first
+draft passed our structural tests but was refused by python's zipfile (a +12
+EOCD-preamble byte in the central-directory size) — the independent verifier
+caught what the tests missed, and the EOCD contract is now pinned in the
+suite. The AI-assist button initially fired on a still-loading thread (empty
+context error) — it now disables until the thread lands, and the test pins
+the wait-for-enabled race. Both lessons are the same one: a passing test is
+only as good as the contract it actually pins.

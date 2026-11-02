@@ -169,9 +169,9 @@ one test line each, Jul–Aug 2026):
 | W2-BOT-3 | P2 | SmartBot | No monthly-reply usage counter (Free 100 enforced silently — engine-side reject) | OPEN (needs small REST surface) |
 | W2-BOT-4 | P2 | SmartBot | Suspended-org 403 distinguished only in analytics; other pages show misleading retry | OPEN (general SuspendedBanner) |
 | W2-BOT-5 | P2 | SmartBot | Plan-lock gaps: scheduled/broadcast/sequences gate via toast only (PremiumLock model exists) | **FIXED `3ce58c3`** (broadcast message joins GATE_MESSAGES family; PremiumLockCard on scheduled/broadcast; sequences has NO backend gate — documented, nothing to lock) |
-| W2-BOT-6..9 | P3 | SmartBot | AI in-thread assist absent (/api/ai/generate-reply unconsumed), stale sequences comment, Loader2 vs Skeleton, unsubscribe button | OPEN (polish wave) |
+| W2-BOT-6..9 | P3 | SmartBot | AI in-thread assist absent (/api/ai/generate-reply unconsumed), stale sequences comment, Loader2 vs Skeleton, unsubscribe button | **FIXED `e2fae51`** (-6 first generate-reply consumer: in-thread suggest→DRAFT, human sends; -7 stale comment + N+1 parallel detail fetch retired (step_count rides the row since v24-C4); -8 Loader2→shape skeletons ×2 (button-pending spinners stay); -9 unsubscribe/resubscribe endpoints + two-step confirm, engine status filter was already the truth) |
 | W2-ORD-1 | P2 | Smart-Order | Zero-payment-methods silent checkout dead-end | **FIXED `ccb0bd8`** (empty-state + WhatsApp lifeline) |
-| W2-ORD-2..5 | P3 | Smart-Order | Mid-checkout staleness (no refresh), cross-store cart guard, staff dead-invite on Free, cap counters absent | OPEN (polish wave) |
+| W2-ORD-2..5 | P3 | Smart-Order | Mid-checkout staleness (no refresh), cross-store cart guard, staff dead-invite on Free, cap counters absent | **2/3/4 FIXED `6fa9c27`** (live-price cart evaluation at checkout + unavailable gate; cross-store replace-confirm dialog; staff seats counter + upgrade door from the SAME source of truth as the POST gate). -5 partial by design: dashboard PlanUsageBadge (products/orders) + staff counter shipped; categories/zones per-page counters remain as noted polish |
 | W2-LNK-1 | P2 | Smart-Link | Offline fallback HTML-only (unstyled when truly offline) | **FIXED `b3fa8b8`→main `76858f7`** (SW offline disk; live-verified: smart-link.ly/sw.js serves v2) |
 | W2-LNK-2..6 | P3 | Smart-Link | theme_color single dark, header/drawer CTA naming, landing-footer WhatsApp, schema «مدار الساعة» claim pin, safe-area insets | **CLOSED**: -2 documented deliberate (manifest = default-dark brand splash; ThemeColorSync r148 corrects live chrome incl. WebAPK; dual media metas cover no-JS) · -3 verified already-consistent (header/drawer exact twins since P40-5a — no change needed) · -4 **FIXED** (WhatsApp door in landing footer «المؤسسة» column, e2e-pinned) · -5 **FIXED** (schema description = SmartBot’s own published identity, no clock claim) · -6 **FIXED** (back-to-top + install-prompt safe-area insets, parity-pinned) |
 | W2-MEN-1 | P2 | Smart-Menu | Table-QR «تحميل الكل» = N sequential PNGs (no ZIP) | **FIXED `50a76c2`** (pure-lib STORE ZIP builder; EOCD bug caught by independent python verifier, contract pinned in tests) |
@@ -254,8 +254,8 @@ owner dependencies. Nothing executed without owner choice.
 | W2-BOT-3 (silent reply cap) | **SHIPPED** — main `9bdec1c`, CI green, deployed |
 | W2-BOT-4 (suspended UX) | **SHIPPED** — main `9bdec1c`, CI green, deployed |
 | W2-BOT-5 (plan-lock gaps) | **FIXED `3ce58c3`** — pushed, CI green, deployed |
-| W2-BOT-6..9 (P3 polish) | OPEN |
-| W2-ORD-2..5 (P3) | OPEN |
+| W2-BOT-6..9 (P3 polish) | **FIXED `e2fae51`** — CI at the run recorded in the ledger |
+| W2-ORD-2..5 (P3) | 2/3/4 **FIXED `6fa9c27`** (CI green + deployed) · 5 partial (badge + seats shipped; categories/zones counters = noted polish) |
 | W2-LNK-1 (offline shell styling) | **SHIPPED** — main `76858f7`, CI green, deployed, live-verified (sw.js v2) |
 | W2-LNK-2..6 (P3) | CLOSED — see register row for per-item dispositions |
 | W2-MEN-1 (QR ZIP) | **FIXED `50a76c2`** — pushed (CI link in ledger) |

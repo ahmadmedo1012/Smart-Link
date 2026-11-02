@@ -129,12 +129,95 @@ for (const doc of DOC_FILES) {
   scanFile(p, [...BANNED, ...DOC_BANNED, ...SERVICES_BANNED])
 }
 
+/* ---------- P42-2d — CLAIM PINS (سقف المنيو الصادق) ---------- */
+
+/* The bans above retire false claims; the pins below defend TRUE copy —
+ * verified free-plan numbers that a future overzealous honesty pass must
+ * not delete, and section-scoped so they cannot quietly drift back.
+ * Trigger (P42-2d / audit M1): Smart-Menu enforces its free-plan order
+ * cap as a LIFETIME total (its api/orders/route.ts counts every order
+ * ever — no monthly window), so the Menu claim drops «شهريًا» (copy
+ * follows enforcement); Smart-Order's cap IS a monthly window and
+ * SmartBot's reply cap IS monthly (both verified against their own
+ * backends), so their monthly wording stays verbatim. Section scoping
+ * is the whole point: the true monthly claims live in the SAME files as
+ * the Menu claim — a whole-file ban would force deleting true copy. A
+ * rotted marker (refactor moved the section) fails loudly: the pin gets
+ * repaired, never deleted. */
+const CLAIM_PINS = [
+  // web /pricing — Smart Menu free card: the LIFETIME cap, no month-word
+  { file: "src/app/pricing/page.tsx", from: `title: "Smart Menu"`, to: `title: "SmartBot"`,
+    must: [`"منيو واحد و10 أصناف"`, `"100 طلب"`],
+    mustNot: [/100\s*طلب\s*شهري/u] },
+  // web /pricing — SmartBot free card: the monthly reply cap STAYS
+  { file: "src/app/pricing/page.tsx", from: `title: "SmartBot"`, to: `title: "Smart Order"`,
+    must: [`"ردود تلقائية (100/شهر)"`] },
+  // web /pricing — Smart Order free card: the monthly window is REAL
+  { file: "src/app/pricing/page.tsx", from: `title: "Smart Order"`, to: `const ecosystemPricing`,
+    must: [`"15 منتجاً و3 أقسام"`, `"100 طلب شهرياً"`] },
+  // web /pricing — first FAQ answer: the Menu lifetime cap, no month-word
+  { file: "src/app/pricing/page.tsx", from: `{ q: "`, to: `{ q: "`,
+    must: [`و100 طلب`],
+    mustNot: [/100\s*طلب\s*شهري/u] },
+  // web landing cockpit — the flagship verifiable datum (Bot monthly cap)
+  { file: "src/components/landing/CockpitSection.tsx", from: `const STATS`, to: `export function CockpitSection`,
+    must: [`100 رد في الشهر`] },
+  // mobile — Smart Menu free entry: the LIFETIME cap, no month-word
+  { file: "mobile/src/constants/content.ts", from: `key: 'menu'`, to: `key: 'bot'`,
+    must: [`'منيو واحد و10 أصناف'`, `'100 طلب'`],
+    mustNot: [/100\s*طلب\s*شهري/u] },
+  // mobile — SmartBot entry: the monthly reply cap STAYS
+  { file: "mobile/src/constants/content.ts", from: `key: 'bot'`, to: `key: 'order'`,
+    must: [`'ردود تلقائية (100/شهر)'`] },
+  // mobile — Smart Order entry: the monthly window is REAL
+  { file: "mobile/src/constants/content.ts", from: `key: 'order'`, to: `export const ECOSYSTEM_PRICING`,
+    must: [`'15 منتجًا و3 أقسام'`, `'100 طلب شهريًا'`] },
+  // mobile — first FAQ answer: the Menu lifetime cap, no month-word
+  { file: "mobile/src/constants/content.ts", from: `q: '`, to: `q: '`,
+    must: [`و100 طلب`],
+    mustNot: [/100\s*طلب\s*شهري/u] },
+]
+
+let pinsRun = 0
+for (const pin of CLAIM_PINS) {
+  const p = join(ROOT, pin.file)
+  if (!existsSync(p)) {
+    hits.push(`${pin.file}  [P42-2d pin]  file missing — pin cannot run`)
+    continue
+  }
+  const text = readFileSync(p, "utf8")
+  const start = text.indexOf(pin.from)
+  const end = pin.to ? text.indexOf(pin.to, start + pin.from.length) : -1
+  if (start === -1 || (pin.to && end === -1)) {
+    hits.push(
+      `${pin.file}  [P42-2d pin]  section markers rotted (${pin.from} … ${pin.to ?? "EOF"}) — repair the pin, never delete it`,
+    )
+    continue
+  }
+  const section = text.slice(start, end === -1 ? undefined : end)
+  for (const needle of pin.must) {
+    if (!section.includes(needle)) {
+      hits.push(
+        `${pin.file}  [P42-2d pin]  expected ${JSON.stringify(needle)} in the (${pin.from} …) section — the verified free-plan claim vanished`,
+      )
+    }
+  }
+  for (const rx of pin.mustNot ?? []) {
+    if (rx.test(section)) {
+      hits.push(
+        `${pin.file}  [P42-2d pin]  /${rx.source}/ matched in the (${pin.from} …) section — the Smart-Menu cap is a LIFETIME total; only Order/Bot caps are monthly (verified). Copy follows enforcement.`,
+      )
+    }
+  }
+  pinsRun += 1
+}
+
 if (hits.length) {
-  console.error(`✗ truth-gate: ${hits.length} future-paid-plan / future-service claim(s) in src/ + curated docs (P14-P0B + W6-B2 bans):\n`)
+  console.error(`✗ truth-gate: ${hits.length} hit(s) — future-paid-plan / future-service claims (P14-P0B + W6-B2 bans) or claim-pin failures (P42-2d):\n`)
   for (const h of hits) console.error(`  ${h}`)
   console.error("\nThe fleet's paid plans are LIVE (P13-2a, verified: bot /api/plans, menu /pricing).")
   console.error("The platform's services are THREE and LIVE (r137/r143) — promising upcoming ones contradicts the same page's own stats.")
   console.error("Fix the claim — do not weaken the gate.")
   process.exit(1)
 }
-console.log(`✓ truth-gate: ${files} files (src/ + 3 curated docs) — zero future-paid-plan and zero future-service claims (P14-P0B + W6-B2 bans hold)`)
+console.log(`✓ truth-gate: ${files} files (src/ + 3 curated docs) — zero future-paid-plan and zero future-service claims (P14-P0B + W6-B2 bans hold) + ${pinsRun} claim pins hold (P42-2d: Menu lifetime cap · Order/Bot monthly caps — copy follows enforcement)`)

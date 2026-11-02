@@ -16,6 +16,21 @@ updates:
     commit-message:
       prefix: "chore(deps)"
 
+  # P42: /mobile ships its own package-lock.json — without this entry the
+  # Expo tree (where the minimatch/glob advisories actually bit) stayed
+  # invisible to dependabot while only the root was watched. Same shape as
+  # the root entry: weekly, grouped minor/patch, chore(deps) prefix.
+  - package-ecosystem: "npm"
+    directory: "/mobile"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 5
+    groups:
+      minor-and-patch:
+        update-types: ["minor", "patch"]
+    commit-message:
+      prefix: "chore(deps)"
+
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:

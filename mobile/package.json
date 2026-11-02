@@ -43,6 +43,8 @@
   },
   "overrides": {
     "minimatch": "^11.0.1",
-    "glob": "^14.0.2"
+    "glob": "^14.0.2",
+    "zod": "^4.6.6",
+    "decode-uri-component": "0.5.1"
   }
 }

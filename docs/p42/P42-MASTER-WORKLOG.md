@@ -559,3 +559,145 @@ alongside Smart-Menu's already-required rebuild. Parity matrix release
 notes updated accordingly. GAP-MENU-1 (native advanced analytics) remains
 an owner scope decision; GAP-X2 (native offline banners) and the P3s
 remain in the register for later waves.
+
+## 2026-11-02/03 — Wave 5 (Product completeness & web/native parity) — COMPLETE
+
+Baseline re-verified before the wave: all four repos at the W4 SHAs, working
+trees clean, CI green ×4/×2 on every HEAD (the reconciliation protocol).
+
+**W5-1 · GAP-SO-2 + GAP-SO-3 — Smart-Order mobile `e1622fa`** (pushed; CI
+success — mobile · lint+parity+build · E2E API · Browser e2e; Dependabot
+runs green too). The fleet's only skeleton-doctrine violation ends:
+- `mobile/src/components/skeleton.tsx` — the Skeleton primitive in **pure RN
+  Animated** (zero new deps): the web family's exact recipe (muted ground +
+  card-tone sweep, **1200ms literally-linear** loop, `radius.sm`, full stop
+  under reduce-motion), Smart-Order's own theme tokens. **18 major surfaces**
+  converted to shape-matched skeletons using each screen's real `makeStyles`
+  dimensions (storefront, product, cart, tracking, dashboard, orders,
+  order/customer detail, every manage screen incl. reports/settings/pricing).
+  Every skeleton announces loading (`AccessibilityInfo.announceForAccessibility`
+  + `progressbar`/`busy` semantics). Spinners remain — documented + test-pinned
+  — only at the two shapeless gates (pre-font boot, pre-destination session).
+- Offline: `@react-native-community/netinfo@12.0.1` (native module → rides the
+  Wave-9 rebuild, noted in the commit). Global `ConnectivityBanner` in the
+  root layout (guest + merchant); NetInfo → pure `isOnlineSnapshot` → tiny
+  external store, **plus `onlineManager.setOnline` wiring** — react-query v5's
+  reconnect auto-refetch/resume verified from query-core source, not assumed.
+  Honest split: device-offline = rose banner; server-failure = per-surface
+  ErrorState retry. Cart safety verified + pinned: in-memory zustand cart
+  untouched by offline; `createOrder` fails loudly with one reused idempotency
+  key. Web: family-consistent WifiOff strip in the merchant dashboard shell
+  (`offline-banner.tsx`, `navigator.onLine`, aria-live).
+- Verifications (zero changes — both HOLD, now pinned as source contracts):
+  checkout W2-ORD-2 (server re-prices from live rows in a Serializable tx,
+  availability/stock/min-order/plan gates, idempotency pre-check + raced-twin
+  recovery; mobile sends choices only, cart clears solely on confirmed
+  success) and entitlements (live `GET /api/plans`, server-body 403/409
+  classification, no client-side enforcement anywhere).
+- Gates: mobile tsc 0 · lint clean · **135/135** (was 85) · expo export ✓ +
+  UTF-16LE byte-scan · root tsc 0 · lint clean · unit 269 · parity 511.
+
+**W5-2 · GAP-X2 + GAP-BOT-3 — SmartBot mobile `78fc1386` + `1a4a85c4`**
+(pushed; CI success ×4: quality-gates · osv · mobile · secret-scan).
+- `78fc1386` — the offline banner: netinfo installed (zod `dev:true` lockfile
+  quirk reverted — diff is netinfo-only); `connectivity-banner.tsx` = the web
+  strip's twin (verbatim copy «انقطع الاتصال بالإنترنت — سيتم إعادة المحاولة
+  تلقائياً», WifiOff with byte-exact lucide-1.24 paths, `alert`+`polite`),
+  mounted above the Stack in `(app)/_layout`. **The honest fix inside:**
+  the existing `void onlineManager.isOnline()` was a **no-op whose comment
+  falsely claimed** react-query auto-detects NetInfo — replaced with the
+  documented `onlineManager.setEventListener` wiring (queries pause offline,
+  refetchOnReconnect refreshes on return — the banner's literal promise is
+  now true). Shared `isNetReachable` predicate in pure-TS `lib/connectivity.ts`.
+- `1a4a85c4` — **GAP-BOT-3 decided: PORT** (evidence: one mutation + form
+  over the existing gates family; the GET's admin audience = the mutation
+  audience). **Byte-level discovery:** the seat-limit message «حد أعضاء
+  الفريق لخطتك هو {n} — رقّ خطتك لإضافة المزيد» is a genuinely DIFFERENT
+  family — ends «لإضافة المزيد» (not «رقِّ خطتك») AND «رقّ» lacks the kasra —
+  so `isPlanLocked` misses it by design. Extended honestly: `isSeatLimit` +
+  `SEAT_LIMIT_PREFIX`, verbatim backend copy in tests, both-ways family
+  separation pinned (rules-limit stays a plan-lock). Treatment honest for a
+  QUOTA (not a feature lock): verbatim server text + «ترقية الخطة» door
+  inside the open form — no PremiumLock card («متاحة في Premium» would lie
+  on a quota), no hidden buttons. Full web contract ported: add-member
+  (form-encoded, thresholds 3/8, no double-submit), role change (per-member
+  pending), delete (confirm).
+- Publisher sweep (read-only): **zero violations** — landing is Facebook-only,
+  pricing/connect carry no platform claims, README's Instagram/WhatsApp
+  mention is the messaging flow engine, and no UI consumes `/api/publisher/*`
+  at all. Mutation spot-check: all major native mutations already carry
+  loading + self-disabling + confirms + honest server-text errors —
+  documented, nothing to fix.
+- Gates: typecheck 0 · lint clean · **181/181** (was 145) · expo export ✓ +
+  UTF-16LE byte-scan.
+
+**W5-3 · GAP-MENU-2 + GAP-MENU-3 — Smart-Menu `bd0657dd` + `9d460734`**
+(pushed; CI success ×4: triage · lint-build-test · prod-qa · mobile).
+- `bd0657dd` — the banner reaches the authenticated trees: mounted inside
+  `AuthenticatedApp` (owner + admin + unpaid-owner AuthStack), above the
+  stack, below the public overlay (one visible banner at a time; public
+  mounts untouched). **Key discovery wired:** `refetchOnReconnect: true` was
+  **dead config on native** — React Query v5's default onlineManager binds
+  `window` online/offline which never fire on RN. Now `setEventListener`
+  rides NetInfo (`providers.tsx`) with the banner's exact predicate. Honesty
+  guards pinned: no optimistic `setQueryData` writes, 500 never shows the
+  strip, native central 401 branch untouched.
+- `9d460734` — the central 401 seam reaches `csrf-client.ts` (web): covers
+  all ~62 previously-uncovered consumers with an idempotent once-per-page
+  journey — keepalive `POST /api/auth/logout` + Arabic manual-dismiss toast
+  (dynamic import, bundle guard) + 1200ms beat then
+  `location.replace('/login?expired=1&redirect=<current>')`, riding the login
+  page's existing server-validated `redirect` contract (family precedent:
+  Smart-Order r132 A2-F5 + SmartBot v15-E5). Guard rails: `/api/auth/*`
+  stays caller-local, login loop guard, SSR-safe, 500 never blamed, Response
+  passes through unchanged, page-level handlers coexist without races.
+- Verifications (both HOLD, file:line evidence in the agent record):
+  plan/restaurant context (mobile CTA carries the capped restaurant id →
+  `upgradeRestaurantId`; per-restaurant pending block intact; M-3 approval
+  row-lock intact; new restaurants always start FREE caps `planId: null`)
+  and demo integrity (archive filters on all 7 public surfaces; nightly
+  canary workflow functional; no customer PII or payment details on public
+  demos; the 4 archived items + 13 mixed orders untouched).
+- Gates: mobile tsc 0 · lint 0-0 · parity **375/375** (+10) · export 7.6MB ✓
+  + byte-scan · root author/lint/idioms/tsc ✓ · test **2969/2** (+19) ·
+  build ✓.
+
+**W5-4 · GAP-MENU-1 — Smart-Menu mobile `eaadd4a6`** (pushed; CI mobile ✓
+triage ✓ at worklog-write, lint-build-test/prod-qa completing — links in the
+ledger). **The last P2 parity gap closes — advanced analytics reaches native.**
+Scope decision (principal): **IMPLEMENT** — evidence: the server-gated route
+already exists (`requirePlanFeature(auth, restaurantId, 'advancedStats')`),
+`react-native-svg@15.16.0` was already in dependencies (QR), and the
+lock/upgrade family shipped in W4. No architectural expansion, zero new deps.
+- `OwnerAnalyticsScreen` — the AnalyticsTab twin: dual gate exactly like the
+  web dashboard (entitlements probe avoids the wasted fetch below tier; the
+  403 from `/api/stats/advanced` is the fail-closed primary truth → lock,
+  never a fake loading error), range labels verbatim («اليوم/هذا الأسبوع/
+  هذا الشهر»), and every honest state: shape skeleton, per-card empty (web
+  copy verbatim, `seriesHasData`-guarded — KPIs stay skeletons instead of the
+  web's failed-load zeros), error + retry, locked.
+- Charts on react-native-svg: SplineAreaChart (Catmull-Rom), ColumnChart,
+  DoughnutChart, AreaChart, HorizontalBar, MiniSparkline + the
+  `chart-geometry` port — mobile culinary tokens (zero raw hex); the
+  doughnut's hover-grow became press-grow (no pointer on touch).
+- `plan-feature-gate.ts` — the second 403-family classifier («هذه الميزة
+  متوفرة في خطة…»), a separate module so the count-cap classifier
+  (5e74620f) stays byte-untouched; disjunction pinned in both directions.
+- `PlanFeatureLockCard` — the PlanFeatureLock twin (تعطيل + تفسير + working
+  door → `OwnerSubscribe` carrying the restaurant id, the W4 doctrine).
+- Mount: dedicated `OwnerAnalytics` on OwnerStack (registered exactly like
+  OwnerSubscribe) + an unconditioned dashboard section card — the native
+  twin of the web's always-visible analytics tab; the lock lives inside.
+- Gates: mobile tsc 0 · lint 0-0 · parity **395/395** (+20) · export 7.7MB ✓
+  + byte-scan · root author/lint/idioms/tsc ✓ · test **2989/2** (+20).
+
+**Wave-5 verdict:** every gap in the Wave-4 GAP register is now closed —
+GAP-X1 ✓ (W4) · GAP-X2 ✓ fleet-wide · GAP-BOT-1 ✓ (W4) · GAP-BOT-3 ✓
+(ported) · GAP-MENU-1 ✓ (implemented) · GAP-MENU-2 ✓ · GAP-MENU-3 ✓ ·
+GAP-SO-1 ✓ (W4) · GAP-SO-2 ✓ · GAP-SO-3 ✓. **Fleet-level discovery worth
+the register:** React Query v5's onlineManager defaults to `window` events
+on React Native — `refetchOnReconnect` was silently dead in ALL THREE native
+apps before this wave (each app's fix is pinned by its own tests). Release
+posture: netinfo is a new native module in SmartBot + Smart-Order — both
+already REBUILD-REQUIRED since W4; Smart-Menu likewise. The Wave-9 release
+batch absorbs all of it.

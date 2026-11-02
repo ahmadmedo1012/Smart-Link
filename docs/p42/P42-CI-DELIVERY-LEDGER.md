@@ -95,3 +95,27 @@ delete-final executes). Merged temp branches deleted: Smart-Menu
   single unpatched deepmerge advisory (documented exceptions with upgrade
   triggers); Smart-Link's 5 open alerts (zod, decode-uri-component ×2,
   deepmerge ×2) close on the npm-lock rescan following the merge.
+
+## Wave 2.5 — 2026-11-02 (local verification; push blocked on credential re-delivery)
+
+**Environment:** sandbox recycling (×2) destroyed the workspace + credential
+store. Fresh anonymous clones (now in the persistent project tree, with
+format-patch backups in `download/p42-w3-patches/`). The GitHub PAT (and
+Vercel/EAS tokens) must be re-delivered by the Owner before anything reaches
+`main`. Every unit below is committed locally with full gate evidence; CI +
+deploy + production verification fire the moment push access returns.
+
+| Repo | Local commit | Subject | Local gates | CI / deploy |
+|---|---|---|---|---|
+| Smart-Menu | `cb04b1c` | feat(archive,P42-W3) — real item archival: schema + guarded migration (712/767/778/779) + all public-surface filters + owner tooling + 18 contract tests + runbook decision record | tsc-strict ✓ · eslint 0 ✓ · lint:idioms 4/4 ✓ · vitest 2896/2896 ✓ · next build (page-data) ✓ · migration-parity + e2e ride CI | pending push |
+| SmartBot | (this wave) | feat W2-BOT-1/2/3 + W2-BOT-4 (see repo ledger notes below) | FE: tsc ✓ eslint-0 ✓ vitest 604/604 ✓ parity 588 ✓ · BE: ruff ✓ pytest 41/41 | pending push |
+| Smart-Link | (this wave) | W2-LNK-1 styled offline shell (sw.js offline disk + e2e proof) + P42 records + P42-OWNER-DECISIONS.md | e2e offline suite 5/5 (incl. real-SW styled-shell proof) ✓ · build ✓ | pending push |
+
+**On push (the moment credentials arrive):** Smart-Menu main → CI
+(migration-parity gate arbitrates the new migration) → Vercel deploy (build
+runs `migrate deploy` → the guarded UPDATE archives the 4 items) → live
+verification: both demo routes clean (16/25 items, zero test vocabulary),
+canary green the following night. SmartBot main → CI (quality-gates, mobile,
+osv, secret-scan) → deploy. Smart-Link main → CI → deploy (SW VERSION bump
+re-caches the offline disk on next visit). Then delete
+`p42/demo-cleanup-tool` branch (Smart-Menu remote).

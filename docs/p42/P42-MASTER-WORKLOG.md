@@ -201,3 +201,85 @@ until then. Runbook updated on Smart-Menu main (`819ed4b`).
 `p42/demo-cleanup-tool` remains (guarded, skip-ci) until the owner decision
 executes delete-final. Vercel SSO protection was disabled only inside the
 two cleanup windows and restored to `all_except_custom_domains` after each.
+
+## 2026-11-02 — Wave 2.5 (owner archive decision + Waves-3..9 opening batch)
+
+**Environment note (external blocker, honest record — TWICE this wave):** the
+sandbox was recycled twice during this wave — all of `/home/z/p35-work` (and
+its successor) with repos + credential store was destroyed each time. Work was
+rebuilt from scratch and now lives in the SURVIVING persistent project tree;
+every commit carries a format-patch backup in
+`download/p42-w3-patches/` (durable). Repos re-cloned anonymously (public);
+**push credentials are gone** — every commit below is verified locally; pushing
+to `main` (and thus Vercel deploy + live production verification + CI runs)
+waits for the Owner to re-deliver the GitHub PAT via IM.
+
+**W2.5-1 · P0 resolution — the owner's archive decision CLOSED by instruction,
+implemented.** Owner decision (IM, 2026-11-02): `delete-final` and any
+deletion of the 13 mixed orders are FORBIDDEN (preserved data); the 4 test
+items get a REAL archive system (not sold-out). Implemented on Smart-Menu
+local `cb04b1c`: `MenuItem.archivedAt` (nullable timestamp; NULL = old
+behavior byte-for-byte) + migration `zz_p42w3_item_archival` (guarded
+triple-definition UPDATE of 712/767/778/779 — prod 4 rows, dev/CI no-op;
+zero DELETE) + full public-surface filtering (menu page incl. featured raw
+SQL, mobile API, print view, order submission, plan item-cap, owner stats
+counter, sitemap content gate) + owner tooling (per-item archive button +
+non-destructive confirm + the collapsible «الأصناف المؤرشفة» restore panel;
+`?archived=true|false|all` staff-gated; archived items 404 for anonymous by
+id) + the 409 delete remedy now points to archive. Tests: 18 new contract
+tests (`tests/unit/item-archival.test.ts` — public disappearance + history
+integrity + migration no-DELETE + route behavior mocked) and 2 existing
+query-shape assertions STRENGTHENED with `archivedAt: null`. Local gates:
+tsc-strict ✓ · eslint 0 ✓ · lint:idioms 4/4 (518 files) ✓ · vitest
+**2896 passed** ✓ · `next build` (page-data collection) ✓. Migration-parity
+gate + e2e ride CI (no local postgres in this sandbox). **After merge+deploy:
+the nightly demo canary goes green automatically.**
+
+**W2.5-2 · Cleanup-path security audit (owner instruction 3).**
+- `p42/demo-cleanup-tool` branch: still on the remote (559fdee). Its route
+  is SHA-256-key-guarded (hash-only in-repo) and never merges to main —
+  verified `main` carries NO `p42-cleanup` route; **live probe:
+  `https://menu.smart-link.ly/api/p42-cleanup` → 404** (production clean).
+  Vercel preview probes at canonical URLs → DEPLOYMENT_NOT_FOUND; project
+  SSO protection was restored to `all_except_custom_domains` after the W2
+  windows. **Branch deletion prepared but blocked on push access** — the
+  moment credentials return: `git push origin --delete
+  p42/demo-cleanup-tool` (Smart-Menu), then remove any residual preview
+  deployment from the Vercel dashboard. Until then no unauthenticated
+  executable path to production data exists.
+- Main-branch destructive-endpoint sweep (Smart-Menu): every mutating route
+  is session-gated, permission-gated, or CRON_SECRET-gated. No open
+  destructive path found.
+
+**W2.5-3 · SmartBot W2-BOT-1/2/3 + W2-BOT-4 (local commits, see ledger).**
+- BOT-1: connect-page admin dead-end — conditional platform-admin link;
+  honest merchant copy.
+- BOT-2: CSV export UI — `/api/analytics/export` finally consumable from
+  the reports card.
+- BOT-3: monthly-reply usage counter — `GET /api/subscriptions/usage`
+  (engine's own `get_plan_limits` read) + `PlanUsageCard` + pytest contract.
+- BOT-4: suspended-tenant honest state — `isTenantSuspended` classifier +
+  ApiError-preserving useMe + full-page suspended state in AuthGuard (kills
+  the login-redirect loop); 6 classifier tests.
+- BOT-5 (plan-lock gaps) + P3s: still open (next batch).
+
+**W2.5-4 · Smart-Link W2-LNK-1 — styled offline shell (local commit, see
+ledger).** The SW cached only the /offline HTML — offline it rendered
+UNSTYLED (the registered gap). Now: the SW derives an offline DISK from the
+page's own asset references at install (CSS chunk + fonts + icons +
+manifest — content-hash-proof by construction), serves those from cache
+ONLY when the network fails, and bumps VERSION. Everything else (POSTs,
+other pages' assets, analytics) passes through untouched — the Playwright
+page.route contracts preserved. Verified: the real-SW e2e (register →
+offline navigation → styled-shell computed-style proof → network-first
+recovery) + the page-contract/axe specs all green locally.
+
+**W2.5-5 · Pending commercial decisions consolidated (owner instruction 4)
+— behavior unchanged.** New `docs/p42/P42-OWNER-DECISIONS.md` (this
+directory): cap window A/B, cancelled-orders options, sticky caps,
+publishers status, standing owner-side dependencies. No policy changed.
+
+**Standing item — credential re-delivery required to push/deploy/verify:**
+GitHub PAT (+ Vercel token for the preview cleanup + EAS tokens if a mobile
+release wave follows). All work is committed locally with durable patch
+backups.

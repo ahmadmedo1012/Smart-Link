@@ -206,3 +206,56 @@ one test line each, Jul–Aug 2026):
 - Smart-Order: zod-high FIXED (`d25f840`); deepmerge same exception family.
 - All remaining alerts across the family: the single deepmerge advisory
   (GHSA-gcqx-w48m-w2h4) with no patched version in existence.
+
+---
+
+# P42 — ISSUE REGISTER (Wave 2.5 additions, 2026-11-02)
+
+## B3 — CLOSED BY OWNER INSTRUCTION → ARCHIVE IMPLEMENTED (local, ready to push)
+
+The owner decided via IM (2026-11-02): **no delete-final, no deletion of
+the 13 mixed orders (preserved data), and a REAL archive for the 4 test
+items — not sold-out.** Implemented as Smart-Menu local commit `cb04b1c`
+(schema + guarded migration + all public-surface filters + owner tooling +
+runbook decision record; 18 contract tests; 2896-test battery green;
+build green). On merge+deploy:
+- the 4 items leave every public surface (page, mobile payload, print,
+  featured showcase, order path, plan cap, sitemap gate);
+- the 13 mixed orders keep their FKs and render intact (history untouched);
+- the nightly demo canary turns green automatically;
+- owners gain the general archive/unarchive tool (menu page).
+**Push/deploy/live-verify blocked on GitHub PAT re-delivery** (sandbox
+recycling destroyed the credential store — see worklog W2.5).
+
+## B3-security — cleanup tooling posture (owner instruction 3) — AUDITED
+
+- `main` carries NO cleanup route (verified in-repo + live
+  `/api/p42-cleanup` → 404 on production).
+- `p42/demo-cleanup-tool` (remote, 559fdee): SHA-256-key-guarded route,
+  never merged; Vercel preview DEPLOYMENT_NOT_FOUND at canonical URLs;
+  project SSO protection restored after W2. **Branch deletion command
+  prepared; blocked on push access.** Owner-side follow-up after push:
+  remove any residual preview deployment in the Vercel dashboard.
+- Main-branch mutating-route sweep: all session/permission/CRON_SECRET
+  gated. No open destructive path.
+
+## Commercial decisions — DOCUMENTED, behavior preserved (instruction 4)
+
+`docs/p42/P42-OWNER-DECISIONS.md` (new): P2-1 cap window A/B, P2-2
+cancelled-order options, sticky-caps options, publishers status, standing
+owner dependencies. Nothing executed without owner choice.
+
+## Wave-2 register updates
+
+| ID | Disposition |
+|---|---|
+| W2-BOT-1 (connect dead-end) | **FIXED (local)** — conditional platform-admin link; honest merchant copy |
+| W2-BOT-2 (CSV export no UI) | **FIXED (local)** — reports-card export row |
+| W2-BOT-3 (silent reply cap) | **FIXED (local)** — `/api/subscriptions/usage` + PlanUsageCard + tests |
+| W2-BOT-4 (suspended UX) | **FIXED (local)** — classifier + honest full-page state in AuthGuard (no login loop) |
+| W2-BOT-5 (plan-lock gaps) | OPEN (next batch) |
+| W2-BOT-6..9 (P3 polish) | OPEN |
+| W2-ORD-2..5 (P3) | OPEN |
+| W2-LNK-1 (offline shell styling) | **FIXED (local)** — SW offline disk (page-derived assets, fallback-only serving) + e2e styled-shell proof |
+| W2-LNK-2..6 (P3) | OPEN |
+| W2-MEN-1 (QR ZIP) | OPEN |

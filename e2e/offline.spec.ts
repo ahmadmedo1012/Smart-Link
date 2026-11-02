@@ -107,6 +107,19 @@ test.describe("offline — سلوك Service Worker", () => {
       )
       await expect(page.locator("span[dir='ltr']")).toHaveText(SITE.whatsapp.display)
 
+      /* W2-LNK-1 (P42-W2، تدقيق 3d): الصفحة تُعرض «مُنسّقة» أوفلاين —
+         كانت الثغرة المسجلة: كاش الـHTML فقط بلا أصوله = صفحة خام. الدليل
+         القاطع: النمط المحسوب لزر الـCTA (bg-primary) لا يساوي الشفاف
+         الافتراضي — أي أن ورقة CSS الصفحة جاءت من قرص الأوفلاين عبر
+         fallback الـSW. بلا القرص: background-color تبقى rgba(0, 0, 0, 0)
+         (قيمة المتصفح الخام لأي عنصر بلا CSS مطبّق). */
+      const offlineBg = await page.evaluate(() => {
+        const a = document.querySelector<HTMLAnchorElement>("a[href*='wa.me']")
+        return a ? getComputedStyle(a).backgroundColor : "no-cta"
+      })
+      expect(offlineBg, "زر واتساب مصمّم أوفلاين (قرص CSS يعمل)").not.toBe("no-cta")
+      expect(offlineBg).not.toBe("rgba(0, 0, 0, 0)")
+
       // (3) عودة الشبكة → network-first: الملاحة التالية تعمل طبيعياً
       await context.setOffline(false)
       const res = await page.goto("/", { waitUntil: "load", timeout: 20_000 })

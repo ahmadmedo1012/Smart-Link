@@ -31,7 +31,7 @@ repo's main quality-gate workflow conclusion on that SHA.
 | `884d6bf0` | test(P42) — live demo canary (nightly, env-gated) | targeted: 49 pass, canary correctly skips offline | see 72e4e2c9 |
 | `300a7851` | docs(runbook,P42) — the Review-FK step + pinned row IDs | — (docs) | see 72e4e2c9 |
 | `31c5053c` | chore(deps,P42) root — minimatch 11 · brace-exp 1.1.20/5.0.11 · vite 8.1.6 · vitest 4.1.12 (16→2 advisories, prod clean) | tsc · eslint · test:coverage 2877 · audit prod clean | superseded by concurrency |
-| `72e4e2c9` | chore(deps,P42) mobile — exact pins minimatch 11.0.3 + glob 14.0.3 (pnpm-overrides precedence documented) | mobile tsc · parity 365 · eslint · CI=1 expo export android | 🔄 pending at doc time |
+| `72e4e2c9` | chore(deps,P42) mobile — exact pins minimatch 11.0.3 + glob 14.0.3 (pnpm-overrides precedence documented) | mobile tsc · parity 365 · eslint · CI=1 expo export android | ✅ success (run 41383525642: triage + prod-qa + mobile [expo export on overrides] + lint-build-test all green) |
 
 ## Smart-Order — `b26efe0 → 3221aff` (5 commits)
 
@@ -44,6 +44,10 @@ repo's main quality-gate workflow conclusion on that SHA.
 | `3221aff` | chore(deps,P42) — mobile overrides + first dependabot.yml | mobile: tsc · vitest 44/44 · eslint (expo export in CI) | ✅ success @ `3221aff00` |
 
 ## Notes
+- **Final Wave-1 verdict (all repos): main CI GREEN at final HEAD · production
+  deployed at final HEAD (Vercel READY) · live changes verified on production**
+  — smartlink @ `9ba91d9` (docs) behind `0a9bceb` code · smart-menu @ `72e4e2c9` ·
+  smart-order @ `3221aff` · smartbot-frontend + smart-bot-api @ `7d8bb1bb`.
 - Cancellation semantics: Smart-Menu/Smart-Link CI workflows use
   cancel-in-progress concurrency — intermediate SHAs' runs may show
   `cancelled` when superseded; the final HEAD's run is the verdict of record.

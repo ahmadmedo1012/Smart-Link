@@ -93,6 +93,22 @@ commit-by-commit record):
   no secrets printed or committed.
 - Arabic-first copy throughout; existing product identities preserved.
 
+## Wave-1 production verification (Vercel + live pages, 2026-11-02)
+
+All four products deployed at final HEADs (Vercel production READY):
+smartlink `9ba91d9` · smart-menu `72e4e2c9` · smart-order `3221aff` ·
+smartbot-frontend + smart-bot-api `7d8bb1bb`. Live checks on production:
+
+- smart-link.ly/pricing — the Menu free-plan claim reads «100 طلب» (lifetime
+  truth); Order/Bot monthly claims intact.
+- menu.smart-link.ly/pricing — limit rows render as plain instant text
+  («حتى 1 / حتى 10 / حتى 100»), «حتى 0» nowhere in the DOM (CountUp gone).
+- order.smart-link.ly — «أكثر من» quantifier gone (plain counted figures).
+- order.smart-link.ly/store/demo-store — REAL wallet numbers: 0 occurrences;
+  demo numbers: present (the deploy-seed heal worked — money-safety closed).
+- bot.smart-link.ly — «دعم فوري»/«دعم فني ممتاز»: 0; office-hours phrasing
+  live; «13 نية مصنّفة» present, «14 نية» 0 (landing).
+
 ## Next waves (per mission §23)
 
 Wave 2 (core workflows) → Wave 3 (native parity matrix) → Wave 4 (visual) →

@@ -6,6 +6,8 @@ node_modules/
 dist/
 web-build/
 expo-env.d.ts
+# metro/hermes export output (ci.yml mobile job: --output-dir dist-export)
+dist-export/
 
 # Native
 .kotlin/

@@ -283,3 +283,17 @@ GitHub PAT + EAS×3 re-delivered and stored (durable, chmod-600, outside all
 repos). **Vercel token NOT re-delivered this round** — not currently blocking
 (no preview cleanup pending; branch already deleted; if a future wave needs
 Vercel API access, ask the owner).
+
+---
+
+# P42 — ISSUE REGISTER (Wave 4 additions, 2026-11-02 night)
+
+| ID | Disposition |
+|---|---|
+| GAP-X1 (fleet-wide native plan-lock UI) | **FIXED on all three apps** — SmartBot mobile `81c86768` (classifier twin of web plan-lock.ts + PremiumLock component + locks on scheduled/broadcast/calendar/analytics per the 3ce58c3 doctrine + 56 tests) · Smart-Menu mobile `5e74620f` (classifier on both web copy markers + PlanLimitLockSheet + **the real upgrade destination ported from the web** — the native "subscribe" was the new-signup wizard, never mounted for owners; new OwnerSubscribeScreen does upgrade mode via /api/subscriptions/upgrade; 23 tests) · Smart-Order mobile `b58953ba` (reports LockedState + staff 409 door + **the first native pricing screen** with 23 anti-drift pins reading the web sources + 18 classifier tests). CI: SmartBot green ×4 · Smart-Order green ×4 · Smart-Menu re-running at fix `f90bf213` (the 5e74620f root-job failure = vite:oxc nearest-tsconfig discovery vs the un-installed mobile deps in the root job — root-caused, simulated, fixed with a standalone nested tsconfig, lesson kept in the commit). |
+| GAP-BOT-1 (native suspended-tenant state) | **FIXED SmartBot `81c86768`** — central suspension emission in the API layer (plan gates deliberately excluded), full-page SuspendedState in the app layout with web copy verbatim + ACTIVE support doors (public /api/support/info works under suspension) + 60s recheck with the cache-eviction trap documented. |
+| GAP-SO-1 (native reports lock + no pricing destination) | **FIXED Smart-Order `b58953ba`** — see GAP-X1 row; the pricing screen sources numbers from the same GET /api/plans as the web and pins them field-by-field. |
+| GAP-MENU-1 (native advanced analytics absent) | **OPEN — owner scope decision** (port analytics tab behind entitlement, or record intentionally web-only). |
+| GAP-X2 (native offline banners) + P3s (GAP-BOT-3, GAP-MENU-2/3, GAP-SO-2/3) | OPEN — later waves (P3 register, parity matrix). |
+| Release posture (honest change) | SmartBot + Smart-Order mobile trees were NO-REBUILD — the Wave-4 commits make shipped-AAB ≠ main, so **the Wave-8 mobile release batch must include all three apps** (Smart-Menu was already REBUILD-REQUIRED). Parity matrix notes updated. |
+| Mobile CI lesson (recorded in `f90bf213`) | Root-job vitest importing mobile/ files: vite:oxc nearest-tsconfig discovery requires a loadable tsconfig WITHOUT mobile deps — solved by the standalone nested `mobile/src/lib/tsconfig.json`; also: Hermes hbc stores Arabic as UTF-16LE (bundle greps false-negative — both mobile agents hit it; verify with a byte scan). |

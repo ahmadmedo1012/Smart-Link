@@ -18,7 +18,9 @@ exists on both · web = web-only · native = native-only.
 | admin/* (platform) | web | — | intentionally web-only |
 | connect / demo / posts / flows / pricing / privacy / terms | web | — | web-only (marketing/platform) |
 
-**Release state (since P39 @ 832044d3): mobile/ diff EMPTY → NO-REBUILD.**
+**Release state (since P39 @ 832044d3 → P42-W4 @ 81c86768): mobile/ diff no
+longer empty — the Wave-4 plan-lock/suspended-state commits shipped →
+REBUILD AT WAVE-8 BATCH (shipped-AAB ≠ main).**
 Release pipeline: GitHub Actions `mobile-release.yml` (signed APK, no EAS
 account). No OTA channel (expo-updates inert — no runtimeVersion).
 
@@ -35,11 +37,11 @@ account). No OTA channel (expo-updates inert — no runtimeVersion).
 | menu print view / admin menu-editor / admin qr / owner menus / notfound | web | — | web-only |
 | StaticScreens barrel | — | native | native-only |
 
-**Release state (since P39 @ c98b183b): 5 files, +171/−109 — 2 shipped
-screens changed (PricingScreen free-card «مجاني/مجانية للأبد»,
-SubscribeScreens same fix) + dev-tooling lockfile only. NO OTA channel
-(expo-updates NOT installed) → REBUILD-REQUIRED at the next mobile release
-batch. app.json/eas.json unchanged (same package IDs, keystores, profiles).**
+**Release state (since P39 @ c98b183b): REBUILD-REQUIRED at the next mobile
+release batch — 2 shipped screens changed (P42-W1 free-card truth) + the
+P42-W4 plan-lock surface (5e74620f) + no OTA channel (expo-updates NOT
+installed). app.json/eas.json unchanged (same package IDs, keystores,
+profiles). Rides the same Wave-8 rebuild — zero additional build cost.**
 
 ## Smart-Order (native: Expo Router `mobile/src/app/` · web: `src/app/`)
 
@@ -49,11 +51,11 @@ batch. app.json/eas.json unchanged (same package IDs, keystores, profiles).**
 | cart | store-checkout | standalone screen | |
 | merchant auth / business select / dashboard / orders + detail | ✓ | ✓ | |
 | manage: categories / customers + detail / delivery-zones / payment-methods / products / reports / settings / staff | ✓ | ✓ | |
-| register / pricing / privacy / terms / track index / onboarding / admin-payments | web | — | web-only |
+| register / privacy / terms / track index / onboarding / admin-payments | web | — | web-only (pricing: native since P42-W4 b58953ba — the manage hub pricing screen, anti-drift-pinned to the web source) |
 
-**Release state (since P39 @ b26efe0): 2 files, +42/−144 — npm overrides +
-lockfile only (dev-tooling; expo-updates tarball-inspected: glob never
-enters its runtime graph) → NO-REBUILD.**
+**Release state (since P39 @ b26efe0): was NO-REBUILD (dev-tooling only) —
+the P42-W4 pricing/lock commits (b58953ba) make shipped-AAB ≠ main →
+REBUILD AT WAVE-8 BATCH (fleet release batching absorbs it).**
 
 ## EAS Update (OTA) capability — NONE configured anywhere
 

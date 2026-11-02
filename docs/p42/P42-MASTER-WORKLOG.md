@@ -457,3 +457,105 @@ Wave 4 = the plan-lock family across the fleet, starting with GAP-X1.
 
 **Session cadence note:** every unit of this batch was pushed to main the
 moment it passed its gates (standing directive). CI links in the ledger.
+
+## Wave 4 — 2026-11-02 night (the plan-lock family lands on native)
+
+**W4-1 · GAP-X1 + GAP-BOT-1 — SmartBot mobile `81c86768`** (pushed, CI green
+×4: quality-gates · osv · mobile · secret-scan). The plan-lock family and
+the suspended-tenant honest state reach the native app:
+- `mobile/src/lib/gates.ts:34-50` — the classifier, a literal twin of web
+  plan-lock.ts (403 + the GATE_MESSAGES suffix «رقِّ خطتك»; the full family:
+  5 _plan_gates messages + broadcast + sequences + rules-limit — copied
+  verbatim from backend source into the tests).
+- `mobile/src/components/premium-lock.tsx` — the PremiumLockCard twin
+  (exact lucide-1.x Crown path from the published tarball so the icon set
+  stays byte-identical to web) with «ترقية الخطة» CTA → the existing native
+  /subscribe destination.
+- Locks mount per the 3ce58c3 doctrine: scheduled composer (list stays),
+  broadcast create+send (both gates; «بث جديد» hidden; empty-state hint =
+  the web literal), calendar create-only (native-only asymmetry — the
+  native calendar CREATES against has_scheduling while web is read-only;
+  documented, not silently locked away), analytics defensive interception
+  (the 5 gated advanced reads have no native surface — nothing invented).
+- GAP-BOT-1: central suspension emission in the API layer (twin of the 401
+  pattern; plan gates deliberately don't pass through) + full-page
+  SuspendedState in the app layout (the native AuthGuard twin): web copy
+  verbatim, ShieldAlert, ACTIVE support doors (WhatsApp/phone via the
+  public /api/support/info that works under suspension), 60s /api/me recheck
+  with the cache-eviction trap documented (a stale success must not
+  un-suspend a future suspension).
+- 56 new tests (29 classifier/behavioral + 27 source-contract render pins
+  per the fleet's theme.parity precedent — the mobile runner is node-env
+  only; honestly documented). Mobile suite 145/145; tsc/lint/expo-export
+  (4.5MB hbc) green.
+
+**W4-2 · GAP-X1 — Smart-Menu mobile `5e74620f` + CI fix `f90bf213`**
+(pushed; CI at f90bf213 re-running at ledger-write — the 5e74620f run had
+one root-job failure, root-caused and fixed same-session, story below).
+- `mobile/src/lib/plan-limit.ts` — the classifier: 403 + BOTH web copy
+  markers («لقد وصلت للحد الأقصى» + «قم بترقية خطتك») + kind/limit/planName
+  parsing; deliberately NOT classifying the renewal 403 (wrong remedy) —
+  negatives pinned.
+- `PlanLimitLockSheet` — AppBottomSheet lock surface: server message
+  verbatim, web promise line verbatim, «رقِّ خطتك» CTA, SR announcement.
+- **The honest discovery:** the existing native subscribe flow is the
+  NEW-SIGNUP wizard (tempRestaurants → POST /api/subscriptions) and is never
+  mounted for an active owner (RootNavigator: role=owner ⇒ OwnerStack) —
+  routing a cap-blocked owner there would be a dishonest dead end. So the
+  agent ported the WEB CTA's real destination behavior: a new
+  OwnerSubscribeScreen (upgrade mode: paid plans only →
+  POST /api/subscriptions/upgrade with upgradeRestaurantId, target resolved
+  via /api/auth/me exactly like the web; >99 LYD plans get the server's own
+  cap copy + an honest web pointer; unresolvable target gets a support
+  note — no dead buttons).
+- Mounts: OwnerMenuScreen (item-cap catch, CTA carries the capped
+  restaurant — BETTER than the web which always upgrades the primary) and
+  OwnerRestaurantsScreen (menus cap, account-level like the web CTA).
+- 23 new tests (classifier real-imports BOTH sides — the web's own
+  PlanLimitError class builds the message, the mobile classifier must
+  classify it; render pins raw-text per the r145 precedent). Suite
+  2950/2952; parity 365/365; mobile tsc/lint/export green.
+- **The CI lesson (kept in the fix commit f90bf213):** the root-job
+  lint-build-test failed — vite:oxc discovers the NEAREST tsconfig for the
+  imported mobile file; mobile/tsconfig.json extends expo/tsconfig.base
+  which is only resolvable with mobile deps installed (present in the
+  dedicated mobile CI job, absent in the root job). Local gates passed
+  because mobile deps were installed — the environments differ. Fix: a
+  standalone nested mobile/src/lib/tsconfig.json (no extends) winning
+  nearest-first discovery everywhere; proven by simulating the broken
+  extends locally (same failure → fix → 23/23 both states); all gates
+  re-run green after.
+
+**W4-3 · GAP-SO-1 — Smart-Order mobile `b58953ba`** (pushed, CI green ×4).
+The severed upgrade path on native gets its first real destination:
+- `mobile/src/app/merchant/manage/pricing.tsx` — the native pricing screen:
+  the web cards' copy/numbers EXACTLY, sourced from the same public
+  GET /api/plans the web /pricing loads (FALLBACK_PLANS diffed field-by-
+  field against the web FAMILY_PLANS and PINNED by 23 anti-drift tests
+  that read the web sources), badges/isPopular/yearly math/folded features
+  all mirroring pricing-client.tsx; registered in the stack + a permanent
+  hub row (perm:null).
+- Reports: 403 PLAN_ENTITLEMENT → LockedState (web copy) + «عرض الباقات
+  والترقية» door. Staff: 409 keeps the server message visible in-form +
+  the upgrade door + the grey seats counter chip (the web staff:98 pattern;
+  the numeral-only «2 / 3» form reverses in RTL RN Text — the Arabic-
+  grammar «X من Y» family form used instead, hazard documented + pinned).
+- Classifier on the real fail() envelope (status + body.error.code);
+  refuses plain 403/409-DUPLICATE/422/network — pinned.
+- 41 new tests (23 plans anti-drift + 18 classifier/wiring); mobile 85/85;
+  root tsc/lint/unit 269/parity 511 green. NOTE: this session completed
+  work from an interrupted agent (infra error) — the retry agent verified
+  every pin against the real web sources before accepting it, added the
+  seats counter, and kept 100% of the interrupted work.
+- Fleet-level surprise recorded: Hermes hbc stores Arabic literals as
+  UTF-16LE — plain bundle greps report false negatives for Arabic strings
+  (bit both mobile agents); verify with a UTF-16LE byte scan.
+
+**Posture change (honest, recorded in all three commits):** SmartBot and
+Smart-Order mobile trees were NO-REBUILD (empty/dev-only diffs since the
+P39-verified AABs) — these commits make shipped-AAB ≠ main, so the next
+mobile release batch (the program's Wave-8 batching) must include them
+alongside Smart-Menu's already-required rebuild. Parity matrix release
+notes updated accordingly. GAP-MENU-1 (native advanced analytics) remains
+an owner scope decision; GAP-X2 (native offline banners) and the P3s
+remain in the register for later waves.

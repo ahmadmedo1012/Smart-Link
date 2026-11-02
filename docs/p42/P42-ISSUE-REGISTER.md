@@ -259,3 +259,27 @@ owner dependencies. Nothing executed without owner choice.
 | W2-LNK-1 (offline shell styling) | **SHIPPED** — main `76858f7`, CI green, deployed, live-verified (sw.js v2) |
 | W2-LNK-2..6 (P3) | CLOSED — see register row for per-item dispositions |
 | W2-MEN-1 (QR ZIP) | **FIXED `50a76c2`** — pushed (CI link in ledger) |
+
+---
+
+# P42 — ISSUE REGISTER (Wave 3 continuation, 2026-11-02 evening session)
+
+> Session context: third sandbox recycle destroyed `/home/z/my-project/p42-work`
+> (again); owner re-delivered GitHub PAT + EAS×3 via IM (Vercel token NOT
+> re-delivered — noted below). Workspace rebuilt from the durable patch store +
+> fresh clones; all four repos verified CI-green at HEAD before this batch.
+
+| ID | Disposition |
+|---|---|
+| Multi-menu upgrade propagation (register §"commercial semantics" item 3 — the technical fix) | **FIXED Smart-Menu `ea2a01bb`** (pushed, CI see ledger): (1) pending-payment block scoped per-restaurant — new shared probe `src/lib/pending-payment-scope.ts` mirrors the r93-N6 partial-index bucket expression literally (absent key AND JSON-null both = the new-subscription bucket); the subscribe route blocks only on a pending NEW-subscription payment; the upgrade route's user-wide block removed (the per-restaurant probe was already the only pair the DB index rejects). (2) Every NEW restaurant now starts at FREE caps with `planId: null` (was: inherited the user's possibly-upgraded paid caps + no planEnd = free forever) — same as public self-registration since round87-A6; admin explicit-plan path (r93-N4) and subscribe-approval provisioning untouched. (3) M-3 (round93-inspection-c, deferred out of the migration back then): approval now runs `SELECT…FOR UPDATE` on the restaurant row + re-reads `{id, planId}` under the lock + mirrors the request-time tier guard (free skips; paid requires strictly higher sortOrder; vanished plan row → reject before FK explosion); `UPGRADE_TIER_NOT_HIGHER` → 409 actionable Arabic (payment rolls back to pending), `UPGRADE_RESTAURANT_MISSING` → 404. The co-owner double-fee scenario (same-or-lower tier) now rejects; a strictly-higher concurrent upgrade still succeeds (full price, fresh term — documented pricing behavior, the honest boundary of the fix). 16 new tests (`p42-4a-per-restaurant-subscriptions.test.ts`); suite 2907→2927 green; tsc/lint/lint:idioms/build all green. **User-level plan bump KEPT deliberately** (load-bearing: `maxMenus` entitlement + expiry guard/cron) → new owner-decision question (see P42-OWNER-DECISIONS §6). |
+| W2-ORD-5 (categories/zones per-page counters — the "noted polish") | **FIXED Smart-Order `591cbd4`** (pushed, CI see ledger): GET /api/categories + /api/delivery-zones now attach `caps {current, max, planNameAr, canCreate}` from the SAME source the POST gate reads (currentPlan + categoryCapFor/zoneCapFor; current rides the rendered findMany — zero extra queries); both manage pages show the family-stamp counter chip («الأقسام: X من Y» / «مناطق التوصيل: X من Y») + the copper upgrade door at cap (exact staff-page W2-ORD-4 structure). 3 new unit contracts + 3 parity pins (508→511). W2-ORD-5 now **COMPLETE** (was "partial by design"). |
+| P2-5 (Expo SDK 58 evaluation) | **SUPERSEDED by facts → closed with correction** (evaluation doc: `P42-EXPO-SDK58-EVALUATION.md`): the 57→58 leap already happened 2026-10-31 in P36 (SmartBot `c6322340` · Smart-Order `2340df9` · Smart-Menu `513682fc`; the six P39-verified AABs are SDK-58 binaries); the zod/decode-uri-component advisories were closed by overrides (W2-3), not by the jump; and the ONLY remaining mobile advisory (deepmerge — no patched release exists at all) is closed by **expo@58.0.22** which drops deepmerge from the tree via `@expo/config@58.0.10` (verified against the npm registry: 58.0.9 ships it, 58.0.10 doesn't). Real remaining work = the staged «58.0.22 patch wave» (Smart-Menu first riding its Wave-8 rebuild; SmartBot/Smart-Order lockfile-only; smartlink-mobile — the only true SDK-57 app — full jump as P3 follow-up). Nothing executed — plan-first per D6. |
+| Feature-level parity matrix (Wave-3 mission item) | **DONE** (P42-4d): `P42-PARITY-MATRIX.md` expanded to the 8-state feature level (loading/empty/error/retry/offline/expired-session/permission/plan-limit) across all three apps with file:line evidence. Verdict: core four + 401 solid on both surfaces; the systematic weakness is plan-limit states on native. **Wave-4 gap register opened** (GAP-X1/X2 cross-cutting + GAP-BOT-1/3, GAP-MENU-1/2/3, GAP-SO-1/2/3) — 3×P2 all on native, headlined by the plan-lock family (GAP-X1). |
+| B3 (demo contamination) | **CLOSED** — archival shipped + production-verified (W3-1/W3-2); the nightly demo canary auto-greened by design. Register rows above are historical record. |
+
+## Standing credential note (2026-11-02 evening)
+
+GitHub PAT + EAS×3 re-delivered and stored (durable, chmod-600, outside all
+repos). **Vercel token NOT re-delivered this round** — not currently blocking
+(no preview cleanup pending; branch already deleted; if a future wave needs
+Vercel API access, ask the owner).

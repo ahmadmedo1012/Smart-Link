@@ -181,3 +181,11 @@ suite. The AI-assist button initially fired on a still-loading thread (empty
 context error) — it now disables until the thread lands, and the test pins
 the wait-for-enabled race. Both lessons are the same one: a passing test is
 only as good as the contract it actually pins.
+
+### Wave 3 continuation — evening batch (W3-7..W3-10)
+
+| Repo | Commit | Subject | Gates (local) | CI / deploy |
+|---|---|---|---|---|
+| Smart-Menu | `ea2a01bb` | **W3-7** r93 propagation completeness: per-restaurant pending block (index-mirroring probe), every new menu starts FREE caps, M-3 approval under restaurant row-lock + tier re-check (409/404 mapped, co-owner double-fee rejected); user-plan bump kept deliberately → owner-decision §6 | author ✓ lint ✓ lint:idioms ✓ tsc ✓ vitest **2927 passed** (16 new) ✓ build ✓ (embedded PG per repo docs) | run [41512968562](https://github.com/ahmadmedo1012/Smart-Menu/actions/runs/41512968562) — triage ✓, lint-build-test + prod-qa in flight at ledger-write time; links completed in the worklog |
+| Smart-Order | `591cbd4` | **W3-8** W2-ORD-5 completion: caps in GET categories/delivery-zones from the POST gate's own source + counter chips + upgrade doors on both pages | tsc ✓ eslint ✓ unit 269/269 (3 new) ✓ parity 511/511 (3 new) ✓ build ✓ | run [41512974099](https://github.com/ahmadmedo1012/Smart-Order/actions/runs/41512974099) — **success ×4 checks** (E2E API · Browser e2e · lint+parity+build · mobile) |
+| Smart-Link | (docs) | **W3-9/W3-10** P42-EXPO-SDK58-EVALUATION.md (P2-5 superseded-by-facts + staged 58.0.22 patch-wave plan) · PARITY-MATRIX feature-level expansion + Wave-4 GAP register · register/owner-decisions/worklog updates | docs-only (no code gates apply) | this commit |

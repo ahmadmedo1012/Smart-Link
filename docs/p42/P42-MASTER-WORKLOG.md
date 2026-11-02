@@ -379,3 +379,81 @@ button fired on a still-loading thread. Three instances of one rule: a
 passing test only proves the contract it actually pins — so each fix
 pinned the contract it learned (full EOCD shape, wait-for-enabled, thread-
 loaded gating).
+
+## Wave 3 continuation — 2026-11-02 evening (third recycle survived; batch W3-7)
+
+**W3-7-0 · Third sandbox recycle; credentials re-delivered; standing
+directive reaffirmed.** The box recycled again (third time in the program),
+destroying `/home/z/my-project/p42-work` — but the durable layer held: the
+format-patch store in the workspace repo survived, and (as designed in W3-0)
+everything of value was already pushed, so nothing was lost. Owner
+re-delivered GitHub PAT + EXPO×3 via IM with the standing directive
+(verbatim): «احفظهم واعمل دوما commit and push to main باستمرار لكي لا
+يتم فقدان التقدّم». Credentials stored durably (chmod-600, tracked in the
+sandbox workspace repo which has no remote, outside all product repos —
+secret-scan gates unaffected). Workspace rebuilt: fresh clones of all four
+repos, all four verified CI-GREEN at HEAD before any new work. Discovery:
+the previous session had already shipped W3-4..W3-6 (SmartBot plan-lock
+`3ce58c3`, Smart-Menu QR-ZIP `50a76c2`, the P3 polish wave
+`551b787`/`6fa9c27`/`e2fae51`) — the remote was ahead of the local session
+report; the ledger is the source of truth and was already complete.
+
+**W3-7 · Smart-Menu multi-menu upgrade propagation — FIXED `ea2a01bb`**
+(the register's "technical, not policy" item; P38-adjacent — handled with
+triple care). All three registered inconsistencies confirmed against the
+code, then fixed toward r93 per-restaurant semantics:
+1. Pending-payment block scoped per-restaurant — the app-layer probes were
+   the stale pre-r93 remnant contradicting their own r93-N6 partial index;
+   new shared `src/lib/pending-payment-scope.ts` mirrors the index bucket
+   expression literally (absent key AND JSON-null = the new-subscription
+   bucket; Prisma can't express "key absent" in path filters, hence
+   findMany-then-JS-filter over the index-bounded few rows).
+2. Every NEW restaurant starts at FREE caps + `planId: null` (was:
+   inherited the user's possibly-upgraded paid caps with no planEnd —
+   "free Pro forever" on every new menu). Admin explicit-plan path
+   (r93-N4) and subscribe-approval provisioning untouched.
+3. M-3 approval (deferred out of the zz_round93 migration by its own
+   comment, never done until now): `SELECT…FOR UPDATE` on the restaurant
+   row + tier re-check under the lock mirroring the request-time guard;
+   `UPGRADE_TIER_NOT_HIGHER` → 409 actionable Arabic (payment rolls back
+   to pending for approver action); the co-owner double-fee scenario now
+   rejects. Honest boundary kept in the commit: a strictly-higher
+   concurrent upgrade still succeeds at full price (documented pricing
+   behavior).
+User-level plan bump KEPT deliberately (maxMenus entitlement + expiry
+guard/cron are load-bearing) → became owner-decision §6. Tests: 16 new
+contracts; suite 2907→2927 green; author-check/lint/lint:idioms/typecheck/
+build all green (the build gate honestly required the repo's own embedded
+PostgreSQL — restored per its documented path, left running).
+
+**W3-8 · W2-ORD-5 completed — Smart-Order `591cbd4`.** Categories +
+delivery-zones manage pages get the family-stamp counter chips
+(«الأقسام: X من Y» / «مناطق التوصيل: X من Y») + copper upgrade door at
+cap, reading `caps` from the SAME GET endpoints the pages already used —
+extended exactly the way `6fa9c27` extended staff. 3 unit contracts + 3
+parity pins (508→511). CI green ×4 checks at final HEAD.
+
+**W3-9 · P2-5 Expo SDK 58 evaluation — SUPERSEDED, closed with a record
+correction** (`P42-EXPO-SDK58-EVALUATION.md`, new): the leap already
+happened in P36 (2026-10-31); the zod/decode-uri-component advisories were
+closed by overrides, not the jump; and the only remaining mobile advisory
+(deepmerge, unpatched upstream) is closed by expo@58.0.22 dropping it from
+the tree — a patch, not a breaking jump. Real remaining work = the staged
+«58.0.22 patch wave» (Smart-Menu rides its Wave-8 rebuild; SmartBot/
+Smart-Order lockfile-only preserving NO-REBUILD; smartlink-mobile — the
+only true SDK-57 app — full jump as P3). Plan-first per D6: nothing
+executed.
+
+**W3-10 · Feature-level parity matrix — DONE** (P42-4d;
+`P42-PARITY-MATRIX.md` expanded to the 8-state feature level across all
+three apps, file:line evidence). Verdict: the core four states + expired-
+session are solid on both surfaces everywhere; the systematic weakness is
+plan-limit states on native. **Wave-4 gap register opened:** GAP-X1
+(fleet-wide native plan-lock UI) + GAP-X2 (native offline banner) +
+GAP-BOT-1 (native suspended-tenant state — the twin of the W2-BOT-4 web
+fix), GAP-MENU-1 (native advanced analytics absent), GAP-SO-1 (native
+reports lock + no pricing destination) as the P2 heads; P3s registered.
+Wave 4 = the plan-lock family across the fleet, starting with GAP-X1.
+
+**Session cadence note:** every unit of this batch was pushed to main the
+moment it passed its gates (standing directive). CI links in the ledger.

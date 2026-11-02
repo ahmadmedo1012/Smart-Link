@@ -61,10 +61,93 @@ All three apps lack `runtimeVersion`/`updates` config — any must-ship JS
 change requires a store binary. If OTA is ever wanted (SmartBot/Smart-Order
 have expo-updates installed but inert), a dedicated workstream is needed.
 
-## Next-wave inputs
+# Wave-3 — Feature-level state parity (P42-4d, 2026-11-02)
 
-- Feature-level parity audit per area (loading/empty/error/retry/offline/
-  expired-session/permission/seat-limit handling — §4.4's list) rides on
-  this skeleton.
+مفتاح خلايا الحالات: ✓ = السطحان يعالجانها · web/native = سطح واحد ·
+— = لا هذا ولا ذاك · «مركزي» = تُعالج في غلاف مشترك (API client / query
+layer) لا في كل شاشة. الأدلة `file:line` (w: ويب · n: native).
+«غير محقق بنيويًا» = الفحص البنيوي (grep) لا يثبت وجودها أو غيابها.
+
+## SmartBot — مصفوفة الحالات الثمان (§4.4)
+
+| المنطقة | loading | empty | error | retry | offline | expired-session | permission (403) | plan/seat limit |
+|---|---|---|---|---|---|---|---|---|
+| إقلاع/جلسة (غلاف التطبيق) | ✓ w:DefaultLoading:13 n:state-views:21 | — (لا ينطبق) | ✓ w:global-error n:ErrorBoundary غائب—شاشات فقط | ✓ w:AuthGuard retry:1 n:query-client:54 | web فقط (لافتة الرسائل) w:messages:344 | ✓ «مركزي» w:csrf-client:39 n:api.ts:55+auth:101 | ✓ w:AuthGuard:90,97 (أدوار) n:— (لا admin بالتصميم) | — (لا ينطبق) |
+| لوحة التحكم + 20 منطقة قوائم | ✓ هيكلية w:PageSkeleton:31 (٥ أشكال) n:skeleton.tsx (List/Card/Dashboard) | ✓ w:EmptyState:45 (روبوت idle) n:state-views:67 | ✓ w:DefaultError:21 (Sentry+digest) n:ErrorState+describeError:100 | ✓ w:QueryProvider:30 retry:1 n:api.ts:132 GET-retry 2× + PullToRefresh:112 | web فقط w:csrf-client:191 (تغليف عربية) n:NetworkError عربية بلا لافتة (api.ts:31) | ✓ «مركزي» (كلا الغلافين) | «مركزي» w:isPlanLocked:18 n:رسالة الخادم عبر describeError (لا مصنِّف) | web أقوى w:PremiumLockCard:28+scheduled:149+broadcast:274 n:بث فقط ملاحظة نصية broadcast:278 |
+| رسائل + تفصيل المحادثة | ✓ هيكلية w:messages loading n:ListSkeleton:107 | ✓ كلاهما | ✓ كلاهما | ✓ ن:PullToRefresh + refetch | web فقط w:messages:344-355 لافتة اتصال role=status | ✓ «مركزي» | ✓ w:isTenantSuspended:AuthGuard:125 (صفحة إيقاف صادقة) n:**غائب** — حلقة «أعد المحاولة» المضلِّلة | — (لا ينطبق) |
+| تحليلات (متقدمة/Premium) | ✓ w:PageSkeleton n:LoadingState دوار مجرد analytics:74 (خلاف العقيدة) | ✓ (لا بيانات فترة) n:analytics:124 | ✓ w:DefaultError n:ErrorState:109 | ✓ refetch كلاهما | web فقط | ✓ «مركزي» | ✓ w:plan-lock.ts:18 يميز قفل الخطة عن الإيقاف n:رسالة عامة | web فقط w:PremiumLockBody×5 (analytics/page:157-356) n:ErrorState عام |
+| كتابات/mutations (بث/flows/ردود) | ✓ (أزرار loading) | — | ✓ w:toast عربية n:actionError broadcast:82 | ✓ يدوي كلاهما | ✓ رسائل عربية فقط (كلاهما) | ✓ «مركزي» | ✓ w:planLocked flows:393 n:describeError | web فقط (قفل الخطة أعلاه) |
+| الفريق (مقاعد) | ✓ | ✓ w:team:223 n:team:29 | ✓ | ✓ | web فقط | ✓ «مركزي» | ✓ w:403 حد الفريق toast team:70 n:قائمة قراءة فقط (الإضافة ويب) | web فقط n:تلميح Premium في الفراغ team:29 |
+| اشتراك/فواتير | ✓ w:subscribe/loading n:LoadingState subscribe:86 | ✓ w:billing n:billing:167 | ✓ كلاهما | ✓ | web فقط | ✓ «مركزي» | ✓ | ✓ (كلاهما يعرض الخطة والترقية: w:billing:400 n:billing:157) |
+
+**سجل الفروق الجوهرية (SmartBot):** native يعالج 401 وretry على مستوى
+النقل أقوى من الويب (GET auto-retry 2× بتراجع متدرج api.ts:127-144)؛
+الويب يمتاز بحالات الصدق: إيقاف المنظمة (AuthGuard:125)، مصنِّف قفل
+الخطة (plan-lock.ts:18)، وواجهات الترقية. لا Sentry على native.
+
+## Smart-Menu — مصفوفة الحالات الثمان
+
+| المنطقة | loading | empty | error | retry | offline | expired-session | permission (403) | plan/seat limit |
+|---|---|---|---|---|---|---|---|---|
+| عام (منيو عام/landing/pricing) | ✓ هيكلية w:MenuSkeleton n:MenuScreen:180 | ✓ w:empty-state n:ui/index:31 | ✓ w:route error.tsx لكل مسار n:ErrorBoundary:31 (جذري) | ✓ يدوي + w:fetchJson:8 auto-retry 2× ن:يدوي فقط | ✓ w:ConnectivityBanner (شجرتا public+protected layout:187) n:ConnectivityBanner:9 **للشاشات العامة فقط** (Landing/Menu/Pricing) | — (لا جلسة هنا) | — | — |
+| سلة/دفع | ✓ كلاهما | ✓ w:CartEmptyState n:شاشة سلة | ✓ w:cart/error.tsx + submit-error:41 (403 مخصص) n:toast | ✓ n:idempotency checkout-idempotency:15 | ✓ (نفس اللافتة العامة على الويب؛ native عامة فقط) | — | ✓ w:submit-error:41 | — (سلة زبون بلا حدود خطة) |
+| لوحة المالك + رسوم بيانية | ✓ هيكلية w:DashboardSkeletons:106 n:OwnerScreens:59 | ✓ | ✓ w:ErrorState:22 n:ErrorState:440 | ✓ يدوي | web فقط (لافتة شجرة protected) | ✓ w:صفحياً owner/page:121 → /login ن:«مركزي» client.ts:97+store/auth:116 | ✓ w:useAccessGate:46 (server-fed, fail-closed)+AccessDenied:9 n:useAccessGate:18 (أسباب عربية) | web فقط w:PlanFeatureLock:20 + OwnerCharts:97 (قفل التحليلات) + PlanUsageBadge — **التحليلات المتقدمة غائبة عن native أصلًا** |
+| قوائم المالك (طلبات/منيو/تقييمات/ولاء/QR/إعدادات) | ✓ هيكلية كلاهما (OwnerScreens:333/417/559, OwnerReviews:95) | ✓ (رسائل فراغ عربية مفصلة كلاهما) | ✓ كلاهما (ErrorState+getErrorMessage) | ✓ يدوي + تحميل المزيد n:OwnerScreens:305 | web فقط (لافتة) | ✓ (كما لوحة المالك) | ✓ | جزئي w:PlanLimitError:31 (403 عربية موحدة) ن:رسالة الخادم عبر toast (OwnerRestaurants:93, OwnerMenu:465) — بلا واجهة ترقية |
+| شجرة admin | ✓ w:loading.tsx لكل مسار n:Skeleton | ✓ | ✓ w:error.tsx لكل مسار n:ErrorState | ✓ | web فقط (لافتة) | ✓ w:server redirect admin/layout:31 ن:«مركزي» client.ts:97 | ✓ w:requirePermission auth.ts:46 (403 عربية) n:useAccessGate:32 adminAccessGate | — (admin بلا حدود خطة) |
+| اشتراك | ✓ كلاهما | ✓ | ✓ | ✓ | web فقط | ✓ | — | ✓ w:subscription-guard (EXPIRED) ن:RootNavigator:189 (UNPAID/EXPIRED/REJECTED → AuthStack) — رحلة منتهى الخطة على السطحين |
+
+**سجل الفروق الجوهرية (Smart-Menu):** أفضل تكافؤ offline في الأسطول
+لكن لافتة native محصورة بالشاشات العامة؛ الويب يعالج 401 صفحيًا لا
+مركزيًا (بقية الصفحات «غير محقق بنيويًا»)؛ native يحمي الجلسة عند
+انقطاع الإقلاع (store/auth.ts:51-72 — توكن لا يُمحى إلا بـ401 قاطع).
+
+## Smart-Order — مصفوفة الحالات الثمان
+
+| المنطقة | loading | empty | error | retry | offline | expired-session | permission (403) | plan/seat limit |
+|---|---|---|---|---|---|---|---|---|
+| واجهة المتجر (store/product/cart) | ✓ هيكلية **ويب فقط** w:StorefrontSkeleton:11 n:LoadingState:10 دوار مجرد (ActivityIndicator) | ✓ w:states:28 (RouteStation) n:state-views:49 | ✓ w:store/[slug]/error.tsx n:ErrorState:60 | ✓ ن:storefront.ts:74 GET auto-retry | web فقط w:client.ts:71 (تغليف عربية) ن:NetworkError عربية storefront:27 | — (رحلة ضيف) | — | — (زبون بلا حدود) |
+| تتبع الطلب | ✓ كلاهما | ✓ | ✓ w:track/[token]/error.tsx n:ErrorState | ✓ + يدوي عند انقطاع w:tracking-client:939 | web فقط w:tracking-client:939-947 (WifiOff + إعادة محاولة يدوية) | — | — | — |
+| جلسة التاجر (login/business/إقلاع) | ✓ w:login loading n:LoadingState:67 | — | ✓ كلاهما + n:**session-unverified** بأسباب (network/server/store) auth.ts:48 | ✓ n:retryRestore merchant/_layout:60 | جزئي: ن:حالة session-unverified(network) عند الإقلاع | ✓ «مركزي» w:client.ts:41-52 (logout keepalive + toast + /login?expired=1 + إشعار login:153) ن:merchant.ts:119 (purge + sessionExpired) | — | — |
+| تبويبات التاجر (طلبات/لوحة) | ✓ هيكلية ويب فقط w:OrdersSkeleton:321 ن:LoadingState:79 دوار | ✓ (رسائل فراغ عربية) | ✓ w:ErrorState in-page ن:ErrorState:81 | ✓ ن:RefreshControl:98 + GET auto-retry | web (تغليف عربية) ن:رسالة عربية فقط | ✓ «مركزي» | ✓ w:perms سياق (action-level: orders/[id]:273 canCancel) ن:بوابات لكل شاشة | web فقط w:PlanUsageBadge dashboard:230 |
+| شاشات الإدارة (منتجات/أقسام/عملاء/مناطق/دفع/فريق/إعدادات) | ✓ هيكلية ويب فقط (19 skeleton عائلية skeletons.tsx) ن:دوار LoadingState | ✓ كلاهما | ✓ w:in-page ErrorState ن:ErrorState لكل شاشة | ✓ ن:RefreshControl + auto-retry | web (تغليف) ن:عربية فقط | ✓ «مركزي» | ✓ w:server 403 عربية auth.ts:209 + perms ن:**بوابات صلاحية لكل شاشة** (reports:229, staff:210, settings:180, customers:57…) + تلميح قراءة-only product/[id]:341 | web فقط w:409 PLAN_LIMIT (staff:142, products:176, zones:92, categories:88) + رابط ترقية staff:98 ن:رسالة 409 كما هي staff:71 |
+| التقارير (Premium) | ✓ هيكلية ويب فقط w:ReportsSkeleton:417 ن:دوار reports:327 | — | ✓ كلاهما | ✓ | web (تغليف) | ✓ «مركزي» | ✓ ن:canRead gate reports:226 | web فقط w:locked state reports:63/79/131 (PLAN_ENTITLEMENT + CTA ترقية) ن:رسالة 403 عامة reports:10 |
+
+**سجل الفروق الجوهرية (Smart-Order):** أغنى نموذج جلسة على native في
+الأسطول (session-unverified بأسباب + retryRestore)؛ لكنه التطبيق الوحيد
+الذي ينكص عن عقيدة الهياكل العظمية على native (دوارات مجردة مقابل 19
+skeleton متطابقة الشكل على الويب)؛ native ينفرد ببوابات صلاحية لكل
+شاشة (أقوى من مستوى الأفعال في الويب)؛ لا صفحة أسعار native فمسار
+الترقية مقطوع.
+
+## GAP register (Wave-4 inputs — verified gaps only)
+
+**Cross-cutting (deduplicated):**
+
+| GAP-X1 | P2 | fleet-wide | plan-lock UI/upgrade CTA | native (all 3 apps) | w:PremiumLockCard.tsx:28 / PlanFeatureLock.tsx:20 / reports/page.tsx:131 vs n:SmartBot describeError (state-views.tsx:100), Smart-Menu toast (OwnerRestaurants:93), Smart-Order reports.tsx:329 | Port one native «PremiumLock» component per app with «ترقية الخطة» CTA routing to the native subscribe surface (Smart-Order needs a pricing destination first). |
+|---|---|---|---|---|---|---|
+| GAP-X2 | P3 | fleet-wide | offline connectivity banner | native (SmartBot, Smart-Order: absent; Smart-Menu: public-only) | SmartBot mobile/package.json has no netinfo; Smart-Menu ConnectivityBanner mounted only at LandingScreen:147/MenuScreen:227/PricingScreen:82 | Add NetInfo + hoist a shared banner (Smart-Menu mobile ConnectivityBanner.tsx:9 is the in-fleet pattern) to authed shells. |
+
+**Per-app:**
+
+| GAP-BOT-1 | P2 | auth/session | suspended-tenant honest state | native | w:AuthGuard.tsx:125-162 + tenant-suspended.ts («حساب منظمتك موقوف») — no equivalent in mobile/src (grep موقوف/suspended = only rule-status badges) | Port the classifier (403 + «حساب المنظمة موقوف» prefix) + full-page state with support channel, else the native user loops on misleading retry. |
+|---|---|---|---|---|---|---|
+| GAP-BOT-3 | P3 | team | seat-limit handling unreachable | native | n:team/index.tsx:29 «أضف أعضاء فريقك من لوحة الويب» (read-only) vs w:team/page.tsx:70 add-member + 403-limit toast | Either port add-member mutation w/ limit toast, or keep documented read-only (decide, don't leave implicit). |
+| GAP-MENU-1 | P2 | owner analytics | advanced-stats feature (and its lock state) absent | native | w:OwnerCharts.tsx:97-100 + PlanFeatureLock.tsx:20; native has no charts/analytics screen (grep Chart in mobile/src = 0) | Scope decision: port analytics tab behind entitlement check, or record as intentionally web-only in the Wave-2 matrix. |
+| GAP-MENU-2 | P3 | owner/admin trees | offline banner coverage | native | banner only at Landing/Menu/Pricing; owner/admin stacks uncovered vs w:(protected)/layout.tsx:187 both trees | Mount ConnectivityBanner inside AuthenticatedApp (RootNavigator.tsx:196). |
+| GAP-MENU-3 | P3 | owner surfaces | central mid-session 401 | web | page-level only: owner/page.tsx:121, orders/page.tsx:94, use-orders-polling.ts:49; other pages «غير محقق بنيويًا» (csrf-client.ts has no 401 branch) | Add a central 401 seam in csrfJson (SmartBot csrf-client.ts / Smart-Order client.ts pattern). |
+| GAP-SO-1 | P2 | reports + manage caps | plan-lock state + usage badge (GAP-X1 instance) + upgrade destination | native | n:reports.tsx:10-11 (403 as-is), staff.tsx:71 (409 as-is); no pricing/subscribe route on native (Wave-2 matrix: pricing web-only) | Locked state per web reports/page.tsx:131 + add a native pricing/subscribe destination for the CTA. |
+| GAP-SO-2 | P3 | all merchant surfaces | shape-matched skeletons | native | n:state-views.tsx:10 (ActivityIndicator only; grep Skeleton in mobile/src = 0) vs w:skeletons.tsx (19 per-page) | Port the SmartBot mobile skeleton family (mobile/src/components/skeleton.tsx) pattern. |
+| GAP-SO-3 | P3 | merchant surfaces | offline banner | both (native absent, web = track strip only) | w:tracking-client.tsx:939-947 is the only web surface; native has none | Fold into GAP-X2; optionally a global web banner in dashboard shell. |
+
+**الحكم التنفيذي:** صحة التكافؤ = جيدة على مسار السعادة والجلسات
+(الرباعية loading/empty/error/retry + الـ401 «مركزي» في الأغلفة الستة
+محققة على السطحين في التطبيقات الثلاثة)، ضعيفة على بوابات الخطة
+والاتصال — 3 فجوات P2 كلها على native تصلح كبرنامج Wave-4 واحد يبدأ
+بعائلة plan-lock عبر الأسطول (GAP-X1).
+
+## Next-wave inputs (محدّثة)
+
+- ~~Feature-level parity audit per area~~ — أُنجزت أعلاه (P42-4d).
+- GAP register أعلاه = مدخلات Wave-4 (خانات P2 أولًا).
 - Mobile rebuild batching: Smart-Menu only, after Wave-3 mobile work
   completes (per §4.6 — don't rebuild for web-only changes).

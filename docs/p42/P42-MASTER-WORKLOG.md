@@ -701,3 +701,71 @@ apps before this wave (each app's fix is pinned by its own tests). Release
 posture: netinfo is a new native module in SmartBot + Smart-Order — both
 already REBUILD-REQUIRED since W4; Smart-Menu likewise. The Wave-9 release
 batch absorbs all of it.
+
+## 2026-11-02/03 — Wave 6 (Backend, database & operational reliability) — COMPLETE
+
+Three parallel deep audits (one per product backend) with the same posture:
+audit deep, fix clearly-verified authorized defects, document the rest. All
+three verdicts: **zero open P0/P1** — the prior isolation waves held under
+adversarial re-verification.
+
+**W6-1 · SmartBot backend `211a4215`** (pushed; audit method: AST route table
+of all ~230 endpoints across 37 routers with per-endpoint auth/tenant
+analysis + adversarial by-id tracing + FK/cascade/index coverage over 53
+models). Zero P0/P1 — plan gates all server-side, payments server-authority
+intact (atomic claims + partial unique index), secrets never unmasked.
+Fixed: (P2) tenant-deletion sweep missed the 4 v19 Step-2 tables
+(fb_posts/ad_accounts/ad_campaigns/ad_items — deleted tenant's posts + raw
+ad payloads survived "complete" deletion forever) → 4 models added to the
+sweep + 2 tests; (P3) reset-password non-numeric user_id → raw ValueError
+500 + CRITICAL alert on an admin typo → guarded conversion, clean 422
+Arabic (the `_as_int` bool-is-int trap handled) + 3 tests. Gates: pytest
+1272 passed/3 skipped forward AND reverse-order (hermeticity), coverage
+68.37% ≥ 66 floor, ruff clean, secret-scan clean. Author metadata corrected
+post-agent (agent-p42-6a@ → ahmadmedo1012) before push — a process lesson
+recorded for future briefs.
+
+**W6-2 · Smart-Menu backend `3834e766`** (pushed). Zero P0/P1 — every
+isolation surface re-verified with file:line (owner ladders, admin
+permissions, public payload filters, PII ladders, rotation-proof rate caps);
+ea2a01bb semantics intact (per-restaurant pending block, M-3 row-lock,
+FREE caps for new restaurants); order money path fully guarded (server
+re-pricing, restaurant row-lock cap, terminal-cancelled, idempotent
+money-only replay). **Fixed a real P2 cap-bypass hole:** unarchive accepted
+`{archivedAt: null}` with NO cap check while POST counts live items only —
+an owner at maxItems=N could archive k, create k replacements, unarchive →
+N+k live items above the paid cap. Fixed with the POST-family guard
+(Restaurant FOR UPDATE in one tx → maxItems under the lock → live count
+scoped to the DESTINATION restaurant for move+restore → PlanLimitError
+403). 10 new tests; suite 2999/2; build green (migrate deploy + 87/87
+pages on the embedded PG). The 4 archived items + 13 mixed orders
+untouched (behavior-only fix).
+
+**W6-3 · Smart-Order backend `58db2f6` + `e6500e9` + `829868d` +
+`8b1d36d`** (pushed). Zero P0/P1 — all 47 API routes audited; checkout
+money-safety, plan caps, CAS discipline all hold under adversarial
+re-verification (raced idempotency, in-tx conditional stock decrements,
+in-tx Serializable plan gate). Fixed 4×P2: (1) register fan-out made
+ATOMIC — was 4 independent writes where a raced slug burned the email with
+an unrecoverable orphan account (login works, requireBusiness refuses
+forever); now one interactive transaction (user + business + OWNER
+membership + default payment methods + audit row) + tx-contract pin.
+(2) Two hot Order indexes on BOTH schema twins (SQLite + PostgreSQL
+variants): (businessId, createdAt) for the merchant list + money-path
+daily count; (orderNumber, customerPhone, createdAt) for the public
+track-lookup that was a full-table scan. (3) Products PATCH price now
+carries POST's r140 999_999_000 cap (edit could reach the MAX_SAFE_INTEGER
+edge). (4) make-admin.js refuses NODE_ENV=production before any DB
+connection (repo-published QA credential; validated live against an
+ambient foreign DATABASE_URL — aborted pre-write). Gates: tsc 0 · lint
+clean · unit 274/274 (+5) · parity 511/511 · schema-twins + prisma
+validate both providers · **E2E API battery 168 passed in-session** (CI's
+exact chain) · browser e2e 13 passed (1 flaky-on-retry).
+
+**Fleet posture after W6:** every backend re-audited end-to-end with
+adversarial tracing; the multi-tenant + money-path enforcement held
+everywhere; 7 verified defects fixed (1 data-retention, 1 admin-UX 500, 1
+cap-bypass, 1 atomicity/orphan-account, 2 hot indexes, 1 input-cap, 1
+prod-guard); ~25 P3s documented with proposals in the agent records
+(/home/z/my-project/agent-ctx/P42-6{a,b,c}-*.md — mirrored into this
+program's durable records at the next docs commit).

@@ -108,8 +108,15 @@ deploy + production verification fire the moment push access returns.
 | Repo | Local commit | Subject | Local gates | CI / deploy |
 |---|---|---|---|---|
 | Smart-Menu | `cb04b1c` | feat(archive,P42-W3) — real item archival: schema + guarded migration (712/767/778/779) + all public-surface filters + owner tooling + 18 contract tests + runbook decision record | tsc-strict ✓ · eslint 0 ✓ · lint:idioms 4/4 ✓ · vitest 2896/2896 ✓ · next build (page-data) ✓ · migration-parity + e2e ride CI | pending push |
-| SmartBot | (this wave) | feat W2-BOT-1/2/3 + W2-BOT-4 (see repo ledger notes below) | FE: tsc ✓ eslint-0 ✓ vitest 604/604 ✓ parity 588 ✓ · BE: ruff ✓ pytest 41/41 | pending push |
-| Smart-Link | (this wave) | W2-LNK-1 styled offline shell (sw.js offline disk + e2e proof) + P42 records + P42-OWNER-DECISIONS.md | e2e offline suite 5/5 (incl. real-SW styled-shell proof) ✓ · build ✓ | pending push |
+| SmartBot | `9bdec1c` | feat(dashboard,P42-W3) — W2-BOT-1/2/3 + W2-BOT-4 (connect dead-end, CSV export UI, usage counter + endpoint, honest suspended state) | FE: tsc ✓ eslint-0 ✓ vitest 604/604 ✓ parity 588 ✓ · BE: ruff ✓ pytest 41/41 | pending push |
+| Smart-Link | `b3fa8b8` | feat(pwa,P42-W3) — W2-LNK-1 styled offline shell (sw.js offline disk + e2e proof) + P42 records + P42-OWNER-DECISIONS.md | e2e offline suite 4/4 (incl. real-SW styled-shell proof) ✓ · build ✓ · lint ✓ · unit 44/44 ✓ · truth-gate ✓ · parity 595 ✓ | pending push |
+
+**Durable backups (survive sandbox recycling):** format-patches for all
+three commits live in the persistent project tree under
+`download/p42-w3-patches/` — verified to apply cleanly on a fresh clone of
+remote `main` (Smart-Menu's checked: 18 files, +741/−36). If the workspace
+is lost again before credentials arrive, the recovery path is:
+clone → `git am download/p42-w3-patches/*.patch` → push.
 
 **On push (the moment credentials arrive):** Smart-Menu main → CI
 (migration-parity gate arbitrates the new migration) → Vercel deploy (build

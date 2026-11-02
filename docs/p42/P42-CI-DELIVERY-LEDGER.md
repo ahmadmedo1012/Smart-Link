@@ -126,3 +126,41 @@ canary green the following night. SmartBot main → CI (quality-gates, mobile,
 osv, secret-scan) → deploy. Smart-Link main → CI → deploy (SW VERSION bump
 re-caches the offline disk on next visit). Then delete
 `p42/demo-cleanup-tool` branch (Smart-Menu remote).
+
+## Wave 3 — 2026-11-02 (credentials restored: everything pushed, deployed, production-verified)
+
+**Environment:** Owner re-delivered credentials over IM (GitHub PAT + Vercel
++ EAS ×3). Stored OUTSIDE all repos (`~/.p42/credentials.env`, 600) + git
+credential store — never committed (secret-scan gates stay green). The
+standing directive from this point: **commit and push to main continuously**
+so no batch is ever hostage to a sandbox recycle again.
+
+### The Wave-2.5 batch ships (was "pending push")
+
+| Repo | Commit | CI | Deploy | Production verification |
+|---|---|---|---|---|
+| Smart-Menu | `cb04b1c` (archival) | [success](https://github.com/ahmadmedo1012/Smart-Menu/actions/runs/41458373464) | Vercel prod READY | **Direct live probes:** `/api/public/menu/al-waha-cafe` 16 items + `al-waha-cafe-demo` 25 items — zero test vocabulary in either; menu HTML pages 0 occurrences; print pages 0 real occurrences (2 CSS-comment false-positives only — «عقد الاختبار» in a contrast note); sitemap 0 refs. Migration ran at deploy (build-time `migrate deploy`): items visible before → gone immediately after the READY deploy. Order/review-row integrity is UPDATE-only by design (no DELETE in the guarded migration; 18 contract tests green in this CI run) — private dashboards by design, Owner can spot-check /owner/orders (the 13 mixed orders must list normally). |
+| SmartBot | `9bdec1c` (W2-BOT-1..4) | [success](https://github.com/ahmadmedo1012/SmartBot/actions/runs/41458377429) | smartbot-frontend + smart-bot-api READY | Dashboard surfaces are auth-gated by design; behavior pinned by the batch's unit tests (CSV export row, usage endpoint+card, suspended classifier) running green in CI. Landing + API probe 200. |
+| Smart-Link | `76858f7` (W2-LNK-1) | [success](https://github.com/ahmadmedo1012/Smart-Link/actions/runs/41458383953) | smartlink READY | **Direct live probe:** `https://smart-link.ly/sw.js` serves `VERSION = "v2"` + `CACHE = smartlink-offline-v2` + the page-derived offline disk — the styled-offline-shell contract is live. |
+
+### Cleanup-path lockdown (Owner directive #3 — was blocked on push access)
+
+- `git push origin --delete p42/demo-cleanup-tool` — **executed**; remote
+  now carries `main` only (verified via ls-remote).
+- **8 residual preview deployments deleted** from Vercel (6 ×
+  `p42/demo-cleanup-tool` incl. both ERROR-state ones, 2 × `p42/deps-mobile`
+  whose branch was already gone) — project list now shows main-only
+  production deployments.
+- Live probe `https://menu.smart-link.ly/api/p42-cleanup` → **404** (was
+  already verified; re-verified after the wave).
+
+### New work this wave (continuous-push cadence)
+
+| Repo | Commit | Subject | Gates | CI / deploy |
+|---|---|---|---|---|
+| SmartBot | `3ce58c3` | **W2-BOT-5** plan-lock rollout: broadcast gate message joins the canonical GATE_MESSAGES family (ends «رقِّ خطتك» — was invisible to isPlanLocked); shared PremiumLockCard; scheduled page locks the composer (list stays — creation-gate doctrine); broadcast page locks create+send (send = downgrade path closes the confirm dialog); 6 render contracts (PlanLockRollout.test.tsx) incl. the v24-C2 confirm-enabled wait. sequences: no backend gate exists (documented) — nothing to lock; calendar page is view-only (no gated call). | BE ruff ✓ pytest 102/102 gate-family ✓ · FE tsc ✓ eslint-0 ✓ vitest 610/610 ✓ | [success](https://github.com/ahmadmedo1012/SmartBot/actions/runs/41461087752) · both Vercel projects READY |
+| Smart-Menu | `50a76c2` | **W2-MEN-1** QR ZIP: «تحميل الكل» now downloads ONE archive (was N sequential PNGs). Pure-lib STORE-method ZIP builder (no dependency — r106-N2 philosophy), byte-level EOCD contract tests (the first draft's +12-byte central-size bug was caught by an INDEPENDENT verifier (python zipfile), not by our structural tests — the lesson is pinned: tests now assert the full EOCD contract; a generated archive unzips clean with CRCs verified by python). Button label + toast tell the single-file story; per-table filenames unchanged inside the archive. | tsc ✓ eslint-0 ✓ vitest 2883 passed + env-gated 24/24 (CI provides env) ✓ | in flight at write time → links to follow in worklog |
+
+**Standing cadence from this wave:** every completed unit is pushed to main
+immediately (Owner directive); CI + deploy links land in the worklog the
+moment they complete; nothing accumulates unpushed.

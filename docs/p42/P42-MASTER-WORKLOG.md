@@ -283,3 +283,63 @@ publishers status, standing owner-side dependencies. No policy changed.
 GitHub PAT (+ Vercel token for the preview cleanup + EAS tokens if a mobile
 release wave follows). All work is committed locally with durable patch
 backups.
+
+## Wave 3 — 2026-11-02 (session: credentials restored → full ship-out)
+
+**W3-0 · Credentials re-delivered and stored safely.** Owner sent GitHub
+PAT + Vercel token + 3 EAS tokens over IM. Stored OUTSIDE all repos
+(`~/.p42/credentials.env` chmod 600 + git credential store); both GitHub
+(ahmadmedo1012) and Vercel (team_bBctUHIWiI5k3h4rYmp4rzBp) verified via
+API before first use. **Standing directive from Owner: commit and push to
+main continuously** — no unpushed batches from this point on.
+
+**W3-1 · The Wave-2.5 backlog ships (all three repos).** Pushed: Smart-Menu
+`cb04b1c`, SmartBot `9bdec1c`, Smart-Link `76858f7`. All three CI runs
+GREEN (links in the ledger's Wave-3 section). Vercel deployed all four
+projects (smart-menu, smartbot-frontend, smart-bot-api, smartlink).
+
+**W3-2 · Smart-Menu production verification of the archival (Owner
+directive 6 — direct behavior proof).** Live probes on
+menu.smart-link.ly: both public menu APIs clean (16/25 items, zero test
+vocabulary), menu HTML pages 0 occurrences, print pages 0 real occurrences
+(only «عقد الاختبار» in a CSS contrast comment — a false positive we
+chased down rather than waved through), sitemap 0 refs. The migration ran
+at deploy time (items live before → gone immediately after READY). Order
+integrity = UPDATE-only design + green contract CI; private dashboard
+spot-check left to the Owner (/owner/orders — the 13 mixed orders must
+list normally).
+
+**W3-3 · Cleanup-path lockdown executed (Owner directive 3 — was blocked
+on push access).** `p42/demo-cleanup-tool` branch deleted from the
+Smart-Menu remote (main-only now); 8 residual Vercel preview deployments
+deleted (6 cleanup-tool + 2 orphaned deps-mobile); live 404 probe on
+/api/p42-cleanup re-verified. No unauthenticated executable path to
+production data remains.
+
+**W3-4 · W2-BOT-5 plan-lock rollout (SmartBot `3ce58c3`, CI green,
+deployed).** The broadcast gate message joins the GATE_MESSAGES family
+(ends «رقِّ خطتك» — the old wording was invisible to isPlanLocked; the
+send-gate test now pins the family suffix instead of loose «الترقية»).
+Shared PremiumLockCard; scheduled page locks the composer but keeps the
+existing list (creation-gate doctrine); broadcast page locks create+send
+and hides the dead «بث جديد» CTA; the send-downgrade path closes the
+confirm dialog. 6 render contracts (incl. the v24-C2 wait-for-enabled
+race we hit: the confirm button is disabled while the estimate chain
+loads — clicking early is a silent no-op). sequences has NO backend gate
+(documented in its page header since v17) — nothing to lock, recorded
+instead of invented; calendar page is view-only.
+
+**W3-5 · W2-MEN-1 QR ZIP (Smart-Menu `50a76c2`).** «تحميل الكل» for table
+QRs now downloads ONE archive instead of N sequential PNGs. Pure-lib
+STORE-method ZIP builder (no new dependency): PNGs are already deflate'd
+so STORE loses nothing. **The honest bug story (kept in the commit and the
+test header): the first draft wrote the central-directory size from `off`
+AFTER it had advanced 12 bytes into the EOCD preamble — our structural
+tests passed, python's zipfile refused the file. Independent verification
+caught what the tests missed; the tests now pin the full EOCD contract
+(declared size == actual distance to EOCD) and a generated archive unzips
+clean with CRCs verified by python.** Per-table filenames unchanged inside
+the archive; per-file single-QR downloads untouched.
+
+**Next:** W2-ORD-2..5 + W2-LNK-2..6 + W2-BOT-6..9 (the P3 polish wave),
+per the register's priorities.

@@ -168,13 +168,13 @@ one test line each, Jul–Aug 2026):
 | W2-BOT-2 | P2 | SmartBot | GET /api/analytics/export (CSV/JSON) has NO frontend consumer | OPEN (button in reports) |
 | W2-BOT-3 | P2 | SmartBot | No monthly-reply usage counter (Free 100 enforced silently — engine-side reject) | OPEN (needs small REST surface) |
 | W2-BOT-4 | P2 | SmartBot | Suspended-org 403 distinguished only in analytics; other pages show misleading retry | OPEN (general SuspendedBanner) |
-| W2-BOT-5 | P2 | SmartBot | Plan-lock gaps: scheduled/broadcast/sequences gate via toast only (PremiumLock model exists) | OPEN |
+| W2-BOT-5 | P2 | SmartBot | Plan-lock gaps: scheduled/broadcast/sequences gate via toast only (PremiumLock model exists) | **FIXED `3ce58c3`** (broadcast message joins GATE_MESSAGES family; PremiumLockCard on scheduled/broadcast; sequences has NO backend gate — documented, nothing to lock) |
 | W2-BOT-6..9 | P3 | SmartBot | AI in-thread assist absent (/api/ai/generate-reply unconsumed), stale sequences comment, Loader2 vs Skeleton, unsubscribe button | OPEN (polish wave) |
 | W2-ORD-1 | P2 | Smart-Order | Zero-payment-methods silent checkout dead-end | **FIXED `ccb0bd8`** (empty-state + WhatsApp lifeline) |
 | W2-ORD-2..5 | P3 | Smart-Order | Mid-checkout staleness (no refresh), cross-store cart guard, staff dead-invite on Free, cap counters absent | OPEN (polish wave) |
-| W2-LNK-1 | P2 | Smart-Link | Offline fallback HTML-only (unstyled when truly offline) | OPEN (documented SW tradeoff — decide shell styling) |
+| W2-LNK-1 | P2 | Smart-Link | Offline fallback HTML-only (unstyled when truly offline) | **FIXED `b3fa8b8`→main `76858f7`** (SW offline disk; live-verified: smart-link.ly/sw.js serves v2) |
 | W2-LNK-2..6 | P3 | Smart-Link | theme_color single dark, header/drawer CTA naming, landing-footer WhatsApp, schema «مدار الساعة» claim pin, safe-area insets | OPEN (polish wave) |
-| W2-MEN-1 | P2 | Smart-Menu | Table-QR «تحميل الكل» = N sequential PNGs (no ZIP) | OPEN (polish wave) |
+| W2-MEN-1 | P2 | Smart-Menu | Table-QR «تحميل الكل» = N sequential PNGs (no ZIP) | **FIXED `50a76c2`** (pure-lib STORE ZIP builder; EOCD bug caught by independent python verifier, contract pinned in tests) |
 
 ## Smart-Menu commercial semantics — OWNER DECISIONS (analysis ready, no policy changed)
 
@@ -250,12 +250,12 @@ owner dependencies. Nothing executed without owner choice.
 | ID | Disposition |
 |---|---|
 | W2-BOT-1 (connect dead-end) | **FIXED (local)** — conditional platform-admin link; honest merchant copy |
-| W2-BOT-2 (CSV export no UI) | **FIXED (local)** — reports-card export row |
-| W2-BOT-3 (silent reply cap) | **FIXED (local)** — `/api/subscriptions/usage` + PlanUsageCard + tests |
-| W2-BOT-4 (suspended UX) | **FIXED (local)** — classifier + honest full-page state in AuthGuard (no login loop) |
-| W2-BOT-5 (plan-lock gaps) | OPEN (next batch) |
+| W2-BOT-2 (CSV export no UI) | **SHIPPED** — main `9bdec1c`, CI green, deployed |
+| W2-BOT-3 (silent reply cap) | **SHIPPED** — main `9bdec1c`, CI green, deployed |
+| W2-BOT-4 (suspended UX) | **SHIPPED** — main `9bdec1c`, CI green, deployed |
+| W2-BOT-5 (plan-lock gaps) | **FIXED `3ce58c3`** — pushed, CI green, deployed |
 | W2-BOT-6..9 (P3 polish) | OPEN |
 | W2-ORD-2..5 (P3) | OPEN |
-| W2-LNK-1 (offline shell styling) | **FIXED (local)** — SW offline disk (page-derived assets, fallback-only serving) + e2e styled-shell proof |
+| W2-LNK-1 (offline shell styling) | **SHIPPED** — main `76858f7`, CI green, deployed, live-verified (sw.js v2) |
 | W2-LNK-2..6 (P3) | OPEN |
-| W2-MEN-1 (QR ZIP) | OPEN |
+| W2-MEN-1 (QR ZIP) | **FIXED `50a76c2`** — pushed (CI link in ledger) |

@@ -115,3 +115,89 @@ Wave 2 (core workflows) → Wave 3 (native parity matrix) → Wave 4 (visual) �
 Wave 5 (backend reliability) → Wave 6 (SEO) → Wave 7 (security/a11y/perf) →
 Wave 8 (release readiness — batched mobile rebuild decision point) →
 Wave 9 (independent acceptance ×2).
+
+## 2026-11-02 — Wave 2 (P0 demo cleanup + native/deps/journey audits + first fixes) — IN PROGRESS
+
+**W2-1 · P0 demo cleanup — PARTIAL EXECUTION (owner-authorized via continuation §2.1).**
+The runbook's zero-orders premise was falsified by live precheck: 50 OrderItem
+rows (49 orders) referenced the four pinned test items 712/767/778/779, and
+779's two documented reviews were already gone (partial pre-session execution).
+Executed through a guarded temporary tool branch (`p42/demo-cleanup-tool` —
+SHA-256-keyed header, pinned-ID verification before any mutation,
+single-transaction deletes with rollback-on-count-deviation; never merges to
+main): **full backup first** (4 items + 3 reviews + 49 orders + 48 order
+items, chmod-600, contains visitor names/phones so stays out of the public
+repo), then **36 pure-test orders deleted** (incl. the cross-tenant #647: an
+order on restaurant 293 carrying demo-tenant items — a data-integrity anomaly
+in itself), then **the 3 test reviews on 712** («عميل»/«test»/anonymous),
+then **the imageMap curation** (كنافة 691، بطاطس مقلية 695+789، بسبوسة
+693+786، سموثي 687). A mid-operation SQL quoting bug (PG 42703) proved the
+transaction guard: zero rows written, clean rollback, retried after fix.
+**Remaining: the four ITEMS stay published — blocked by 13 pinned mixed demo
+orders (real visitor food + one test line each, all status=new, Jul–Aug
+2026). OWNER DECISION required (runbook options أ/ب/ج); `delete-final` mode
+is ready and hard-pins exactly those 13 IDs.** The nightly canary stays red
+until then. Runbook updated on Smart-Menu main (`819ed4b`).
+
+**W2-2 · Read-only investigation wave (agents P42-2a/2b/2c/2d).**
+- **2a cap semantics:** counting query verified (lifetime, ALL statuses incl.
+  cancelled — `orders/route.ts:441`); upgrade flow traced (restaurant-only
+  cap write + user-wide plan bump + free inheritance for new menus); four
+  technical inconsistencies documented (user-wide pending-payment block vs
+  r93 DB design; cap-propagation asymmetry; M-3 approval gaps; sticky paid
+  caps after expiry). A-vs-B decision analysis (lifetime vs monthly) +
+  cancelled-order rule proposal prepared for the owner.
+- **2b Smart-Order first-frame:** the CountUp flash CONFIRMED on /pricing
+  limit rows (post-hydration «حتى 0» frame + 1.1s ramp) → **FIXED** same
+  session (`c5314a3` + unit source-scan pin + browser ISR-aware pins, CI
+  green at `8494d2f`).
+- **2c native release needs:** SmartBot **NO-REBUILD** (mobile/ diff since
+  832044d3 is EMPTY); Smart-Menu **REBUILD-REQUIRED at next mobile release**
+  (free-card truth in 2 shipped screens; no OTA channel exists — no
+  expo-updates); Smart-Order **NO-REBUILD** (dev-tooling lockfile only;
+  expo-updates tarball-inspected — glob never enters its runtime graph).
+  Parity skeleton captured (→ P42-PARITY-MATRIX.md).
+- **2d Dependabot deep-dive:** SmartBot 3 alerts (zod-high via @expo/cli
+  nested copy; deepmerge ×2 unpatched), Smart-Menu 21 (node-forge ×12,
+  shell-quote critical, zod direct+transitive, 5 more, smol-toml now
+  patchable at 1.9.0+).
+
+**W2-3 · Security wave (merged to main, CI green).**
+- Smart-Menu `0cf7a20` (branch-gated: mobile ✓ + lint-build-test ✓ first):
+  zod 4.6.7 direct+override, node-forge 1.4.2 (×12 advisories), shell-quote
+  1.11.0 (critical), decode-uri-component 0.5.1, compression 1.8.2,
+  source-map-js ^1.2.2, postcss-selector-parser 6.1.5, knip>smol-toml ^1.9.0
+  (accepted-exception converted to fix). **Repo alerts 21 → 1** (deepmerge,
+  unpatched upstream, documented).
+- SmartBot `c4716a8` (branch-gated: mobile job = the @expo/cli-on-zod-4
+  smoke, PASS): zod override ^4.6.6; deepmerge ×2 → documented exception in
+  `docs/decisions-ledger.md` with the exact upgrade trigger.
+- Smart-Order `d25f840`: same zod override (all 4 Dependabot checks green
+  at final HEAD).
+
+**W2-4 · Journey audits (agents P42-3a/3b/3c/3d) + first fixes.**
+- Smart-Menu (3b): journeys complete; **P1 delete-item FK dead-end → FIXED**
+  (`4c6dd1c`: P2003→409 with blocker-specific remedies — OrderItem → «أخفِه»,
+  Review → «احذف تقييماته أولاً»; UI catches now surface server copy — also
+  un-swallows the category 409 and the expired-plan 403). P2/P3 polish
+  registered (QR ZIP bundle, error-surface consistency).
+- Smart-Order (3c): no P0/P1; **P2 zero-payment-methods silent dead-end →
+  FIXED** (`ccb0bd8`: honest empty-state + store WhatsApp lifeline).
+  P3s registered (mid-checkout staleness, cross-store cart guard, staff
+  dead-invite on Free, cap counters).
+- SmartBot (3a retry): no P0/P1; 5×P2 registered — connect-page
+  admin-settings dead-end for merchants, CSV export endpoint with no UI,
+  no monthly-reply usage counter (Free 100 enforced silently), no general
+  suspended banner, plan-lock pattern gaps (PremiumLock model exists in
+  flows/analytics). P3s (AI in-thread assist, stale comment, Loader2).
+- Smart-Link (3d): **all 5 directive §3.1 verifications PASS** (CTA
+  destinations, product paths, signup pathways, no landing→registration
+  confusion, card/table semantics); SEO/PWA/responsive/RTL unusually
+  well-pinned. P2 offline-shell styling registered; P3s (theme_color,
+  CTA naming consistency, landing-footer WhatsApp, schema 24/7-adjacent
+  claim pin, safe-area).
+
+**W2-5 · Branch hygiene.** Two temp branches merged+deleted (deps, zod);
+`p42/demo-cleanup-tool` remains (guarded, skip-ci) until the owner decision
+executes delete-final. Vercel SSO protection was disabled only inside the
+two cleanup windows and restored to `all_except_custom_domains` after each.

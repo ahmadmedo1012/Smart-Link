@@ -56,3 +56,22 @@ repo's main quality-gate workflow conclusion on that SHA.
   all Dependabot runs post-fix are green.
 - e2e batteries (Smart-Menu Playwright suite, Smart-Order api-e2e) run in
   CI's dedicated jobs; both repos' final-HEAD CI includes them.
+
+## Wave 2 — 2026-11-02 (continuation)
+
+| Repo | Commit | Subject | Branch gates before main | Main CI @ commit |
+|---|---|---|---|---|
+| Smart-Order | `c5314a3` | fix(pricing,P42) — CountUp retired from plan-limit rows + unit source-scan pin + browser SSR/no-JS pins | unit guard 1/1 local; browser battery via CI | ✅ at `8494d2f` (browser e2e first run caught the ISR-stale test-env premise; spec fixed to poll stale-while-revalidate, then green) |
+| Smart-Order | `8494d2f` | fix(test,P42) — pricing spec rides ISR stale-while-revalidate | — | ✅ all four jobs |
+| Smart-Order | `ccb0bd8` | fix(checkout,P42) — zero-payment-methods empty state + WhatsApp lifeline | code-read + prop-typecheck via CI | ✅ at `d25f840` (ccb0bd8's own runs cancelled-by-concurrency — superseded semantics) |
+| Smart-Order | `d25f840` | chore(deps,P42-2) — mobile zod override ^4.6.6 | lockfile-only regen; mobile job in CI | ✅ all jobs + 4/4 Dependabot checks green |
+| Smart-Menu | `0cf7a20` (from branch `0fa2e02`) | chore(deps,P42-2) — mobile security wave: 20/21 advisories closed | ✅ branch CI: mobile ✓ + lint-build-test ✓ + triage ✓ | ✅ (repo alerts 21→1) |
+| Smart-Menu | `819ed4b` | docs(runbook,P42-2) — executed-state update + pinned 13-order owner decision | docs-only (triage) | ✅ |
+| Smart-Menu | `4c6dd1c` | fix(owner,P42-2) — item delete P2003→409 blocker-specific remedies + UI error surfacing | code-read; full battery via CI | in flight at ledger time (prod-qa ✓ triage ✓ mobile skipped=no-mobile-change) |
+| SmartBot | `c4716a8` (branch = main ff) | chore(deps,P42-2) — zod override trial + deepmerge documented exception | ✅ branch CI: mobile (the @expo/cli-on-zod-4 smoke) ✓ + quality-gates ✓ + osv ✓ + secret-scan ✓ | ✅ all |
+
+**Temporary tooling (never merges):** `p42/demo-cleanup-tool` on Smart-Menu
+(SHA-256-guarded cleanup route; `[skip ci]` commits; SSO protection disabled
+only inside the two execution windows and restored; branch deleted after
+delete-final executes). Merged temp branches deleted: Smart-Menu
+`p42/deps-mobile`, SmartBot `p42/zod-override`.

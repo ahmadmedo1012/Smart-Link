@@ -130,3 +130,79 @@ product decision) · ACCEPTED (documented exception).
 - P2-4: SmartBot Dependabot notice + unadvertised multi-platform publishers.
 - P2-5: Expo SDK 58 evaluation (the pinned-tree advisories' only fix;
   mission D6: plan first, don't auto-upgrade).
+
+---
+
+# P42 — ISSUE REGISTER (Wave 2 additions, 2026-11-02)
+
+## B3 — demo contamination — PARTIAL EXECUTION → OWNER DECISION (the single blocker left)
+
+**Executed** (owner-authorized, runbook Path-B-equivalent via guarded temp
+tool; full backup captured first; evidence in session records):
+- 36 pure-test orders deleted (incl. cross-tenant #647 — order on restaurant
+  293 referencing demo items)
+- 3 test reviews on item 712 deleted («عميل»/«test»/anonymous)
+- Demo imagery curated to imageMap (6 rows: كنافة، بطاطس مقلية ×2، بسبوسة ×2، سموثي)
+- Runbook updated with the executed state + pinned 13-order table (`819ed4b`)
+
+**OWNER DECISION — the 13 mixed demo orders** (IDs 131, 618, 620, 621, 622,
+634, 635, 639, 642, 645, 653, 657, 659; all status=new, real visitor food +
+one test line each, Jul–Aug 2026):
+- **(أ) RECOMMENDED:** authorize deletion → `delete-final` (tool mode, pins
+  exactly these 13 IDs, then the 4 items, one transaction) or the updated
+  runbook SQL. Canary turns green ≤24h later.
+- (ب) keep items: canary stays red, public demo keeps showing gray test cards.
+- (ج) line-surgery on 13 orders: NOT recommended (edits real order records).
+**The nightly canary stays RED until (أ) executes.**
+
+## B3-related UX — FIXED (`4c6dd1c`)
+- Owner delete-item P2003 dead-end: API now maps to 409 with two
+  blocker-specific remedies; owner-menu catches surface server copy
+  (also un-swallows the category 409 + expired-plan 403). [P42-3b F-1/2/3]
+
+## New from Wave-2 audits
+
+| ID | Sev | Product | Finding | Disposition |
+|---|---|---|---|---|
+| W2-BOT-1 | P2 | SmartBot | connect-page «أضفه من إعدادات المنصة» links to /admin/settings — platform-admin-only, dead-end for merchants | OPEN (one-line fix) |
+| W2-BOT-2 | P2 | SmartBot | GET /api/analytics/export (CSV/JSON) has NO frontend consumer | OPEN (button in reports) |
+| W2-BOT-3 | P2 | SmartBot | No monthly-reply usage counter (Free 100 enforced silently — engine-side reject) | OPEN (needs small REST surface) |
+| W2-BOT-4 | P2 | SmartBot | Suspended-org 403 distinguished only in analytics; other pages show misleading retry | OPEN (general SuspendedBanner) |
+| W2-BOT-5 | P2 | SmartBot | Plan-lock gaps: scheduled/broadcast/sequences gate via toast only (PremiumLock model exists) | OPEN |
+| W2-BOT-6..9 | P3 | SmartBot | AI in-thread assist absent (/api/ai/generate-reply unconsumed), stale sequences comment, Loader2 vs Skeleton, unsubscribe button | OPEN (polish wave) |
+| W2-ORD-1 | P2 | Smart-Order | Zero-payment-methods silent checkout dead-end | **FIXED `ccb0bd8`** (empty-state + WhatsApp lifeline) |
+| W2-ORD-2..5 | P3 | Smart-Order | Mid-checkout staleness (no refresh), cross-store cart guard, staff dead-invite on Free, cap counters absent | OPEN (polish wave) |
+| W2-LNK-1 | P2 | Smart-Link | Offline fallback HTML-only (unstyled when truly offline) | OPEN (documented SW tradeoff — decide shell styling) |
+| W2-LNK-2..6 | P3 | Smart-Link | theme_color single dark, header/drawer CTA naming, landing-footer WhatsApp, schema «مدار الساعة» claim pin, safe-area insets | OPEN (polish wave) |
+| W2-MEN-1 | P2 | Smart-Menu | Table-QR «تحميل الكل» = N sequential PNGs (no ZIP) | OPEN (polish wave) |
+
+## Smart-Menu commercial semantics — OWNER DECISIONS (analysis ready, no policy changed)
+
+1. **Order-cap window (P2-1):** Free = LIFETIME 100 (current, enforced
+   `orders/route.ts:441`). Option B (monthly) analysis delivered: revenue
+   pressure vs seasonal fairness (Libyan market), abuse self-healing vs
+   one-time lockout, zero migration vs calendar decision + marketing copy.
+   **Owner to pick A (keep) or B (switch) — enforcement is a one-line change
+   + copy either way.**
+2. **Cancelled orders in cap (P2-2):** today ALL statuses count (verified).
+   Proposal: exclude `cancelled` (terminal, zero value, revenue definition
+   already excludes it) — gives owners a self-service remedy against junk
+   floods on the public endpoint. Orthogonal to decision 1.
+3. **Multi-menu upgrade propagation (technical, not policy):** three
+   verified inconsistencies (user-wide pending block contradicts the r93 DB
+   relaxation; sibling menus keep old caps while NEW menus inherit upgraded
+   caps free; M-3 approval lacks restaurant-row lock + tier re-check) —
+   fix plan + test locations documented; awaiting a fix wave.
+4. **Sticky paid caps after expiry:** restaurant.maxOrders never reverts on
+   subscription expiry (cron flips only user status) — with lifetime caps
+   one Pro payment = 99999 orders forever. Product decision needed
+   (enforcement change vs documented acceptance).
+
+## Dependabot — state after Wave 2
+
+- Smart-Menu: **1 low** (deepmerge — NO patched release exists; documented).
+- SmartBot: zod-high FIXED (`c4716a8`); deepmerge ×2 = the same unpatched
+  exception (decisions-ledger entry with upgrade trigger).
+- Smart-Order: zod-high FIXED (`d25f840`); deepmerge same exception family.
+- All remaining alerts across the family: the single deepmerge advisory
+  (GHSA-gcqx-w48m-w2h4) with no patched version in existence.

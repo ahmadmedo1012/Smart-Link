@@ -10,27 +10,29 @@ export const SITE = {
   /* r126 (P4-A3 §3.7): the PUBLIC contact identity moved onto the owned
      domain (noreply@smart-link.ly — the address the domain already sends
      from, verified in fromEmail) so no personal Gmail is advertised on
-     contact surfaces, JSON-LD or API error fallbacks. The owner's
-     personal inbox stays as the PRIVATE notification destination below
-     — it is never rendered.
+     contact surfaces, JSON-LD or API error fallbacks.
      W6-B2 (صدق القنوات — تدقيق W6-A2 P2): هذا العنوان هو هوية
      الإرسال الآلي على النطاق، لا قناة دعم — لا مصدر يثبت صندوقًا
      مراقَبًا (اسمه نفسه يقول «لا رد»)، فلم يعد يُعلَن في أي سطح
      تواصل (البطاقة/التذييل/JSON-LD/رسائل الخطأ/القانونية). القنوات
      الصادقة المعلنة: واتساب + نموذج التواصل. لو تهيّأ يومًا صندوق
      بريد مراقَب فتغيير هذا السطر وحده يعيدها في كل مكان (قانون
-     المصدر الواحد r9). */
+     المصدر الواحد r9).
+     P42-8d (تدقيق الأمن): صندوق المالك الخاص لم يعد مفتاحًا هنا إطلاقاً.
+     SITE تُستهلك من مكوّنات client (main-nav/contact-form/LandingHeader)
+     فتُسفِر حرفياً إلى حزم JS العمومية — كان ownerEmail يستقل معها إلى
+     view-source كل صفحة رغم أنه «لا يُعرض أبداً» (فُحص في بناء 16.4:
+     البريد الخاص في 6 chunks عمومية). وجهه الوحيد الآن ثابت داخل
+     مسار الخادم api/contact/route.ts — unit pin: SITE بلا أي مفتاح
+     خاص، وe2e pin: grep حزم العميل.) */
   email: "noreply@smart-link.ly",
-
-  /** Private destination for contact-form notifications (the owner's
-      real inbox). Never displayed — W6-B2: no public surface renders
-      SITE.email anymore (it is the sending identity only). */
-  ownerEmail: "ahmedmedo1012@gmail.com",
 
   /** Transactional from-address on the site's OWN domain (r13 — was the
       last domain literal living outside this file, hardcoded in the API
       route). Resend requires an owned domain. */
   fromEmail: "SmartLink <noreply@smart-link.ly>",
+
+  /* P42-8d: ownerEmail حُذف من هنا — انظر التعليق أعلى email. */
 
   whatsapp: {
     /** International format without "+", as wa.me expects. */

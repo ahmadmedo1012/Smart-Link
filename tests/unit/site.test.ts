@@ -32,8 +32,23 @@ test("the three WhatsApp renderings describe the same number", () => {
 test("the site email identities are on the owned domain", () => {
   assert.ok(SITE.email.endsWith("@smart-link.ly"));
   assert.ok(SITE.fromEmail.includes(SITE.email));
-  // the private notification inbox is separate and never rendered:
-  assert.notEqual(SITE.ownerEmail, SITE.email);
+});
+
+/* ── P42-8d (security audit P3): SITE never carries private keys ────
+ * SITE is imported by client components (main-nav, contact-form,
+ * LandingHeader), so the WHOLE object serializes into public JS
+ * chunks. The owner's private notification inbox rode those bundles
+ * for the site's life (6 public chunks at next 16.4) while every
+ * comment promised "never displayed". The key now lives only inside
+ * the server route (api/contact/route.ts). This pin fails the moment
+ * a private-looking key sneaks back onto the object — the e2e twin
+ * (bundle-secrets.spec) greps the BUILT chunks for the real value. */
+test("SITE carries no private destination keys (client-bundle leak guard)", () => {
+  const privateish = Object.keys(SITE).filter((k) =>
+    /owner|private|secret|password|token|apikey|api_key/i.test(k)
+  );
+  assert.deepEqual(privateish, [], `SITE must stay client-safe, found: ${privateish.join(", ")}`);
+  assert.equal("ownerEmail" in SITE, false, "ownerEmail moved to api/contact/route.ts (P42-8d)");
 });
 
 /* ── products (the fleet's three live siblings) ───────────────────── */

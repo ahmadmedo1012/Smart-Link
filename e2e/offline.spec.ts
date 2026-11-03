@@ -1,5 +1,6 @@
 import { test, expect } from "./fixtures"
 import AxeBuilder from "@axe-core/playwright"
+import { AXE_TAGS } from "./helpers"
 import { SITE, whatsappUrl } from "../src/lib/site"
 
 /**
@@ -45,7 +46,7 @@ test.describe("offline — عقد الصفحة", () => {
       await page.goto("/offline")
       await expect(page.locator("html")).toHaveClass(new RegExp(`(^|\\s)${theme}(\\s|$)`))
       const results = await new AxeBuilder({ page })
-        .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"])
+        .withTags([...AXE_TAGS])
         .analyze()
       const violations = results.violations
       expect(

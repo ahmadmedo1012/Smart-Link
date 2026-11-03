@@ -21,12 +21,19 @@ import {
 } from "@/lib/contact-rules"
 
 /* r126 (P4-A3 §3.7): notifications still go to the owner's private
-   inbox — SITE.ownerEmail; SITE.email is now the on-domain PUBLIC
+   inbox — this constant; SITE.email is now the on-domain PUBLIC
    identity and would be a delivery dead-end as a destination.
    W6-B2 (صدق القنوات — تدقيق W6-A2 P2): رسائل الخطأ لم تعد تعلن
    البريد بديلاً للتواصل — لا صندوق مراقَبًا يمكن التحقق منه؛
-   البديل الحقيقي هو واتساب. */
-const OWNER_EMAIL = SITE.ownerEmail
+   البديل الحقيقي هو واتساب.
+   P42-8d (تدقيق الأمن — إصلاح P3): كان هذا العنوان مفتاحًا في SITE
+   (ownerEmail) فيستقل مع كائن SITE كاملاً إلى حزم JS للعميل —
+   ثلاثة مكوّنات client تستورد SITE فتُسفِر الثابت الحرفي إلى ستة
+   chunks عمومية، وصندوق «لا يُعرض أبداً» كان يُقرأ في view-source
+   كل صفحة (فُحص في بناء next 16.4). الآن: الثابت يعيش هنا وحده —
+   مسار خادم لا يُحزَّم للعميل أبدًا — وe2e/bundle-secrets.spec.ts
+   + tests/unit/site.test.ts يقفلان الانحدار من الجهتين. */
+const OWNER_EMAIL = "ahmedmedo1012@gmail.com"
 /* r13: نطاق المرسل بات في مصدر الحقيقة الواحد مع باقي الثوابت
    التجارية — كان آخر حرف نطاق خارج SITE (route.ts:13). */
 const FROM_EMAIL = SITE.fromEmail

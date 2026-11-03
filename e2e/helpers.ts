@@ -85,6 +85,23 @@ export const SUCCESS_BODY = JSON.stringify({
   message: "تم استلام رسالتك بنجاح. سنتواصل معك قريباً.",
 })
 
+/** وسوم قواعد axe — المصدر الواحد لكل مسح في الجناح (P42-8d: كانت
+ *  حرفية في ثلاثة أماكن). wcag22aa وُلدت هذه الجولة: axe-core 4.14
+ *  يحمل قاعدة واحدة بهذا الوسم — target-size (WCAG 2.5.8) — وهي
+ *  تغطي فئة جرد اللمس المخصص (sim-touch-targets) لا يراها: أهداف
+ *  المؤشر التي ليست a[href]/button (summary/details الأصيلة في
+ *  أسئلة ال landing، وحقول النموذج input/select/textarea). فُحصت
+ *  نظيفة قبل التثبيت: 8 أسطح × وضعان × إطاران (1280/375) + 4 حالات
+ *  تفاعلية (درج الجوال مفتوح، القائمة المنسدلة، أخطاء النموذج،
+ *  الأسئلة المفتوحة) — صفر انتهاكات. باقي معايير 2.2 AA (2.4.11
+ *  التركيز غير المحجوب، 2.5.7 السحب، 3.3.8 المصادقة) لا تحملها
+ *  قواعد axe 4.14 أصلاً — المسح اليدوي لهذه الجولة غطاها (سجّل
+ *  P42-8d): التركيز مرئي دائماً (حرّاس sim-adversarial 13)، لا
+ *  وظيفة تُنجَز بالسحب (الـChainSculpture فن زخرفي aria-hidden —
+ *  دورانه بالسحب ترفيهي لا تشغيلي ويُلغى تحت reduced-motion)،
+ *  ولا مصادقة على الإطلاق. */
+export const AXE_TAGS = ["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"] as const
+
 /** مسح axe-core بنفس وسوم a11y.spec — الوضعان يُفحصان عبر استدعاءات
  *  منفصلة بعد تبديل الثيم.
  *  r15: يُفحص بحالة prefers-reduced-motion — الموقع يدعمها أصلاً
@@ -120,7 +137,7 @@ export async function axeScan(page: Page) {
     return true
   })
   const results = await new AxeBuilder({ page })
-    .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"])
+    .withTags([...AXE_TAGS])
     .analyze()
   return results.violations
 }

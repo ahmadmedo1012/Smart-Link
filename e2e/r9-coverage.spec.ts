@@ -1,5 +1,5 @@
 import { test, expect, PAGES } from "./fixtures"
-import { E2E_ORIGIN } from "./helpers"
+import { E2E_ORIGIN, AXE_TAGS } from "./helpers"
 import AxeBuilder from "@axe-core/playwright"
 
 /**
@@ -33,11 +33,11 @@ test.describe("r9 — prefers-reduced-motion", () => {
 
 test.describe("r9 — مسح axe على viewport الجوال (375×812)", () => {
   for (const p of PAGES) {
-    test(`${p.path} — جوال بلا انتهاكات WCAG 2.1 AA`, async ({ page }) => {
+    test(`${p.path} — جوال بلا انتهاكات WCAG AA (2.1 + 2.2)`, async ({ page }) => {
       await page.setViewportSize({ width: 375, height: 812 })
       await page.goto(p.path, { waitUntil: "networkidle" })
       const results = await new AxeBuilder({ page })
-        .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"])
+        .withTags([...AXE_TAGS])
         .analyze()
       expect(results.violations).toEqual([])
     })

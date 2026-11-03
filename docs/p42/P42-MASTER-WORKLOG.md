@@ -873,3 +873,114 @@ after the agent died post-commit).
   manager after the agent's post-commit crash: lint · unit 45/45 · parity
   598 · truth 59 files · build · new e2e 2/2 · touched offline +
   r9-coverage specs 23/23.
+
+## 2026-11-03 — Wave 9 (SDK-58 internal patch wave + the six release builds) — COMPLETE
+
+**The «58.0.22 patch» (evaluation §6 executed as written; agent records
+P42-9a/9b/9c).** Three atomic lockfile-only commits, one per product app,
+each gated before push:
+
+- **Smart-Menu `7ebf6a9f`** (Stage 1): `expo ^58.0.0 → ~58.0.22` +
+  `expo install --fix` (exactly 2 bundled-module shifts: expo-build-properties
+  ~58.0.12, expo-dev-client ~58.0.18) + pnpm-lock regen (895 packages).
+  **deepmerge left the tree** (3 lockfile refs → 0), `@expo/config@58.0.10`
+  (the deepmerge-dropper), `@expo/cli@58.1.18` (zod pin gone from its deps),
+  overrides block byte-identical. expo-doctor **20/20**; OSV mobile tree:
+  1 advisory (deepmerge) → «No issues found». CI run 41558667724 success.
+- **Smart-Order `52a4dca`** (Stage 2a): same patch via npm — lockfile diff
+  1 removed (deepmerge) · 0 added · 18 changed entries, all inside the expo
+  patch family. CI run 41558671936 success ×4 (+ 4 Dependabot runs green).
+- **SmartBot `e9fa9fb5`** (Stage 2b): same patch + `dec-deepmerge-unpatched`
+  retired in `docs/decisions-ledger.md` per its own removal clause (the one
+  repo with an in-repo exception ledger). CI run 41559913294 success ×4.
+
+Stage 3 (smartlink-mobile 57→58 full jump) NOT taken — remains documented
+P3 (evaluation §6: optional-advised, separate decision; see F-04).
+
+**The release batch — six EAS Android builds, all FINISHED
+(2026-11-03 01:29–01:31 UTC, v1.0.0 / build 4 each):**
+
+| App | Profile | Distribution | Build ID | Git SHA | Completed | Expires |
+|---|---|---|---|---|---|---|
+| smartbot | production | STORE | `99911883-0abc-4e3c-aa55-60b4f1d28d88` | `e9fa9fb551` | 01:53:28 | 2026-12-03 |
+| smartbot | preview | INTERNAL | `5b244fad-3954-495a-b589-24150d37cfcd` | `e9fa9fb551` | 01:53:34 | 2026-11-17 |
+| smart-menu | production | STORE | `cdee59ee-4805-4fa7-88d8-18b2db112b6f` | `7ebf6a9ff0` | 01:51:38 | 2026-12-03 |
+| smart-menu | preview | INTERNAL | `36a49c5a-08e2-45bc-91ef-87778d893668` | `7ebf6a9ff0` | 01:52:24 | 2026-11-17 |
+| smart-order | production | STORE | `57e36480-fe79-452e-9772-499ef559151d` | `52a4dca71c` | 01:55:00 | 2026-12-03 |
+| smart-order | preview | INTERNAL | `b9dafa52-7418-4dbf-b684-283254a3bd62` | `52a4dca71c` | 02:16:35 | 2026-11-17 |
+
+No OTA channels exist in the family (no `updates` / `runtimeVersion` /
+channel in any app.json/eas.json — verified by grep) → **every future code
+fix requires a full binary rebuild.** This fact becomes the W10 external
+blocker below. (Store artifacts were NOT uploaded/distributed in W9 —
+release gating remained with the owner.)
+
+## 2026-11-03 — Wave 10 (10a independent review + remediation 10b) — COMPLETE on web; smartbot binary BLOCKED-EXTERNAL
+
+**10a verdict — «NOT READY AS A FLEET — two blockers»** (agent record
+P42-10a; counts P0=0 · P1=1 · P2=1 · P3=8):
+
+- **F-02 (P1)** — Smart-Menu web production was quietly dead for five
+  waves: **all 8 production deploys W4→W9 state=ERROR**
+  (`5e74620f`, `f90bf213b`, `9d460734`, `eaadd4a6`, `3834e766`, `4e650a52`,
+  `e7294e50`, `7ebf6a9f`; last READY was W3 `ea2a01bb`). Root cause
+  (Vercel build logs, read-only API): `.vercelignore` strips `mobile/`
+  (by design — EAS builds it), but W5's parity tests
+  (`tests/unit/mobile-plan-limit.test.ts`,
+  `tests/unit/p42-5d-mobile-analytics-feature-gate.test.ts`) import
+  `../../mobile/src/lib/**` → `next build` type-check **TS2307** on the
+  stripped Vercel upload. CI checks out the full tree → green; Vercel →
+  red. The seam was born in W5 and went unwatched for five waves.
+  **Fix `e7a52ecd`:** `.vercelignore` += `tests/`, `tests/e2e/`,
+  `maestro/` (the SmartBot family pattern; zero src/ changes; CI keeps
+  full-tree coverage). Dual gates: full-tree typecheck 0 + Vercel-upload
+  simulation (tests/+maestro/+mobile/ moved aside) `tsc --noEmit` 0.
+  CI run 41610376913 success → **production deploy READY 2026-11-03
+  09:21:37 — first success after 8 failures**. Live triple verification:
+  `/api/health` → `commitSha e7a52ecd…` db connected · `/sitemap.xml`
+  static-route lastmod gone (W7 live) · login bundle carries the W8b guard.
+- **F-01 (P2)** — SmartBot login `safeRedirect`
+  (`fb_dashboard/frontend/src/app/login/page.tsx`) lacked the W8b
+  control-char rejection: WHATWG strips TAB/LF/CR before path grammar →
+  `?redirect=/%09/evil.com` survived the guard and parsed cross-origin.
+  **Fix `7f7c5692`** — verbatim port of Smart-Menu `e7294e50`: reject the
+  whole `[\x00-\x1f\x7f]` class before any other check. Regression wall
+  6→11 contracts in `LoginRedirect.test.tsx` (live semantics proofs:
+  `new URL("/\t/evil.com", base).origin === "https://evil.com"` for
+  TAB/LF/CR; vectors `/%09/`, `/%0A/`, `/%0D/`, `/%7F/evil.com` →
+  `/dashboard`). Gates: 11/11 · tsc 0 · eslint 0 · full frontend suite
+  **65 files / 629 tests**. CI run 41611252036 success ×4 → both Vercel
+  projects (smart-bot-api + smartbot-frontend) deployed READY at
+  `7f7c5692` (09:28). Live: production bundle (chunk `0noaqbwwrgp9f.js`)
+  contains the fixed guard verbatim.
+- **F-03…F-10 (P3 register)** — documented, none blocks release; owned by
+  the next maintenance wave (full table in the issue register W10 section).
+
+**The remaining blocker is EXTERNAL — EAS free-tier quota.** The smartbot
+STORE artifact (`99911883`, git `e9fa9fb551`) **predates the F-01 fix
+commit**; the 10a directive requires the store binary to be rebuilt at
+`7f7c5692` before any Play Store upload. The rebuild was attempted in 10b
+and **refused by EAS: free-plan Android quota exhausted (15/15, resets
+2026-12-01)** — the account shows **17 Android builds created
+2026-11-01..03** (9 on Nov 1 across the P41 batch incl. madarek-mobile and
+subnation · 2 madarek Nov 2 · the 6 W9 builds Nov 3). Precision, so nothing
+is overstated in either direction: the F-01 delta (`e9fa9fb5..7f7c5692`)
+touches only `fb_dashboard/frontend/` — `git diff` shows **zero mobile/
+impact**, and `mobile/src` has no redirect-handling login (grep) — so the
+stale binary does not embed the vulnerable web code path; the staleness is
+commit-provenance (not built at a fix-carrying SHA). Per the standing
+directive the stale binary is **NOT uploaded/distributed**; the rebuild
+waits for the quota reset (free) or a paid plan (requires explicit owner
+approval — not purchased). Documented as owner-side external release
+dependency in the owner-decisions register.
+
+**10b final reconciliation (same day, session manager):** re-verified all
+four remote heads from origin (`be0582ce` / `7f7c5692` / `e7a52ecd` /
+`52a4dca` — no newer commits; ancestry confirmed W9→W10), CI check-runs
+green on every head, all five Vercel production deployments READY at
+exactly those SHAs (smartlink · smart-bot-api · smartbot-frontend ·
+smart-menu · smart-order), live endpoints 200 + health commitSha match +
+bundle guard match; EAS inventory re-queried read-only (the table above);
+this document set reconciled to reality — W9/W10 sections were missing
+from every canonical doc until now (the dashboard said green before the
+ledger did; that inversion is itself the W10 lesson).

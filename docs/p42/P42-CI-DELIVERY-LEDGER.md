@@ -220,3 +220,53 @@ only as good as the contract it actually pins.
 | Smart-Order | `e6500e9` | **W6-3b** two hot Order indexes on BOTH schema twins (merchant list + public track lookup full-scan fix) | schema-twins ✓ prisma validate (both providers) ✓ index-pins ✓ | (same batch) |
 | Smart-Order | `829868d` | **W6-3c** products PATCH price carries POST's r140 cap | (+pin) | (same batch) |
 | Smart-Order | `8b1d36d` | **W6-3d** make-admin refuses production pre-connection (validated live vs ambient foreign DB) | (+pin) | (same batch) |
+
+### Wave 7 — SEO/discoverability (2026-11-03)
+
+| Repo | Commit | Subject | Gates (local) | CI |
+|---|---|---|---|---|
+| SmartBot | `1b5d9043` + `0607b4ce` + `1aa1676e` | W7-BOT-1/2 + pin wall (og:locale family · /login og:image · JSON-LD truth · twitter.title) | tsc · vitest · parity | batch push — run [41547951562](https://github.com/ahmadmedo1012/SmartBot/actions/runs/41547951562) **success ×4** at final HEAD `1aa1676e` |
+| Smart-Menu | `4e650a52` | W7-MEN-1/2 (dead JSON-LD values + sitemap lastmod truth) | +10 pins · suite 3009/2 · build | run [41547956468](https://github.com/ahmadmedo1012/Smart-Menu/actions/runs/41547956468) **success ×4** |
+| Smart-Order | `d8a13d5` | W7-ORD-1 (track-token triple-layer exclusion) | +19 pins · e2e | run [41547962834](https://github.com/ahmadmedo1012/Smart-Order/actions/runs/41547962834) **success ×4** |
+| Smart-Link | — | W7 audit CLEAN (zero findings, live-production evidence) | — | — (audit wave; first LNK commit lands in W8 below) |
+
+### Wave 8 — security/a11y/perf (2026-11-03)
+
+| Repo | Commit | Subject | Gates (local) | CI |
+|---|---|---|---|---|
+| SmartBot | `bb4e4a02` + `d7b68694` | W8-BOT-1/2/3 (broadcast 422 guard · 6-test redirect wall · zod OSV retirement) | pytest 1281 · ruff · tsc · vitest 624 · build ×2 · secret-scan · OSV | batch push — run [41555057736](https://github.com/ahmadmedo1012/SmartBot/actions/runs/41555057736) **success ×4** at final HEAD `d7b68694` |
+| Smart-Menu | `e7294e50` | W8-MEN-1 (open-redirect control-char bypass fixed in both twins) | +9 pins · suite 3018/2 · build | run [41552391240](https://github.com/ahmadmedo1012/Smart-Menu/actions/runs/41552391240) **success ×4** |
+| Smart-Order | `d9b4f1e` | W8-ORD-1/2 (44px floor + JSON-LD escape + noopener) | 6-test contract · e2e | run [41552394505](https://github.com/ahmadmedo1012/Smart-Order/actions/runs/41552394505) **success ×4** |
+| Smart-Link | `44d151b` | W8-LNK-1 (owner email out of client bundles + bundle-secrets e2e + axe wcag22aa) | lint · unit 45/45 · parity 598 · truth 59 · build · e2e 2/2 | run [41552379187](https://github.com/ahmadmedo1012/Smart-Link/actions/runs/41552379187) **success ×2** |
+| Smart-Link | `be0582c` | W7+W8 docs (this document set — the record the 10a review audited) | — | run [41555192812](https://github.com/ahmadmedo1012/Smart-Link/actions/runs/41555192812) **success ×2** |
+
+### Wave 9 — SDK-58 patch + the release batch (2026-11-03)
+
+| Repo | Commit | Subject | Gates (local) | CI | Production (Vercel) |
+|---|---|---|---|---|---|
+| Smart-Menu | `7ebf6a9f` | 58.0.22 patch — deepmerge leaves the pnpm tree | tsc 0 · lint 0-0 · parity · export · expo-doctor 20/20 · OSV clean | run [41558667724](https://github.com/ahmadmedo1012/Smart-Menu/actions/runs/41558667724) **success** | **ERROR** — the 8th consecutive production failure (F-02; root cause found + fixed in W10) |
+| Smart-Order | `52a4dca` | 58.0.22 patch — npm lock | tsc 0 · lint · unit · parity · e2e | run [41558671936](https://github.com/ahmadmedo1012/Smart-Order/actions/runs/41558671936) **success ×4** | smart-order **READY** @ `52a4dca` (01:16) |
+| SmartBot | `e9fa9fb5` | 58.0.22 patch + decisions-ledger retirement | pytest · ruff · tsc · vitest · build · OSV | run [41559913294](https://github.com/ahmadmedo1012/SmartBot/actions/runs/41559913294) **success ×4** | smart-bot-api + smartbot-frontend **READY** @ `e9fa9fb5` (01:28) |
+
+**EAS release batch (six FINISHED — full inventory in the worklog):**
+smartbot `99911883` STORE + `5b244fad` INTERNAL @ `e9fa9fb551` · smart-menu
+`cdee59ee` STORE + `36a49c5a` INTERNAL @ `7ebf6a9ff0` · smart-order
+`57e36480` STORE + `b9dafa52` INTERNAL @ `52a4dca71c` — v1.0.0 / build 4.
+No Play Store submission in W9 (release gating with the owner).
+
+### Wave 10 — 10a review blockers cleared (2026-11-03)
+
+| Repo | Commit | Subject | Gates (local) | CI | Production (Vercel) |
+|---|---|---|---|---|---|
+| Smart-Menu | `e7a52ecd` | **F-02 (P1)** — `.vercelignore` += `tests/` + `maestro/` (production TS2307 root cause; family pattern) | dual typecheck gates 0 (full tree + stripped-upload simulation) | run [41610376913](https://github.com/ahmadmedo1012/Smart-Menu/actions/runs/41610376913) **success** · nightly flake [41614227360](https://github.com/ahmadmedo1012/Smart-Menu/actions/runs/41614227360) success | **smart-menu READY @ `e7a52ecd` (09:21:37 — first production success after 8 failures)** · live `/api/health` commitSha match |
+| SmartBot | `7f7c5692` | **F-01 (P2)** — control-char rejection ported to login `safeRedirect` (verbatim `e7294e50` recipe) | LoginRedirect 11/11 · tsc 0 · eslint 0 · suite 65 files / 629 tests | run [41611252036](https://github.com/ahmadmedo1012/SmartBot/actions/runs/41611252036) **success ×4** | smart-bot-api + smartbot-frontend **READY** @ `7f7c5692` (09:28) · live bundle guard verified (chunk `0noaqbwwrgp9f.js`) |
+
+**Post-W10 external blocker (OPEN — not closed by anything above):** the
+smartbot STORE binary rebuild at `7f7c5692` — attempted in 10b and **refused
+by EAS: free-plan Android quota exhausted (15/15)**; 17 Android builds were
+created in the account 2026-11-01..03 (P41 batch + W9 batch). Resets
+**2026-12-01** (free) or a paid plan with explicit owner approval (NOT
+purchased). The stale binary is not uploaded/distributed; the fix delta has
+zero mobile/ impact (documented in the worklog W10 section). The cadence
+rule restored by F-02 now applies to binaries too: **no release label
+without the artifact's git SHA verified at or past the fix commit.**

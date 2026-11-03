@@ -366,3 +366,30 @@ Smart-Menu `3834e766` · Smart-Order `58db2f6`+`e6500e9`+`829868d`+`8b1d36d`.
 | W8-ORD-2 | P3 | Smart-Order | FAQ JSON-LD lacked the r140 <-escape; 3 blank-target links without rel="noopener noreferrer" | **FIXED `d9b4f1e`** |
 | W8-LNK-1 | **P2** | Smart-Link | **Owner's private notification email shipped in 6 public client-bundle chunks** (ownerEmail on the SITE object literal-scribed by 3 client importers — «never displayed» true in DOM, false in view-source) | **FIXED `44d151b`** (constant → server route only + unit pin + bundle-secrets e2e gate stripping 7 credential shapes; axe tags → wcag22aa) |
 | W8-fleet | P3 | fleet | A11y coverage gaps (no automated axe/keyboard CI sweep in Menu/Order; no 200%-zoom e2e in Bot/Menu) · perf candidates documented with numbers (Menu font preloads 194KB, Order unbounded 500-product payload, Bot common base 193KB in watch zone) | DOCUMENTED (agent records P42-8{a,b,c,d}) |
+
+---
+
+# P42 — ISSUE REGISTER (Waves 9+10 additions, 2026-11-03)
+
+## Wave 9 — SDK-58 internal patch + the release batch
+
+| ID | Sev | Product | Finding | Disposition |
+|---|---|---|---|---|
+| P2-5 → executed | P2 | fleet | The staged «58.0.22 patch wave» (SDK58 evaluation §6, approved plan-first per D6) | **EXECUTED & VERIFIED W9**: Smart-Menu `7ebf6a9f` · Smart-Order `52a4dca` · SmartBot `e9fa9fb5` — three atomic lockfile-only commits; **deepmerge GONE from all three lockfiles** (greps, not assumptions — the family's last reachable mobile advisory closes with it); expo-doctor 20/20; OSV clean; CI green ×3. Stage 3 (smartlink-mobile full jump) NOT taken — remains P3 (see F-04) |
+| W9-BIN | — | fleet | Six release builds (STORE + INTERNAL per app) at the W9 heads | **FINISHED** — full inventory table in the worklog W9 section (build IDs, SHAs, timestamps). The smartbot pair is superseded by the F-01 binary requirement below |
+
+## Wave 10 — the 10a findings register (independent review)
+
+| ID | Sev | Product | Finding | Disposition |
+|---|---|---|---|---|
+| **F-01** | **P2** | SmartBot | Login open-redirect: the control-char bypass class Smart-Menu fixed in W8b (`e7294e50`) was unpatched in the `safeRedirect` twin — `?redirect=/%09/evil.com` survived the guard (WHATWG strips TAB/LF/CR before path grammar) | **FIXED `7f7c5692`** — verbatim port: `[\x00-\x1f\x7f]` rejected first; LoginRedirect wall 6→11 contracts (live semantics proofs + `/%09/` `/%0A/` `/%0D/` `/%7F/` vectors); suite 65 files/629 tests; CI run 41611252036 success; both Vercel projects READY at `7f7c5692`; guard verified live in the production bundle. **Binary follow-up OPEN (external): the STORE artifact `99911883` predates the fix — rebuild at `7f7c5692` required before Play upload, blocked on EAS quota (resets 2026-12-01). Precision: the fix delta has zero mobile/ impact — no vulnerable code path is embedded in the binary; no OTA exists in the family** |
+| **F-02** | **P1** | Smart-Menu | Web production frozen at W3 `ea2a01bb` — **8 consecutive failed production deploys W4→W9** (TS2307: W5 parity tests import `../../mobile/**` that `.vercelignore` strips; CI's full checkout stayed green while Vercel errored — the verification seam nobody watched) | **FIXED `e7a52ecd`** — `.vercelignore` += `tests/` + `tests/e2e/` + `maestro/` (family pattern); dual typecheck gates 0 (full tree + stripped-upload simulation); CI run 41610376913 success; **production READY 2026-11-03 09:21:37 (first success after 8 failures)**; live-verified: `/api/health` commitSha `e7a52ecd…` + sitemap truth + W8b guard in the login bundle. Ledger cadence restored: production-READY evidence is again mandatory per wave |
+| F-03 | P3 | Smart-Order | No pending-subscription-payment dedup (family-inconsistent with both siblings) | DOCUMENTED (10a) → next maintenance wave (partial unique index + P2002→409, mirrors siblings) |
+| F-04 | P3 | Smart-Link | Smart-Link mobile (SDK 57) still carries `deepmerge@4.3.1` with no documented exception | DOCUMENTED (10a) → next maintenance wave (SDK-58 jump per evaluation Stage 3, or documented suppression + audit-gate extension) |
+| F-05 | P3 | Smart-Order | Subscription review lacks tier-monotonicity (M-3 sibling check absent) | DOCUMENTED (10a) → policy call, owner register |
+| F-06 | P3 | SmartBot | Campaign creation open to `viewer` (DOC-6 still open) | DOCUMENTED (10a) → quiet-round alignment to editor-gate |
+| F-07 | P3 | Smart-Menu | Dev-tree `zod@3.25.76` (HIGH) via knip — invisible to the `--prod`-scoped audit gate | DOCUMENTED (10a) → knip bump or dev-tree override |
+| F-08 | P3 | Smart-Order | Any member (incl. STAFF) may submit/attach subscription payment | DOCUMENTED (10a) → product decision |
+| F-09 | P3 | Smart-Order | Schema sync fails open in production deploys (`vercel-db-sync.mjs` exit-0 anti-freeze; silent index-drift window) | DOCUMENTED (10a) → post-deploy index probe proposed |
+| F-10 | P3 | SmartBot | DOC-1/DOC-2/DOC-5 re-verified open and accurately documented (seat race · OpenAI timeout · tenant self-delete) | DOCUMENTED (10a) → scheduled per W6 proposals, with TTLs |
+| W10-EXT | — | fleet | **EAS free-plan Android quota exhausted (15/15)** — 17 Android builds created in the account 2026-11-01..03; blocks the smartbot rebuild at `7f7c5692` | **EXTERNAL — owner-side**: resets **2026-12-01** (free) or paid plan (requires explicit owner approval; NOT purchased — no paid action taken). The stale smartbot binary is NOT uploaded/distributed |

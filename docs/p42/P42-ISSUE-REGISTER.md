@@ -338,3 +338,31 @@ Smart-Menu `3834e766` · Smart-Order `58db2f6`+`e6500e9`+`829868d`+`8b1d36d`.
 | W6-ORD-3 | P2 | Smart-Order | Products PATCH price lacked POST's r140 999_999_000 cap (an edit could reach the MAX_SAFE_INTEGER edge) | **FIXED `829868d`** (+pin) |
 | W6-ORD-4 | P2 | Smart-Order | make-admin.js ran against whatever DATABASE_URL it found — repo-published QA credential could be planted into a production DB | **FIXED `8b1d36d`** (refuses NODE_ENV=production pre-connection; validated live against an ambient foreign DB — aborted pre-write) |
 | W6-ORD-5..13 | P3 | Smart-Order | Checkout price-snapshot ms-window (architecture rewrite — out of policy) · subscriptions member-attach policy + null-business poll wart · push.ts duplicate role map · category hard-delete FK race · no Sentry · extraPerms whitelist narrower than permissionsFor · customers bounded load · unlimited track GET (unguessable 122-bit token) · products PATCH/DELETE unaudited | DOCUMENTED (agent record P42-6c) |
+
+---
+
+# P42 — ISSUE REGISTER (Waves 7+8 additions, 2026-11-03)
+
+## Wave 7 — SEO/discoverability
+
+| ID | Sev | Product | Finding | Disposition |
+|---|---|---|---|---|
+| W7-BOT-1 | P3 | SmartBot | og:locale ar_AR only on landing (child openGraph replaces root object — shallow-merge family); /login shipped no og:image (imageless WhatsApp cards); root twitter.title made every X card show the home title | **FIXED `1b5d9043`** (+pin wall `1aa1676e`) |
+| W7-BOT-2 | P3 | SmartBot | FAQ JSON-LD encryption answer ≠ visible copy (W2-C3 never propagated to schema); Organization claimed ar+en with zero English backing | **FIXED `0607b4ce`** |
+| W7-MEN-1 | P3 | Smart-Menu | Dead JSON-LD values: description "" (schema default leaked), hasMenuItem:[] husks (archived/sold-out sections), fully-empty menus still shipped a Menu entity | **FIXED `4e650a52`** (+10 pins) |
+| W7-MEN-2 | P3 | Smart-Menu | Sitemap static routes carried fake new Date() lastmods | **FIXED `4e650a52`** |
+| W7-ORD-1 | **P2** | Smart-Order | **/track/[token] was INDEXABLE** (no canonical guard, no X-Robots-Tag; a throwing generateMetadata on DB outage rendered 200 with NO robots meta) — order tokens + customer info at risk of indexing; checkout had nofollow+homepage-canonical contradiction; sitemap silently empty on env-unset | **FIXED `d8a13d5`** (triple-layer exclusion + site-url resolver + store OG restoration; +19 pins) |
+| W7-LNK-* | — | Smart-Link | Full audit | **CLEAN — zero findings** (live-production evidence, all prior pins hold) |
+
+## Wave 8 — security/a11y/perf
+
+| ID | Sev | Product | Finding | Disposition |
+|---|---|---|---|---|
+| W8-BOT-1 | P2 | SmartBot | Non-string broadcast name → raw 500 (`{"name":{"a":1}}` live-probed) | **FIXED `bb4e4a02`** (isinstance + pin; the interrupted agent's length-cap family kept 100%) |
+| W8-BOT-2 | P3 | SmartBot | safeRedirect open-redirect guard had ZERO tests | **FIXED `bb4e4a02`** (6-test matrix wall) |
+| W8-BOT-3 | P3 | SmartBot | Stale zod OSV suppression (both lockfiles already at 4.6.7) | **FIXED `d7b68694`** (removed per its own removal clause) |
+| W8-MEN-1 | **P2** | Smart-Menu | **Open-redirect bypass:** WHATWG parser strips tab/LF/CR before path grammar → `?redirect=/%09/evil.com` passed the r118 guard and parsed cross-origin in BOTH sinks (proven live) — the W5 401 seam rides this exact param | **FIXED `e7294e50`** (C0+DEL control-char rejection in both safeRedirectTarget twins; +9 pins) |
+| W8-ORD-1 | P3 | Smart-Order | 6 native interactive controls at ~32-36px (chips, store back, cart qty, calendar nav, staff remove) — below the 44px floor | **FIXED `d9b4f1e`** (44px floor + 6-test contract) |
+| W8-ORD-2 | P3 | Smart-Order | FAQ JSON-LD lacked the r140 <-escape; 3 blank-target links without rel="noopener noreferrer" | **FIXED `d9b4f1e`** |
+| W8-LNK-1 | **P2** | Smart-Link | **Owner's private notification email shipped in 6 public client-bundle chunks** (ownerEmail on the SITE object literal-scribed by 3 client importers — «never displayed» true in DOM, false in view-source) | **FIXED `44d151b`** (constant → server route only + unit pin + bundle-secrets e2e gate stripping 7 credential shapes; axe tags → wcag22aa) |
+| W8-fleet | P3 | fleet | A11y coverage gaps (no automated axe/keyboard CI sweep in Menu/Order; no 200%-zoom e2e in Bot/Menu) · perf candidates documented with numbers (Menu font preloads 194KB, Order unbounded 500-product payload, Bot common base 193KB in watch zone) | DOCUMENTED (agent records P42-8{a,b,c,d}) |

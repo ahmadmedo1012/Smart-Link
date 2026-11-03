@@ -769,3 +769,107 @@ cap-bypass, 1 atomicity/orphan-account, 2 hot indexes, 1 input-cap, 1
 prod-guard); ~25 P3s documented with proposals in the agent records
 (/home/z/my-project/agent-ctx/P42-6{a,b,c}-*.md — mirrored into this
 program's durable records at the next docs commit).
+
+## 2026-11-03 — Waves 7+8 (SEO/discoverability + security/accessibility/performance) — COMPLETE
+
+**W7 — SEO & discoverability (§7).** Four parallel audits (one per product),
+all evidence-based; two agents were interrupted mid-work and their partial
+work was verified-and-completed by retry agents (the W4-5c precedent —
+both partial works survived verification 100%).
+
+- **SmartBot `1b5d9043` + `0607b4ce` + `1aa1676e`** (pushed, CI ×4 green):
+  og:locale ar_AR re-declared on all 8 child-OG routes (the r133 ruling was
+  live on the landing only — child openGraph REPLACES the root object, the
+  v9-E2 shallow-merge family); /login og:image completed (imageless WhatsApp
+  cards — the market's dominant share channel); root twitter.title removed
+  so X cards read each route's own og:title; JSON-LD truth sync (FAQ
+  encryption answer == visible copy verbatim — the W2-C3 fix never
+  propagated to schema; Organization knowsLanguage trimmed to Arabic-only
+  per r144 doctrine); 6-twin pin wall (vitest + parity.mjs). Verified
+  clean: titles/canonicals/robots/sitemap, marketing truth (zero
+  X/LinkedIn/Instagram publishing ads), prices match DB seed.
+- **Smart-Menu `4e650a52`** (pushed, CI ×4 green): dead JSON-LD values
+  leave the machine — empty description `""` (schema default leaked to
+  every description-less restaurant), empty `hasMenuItem: []` sections
+  (all items archived/sold-out left structural husks), fully-empty menus
+  drop the whole Menu entity above the honest «قائمتنا قيد التحضير»;
+  sitemap lastmod truth (fake new Date() on static routes removed);
+  +10 pins; suite 3009/2; build green. Private trees triple-excluded
+  (robots + noindex + 307); demo posture deliberate + pinned.
+- **Smart-Order `d8a13d5`** (pushed, CI ×4 green incl. both e2e): the
+  discovery contract — /track/[token] gets canonical:null + meta noindex +
+  **X-Robots-Tag: noindex header** (triple-layered out of indexes; the
+  122-bit order credential never rides any head signal; the DB-outage
+  branch also covered — a throwing generateMetadata used to render 200
+  with NO robots meta); checkout noindex+self-canonical (was nofollow +
+  homepage canonical — the family's last contradiction); lib/site-url.ts
+  one-origin resolver (env-unset used to silently empty the sitemap);
+  store OG og:url+og:site_name restored (the money page lost them on every
+  share — shallow-merge again); robots /api/media/ opening verified
+  scoped; +19 pins; unit 284 · parity 520 · build 40/40.
+- **Smart-Link (audit-only, zero commits):** every checklist item HOLDS
+  with live-production evidence (all 6 routes' metadata byte-identical to
+  HEAD; zero redirect chains; product claims all truthful — W2-LNK-5,
+  B1-M1 pins hold; sw.js v2 + manifest verified live; full gate set green
+  incl. e2e 334 with only Chromium OOM flakes under parallel load).
+
+**W8 — Security (ASVS+MASVS) + Accessibility (WCAG 2.2 AA) + Performance
+(honest numbers) (§8).** Four product agents (two interrupted → verified +
+completed; Smart-Link's orphan commit gate-verified by the session manager
+after the agent died post-commit).
+
+- **SmartBot `bb4e4a02` + `d7b68694`** (pushed): the interrupted agent's
+  length-cap family (rules/broadcasts/templates — every cap matches the
+  actual model columns, 422-Arabic D1-H1 family) kept 100% + the gap it
+  missed fixed (non-string broadcast name → raw 500 on `{"name":{"a":1}}`
+  — isinstance guard + pin); safeRedirect had ZERO tests → 6-test matrix
+  wall (//evil.com, backslash, javascript: all rejected); stale zod OSV
+  suppression removed per its own removal clause (both lockfiles at
+  4.6.7); SSRF/CSRF/secrets/MASVS verified clean (SecureStore, permissions
+  [], no inbound deep links); a11y gates all green (0 unnamed icon-only
+  buttons/244 files, contrast AA, 101 native labels); perf: common base
+  193.1KB gz ≤195KB budget, prod warm 0.10s edge HIT, hbc flat 4.5MB.
+  pytest 1281/3 · ruff · tsc · vitest 624 · build ×2 · secret-scan · OSV.
+- **Smart-Menu `e7294e50`** (pushed, CI ×4 green): **a real open-redirect
+  bypass fixed** — the r118-A4-P3 guard rejected `//` and `/\` but the
+  WHATWG parser strips ASCII tab/LF/CR before path grammar, so
+  `?redirect=/%09/evil.com` passed all three checks then parsed
+  CROSS-ORIGIN in both sinks (proven live: new URL origin === evil.com);
+  fixed by rejecting all C0+DEL control chars in both safeRedirectTarget
+  twins — the W5 401 seam and the proxy both ride this exact param, so the
+  guard is the single choke point; +9 pins; suite 3018/2; build green.
+  Everything else verified clean: upload magic-byte validation + tenant
+  paths, zero SSRF surface, zero raw mutating fetches outside csrfFetch
+  (PCRE2 sweep), rotation-proof order rate caps, SecureStore WHEN_UNLOCKED,
+  allowlist-parsed deep links, VIBRATE-only permissions; perf measured
+  (menu HTML 22.3KB gz from ISR, 26 chunks ~370KB gz, fonts 194.4KB
+  documented as candidate optimization).
+- **Smart-Order `d9b4f1e`** (pushed, CI ×4 green incl. both e2e): native
+  touch-target floor — 6 interactive controls sat at ~32-36px (chips,
+  store back, cart qty, calendar nav, staff remove) → all raised to the
+  44px floor + 6-test source contract; FAQ JSON-LD got the r140 <-escape
+  (last inline ld+json without it); 3 blank-target links lacked
+  rel="noopener noreferrer" (the new parity sweep caught the third that
+  manual grep missed). Security verified clean (zod caps mirrored
+  client/server, cuid capability URLs enumeration-infeasible, no SSRF, no
+  open redirects, SecureStore-only tokens, permissions [], QR client-side
+  over origin+slug only, 0 web dep advisories). Contrast numerically
+  verified 6.5-15.9:1 both themes. Perf: prod store page 41.6KB HTML /
+  TTFB 0.57-1.68s ISR / initial JS ~305KB gz (three.js globe NOT in
+  initial payload) / hbc 3.47MB flat.
+- **Smart-Link `44d151b`** (pushed, CI ×2 green incl. full e2e): **the
+  owner's private notification email was shipping in public client
+  bundles** — ownerEmail lived on the SITE object while three client
+  components imported SITE, literal-scribing the object into 6 public
+  chunks («never displayed» was true in the DOM and false in view-source);
+  the constant moved to its only consumer (server route, never bundled) +
+  a unit pin (SITE carries no private keys — rejects any future
+  owner/private/secret/token/apikey key) + a new e2e gate
+  (bundle-secrets.spec.ts) reading the real build output and stripping 7
+  credential shapes (re_/sk-/ghp_/AKIA/AIza/xox/PEM — the thresholds born
+  from a real false-positive: Tailwind's mask-image sk-); axe tags
+  upgraded from 2.1 to **wcag22aa** (axe-core 4.14's target-size 2.5.8
+  sees beyond the custom touch-target inventory). Verified by the session
+  manager after the agent's post-commit crash: lint · unit 45/45 · parity
+  598 · truth 59 files · build · new e2e 2/2 · touched offline +
+  r9-coverage specs 23/23.

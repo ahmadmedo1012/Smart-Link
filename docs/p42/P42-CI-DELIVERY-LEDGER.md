@@ -270,3 +270,18 @@ purchased). The stale binary is not uploaded/distributed; the fix delta has
 zero mobile/ impact (documented in the worklog W10 section). The cadence
 rule restored by F-02 now applies to binaries too: **no release label
 without the artifact's git SHA verified at or past the fix commit.**
+
+### Post-closure external event — Vercel account block (2026-11-04, session 10d)
+
+| Scope | Event | Evidence | Production (Vercel) |
+|---|---|---|---|
+| account-wide | **softBlock `FAIR_USE_LIMITS_EXCEEDED` (overage `fluidCpuDuration`)** — serving paused 2026-11-04 02:41:35 UTC → auto-unpause 2026-12-04 02:41:35 UTC (exactly 30 days) | `GET /v2/teams/{team}` softBlock field + live probes of all four domains | Deployments still show **READY in the API but serve 402 at the edge** — smart-link.ly · menu.smart-link.ly · bot.smart-link.ly · order.smart-link.ly + vercel.app URLs all `402 DEPLOYMENT_DISABLED` |
+| SmartBot | CI-green `2522399b` (pushed 03:36) **undeployable — no deployment created** | deployments list ends at `070f4e00` (02:10, READY — 31 minutes before the block) | production frozen at `070f4e00` |
+
+The P42 ledger rows above are unaffected: every production-READY claim in
+this ledger was verified live **2026-11-03**, before the block began. The
+block is owner-side external (decision register §8); the program dashboard
+banner is live-driven from the same API field and clears itself on unblock.
+The Wave-10 cadence rule extends naturally: **a production-READY label is
+only truthful while the account can serve — the dashboard now proves it
+end-to-end on every refresh.**

@@ -984,3 +984,71 @@ bundle guard match; EAS inventory re-queried read-only (the table above);
 this document set reconciled to reality — W9/W10 sections were missing
 from every canonical doc until now (the dashboard said green before the
 ledger did; that inversion is itself the W10 lesson).
+
+---
+
+## 10d — Post-closure re-verification + the Vercel account block (2026-11-04)
+
+Continuation session of the final-reconciliation directive (same lineage as
+10c; the sandbox had recycled the clones — fresh clones verified against
+origin). Nothing reopened without regression evidence; no paid actions; no
+destructive cleanup.
+
+**Baseline re-verified (all four repos):** the P42-closure heads remain
+strict ancestors of current `main` (compare API: behind=0 everywhere); P43
+waves have since advanced three repos on top — SmartBot `7f7c5692 →
+2522399b` (+3), Smart-Menu `e7a52ecd → 29a8936e` (+5), Smart-Order
+`52a4dca → af1a5bf7` (+8); Smart-Link still at `f1aa2ff` (the 10c docs
+commit). CI on current heads: Smart-Link 2/2 · SmartBot 4/4 · Smart-Order
+4/4 success; Smart-Menu main gates green (lint-build-test / prod-qa /
+triage) but its **scheduled canaries (`ping`, `demo-canary`) fail —
+symptom of the block below, not a regression**. Working trees clean on
+fresh clones at all four current heads.
+
+**NEW EXTERNAL EVENT (discovered this session, 09:42 UTC): Vercel account
+soft-block — all four production sites DOWN (402).** The team object
+(`team_bBctUHIWiI5k3h4rYmp4rzBp`) carries `softBlock`:
+`FAIR_USE_LIMITS_EXCEEDED` · overage `fluidCpuDuration` · blockedAt
+**2026-11-04 02:41:35 UTC** · auto-unpause **2026-12-04 02:41:35 UTC**
+(exactly 30 days). Verified from two independent directions — the API
+field, and live probes: `smart-link.ly`, `menu.smart-link.ly`,
+`bot.smart-link.ly`, `order.smart-link.ly` ALL answer `402
+DEPLOYMENT_DISABLED` (vercel.app deployment URLs too). Deployments are
+paused account-wide: SmartBot's CI-green `2522399b` (pushed 03:36) has NO
+deployment — the last successful production deployment is `070f4e00`
+(02:10, 31 minutes before the block). **This is NOT a P42 regression**:
+every W10 live verification was performed 2026-11-03, hours before the
+block; the block is an account-level quota event of the same external
+category as the EAS quota blocker. The program dashboard now carries a
+live banner (driven by the same softBlock field + domain probes — it
+clears itself automatically when the block lifts) and the owner options:
+Pro upgrade (paid — explicit approval required, NOT purchased), wait for
+auto-unpause 2026-12-04, or Vercel support (owner register §8).
+
+**EAS re-verified read-only (GraphQL `api.expo.dev`):** the six W9 builds
+unchanged (FINISHED, same IDs/SHAs; **no new builds since 2026-11-03
+01:31** — the P43 waves pushed none); quota state unchanged (17 Android
+builds in the November window ≥ 15 free limit; INTERNAL artifacts expire
+2026-11-17, STORE 2026-12-03). Token status **CORRECTED vs 10c's note**:
+EXPO_TOKEN_1 works — this session's inventory query ran on it (HTTP 200);
+the 10c "revoked" reading was wrong. What actually broke is **schema
+drift**: `App.platform` and `Build.buildNumber` no longer exist on the EAS
+GraphQL schema (use `Build.platform`, `appBuildVersion`, `releaseChannel`)
+— old queries 400/403 depending on token; TOKEN_2/_3 now 403 on account
+queries (`me: null` — restricted scope). Credentials file annotated.
+
+**Mobile-binary validity re-verified against the P43-advanced sources**
+(compare API, file-by-file): smart-menu `7ebf6a9f..29a8936e` — 51 files,
+**zero** `mobile/` or app-config files; smart-order `52a4dca..af1a5bf7` —
+51 files, **zero**; smartbot `e9fa9fb5..2522399b` — 28 files, **zero**.
+The four valid W9 binaries therefore remain valid for the current sources;
+the smartbot pair remains stale-by-provenance (pre-F-01) and still must
+not be uploaded or distributed.
+
+**Workspace (dashboard repo) commits reconciled** — unchanged from 10c:
+`7654215` (W10 remediation) → `6f78617` (dashboard verification fixes) →
+`4c145bc` (10c session record); the workspace repo deliberately has NO
+remote (credentials live in it; stated policy in
+`download/p42-credentials.env`); the owner's continuous-push order applies
+to the product repos, all verified pushed. This session's record stacks on
+top locally.

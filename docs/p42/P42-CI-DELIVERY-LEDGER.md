@@ -285,3 +285,17 @@ banner is live-driven from the same API field and clears itself on unblock.
 The Wave-10 cadence rule extends naturally: **a production-READY label is
 only truthful while the account can serve — the dashboard now proves it
 end-to-end on every refresh.**
+
+### Final release-closure re-verification (2026-11-06, session 10e)
+
+| Scope | Finding | Evidence |
+|---|---|---|
+| four repos | heads unchanged since 10d (`1e9ee17` / `2522399b` / `29a8936e` / `af1a5bf7`), trees clean; P42 expected heads verified ancestors | fresh clones + `git merge-base --is-ancestor` |
+| CI on heads | Smart-Link 2/2 · SmartBot 4/4 · Smart-Order 4/4 green; Smart-Menu code gates green, scheduled `ping`/`demo-canary` failing = block symptom | check-runs API per head commit |
+| Vercel block | **still active** — all four domains 402 `DEPLOYMENT_DISABLED`; softBlock unchanged (unpause 2026-12-04 02:41:35 UTC); keep-alive timeline brackets onset (last ping success 11-04 00:57:13, first failure 07:14:23) | domain probes + `GET /v2/teams/{team}` + keep_alive run history |
+| EAS | six W9 builds FINISHED, **no new builds since 2026-11-03 01:31**; TOKEN_1 working; smartbot pair still stale-by-provenance (pre-F-01), not uploaded/distributed; four valid binaries re-proven (empty `mobile/` diffs to current heads) | read-only GraphQL `api.expo.dev` + fresh-clone diffs |
+| workspace lint | `bun run lint` exit 0 (60 files, 56 in `src/`); `bunx eslint p42-work --no-ignore` exit 1 with 102 errors, 100% inside the four clones | commands + JSON counts in worklog §10e |
+
+No product code changed this session — docs-only reconciliation (this
+commit). No paid action; both external blockers (Vercel auto-unpause
+2026-12-04 · EAS quota renewal 2026-12-01) remain owner-side dependencies.

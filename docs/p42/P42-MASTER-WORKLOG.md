@@ -1052,3 +1052,78 @@ remote (credentials live in it; stated policy in
 `download/p42-credentials.env`); the owner's continuous-push order applies
 to the product repos, all verified pushed. This session's record stacks on
 top locally.
+
+## 10e — Final release-closure re-verification (2026-11-06, session 10e)
+
+The owner re-delivered credentials and ordered the final reconciliation
+directive re-run against live state. The sandbox had recycled
+`p42-work/` again — fresh clones, all facts below re-derived from live
+APIs, not from prior session notes.
+
+**Heads unchanged since 10d** (no new commits 2026-11-04 → 11-06):
+Smart-Link `1e9ee17` · SmartBot `2522399b` · Smart-Menu `29a8936e` ·
+Smart-Order `af1a5bf7`; all four trees clean on `main`; the P42 expected
+heads (`be0582ce`/`7f7c5692`/`e7a52ecd`/`52a4dca7`) verified ancestors of
+the current heads (`git merge-base --is-ancestor`, fresh clones).
+
+**CI on the current heads:** Smart-Link 2/2, SmartBot 4/4, Smart-Order
+4/4 green. Smart-Menu code gates green (lint-build-test · prod-qa ·
+triage · flake-detection; `mobile` skipped by path-split — no `mobile/`
+delta in the P43 commits); the scheduled `ping`/`demo-canary` keep
+failing — **keep-alive symptom of the Vercel block, not a code
+regression** (the keep-alive workflow `exit 1`s on non-200 by design,
+r97-X4).
+
+**Vercel block still active, exactly as documented in 10d:** all four
+domains + www redirect probe `402 DEPLOYMENT_DISABLED` (re-probed this
+session); `softBlock` unchanged — `FAIR_USE_LIMITS_EXCEEDED` /
+`fluidCpuDuration`, blocked 2026-11-04 02:41:35 UTC, auto-unpause
+2026-12-04 02:41:35 UTC. Independent onset pin from the keep-alive
+timeline: last successful ping **2026-11-04 00:57:13 UTC**, first failure
+**07:14:23 UTC** — brackets the recorded block moment. No paid action
+taken (Pro upgrade still requires explicit owner approval).
+
+**Lint — final proof with fresh clones** (the 10c distribution,
+re-derived): canonical root command `bun run lint` (= `eslint .`) →
+**exit 0, 0 errors, 0 warnings, 60 files (56 in `src/` — no application
+path ignored)**. Fresh reproduction of the external pollution:
+`bunx eslint p42-work --no-ignore --format json` → **exit 1, 102 errors,
+100% inside the four clones** (SmartBot 48 · Smart-Menu 45 · Smart-Order
+7 · Smart-Link 2 — the clones now sit at the P43 heads, hence the small
+shift vs 10c's 103 at the P42-head clones; top rules
+react-hooks/set-state-in-effect 63 · no-require-imports 18 ·
+react-hooks/immutability 17). The historical 104-error incident remains
+103 external + 1 genuine workspace JSX error (fixed in workspace commit
+`6f78617`). Flat-config ignores unchanged and intentional.
+
+**EAS re-queried read-only (TOKEN_1, corrected field set):** the six W9
+builds all FINISHED, same IDs/SHAs — **no new builds on any account app
+since 2026-11-03 01:31** (latest per app: madarek-mobile 11-02 20:36,
+the three products 11-03 01:29–01:31). TOKEN_1 confirmed working again
+this session (HTTP 200, full inventory) — matches the 10d correction.
+Mobile validity re-proven on the fresh clones: `mobile/` diff empty for
+smart-menu `7ebf6a9f..29a8936e`, smart-order `52a4dca..af1a5bf`, and
+smartbot `e9fa9fb5..2522399b` — the four valid binaries remain valid; the
+smartbot pair remains **stale-by-provenance (pre-F-01 `7f7c5692`) — not
+uploaded, not distributed**; quota renewal 2026-12-01 stands.
+
+**Dashboard browser re-verified** (agent-browser, screenshots retained:
+`agent-ctx/p42-10e-dashboard-desktop.png`, `-mobile.png`,
+`-desktop-final.png`): live block banner present with correct
+reason/dates/domains; repo cards show the live head SHAs; Smart-Menu
+honestly "فشل" (its head carries the failing scheduled runs) while the
+banner explains the symptom; F-01/F-02 cards name `7f7c5692` /
+`e7a52ecd` + CI runs 41611252036 / 41610376913 + live-verification dates;
+mobile card states "4 of 6 valid · smartbot pair pre-dates F-01 · old
+binary not uploaded/distributed · quota as external dependency"; refresh
+button exercised; zero console errors; mobile 390px no horizontal
+overflow; footer pushed naturally by long content (desktop 3022px /
+mobile 5755px page heights).
+
+**One incident this session, found & fixed:** re-delivering the
+credentials, the session manager initially wrote the store file in
+`export NAME="value"` shell format — the status API's `readEnvVar`
+expects the bare `NAME=value` format, so `/api/p42/status` briefly
+served 503 "credential store unavailable" until the git-tracked format
+was restored (values identical). Lesson recorded: **the credentials file
+format is API-coupled — preserve it verbatim on re-delivery.**

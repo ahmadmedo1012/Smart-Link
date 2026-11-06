@@ -14,6 +14,7 @@ import { ChainSculptureMount } from "@/components/landing/ChainSculptureMount"
 import { MagneticGoldLink } from "@/components/landing/MagneticGoldLink"
 import { LandingMarquee } from "@/components/landing/LandingMarquee"
 import { WorldsSection } from "@/components/landing/WorldsSection"
+import { FinderSection } from "@/components/landing/FinderSection"
 import { JourneySection } from "@/components/landing/JourneySection"
 import { SentenceBand } from "@/components/landing/SentenceBand"
 import { CockpitSection } from "@/components/landing/CockpitSection"
@@ -210,7 +211,12 @@ export default function Home() {
              products-constellation + roles-ledger pair) ═══ */}
         <WorldsSection />
 
-        {/* ═══ الفصل ٢ — الرحلة: the winding beam ═══ */}
+        {/* ═══ الفصل ٢ — المواءمة (P45-W1): «أي عالم يناسب عملك؟» —
+             the discovery island + the honest comparison matrix, both fed
+             by the extended WORLDS registry (single source) ═══ */}
+        <FinderSection />
+
+        {/* ═══ الفصل ٣ — الرحلة: the winding beam ═══ */}
         <JourneySection />
 
         {/* ═══ الجُمَل — the display-sentence band (P16-4a, KODE S2/S3):

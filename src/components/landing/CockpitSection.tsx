@@ -44,7 +44,7 @@ export function CockpitSection() {
   return (
     <section id="progress" ref={ref} className="ln-chapter ln-cockpit">
       <div className="ln-chapter-head">
-        <span className="ln-label ln-mono">{"003 — القيادة"}</span>
+        <span className="ln-label ln-mono">{"004 — القيادة"}</span>
         <RevealCssClass as="h2" className="ln-chapter-title" delay={1}>
           منصّتك تكبر مع <em>كلّ رابط</em>
         </RevealCssClass>

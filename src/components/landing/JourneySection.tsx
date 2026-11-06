@@ -51,7 +51,7 @@ export function JourneySection() {
   return (
     <section id="journey" ref={ref} className="ln-chapter ln-journey ln-journey--kode">
       <header className="ln-chapter-head ln-chapter-head--flood">
-        <span className="ln-label ln-mono">{"002 — الرحلة"}</span>
+        <span className="ln-label ln-mono">{"003 — الرحلة"}</span>
         <RevealCssClass as="h2" className="ln-chapter-title ln-chapter-title--kode" delay={1}>
           من نقرة إلى <em>أتمتة</em> — خمس محطات
         </RevealCssClass>

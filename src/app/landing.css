@@ -3721,3 +3721,385 @@ html.light .landing .ln-btn-gold:hover { color: var(--ln-gold-deep); }
   font-size: clamp(2.6rem, 7.5vw, 6.5rem);
   line-height: 1.08;
 }
+
+/* ══════════════════════════════════════════════════════════════════════
+   §18 (P45-W1) — the DISCOVERY chapter (002 «المواءمة»): the
+   «أي عالم يناسب عملك؟» island + the honest comparison matrix.
+   Layer law: appended last, ADDITIVE only — no earlier rule is edited
+   (the §16k/§16l/§17 precedent). Stage law (§16d discipline): a
+   held-black chapter in BOTH themes — the literal blacks/whites/greys
+   are the worlds chapter's own grammar (#050507 / #FFFFFF / #A9ACB4 /
+   #EDEDF0 + the orange #FF4C00 and its night-hover #FF6A2E), zero
+   gradients, zero per-world hue tokens, the ONE focus language (#FF4C00
+   ring). Every interactive element rides the 44px touch floor.
+   ══════════════════════════════════════════════════════════════════════ */
+
+/* the chapter ground — held-black like the worlds chapter it follows */
+.landing .ln-finder-section {
+  background: #050507;
+  color: #FFFFFF;
+  padding-block: clamp(72px, 10vh, 128px);
+}
+html.light .landing .ln-finder-section { background: #050507; color: #FFFFFF; }
+.landing .ln-finder-section .ln-label { color: #FF4C00; }
+.landing .ln-finder-section .ln-chapter-title--kode {
+  font-family: var(--font-display-arabic), sans-serif;
+  font-weight: 800;
+  font-size: clamp(2.6rem, 7.5vw, 6.5rem);
+  line-height: 1.04;
+  color: #FFFFFF;
+  margin: 12px 0 0;
+}
+.landing .ln-finder-section .ln-chapter-title--kode em { color: #FF4C00; }
+.landing .ln-finder-section .ln-chapter-lede { color: #A9ACB4; max-inline-size: 60ch; }
+.landing .ln-finder-section .ln-chapter-head--kode {
+  border-block-end: 1px solid rgba(255, 255, 255, 0.22);
+  padding-block-end: clamp(28px, 4vh, 44px);
+  margin-block-end: clamp(16px, 3vh, 32px);
+}
+
+/* the panel — one hairline instrument holding both surfaces */
+.landing .ln-finder-panel {
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 12px;
+  padding: clamp(20px, 3.4vw, 44px);
+}
+
+/* ── the questions ────────────────────────────────────────────────── */
+.landing .ln-finder-q { border: 0; margin: 0 0 26px; padding: 0; min-inline-size: 0; }
+.landing .ln-finder-q:last-of-type { margin-block-end: 0; }
+.landing .ln-finder-q-title {
+  color: #FFFFFF;
+  font-size: 16.5px;
+  font-weight: 600;
+  padding: 0;
+  margin-block-end: 12px;
+  float: none;
+  width: auto;
+}
+.landing .ln-finder-q-hint {
+  color: #A9ACB4;
+  font-size: 11px;
+  margin-inline-start: 8px;
+}
+.landing .ln-finder-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.landing .ln-finder-opt {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-block-size: 44px;
+  padding: 10px 18px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 10px;
+  background: transparent;
+  color: #EDEDF0;
+  font-size: 14.5px;
+  cursor: pointer;
+  transition: border-color var(--ln-t-fast) var(--ln-ease-out),
+    background-color var(--ln-t-fast) var(--ln-ease-out),
+    color var(--ln-t-fast) var(--ln-ease-out);
+}
+.landing .ln-finder-opt:hover { border-color: rgba(255, 255, 255, 0.55); }
+.landing .ln-finder-opt:focus-visible {
+  outline: 2px solid #FF4C00;
+  outline-offset: 2px;
+}
+/* the selected state — the KODE fill: safety orange + ink text (6.1:1) */
+.landing .ln-finder-opt[aria-pressed="true"] {
+  background: #FF4C00;
+  border-color: #FF4C00;
+  color: #050507;
+  font-weight: 600;
+}
+.landing .ln-finder-opt[aria-pressed="true"]:hover { background: #FF6A2E; border-color: #FF6A2E; }
+.landing .ln-finder-opt-icon { flex: none; }
+
+/* ── the result ───────────────────────────────────────────────────── */
+.landing .ln-finder-result {
+  border-block-start: 1px solid rgba(255, 255, 255, 0.22);
+  margin-block-start: 26px;
+  padding-block-start: 26px;
+  min-block-size: 72px;
+}
+.landing .ln-finder-wait { color: #A9ACB4; margin: 0; font-size: 14.5px; }
+.landing .ln-finder-rec-kicker {
+  display: block;
+  color: #FF4C00;
+  font-size: 11px;
+  /* NO letter-spacing — the r144 tracked-inventory freeze pins exactly
+     TWO tracked declarations (ln-world-host + ln-ground-cell-tag); the
+     mono voice carries this line alone. */
+  margin-block-end: 8px;
+}
+.landing .ln-finder-rec-name {
+  font-family: var(--font-display-latin), sans-serif;
+  font-weight: 700;
+  font-size: clamp(24px, 3vw, 34px);
+  direction: ltr;
+  color: #FFFFFF;
+  margin: 0 0 14px;
+}
+.landing .ln-finder-rec-reasons {
+  list-style: none;
+  margin: 0 0 14px;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+  max-inline-size: 72ch;
+}
+.landing .ln-finder-rec-reasons li {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  color: #EDEDF0;
+  font-size: 14.5px;
+  line-height: 1.8;
+}
+.landing .ln-finder-rec-reasons svg { color: #FF4C00; flex: none; translate: 0 2px; }
+.landing .ln-finder-rec-econ {
+  color: #A9ACB4;
+  font-size: 12.5px;
+  margin: 0 0 20px;
+}
+/* the CTA — the fleet button canon on the held-black stage: orange fill,
+   ink text (6.1:1), 44px floor, the night-hover brighten */
+.landing .ln-finder-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-block-size: 44px;
+  padding: 10px 22px;
+  border-radius: 10px;
+  background: #FF4C00;
+  color: #050507;
+  font-size: 14px;
+  font-weight: 600;
+  transition: background-color var(--ln-t-fast) var(--ln-ease-out);
+}
+.landing .ln-finder-cta:hover { background: #FF6A2E; }
+.landing .ln-finder-cta:focus-visible { outline: 2px solid #FF4C00; outline-offset: 2px; }
+.landing .ln-finder-rec-split {
+  color: #A9ACB4;
+  font-size: 13.5px;
+  line-height: 1.8;
+  max-inline-size: 72ch;
+  margin: 16px 0 0;
+  border-block-start: 1px dashed rgba(255, 255, 255, 0.18);
+  padding-block-start: 14px;
+}
+.landing .ln-finder-rec-split a {
+  color: #FFFFFF;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+}
+.landing .ln-finder-rec-split a:hover { color: #FF6A2E; }
+.landing .ln-finder-rec-split a:focus-visible { outline: 2px solid #FF4C00; outline-offset: 2px; }
+
+/* the ecosystem path («كلها») — three honest doors, no fake winner */
+.landing .ln-finder-rec-note {
+  color: #A9ACB4;
+  font-size: 14.5px;
+  line-height: 1.8;
+  max-inline-size: 72ch;
+  margin: 0 0 20px;
+}
+.landing .ln-finder-eco-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+.landing .ln-finder-eco-card {
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 10px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-inline-size: 0;
+}
+.landing .ln-finder-eco-name {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-display-latin), sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  direction: ltr;
+  color: #FFFFFF;
+}
+.landing .ln-finder-eco-problem { color: #A9ACB4; font-size: 13.5px; line-height: 1.75; margin: 0; flex: 1; }
+.landing .ln-finder-eco-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-block-size: 44px;
+  align-self: start;
+  padding: 8px 16px;
+  border-radius: 10px;
+  background: #FF4C00;
+  color: #050507;
+  font-size: 13px;
+  font-weight: 600;
+  transition: background-color var(--ln-t-fast) var(--ln-ease-out);
+}
+.landing .ln-finder-eco-cta:hover { background: #FF6A2E; }
+.landing .ln-finder-eco-cta:focus-visible { outline: 2px solid #FF4C00; outline-offset: 2px; }
+
+/* ── the comparison matrix ────────────────────────────────────────── */
+.landing .ln-matrix { margin-block-start: clamp(30px, 5vh, 52px); }
+.landing .ln-matrix-title {
+  color: #FFFFFF;
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0 0 6px;
+}
+.landing .ln-matrix-lede { color: #A9ACB4; font-size: 14px; margin: 0 0 16px; max-inline-size: 72ch; }
+/* the mobile affordance — the visible drag cue (hidden ≥768px) */
+.landing .ln-matrix-cue {
+  display: none;
+  color: #A9ACB4;
+  font-size: 11px;
+  margin: 0 0 10px;
+}
+.landing .ln-matrix-scroller {
+  overflow-x: auto;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 10px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
+}
+.landing .ln-matrix-scroller::-webkit-scrollbar { block-size: 8px; inline-size: 8px; }
+.landing .ln-matrix-scroller::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+}
+.landing .ln-matrix-scroller::-webkit-scrollbar-track { background: transparent; }
+.landing .ln-matrix-scroller:focus-visible {
+  outline: 2px solid #FF4C00;
+  outline-offset: 2px;
+}
+.landing .ln-matrix-table {
+  border-collapse: collapse;
+  min-inline-size: 940px; /* the honest floor that makes the scroller scroll */
+  inline-size: 100%;
+}
+.landing .ln-matrix-table th[scope="col"] {
+  color: #A9ACB4;
+  font-size: 12px;
+  font-weight: 600;
+  /* NO letter-spacing — the r144 tracked-inventory freeze holds at the
+     two sanctioned Latin-only devices; the 12px semibold voice carries
+     these Arabic headers alone. */
+  text-align: start;
+  padding: 14px;
+  border-block-end: 1px solid rgba(255, 255, 255, 0.22);
+  white-space: nowrap;
+}
+.landing .ln-matrix-table tbody tr { border-block-end: 1px solid rgba(255, 255, 255, 0.12); }
+.landing .ln-matrix-table tbody tr:last-child { border-block-end: none; }
+.landing .ln-matrix-table tbody tr:hover { background: rgba(255, 255, 255, 0.04); }
+.landing .ln-matrix-table td {
+  padding: 16px 14px;
+  color: #EDEDF0;
+  font-size: 14px;
+  line-height: 1.75;
+  vertical-align: top;
+}
+/* the sticky product column — stays visible while the table scrolls
+   (RTL: inset-inline-start pins the logical start edge) */
+.landing .ln-matrix-table th[scope="row"] {
+  position: sticky;
+  inset-inline-start: 0;
+  z-index: 1;
+  background: #050507;
+  border-inline-end: 1px solid rgba(255, 255, 255, 0.22);
+  padding: 16px 14px;
+  text-align: start;
+  vertical-align: top;
+}
+.landing .ln-matrix-name {
+  display: block;
+  font-family: var(--font-display-latin), sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  direction: ltr;
+  color: #FFFFFF;
+}
+.landing .ln-matrix-host { display: block; color: #A9ACB4; font-size: 10px; margin-block-start: 4px; }
+.landing .ln-matrix-limits {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 6px;
+}
+.landing .ln-matrix-limits li {
+  position: relative;
+  padding-inline-start: 16px;
+  white-space: nowrap;
+}
+.landing .ln-matrix-limits li::before {
+  content: "";
+  position: absolute;
+  inset-inline-start: 0;
+  top: 0.72em;
+  inline-size: 8px;
+  block-size: 1px;
+  background: #FF4C00;
+}
+.landing .ln-matrix-price { color: #FFFFFF; font-weight: 600; white-space: nowrap; }
+.landing .ln-matrix-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-block-size: 44px;
+  padding: 8px 16px;
+  border-radius: 10px;
+  background: #FF4C00;
+  color: #050507;
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: background-color var(--ln-t-fast) var(--ln-ease-out);
+}
+.landing .ln-matrix-cta:hover { background: #FF6A2E; }
+.landing .ln-matrix-cta:focus-visible { outline: 2px solid #FF4C00; outline-offset: 2px; }
+.landing .ln-matrix-foot {
+  color: #A9ACB4;
+  font-size: 12.5px;
+  line-height: 1.8;
+  margin: 14px 0 0;
+}
+.landing .ln-matrix-foot-link {
+  color: #FFFFFF;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+  /* P45-W1: WCAG 2.5.8 — the inline prose link measured 187×19 (the
+   * sim-touch-targets r14 inventory caught it). inline-block + padding
+   * lifts the target to ≥24px without breaking the prose rhythm. */
+  display: inline-block;
+  min-block-size: 24px;
+  padding-block: 3px;
+}
+.landing .ln-matrix-foot-link:hover { color: #FF6A2E; }
+.landing .ln-matrix-foot-link:focus-visible { outline: 2px solid #FF4C00; outline-offset: 2px; }
+
+/* ── §18 responsive + RM ──────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .landing .ln-finder-eco-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 767px) {
+  .landing .ln-matrix-cue { display: flex; align-items: center; gap: 8px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .landing .ln-finder-opt,
+  .landing .ln-finder-cta,
+  .landing .ln-finder-eco-cta,
+  .landing .ln-matrix-cta { transition: none; }
+}

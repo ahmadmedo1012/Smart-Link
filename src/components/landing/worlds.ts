@@ -10,7 +10,38 @@
  *   descriptions are SITE.products.*.desc, the claims are the roles/
  *   marquee/FAQ truths (r128/r137/r138/r140 audits), and the domains are
  *   the LIVE product URLs from SITE (the single business registry).
+ *
+ * P45-W1 (Initiative B+A — the discovery fields): each world now also
+ * carries the honest DISCOVERY data the «أي عالم يناسب عملك؟» finder and
+ * the comparison matrix read — audience / problem / channel / freeLimits
+ * / paidFrom / signupUrl. SOURCING (the honesty regime is law):
+ * · audience/problem — the repo's own honest positioning (menu/bot from
+ *   docs/projects-comparison.md:27-28, the two-product-era doc whose
+ *   problem statements the P45 baseline ships to the visitor; order from
+ *   PRODUCT.md's audience line + the published claim set).
+ * · channel — the conversion channel each product actually operates
+ *   (comparison doc :29 for menu/bot; order's from its own schema.ts
+ *   description: QR-ready storefront + local payments + delivery zones).
+ * · freeLimits — VERBATIM the pricing page's free-plan catalog strings
+ *   (pricing/page.tsx plans[]), including the P42-2d cap doctrine:
+ *   Smart-Menu's «100 طلب» is a LIFETIME total (never a month-word);
+ *   SmartBot's «(100/شهر)» and Smart-Order's «100 طلب شهرياً» ARE real
+ *   monthly windows (copy follows enforcement).
+ * · paidFrom — the same 19 د.ل every product's live ladder starts at
+ *   (pricing/page.tsx ecosystemPricing mirrors, pinned to the
+ *   P13-2a-documented sibling sources). Rendered ONLY via formatLyd.
+ *   ANTI-DRIFT: tests/unit/worlds.test.ts pins this registry to the
+ *   pricing page's own arrays (source-text pins, truth-gate pattern) —
+ *   the two files cannot disagree in CI.
+ * · signupUrl — SITE.products.*.signupUrl verbatim (P40-5a: conversion
+ *   CTAs deep-link the sibling's own signup page).
  */
+/* Relative .ts import — deliberate: this registry joins the repo's
+ * node:test-importable set (phone/money/site/contact-rules pattern —
+ * tests/unit imports it directly), and plain node cannot resolve the
+ * @/ alias. allowImportingTsExtensions is on (tsconfig) and Turbopack
+ * resolves the explicit extension identically. */
+import { SITE } from "../../lib/site.ts"
 
 export type WorldId = "menu" | "bot" | "order"
 
@@ -49,6 +80,23 @@ export type World = {
      *     display contract: every number the UI renders is 1234567890;
      *     money.ts/phone.ts normalize Arabic-Indic INPUT the same way). */
   numeral: string
+  /* ── P45-W1 discovery fields (see the module header for sourcing) ── */
+  /** Who this world is for (honest audience, sourceable). */
+  audience: string
+  /** The pain it solves (the problem statement, sourceable). */
+  problem: string
+  /** The conversion channel the product actually operates. */
+  channel: string
+  /** Free-plan LIMITS — verbatim the pricing card's catalog strings
+      (cap doctrine included; unit-pinned to pricing/page.tsx). */
+  freeLimits: readonly [string, string, string]
+  /** The lowest paid tier of the product's LIVE ladder (LYD, whole
+      dinars) — rendered via formatLyd only; unit-pinned to the pricing
+      page's ecosystem mirrors so it can never drift. */
+  paidFrom: number
+  /** The product's own signup page (SITE.products.*.signupUrl — the
+      P40-5a conversion contract). */
+  signupUrl: string
 }
 
 export const WORLDS: readonly World[] = [
@@ -69,6 +117,17 @@ export const WORLDS: readonly World[] = [
     url: "https://menu.smart-link.ly",
     cta: "شاهد المنيو الحي",
     numeral: "01",
+    /* P45-W1 sourcing: audience/problem/channel —
+       docs/projects-comparison.md:27-29 (the repo's own honest doc). */
+    audience: "المطاعم والمقاهي وكل نشاط له قائمة طعام أو خدمات",
+    problem: "قائمة الورق الثابتة: طباعة متكررة، ولا تحديث فوري، ولا تحليلات للطلبات",
+    channel: "الزبون يمسح QR الكود → يتصفح المنيو → يطلب عبر واتساب",
+    /* Verbatim the pricing free card (P13-2a catalog) — «100 طلب» is
+       Smart-Menu's LIFETIME cap (P42-2d): never a month-word here. */
+    freeLimits: ["منيو واحد و10 أصناف", "100 طلب", "طلبات عبر واتساب"],
+    /* The live ladder's first paid rung (menu /pricing: أساسي 19). */
+    paidFrom: 19,
+    signupUrl: SITE.products.menu.signupUrl,
   },
   {
     id: "bot",
@@ -87,6 +146,16 @@ export const WORLDS: readonly World[] = [
     url: "https://bot.smart-link.ly",
     cta: "جرّب البوت",
     numeral: "02",
+    /* P45-W1 sourcing: docs/projects-comparison.md:27-29. */
+    audience: "أصحاب صفحات فيسبوك التجارية والوكالات التي تدير صفحات متعددة",
+    problem: "غرق الصفحة برسائل العملاء وإبطاء الرد عليها",
+    channel: "رسالة تصل صفحتك → رد آلي فوري بتصنيف النية",
+    /* Verbatim the pricing free card (P19-A catalog) — the reply cap IS
+       a real monthly window (bot /api/plans id=1). */
+    freeLimits: ["ردود تلقائية (100/شهر)", "صفحة فيسبوك واحدة", "5 قواعد رد"],
+    /* The live ladder's first paid rung (bot default-plans: أساسي 19). */
+    paidFrom: 19,
+    signupUrl: SITE.products.bot.signupUrl,
   },
   {
     id: "order",
@@ -105,6 +174,20 @@ export const WORLDS: readonly World[] = [
     url: "https://order.smart-link.ly",
     cta: "اطلب من متجر تجريبي",
     numeral: "03",
+    /* P45-W1 sourcing: PRODUCT.md:24-26 audience (storefront businesses
+       selling with delivery); the problem is the honest inverse of the
+       published claim «الطلبات تصل مرتبة وواضحة» (P45-ROADMAP item 5:
+       فوضى الطلب هاتفيًا); the channel folds schema.ts's own order
+       description (QR-ready storefront + local payments). */
+    audience: "المتاجر التي تبيع منتجاتها وتوصلها لزبائنها",
+    problem: "الطلبات الهاتفية المبعثرة: كل طلب يُدوَّن ويُتابع يدويًا",
+    channel: "الزبون يفتح متجرك → يطلب ويدفع بطريقة محلية",
+    /* Verbatim the pricing free card (r137 catalog) — «100 طلب شهرياً»
+       IS a real monthly window (order api/plans enforcement). */
+    freeLimits: ["15 منتجاً و3 أقسام", "100 طلب شهرياً", "منطقة توصيل واحدة"],
+    /* The live ladder's first paid rung (order FAMILY_PLANS: أساسي 19). */
+    paidFrom: 19,
+    signupUrl: SITE.products.order.signupUrl,
   },
 ] as const
 

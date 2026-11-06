@@ -1282,13 +1282,13 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
     check(items >= 15, `landing marquee: ≥15 items so the ×2 track fills ≥2200px viewports (found ${items})`);
   }
 
-  // K ── chapter labels: the r142 canonical sequence (01 worlds → 02
-  //     journey → 03 cockpit → finale unnumbered-04 → faq 05; platforms
-  //     stays unlabelled).
+  // K ── chapter labels: the canonical mono index sequence (P45-W1:
+  //     01 worlds → 02 finder «المواءمة» → 03 journey → 04 cockpit →
+  //     05 finale → 06 faq; platforms stays unlabelled).
   check(productsSrc.includes('001 — العوالم'), "r160 chapter label: '001 — العوالم' (S5 mono index sequence)");
-  check(finaleSrc.includes('004 — الوصول'), "r160 chapter label: '004 — الوصول' (S5 mono index sequence)");
+  check(finaleSrc.includes('005 — الوصول'), "chapter label: '005 — الوصول' (P45-W1 renumber: the finder chapter took 002)");
   check(!platformsSrc.includes('className="ln-label"'), 'platforms chapter carries NO ln-label (canonical campus is unlabelled)');
-  check(faqSrc.includes('005 — الأسئلة'), 'r160 faq label follows the mono index sequence (005)');
+  check(faqSrc.includes('006 — الأسئلة'), 'faq label follows the mono index sequence (006 — P45-W1 renumber)');
 
   // L ── main landmark: focusable skip target (P0-28).
   check(
@@ -2905,9 +2905,9 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
   // Latin suffix (the console chips TELEMETRY/BROADCAST/SCAN own that
   // grammar; the five chapter labels are 00n — Arabic).
   check(
-    finaleW2b.includes('004 — الوصول')
+    finaleW2b.includes('005 — الوصول')
       && !finaleW2b.includes('ACCESS'),
-    'P18-W2-b: the finale label reads «004 — الوصول» — the only Latin-suffixed chapter label is gone; the five chapters share one grammar and the bilingual suffixes stay with the console chips'
+    'P18-W2-b: the finale label reads «005 — الوصول» (P45-W1 renumber) — the only Latin-suffixed chapter label is gone; the chapters share one grammar and the bilingual suffixes stay with the console chips'
   );
 
   // W2b-7 · the CTA scale rungs: the hero pair owns the second rung
@@ -3120,6 +3120,88 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
   );
 }
 
+/* ═══ P45-W1 · the discovery chapter (Initiative B+A vertical #1): the
+   «أي عالم يناسب عملك؟» island + the honest comparison matrix — SIX new
+   pins (the CLAUDE.md rule: a NEW visual pattern ships pinned). The
+   registry's anti-drift with /pricing lives in tests/unit/worlds.test.ts
+   (the runtime seam); these pins hold the SOURCE contracts. */
+{
+  const read = (p) => {
+    const raw = readFileSync(new URL(`../src/${p}`, import.meta.url), 'utf8');
+    return raw.replace(/\/\*[\s\S]*?\*\//g, ' ').replace(/\/\/.*$/gm, ' ');
+  };
+  const homeP45 = read('app/page.tsx');
+  const worldsRegP45 = read('components/landing/worlds.ts');
+  const finderP45 = read('components/landing/ProductFinder.tsx');
+  const matrixP45 = read('components/landing/ComparisonMatrix.tsx');
+  const finderSectionP45 = read('components/landing/FinderSection.tsx');
+  const journeyP45 = read('components/landing/JourneySection.tsx');
+  const cockpitP45 = read('components/landing/CockpitSection.tsx');
+  const landingCssP45raw = readFileSync(new URL('../src/app/landing.css', import.meta.url), 'utf8');
+  const s18 = landingCssP45raw.slice(landingCssP45raw.indexOf('.landing .ln-finder-section {'));
+
+  // P45-1 · the chapter composition — worlds → FINDER → journey
+  check(
+    homeP45.indexOf('WorldsSection') < homeP45.indexOf('FinderSection')
+      && homeP45.indexOf('FinderSection') < homeP45.indexOf('JourneySection')
+      && finderSectionP45.includes('002 — المواءمة')
+      && journeyP45.includes('003 — الرحلة')
+      && cockpitP45.includes('004 — القيادة'),
+    'P45-W1 composition: the discovery chapter sits BETWEEN the worlds and the journey (the visitor meets the three worlds, then learns which is theirs) and the mono index sequence stays truthful (002 المواءمة · 003 الرحلة · 004 القيادة)'
+  );
+
+  // P45-2 · the registry discovery fields (source-level shape)
+  check(
+    (worldsRegP45.match(/audience: "/g) ?? []).length === 3
+      && (worldsRegP45.match(/problem: "/g) ?? []).length === 3
+      && (worldsRegP45.match(/channel: "/g) ?? []).length === 3
+      && (worldsRegP45.match(/freeLimits: \[/g) ?? []).length === 3
+      && (worldsRegP45.match(/paidFrom: 19/g) ?? []).length === 3
+      && (worldsRegP45.match(/signupUrl: SITE\.products\.\w+\.signupUrl/g) ?? []).length === 3,
+    'P45-W1 registry: every world carries the six discovery fields — audience/problem/channel/freeLimits/paidFrom/signupUrl (signupUrl from SITE, never hand-typed; the anti-drift seam with /pricing lives in tests/unit/worlds.test.ts)'
+  );
+
+  // P45-3 · the finder island — toggle semantics + the three honest paths
+  check(
+    (finderP45.match(/aria-pressed=\{pressed\}/g) ?? []).length === 2
+      && finderP45.includes('aria-live="polite"')
+      && finderP45.includes('kind: "ecosystem"')
+      && finderP45.includes('kind: "single"')
+      && finderP45.includes('mismatch: WorldId | null')
+      && finderP45.includes('href={w.signupUrl}')
+      && !finderP45.includes('href={w.url}'),
+    'P45-W1 finder: aria-pressed toggles for both question groups + the polite result region + the THREE honest paths (single · the mismatch split · the ecosystem «كلها») + every CTA rides the registry signupUrl (the conversion law) — never the browsing root'
+  );
+
+  // P45-4 · the matrix — seven registry-fed columns + the focusable region
+  check(
+    (matrixP45.match(/<th scope="col">/g) ?? []).length === 7
+      && matrixP45.includes('{w.audience}') && matrixP45.includes('{w.problem}')
+      && matrixP45.includes('{w.channel}') && matrixP45.includes('w.freeLimits.map')
+      && matrixP45.includes('formatLyd(w.paidFrom)') && matrixP45.includes('href={w.signupUrl}')
+      && matrixP45.includes('role="region"') && matrixP45.includes('tabIndex={0}'),
+    'P45-W1 matrix: the seven columns (المنتج/الجمهور/المشكلة/القناة/حدود المجاني/يبدأ المدفوع من/ابدأ) are ALL registry-fed — the price rides formatLyd (the ONE money spelling), the CTA rides signupUrl, and the scroller is a focusable labelled region (the W3C scrollable-region advice)'
+  );
+
+  // P45-5 · §18 stage discipline — held-black both themes, KODE fill, floors
+  check(
+    /\.landing \.ln-finder-section\s*\{[^}]*background:\s*#050507/.test(s18)
+      && /html\.light \.landing \.ln-finder-section\s*\{[^}]*background:\s*#050507/.test(s18)
+      && /\.landing \.ln-finder-opt\[aria-pressed="true"\]\s*\{[^}]*background:\s*#FF4C00[^}]*color:\s*#050507/.test(s18)
+      && (s18.match(/min-block-size: 44px/g) ?? []).length >= 4
+      && /focus-visible\s*\{[^}]*outline:\s*2px solid #FF4C00/.test(s18),
+    'P45-W1 §18 discipline: the discovery chapter is a held-black stage in BOTH themes (the §16d law), the selected state is the KODE fill (#FF4C00 ground + #050507 ink — the 6.1:1 pair), every interactive element rides the 44px floor, and the ONE focus language (2px orange ring) covers the layer'
+  );
+
+  // P45-6 · §18 honesty — zero gradients, a SOLID sticky ground, the floor
+  check(
+    !/gradient/.test(s18)
+      && /\.ln-matrix-table th\[scope="row"\]\s*\{[^}]*position:\s*sticky[^}]*background:\s*#050507/.test(s18)
+      && /\.ln-matrix-table\s*\{[^}]*min-inline-size:\s*940px/.test(s18),
+    'P45-W1 §18 honesty: zero gradients in the discovery layer (KODE S3 discipline), the sticky product column paints a SOLID ground (scrolled cells never see through it), and the 940px honest floor is what makes the mobile scroller actually scroll'
+  );
+}
+
 /* r144 (P4-4SL) — the self-count assertion. The suite now pins its own
    size: a pin added or removed without bumping EXPECTED_ASSERTIONS
    fails here, so the doc-vs-reality drift class (CLAUDE.md said 538
@@ -3226,8 +3308,16 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
    LIBYA-chip yield · the woff2-only immutable fonts rule (P3-18) ·
    the conversion-surface root extinction). The two P30-C hero pins
    were re-truthed IN PLACE to the intent-router anatomy (no count
-   change — same intent, new truth). */
-const EXPECTED_ASSERTIONS = 598;
+   change — same intent, new truth).
+   P45-W1 (the discovery chapter): 598 → 604 — SIX new pins (the
+   worlds→finder→journey composition + the renumbered mono sequence ·
+   the registry's six discovery fields · the finder's toggle semantics
+   + three honest paths · the seven registry-fed matrix columns · the
+   §18 held-black/KODE-fill/44px discipline · the §18 zero-gradient +
+   solid-sticky honesty). The three chapter-label pins (004→005 finale,
+   005→006 faq, and the W2b-6 finale twin) were re-truthed IN PLACE to
+   the renumbered sequence (no count change — same intent, new truth). */
+const EXPECTED_ASSERTIONS = 604;
 check(
   passed + 1 === EXPECTED_ASSERTIONS,
   `self-count: the suite must run exactly ${EXPECTED_ASSERTIONS} assertions (ran ${passed + 1}) — bump EXPECTED_ASSERTIONS with every intentional pin change`

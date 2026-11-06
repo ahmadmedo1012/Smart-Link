@@ -27,10 +27,10 @@ test.describe("التنقل — سطح المكتب (كروم المنتج عل�
     await expect(menu.first()).toBeVisible()
     await expect(trigger).toHaveAttribute("aria-expanded", "true")
 
-    // روابط خارجية آمنة
-    const link = page.locator('nav[aria-label="التنقل الرئيسي"] a[href="https://menu.smart-link.ly"]')
-    await expect(link).toHaveAttribute("target", "_blank")
-    await expect(link).toHaveAttribute("rel", "noopener noreferrer")
+    // روابط الخدمات داخلية لصفحات المنتجات على المظلة (P45-W1)
+    const link = page.locator('nav[aria-label="التنقل الرئيسي"] a[href="/menu"]')
+    await expect(link).toBeVisible()
+    await expect(link).not.toHaveAttribute("target")
 
     // Escape يغلق
     await page.keyboard.press("Escape")
@@ -224,10 +224,11 @@ test.describe("التنقل — الجوال: قائمة المنتج (عقد r5
     const servicesBtn = page.locator('nav[aria-label="قائمة الجوال"] button', { hasText: "خدماتنا" })
     await servicesBtn.click()
     await expect(servicesBtn).toHaveAttribute("aria-expanded", "true")
-    const menuLink = page.locator('nav[aria-label="قائمة الجوال"] a[href="https://menu.smart-link.ly"]')
+    /* P45-W1: الروابط الفرعية داخلية — لصفحات المنتجات على المظلة
+       (تنقل داخلي بلا exit-conventions). */
+    const menuLink = page.locator('nav[aria-label="قائمة الجوال"] a[href="/menu"]')
     await expect(menuLink).toBeVisible()
-    await expect(menuLink).toHaveAttribute("target", "_blank")
-    await expect(menuLink).toHaveAttribute("rel", "noopener noreferrer")
+    await expect(menuLink).not.toHaveAttribute("target")
   })
 
   test("رابط تخطّي المحتوى يظهر عند التركيز (الكروم العام #main-content)", async ({ page }) => {
@@ -286,7 +287,7 @@ test("r14 — landscape: كل روابط القائمة (والفرعية) قا�
   // افتح القائمة الفرعية (أسوأ حالة ارتفاع — قياس M5: 430px قبل الإصلاح)
   await mobileNav.locator("button", { hasText: "خدماتنا" }).click()
   await expect(
-    mobileNav.locator('a[href="https://menu.smart-link.ly"]')
+    mobileNav.locator('a[href="/menu"]')
   ).toBeVisible()
 
   // العقد: كل رابط يمكن إحضاره داخل إطار العرض (تمريراً داخلياً بعد

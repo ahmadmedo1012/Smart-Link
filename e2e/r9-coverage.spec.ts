@@ -90,15 +90,17 @@ test.describe("r9 — عقد footer (روابط التواصل على كل صف�
     for (const href of ["#products", "#journey", "#progress", "#platforms"]) {
       await expect(footer.locator(`a[href="${href}"]`), `مرساة ${href}`).toHaveAttribute("href", href)
     }
+    /* P45-W1: عمود «منظومة الربط الذكي» يقود الآن لصفحات هبوط المنتجات
+       على المظلة — روابط داخلية (تنقل داخلي، بلا target/rel). عقد
+       المنتجات الخارجية بقي على فوتر الصفحات الداخلية وبطاقات العوالم
+       (سياق التصفح المباشر للمنتج الحي). */
+    for (const href of ["/menu", "/bot", "/order"] as const) {
+      await expect(footer.locator(`a[href="${href}"]`), `رابط ${href}`).toBeVisible()
+      await expect(footer.locator(`a[href="${href}"]`)).not.toHaveAttribute("target")
+    }
+    // والمسارات الداخلية الكنسية الأخرى بقيت
     for (const href of ["/about", "/pricing", "/contact", "/privacy", "/terms"]) {
       await expect(footer.locator(`a[href="${href}"]`), `رابط ${href}`).toHaveAttribute("href", href)
-    }
-
-    // المنتجات الخارجية الثلاثة بـ target/rel آمنين (r137: + Smart Order)
-    for (const href of ["https://menu.smart-link.ly", "https://bot.smart-link.ly", "https://order.smart-link.ly"] as const) {
-      const link = footer.locator(`a[href="${href}"]`).first()
-      await expect(link).toHaveAttribute("target", "_blank")
-      await expect(link).toHaveAttribute("rel", "noopener noreferrer")
     }
 
     // سطر الحقوق الكنسي: © السنة SmartLink + صُنع في ليبيا

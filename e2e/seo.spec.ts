@@ -61,7 +61,7 @@ test.describe("SEO — ملفات الزحف والتثبيت", () => {
     expect(body).toContain("Sitemap: https://smart-link.ly/sitemap.xml")
   })
 
-  test("sitemap.xml — الـ URLs الست بلا نقص", async ({ request }) => {
+  test("sitemap.xml — المسارات التسعة بلا نقص", async ({ request }) => {
     const res = await request.get("/sitemap.xml")
     expect(res.status()).toBe(200)
     expect(res.headers()["content-type"]).toContain("xml")
@@ -70,10 +70,10 @@ test.describe("SEO — ملفات الزحف والتثبيت", () => {
     for (const p of PAGES) {
       expect(xml).toContain(`<loc>${p.path === "/" ? BASE : `${BASE}${p.path}`}</loc>`)
     }
-    // عدد المدخلات = 6 بالضبط
-    expect(xml.match(/<loc>/g)?.length).toBe(6)
+    // عدد المدخلات = 9 بالضبط (P45-W1: 6 → 9 — صفحات هبوط المنتجات)
+    expect(xml.match(/<loc>/g)?.length).toBe(9)
     // كل مدخل يحمل lastmod
-    expect(xml.match(/<lastmod>/g)?.length).toBe(6)
+    expect(xml.match(/<lastmod>/g)?.length).toBe(9)
   })
 
   test("manifest.webmanifest — PWA كامل بأيقوناته الثلاث", async ({ request }) => {
@@ -177,6 +177,12 @@ test.describe("r9 — إشارات الزحف والـ PWA المضافة", () =
     // W6-B2: 2026-10-18 — about صدق القصة الثلاثية، contact صدق القنوات)
     expect(lastmod("/about")).toBe("2026-10-18T00:00:00.000Z")
     expect(lastmod("/contact")).toBe("2026-10-18T00:00:00.000Z")
+    /* P45-W1: صفحات المنتجات الثلاث بختم ولادتها الحقيقي
+       (content-dates — 2026-11-06) لا وقت البناء: صفحات شبه ثابتة
+       مثل about/contact، فختم البناء يمحو التمييز بين التغييرات. */
+    expect(lastmod("/menu")).toBe("2026-11-06T00:00:00.000Z")
+    expect(lastmod("/bot")).toBe("2026-11-06T00:00:00.000Z")
+    expect(lastmod("/order")).toBe("2026-11-06T00:00:00.000Z")
     // home/pricing لا يزالان بتاريخ البناء (ديناميكيان فعلاً)
     expect(lastmod("smart-link.ly")).not.toBe("2026-07-01T00:00:00.000Z")
     expect(lastmod("smart-link.ly")).not.toBe("")

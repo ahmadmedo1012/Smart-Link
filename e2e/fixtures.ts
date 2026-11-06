@@ -70,7 +70,7 @@ export function allowResourceNoise(errors: ConsoleErrors, pattern: RegExp) {
 
 export { expect }
 
-/** الصفحات الست + عناوينها — مصدر واحد للحقيقة لكل specs الصفحات/SEO/a11y
+/** الصفحات التسع + عناوينها — مصدر واحد للحقيقة لكل specs الصفحات/SEO/a11y
  *
  * r133 (A7 §1 re-base): r128 Stage B (F2b) نقل كروم المنتج (MainNav/
  * Footer/BackToTop/مبدّل المظهر) من ال landing إلى الصفحات الداخلية —
@@ -81,9 +81,15 @@ export { expect }
  * P13-2a: قفل r160 ثلاثي الأسطر يُصيَّر ثلاث <span.ln-hero-line>
  * متجاورين بلا فراغات، فـtextContent يلتصق («يبدأرابطًاويصبح») —
  * العقد يتحمّل غياب الفراغ (\s*) بدل افتراض سطر واحد. كل spec يبني
- * على هذه المصفوفة يرث العقد المصحّح تلقائياً. */
+ * على هذه المصفوفة يرث العقد المصحّح تلقائياً.
+ * P45-W1 (المبادرة B+C): صفحات هبوط المنتجات الثلاث على المظلة
+ * تنضم للفهرسة — h1 يحمل اسم المنتج اللاتيني + الوصف العربي
+ * (نص <em> الميثاق نفسه)، والعنوان نية-بحث صادقة. */
 export const PAGES = [
   { path: "/", h1: /كلُّ عملٍ يبدأ\s*رابطًا\s*ويصبح\s*منظومةً/, title: /SmartLink — منصة رقمية متكاملة/ },
+  { path: "/menu", h1: /Smart Menu — المنيو الرقمي للمطاعم/, title: /Smart Menu — منيو رقمي للمطاعم في ليبيا \| SmartLink/ },
+  { path: "/bot", h1: /SmartBot — البوت الذكي لفيسبوك/, title: /SmartBot — بوت ذكي للردود الآلية على صفحات فيسبوك \| SmartLink/ },
+  { path: "/order", h1: /Smart Order — متجر الطلبات الرقمي/, title: /Smart Order — متجر طلبات رقمي بتوصيل ومدفوعات ليبية \| SmartLink/ },
   { path: "/about", h1: /عن SmartLink/, title: /عن SmartLink — منصة ليبية متكاملة \| SmartLink/ },
   { path: "/pricing", h1: /الخطط والأسعار/, title: /الخطط والأسعار — ابدأ مجاناً اليوم \| SmartLink/ },
   { path: "/contact", h1: /تواصل معنا/, title: /تواصل معنا — فريق SmartLink جاهز للمساعدة \| SmartLink/ },

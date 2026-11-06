@@ -137,7 +137,7 @@ test.describe("JSON-LD — /pricing", () => {
 })
 
 test.describe("JSON-LD — سلامة كل الصفحات", () => {
-  const routes = ["/", "/about", "/pricing", "/contact", "/privacy", "/terms"]
+  const routes = ["/", "/menu", "/bot", "/order", "/about", "/pricing", "/contact", "/privacy", "/terms"]
   for (const r of routes) {
     test(`${r} — كل scripts صالحة JSON`, async ({ page }) => {
       await page.goto(r, { waitUntil: "domcontentloaded" })
@@ -151,9 +151,14 @@ test.describe("JSON-LD — سلامة كل الصفحات", () => {
 
 /* r10 (testing audit G6): BreadcrumbList ships on five pages but the
    suite only checked "JSON is valid" — never the entries, positions or
-   URLs. A path rename would silently break the breadcrumb contract. */
+   URLs. A path rename would silently break the breadcrumb contract.
+   P45-W1: صفحات المنتجات الثلاث تنضم — breadcrumb ثنائي بنفس العقد
+   (الرئيسية ← صفحة المنتج باسم السجل SITE.products.*.label). */
 test.describe("r10 — BreadcrumbList لكل صفحة فرعية", () => {
   const cases: [string, string][] = [
+    ["/menu", "Smart Menu — المنيو الرقمي"],
+    ["/bot", "SmartBot — البوت الذكي"],
+    ["/order", "Smart Order — متجر الطلبات الرقمي"],
     ["/about", "عن المنصة"],
     ["/pricing", "الخطط والأسعار"],
     ["/contact", "تواصل معنا"],
@@ -179,6 +184,30 @@ test.describe("r10 — BreadcrumbList لكل صفحة فرعية", () => {
       expect(items[1].item).toBe(`https://smart-link.ly${path}`)
     })
   }
+})
+
+/* P45-W1 (المبادرة C) — ربط Service بصفحته على المظلة: كيانات الخدمة
+   الثلاثة في الرسم البياني تحمل url صفحات الهبوط الجديدة (لا جذور
+   المنتجات الخارجية — تلك بقيت في subOrganization) فترتبط عقد الرسم
+   بروابط فعلية قابلة للزحف. */
+test.describe("P45-W1 — ربط Service بصفحات المنتجات على المظلة", () => {
+  test("/ — الخدمات الثلاث مربوطة بـ /menu /bot /order", async ({ page }) => {
+    await page.goto("/", { waitUntil: "domcontentloaded" })
+    const { byType } = await ldScripts(page)
+    const services = byType("Service")
+    expect(services).toHaveLength(3)
+    const urlByName: Record<string, string> = {
+      "Smart Menu": "https://smart-link.ly/menu",
+      SmartBot: "https://smart-link.ly/bot",
+      "Smart Order": "https://smart-link.ly/order",
+    }
+    for (const svc of services) {
+      const s = svc as { name?: string; url?: string; "@id"?: string }
+      expect(urlByName[s.name!], `الخدمة ${s.name} معروفة`).toBeDefined()
+      expect(s.url, `خدمة ${s.name} مربوطة بصفحتها`).toBe(urlByName[s.name!])
+      expect(s["@id"], `خدمة ${s.name} تحمل @id ثابتاً`).toContain("#service-")
+    }
+  })
 })
 
 /* P14-P0B (regression — truth): عروض الخدمات الثلاث في JSON-LD كانت

@@ -66,9 +66,20 @@ const CHUNKS_DIR = join(NEXT_DIR, "static", "chunks")
  *   POOL (all JS in static/chunks, incl. the lazy three.js chunk)
  *                   1,342,026 → 1,450,000 (+8.0%)
  * Bump a budget ONLY with a deliberate, documented weight decision —
- * never to make a breach disappear. */
+ * never to make a breach disappear.
+ * P45-W1 (vertical #2): the three product landings /menu /bot /order
+ * join pinned — they ride the SAME product chrome as /about (MainNav +
+ * Footer + RevealObserver + the FaqAccordion island; everything else
+ * is server-rendered), so they inherit the inner-page ceiling. Actuals
+ * measured at the P45-W1 landing build (2026-11-06, Next 16.4.5):
+ *   /menu           684,078  → 740,000   (+8.2%)
+ *   /bot            684,078  → 740,000   (+8.2%)
+ *   /order          684,078  → 740,000   (+8.2%) */
 const ROUTE_BUDGETS = {
   "/": 780_000,
+  "/menu": 740_000,
+  "/bot": 740_000,
+  "/order": 740_000,
   "/about": 740_000,
   "/pricing": 740_000,
   "/contact": 750_000,

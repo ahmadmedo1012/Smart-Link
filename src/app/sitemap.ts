@@ -18,16 +18,22 @@ const BASE = SITE.url
    source of truth the on-page «آخر تحديث» lines read too. The old split
    constants (sitemap said 2026-09-09 while the pages rendered «أكتوبر
    2026») contradicted each other since r138. */
-import { ABOUT_UPDATED, CONTACT_UPDATED, LEGAL_UPDATED } from "@/lib/content-dates"
+import { ABOUT_UPDATED, CONTACT_UPDATED, LEGAL_UPDATED, PRODUCT_PAGES_UPDATED } from "@/lib/content-dates"
 
 const LEGAL_LASTMOD = new Date(LEGAL_UPDATED.iso)
 const ABOUT_LASTMOD = new Date(ABOUT_UPDATED.iso)
 const CONTACT_LASTMOD = new Date(CONTACT_UPDATED.iso)
+/* P45-W1: صفحات هبوط المنتجات الثلاث — شبه ثابتة كـabout/contact،
+   فتحمل ختم محتواها الحقيقي (تاريخ ولادتها) لا وقت البناء. */
+const PRODUCT_PAGES_LASTMOD = new Date(PRODUCT_PAGES_UPDATED.iso)
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date()
   return [
     { url: BASE, lastModified: now, changeFrequency: "weekly", priority: 1 },
+    { url: `${BASE}/menu`, lastModified: PRODUCT_PAGES_LASTMOD, changeFrequency: "monthly", priority: 0.8 },
+    { url: `${BASE}/bot`, lastModified: PRODUCT_PAGES_LASTMOD, changeFrequency: "monthly", priority: 0.8 },
+    { url: `${BASE}/order`, lastModified: PRODUCT_PAGES_LASTMOD, changeFrequency: "monthly", priority: 0.8 },
     { url: `${BASE}/about`, lastModified: ABOUT_LASTMOD, changeFrequency: "monthly", priority: 0.8 },
     { url: `${BASE}/pricing`, lastModified: now, changeFrequency: "weekly", priority: 0.7 },
     { url: `${BASE}/contact`, lastModified: CONTACT_LASTMOD, changeFrequency: "monthly", priority: 0.7 },

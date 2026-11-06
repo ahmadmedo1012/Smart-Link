@@ -31,9 +31,12 @@ import { CurrentYear } from "@/components/current-year"
  * قابلة للتحقق، لا وعد 24/7؛ الاسم المتاح يعلن الرابط الخارجي). */
 
 const ECOSYSTEM = [
-  { href: SITE.products.menu.url, label: "سمارت منيو — قوائم QR التفاعلية" },
-  { href: SITE.products.bot.url, label: "سمارت بوت — منصة إدارة فيسبوك الذكية" },
-  { href: SITE.products.order.url, label: "سمارت أوردر — منصة الطلبات الرقمية" },
+  /* P45-W1 (المبادرة B+C): عمود المنظومة يقود لصفحات هبوط المنتجات
+     على المظلة — سطح الاكتشاف (روابط داخلية). الوصف سطر الهوية
+     المنشورة نفسه (تذييلات الأخوين/عناوينهم الذاتية — عقد 15-SL). */
+  { href: "/menu" as import("next").Route, label: "سمارت منيو — قوائم QR التفاعلية" },
+  { href: "/bot" as import("next").Route, label: "سمارت بوت — منصة إدارة فيسبوك الذكية" },
+  { href: "/order" as import("next").Route, label: "سمارت أوردر — منصة الطلبات الرقمية" },
 ]
 
 export function LandingFooter() {
@@ -75,17 +78,17 @@ export function LandingFooter() {
           <div className="landing-footer-col">
             <h3 className="landing-footer-heading">منظومة الربط الذكي</h3>
             {/* 15-SL: النص الظاهر هو الاسم الكنسي (بدون aria-label
-                يطغى على الظاهر — عقد التذييلين الأخوين نفسه). */}
+                يطغى على الظاهر — عقد التذييلين الأخوين نفسه).
+                P45-W1: روابط داخلية لصفحات المنتجات على المظلة. */}
             {ECOSYSTEM.map((l) => (
-              <a
+              <Link
                 key={l.href}
                 href={l.href}
-                target="_blank"
-                rel="noopener noreferrer"
+                prefetch={false}
                 className="landing-footer-link"
               >
                 {l.label}
-              </a>
+              </Link>
             ))}
             <Link href="/pricing" prefetch={false} className="landing-footer-link">الخطط والأسعار</Link>
           </div>

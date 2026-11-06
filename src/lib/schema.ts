@@ -175,7 +175,12 @@ export function servicesJsonLd() {
      أسعاراً بالدينار، و bot /api/plans يقدّم أساسي 19 د.ل). صياغة
      العرض الآن تصف الحقيقة الثلاثية نفسها لكل خدمة: خطة مجانية
      للانطلاق + باقات مدفوعة تعمل اليوم — مطابقة لما تستقر عليه
-     /pricing منذ P13-2a. (r137: «مجاني» هنا صدق لا تسويق.) */
+     /pricing منذ P13-2a. (r137: «مجاني» هنا صدق لا تسويق.)
+     P45-W1 (ربط الرسم البياني): url الخدمة صارت صفحة هبوطها على
+     المظلة (/menu /bot /order) بدل جذر المنتج الخارجي — الكيان يصف
+     الخدمة على الصفحة التي تقدّمها المظلة، فترتبط عقد الرسم البياني
+     ببعضها (Google: اربط الكيانات بروابطها الفعلية). نطاق كل منتج
+     الخارجي يبقى حاضراً في subOrganization.url — لا تكرار ولا فقد. */
   const service = (opts: {
     id: string
     name: string
@@ -205,13 +210,13 @@ export function servicesJsonLd() {
       service({
         id: `${SITE.url}/#service-smart-menu`,
         name: SITE.products.menu.short,
-        url: SITE.products.menu.url,
+        url: `${SITE.url}/menu`,
         description: "المنيو الرقمي التفاعلي للمطاعم مع طلبات واتساب ولوحة تحكم عربية كاملة",
       }),
       service({
         id: `${SITE.url}/#service-smartbot`,
         name: SITE.products.bot.short,
-        url: SITE.products.bot.url,
+        url: `${SITE.url}/bot`,
         /* W2-LNK-5 (P42-W2، تدقيق الصدق): «على مدار الساعة» — آخر بقايا
            عائلة ادعاءات 24/7 التي أُحيلت للتقاعد عبر الأسطول (r144 هنا،
            P40-5b/P42-2c في منصة البوت نفسها: لا وعد مدار الساعة في أي
@@ -225,7 +230,7 @@ export function servicesJsonLd() {
       service({
         id: `${SITE.url}/#service-smart-order`,
         name: SITE.products.order.short,
-        url: SITE.products.order.url,
+        url: `${SITE.url}/order`,
         description:
           "متجر الطلبات الرقمي للأعمال: واجهة جاهزة للمسح بـ QR، محرّك طلبات، توصيل بمناطق ورسوم، ومدفوعات ليبية",
         /* r138: «عند الإطلاق» الافتراضية كذبٌ صغير هنا — باقته حيّة

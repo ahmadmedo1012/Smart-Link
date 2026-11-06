@@ -37,3 +37,11 @@ export const ABOUT_UPDATED = {
 export const CONTACT_UPDATED = {
   iso: "2026-10-18",
 } as const;
+
+/** صفحات هبوط المنتجات الثلاث (/menu /bot /order) — وُلدت معًا في
+ *  P45-W1 (2026-11-06، المبادرة C+B: أول سطح مظلّة لنية البحث
+ *  العربية عن المنتجات). التاريخ هو تاريخ الإنشاء الحقيقي؛ يُرفع
+ *  مع كل تغيير نصي فعلي لاحق (قانون الوحدة بين الصفحة والـsitemap). */
+export const PRODUCT_PAGES_UPDATED = {
+  iso: "2026-11-06",
+} as const;

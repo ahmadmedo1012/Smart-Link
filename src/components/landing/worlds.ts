@@ -194,3 +194,9 @@ export const WORLDS: readonly World[] = [
 /** The glass preview card + chips read this; hero canvas selection too. */
 export const worldById = (id: WorldId | null): World | null =>
   WORLDS.find((w) => w.id === id) ?? null
+
+/** P45-W1: the hub landing route each world's product page lives on
+ *  (/menu · /bot · /order — the App Router mirror of the registry ids).
+ *  typedRoutes: the literal union "/menu" | "/bot" | "/order" resolves
+ *  against the generated Route union once the pages exist. */
+export const productRoute = (id: WorldId): `/${WorldId}` => `/${id}`

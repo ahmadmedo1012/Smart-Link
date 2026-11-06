@@ -2163,6 +2163,8 @@
   .landing .ln-cockpit-live,
   .landing .ln-marquee-live { animation: none; opacity: 0.85; }
   .landing .ln-world-cta { transition: none; }
+  /* P45-W1: the discovery secondary link joins the same off-switch. */
+  .landing .ln-world-more { transition: none; }
 }
 
 /* ════════════════════════════════════════════════════════════════════
@@ -2895,6 +2897,46 @@ html.light .landing .ln-worlds--kode { background: #050507; color: #FFFFFF; } /*
   border-block-end-color: currentColor;
 }
 .landing .ln-worlds--kode .ln-world-cta:focus-visible {
+  outline: 2px solid #FF4C00;
+  outline-offset: 3px;
+}
+
+/* ── 16d·3 · P45-W1 — the worlds card actions row (the discovery layer)
+   Each type-card's cta grid-area now hosts a TWO-action row: the
+   primary sibling-verb CTA (byte-identical — the P40-5a SL-3 contract,
+   the §17c sweep keeps painting it) + the «اعرف المزيد» INTERNAL link
+   to the product's hub landing page (the new discovery surface). The
+   row wraps on narrow tracks; both doors ride the 44px touch floor
+   (r149 family law); the secondary reads one ink-rung quieter than
+   the primary verb (chrome, not conversion — the KODE ink/white/orange
+   discipline; the worlds chapter is held-black in BOTH themes so the
+   literals are theme-safe exactly like the host/claims inks above). */
+.landing .ln-world-actions {
+  grid-area: cta;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px 28px;
+  margin-block-start: 14px;
+}
+.landing .ln-world-actions .ln-world-cta { margin-block-start: 0; }
+.landing .ln-world-more {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 44px;
+  color: #A9ACB4;
+  font-size: 14.5px;
+  text-decoration: none;
+  border-block-end: 2px solid transparent;
+  transition: color var(--ln-t-fast) var(--ln-ease-out),
+    border-color var(--ln-t-fast) var(--ln-ease-out);
+}
+.landing .ln-world-more:hover,
+.landing .ln-world-more:focus-visible {
+  color: #EDEDF0;
+  border-block-end-color: currentColor;
+}
+.landing .ln-world-more:focus-visible {
   outline: 2px solid #FF4C00;
   outline-offset: 3px;
 }

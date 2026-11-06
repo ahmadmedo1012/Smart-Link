@@ -3202,6 +3202,68 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
   );
 }
 
+/* ══════════════════════════════════════════════════════════════════
+ * P45-W1 (المبادرة B+C — vertical #2): صفحات هبوط المنتجات على المظلة
+ * (/menu /bot /order) + طبقة أفعال بطاقات العوالم. الدبابيس الثلاثة:
+ *  · مصدر واحد — الصفحات تُصيَّر من سجل worlds (المشكلة/الجمهور/
+ *    القناة/القدرات/حدود المجاني) وكل مبلغ عبر formatLyd وزرّا
+ *    التحويل على عقد P40-5a (signupUrl أساسي + الجذر للتصفح).
+ *  · سطح الاكتشاف — أفعال البطاقات: الفعل الخارجي الأساسي بلا أي
+ *    تغيير + رابط «اعرف المزيد» الداخلي بمنطقة cta في الشبكة.
+ *  · انضباط الطبقة — 44px لكلا البابين + مفتاح إيقاف الحركة.
+ * ══════════════════════════════════════════════════════════════════ */
+{
+  const read2 = (p) => {
+    const raw = readFileSync(new URL(`../src/${p}`, import.meta.url), 'utf8');
+    return raw.replace(/\/\*[\s\S]*?\*\//g, ' ').replace(/\/\/.*$/gm, ' ');
+  };
+  const landingP45b = read2('components/product-landing.tsx');
+  const menuPageP45 = read2('app/menu/page.tsx');
+  const botPageP45 = read2('app/bot/page.tsx');
+  const orderPageP45 = read2('app/order/page.tsx');
+  const worldsSectionP45b = read2('components/landing/WorldsSection.tsx');
+  const mainNavP45 = read2('components/main-nav.tsx');
+  const schemaP45 = read2('lib/schema.ts');
+  const sitemapP45 = read2('app/sitemap.ts');
+  const landingCssP45b = readFileSync(new URL('../src/app/landing.css', import.meta.url), 'utf8');
+  const s16d3 = landingCssP45b.slice(landingCssP45b.indexOf('16d·3'));
+  const rm14j = landingCssP45b.slice(landingCssP45b.indexOf('14j'));
+
+  // P45-7 · the product landings are REGISTRY-FED (the single source)
+  check(
+    landingP45b.includes('worldById(config.id)')
+      && landingP45b.includes('{w.problem}') && landingP45b.includes('{w.audience}')
+      && landingP45b.includes('{w.channel}') && landingP45b.includes('w.claims.map')
+      && landingP45b.includes('w.freeLimits.map') && landingP45b.includes('formatLyd(w.paidFrom)')
+      && landingP45b.includes('href={w.signupUrl}') && landingP45b.includes('href={w.url}')
+      && !landingP45b.includes('د.ل')
+      && (landingP45b.match(/href=\{w\.signupUrl\}/g) ?? []).length === 2,
+    'P45-W1 product pages: the hub landings render the WORLDS registry verbatim (problem/audience/channel/claims/freeLimits), the first paid rung rides formatLyd (the ONE money spelling — zero hand-typed د.ل in the shared shell), and the dual CTAs are the P40-5a contract (signupUrl primary ×2 — hero + plan card — plus the live root for browsing)'
+  );
+
+  // P45-8 · three routes, three pageMetadata canonicals, sitemap rows
+  check(
+    menuPageP45.includes('canonical: "/menu"') && menuPageP45.includes('ProductLanding')
+      && botPageP45.includes('canonical: "/bot"') && botPageP45.includes('ProductLanding')
+      && orderPageP45.includes('canonical: "/order"') && orderPageP45.includes('ProductLanding')
+      && (sitemapP45.match(/\/(menu|bot|order)/g) ?? []).length === 3
+      && schemaP45.includes('`${SITE.url}/menu`') && schemaP45.includes('`${SITE.url}/bot`') && schemaP45.includes('`${SITE.url}/order`'),
+    'P45-W1 routing: the three landings exist as pages with per-route canonicals via pageMetadata, the sitemap carries all three (content-dated), and the JSON-LD Service entities bind to the hub pages (the graph connects — the product domains stay in subOrganization)'
+  );
+
+  // P45-9 · the discovery surface — worlds cards + the nav doors + §16d·3
+  check(
+    worldsSectionP45b.includes('ln-world-actions') && worldsSectionP45b.includes('ln-world-more')
+      && worldsSectionP45b.includes('productRoute(w.id)')
+      && worldsSectionP45b.includes('href={w.url}')
+      && worldsSectionP45b.includes('aria-label={`${w.cta} — ${w.name}، رابط خارجي`}')
+      && /grid-area:\s*cta/.test(s16d3) && /min-block-size:\s*44px/.test(s16d3)
+      && /\.ln-world-more\s*\{\s*transition:\s*none/.test(rm14j)
+      && mainNavP45.includes('href: "/menu"') && mainNavP45.includes('href: "/bot"') && mainNavP45.includes('href: "/order"'),
+    'P45-W1 discovery surface: the worlds cards gain the «اعرف المزيد» internal row (§16d·3 owns the cta grid area, 44px floors both doors, RM off-switch) while the PRIMARY sibling-verb CTA stays byte-identical on the live root (the P40-5a SL-3 contract) — and the services menu routes to the hub pages (main-nav children are internal Routes)'
+  );
+}
+
 /* r144 (P4-4SL) — the self-count assertion. The suite now pins its own
    size: a pin added or removed without bumping EXPECTED_ASSERTIONS
    fails here, so the doc-vs-reality drift class (CLAUDE.md said 538
@@ -3316,8 +3378,15 @@ check(!/border-radius/.test(focusRule), '*:focus-visible must NOT mutate border-
    §18 held-black/KODE-fill/44px discipline · the §18 zero-gradient +
    solid-sticky honesty). The three chapter-label pins (004→005 finale,
    005→006 faq, and the W2b-6 finale twin) were re-truthed IN PLACE to
-   the renumbered sequence (no count change — same intent, new truth). */
-const EXPECTED_ASSERTIONS = 604;
+   the renumbered sequence (no count change — same intent, new truth).
+   P45-W1 (the product landing pages — vertical #2): 604 → 607 — THREE
+   new pins (the registry-fed landings: verbatim worlds fields +
+   formatLyd-only money + the P40-5a dual CTAs · the three routes with
+   per-page canonicals + sitemap rows + the JSON-LD Service binding ·
+   the discovery surface: the worlds actions row on the cta grid area
+   with 44px floors + RM off-switch, the primary sibling-verb CTA
+   untouched, and the services menu routing to the hub pages). */
+const EXPECTED_ASSERTIONS = 607;
 check(
   passed + 1 === EXPECTED_ASSERTIONS,
   `self-count: the suite must run exactly ${EXPECTED_ASSERTIONS} assertions (ran ${passed + 1}) — bump EXPECTED_ASSERTIONS with every intentional pin change`

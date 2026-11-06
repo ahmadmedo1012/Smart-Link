@@ -16,7 +16,7 @@ import { SITE } from "@/lib/site"
    "/" تُقبل لأنها في اتحاد المسارات المولَّد). أبناء «خدماتنا» روابط
    خارجية على <a> عادية فتبقى string. */
 type NavChild = {
-  href: string
+  href: import("next").Route
   label: string
   icon: typeof Smartphone
   desc: string
@@ -30,11 +30,14 @@ const navLinks: NavLink[] = [
   {
     label: "خدماتنا",
     children: [
-      { href: SITE.products.menu.url, label: SITE.products.menu.label, icon: Smartphone, desc: SITE.products.menu.desc },
-      { href: SITE.products.bot.url, label: SITE.products.bot.label, icon: Bot, desc: SITE.products.bot.desc },
+      /* P45-W1 (المبادرة B+C): أبناء «خدماتنا» يقودون لصفحات هبوط
+         المنتجات على المظلة — سطح الاكتشاف الذي يفتح بدوره المنتج
+         الحي (أزرار التصفح الخارجية بقيت في بطاقات العوالم والتذييل). */
+      { href: "/menu", label: SITE.products.menu.label, icon: Smartphone, desc: SITE.products.menu.desc },
+      { href: "/bot", label: SITE.products.bot.label, icon: Bot, desc: SITE.products.bot.desc },
       /* r137 (صدق الأسطول): Smart-Order حيّ — البند الثالث بنفس العقد؛
           قائمتا سطح المكتب والجوال تُخريجان children تلقائياً. */
-      { href: SITE.products.order.url, label: SITE.products.order.label, icon: ShoppingBag, desc: SITE.products.order.desc },
+      { href: "/order", label: SITE.products.order.label, icon: ShoppingBag, desc: SITE.products.order.desc },
     ],
   },
   /* r9 (audit L2): pricing was reachable only from the footer — a primary
@@ -266,12 +269,14 @@ export function MainNav() {
                         {link.children.map((child) => {
                           const Icon = child.icon
                           return (
-                            <a
+                            /* P45-W1: بلاطات الخدمات تقود لصفحات هبوط
+                                المنتجات على المظلة — رابط داخلي (Link)
+                                فلا exit-conventions بعد الآن. */
+                            <Link
                               key={child.label}
                               href={child.href}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              aria-label={`${child.label} — رابط خارجي`}
+                              prefetch={false}
+                              aria-current={pathname === child.href ? "page" : undefined}
                               className="flex items-start gap-3 px-3 py-3 rounded-xl hover:bg-[var(--accent)] transition-[background-color,color] duration-[var(--t-fast)] group/item"
                             >
                               {/* W21-A: the megamenu tile joins the ONE
@@ -289,7 +294,7 @@ export function MainNav() {
                                     consumes --fs-xs (identical 12px). */}
                                 <div className="text-[length:var(--fs-xs)] text-muted-foreground mt-0.5">{child.desc}</div>
                               </div>
-                            </a>
+                            </Link>
                           )
                         })}
                       </div>
@@ -402,12 +407,15 @@ export function MainNav() {
                     <div id="m-services" className={cn("acc ms-3", servicesOpen && "open")}>
                           <div className="space-y-1 pb-1 pt-1">
                             {link.children.map((child) => (
-                              <a
+                              /* P45-W1: الروابط الفرعية داخلية — لصفحات
+                                  المنتجات على المظلة؛ نقرها يغلق الدرج
+                                  وينتقل (عقد الروابط الداخلية نفسه). */
+                              <Link
                                 key={child.label}
                                 href={child.href}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                aria-label={`${child.label} — رابط خارجي`}
+                                prefetch={false}
+                                onClick={() => setMobileOpen(false)}
+                                aria-current={pathname === child.href ? "page" : undefined}
                                 className="flex items-center gap-3 px-3 py-2.5 text-sm text-muted-foreground hover:text-foreground rounded-xl hover:bg-[var(--accent)] transition-[background-color,color] duration-[var(--t-fast)]"
                               >
                                 {child.icon && <child.icon className="w-4 h-4 text-[var(--primary-text)]" />}
@@ -417,7 +425,7 @@ export function MainNav() {
                                       consumes --fs-xs (identical 12px). */}
                                   {child.desc && <div className="text-[length:var(--fs-xs)] text-muted-foreground mt-0.5">{child.desc}</div>}
                                 </div>
-                              </a>
+                              </Link>
                             ))}
                           </div>
                     </div>

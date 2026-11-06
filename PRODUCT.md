@@ -28,11 +28,12 @@ delivery and local payments — a first-class product since r137).
 - **Secondary:** anyone evaluating the company (partners, press) via the
   about/pricing/legal pages.
 
-## Surfaces (the 8 pages + the API)
+## Surfaces (the 11 pages + the API)
 
 | Route | Role |
 |---|---|
-| `/` | The KODE landing (r160 «سلسلة») — 3-line Kufi hero lockup + the chain sculpture (drag-rotatable three.js canvas, RM poster frame), broadcast marquee, worlds chapter (3 editorial type-cards), journey flood (5 type-rows), sentence band, cockpit (honest published stats), platforms console, finale CTA, native `<details>` FAQ |
+| `/` | The KODE landing (r160 «سلسلة») — 3-line Kufi hero lockup + the chain sculpture (drag-rotatable three.js canvas, RM poster frame), broadcast marquee, worlds chapter (3 editorial type-cards), the «أي عالم يناسب عملك؟» finder + honest comparison matrix (P45-W1), journey flood (5 type-rows), sentence band, cockpit (honest published stats), platforms console, finale CTA, native `<details>` FAQ |
+| `/menu` · `/bot` · `/order` | The hub product landing pages (P45-W1) — per-product ecosystem framing (hub-unique POV, zero sibling mirroring), the pain→solution chapter rendered verbatim from the worlds registry, the honest free-limits card + the live paid ladder via `formatLyd` + link-out, a 3-4 item catalog-verifiable FAQ, dual CTAs (signupUrl primary + the live product root), and the ecosystem cross-links (siblings + `/pricing#ecosystem` + `/#finder`) |
 | `/about` | Company story, values, founder (أحمد خيري), the 3-live-products stat (r143 honest figure) |
 | `/pricing` | The three free plan cards (Smart Menu / SmartBot / Smart Order) + the live ecosystem pricing chapter (each product's paid ladder in LYD from 19 د.ل, mirroring the product's own pricing page) + FAQ |
 | `/contact` | Contact cards + the lead-gen form (the site's one form) |
@@ -52,9 +53,13 @@ delivery and local payments — a first-class product since r137).
    lose the signup step). `target=_blank`, `rel="noopener noreferrer"`,
    announced as «رابط خارجي»; the hero primary names its destination
    visibly («ابدأ مجاناً — سمارت منيو») and the hero micro-row carries
-   the two other products' signup paths with intent labels. Browsing
-   surfaces (footer · services menus · worlds cards) keep the product
-   ROOTS; the pricing ecosystem tables link `{product}/pricing`.
+   the two other products' signup paths with intent labels. Discovery
+   surfaces (P45-W1: the services menus · the landing footer ecosystem
+   column · the worlds cards' «اعرف المزيد») route to the hub product
+   pages `/menu` `/bot` `/order` — the hub's own discovery layer — while
+   the worlds cards' PRIMARY verb + the inner footer's services column
+   keep the product ROOTS (browsing straight into the live products);
+   the pricing ecosystem tables link `{product}/pricing`.
 2. **Contact form:** «تواصل معنا» → `/contact` → validated Arabic form →
    `/api/contact` → owner notification + auto-confirmation email.
 3. **WhatsApp direct:** every WhatsApp CTA deep-links
@@ -96,7 +101,7 @@ corporate. The landing speaks in short chapter arcs («كلُّ عملٍ يبد�
 
 ## Evidence
 
-- Parity snapshot `tests/parity.mjs` (595 assertions, self-counted — the suite fails if its own size drifts) pins the design
+- Parity snapshot `tests/parity.mjs` (607 assertions, self-counted — the suite fails if its own size drifts; P45-W1: 604 → 607 — the product-landing wave) pins the design
   system (P40-5a: 585 → 595 — the CTA-routing pins incl. the signupUrl
   registry and the plan-ladder mirrors); e2e suite (Playwright, Arabic
   specs) covers conversion CTAs,

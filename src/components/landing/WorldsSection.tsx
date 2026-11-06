@@ -1,6 +1,7 @@
 import { ArrowLeft } from "lucide-react"
+import Link from "next/link"
 import { RevealCssClass } from "@/hooks/useReveal"
-import { WORLDS } from "./worlds"
+import { WORLDS, productRoute } from "./worlds"
 import { WorldVignette } from "./WorldVignette"
 
 /* P12-2a (r160 KODE) — Chapter 001 «العوالم» re-cast as the BLACK stage:
@@ -55,20 +56,33 @@ export function WorldsSection() {
                 <li key={c}>{c}</li>
               ))}
             </ul>
-            <a
-              className="ln-world-cta"
-              href={w.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              /* P40-5a (SL-3): فعل محدد بدل «ادخل عالم X» العام — من مفردات
-                 أخيه المنشورة نفسها (worlds.ts cta). الوجهة تبقى الجذر
-                 (سياق تصفّح)؛ الاسم المتاح يبدأ بالنص المرئي حرفياً ثم
-                 يسمّي المنتج والاصطلاح الخارجي (WCAG 2.5.3). */
-              aria-label={`${w.cta} — ${w.name}، رابط خارجي`}
-            >
-              {w.cta}
-              <ArrowLeft size={16} aria-hidden="true" />
-            </a>
+            {/* P45-W1 (المبادرة B+C): صف أفعال البطاقة — الفعل الأساسي
+                الخارجي (عقد P40-5a SL-3، بلا أي تغيير) + رابط ثانوي
+                «اعرف المزيد» لصفحة هبوط المنتج على المظلة (سطح الاكتشاف
+                الجديد). الغلاف يملك منطقة cta في الشبكة (ln-world-actions). */}
+            <div className="ln-world-actions">
+              <a
+                className="ln-world-cta"
+                href={w.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                /* P40-5a (SL-3): فعل محدد بدل «ادخل عالم X» العام — من مفردات
+                   أخيه المنشورة نفسها (worlds.ts cta). الوجهة تبقى الجذر
+                   (سياق تصفّح)؛ الاسم المتاح يبدأ بالنص المرئي حرفياً ثم
+                   يسمّي المنتج والاصطلاح الخارجي (WCAG 2.5.3). */
+                aria-label={`${w.cta} — ${w.name}، رابط خارجي`}
+              >
+                {w.cta}
+                <ArrowLeft size={16} aria-hidden="true" />
+              </a>
+              <Link
+                href={productRoute(w.id)}
+                prefetch={false}
+                className="ln-world-more"
+              >
+                اعرف المزيد
+              </Link>
+            </div>
           </RevealCssClass>
         ))}
       </div>

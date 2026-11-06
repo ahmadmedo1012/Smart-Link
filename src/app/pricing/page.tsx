@@ -333,7 +333,7 @@ export default function PricingPage() {
             الحقيقة: جدول مصغّر لكل منتج بسلّمه الحالي، وكل جدول يقود
             لصفحة الأسعار الحيّة عند المنتج نفسه. mono labels + لمسات
             البرتقالي (كود) + كل المبالغ عبر formatLyd. */}
-        <section className="ln-chapter">
+        <section className="ln-chapter" id="ecosystem">
           <div className="ln-chapter-head">
             <span className="ln-label reveal-up reveal-d-1">01 — المنظومة الحيّة</span>
             <h2 className="text-[length:var(--fs-h2)] font-bold text-foreground reveal-up reveal-d-1">باقات حيّة بالدينار الليبي</h2>

@@ -4,7 +4,7 @@ import { test, expect, PAGES, allowResourceNoise } from "./fixtures"
  * فحوص الدخان: كل صفحة تُخدم بنجاح، RTL عربية، عنوان h1، عنوان تبويب
  * صحيح، وصفر أخطاء console/JS — في الوضع الافتراضي (داكن).
  */
-test.describe("الدخان — الصفحات الست", () => {
+test.describe("الدخان — الصفحات التسع", () => {
   for (const p of PAGES) {
     test(`صفحة ${p.path} — 200 + RTL + h1 + عنوان التبويب`, async ({ page, consoleErrors }) => {
       const res = await page.goto(p.path, { waitUntil: "networkidle" })

@@ -97,6 +97,16 @@ jobs:
       - name: Build (يضم tsc صارماً)
         run: npm run build
 
+      # P45-W1: حرس ميزانية الحزمة — بوابة صارمة بعد البناء مباشرة.
+      # يقرأ مخرجات .next من القرص (not runtime: الـthree.js webdriver-gated
+      # في الجلسات الآلية فقياس التشغيل أخف من الواقع): JS التحميل الأول
+      # لكل مسار من HTML المُصدَّر + مجمّع كل شنكات static/chunks (يحمل
+      # شنكة three.js الكسولة ~136KB gzip). سقوف مثبتة بهامش ~8% — أي
+      # مسار جديد بلا سقف يفشل البوابة (الصفحة غير المحروسة هي كيف حدث
+      # الـ137KB أصلًا). لا continue-on-error: الانحدار قرار لا حادثة.
+      - name: Bundle budget gate (P45-W1)
+        run: npm run test:budget
+
       # بلا RESEND_API_KEY في CI → عقد الـ API يختبر مسار الفشل
       # الصريح (503) بشكل حتمي — لا بريد يُرسل ولا نجاح كاذب.
       # r10: نفس أمر CLAUDE.md والسكربتات (npm run test:e2e) بدل npx
